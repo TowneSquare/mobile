@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "TownSquare",
+    "slug": "TownSquare",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/PNG/logo1.png",
+    "userInterfaceStyle": "light",
+
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.obiwale.TownSquare"
+  
+    },
+
+    "extra": {
+      "eas": {
+        "projectId": "fe16f34d-4e71-4b73-ab9a-4b46d4939ffa"
+      }
+    }
+  }
+}
