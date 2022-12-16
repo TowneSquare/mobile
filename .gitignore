@@ -1,0 +1,7 @@
+### Ignore following files ###
+#launch.json folder
+.vscode/
+# Node Modules
+node_modules/
+# Expo
+.expo/
