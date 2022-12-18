@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  Pressable,
 } from "react-native";
 
 import React, { useCallback, useRef, useState } from "react";
@@ -12,18 +13,24 @@ import COLORS from "../../../../constants/Colors";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import ListofWallet from "./Components/UserWalletComponents/ListofWallet";
 import Collections from "./Components/Collections";
+import SendTokenModal from "./Components/UserWalletComponents/SendTokenModal";
 import { useSelector, useDispatch } from "react-redux";
-import { changeState } from "./Components/Controller/ModalController/ModalController";
-import { LinearGradient } from "expo-linear-gradient";
+import {
+  changeState,
+  changeSendModalValue,
+} from "./Components/Controller/ModalController/ModalController";
 import ReceiveTokenModal from "./Components/UserWalletComponents/ReceiveTokenModal";
 import SelectTokenModal from "./Components/UserWalletComponents/SelectTokenModal";
+import WalletBalanceContainer from "./Components/UserWalletComponents/WalletBalanceContainer";
+import SendToken from "./Components/UserWalletComponents/SendToken";
+import TransactionSuccessModal from "./Components/UserWalletComponents/TransactionSuccessModal";
+import TokenTransaction from "./Components/UserWalletComponents/TokenTransaction";
 const UserWallet = () => {
   const selectedTokenValue = useSelector(
     (state) => state.modalState.selectedToken
   );
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   return (
-    
     <View className="mr-3 ml-3">
       <View>
         <Text className={`text-[${COLORS.WHITE}] mb-3 font-bold`}>
@@ -39,20 +46,24 @@ const UserWallet = () => {
             <Image source={selectedTokenValue.tokenLogo} />
           </View>
           <Text className={`ml-2 text-white mr-4 font-medium text-lg`}>
-          {selectedTokenValue.tokenName}
+            {selectedTokenValue.tokenName}
           </Text>
           <Text className={`text-[${COLORS.GRAYBLUEOPACITY}] flex-1 text-base`}>
-          {selectedTokenValue.tokenSymbol}
+            {selectedTokenValue.tokenSymbol}
           </Text>
-          <TouchableOpacity onPress={()=>dispatch(changeState())}>
+          <TouchableOpacity onPress={() => dispatch(changeState())}>
             <Text
               className={`text-[${COLORS.PRIMARYCOLOR400}] font-bold mr-2 text-lg`}
             >
               Switch
             </Text>
           </TouchableOpacity>
-          <SelectTokenModal/>
-          <ReceiveTokenModal/>
+          <SelectTokenModal />
+          <ReceiveTokenModal />
+          <SendToken/>
+          <TokenTransaction/>
+          <TransactionSuccessModal/>
+         
         </View>
         <Text className="text-white pt-2">Wallet Address</Text>
         <Text
@@ -60,51 +71,11 @@ const UserWallet = () => {
         >
           21oLUSAA.......Z4oZ
         </Text>
-        <LinearGradient
-          colors={["#1D2939", "#475467"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          className={`h-28 flex-row mt-4 bg-[#1D2939] `}
-          style={{
-            paddingVertical: 5,
-            borderRadius: 12,
-          }}
-        >
-          <View
-            className={` pt-1 pl-3 flex-1 pb-3 w-48`}
-            style={{
-              justifyContent: "space-between",
-            }}
-          >
-            <Text className={`text-white font-bold text-3xl`}>26,231 USD</Text>
-            <View className={`flex-row`} style={{}}>
-              <View
-                className={`flex-row`}
-                style={{
-                  alignItems: "flex-end",
-                }}
-              >
-                <Ionicons
-                  name="ios-arrow-up-sharp"
-                  color={"#12B76A"}
-                  size={16}
-                />
-                <Text className={`text-[#027A48] pl-1 pr-3`}>0.3%</Text>
-              </View>
-
-              <Text style={{}} className={`text-white `}>
-                Last 24 hours
-              </Text>
-            </View>
-          </View>
-          <Image
-            style={{ alignSelf: "flex-end" }}
-            className={`mb-3 mr-3`}
-            source={require("../../../../assets/PNG/chart.png")}
-          />
-        </LinearGradient>
+        <WalletBalanceContainer />
         <View className={`flex-row flex-1 mt-3 `}>
-          <View
+          {/* Receive */}
+
+          <Pressable
             style={{
               width: 100,
               borderWidth: 1,
@@ -119,8 +90,14 @@ const UserWallet = () => {
             <Text className={`text-center font-semibold text-white`}>
               Receive
             </Text>
-          </View>
-          <View
+          </Pressable>
+
+          {/* Send */}
+
+          <Pressable
+            onPress={() => {
+              dispatch(changeSendModalValue());
+            }}
             style={{
               width: 100,
               borderWidth: 1,
@@ -130,11 +107,12 @@ const UserWallet = () => {
               justifyContent: "center",
             }}
           >
-            <Text className={`text-center font-semibold text-white`}>
-              Transfer
-            </Text>
-          </View>
-          <View
+            <Text className={`text-center font-semibold text-white`}>Send</Text>
+          </Pressable>
+
+          {/* Swap */}
+
+          <Pressable
             style={{
               width: 100,
               borderWidth: 1,
@@ -146,10 +124,8 @@ const UserWallet = () => {
               justifyContent: "center",
             }}
           >
-            <Text className={`text-center font-semibold text-white`}>
-              Trade
-            </Text>
-          </View>
+            <Text className={`text-center font-semibold text-white`}>Swap</Text>
+          </Pressable>
         </View>
         <View
           style={{
@@ -178,15 +154,17 @@ const UserWallet = () => {
               <Text className={`text-white font-semibold`}>24h Change</Text>
             </View>
           </View>
+
+          {/* List of wallets  */}
           <ListofWallet />
         </View>
         <Text className={`text-white font-lg font-bold mt-5 mb`}>
           NFT Inventory
         </Text>
+        {/* List of collections */}
         <Collections />
       </View>
     </View>
-   
   );
 };
 

@@ -82,7 +82,7 @@ const Collections = () => {
                       onPress={() => {
                         setSelection(index);
                         setCollectionsToShow(index);
-                        console.log(`This is selected ${selected}`);
+                     
                       }}
                     >
                       <View>

@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   Image,
   Pressable,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import React, { FC, useState } from "react";
 import { Feather, Octicons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -20,8 +20,7 @@ const ChatListItem = ({ chat, lastMessage }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   return (
-    <Pressable
-      onPress={() => dispatch(isMenuActive(false))}
+    <View
       className={`flex-row  h-20 relative`}
       style={{
         alignItems: "center",
@@ -49,7 +48,7 @@ const ChatListItem = ({ chat, lastMessage }) => {
           onPress={() => {
             dispatch(isMenuActive(false));
             navigation.navigate("ConversationScreen", { details: chat.user });
-            console.warn("Pressed", chat.id);
+          
           }}
           style={{
             justifyContent: "center",
@@ -94,65 +93,7 @@ const ChatListItem = ({ chat, lastMessage }) => {
           </Text>
         </TouchableOpacity>
       </View>
-
-      {menuActive == true && chat.id == activeOption ? (
-        <View
-         onLayout={event => {
-    const layout = event.nativeEvent.layout;
-    console.log('height:', layout.height);
-    console.log('width:', layout.width);
-    console.log('x:', layout.x);
-    console.log('y:', layout.y);
-  }}
-          style={{
-            marginTop: 60,
-            backgroundColor: "#293056",
-            borderRadius: 8,
-            height: 150,
-            width: 156,
-            top: -70,
-            right: -20,
-            position: "relative",
-            zIndex: 300,
-            elevation: Platform.OS === "android" ? 5000 : 0,
-            justifyContent: "space-between",
-            paddingVertical: 10,
-            overflow:"visible"
-          }}
-        >
-          <View className="flex-row ml-3 ">
-            <Octicons name="person" size={20} color={COLORS.WHITE} />
-            <Text className="font-medium ml-5 text-white">View Profile</Text>
-          </View>
-          <View className="flex-row ml-3 ">
-            <Octicons name="person" size={22} color={COLORS.WHITE} />
-            <Text className="font-medium ml-5 text-white">Mark as unread</Text>
-          </View>
-          <View className="flex-row ml-3 ">
-            <MaterialCommunityIcons
-              name="delete-outline"
-              size={22}
-              color={COLORS.WHITE}
-            />
-            <Text className="font-medium ml-5 text-white">Delete</Text>
-          </View>
-        </View>
-      ) : (
-        <></>
-      )}
-
-      <TouchableOpacity
-        onPress={() => {
-          if (menuActive == false) {
-            dispatch(isMenuActive(true));
-            console.log("id::", chat.id);
-            dispatch(activeMenu(chat.id));
-          }
-        }}
-      >
-        <Feather name="more-vertical" size={22} color={COLORS.WHITE} />
-      </TouchableOpacity>
-    </Pressable>
+    </View>
   );
 };
 

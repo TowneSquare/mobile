@@ -11,11 +11,11 @@ const ChatInputBox = () => {
   const [showButton, setShowButton] = useState(false);
   const [height, setHeight] = useState();
   const onSend = () => {
-    console.warn("Sending message", newMessage);
+  
     setNewMessage("");
   };
   const renderTyping = () => {
-    console.log("new message", newMessage);
+    
     setShowButton(true);
     if (newMessage === " ") {
       setShowButton(false);

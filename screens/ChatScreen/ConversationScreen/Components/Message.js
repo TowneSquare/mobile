@@ -77,7 +77,7 @@ const Message = ({ message }) => {
     );
   };
   const typeMessage = () => {
-    console.log(deleteActive);
+    
     return (
       <View
         className={``}
@@ -97,7 +97,7 @@ const Message = ({ message }) => {
         {deleteActive == true && message.id == activeDelete ? (
           <View
           onTouchStart={()=>{
-            console.log(";;;;;")
+           
           }}
             style={{
               position: "absolute",
@@ -261,7 +261,7 @@ const Message = ({ message }) => {
       </View>
     );
   };
-  console.log("type is:", message.type);
+  
   if (message.type && message.type.messageType === "image") {
     return typeImage();
   }

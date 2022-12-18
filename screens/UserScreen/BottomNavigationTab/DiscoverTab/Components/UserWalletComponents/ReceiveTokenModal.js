@@ -79,7 +79,7 @@ const ReceiveTokenModal = () => {
                   source={selectedTokenValue.tokenLogo}
                  
                 />
-                {console.log(selectedTokenValue.tokenLogo)}
+             
               </View>
               <Text className={`mr-2 text-white text-base font-medium`}>
                 {selectedTokenValue.tokenSymbol}
