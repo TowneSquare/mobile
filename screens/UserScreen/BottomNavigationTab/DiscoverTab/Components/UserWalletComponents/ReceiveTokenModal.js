@@ -10,6 +10,7 @@ import CopyButton from "./CopyButton";
 import {
   changeState,
   changeReceiveModalState,
+  updateisSendButton
 } from "../Controller/ModalController/ModalController";
 import { height } from "../../../../../../constants/utils";
 const ReceiveTokenModal = () => {
@@ -58,6 +59,7 @@ const ReceiveTokenModal = () => {
               <TouchableOpacity
               onPress={()=>{
                 dispatch(changeReceiveModalState())
+                dispatch(updateisSendButton(false))
               }}
               >
                 <AntDesign name="close" size={22} color={COLORS.WHITE} />

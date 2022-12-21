@@ -39,7 +39,7 @@ const Communities:FC<Props> = (props) => {
   const fetchCommunities = (data:any) => {
     setNFTCommunities(data);
     setFilteredNFTS(data);
-    console.log(data);
+   
   };
   let [fontsLoaded] = useFonts({
     EXTRABOLD: FONTS.EXTRABOLD,

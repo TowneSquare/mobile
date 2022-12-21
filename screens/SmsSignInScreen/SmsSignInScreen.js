@@ -20,7 +20,7 @@ import DropdownComponent from "./Components/SelectCountryDropDown";
 import FONTS from "../../constants/Fonts";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const { height, width } = Dimensions.get("window");
-console.log(height, width);
+
 const SmsSignInScreen = () => {
   const nextRoute = {
     screen: "SetupProfileScreen",

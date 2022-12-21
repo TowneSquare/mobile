@@ -3,9 +3,7 @@ import React from 'react'
 
 const FeedsTab = () => {
   return (
-    <View>
-      <Text className="text-center">Feeds</Text>
-    </View>
+    <Text>FeedsTab</Text>
   )
 }
 

@@ -11,11 +11,12 @@ const WalletDropDown = () => {
       label: "Solana   SOL",
       value: "SOLANA",
       icon: () => (
-        <Image source={require("../../../../../../assets/PNG/solanalogo1.png")} />
+        <Image
+          source={require("../../../../../../assets/PNG/solanalogo1.png")}
+        />
       ),
     },
   ]);
-  console.log(value);
 
   return (
     <View>

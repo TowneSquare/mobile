@@ -13,8 +13,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Avatar } from "react-native-elements";
 import { useRoute } from "@react-navigation/native";
-const height = Dimensions.get("window").height;
-import { width } from "../../../../../constants/utils";
+
+import { width, height } from "../../../../../constants/utils";
 import Followers from "./Followers";
 const FollowersScreen = ({ navigation }) => {
   const route = useRoute();
@@ -93,7 +93,7 @@ const FollowersScreen = ({ navigation }) => {
     },
     {
       id: 11,
-      name: "Mr.Fox",
+      name: "Mr.Ftox",
       userName: "@MrFox",
       title: "Proud owner of SMB #3708. Founder and CEO of TownSquare.",
       image: require("../../../../../assets/PNG/DeGods.png"),
@@ -107,7 +107,12 @@ const FollowersScreen = ({ navigation }) => {
     }
   };
   return (
-    <SafeAreaView className="bg-[#101323]">
+    <SafeAreaView
+      className="bg-[#101323]"
+      style={{
+        flex: 1,
+      }}
+    >
       <StatusBar
         translucent
         backgroundColor={"transparent"}
@@ -115,84 +120,78 @@ const FollowersScreen = ({ navigation }) => {
       />
 
       <View
-        className="bg-[#101323] mr-3 ml-3 "
+        className="flex-row   h-24"
         style={{
-          height: height,
+          justifyContent: "space-between",
+
+          alignItems: "flex-end",
+          padding: 10,
+          elevation: 10,
         }}
       >
+        <TouchableOpacity onPress={navigation.goBack}>
+          <Ionicons name="chevron-back" color="white" size={22} />
+        </TouchableOpacity>
         <View
-          className="flex-row  h-24"
+          className={`flex-row bg-[#293056] pr-2 pl-2   w-64 h-12`}
           style={{
+            alignItems: "center",
             justifyContent: "space-between",
-
-            alignItems: "flex-end",
-            padding: 10,
-            elevation: 10,
+            borderRadius: 8,
           }}
         >
-          <TouchableOpacity onPress={navigation.goBack}>
-            <Ionicons name="chevron-back" color="white" size={22} />
-          </TouchableOpacity>
-          <View
-            className={`flex-row bg-[#293056] pr-2 pl-2 ml-5  w-64 h-12`}
-            style={{
-              alignItems: "center",
-              justifyContent: "space-between",
-              borderRadius: 8,
+          <TouchableOpacity
+            onPress={() => {
+              setSelected("Followers");
             }}
           >
-            <TouchableOpacity
-              onPress={() => {
-                setSelected("Followers");
+            <View
+              style={{
+                justifyContent: "center",
+                borderRadius: selected === "Followers" ? 9 : 0,
               }}
+              className={
+                selected === "Followers"
+                  ? `bg-[#7F56D9] h-11 w-28`
+                  : ` h-11 w-28`
+              }
             >
-              <View
-                style={{
-                  justifyContent: "center",
-                  borderRadius: selected === "Followers" ? 9 : 0,
-                }}
-                className={
-                  selected === "Followers"
-                    ? `bg-[#7F56D9] h-11 w-28`
-                    : ` h-11 w-28`
-                }
-              >
-                <Text className="text-white font-bold text-center">
-                  33K Followers
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setSelected("Connections");
+              <Text className="text-white font-bold text-center">
+                33K Followers
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setSelected("Connections");
+            }}
+          >
+            <View
+              style={{
+                justifyContent: "center",
+                borderRadius: selected === "Connections" ? 9 : 0,
               }}
+              className={
+                selected === "Connections"
+                  ? `bg-[#7F56D9] h-11 w-28`
+                  : `h-11 w-28`
+              }
             >
-              <View
-                style={{
-                  justifyContent: "center",
-                  borderRadius: selected === "Connections" ? 9 : 0,
-                }}
-                className={
-                  selected === "Connections"
-                    ? `bg-[#7F56D9] h-11 w-28`
-                    : `h-11 w-28`
-                }
-              >
-                <Text className="text-white font-bold text-center">
-                  12K Connections
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <Ionicons name="chevron-back" color="#101323" size={22} />
+              <Text className="text-white font-bold text-center">
+                12K Connections
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={followers}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
+        <Ionicons name="chevron-back" color="#101323" size={22} />
       </View>
+
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={followers}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      />
     </SafeAreaView>
   );
 };

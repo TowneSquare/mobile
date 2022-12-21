@@ -8,7 +8,7 @@ import { useFonts } from "expo-font";
 import FONTS from "../../constants/Fonts";
 
 const ImportWalletScreen = ({ navigation }) => {
-  console.log("here");
+
   const nextRoute = {
     screen: "SetupProfileScreen",
     nextScreen: "SetProfilePics",
@@ -22,7 +22,7 @@ const ImportWalletScreen = ({ navigation }) => {
   });
 
   if (!fontsLoaded) {
-    console.log("returned null");
+    
     return null;
   }
 

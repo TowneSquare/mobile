@@ -1,11 +1,12 @@
 import { View,Image,TouchableOpacity, Text } from 'react-native'
 import { useDispatch,useSelector } from 'react-redux';
-import { updateSelectedToken,changeReceiveModalState, changeState } from '../Controller/ModalController/ModalController';
+import { updateSelectedToken,changeReceiveModalState,updateisSendButton, changeState } from '../Controller/ModalController/ModalController';
 import React from 'react'
 import COLORS from '../../../../../../constants/Colors'
 import { height } from '../../../../../../constants/utils';
 const TokenLists = () => {
     const selectedTokenValue =useSelector((state:any)=>state.modalState.selectedToken)
+    const sendButton =useSelector((state:any)=>state.modalState.sendButton)
     const Tokens=[
         {
             logo:require("../../../../../../assets/PNG/solanalogo1.png"),
@@ -39,7 +40,13 @@ const TokenLists = () => {
             onPress={()=>{
                 dispatch(updateSelectedToken(selectedToken))
                 dispatch(changeState())
-                dispatch(changeReceiveModalState())
+
+                // check condition here
+                if(sendButton==true){
+                    dispatch(changeReceiveModalState())
+                }
+                
+                
                 
             }}
             >

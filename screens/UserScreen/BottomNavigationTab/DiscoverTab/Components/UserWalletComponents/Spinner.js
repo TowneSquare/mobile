@@ -7,7 +7,7 @@ const Spinner = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     setTimeout(() => {
-      dispatch(updateSpinner());
+      dispatch(updateSpinner(false));
       dispatch(updateTransactionModalValue());
       dispatch(updateTransactionSuccessModal())
     }, 4000);

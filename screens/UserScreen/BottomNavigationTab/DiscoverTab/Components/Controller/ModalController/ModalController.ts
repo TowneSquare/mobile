@@ -21,7 +21,8 @@ interface ModalState{
     amountOfToken:number,
     isAmountToSendValid:boolean,
     spinner:boolean,
-    TransactionSuccessModal:boolean
+    TransactionSuccessModal:boolean,
+    sendButton:boolean,
 
 }
 const initialState: ModalState={
@@ -45,7 +46,8 @@ const initialState: ModalState={
     amountOfToken:0,
     isAmountToSendValid:false,
     spinner:false,
-    TransactionSuccessModal:false
+    TransactionSuccessModal:false,
+    sendButton:false
 
 }
 export const modalStateSlice=createSlice({
@@ -90,6 +92,9 @@ export const modalStateSlice=createSlice({
         },
         updateTransactionSuccessModal:(state, action)=>{
             state.TransactionSuccessModal=!state.TransactionSuccessModal
+        },
+        updateisSendButton:(state, action)=>{
+            state.sendButton=action.payload
         }
 
 
@@ -107,6 +112,7 @@ export const {
     updateAmountOfToken,
     updateAmountValidation,
     updateSpinner,
-    updateTransactionSuccessModal
+    updateTransactionSuccessModal,
+    updateisSendButton
     }=modalStateSlice.actions
 export default modalStateSlice.reducer

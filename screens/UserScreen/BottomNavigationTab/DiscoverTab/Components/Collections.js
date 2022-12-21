@@ -47,14 +47,18 @@ const Collections = () => {
       return (
         <View className="h-96 w-full mb-36 mt-5" style={{}}>
           <View
-            className="h-11 pl-5 bg-[#293056]"
+            className="h-11 pl-5 flex-row bg-[#293056]"
             style={{
               borderRadius: 8,
-              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <Text className="text-white " style={{}}>
-              Collection 23
+            <Text className="text-white flex-1" style={{}}>
+              Collections (23)
+            </Text>
+
+            <Text className="text-[#B692F6] mr-5 font-semibold" style={{}}>
+              View All
             </Text>
           </View>
           <View className=" h-full w-full">

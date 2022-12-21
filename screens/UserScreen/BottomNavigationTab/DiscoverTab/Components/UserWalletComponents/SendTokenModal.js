@@ -24,6 +24,42 @@ const SendTokenModal = () => {
             name:"Solana DAO",
             amount:"12.345"
         },
+        {
+            logo:require("../../../../../../assets/PNG/solanalogo1.png"),
+            symbol:"SOL",
+            name:"Solana",
+            amount:"12.345"
+        },
+        {
+            logo:require("../../../../../../assets/PNG/usdc.png"),
+            symbol:"USDC",
+            name:"Usdc",
+            amount:"12,345,80"
+        },
+        {
+            logo:require("../../../../../../assets/PNG/slnd.png"),
+            symbol:"SLND",
+            name:"Solana DAO",
+            amount:"12.345"
+        },
+        {
+            logo:require("../../../../../../assets/PNG/solanalogo1.png"),
+            symbol:"SOL",
+            name:"Solana",
+            amount:"12.345"
+        },
+        {
+            logo:require("../../../../../../assets/PNG/usdc.png"),
+            symbol:"USDC",
+            name:"Usdc",
+            amount:"12,345,80"
+        },
+        {
+            logo:require("../../../../../../assets/PNG/slnd.png"),
+            symbol:"SLND",
+            name:"Solana DAO",
+            amount:"12.345"
+        },
        
     ]
     const renderItem=(token)=>{
@@ -35,6 +71,7 @@ const SendTokenModal = () => {
         }
         return(
             <TouchableOpacity
+            activeOpacity={0.9}
             onPress={()=>{
                 dispatch(updateTokenTosend(selectedToken))
                 dispatch(changeSendModalValue())

@@ -4,20 +4,21 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  Pressable,
-  TextInput,
+  Modal,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useState, useRef } from "react";
+import React from "react";
 import styles from "./ModalStyle";
-import Modal from "react-native-modal";
+
 import COLORS from "../../../../../../constants/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import Spinner from "./Spinner";
 import InputWalletAddress from "./InputWalletAddress";
-// import SwipeToAction from "./slider";
+
 import PasteFunction from "./PasteFunction";
 
+import SwipeButton from "rn-swipe-button";
+import { height } from "../../../../../../constants/utils";
 import AmountTextInput from "./AmountTextInput";
 import {
   changeSendModalValue,
@@ -26,35 +27,62 @@ import {
 } from "../Controller/ModalController/ModalController";
 
 const TokenTransaction = () => {
+  const isAdressValid = useSelector((state) => state.modalState.isAddressValid);
+  const walletInput = useSelector((state) => state.modalState.WalletAddress);
+  const showSpinner = useSelector((state) => state.modalState.spinner);
+  const amount = useSelector((state) => state.modalState.amountOfToken);
+ 
+
+  const sendTransaction = () => {
+    dispatch(updateSpinner(true));
+    
+  };
   const selectedTokenValue = useSelector(
     (state) => state.modalState.tokenToSend
   );
   const isModalVisible = useSelector(
     (state) => state.modalState.TransactionModalValue
   );
-  const showSpinner = useSelector((state) => state.modalState.spinner);
+
+
   const dispatch = useDispatch();
   return (
     <Modal
-      onBackdropPress={() => dispatch(updateTransactionModalValue())}
-      onBackButtonPress={() => dispatch(updateTransactionModalValue())}
-      isVisible={isModalVisible}
-      swipeDirection="down"
-      onSwipeComplete={() => dispatch(updateTransactionModalValue())}
-      animationIn="bounceInUp"
-      animationOut="bounceOutDown"
-      animationInTiming={900}
-      animationOutTiming={500}
-      backdropTransitionInTiming={1000}
-      backdropTransitionOutTiming={500}
-      style={styles.modal}
+      transparent={true}
+      // onBackdropPress={() => dispatch(updateTransactionModalValue())}
+      // onBackButtonPress={() => dispatch(updateTransactionModalValue())}
+      // Visible={true}
+      // swipeDirection="down"
+      // onSwipeComplete={() => dispatch(updateTransactionModalValue())}
+      // animationIn="bounceInUp"
+      // animationOut="bounceOutDown"
+      // animationInTiming={900}
+      // animationOutTiming={500}
+      // backdropTransitionInTiming={1000}
+      // backdropTransitionOutTiming={500}
+      // style={styles.modal}
+
+      animationType="slide"
+      onRequestClose={() => {
+        dispatch(updateTransactionModalValue());
+        dispatch(changeSendModalValue());
+      }}
+      visible={isModalVisible}
     >
       <ScrollView>
-        <View style={styles.modalContent}>
+        <View
+          style={[
+            styles.modalContent,
+            {
+              alignContent: "flex-start",
+            },
+          ]}
+        >
           <View>
             <View style={styles.barIcon} />
+
             <View className={`ml-3  mr-3`}>
-              {showSpinner ? (
+              {showSpinner === true ? (
                 <Spinner />
               ) : (
                 <>
@@ -85,7 +113,6 @@ const TokenTransaction = () => {
                       <AntDesign name="close" size={22} color={COLORS.WHITE} />
                     </TouchableOpacity>
                   </View>
-
                   <Text className={`text-white font-medium ml-3 mt-3 mb-3`}>
                     Selected Token
                   </Text>
@@ -126,17 +153,13 @@ const TokenTransaction = () => {
                     </Text>
                     <PasteFunction />
                   </View>
-
                   {/* Enter Recipent Address */}
                   <InputWalletAddress />
-
                   <Text className={`text-[${COLORS.WHITE}] mt-4`}>
                     Enter Amount
                   </Text>
-
                   {/* Enter Amount Container  */}
                   <AmountTextInput />
-
                   <View className={`flex-row`}>
                     <Text className={`text-[#B692F6] flex-1 mt-3`}>
                       $267,56
@@ -154,10 +177,40 @@ const TokenTransaction = () => {
                       0,000005 {selectedTokenValue.tokenSymbol}
                     </Text>
                   </View>
+                  {/* <SwipeToAction /> */}
+                  <View
+                    style={{
+                      top:
+                        (isAdressValid === false && walletInput.length > 0) ||
+                        amount > parseInt(123.766)
+                          ? height * 0.22
+                          : height * 0.29,
+                    }}
+                  >
+                    <SwipeButton
+                      disabled={false}
+                      swipeDirection="right"
+                      onSwipeSuccess={() => {
+                        
+                        sendTransaction();
+                      }}
+                      railBorderColor="#363F72"
+                      railBackgroundColor="#363F72"
+                      railStyles={{
+                        backgroundColor: "#363F72",
+                        borderColor: "#363F72",
+                      }}
+                      shouldResetAfterSuccess={true}
+                      thumbIconBackgroundColor="#7F56D9"
+                      title="Slide to send"
+                      titleColor="white"
+                      titleFontSize={14}
+                      thumbIconBorderColor="#363F72"
+                      thumbIconImageSource={require("../../../../../../assets/PNG/thumbIcon.png")}
+                    />
+                  </View>
                 </>
               )}
-
-              {/* <SwipeToAction /> */}
             </View>
           </View>
         </View>

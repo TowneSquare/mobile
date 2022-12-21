@@ -44,7 +44,7 @@ const DropdownComponent = () => {
           valueField="value"
           labelField="label"
           onChange={(item) => {
-            console.log(value);
+           
           }}
           searchPlaceholder="Search"
           placeholderStyle={styles.placeholderStyle}

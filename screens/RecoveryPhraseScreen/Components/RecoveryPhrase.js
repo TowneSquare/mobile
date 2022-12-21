@@ -45,7 +45,7 @@ const RecoveryPhrase = () => {
         style={styles.inputContainer}
       >
         {phrases.map((phrase, index) => {
-          console.log(`phrase hereeeee ${index + 1}`);
+         
           return (
             <View className="h-12 w-20 ">
               <Text className="text-white text-center">

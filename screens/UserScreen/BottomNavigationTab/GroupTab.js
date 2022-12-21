@@ -3,9 +3,7 @@ import React from 'react'
 
 const GroupTab = () => {
   return (
-    <View>
-      <Text className="text-center">GroupTab</Text>
-    </View>
+  <Text>GroupTab</Text>
   )
 }
 

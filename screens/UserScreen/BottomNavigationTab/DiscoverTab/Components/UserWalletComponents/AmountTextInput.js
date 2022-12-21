@@ -43,7 +43,7 @@ const AmountTextInput = () => {
         keyboardType="decimal-pad"
           value={amountEntered}
           onChangeText={(amount) => {
-            handleAmount();
+            handleAmount(amount);
             setAmountEntered(amount);
           }}
           multiline={true}

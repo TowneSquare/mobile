@@ -55,7 +55,7 @@ const SearchBar:FC<Props> = (props) => {
   const fetchNfts = (project:any) => {
     setData(project);
     setFilteredData(project);
-    console.log(project);
+   
   };
   let [fontsLoaded] = useFonts({
     EXTRABOLD: FONTS.EXTRABOLD,

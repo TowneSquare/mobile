@@ -6,7 +6,7 @@ const Connections = (props) => {
   const item = props.items;
   return (
     <View
-      className="flex-row"
+      className="flex-row  mr-3 ml-3"
       style={{
         borderBottomWidth: 1,
         borderColor: "#293056",
@@ -14,12 +14,16 @@ const Connections = (props) => {
         paddingBottom: 10,
         alignItems: "center",
         height: 120,
+      
         
       }}
     >
       <Avatar rounded size={50} source={item.image} />
       <View
-        className=" pr-3 pl-3"
+      style={{
+      width:width*0.75
+      }}
+        className=" ml-3"
       >
         <View
           className="flex-row "

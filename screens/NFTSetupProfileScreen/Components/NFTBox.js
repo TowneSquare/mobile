@@ -53,7 +53,7 @@ const NFTBox = () => {
             <TouchableOpacity
               onPress={() => {
                 setSelection(index);
-                console.log(`This is selected ${selected}`);
+                
               }}
             >
               {index == selected ? (

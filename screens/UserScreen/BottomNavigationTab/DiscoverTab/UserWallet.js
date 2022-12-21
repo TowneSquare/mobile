@@ -1,23 +1,16 @@
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Pressable,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image, Pressable } from "react-native";
 
-import React, { useCallback, useRef, useState } from "react";
+import React from "react";
 import COLORS from "../../../../constants/Colors";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import ListofWallet from "./Components/UserWalletComponents/ListofWallet";
 import Collections from "./Components/Collections";
-import SendTokenModal from "./Components/UserWalletComponents/SendTokenModal";
 import { useSelector, useDispatch } from "react-redux";
+import ManageToken from "./Components/UserWalletComponents/ManageToken";
 import {
   changeState,
   changeSendModalValue,
+  updateisSendButton,
 } from "./Components/Controller/ModalController/ModalController";
 import ReceiveTokenModal from "./Components/UserWalletComponents/ReceiveTokenModal";
 import SelectTokenModal from "./Components/UserWalletComponents/SelectTokenModal";
@@ -51,7 +44,11 @@ const UserWallet = () => {
           <Text className={`text-[${COLORS.GRAYBLUEOPACITY}] flex-1 text-base`}>
             {selectedTokenValue.tokenSymbol}
           </Text>
-          <TouchableOpacity onPress={() => dispatch(changeState())}>
+          <TouchableOpacity
+            onPress={() => {
+              dispatch(changeState());
+            }}
+          >
             <Text
               className={`text-[${COLORS.PRIMARYCOLOR400}] font-bold mr-2 text-lg`}
             >
@@ -60,10 +57,9 @@ const UserWallet = () => {
           </TouchableOpacity>
           <SelectTokenModal />
           <ReceiveTokenModal />
-          <SendToken/>
-          <TokenTransaction/>
-          <TransactionSuccessModal/>
-         
+          <SendToken />
+          <TokenTransaction />
+          <TransactionSuccessModal />
         </View>
         <Text className="text-white pt-2">Wallet Address</Text>
         <Text
@@ -76,6 +72,10 @@ const UserWallet = () => {
           {/* Receive */}
 
           <Pressable
+            onPress={() => {
+              dispatch(changeState());
+              dispatch(dispatch(updateisSendButton(true)));
+            }}
             style={{
               width: 100,
               borderWidth: 1,
@@ -158,6 +158,7 @@ const UserWallet = () => {
           {/* List of wallets  */}
           <ListofWallet />
         </View>
+        <ManageToken />
         <Text className={`text-white font-lg font-bold mt-5 mb`}>
           NFT Inventory
         </Text>

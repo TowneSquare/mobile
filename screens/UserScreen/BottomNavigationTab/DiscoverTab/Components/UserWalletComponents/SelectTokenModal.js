@@ -8,7 +8,10 @@ import {
   ScrollView,
 } from "react-native";
 import styles from "./ModalStyle";
-import { changeState } from "../Controller/ModalController/ModalController";
+import {
+  changeState,
+  updateisSendButton,
+} from "../Controller/ModalController/ModalController";
 import SearchBar from "../../../../../../Components/SearchBarComponent";
 import COLORS from "../../../../../../constants/Colors";
 import { AntDesign } from "@expo/vector-icons";
@@ -21,11 +24,21 @@ const SelectTokenModal = () => {
   const dispatch = useDispatch();
   return (
     <Modal
-      onBackdropPress={() => dispatch(changeState())}
-      onBackButtonPress={() => dispatch(changeState())}
+      onBackdropPress={() => {
+        dispatch(changeState());
+        dispatch(updateisSendButton(false));
+      }}
+      onBackButtonPress={() => {
+        dispatch(changeState());
+
+        dispatch(updateisSendButton(false));
+      }}
       isVisible={isModalVisible}
       swipeDirection="down"
-      onSwipeComplete={() => dispatch(changeState())}
+      onSwipeComplete={() => {
+        dispatch(changeState());
+        dispatch(updateisSendButton(false));
+      }}
       animationIn="bounceInUp"
       animationOut="bounceOutDown"
       animationInTiming={900}
@@ -51,6 +64,7 @@ const SelectTokenModal = () => {
                 <TouchableOpacity
                   onPress={() => {
                     dispatch(changeState());
+                    dispatch(updateisSendButton(false));
                   }}
                 >
                   <AntDesign name="close" size={22} color={COLORS.WHITE} />
