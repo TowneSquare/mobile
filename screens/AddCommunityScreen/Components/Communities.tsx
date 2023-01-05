@@ -11,7 +11,9 @@ import {
 import React, {FC, useState, useEffect } from "react";
 import { Icon } from "react-native-elements";
 import { useFonts } from "expo-font";
+import { Ionicons } from '@expo/vector-icons';
 import FONTS from "../../../constants/Fonts";
+import { width,height } from "../../../constants/utils";
 interface Props{
   placeholder:string
   name:string
@@ -27,11 +29,10 @@ interface mapType{
   
 }
 import data from "./DummyData"
-const { height, width } = Dimensions.get("window");
 const Communities:FC<Props> = (props) => {
-  const [NFTCommunities, setNFTCommunities] = useState<any> ([]);
-  const [filteredNFTS, setFilteredNFTS] = useState<any >([]);
-  const [selected, setSelection] = useState<any>([]);
+  const [NFTCommunities, setNFTCommunities] = useState<any>([]);
+  const [filteredNFTS, setFilteredNFTS] = useState<any>([]);
+  const [selected, setSelection]=useState<mapType[]>([])
   useEffect(() => {
     fetchCommunities(data);
   }, []);
@@ -39,8 +40,22 @@ const Communities:FC<Props> = (props) => {
   const fetchCommunities = (data:any) => {
     setNFTCommunities(data);
     setFilteredNFTS(data);
-   
   };
+  const removeSelectedItem=(community:mapType)=>{
+      const filteredCommunity:Array<mapType> =[]
+      for (let i =0; i<selected.length; i++){
+        if(selected[i].id!==community.id) filteredCommunity.push(selected[i])
+      }
+      setSelection(filteredCommunity)
+  }
+  const updateSelected=(community:mapType)=>{
+    if (selected.includes(community)){
+      return
+    }
+    setSelection(prevCommunity=>[
+      ...prevCommunity,community
+    ])
+  }
   let [fontsLoaded] = useFonts({
     EXTRABOLD: FONTS.EXTRABOLD,
     LIGHT: FONTS.LIGHT,
@@ -104,15 +119,15 @@ const Communities:FC<Props> = (props) => {
       </View>
       {/* Communities */}
       <ScrollView>
-        {filteredNFTS?.map((item:mapType, index:any) => {
+        {filteredNFTS?.map((item:mapType, index:number) => {
           return (
             <View
               key={index}
-              className="flex-row h-12 mt-4 items-center bg-transparent "
+              className="flex-row h-12 mt-4 items-center  "
               style={{
                 marginRight: 10,
                 marginLeft: 10,
-                width: "95%",
+                width: width*0.95,
                 paddingLeft: 10,
               }}
             >
@@ -135,16 +150,39 @@ const Communities:FC<Props> = (props) => {
                   {item.collectionName}
                 </Text>
               </View>
-
-              <View>
+              {
+                selected.includes(item)?
+                <>
                 <TouchableOpacity
-                
                   onPress={() => {
-                    setSelection(index);
+                    removeSelectedItem(item)
                   }}
                 >
-                  <View className="flex-row h-12 w-20 items-center pr-4 bg-[#8C74FF20]  rounded-full">
-                  <Icon tvParallaxProperties={undefined} type="feather" name="plus" color="white" size={24} />
+                  <View style={{
+                    padding:10
+                  }} className="flex-row h-12 w-25 items-center  bg-[#0368FF] rounded-full">
+                  <Ionicons   name="checkmark-sharp" color="white" size={22} />
+                  <Text
+                    style={{
+                      fontFamily: "SEMIBOLD",
+                    }}
+                    className=" pl-3 text-center text-white font-extrabold text-sm"
+                  >
+                    Joined
+                  </Text>
+                  </View>
+                </TouchableOpacity>
+                </>
+                :<>
+                <TouchableOpacity
+                  onPress={() => {
+                    updateSelected(item)
+                  }}
+                >
+                  <View style={{
+                    padding:10
+                  }} className="flex-row h-12 w-20 items-center  bg-[#8C74FF20] rounded-full">
+                  <Icon tvParallaxProperties={undefined} type="feather" name="plus" color="white" size={22} />
                   <Text
                     style={{
                       fontFamily: "SEMIBOLD",
@@ -155,7 +193,8 @@ const Communities:FC<Props> = (props) => {
                   </Text>
                   </View>
                 </TouchableOpacity>
-              </View>
+                </>
+              }
             </View>
           );
         })}
