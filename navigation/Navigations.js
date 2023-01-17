@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import {
@@ -20,9 +20,16 @@ import SetProfilePics from "../screens/SetProfilePicsScreen/SetProfilePics";
 import FollowersScreen from "../screens/UserScreen/BottomNavigationTab/DiscoverTab/FollowersAndConnections/FollowersScreen";
 import RecoveryPhraseScreen from "../screens/RecoveryPhraseScreen/RecoveryPhraseScreen";
 import ChatList from "../screens/ChatScreen/ChatListScreen/ChatList";
+import CreateSpaceScreen from "../screens/UserScreen/BottomNavigationTab/SpaceTab/CreateSpaceScreen";
 import ConversationScreen from "../screens/ChatScreen/ConversationScreen/ConversationScreen";
 const Navigations = () => {
-  
+  const Cancel = ({ onPress }) => {
+    return (
+      <TouchableOpacity onPress={onPress}>
+        <Text className="text-white">Cancel</Text>
+      </TouchableOpacity>
+    );
+  };
   const Stack = createStackNavigator();
   const config = {
     animation: "spring",
@@ -164,7 +171,13 @@ const Navigations = () => {
           gestureEnabled: true,
         }}
       />
-     
+      <Stack.Screen
+        name="CreateSpaceScreen"
+        component={CreateSpaceScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 };

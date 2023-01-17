@@ -39,7 +39,7 @@ const RecoveryPhraseScreen = () => {
         style={{
           height: height,
         }}
-        className=" bg-[#0F111E] w-full  "
+        className="bg-[#0F111E] w-full  "
       >
         <Image
           className="absolute w-full"
@@ -95,7 +95,7 @@ const RecoveryPhraseScreen = () => {
             height: height * 0.5,
           }}
         >
-          <RecoveryPhrase />
+          <RecoveryPhrase/>
         </View>
         <View className="flex-1 pb-10">
           <View
@@ -111,7 +111,7 @@ const RecoveryPhraseScreen = () => {
                 justifyContent: "space-between",
               }}
             >
-              <BackButton />
+              <BackButton/>
               <ContnueButton screen="WalletAdded" route={nextRoute} />
             </View>
           </View>

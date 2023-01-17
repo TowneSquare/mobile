@@ -1,44 +1,28 @@
-import {
-  Animated,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  KeyboardAvoidingView,
-  ScrollView,
-} from "react-native";
-import styles from "./ModalStyle";
-import {
-  changeState,
-  updateisSendButton,
-} from "../Controller/ModalController/ModalController";
-import SearchBar from "../../../../../../Components/SearchBarComponent";
-import COLORS from "../../../../../../constants/Colors";
-import { AntDesign } from "@expo/vector-icons";
-import TokenLists from "./TokenLists";
-import DismissKeyboard from "../../../../../../Components/DismissKeyboard";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import React, { FC } from "react";
 import Modal from "react-native-modal";
 import { useDispatch, useSelector } from "react-redux";
-const SelectTokenModal = () => {
-  const isModalVisible = useSelector((state) => state.modalState.value);
+import { AntDesign } from "@expo/vector-icons";
+import SearchBar from "../../../../../../Components/SearchBarComponent";
+import styles from "./ModalStyle";
+import DismissKeyboard from "../../../../../../Components/DismissKeyboard";
+import SendTokenModal from "./SendTokenModal";
+import { changeSendModalValue } from "../Controller/ModalController/ModalController";
+import COLORS from "../../../../../../constants/Colors";
+import { RootState } from "../../../../../../Components/Redux/store";
+const SwitchTokenModal = () => {
+  const isModalVisible = useSelector(
+    (state) => state.modalState.sendModalValue
+  );
   const dispatch = useDispatch();
+
   return (
     <Modal
-      onBackdropPress={() => {
-        dispatch(changeState());
-        dispatch(updateisSendButton(false));
-      }}
-      onBackButtonPress={() => {
-        dispatch(changeState());
-
-        dispatch(updateisSendButton(false));
-      }}
+      onBackdropPress={() => dispatch(changeSendModalValue())}
+      onBackButtonPress={() => dispatch(changeSendModalValue())}
       isVisible={isModalVisible}
       swipeDirection="down"
-      onSwipeComplete={() => {
-        dispatch(changeState());
-        dispatch(updateisSendButton(false));
-      }}
+      onSwipeComplete={() => dispatch(changeSendModalValue())}
       animationIn="bounceInUp"
       animationOut="bounceOutDown"
       animationInTiming={900}
@@ -67,10 +51,7 @@ const SelectTokenModal = () => {
                   />
                   <Text className="text-white text-base ">Select Token</Text>
                   <TouchableOpacity
-                    onPress={() => {
-                      dispatch(changeState());
-                      dispatch(updateisSendButton(false));
-                    }}
+                    onPress={() => dispatch(changeSendModalValue())}
                   >
                     <AntDesign name="close" size={22} color={COLORS.WHITE} />
                   </TouchableOpacity>
@@ -84,8 +65,7 @@ const SelectTokenModal = () => {
                 <Text className={`text-white font-medium ml-3 mt-5 mb-4`}>
                   Select Token
                 </Text>
-
-                <TokenLists />
+                <SendTokenModal />
               </View>
             </View>
           </View>
@@ -95,4 +75,4 @@ const SelectTokenModal = () => {
   );
 };
 
-export default SelectTokenModal;
+export default SwitchTokenModal;

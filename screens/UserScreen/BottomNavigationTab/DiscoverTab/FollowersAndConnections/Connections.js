@@ -14,15 +14,17 @@ const Connections = (props) => {
         paddingBottom: 10,
         alignItems: "center",
         height: 120,
-      
-        
+
       }}
     >
       <Avatar rounded size={50} source={item.image} />
       <View
+
+       
       style={{
       width:width*0.75
       }}
+
         className=" ml-3"
       >
         <View

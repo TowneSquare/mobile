@@ -3,6 +3,7 @@ import React from 'react'
 import COLORS from '../../../../../../constants/Colors';
 import { useNavigation } from "@react-navigation/native";
 import SelectToken from './SelectTokenModal';
+import imageAssets from '../../../../../../constants/images';
 
 const SelectWallet = () => {
  
@@ -12,7 +13,7 @@ const SelectWallet = () => {
         alignItems:"center"
     }} className={`h-11  flex-row `}>
       <View className={`ml-2 mt-2`}>
-      <Image source={require("../../../../../../assets/PNG/solanalogo1.png")}/></View>
+      <Image source={imageAssets.sol}/></View>
       <Text className={`ml-2 text-white mr-4 font-medium text-lg`}>Solana</Text>
       <Text className={`text-[${COLORS.GRAYBLUEOPACITY}] flex-1 text-base`}>SOL</Text>
       <TouchableOpacity

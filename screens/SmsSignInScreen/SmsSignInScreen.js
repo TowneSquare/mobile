@@ -20,6 +20,8 @@ import DropdownComponent from "./Components/SelectCountryDropDown";
 import FONTS from "../../constants/Fonts";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const { height, width } = Dimensions.get("window");
+import imageAssets from "../../constants/images";
+
 
 const SmsSignInScreen = () => {
   const nextRoute = {
@@ -85,7 +87,7 @@ const SmsSignInScreen = () => {
                   >
                     Powered by
                   </Text>
-                  <Image source={require("../../assets/PNG/cupcake.png")} />
+                  <Image source={imageAssets.cupcakeLogo} />
                 </View>
               </View>
             </View>
@@ -144,7 +146,7 @@ const SmsSignInScreen = () => {
                 style={{
                   height: height * 0.25,
                 }}
-                className=" "
+                className=""
               >
                 <Text
                   style={{

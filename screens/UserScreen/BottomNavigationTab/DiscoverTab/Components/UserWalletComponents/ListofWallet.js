@@ -55,7 +55,7 @@ const ListofWallet = () => {
     },
   ];
 
-  const renderItem = (wallet) => {
+const renderItem = (wallet) => {
     return (
       <View
         className={`flex-row `}
@@ -99,12 +99,12 @@ const ListofWallet = () => {
   };
   return (
     <ScrollView>
-      {wallets.map((item, index) => {
-        return renderItem(item);
+      {wallets.map((wallet, index) => {
+        return renderItem(wallet);
       })}
     </ScrollView>
 
-    // <FlatList data={Wallets} renderItem={({ item }) => renderItem(item)} />
+    // <FlatList data={wallets} renderItem={({ item }) => renderItem(item)} />
   );
 };
 

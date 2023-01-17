@@ -1,11 +1,12 @@
 import { View, Image, TouchableOpacity, Text, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState } from "react";
-import Background from "./Components/Background";
 import BackButton from "./Components/BackButton";
+import Background from "./Components/Background";
 import ContnueButton from "./Components/ContnueButton";
 import { useFonts } from "expo-font";
 import FONTS from "../../constants/Fonts";
+import imageAssets from "../../constants/images";
 const WalletSelectionScreen = ({ navigation }) => {
   const nextRoute = { screen: "NFTSetupProfileScreen" };
   const [checked, setChecked] = useState("null");
@@ -48,7 +49,7 @@ const WalletSelectionScreen = ({ navigation }) => {
                   : `rounded-xl bg-[#5899FF] flex-row h-12 items-center pl-2`
               }
             >
-              <Image source={require("../../assets/PNG/Phantom.png")} />
+              <Image source={imageAssets.phantomLogo} />
               <Text
                 style={{
                   fontFamily: "SEMIBOLD",
@@ -70,7 +71,7 @@ const WalletSelectionScreen = ({ navigation }) => {
                   : `rounded-xl bg-[#5899FF] flex-row h-12 items-center pl-2`
               }
             >
-              <Image source={require("../../assets/PNG/Solflare.png")} />
+              <Image source={imageAssets.solflareLogo} />
               <Text
                 style={{
                   fontFamily: "SEMIBOLD",
@@ -92,7 +93,7 @@ const WalletSelectionScreen = ({ navigation }) => {
                   : `rounded-xl bg-[#5899FF] flex-row h-12 items-center pl-2`
               }
             >
-              <Image source={require("../../assets/PNG/Glow.png")} />
+              <Image source={imageAssets.glowLogo} />
               <Text
                 style={{
                   fontFamily: "SEMIBOLD",

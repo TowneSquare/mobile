@@ -1,9 +1,9 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 import { CheckBox } from "react-native-elements";
+import imageAssets from "../../../constants/images";
 
 const NFTBox = () => {
-  const link = "../../../assets/PNG/NFT1.png"
   const [images, setImage] = useState([]);
   const [selected, setSelection] = useState("null");
   useEffect(() => {
@@ -22,6 +22,7 @@ const NFTBox = () => {
     {
       item: require("../../../assets/PNG/NFT4.png"),
     },
+   
   ];
   const fetchImages = (NFTS) => {
     setImage(NFTS);
@@ -81,7 +82,7 @@ const NFTBox = () => {
                         // height: 70,
                         // margin: -30,
                       }}
-                      source={require("../../../assets/PNG/checkbox.png")}
+                      source={imageAssets.checkBox}
                     />
                   </View>
                   <Image

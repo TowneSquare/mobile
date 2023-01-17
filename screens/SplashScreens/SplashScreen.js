@@ -4,6 +4,7 @@ import { StackActions } from "@react-navigation/native";
 import COLORS from "../../constants/Colors";
 import { useFonts } from "expo-font";
 import FONTS from "../../constants/Fonts";
+import imageAssets from "../../constants/images";
 import { SafeAreaView } from "react-native-safe-area-context";
 const height = Dimensions.get("window").height;
 const SplashScreen = ({navigation}) => {
@@ -40,7 +41,7 @@ const SplashScreen = ({navigation}) => {
         <View className="flex-row ">
           <Image
             className="mr-2"
-            source={require("../../assets/PNG/logo1.png")}
+            source={imageAssets.townSquareLogo}
           />
           <Text 
           style={{

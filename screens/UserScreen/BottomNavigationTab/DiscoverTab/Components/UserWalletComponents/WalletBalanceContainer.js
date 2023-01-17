@@ -1,6 +1,7 @@
 import { View, Text, Image } from 'react-native'
 import { Ionicons } from "@expo/vector-icons";
 import React from 'react'
+import imageAssets from '../../../../../../constants/images';
 import { LinearGradient } from "expo-linear-gradient";
 const WalletBalanceContainer = () => {
   return (
@@ -44,7 +45,7 @@ const WalletBalanceContainer = () => {
           <Image
             style={{ alignSelf: "flex-end" }}
             className={`mb-3 mr-3`}
-            source={require("../../../../../../assets/PNG/chart.png")}
+            source={imageAssets.chartImage}
           />
         </LinearGradient>
   )

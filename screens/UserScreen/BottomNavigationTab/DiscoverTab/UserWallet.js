@@ -15,7 +15,7 @@ import {
 import ReceiveTokenModal from "./Components/UserWalletComponents/ReceiveTokenModal";
 import SelectTokenModal from "./Components/UserWalletComponents/SelectTokenModal";
 import WalletBalanceContainer from "./Components/UserWalletComponents/WalletBalanceContainer";
-import SendToken from "./Components/UserWalletComponents/SendToken";
+import SwitchTokenModal from "./Components/UserWalletComponents/SwitchTokenModal";
 import TransactionSuccessModal from "./Components/UserWalletComponents/TransactionSuccessModal";
 import TokenTransaction from "./Components/UserWalletComponents/TokenTransaction";
 const UserWallet = () => {
@@ -57,7 +57,7 @@ const UserWallet = () => {
           </TouchableOpacity>
           <SelectTokenModal />
           <ReceiveTokenModal />
-          <SendToken />
+          <SwitchTokenModal />
           <TokenTransaction />
           <TransactionSuccessModal />
         </View>

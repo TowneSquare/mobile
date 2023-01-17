@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PayloadAction } from "@reduxjs/toolkit";
-
+import imageAssets from "../../../../../../../constants/images";
 interface ModalState{
     value:boolean
     selectedToken:{
@@ -28,7 +28,7 @@ interface ModalState{
 const initialState: ModalState={
     value:false,
     selectedToken:{
-        tokenLogo:require("../../../../../../../assets/PNG/solanalogo1.png"),
+        tokenLogo:imageAssets.sol,
         tokenSymbol:"SOL",
         tokenName:"Solana"
     },

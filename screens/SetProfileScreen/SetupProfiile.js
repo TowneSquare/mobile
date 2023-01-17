@@ -2,11 +2,12 @@ import {
   View,
   Text,
   StatusBar,
-  Image,
   Switch,
   KeyboardAvoidingView,
   Dimensions,
   ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import React, { useState } from "react";
 import Background from "./Components/Background";
@@ -44,145 +45,163 @@ const SetupProfileScreen = () => {
         barStyle="light-content"
       />
       <Background>
-        <KeyboardAvoidingView behavior="padding">
-          <View>
-            <View
-              className="mt-10 pl-5"
-              style={{
-                alignItems: "flex-start",
-              }}
-            >
-              <Text
+        
+          <KeyboardAvoidingView behavior="padding">
+            <View>
+              <View
+                className="mt-10 pl-5"
                 style={{
-                  fontFamily: "EXTRABOLD",
+                  alignItems: "flex-start",
                 }}
-                className="text-[#F2F0FF] pl-5 pt-6   text-3xl "
               >
-                Set up profile
-              </Text>
-            </View>
-
-            <ScrollView className="">
-              <View>
-                <View className="mb-1 mt-20 mr-3 ml-3">
-                  <Input
-                    label="Set username for your profile"
-                    placeholder="Username"
-                    color="white"
-                  />
-                </View>
                 <Text
                   style={{
-                    fontFamily: "SEMIBOLD",
+                    fontFamily: "EXTRABOLD",
                   }}
-                  className={`text-[${COLORS.LIGHTBLUE}] pl-3`}
+                  className="text-[#F2F0FF] pl-5 pt-6   text-3xl "
                 >
-                  USERNAME AVAILABLE
+                  Set up profile
                 </Text>
-                <View className="mb-1 mt-10 mr-3 ml-3">
-                  <Input
-                    label="Set a passcode for your wallet"
-                    placeholder="Passcode"
-                  />
-                </View>
+              </View>
 
-                <View className="pl-3 mt-1" style={{ flexDirection: "row" }}>
-                  <Text className="text-[#339DFF] pt-1 text-xs">
-                    {"\u2022"}
-                  </Text>
-                  <Text
-                    className="text-[#339DFF] pt-1 text-xs"
-                    style={{ flex: 1, fontFamily: "SEMIBOLD", paddingLeft: 5 }}
-                  >
-                    Upper case letter
-                  </Text>
-                </View>
-                <View className="pl-3" style={{ flexDirection: "row" }}>
-                  <Text className="text-[#339DFF] pt-1 text-xs">
-                    {"\u2022"}
-                  </Text>
-                  <Text
-                    className="text-[#339DFF] pt-1 text-xs"
-                    style={{ flex: 1, fontFamily: "SEMIBOLD", paddingLeft: 5 }}
-                  >
-                    Numbers
-                  </Text>
-                </View>
-                <View className="pl-3" style={{ flexDirection: "row" }}>
-                  <Text className="text-[#339DFF] pt-1 text-xs">
-                    {"\u2022"}
-                  </Text>
-                  <Text
-                    className="text-[#339DFF] pt-1 text-xs"
-                    style={{ flex: 1, fontFamily: "SEMIBOLD", paddingLeft: 5 }}
-                  >
-                    Minimum 8 characters
-                  </Text>
-                </View>
-                <View className="pl-3" style={{ flexDirection: "row" }}>
-                  <Text className="text-[#339DFF] pt-1 text-xs">
-                    {"\u2022"}
-                  </Text>
-                  <Text
-                    className="text-[#339DFF] pt-1 text-xs"
-                    style={{ flex: 1, fontFamily: "SEMIBOLD", paddingLeft: 5 }}
-                  >
-                    Special characters
-                  </Text>
-                </View>
-                <View className="mb-1 mt-10 mr-3 ml-3">
-                  <Input
-                    label="Set a passcode for your wallet"
-                    placeholder="Confirm passcode"
-                  />
-                </View>
-                <View
-                  className="mt-10 h-10 mr-3 ml-3 flex-row"
-                  style={{
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
+              <ScrollView className="">
+                <View>
+                  <View className="mb-1 mt-20 mr-3 ml-3">
+                    <Input
+                      label="Set username for your profile"
+                      placeholder="Username"
+                      color="white"
+                    />
+                  </View>
                   <Text
                     style={{
-                      fontFamily: "EXTRABOLD",
+                      fontFamily: "SEMIBOLD",
                     }}
-                    className="text-white text-sm "
+                    className={`text-[${COLORS.LIGHTBLUE}] pl-3`}
                   >
-                    Enable Face unlock?
+                    USERNAME AVAILABLE
                   </Text>
-                  <Switch
-                    trackColor={{
-                      false: `${COLORS.LIGHTBLUE}`,
-                      true: `${COLORS.LIGHTBLUE}`,
-                    }}
-                    thumbColor={isEnabled ? COLORS.BLUE : COLORS.LIGHTBLUE}
-                    onValueChange={toggleSwitch}
-                    value={isEnabled}
-                  />
-                </View>
+                  <View className="mb-1 mt-10 mr-3 ml-3">
+                    <Input
+                      label="Set a passcode for your wallet"
+                      placeholder="Passcode"
+                    />
+                  </View>
 
-                <View
-                  className=" mr-3 ml-3 mb-10  mt-10 flex-1"
-                  style={{
-                    // alignItems: "center",
-                    justifyContent: "flex-end",
-                  }}
-                >
+                  <View className="pl-3 mt-1" style={{ flexDirection: "row" }}>
+                    <Text className="text-[#339DFF] pt-1 text-xs">
+                      {"\u2022"}
+                    </Text>
+                    <Text
+                      className="text-[#339DFF] pt-1 text-xs"
+                      style={{
+                        flex: 1,
+                        fontFamily: "SEMIBOLD",
+                        paddingLeft: 5,
+                      }}
+                    >
+                      Upper case letter
+                    </Text>
+                  </View>
+                  <View className="pl-3" style={{ flexDirection: "row" }}>
+                    <Text className="text-[#339DFF] pt-1 text-xs">
+                      {"\u2022"}
+                    </Text>
+                    <Text
+                      className="text-[#339DFF] pt-1 text-xs"
+                      style={{
+                        flex: 1,
+                        fontFamily: "SEMIBOLD",
+                        paddingLeft: 5,
+                      }}
+                    >
+                      Numbers
+                    </Text>
+                  </View>
+                  <View className="pl-3" style={{ flexDirection: "row" }}>
+                    <Text className="text-[#339DFF] pt-1 text-xs">
+                      {"\u2022"}
+                    </Text>
+                    <Text
+                      className="text-[#339DFF] pt-1 text-xs"
+                      style={{
+                        flex: 1,
+                        fontFamily: "SEMIBOLD",
+                        paddingLeft: 5,
+                      }}
+                    >
+                      Minimum 8 characters
+                    </Text>
+                  </View>
+                  <View className="pl-3" style={{ flexDirection: "row" }}>
+                    <Text className="text-[#339DFF] pt-1 text-xs">
+                      {"\u2022"}
+                    </Text>
+                    <Text
+                      className="text-[#339DFF] pt-1 text-xs"
+                      style={{
+                        flex: 1,
+                        fontFamily: "SEMIBOLD",
+                        paddingLeft: 5,
+                      }}
+                    >
+                      Special characters
+                    </Text>
+                  </View>
+                  <View className="mb-1 mt-10 mr-3 ml-3">
+                    <Input
+                      label="Set a passcode for your wallet"
+                      placeholder="Confirm passcode"
+                    />
+                  </View>
                   <View
-                    className="flex-row"
+                    className="mt-10 h-10 mr-3 ml-3 flex-row"
                     style={{
                       justifyContent: "space-between",
+                      alignItems: "center",
                     }}
                   >
-                    <BackButton />
-                    <ContnueButton screen={nextScreen} route="" />
+                    <Text
+                      style={{
+                        fontFamily: "EXTRABOLD",
+                      }}
+                      className="text-white text-sm "
+                    >
+                      Enable Face unlock?
+                    </Text>
+                    <Switch
+                      trackColor={{
+                        false: `${COLORS.LIGHTBLUE}`,
+                        true: `${COLORS.LIGHTBLUE}`,
+                      }}
+                      thumbColor={isEnabled ? COLORS.BLUE : COLORS.LIGHTBLUE}
+                      onValueChange={toggleSwitch}
+                      value={isEnabled}
+                    />
+                  </View>
+
+                  <View
+                    className=" mr-3 ml-3 mb-10  mt-10 flex-1"
+                    style={{
+                      // alignItems: "center",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <View
+                      className="flex-row"
+                      style={{
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <BackButton />
+                      <ContnueButton screen={nextScreen} route="" />
+                    </View>
                   </View>
                 </View>
-              </View>
-            </ScrollView>
-          </View>
-        </KeyboardAvoidingView>
+              </ScrollView>
+            </View>
+          </KeyboardAvoidingView>
+        
       </Background>
     </SafeAreaView>
   );

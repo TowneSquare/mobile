@@ -3,6 +3,10 @@ import React from "react";
 import Modal from "react-native-modal";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./ModalStyle";
+
+import imageAssets from "../../../../../../constants/images";
+
+
 import {
   updateTransactionSuccessModal,
   updateAmountOfToken,
@@ -55,7 +59,10 @@ const TransactionSuccessModal = () => {
               }}
             >
               <Image
-                source={require("../../../../../../assets/PNG/sent.png")}
+
+                source={imageAssets.sentImage}
+
+
               />
               <Text className={`text-white mt-3`}>Sent</Text>
               <Text className="text-white mt-3">

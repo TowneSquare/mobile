@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity,Image } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import styles from "./ModalStyle";
@@ -10,9 +10,11 @@ import CopyButton from "./CopyButton";
 import {
   changeState,
   changeReceiveModalState,
-  updateisSendButton
+  updateisSendButton,
 } from "../Controller/ModalController/ModalController";
+import DismissKeyboard from "../../../../../../Components/DismissKeyboard";
 import { height } from "../../../../../../constants/utils";
+import imageAssets from "../../../../../../constants/images";
 const ReceiveTokenModal = () => {
   const selectedTokenValue = useSelector(
     (state) => state.modalState.selectedToken
@@ -36,84 +38,93 @@ const ReceiveTokenModal = () => {
       backdropTransitionOutTiming={500}
       style={styles.modal}
     >
-      <View style={styles.modalContent}>
-        <View>
-          <View style={styles.barIcon} />
-          <View className={`ml-3  mr-3`}>
-            <View
-              style={{
-                justifyContent: "space-between",
-                alignItems:'center'
-              }}
-              className={`flex-row h-11  mt-5`}
-            >
-              <TouchableOpacity 
-              onPress={()=>{
-                dispatch(changeReceiveModalState())
-                dispatch(changeState())
-              }}
+      <DismissKeyboard>
+        <View style={styles.modalContent}>
+          <View>
+            <View style={styles.barIcon} />
+            <View className={`ml-3  mr-3`}>
+              <View
+                style={{
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+                className={`flex-row h-11  mt-5`}
               >
-              <AntDesign name="left" size={22} color={COLORS.WHITE} />
-              </TouchableOpacity>
-              <Text className="text-white text-center text-base ">Receive Token</Text>
-              <TouchableOpacity
-              onPress={()=>{
-                dispatch(changeReceiveModalState())
-                dispatch(updateisSendButton(false))
-              }}
-              >
-                <AntDesign name="close" size={22} color={COLORS.WHITE} />
-              </TouchableOpacity>
-            </View>
-
-            <Text className={`text-white font-medium ml-3 mt-3 mb-3`}>
-              Selected Token
-            </Text>
-            <View
-              style={{
-                alignItems: "center",
-              }}
-              className={`flex-row mt-4  h-11 mb-3 pr-3 pl-3`}
-            >
-              <View className={`mr-2 pt-2`}>
-                <Image
-                  style={{ height: 40, width: 40 }}
-                  source={selectedTokenValue.tokenLogo}
-                 
-                />
-             
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(changeReceiveModalState());
+                    dispatch(changeState());
+                  }}
+                >
+                  <AntDesign name="left" size={22} color={COLORS.WHITE} />
+                </TouchableOpacity>
+                <Text className="text-white text-center text-base ">
+                  Receive Token
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(changeReceiveModalState());
+                    dispatch(updateisSendButton(false));
+                  }}
+                >
+                  <AntDesign name="close" size={22} color={COLORS.WHITE} />
+                </TouchableOpacity>
               </View>
-              <Text className={`mr-2 text-white text-base font-medium`}>
-                {selectedTokenValue.tokenSymbol}
+
+              <Text className={`text-white font-medium ml-3 mt-3 mb-3`}>
+                Selected Token
               </Text>
-              <Text
-                className={`flex-1 text-[${COLORS.PRIMARYCOLOR400}] text-base`}
+              <View
+                style={{
+                  alignItems: "center",
+                }}
+                className={`flex-row mt-4  h-11 mb-3 pr-3 pl-3`}
               >
-                {selectedTokenValue.tokenName}
+                <View className={`mr-2 pt-2`}>
+                  <Image
+                    style={{ height: 40, width: 40 }}
+                    source={selectedTokenValue.tokenLogo}
+                  />
+                </View>
+                <Text className={`mr-2 text-white text-base font-medium`}>
+                  {selectedTokenValue.tokenSymbol}
+                </Text>
+                <Text
+                  className={`flex-1 text-[${COLORS.PRIMARYCOLOR400}] text-base`}
+                >
+                  {selectedTokenValue.tokenName}
+                </Text>
+                <Text className={`text-[${COLORS.TEXTGRAYBLUE}]`}>Edit</Text>
+              </View>
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: height * 0.5,
+                }}
+              >
+                <Image source={imageAssets.walletBarcode} />
+              </View>
+              <Text className={`text-white mb-2`}>My Address</Text>
+              <Text className={`font-semibold text-[#B692F6] mb-2 text-base`}>
+                AEEWppRWXMtvDysp9RzWUMQPNB2isq3gviAMqcjkcjC
               </Text>
-              <Text className={`text-[${COLORS.TEXTGRAYBLUE}]`}>Edit</Text>
+              <View
+                style={{
+                  justifyContent: "space-between",
+                }}
+                className={`flex-row mb-4 `}
+              >
+                <CopyButton />
+                <ShareButton />
+              </View>
+              <Text className={`text-[#B3B8DB]`}>
+                This is solana wallet, only send assets on the Solana blockchain
+              </Text>
             </View>
-            <View style={{
-              justifyContent:"center",
-              alignItems:"center",
-              height:height*0.5
-            }}>
-              <Image source={require("../../../../../../assets/PNG/walletbarcode.png")}/>
-            </View>
-            <Text className={`text-white mb-2`}>My Address</Text>
-            <Text className={`font-semibold text-[#B692F6] mb-2 text-base`}>AEEWppRWXMtvDysp9RzWUMQPNB2isq3gviAMqcjkcjC</Text>
-            <View style={{
-              justifyContent:"space-between"
-            }} className={`flex-row mb-4 `}>
-              <CopyButton/>
-              <ShareButton/>
-            </View>
-            <Text className={`text-[#B3B8DB]`}>
-              This is solana wallet, only send assets on the Solana blockchain
-            </Text>
           </View>
         </View>
-      </View>
+      </DismissKeyboard>
     </Modal>
   );
 };

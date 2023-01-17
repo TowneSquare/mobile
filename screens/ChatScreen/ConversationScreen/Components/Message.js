@@ -1,6 +1,7 @@
 import { View, Text, Image } from "react-native";
 import React, { useState } from "react";
 import dayjs from "dayjs";
+import imageAssets from "../../../../constants/images";
 import relativeTime from "dayjs/plugin/relativeTime";
 import COLORS from "../../../../constants/Colors";
 import moment from "moment";
@@ -207,7 +208,7 @@ const Message = ({ message }) => {
                 width: 284,
                 height: 155,
               }}
-              source={require("../../../../assets/PNG/chatImage.png")}
+              source={imageAssets.chatImage}
             />
             <View
               className={`flex-row ml-3 mr-3 mt-3`}

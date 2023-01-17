@@ -5,7 +5,6 @@ import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import FONTS from "../../../constants/Fonts";
 const ContnueButton = (props) => {
-
   let dim = props.dim;
   const navigation = useNavigation();
   let [fontsLoaded] = useFonts({
@@ -22,9 +21,12 @@ const ContnueButton = (props) => {
       {props.dim == true ? (
         <View>
           <View className="bottom-0  h-12 w-36 bg-[#0368FF70] flex-row items-center rounded-xl space-x-4 ">
-            <Text  style={{
-                    fontFamily: "SEMIBOLD",
-                  }} className="text-white pl-4 text-base ">
+            <Text
+              style={{
+                fontFamily: "SEMIBOLD",
+              }}
+              className="text-white pl-4 text-base "
+            >
               CONTINUE
             </Text>
             <Icon type="antdesign" name="right" color="white" size={15} />
@@ -37,9 +39,12 @@ const ContnueButton = (props) => {
           }}
         >
           <View className="bottom-0  h-12 w-36 bg-[#0368FF] flex-row items-center rounded-xl space-x-4 ">
-            <Text  style={{
-                    fontFamily: "SEMIBOLD",
-                  }} className="text-white pl-4 text-base ">
+            <Text
+              style={{
+                fontFamily: "SEMIBOLD",
+              }}
+              className="text-white pl-4 text-base "
+            >
               CONTINUE
             </Text>
             <Icon type="antdesign" name="right" color="white" size={15} />

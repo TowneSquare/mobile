@@ -22,6 +22,8 @@ import { useNavigation } from "@react-navigation/native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { interpolate } from "react-native-reanimated";
 
+import imageAssets from "../../../constants/images";
+
 const ChatListItem = ({ chat, lastMessage }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -67,7 +69,11 @@ const ChatListItem = ({ chat, lastMessage }) => {
             borderRadius: 1,
           }}
         >
+
+          <Image source={imageAssets.unread} />
+
           <Image source={require("../../../assets/PNG/unread.png")} />
+
           <Text className={`text-white text-center`}>Mark as unread</Text>
         </TouchableOpacity>
       </Animated.View>
@@ -157,7 +163,12 @@ const ChatListItem = ({ chat, lastMessage }) => {
                   : `text-[${COLORS.WHITE}] text-sm mr-3`
               }
             >
+
+              How are you doing? Did you get any chance to look at what I've
+              sent you?
+
              How are you doing? Did you get any chance to look at what I've sent you?
+
             </Text>
           </TouchableOpacity>
         </View>

@@ -25,17 +25,16 @@ import {
   updateTransactionModalValue,
   updateSpinner,
 } from "../Controller/ModalController/ModalController";
+import imageAssets from "../../../../../../constants/images";
 
 const TokenTransaction = () => {
   const isAdressValid = useSelector((state) => state.modalState.isAddressValid);
   const walletInput = useSelector((state) => state.modalState.WalletAddress);
   const showSpinner = useSelector((state) => state.modalState.spinner);
   const amount = useSelector((state) => state.modalState.amountOfToken);
- 
 
   const sendTransaction = () => {
     dispatch(updateSpinner(true));
-    
   };
   const selectedTokenValue = useSelector(
     (state) => state.modalState.tokenToSend
@@ -44,24 +43,10 @@ const TokenTransaction = () => {
     (state) => state.modalState.TransactionModalValue
   );
 
-
   const dispatch = useDispatch();
   return (
     <Modal
       transparent={true}
-      // onBackdropPress={() => dispatch(updateTransactionModalValue())}
-      // onBackButtonPress={() => dispatch(updateTransactionModalValue())}
-      // Visible={true}
-      // swipeDirection="down"
-      // onSwipeComplete={() => dispatch(updateTransactionModalValue())}
-      // animationIn="bounceInUp"
-      // animationOut="bounceOutDown"
-      // animationInTiming={900}
-      // animationOutTiming={500}
-      // backdropTransitionInTiming={1000}
-      // backdropTransitionOutTiming={500}
-      // style={styles.modal}
-
       animationType="slide"
       onRequestClose={() => {
         dispatch(updateTransactionModalValue());
@@ -93,7 +78,6 @@ const TokenTransaction = () => {
                     }}
                     className={`flex-row h-11  mt-5`}
                   >
-                    {}
                     <TouchableOpacity
                       onPress={() => {
                         dispatch(updateTransactionModalValue());
@@ -103,7 +87,7 @@ const TokenTransaction = () => {
                       <AntDesign name="left" size={22} color={COLORS.WHITE} />
                     </TouchableOpacity>
                     <Text className="text-white text-center text-base ">
-                      Receive Token
+                      Send Token
                     </Text>
                     <TouchableOpacity
                       onPress={() => {
@@ -191,7 +175,6 @@ const TokenTransaction = () => {
                       disabled={false}
                       swipeDirection="right"
                       onSwipeSuccess={() => {
-                        
                         sendTransaction();
                       }}
                       railBorderColor="#363F72"
@@ -206,7 +189,7 @@ const TokenTransaction = () => {
                       titleColor="white"
                       titleFontSize={14}
                       thumbIconBorderColor="#363F72"
-                      thumbIconImageSource={require("../../../../../../assets/PNG/thumbIcon.png")}
+                      thumbIconImageSource={imageAssets.thumbIcon}
                     />
                   </View>
                 </>

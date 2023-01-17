@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StackActions } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import FONTS from "../../constants/Fonts";
+import imageAssets from "../../constants/images";
 const WelcomeScreen = ({ navigation }) => {
   let [fontsLoaded] = useFonts({
     EXTRABOLD: FONTS.EXTRABOLD,
@@ -28,15 +29,15 @@ const WelcomeScreen = ({ navigation }) => {
         <View>
           <Image
             className="absolute w-full"
-            source={require("../../assets/PNG/opaque-blob.png")}
+            source={imageAssets.blob}
           />
           <Image
             className="absolute w-full"
-            source={require("../../assets/PNG/Ellipse.png")}
+            source={imageAssets.elipse}
           />
           <Image
             className="mt-2 ml-8"
-            source={require("../../assets/PNG/logo1.png")}
+            source={imageAssets.townSquareLogo}
           />
           <View className="w-3/4 h-80 mt-10 ml-7">
             <Text
@@ -85,14 +86,14 @@ const WelcomeScreen = ({ navigation }) => {
           <View className="items-center">
             <Image
               className=" object-center mt-10"
-              source={require("../../assets/PNG/solana.png")}
+              source={imageAssets.solanaLogo}
             />
           </View>
         </TouchableOpacity>
         <View className="items-center">
           <Image
             className=" object-center mt-10"
-            source={require("../../assets/PNG/AptosFrame.png")}
+            source={imageAssets.aptosFrame}
           />
         </View>
       </View>

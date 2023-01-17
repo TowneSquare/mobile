@@ -1,4 +1,5 @@
 import { View, Image, Text } from "react-native";
+import imageAssets from "../../../constants/images";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -9,7 +10,7 @@ import DiscoverTab from "./DiscoverTab/UserProfile";
 import CommunityTab from "./CommunityTab";
 import FeedsTab from "./FeedsTab";
 import GroupTab from "./GroupTab";
-import SpaceTab from "../../profileScreen/SpaceTab";
+import SpaceTab from "./SpaceTab/SpaceTab";
 //icons
 
 const Tab = createBottomTabNavigator();
@@ -30,12 +31,10 @@ const ProfileTabNavigations = () => {
           borderWidth: 0,
           height: 70,
           marginBottom: 0,
-
           backgroundColor: "#293056",
           // activeTintColor:"white",
           // inactiveTintColor:"red",
         },
-
         tabBarLabelStyle: {
           color: "#B3B8DB",
           paddingBottom: 10,
@@ -46,15 +45,15 @@ const ProfileTabNavigations = () => {
           let uri;
           let routeName = route.name;
           if (routeName === discover) {
-            uri = require("../../../assets/PNG/discover.png");
+            uri = imageAssets.discover;
           } else if (routeName === feeds) {
-            uri = require("../../../assets/PNG/feed.png");
+            uri = imageAssets.feed;
           } else if (routeName === community) {
-            uri = require("../../../assets/PNG/community.png");
+            uri = imageAssets.community;
           } else if (routeName === group) {
-            uri = require("../../../assets/PNG/team.png");
+            uri = imageAssets.group;
           } else if (routeName === space) {
-            uri = require("../../../assets/PNG/voice.png");
+            uri = imageAssets.space;
           }
           return <Image source={uri} size={28} />;
         },

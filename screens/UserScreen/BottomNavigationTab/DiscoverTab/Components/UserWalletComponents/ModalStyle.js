@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     modalContent: {
       backgroundColor: COLORS.GRAYBLUE800,
       paddingTop: 12,
-      paddingHorizontal: 12,
+      // paddingHorizontal: 12,
       borderTopRightRadius: 20,
       borderTopLeftRadius: 20,
       minHeight: height,

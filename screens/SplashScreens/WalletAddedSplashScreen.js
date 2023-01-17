@@ -4,6 +4,7 @@ import Background from "./Components/Background";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StackActions, useRoute } from "@react-navigation/native";
 import { useFonts } from "expo-font";
+import imageAssets from "../../constants/images";
 import FONTS from "../../constants/Fonts";
 const WalletAdded = ({ navigation }) => {
   const route = useRoute();
@@ -29,7 +30,7 @@ const WalletAdded = ({ navigation }) => {
       <StatusBar translucent backgroundColor={"transparent"} />
       <Background>
         <View className="items-center h-full w-full justify-center">
-          <Image className="" source={require("../../assets/PNG/Check.png")} />
+          <Image className="" source={imageAssets.checkImage} />
           <Text
             style={{
               fontFamily: "EXTRABOLD",

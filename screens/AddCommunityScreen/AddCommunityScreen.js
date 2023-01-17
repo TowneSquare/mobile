@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import FONTS from "../../constants/Fonts";
 import Communities from "./Components/Communities";
-
+import DismissKeyboard from "../../Components/DismissKeyboard";
 import ContinueButton from "./Components/ContinueButton";
 const AddCommunityScreen = () => {
   let [fontsLoaded] = useFonts({
@@ -31,6 +31,7 @@ const AddCommunityScreen = () => {
         barStyle="light-content"
       />
       <Background>
+        <DismissKeyboard>
         <KeyboardAvoidingView>
           <View className="items-center pl-10 pr-10 pb-10">
             <Text
@@ -48,6 +49,7 @@ const AddCommunityScreen = () => {
           <View></View>
         </KeyboardAvoidingView>
         <ContinueButton color={true} screen="ProfileTabNavigations" />
+        </DismissKeyboard>
       </Background>
     </SafeAreaView>
   );

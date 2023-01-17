@@ -14,6 +14,7 @@ import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
 const width = Dimensions.get("window").width;
 import React, { useState } from "react";
 import COLORS from "../../../../constants/Colors";
+import imageAssets from '../../../../constants/images';
 const height = Dimensions.get("window").height;
 
 const UserProfile = (props) => {
@@ -41,7 +42,7 @@ const UserProfile = (props) => {
           containerStyle={{}}
           rounded
           size={100}
-          source={require("../../../../assets/PNG/NFT3.png")}
+          source={imageAssets.NFTimage}
         />
         <View
           className=" ml-10"

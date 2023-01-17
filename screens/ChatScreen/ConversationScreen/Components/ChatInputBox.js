@@ -1,7 +1,7 @@
 import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import imageAssets from "../../../../constants/images";
 import { AntDesign, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import COLORS from "../../../../constants/Colors";
 
@@ -36,7 +36,7 @@ const ChatInputBox = () => {
         <View className={`flex-row`}>
           <Image
             className={`mr-2`}
-            source={require("../../../../assets/PNG/GroupsmartPhonePayDollar.png")}
+            source={imageAssets.GroupsmartPhonePayDollar}
           />
           <AntDesign name="plus" size={24} color="white" />
         </View>

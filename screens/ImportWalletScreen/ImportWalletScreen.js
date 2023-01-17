@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import FONTS from "../../constants/Fonts";
+import imageAssets from "../../constants/images";
 
 const ImportWalletScreen = ({ navigation }) => {
 
@@ -52,8 +53,8 @@ const ImportWalletScreen = ({ navigation }) => {
                 <Image
                   source={
                     checked === "first"
-                      ? require("../../assets/PNG/radiochecked.png")
-                      : require("../../assets/PNG/radio1.png")
+                    ? imageAssets.radiochecked
+                    :imageAssets.radio
                   }
                 />
                 <Text
@@ -74,8 +75,8 @@ const ImportWalletScreen = ({ navigation }) => {
                 <Image
                   source={
                     checked === "second"
-                      ? require("../../assets/PNG/radiochecked.png")
-                      : require("../../assets/PNG/radio1.png")
+                    ? imageAssets.radiochecked
+                    :imageAssets.radio
                   }
                 />
                 <Text
@@ -96,8 +97,8 @@ const ImportWalletScreen = ({ navigation }) => {
                 <Image
                   source={
                     checked === "third"
-                      ? require("../../assets/PNG/radiochecked.png")
-                      : require("../../assets/PNG/radio1.png")
+                    ? imageAssets.radiochecked
+                    :imageAssets.radio
                   }
                 />
                 <Text
@@ -118,8 +119,8 @@ const ImportWalletScreen = ({ navigation }) => {
                 <Image
                   source={
                     checked === "fourth"
-                      ? require("../../assets/PNG/radiochecked.png")
-                      : require("../../assets/PNG/radio1.png")
+                      ? imageAssets.radiochecked
+                      :imageAssets.radio
                   }
                 />
                 <Text

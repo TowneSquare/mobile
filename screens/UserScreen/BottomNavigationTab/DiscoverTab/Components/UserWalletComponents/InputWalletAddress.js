@@ -17,7 +17,7 @@ const InputWalletAddress = () => {
     <>
     <TextInput
       style={{
-        width: width * 0.86,
+        width: width * 0.91,
         borderRadius: 8,
         marginTop: 10,
         color:
