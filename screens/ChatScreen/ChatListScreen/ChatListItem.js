@@ -105,7 +105,7 @@ const ChatListItem = ({ chat, lastMessage }) => {
       renderRightActions={(progress) => renderRightActions(progress)}
     >
       <View
-        className={`flex-row  h-20 relative`}
+        className={`flex-row  h-20 `}
         style={{
           alignItems: "center",
           borderBottomWidth: 1,

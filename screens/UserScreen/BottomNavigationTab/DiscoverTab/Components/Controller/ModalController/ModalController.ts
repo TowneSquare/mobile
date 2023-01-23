@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PayloadAction } from "@reduxjs/toolkit";
+import React from "react";
 import imageAssets from "../../../../../../../constants/images";
 interface ModalState{
     value:boolean
@@ -8,6 +9,7 @@ interface ModalState{
         tokenSymbol:string,
         tokenName:string
     }
+  
     receiveModalValue:boolean
     sendModalValue:boolean,
     tokenToSend:{
@@ -25,6 +27,7 @@ interface ModalState{
     sendButton:boolean,
 
 }
+
 const initialState: ModalState={
     value:false,
     selectedToken:{
@@ -47,7 +50,8 @@ const initialState: ModalState={
     isAmountToSendValid:false,
     spinner:false,
     TransactionSuccessModal:false,
-    sendButton:false
+    sendButton:false,
+ 
 
 }
 export const modalStateSlice=createSlice({
@@ -95,8 +99,8 @@ export const modalStateSlice=createSlice({
         },
         updateisSendButton:(state, action)=>{
             state.sendButton=action.payload
-        }
-
+        },
+    
 
     }
 })
@@ -113,6 +117,7 @@ export const {
     updateAmountValidation,
     updateSpinner,
     updateTransactionSuccessModal,
-    updateisSendButton
+    updateisSendButton,
+    
     }=modalStateSlice.actions
 export default modalStateSlice.reducer

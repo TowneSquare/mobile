@@ -5,8 +5,10 @@ import BackButton from "./Components/BackButton";
 import Background from "./Components/Background";
 import ContnueButton from "./Components/ContnueButton";
 import { useFonts } from "expo-font";
+import { SizedBox } from "sizedbox";
 import FONTS from "../../constants/Fonts";
 import imageAssets from "../../constants/images";
+import { screenHeight } from "../../constants/sizes";
 const WalletSelectionScreen = ({ navigation }) => {
   const nextRoute = { screen: "NFTSetupProfileScreen" };
   const [checked, setChecked] = useState("null");
@@ -29,19 +31,18 @@ const WalletSelectionScreen = ({ navigation }) => {
         barStyle="light-content"
       />
       <Background>
+        <SizedBox vertical={screenHeight(0.04)} />
         <Text
           style={{
             fontFamily: "EXTRABOLD",
           }}
-          className="text-[#F2F0FF] text-center pt-20  text-3xl "
+          className="text-[#F2F0FF] text-center text-3xl "
         >
           Do you have a wallet?
         </Text>
+        <SizedBox vertical={screenHeight(0.12)} />
         <View className="pr-4 pl-4">
-          <TouchableOpacity
-            className="mt-40"
-            onPress={() => setChecked("first")}
-          >
+          <TouchableOpacity onPress={() => setChecked("first")}>
             <View
               className={
                 checked !== "first"
@@ -106,10 +107,9 @@ const WalletSelectionScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <View
-          className="flex-1 mb-20 pl-3 pr-3"
+          className=" pl-3 pr-3"
           style={{
-            // alignItems: "center",
-            justifyContent: "flex-end",
+            top: screenHeight(0.3),
           }}
         >
           <View

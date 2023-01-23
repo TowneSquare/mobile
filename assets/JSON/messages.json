@@ -1,5 +1,4 @@
 [
-
   {
     "id": "m",
     "type": {
@@ -21,7 +20,7 @@
       "NFTID": "SMB #991",
       "url": "chatImage.png",
       "Price": "23.6 SOL",
-      "caption":"Hey Team I have finished the requirement doc!"
+      "caption": "Hey Team I have finished the requirement doc!"
     },
 
     "read": false,
@@ -79,7 +78,7 @@
 
     "type": {
       "messageType": "text",
-      "text":"What have you been up to?"
+      "text": "What have you been up to?"
     },
     "read": true,
     "createdAt": "2022-10-03T14:49:40.000Z",
@@ -88,5 +87,4 @@
       "name": "Lukas"
     }
   }
- 
 ]

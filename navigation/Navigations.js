@@ -22,14 +22,8 @@ import RecoveryPhraseScreen from "../screens/RecoveryPhraseScreen/RecoveryPhrase
 import ChatList from "../screens/ChatScreen/ChatListScreen/ChatList";
 import CreateSpaceScreen from "../screens/UserScreen/BottomNavigationTab/SpaceTab/CreateSpaceScreen";
 import ConversationScreen from "../screens/ChatScreen/ConversationScreen/ConversationScreen";
+import GroupChatScreen from "../screens/UserScreen/BottomNavigationTab/GroupTab/Components/GroupChatScreen";
 const Navigations = () => {
-  const Cancel = ({ onPress }) => {
-    return (
-      <TouchableOpacity onPress={onPress}>
-        <Text className="text-white">Cancel</Text>
-      </TouchableOpacity>
-    );
-  };
   const Stack = createStackNavigator();
   const config = {
     animation: "spring",
@@ -174,6 +168,13 @@ const Navigations = () => {
       <Stack.Screen
         name="CreateSpaceScreen"
         component={CreateSpaceScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="GroupChatScreen"
+        component={GroupChatScreen}
         options={{
           headerShown: false,
         }}

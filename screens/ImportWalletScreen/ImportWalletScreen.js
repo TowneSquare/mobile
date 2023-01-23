@@ -8,8 +8,10 @@ import { useFonts } from "expo-font";
 import FONTS from "../../constants/Fonts";
 import imageAssets from "../../constants/images";
 
-const ImportWalletScreen = ({ navigation }) => {
+import { SizedBox } from "sizedbox";
+import { screenHeight } from "../../constants/sizes";
 
+const ImportWalletScreen = ({ navigation }) => {
   const nextRoute = {
     screen: "SetupProfileScreen",
     nextScreen: "SetProfilePics",
@@ -23,7 +25,6 @@ const ImportWalletScreen = ({ navigation }) => {
   });
 
   if (!fontsLoaded) {
-    
     return null;
   }
 
@@ -36,25 +37,24 @@ const ImportWalletScreen = ({ navigation }) => {
       />
       <View className="items-center">
         <Background>
+          <SizedBox vertical={screenHeight(0.04)} />
           <Text
             style={{
               fontFamily: "EXTRABOLD",
             }}
-            className="text-[#F2F0FF] text-center pt-20  text-3xl "
+            className="text-[#F2F0FF] text-center text-3xl "
           >
             Do you have a wallet?
           </Text>
+          <SizedBox vertical={screenHeight(0.12)} />
           <View className="pr-4 pl-4">
-            <TouchableOpacity
-              className="mt-40"
-              onPress={() => setChecked("first")}
-            >
+            <TouchableOpacity onPress={() => setChecked("first")}>
               <View className="rounded-xl bg-[#2F2F2F] flex-row h-12 items-center pl-2 ">
                 <Image
                   source={
                     checked === "first"
-                    ? imageAssets.radiochecked
-                    :imageAssets.radio
+                      ? imageAssets.radiochecked
+                      : imageAssets.radio
                   }
                 />
                 <Text
@@ -75,8 +75,8 @@ const ImportWalletScreen = ({ navigation }) => {
                 <Image
                   source={
                     checked === "second"
-                    ? imageAssets.radiochecked
-                    :imageAssets.radio
+                      ? imageAssets.radiochecked
+                      : imageAssets.radio
                   }
                 />
                 <Text
@@ -97,8 +97,8 @@ const ImportWalletScreen = ({ navigation }) => {
                 <Image
                   source={
                     checked === "third"
-                    ? imageAssets.radiochecked
-                    :imageAssets.radio
+                      ? imageAssets.radiochecked
+                      : imageAssets.radio
                   }
                 />
                 <Text
@@ -120,7 +120,7 @@ const ImportWalletScreen = ({ navigation }) => {
                   source={
                     checked === "fourth"
                       ? imageAssets.radiochecked
-                      :imageAssets.radio
+                      : imageAssets.radio
                   }
                 />
                 <Text
@@ -136,12 +136,17 @@ const ImportWalletScreen = ({ navigation }) => {
           </View>
         </Background>
         {checked === "null" ? (
-          <View className="opacity-30 absolute bottom-0 mb-10 h-12 w-36 bg-[#0368FF] flex-row items-center rounded-xl space-x-6 ">
+          <View
+            style={{
+              top: screenHeight(0.9),
+            }}
+            className="opacity-30 absolute  h-12 w-36 bg-[#0368FF] flex-row items-center rounded-xl "
+          >
             <Text
               style={{
                 fontFamily: "SEMIBOLD",
               }}
-              className="text-white pl-4   text-base "
+              className="text-white pl-4 mr-5 text-base "
             >
               CONTINUE
             </Text>
@@ -149,7 +154,10 @@ const ImportWalletScreen = ({ navigation }) => {
           </View>
         ) : (
           <TouchableOpacity
-            className="absolute bottom-0 h-12 mb-10"
+            style={{
+              top: screenHeight(0.9),
+            }}
+            className="absolute  h-12 "
             onPress={() => {
               switch (checked) {
                 case "first":
@@ -169,12 +177,12 @@ const ImportWalletScreen = ({ navigation }) => {
               }
             }}
           >
-            <View className="flex-row items-center bottom-0 space-x-4 mb-10 h-12 w-36 bg-[#0368FF] rounded-xl">
+            <View className="flex-row items-center h-12 w-36 bg-[#0368FF] rounded-xl">
               <Text
                 style={{
                   fontFamily: "SEMIBOLD",
                 }}
-                className="text-white pl-4 text-base "
+                className="text-white mr-5 pl-4 text-base "
               >
                 CONTINUE
               </Text>

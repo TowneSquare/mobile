@@ -4,6 +4,7 @@ import { Icon } from "react-native-elements";
 import { useFonts } from "expo-font";
 import FONTS from "../constants/Fonts";
 import { Int32 } from "react-native/Libraries/Types/CodegenTypes";
+import { heightSize } from "../constants/sizes";
 interface Props{
  
   margintop:number
@@ -86,7 +87,7 @@ const SearchBar:FC<Props> = (props) => {
           style={{
             paddingLeft: 15,
             color: "white",
-            height: 25,
+            height: heightSize(25),
             width: "90%",
             marginVertical: 10,
             borderColor: "white",

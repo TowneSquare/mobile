@@ -20,7 +20,7 @@ const ContnueButton = (props) => {
     <View>
       {props.dim == true ? (
         <View>
-          <View className="bottom-0  h-12 w-36 bg-[#0368FF70] flex-row items-center rounded-xl space-x-4 ">
+          <View className="  h-12 w-36 bg-[#0368FF70] flex-row items-center rounded-xl space-x-4 ">
             <Text
               style={{
                 fontFamily: "SEMIBOLD",

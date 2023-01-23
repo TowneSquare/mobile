@@ -8,7 +8,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import COLORS from "../../../constants/Colors";
-
+import {
+  screenHeight,
+  heightSize,
+  widthSize,
+  screenWidth,
+} from "../../../constants/sizes";
 const OTP = () => {
   const firstInput = useRef();
   const secondInput = useRef();
@@ -19,9 +24,18 @@ const OTP = () => {
   const [otp, setOtp] = useState({ 1: "", 2: "", 3: "", 4: "", 5: "", 6: "" });
   return (
     <View style={styles.otpContainer}>
-      <View style={styles.otpBox}>
+      <View
+        style={[
+          styles.otpBox,
+          {
+            height: heightSize(60),
+            width: widthSize(62),
+            marginLeft: screenWidth(0.03),
+          },
+        ]}
+      >
         <TextInput
-          placeholder="2"
+          cursorColor={"white"}
           placeholderTextColor={COLORS.WHITE}
           style={styles.otpText}
           keyboardType="number-pad"
@@ -33,10 +47,19 @@ const OTP = () => {
           }}
         />
       </View>
-      <View style={styles.otpBox}>
+      <View
+        style={[
+          styles.otpBox,
+          {
+            height: heightSize(60),
+            width: widthSize(62),
+            marginLeft: screenWidth(0.07),
+          },
+        ]}
+      >
         <TextInput
           style={styles.otpText}
-          placeholder="3"
+          cursorColor={"white"}
           placeholderTextColor={COLORS.WHITE}
           keyboardType="number-pad"
           maxLength={1}
@@ -47,10 +70,19 @@ const OTP = () => {
           }}
         />
       </View>
-      <View style={styles.otpBox}>
+      <View
+        style={[
+          styles.otpBox,
+          {
+            height: heightSize(60),
+            width: widthSize(62),
+            marginLeft: screenWidth(0.07),
+          },
+        ]}
+      >
         <TextInput
           style={styles.otpText}
-          placeholder="0"
+          cursorColor={"white"}
           placeholderTextColor={COLORS.WHITE}
           keyboardType="number-pad"
           maxLength={1}
@@ -61,10 +93,19 @@ const OTP = () => {
           }}
         />
       </View>
-      <View style={styles.otpBox}>
+      <View
+        style={[
+          styles.otpBox,
+          {
+            height: heightSize(60),
+            width: widthSize(62),
+            marginLeft: screenWidth(0.07),
+          },
+        ]}
+      >
         <TextInput
           style={styles.otpText}
-          placeholder="8"
+          cursorColor={"white"}
           placeholderTextColor={COLORS.WHITE}
           keyboardType="number-pad"
           maxLength={1}
@@ -75,12 +116,21 @@ const OTP = () => {
           }}
         />
       </View>
-      <View style={styles.otpBox}>
+      <View
+        style={[
+          styles.otpBox,
+          {
+            height: heightSize(60),
+            width: widthSize(62),
+            marginLeft: screenWidth(0.07),
+          },
+        ]}
+      >
         <TextInput
           style={styles.otpText}
-          placeholder="9"
           placeholderTextColor={COLORS.WHITE}
           keyboardType="number-pad"
+          cursorColor={"white"}
           maxLength={1}
           ref={fifthInput}
           onChangeText={(text) => {
@@ -89,10 +139,20 @@ const OTP = () => {
           }}
         />
       </View>
-      <View style={styles.otpBox}>
+      <View
+        style={[
+          styles.otpBox,
+          {
+            height: heightSize(60),
+            width: widthSize(62),
+            marginLeft: screenWidth(0.07),
+            marginRight: screenWidth(0.03),
+          },
+        ]}
+      >
         <TextInput
           style={styles.otpText}
-          placeholder="1"
+          cursorColor={"white"}
           placeholderTextColor={COLORS.WHITE}
           keyboardType="number-pad"
           maxLength={1}
@@ -120,9 +180,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: "#514B4B",
     borderWidth: 1,
-    marginHorizontal: 20,
-    height: 55,
-    width: 54,
   },
   otpText: {
     fontSize: 25,

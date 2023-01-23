@@ -19,9 +19,10 @@ import { useFonts } from "expo-font";
 import DropdownComponent from "./Components/SelectCountryDropDown";
 import FONTS from "../../constants/Fonts";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-const { height, width } = Dimensions.get("window");
+import { SizedBox } from "sizedbox";
 import imageAssets from "../../constants/images";
-
+import { screenHeight, screenWidth, fontSize } from "../../constants/sizes";
+import { height } from "../../constants/utils";
 
 const SmsSignInScreen = () => {
   const nextRoute = {
@@ -45,23 +46,18 @@ const SmsSignInScreen = () => {
         barStyle="light-content"
       />
       <Background>
+        <SizedBox vertical={screenHeight(0.02)} />
         <KeyboardAwareScrollView>
           <View
             behavior="padding"
             style={{
               height: height,
             }}
-            className=""
           >
-            <View
-              style={{
-                height: height * 0.05,
-              }}
-            ></View>
             <View
               className=""
               style={{
-                height: height * 0.25,
+                height: height * 0.23,
               }}
             >
               <View
@@ -73,12 +69,14 @@ const SmsSignInScreen = () => {
                 <Text
                   style={{
                     fontFamily: "EXTRABOLD",
+                    fontSize: fontSize(30),
                   }}
-                  className="text-[#F2F0FF] text-3xl "
+                  className="text-[#F2F0FF] "
                 >
                   Sign In with your SMS
                 </Text>
-                <View className="mb-10 mt-5">
+                <SizedBox vertical={screenHeight(0.02)} />
+                <View className="">
                   <Text
                     style={{
                       fontFamily: "SEMIBOLD",
@@ -91,20 +89,24 @@ const SmsSignInScreen = () => {
                 </View>
               </View>
             </View>
-            <View className="mb-5 mr-3 ml-3 ">
+
+            <View className=" mr-3 ml-3 ">
               <DropdownComponent />
             </View>
+            <SizedBox vertical={screenHeight(0.02)} />
 
-            <View className="mb-5 mr-3 ml-3">
+            <View className=" mr-3 ml-3">
               <Input
                 label="Insert your Number"
                 placeholder="+71 345 233 3454"
               />
             </View>
+            <SizedBox vertical={screenHeight(0.02)} />
             <View>
               <TouchableOpacity
-                className="h-12 w-70 ml-3 mr-3 rounded-xl bg-[#0368FF]"
+                className="h-12  ml-3 mr-3 rounded-xl bg-[#0368FF]"
                 style={{
+                  width: screenWidth(0.93),
                   alignItems: "center",
                   justifyContent: "center",
                 }}
@@ -119,14 +121,14 @@ const SmsSignInScreen = () => {
                 </Text>
               </TouchableOpacity>
             </View>
+            <SizedBox vertical={screenHeight(0.015)} />
             <View
-              className=""
               style={{
                 height: height * 0.5,
               }}
             >
               <View
-                className="mt-3 h-14"
+                className="h-14"
                 style={{
                   alignItems: "center",
                   justifyContent: "center",
@@ -135,8 +137,9 @@ const SmsSignInScreen = () => {
                 <Text
                   style={{
                     fontFamily: "SEMIBOLD",
+                    fontSize: fontSize(30),
                   }}
-                  className="text-white text-3xl font-semibold"
+                  className="text-white font-semibold"
                 >
                   OTP Verification
                 </Text>
@@ -152,22 +155,24 @@ const SmsSignInScreen = () => {
                   style={{
                     fontFamily: "SEMIBOLD",
                   }}
-                  className="text-white text-base text-center mt-6"
+                  className="text-white text-base text-center "
                 >
                   Didnt receive OTP?
                 </Text>
+                <SizedBox vertical={screenHeight(0.02)} />
                 <TouchableOpacity>
                   <Text
                     style={{
                       fontFamily: "SEMIBOLD",
                     }}
-                    className="text-[#0368FF] text-14 text-center mt-6"
+                    className="text-[#0368FF] text-14 text-center "
                   >
                     RESEND
                   </Text>
                 </TouchableOpacity>
+                <SizedBox vertical={screenHeight(0.033)} />
                 <View
-                  className="flex-1 mb-5 pl-3 pr-3"
+                  className="pl-3 pr-3"
                   style={{
                     // alignItems: "center",
                     justifyContent: "flex-end",

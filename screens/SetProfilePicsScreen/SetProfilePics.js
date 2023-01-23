@@ -7,6 +7,13 @@ import BackButton from "./Components/BackButton";
 import ContnueButton from "./Components/ContnueButton";
 import { useFonts } from "expo-font";
 import FONTS from "../../constants/Fonts";
+import { SizedBox } from "sizedbox";
+import {
+  screenHeight,
+  screenWidth,
+  fontSize,
+  heightSize,
+} from "../../constants/sizes";
 const height = Dimensions.get("window").height;
 const SetProfilePics = () => {
   let [fontsLoaded] = useFonts({
@@ -26,66 +33,76 @@ const SetProfilePics = () => {
         barStyle="light-content"
       />
       <Background>
+        <SizedBox vertical={screenHeight(0.02)} />
         <View
-          className="mt-10 pl-5"
+          className=" pl-5"
           style={{
             height: height * 0.25,
             alignItems: "flex-start",
+            fontSize: fontSize(30),
           }}
         >
           <Text
             style={{
               fontFamily: "EXTRABOLD",
+              fontSize: fontSize(30),
             }}
-            className="text-[#F2F0FF]  pt-1  text-3xl "
+            className="text-[#F2F0FF]  pt-1  "
           >
             Final step!
           </Text>
           <Text
             style={{
               fontFamily: "EXTRABOLD",
+              fontSize: fontSize(30),
             }}
-            className="text-[#F2F0FF]  pt-1  text-3xl "
+            className="text-[#F2F0FF]  pt-1 "
           >
             Choose your profile
           </Text>
           <Text
             style={{
               fontFamily: "EXTRABOLD",
+              fontSize: fontSize(30),
             }}
-            className="text-[#F2F0FF] pt-1  text-3xl "
+            className="text-[#F2F0FF] pt-1 "
           >
             picture
           </Text>
           <Text
             style={{
               fontFamily: "SEMIBOLD",
+              lineHeight: heightSize(35),
+              fontSize: fontSize(16),
             }}
-            className="text-[#F2F0FF] pt-1   text-base "
+            className="text-[#F2F0FF]   text-base "
           >
             Make an PFP NFT in your wallet your profile
           </Text>
           <Text
             style={{
               fontFamily: "SEMIBOLD",
+              lineHeight: heightSize(35),
+              fontSize: fontSize(16),
             }}
-            className="text-[#F2F0FF] pt-2  text-base "
+            className="text-[#F2F0FF]   text-base "
           >
             picture. If this is a new wallet and has no
           </Text>
           <Text
             style={{
               fontFamily: "SEMIBOLD",
+              lineHeight: heightSize(35),
+              fontSize: fontSize(16),
             }}
-            className="text-[#F2F0FF] pt-2  pb-3 text-base "
+            className="text-[#F2F0FF] "
           >
             NFT. don't worry, you can set it up later
           </Text>
         </View>
         <View
           style={{
-            marginTop: 10,
-            height: height * 0.1,
+            height: screenHeight(0.1),
           }}
           className="ml-3 mr-3"
         >
@@ -96,53 +113,49 @@ const SetProfilePics = () => {
             color="#B5B3BC"
           />
         </View>
+
         <View
+          className="ml-3 mr-3  rounded-xl"
           style={{
-            height: height * 0.6,
+            justifyContent: "center",
+            borderWidth: 1,
+            borderColor: "white",
+            height: screenHeight(0.4),
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: "LIGHT",
+            }}
+            className="text-[#B5B3BC]  text-center"
+          >
+            This wallet has no NFT, dont't worry,
+          </Text>
+          <Text
+            style={{
+              fontFamily: "LIGHT",
+            }}
+            className="text-[#B5B3BC]  text-center"
+          >
+            you can set it up later
+          </Text>
+        </View>
+        <SizedBox vertical={screenHeight(0.05)} />
+        <View
+          className=" mr-3 ml-3 "
+          style={{
+            // alignItems: "center",
+            justifyContent: "flex-end",
           }}
         >
           <View
-            className="ml-3 mr-3 mb-5 rounded-xl mt-5"
+            className="flex-row"
             style={{
-              justifyContent: "center",
-              borderWidth: 1,
-              borderColor: "white",
-              height: height * 0.4,
+              justifyContent: "space-between",
             }}
           >
-            <Text
-              style={{
-                fontFamily: "LIGHT",
-              }}
-              className="text-[#B5B3BC]  text-center"
-            >
-              This wallet has no NFT, dont't worry,
-            </Text>
-            <Text
-              style={{
-                fontFamily: "LIGHT",
-              }}
-              className="text-[#B5B3BC]  text-center"
-            >
-              you can set it up later
-            </Text>
-          </View>
-          <View
-            className=" mr-3 ml-3 pb-4 mb-10 flex-1"
-            style={{
-              // alignItems: "center",
-              justifyContent: "flex-end",
-            }}
-          >
-            <View
-              className="flex-row"
-              style={{
-                justifyContent: "space-between",
-              }}
-            >
-              <BackButton />
-              <ContnueButton screen="" />
-            </View>
+            <BackButton />
+            <ContnueButton screen="" />
           </View>
         </View>
       </Background>

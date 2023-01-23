@@ -9,8 +9,9 @@ import UserScreen from "../UserScreen";
 import DiscoverTab from "./DiscoverTab/UserProfile";
 import CommunityTab from "./CommunityTab";
 import FeedsTab from "./FeedsTab";
-import GroupTab from "./GroupTab";
+import GroupTab from "./GroupTab/GroupTab";
 import SpaceTab from "./SpaceTab/SpaceTab";
+import { heightSize } from "../../../constants/sizes";
 //icons
 
 const Tab = createBottomTabNavigator();
@@ -29,7 +30,7 @@ const ProfileTabNavigations = () => {
       screenOptions={({ route }) => ({
         tabBarStyle: {
           borderWidth: 0,
-          height: 70,
+          height: heightSize(70),
           marginBottom: 0,
           backgroundColor: "#293056",
           // activeTintColor:"white",

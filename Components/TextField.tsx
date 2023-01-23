@@ -55,6 +55,7 @@ const Input: FC<Props> = (props) => {
               fontSize: 16,
               fontFamily: "SEMIBOLD",
             }}
+            cursorColor="white"
             className="pl-3"
             placeholder={props.placeholder}
             placeholderTextColor={"white"}

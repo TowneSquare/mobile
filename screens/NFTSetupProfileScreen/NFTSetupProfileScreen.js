@@ -16,6 +16,8 @@ import ContinueButton from "./Components/ContinueButton";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import FONTS from "../../constants/Fonts";
+import { SizedBox } from "sizedbox";
+import { screenHeight } from "../../constants/sizes";
 import DismissKeyboard from "../../Components/DismissKeyboard";
 const NFTSetupProfileScreen = () => {
   let [fontsLoaded] = useFonts({
@@ -36,17 +38,19 @@ const NFTSetupProfileScreen = () => {
       />
       <DismissKeyboard>
         <Background>
-          <View className="items-center pl-10 pr-10 pb-10">
+          <SizedBox vertical={screenHeight(0.02)} />
+          <View className="items-center pl-10 pr-10 ">
             <Text
               style={{
                 fontFamily: "EXTRABOLD",
               }}
-              className="text-[#F2F0FF] text-center pt-10  text-3xl "
+              className="text-[#F2F0FF] text-center  text-3xl "
             >
               Set up profile
             </Text>
           </View>
-          <View className="pl-4 pr-4 mt-1">
+          <SizedBox vertical={screenHeight(0.02)} />
+          <View className="pl-4 pr-4 ">
             <Input
               label="Set a username for your profile"
               placeholder="Username"
@@ -60,6 +64,7 @@ const NFTSetupProfileScreen = () => {
             />
             <NFTBox />
           </View>
+          <SizedBox vertical={screenHeight(0.03)} />
           <ContinueButton screen="AddCommunityScreen" />
         </Background>
       </DismissKeyboard>

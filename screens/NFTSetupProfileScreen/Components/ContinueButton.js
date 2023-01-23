@@ -8,8 +8,8 @@ const ContinueButton = (props) => {
     <View
       className={
         props.color == true
-          ? "flex-row pt-7 pr-4  bg-[#0F111E] h-20 pl-4 mt-20 bottom-0 "
-          : "flex-row pt-7 pr-4  pl-4 bottom-20"
+          ? "flex-row pr-4  bg-[#0F111E] h-20 pl-4  "
+          : "flex-row  pr-4  pl-4 "
       }
       style={{
         justifyContent: "space-between",
@@ -21,7 +21,7 @@ const ContinueButton = (props) => {
     >
       <TouchableOpacity onPress={navigation.goBack}>
         <View
-          className="bottom-0 mb-10 h-12 w-24 pl-3 bg-[#0F111E] flex-row items-center rounded-xl space-x-2 "
+          className="h-12 w-24 pl-3 bg-[#0F111E] flex-row items-center rounded-xl space-x-2 "
           style={{
             borderColor: "#0368FF",
             borderWidth: 1,
@@ -36,7 +36,7 @@ const ContinueButton = (props) => {
           navigation.navigate(props.screen);
         }}
       >
-        <View className="bottom-0 mb-10 h-12 w-36 bg-[#0368FF] flex-row items-center rounded-xl space-x-4 ">
+        <View className=" h-12 w-36 bg-[#0368FF] flex-row items-center rounded-xl space-x-4 ">
           <Text className="text-white pl-4 font-normal text-base ">
             CONTINUE
           </Text>

@@ -7,10 +7,12 @@ import ListofWallet from "./Components/UserWalletComponents/ListofWallet";
 import Collections from "./Components/Collections";
 import { useSelector, useDispatch } from "react-redux";
 import ManageToken from "./Components/UserWalletComponents/ManageToken";
+
 import {
   changeState,
   changeSendModalValue,
   updateisSendButton,
+  updateSwapModal,
 } from "./Components/Controller/ModalController/ModalController";
 import ReceiveTokenModal from "./Components/UserWalletComponents/ReceiveTokenModal";
 import SelectTokenModal from "./Components/UserWalletComponents/SelectTokenModal";
@@ -22,6 +24,10 @@ const UserWallet = () => {
   const selectedTokenValue = useSelector(
     (state) => state.modalState.selectedToken
   );
+  const isModalVisible = useSelector(
+    (state) => state.modalState.receiveModalValue
+  );
+  console.log(isModalVisible);
   const dispatch = useDispatch();
   return (
     <View className="mr-3 ml-3">
@@ -55,6 +61,7 @@ const UserWallet = () => {
               Switch
             </Text>
           </TouchableOpacity>
+
           <SelectTokenModal />
           <ReceiveTokenModal />
           <SwitchTokenModal />

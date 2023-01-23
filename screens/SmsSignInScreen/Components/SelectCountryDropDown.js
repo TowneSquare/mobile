@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import { screenHeight, heightSize } from "../../../constants/sizes";
 
 const data = [
   { label: "Item 1", value: "1" },
@@ -56,7 +57,7 @@ const DropdownComponent = () => {
           itemTextStyle={{
             color: "white",
           }}
-          maxHeight={300}
+          maxHeight={heightSize(300)}
           containerStyle={{
             backgroundColor: "#0F111E",
             position: "absolute",

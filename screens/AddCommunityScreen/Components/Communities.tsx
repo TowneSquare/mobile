@@ -16,6 +16,8 @@ import FONTS from "../../../constants/Fonts";
 
 import data from "./DummyData";
 import { width, height, searchFilterFunction } from "../../../constants/utils";
+import { heightSize, screenHeight } from "../../../constants/sizes";
+import { SizedBox } from "sizedbox";
 
 interface Props {
   placeholder: string;
@@ -67,13 +69,13 @@ const Communities: FC<Props> = (props) => {
   return (
     <View
       style={{
-        height: height * 0.6,
+        height: screenHeight(0.7),
       }}
-      className=""
+      className=" "
     >
+      <SizedBox vertical={screenHeight(0.045)} />
       <View
         style={{
-          marginTop: 10,
           borderWidth: 1,
           borderBottomWidth: 1,
           flexDirection: "row",
@@ -97,7 +99,7 @@ const Communities: FC<Props> = (props) => {
           style={{
             paddingLeft: 15,
             color: "white",
-            height: 25,
+            height: heightSize(25),
             width: "85%",
             marginVertical: 10,
             marginRight: 5,
@@ -114,7 +116,7 @@ const Communities: FC<Props> = (props) => {
         />
       </View>
       {/* Communities */}
-      <ScrollView>
+      <ScrollView keyboardDismissMode="on-drag">
         {filteredNFTS?.map((item: mapType, index: number) => {
           return (
             <View

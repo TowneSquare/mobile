@@ -6,12 +6,13 @@ import COLORS from '../../../../../../constants/Colors'
 import { height } from '../../../../../../constants/utils';
 const TokenLists = () => {
     const selectedTokenValue =useSelector((state:any)=>state.modalState.selectedToken)
+    console.log(selectedTokenValue)
     const sendButton =useSelector((state:any)=>state.modalState.sendButton)
     const Tokens=[
         {
             logo:require("../../../../../../assets/PNG/solanalogo1.png"),
             symbol:"SOL",
-            name:"Solana",
+            name:"Solana",    
             amount:"12.345"
         },
         {

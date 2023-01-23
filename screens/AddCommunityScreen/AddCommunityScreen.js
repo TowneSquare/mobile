@@ -10,9 +10,11 @@ import Background from "./Components/Background";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import FONTS from "../../constants/Fonts";
+import { SizedBox } from "sizedbox";
 import Communities from "./Components/Communities";
 import DismissKeyboard from "../../Components/DismissKeyboard";
 import ContinueButton from "./Components/ContinueButton";
+import { fontSize, screenHeight } from "../../constants/sizes";
 const AddCommunityScreen = () => {
   let [fontsLoaded] = useFonts({
     EXTRABOLD: FONTS.EXTRABOLD,
@@ -31,14 +33,15 @@ const AddCommunityScreen = () => {
         barStyle="light-content"
       />
       <Background>
-        <DismissKeyboard>
+      <SizedBox vertical={screenHeight(0.03)} />
         <KeyboardAvoidingView>
-          <View className="items-center pl-10 pr-10 pb-10">
+          <View className="items-center  pl-10 pr-10">
             <Text
               style={{
                 fontFamily: "EXTRABOLD",
+                fontSize:fontSize(30)
               }}
-              className="text-[#F2F0FF] text-center pt-10 text-3xl "
+              className="text-[#F2F0FF] text-center "
             >
               Add your communities
             </Text>
@@ -49,7 +52,7 @@ const AddCommunityScreen = () => {
           <View></View>
         </KeyboardAvoidingView>
         <ContinueButton color={true} screen="ProfileTabNavigations" />
-        </DismissKeyboard>
+        
       </Background>
     </SafeAreaView>
   );

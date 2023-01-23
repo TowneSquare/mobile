@@ -39,6 +39,8 @@ const imageAssets={
     fullVolume:require("../assets/PNG/fullVolume.png"),
     hands:require("../assets/PNG/hands.png"),
     shareSpace:require("../assets/PNG/shareSpace.png"),
+    unlockIcon:require("../assets/PNG/unlock.png"),
+    lockIcon:require("../assets/PNG/lock.png"),
     inviteUsersdp:require("../assets/PNG/inviteUsers.png")
 }
 export default imageAssets

@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Switch,
   ScrollView,
+  Platform,
   Dimensions,
 } from "react-native";
 import MemberList from "./Components/UserProfileComponents/Members";
@@ -14,7 +15,7 @@ import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
 const width = Dimensions.get("window").width;
 import React, { useState } from "react";
 import COLORS from "../../../../constants/Colors";
-import imageAssets from '../../../../constants/images';
+import imageAssets from "../../../../constants/images";
 const height = Dimensions.get("window").height;
 
 const UserProfile = (props) => {
@@ -171,6 +172,7 @@ const UserProfile = (props) => {
         className="flex-row "
         style={{
           alignItems: "center",
+          marginVertical: Platform.OS === "ios" ? 20 : 0,
         }}
       >
         <Text className={`text-[${COLORS.WHITE}] flex-1  font-extrabold`}>
@@ -223,7 +225,13 @@ const UserProfile = (props) => {
           value={showNFTCollection}
         />
       </View>
-      <View className="" style={{ flexDirection: "row" }}>
+      <View
+        className=""
+        style={{
+          flexDirection: "row",
+          marginVertical: Platform.select({ ios: 10, android: 0 }),
+        }}
+      >
         <Text
           className={`text-[${COLORS.GRAYBLUEOPACITY300}]  font-normal text-sm`}
           style={{ flex: 1, flexWrap: "wrap" }}
