@@ -1,27 +1,23 @@
 {
   "expo": {
     "name": "TowneSquare",
-    "slug": "TownSquare",
+    "slug": "TowneSquare",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/PNG/logo1.png",
+    "icon": "./src/images/png/TowneSquare.png",
     "userInterfaceStyle": "light",
-
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "package": "com.obiwale.TownSquare"
-  
+      "package": "com.obiwale.TowneSquare"
     },
-
     "extra": {
       "eas": {
-        "projectId": "fe16f34d-4e71-4b73-ab9a-4b46d4939ffa"
+        "projectId": "fde1a842-16d1-47e7-a064-87974daf80de"
       }
     }
   }
