@@ -5,4 +5,3 @@ const FONTS = {
   EXTRABOLD: require('../font/Urbanist/Urbanist-ExtraBold.ttf'),
 };
 export const fonts = FONTS;
-//

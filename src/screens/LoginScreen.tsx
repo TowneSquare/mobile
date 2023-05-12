@@ -1,14 +1,25 @@
-import { View, Text, Dimensions, Image, StyleSheet } from 'react-native';
-import React from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  Image,
+  StyleSheet,
+} from 'react-native';
+import React, { useState } from 'react';
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
-
+import { StackActions } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { sizes } from '../utils';
 import LoginButton from '../components/LoginButton';
 import { appColor, images, fonts } from '../constants';
 import { LoginScreenProps } from '../utils/NavigationTypes';
-const LoginScreen = () => {
+import ChooseWalletModal from '../components/ChooseWalletModal';
+
+const LoginScreen = ({ navigation }: LoginScreenProps) => {
+  const [isModalVisible, setModalVisibility] = useState(false);
+
   const { height, width } = Dimensions.get('window');
   const size = new sizes(height, width);
   let [isLoaded] = useFonts({
@@ -91,12 +102,21 @@ const LoginScreen = () => {
         >
           Login
         </Text>
-        <LoginButton navigateTo="ChooseWallet" top={0.04} label="Web3 Wallet" />
+
+        <LoginButton
+          onPress={() => {
+            setModalVisibility(!isModalVisible);
+          }}
+          top={0.04}
+          label="Web3 Wallet"
+        />
+
         <LoginButton
           navigateTo="ChooseWallet"
           top={0.03}
           label="Import Wallet"
         />
+
         <Text
           style={{
             color: appColor.maintext,
@@ -135,6 +155,13 @@ const LoginScreen = () => {
           POWERED BY APTOS
         </Text>
       </View>
+      <ChooseWalletModal
+        visibility={isModalVisible}
+        onClose={() => setModalVisibility(!isModalVisible)}
+        navigate={() => {
+          navigation.navigate('WalletAddedScreen');
+        }}
+      />
     </SafeAreaView>
   );
 };

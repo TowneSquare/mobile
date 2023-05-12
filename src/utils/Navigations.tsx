@@ -6,6 +6,8 @@ import {
 import { RootStackParamList } from './NavigationTypes';
 import { Easing, Animated } from 'react-native';
 import LoginScreen from '../screens/LoginScreen';
+import WalletAddedScreen from '../screens/WalletAddedScreen';
+import SetupProfileScreen from '../screens/SetupProfileScreen';
 const Navigations = () => {
   const Stack = createStackNavigator<RootStackParamList>();
   const config = {
@@ -45,6 +47,20 @@ const Navigations = () => {
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="WalletAddedScreen"
+        component={WalletAddedScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+       <Stack.Screen
+        name="SetupProfileScreen"
+        component={SetupProfileScreen}
         options={{
           headerShown: false,
         }}

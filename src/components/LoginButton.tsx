@@ -1,12 +1,13 @@
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { sizes } from '../utils';
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../constants';
 interface Props {
-  navigateTo: string;
+  navigateTo?: string;
   top: number;
   label: string;
+  onPress?(): void;
 }
 const LoginButton = (Props: Props) => {
   const { height, width } = Dimensions.get('window');
@@ -19,7 +20,8 @@ const LoginButton = (Props: Props) => {
     return null;
   }
   return (
-    <View
+    <TouchableOpacity
+      onPress={Props.onPress}
       style={{
         backgroundColor: appColor.buttonColor,
         justifyContent: 'center',
@@ -40,7 +42,7 @@ const LoginButton = (Props: Props) => {
       >
         {label}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
