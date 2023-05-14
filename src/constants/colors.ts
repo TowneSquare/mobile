@@ -8,7 +8,9 @@ const colors = {
   textInputColor: '#4E5BA6',
   cursorColor: '#363F72',
   grayBlue: '#293056',
-  menuColor:"#101323",
-  grayBlue2:"#363F72"
+  menuColor: '#101323',
+  grayBlue2: '#363F72',
+  grayBlue3: '#4E5BA6',
+  secondaryTextColor: '#B3B8DB',
 };
 export const appColor = colors;

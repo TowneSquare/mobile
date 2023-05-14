@@ -1,18 +1,39 @@
-import { View, Text, Dimensions } from 'react-native';
-import React from 'react';
+import { View, Text, Dimensions, Pressable } from 'react-native';
+import React, { useRef, useState, useContext, createContext } from 'react';
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { sizes } from '../utils';
+import { useAppDispatch } from '../controllers/hooks';
 import BackButton from '../components/BackButton';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import Stepper from '../components/Stepper';
 import { appColor, fonts } from '../constants';
+import {
+  updateBottomSheet,
+  updateRenderCount,
+} from '../controllers/BottomSheetController';
+import SelectedCollection from '../components/SelectedCollection';
 import Usernamefield from '../components/Usernamefield';
+import BottomSheetModal from '../components/BottomSheetModal';
 import ContinueButton from '../components/ContinueButton';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+export const BottomSheetProvider = createContext(undefined);
 const SetupProfileScreen = () => {
+  const dispatch = useAppDispatch();
+  const bottomSheetRef = useRef<any>(null);
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const handleButtonPress = () => {
+    if (isBottomSheetOpen === false) {
+      setIsBottomSheetOpen(true);
+      bottomSheetRef.current?.expand();
+    } else {
+      setIsBottomSheetOpen(false);
+      bottomSheetRef.current?.collapse();
+    }
+  };
   const { height, width } = Dimensions.get('window');
-
+  const val = { isBottomSheetOpen, setIsBottomSheetOpen };
   const size = new sizes(height, width);
   let [isLoaded] = useFonts({
     'Urbanist-Bold': fonts.EXTRABOLD,
@@ -56,7 +77,11 @@ const SetupProfileScreen = () => {
       >
         Choose your profile picture
       </Text>
-      <View
+      <Pressable
+        onPress={() => {
+          dispatch(updateBottomSheet());
+          dispatch(updateRenderCount(1));
+        }}
         style={{
           marginTop: size.sHeight(0.025),
           marginLeft: size.sWidth(0.05),
@@ -70,7 +95,7 @@ const SetupProfileScreen = () => {
         }}
       >
         <Ionicons name="ios-add-sharp" color="white" size={35} />
-      </View>
+      </Pressable>
       <View
         style={{
           justifyContent: 'space-around',
@@ -86,6 +111,8 @@ const SetupProfileScreen = () => {
         <BackButton />
         <ContinueButton />
       </View>
+      <BottomSheetModal />
+      <SelectedCollection />
     </SafeAreaView>
   );
 };

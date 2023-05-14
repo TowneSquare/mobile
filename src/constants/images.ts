@@ -7,5 +7,7 @@ const imageAsset = {
   blob: require('../images/png/blob.png'),
   checked: require('../images/png/checked.png'),
   opaqueBlob: require('../images/png/opaqueBlob.png'),
+  Aptominggos: require('../images/png/Aptominggos.png'),
+  Collection: require('../images/png/Collection.png'),
 };
 export const images = imageAsset;
