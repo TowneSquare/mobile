@@ -9,6 +9,7 @@ import {
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import * as Animatable from 'react-native-animatable';
+import { useNavigation } from '@react-navigation/native';
 import { useAppSelector, useAppDispatch } from '../controllers/hooks';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import SearchBar from './SearchBar';
@@ -31,6 +32,7 @@ import { appColor, fonts } from '../constants';
 import { sizes } from '../utils';
 import Collections from './Collections';
 const SelectedCollection = () => {
+  const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const isVisible = useAppSelector(
@@ -109,10 +111,7 @@ const SelectedCollection = () => {
         >
           <Pressable
             onPress={() => {
-              dispatch(updateSelectedCollectionSheet());
-              dispatch(updateSelectedSheetRenderCount(0));
-              dispatch(updateBottomSheet());
-              dispatch(updateRenderCount(1));
+              navigation.navigate('ChooseTopics' as never);
             }}
           >
             <MaterialIcons

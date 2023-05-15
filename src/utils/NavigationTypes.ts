@@ -9,6 +9,7 @@ export type RootStackParamList = {
   SplashScreen: undefined;
   WalletAddedScreen: undefined;
   SetupProfileScreen: undefined;
+  ChooseTopics: undefined;
 };
 export type LoginScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'LoginScreen'>;
@@ -25,4 +26,8 @@ export type WalletAddedScreenProps = {
 export type SetupProfileScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'SetupProfileScreen'>;
   route: RouteProp<ParamListBase, 'SetupProfileScreen'>;
+};
+export type ChooseTopicsScreenProps = {
+  navigation: NavigationProp<RootStackParamList, 'ChooseTopics'>;
+  route: RouteProp<ParamListBase, 'ChooseTopics'>;
 };

@@ -11,10 +11,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import {
-  updateRenderCount,
-  
-} from '../controllers/BottomSheetController';
+import { updateRenderCount } from '../controllers/BottomSheetController';
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../constants';
 import { sizes } from '../utils';
@@ -34,7 +31,7 @@ const BottomSheetModal = () => {
     dispatch(updateRenderCount(0));
   }, []);
   useEffect(() => {
-    if (isVisible === false && renderCount > 1) {
+    if (isVisible === false && renderCount > 0) {
       setBottomSheetOpen(true);
       bottomSheetRef.current?.expand();
     } else {
@@ -42,7 +39,6 @@ const BottomSheetModal = () => {
       bottomSheetRef.current?.collapse();
     }
   }, [isVisible]);
-
 
   const { height, width } = Dimensions.get('window');
   const animatedIndex = useSharedValue(0);
@@ -73,13 +69,14 @@ const BottomSheetModal = () => {
   if (!isLoaded) {
     return null;
   }
+  console.log(`Bottomshet ${bottomSheetOpen}`);
 
   return (
     <BottomSheet
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={snapPoints}
+      snapPoints={['30%']}
       handleComponent={CustomHandler}
       backgroundStyle={{
         backgroundColor: appColor.modalBackgroundColor,

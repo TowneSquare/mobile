@@ -8,6 +8,7 @@ import { Easing, Animated } from 'react-native';
 import LoginScreen from '../screens/LoginScreen';
 import WalletAddedScreen from '../screens/WalletAddedScreen';
 import SetupProfileScreen from '../screens/SetupProfileScreen';
+import ChooseTopics from '../screens/ChooseTopics';
 const Navigations = () => {
   const Stack = createStackNavigator<RootStackParamList>();
   const config = {
@@ -58,9 +59,16 @@ const Navigations = () => {
           headerShown: false,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="SetupProfileScreen"
         component={SetupProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ChooseTopics"
+        component={ChooseTopics}
         options={{
           headerShown: false,
         }}
