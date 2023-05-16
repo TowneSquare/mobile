@@ -39,5 +39,11 @@ class sizeConfig {
   sWidth(value: number): number {
     return this.screenWidth * value;
   }
+  vMargin(value: number): number {
+    return (this.screenHeight * value) / 1000;
+  }
+  hMargin(value: number): number {
+    return (this.screenWidth * value) / 1000;
+  }
 }
 export const sizes = sizeConfig;
