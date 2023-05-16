@@ -1,13 +1,16 @@
-const imageAsset = {
-  towneSquare: require('../images/png/TowneSquare.png'),
-  aptos: require('../images/png/Aptos.png'),
-  pontem: require('../images/png/Pontem.png'),
-  petra: require('../images/png/Petra.png'),
-  martian: require('../images/png/Martian.png'),
-  blob: require('../images/png/blob.png'),
-  checked: require('../images/png/checked.png'),
-  opaqueBlob: require('../images/png/opaqueBlob.png'),
-  Aptominggos: require('../images/png/Aptominggos.png'),
-  Collection: require('../images/png/Collection.png'),
+const appImages = {
+  logo: require('../images/png/logo.png'),
+  apple: require('../images/png/apple.png'),
+  background1: require('../images/png/background1.png'),
+  background2: require('../images/png/background2.png'),
+  discord: require('../images/png/Discord.png'),
+  email: require('../images/png/email.png'),
+  fewcha: require('../images/png/fewcha.png'),
+  google: require('../images/png/google.png'),
+  matian: require('../images/png/matian.png'),
+  petra: require('../images/png/petra.png'),
+  pontem: require('../images/png/pontem.png'),
+  rise: require('../images/png/rise.png'),
+  twitter: require('../images/png/twitter.png'),
 };
-export const images = imageAsset;
+export const images = appImages;

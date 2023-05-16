@@ -4,8 +4,13 @@
     "slug": "TowneSquare",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/images/png/TowneSquare.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -13,12 +18,13 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.obiwale.TowneSquare"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "fde1a842-16d1-47e7-a064-87974daf80de"
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
       }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
     }
   }
 }

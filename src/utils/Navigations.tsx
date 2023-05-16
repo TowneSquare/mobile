@@ -1,16 +1,14 @@
-import SplashScreen from '../screens/SplashScreen';
 import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
-import { RootStackParamList } from './NavigationTypes';
+import Splash from '../screens/Splash';
 import { Easing, Animated } from 'react-native';
-import LoginScreen from '../screens/LoginScreen';
-import WalletAddedScreen from '../screens/WalletAddedScreen';
-import SetupProfileScreen from '../screens/SetupProfileScreen';
-import ChooseTopics from '../screens/ChooseTopics';
+import { View, Text } from 'react-native';
+import React from 'react';
+import ChooseProfile from '../screens/ChooseProfile';
 const Navigations = () => {
-  const Stack = createStackNavigator<RootStackParamList>();
+  const Stack = createStackNavigator();
   const config = {
     animation: Animated.timing,
     config: {
@@ -39,36 +37,15 @@ const Navigations = () => {
       }}
     >
       <Stack.Screen
-        name="SplashScreen"
-        component={SplashScreen}
+        name="Splash"
+        component={Splash}
         options={{
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="LoginScreen"
-        component={LoginScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="WalletAddedScreen"
-        component={WalletAddedScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="SetupProfileScreen"
-        component={SetupProfileScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="ChooseTopics"
-        component={ChooseTopics}
+        <Stack.Screen
+        name="ChooseProfile"
+        component={ChooseProfile}
         options={{
           headerShown: false,
         }}
@@ -76,4 +53,5 @@ const Navigations = () => {
     </Stack.Navigator>
   );
 };
+
 export default Navigations;
