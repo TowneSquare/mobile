@@ -5,6 +5,7 @@ import {
   Image,
   Dimensions,
   StyleSheet,
+  Pressable,
 } from 'react-native';
 import React, { useEffect } from 'react';
 import { useFonts } from 'expo-font';
@@ -14,21 +15,17 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { sizes } from '../utils';
 import { StackActions } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
-const { height, width } = Dimensions.get('window');
-const size = new sizes(height, width);
-const Splash = () => {
-  const navigation = useNavigation();
-  useEffect(() => {
-    setTimeout(() => {
-      navigation.dispatch(StackActions.replace('ChooseProfile'));
-    }, 4000);
-  }, []);
 
+const { height, width } = Dimensions.get('window');
+import { FirstScreenProps } from '../utils/NavigationTypes';
+
+const size = new sizes(height, width);
+const FirstScreen = ({ navigation }: FirstScreenProps) => {
   let [isLoaded] = useFonts({
     'Urbanist-Bold': fonts.EXTRABOLD,
     UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
   });
   if (!isLoaded) {
     return null;
@@ -106,7 +103,8 @@ const Splash = () => {
         >
           Social, create, build, and transact with anyone anywhere
         </Text>
-        <View
+        <Pressable
+          onPress={() => navigation.navigate('ChooseProfile')}
           style={{
             top: size.vMargin(200),
             width: size.sWidth(0.9),
@@ -127,7 +125,7 @@ const Splash = () => {
           >
             CONNECT WALLET
           </Text>
-        </View>
+        </Pressable>
         <Text
           style={{
             color: appColor.kTextColor,
@@ -169,7 +167,7 @@ const Splash = () => {
   );
 };
 
-export default Splash;
+export default FirstScreen;
 const styles = StyleSheet.create({
   socials: {
     height: 55,

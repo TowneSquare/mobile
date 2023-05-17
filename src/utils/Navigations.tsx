@@ -2,13 +2,15 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
-import Splash from '../screens/Splash';
+import FirstScreen from '../screens/FirstScreen';
 import { Easing, Animated } from 'react-native';
 import { View, Text } from 'react-native';
 import React from 'react';
+import { RootStackParamList } from './NavigationTypes';
 import ChooseProfile from '../screens/ChooseProfile';
+import ChooseUsername from '../screens/ChooseUsername';
 const Navigations = () => {
-  const Stack = createStackNavigator();
+  const Stack = createStackNavigator<RootStackParamList>();
   const config = {
     animation: Animated.timing,
     config: {
@@ -37,15 +39,22 @@ const Navigations = () => {
       }}
     >
       <Stack.Screen
-        name="Splash"
-        component={Splash}
+        name="FirstScreen"
+        component={FirstScreen}
         options={{
           headerShown: false,
         }}
       />
-        <Stack.Screen
+      <Stack.Screen
         name="ChooseProfile"
         component={ChooseProfile}
+        options={{
+          headerShown: false,
+        }}
+      />
+       <Stack.Screen
+        name="ChooseUsername"
+        component={ChooseUsername}
         options={{
           headerShown: false,
         }}

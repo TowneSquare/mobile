@@ -3,11 +3,14 @@ import React from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../constants';
 import { StatusBar } from 'expo-status-bar';
+import CompleteSignUpModal from '../components/CompleteSignUpModal';
 import { sizes } from '../utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Wallets from '../components/Wallets';
+import BackButton from '../components/BackButton';
+import { ChooseProfileProps } from '../utils/NavigationTypes';
 const { height, width } = Dimensions.get('window');
-const ChooseProfile = () => {
+const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
   const size = new sizes(height, width);
   let [isLoaded] = useFonts({
     'Urbanist-Bold': fonts.EXTRABOLD,
@@ -44,18 +47,8 @@ const ChooseProfile = () => {
           Choose your wallet
         </Text>
         <Wallets />
-        <Text
-          style={{
-            
-            color: appColor.kTextColor,
-            fontSize: size.fontSize(18),
-            fontFamily: 'Outfit-Bold',
-            marginTop:size.vMargin(190),
-            
-          }}
-        >
-          BACK
-        </Text>
+        <BackButton marginTop={190} />
+        <CompleteSignUpModal />
       </ImageBackground>
     </SafeAreaView>
   );
