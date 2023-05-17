@@ -12,6 +12,12 @@ const appImages = {
   pontem: require('../images/png/Pontem.png'),
   rise: require('../images/png/rise.png'),
   twitter: require('../images/png/twitter.png'),
+  userprofile: require('../images/png/UserCircle.png'),
+  profileImagePlaceholder: require('../images/png/profile_placeholder.png'),
+  cat: require('../images/png/Cat.png'),
+  camera: require('../images/png/Camera.png'),
+  imagesSquare: require('../images/png/ImagesSquare.png'),
+  arrow: require('../images/png/arrow.png')
 };
 
 export const images = appImages;

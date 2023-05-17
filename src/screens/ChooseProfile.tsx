@@ -1,19 +1,27 @@
 import { View, Text, Dimensions, ImageBackground } from 'react-native';
-import React from 'react';
+import React,{useEffect} from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../constants';
 import { StatusBar } from 'expo-status-bar';
 import { sizes } from '../utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Wallets from '../components/Wallets';
+import { useNavigation } from '@react-navigation/native';
+import { StackActions } from '@react-navigation/native';
 const { height, width } = Dimensions.get('window');
 const ChooseProfile = () => {
+  const navigation = useNavigation();
   const size = new sizes(height, width);
   let [isLoaded] = useFonts({
     'Urbanist-Bold': fonts.EXTRABOLD,
     UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
   });
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.dispatch(StackActions.replace('SetPfp'));
+    }, 4000);
+  }, []);
   return (
     <SafeAreaView
       style={{
