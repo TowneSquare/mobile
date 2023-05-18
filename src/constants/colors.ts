@@ -13,7 +13,11 @@ const colors = {
   kSecondaryColor: '#363F72',
   kDisabledColor: '#1D2240',
   kSecondaryButtonColor: '#9264F8',
-  kErrorText:"#FF4471",
-  kSecondaryNavy:"#707CC0"
+  kErrorText: '#FF4471',
+  kSecondaryNavy: '#707CC0',
+  kgrayColor: '#B5B3BC',
+  kWhiteColorWithOpacity: '#FFFFFF50',
+  kBlackWithOpacity: '#00000070',
+  kBackgroundColor2:"#111111"
 };
 export const appColor = colors;

@@ -18,10 +18,7 @@ const BackButton = ({ marginTop, closeModal }: Props) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -30,14 +27,15 @@ const BackButton = ({ marginTop, closeModal }: Props) => {
   return (
     <Text
       onPress={() => {
-        navigation.goBack();
         if (closeModal) {
           dispatch(updateRenderCount(0));
           dispatch(updateBottomSheet(false));
         }
+        navigation.goBack();
       }}
       style={{
         marginTop: marginTop ? size.vMargin(marginTop) : 0,
+
         textAlign: 'center',
         color: appColor.kTextColor,
         fontSize: size.fontSize(18),

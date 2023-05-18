@@ -15,11 +15,17 @@ import {
   updateBottomSheet,
   updateRenderCount,
 } from '../controller/BottomSheetController';
-import { useAppDispatch } from '../controller/hooks';
+import { useAppDispatch, useAppSelector } from '../controller/hooks';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Wallets = () => {
   const dispatch = useAppDispatch();
+  const isVisible = useAppSelector(
+    (state) => state.bottomSheetController.isBottomSheetOpen
+  );
+  const renderCount = useAppSelector(
+    (state) => state.bottomSheetController.renderCount
+  );
   let [isLoaded] = useFonts({
     'Urbanist-Bold': fonts.EXTRABOLD,
     UrbanistSemiBold: fonts.SEMIBOLD,
@@ -31,8 +37,9 @@ const Wallets = () => {
   return (
     <View
       style={{
+        opacity: isVisible && renderCount > 0 ? 0.7 : 1,
         marginTop: size.sHeight(0.2),
-        height: size.sHeight(0.48),
+        height: size.sHeight(0.46),
         justifyContent: 'space-between',
         paddingVertical: 10,
       }}
@@ -54,7 +61,13 @@ const Wallets = () => {
           size={size.fontSize(30)}
         />
       </Pressable>
-      <View style={styles.wallet}>
+      <Pressable
+        onPress={() => {
+          dispatch(updateRenderCount(1));
+          dispatch(updateBottomSheet(true));
+        }}
+        style={styles.wallet}
+      >
         <View style={styles.rows}>
           <Image source={images.rise} />
           <Text style={styles.text}>Rise</Text>
@@ -64,7 +77,7 @@ const Wallets = () => {
           color={appColor.kWhiteColor}
           size={size.fontSize(30)}
         />
-      </View>
+      </Pressable>
       <View
         style={[styles.wallet, { backgroundColor: appColor.kDisabledColor }]}
       >
@@ -100,7 +113,7 @@ export default Wallets;
 const styles = StyleSheet.create({
   wallet: {
     padding: size.hMargin(30),
-    height: size.sHeight(0.08),
+    height: size.sHeight(0.07),
     width: size.sWidth(0.9),
     backgroundColor: appColor.kChooseWalletButtonColor,
     flexDirection: 'row',

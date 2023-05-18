@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ImageSourcePropType,
+  Image,
+  Dimensions,
+} from 'react-native';
 import React from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../constants';
@@ -6,15 +13,17 @@ import { sizes } from '../utils';
 const { height, width } = Dimensions.get('window');
 interface Props {
   steps: number;
-  stepDescription?: string;
-  title?: string;
-  sub_title?: string;
+  stepDescription: string;
+  title: string;
+  sub_title: string;
+  image: ImageSourcePropType;
 }
 const ProfileSetUpHeader = ({
   steps,
   stepDescription,
   title,
   sub_title,
+  image,
 }: Props) => {
   let [isLoaded] = useFonts({
     'Urbanist-Bold': fonts.EXTRABOLD,
@@ -42,7 +51,7 @@ const ProfileSetUpHeader = ({
             fontSize: size.fontSize(16),
           }}
         >
-          Next Step: Connect socials & verify
+          Next Step: {stepDescription}
         </Text>
         <View
           style={{
@@ -119,7 +128,7 @@ const ProfileSetUpHeader = ({
           alignSelf: 'center',
         }}
       >
-        <Image source={images.user} />
+        <Image source={image} />
       </View>
       <Text
         style={{
@@ -130,7 +139,7 @@ const ProfileSetUpHeader = ({
           marginTop: size.vMargin(40),
         }}
       >
-        Choose your username
+        {title}
       </Text>
       <Text
         style={{
@@ -139,9 +148,10 @@ const ProfileSetUpHeader = ({
           fontFamily: 'Outfit-Medium',
           textAlign: 'center',
           marginTop: size.vMargin(20),
+          marginHorizontal: size.hMargin(50),
         }}
       >
-        Stand out in Towne Square with a unique username
+        {sub_title}
       </Text>
     </>
   );
