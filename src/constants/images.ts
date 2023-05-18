@@ -12,5 +12,8 @@ const appImages = {
   pontem: require('../images/png/pontem.png'),
   rise: require('../images/png/rise.png'),
   twitter: require('../images/png/twitter.png'),
+  info: require('../images/png/info.png'),
+  user: require('../images/png/user.png'),
+  link: require('../images/png/link.png'),
 };
 export const images = appImages;

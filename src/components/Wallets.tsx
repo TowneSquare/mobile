@@ -1,12 +1,25 @@
-import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Dimensions,
+  Pressable,
+  StyleSheet,
+} from 'react-native';
 import React from 'react';
 import { appColor, fonts, images } from '../constants';
 import { useFonts } from 'expo-font';
 import { MaterialIcons } from '@expo/vector-icons';
 import { sizes } from '../utils';
+import {
+  updateBottomSheet,
+  updateRenderCount,
+} from '../controller/BottomSheetController';
+import { useAppDispatch } from '../controller/hooks';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Wallets = () => {
+  const dispatch = useAppDispatch();
   let [isLoaded] = useFonts({
     'Urbanist-Bold': fonts.EXTRABOLD,
     UrbanistSemiBold: fonts.SEMIBOLD,
@@ -24,7 +37,13 @@ const Wallets = () => {
         paddingVertical: 10,
       }}
     >
-      <View style={styles.wallet}>
+      <Pressable
+        onPress={() => {
+          dispatch(updateRenderCount(1));
+          dispatch(updateBottomSheet(true));
+        }}
+        style={styles.wallet}
+      >
         <View style={styles.rows}>
           <Image source={images.pontem} />
           <Text style={styles.text}>Pontem</Text>
@@ -34,18 +53,7 @@ const Wallets = () => {
           color={appColor.kWhiteColor}
           size={size.fontSize(30)}
         />
-      </View>
-      <View style={styles.wallet}>
-        <View style={styles.rows}>
-          <Image source={images.petra} />
-          <Text style={styles.text}>Petra</Text>
-        </View>
-        <MaterialIcons
-          name="keyboard-arrow-right"
-          color={appColor.kWhiteColor}
-          size={size.fontSize(30)}
-        />
-      </View>
+      </Pressable>
       <View style={styles.wallet}>
         <View style={styles.rows}>
           <Image source={images.rise} />
@@ -57,18 +65,27 @@ const Wallets = () => {
           size={size.fontSize(30)}
         />
       </View>
-      <View style={styles.wallet}>
+      <View
+        style={[styles.wallet, { backgroundColor: appColor.kDisabledColor }]}
+      >
+        <View style={styles.rows}>
+          <Image source={images.petra} />
+          <Text style={styles.text}>Petra</Text>
+        </View>
+        <Text style={styles.text}>Coming soon</Text>
+      </View>
+      <View
+        style={[styles.wallet, { backgroundColor: appColor.kDisabledColor }]}
+      >
         <View style={styles.rows}>
           <Image source={images.fewcha} />
           <Text style={styles.text}>Fewcha</Text>
         </View>
-        <MaterialIcons
-          name="keyboard-arrow-right"
-          color={appColor.kWhiteColor}
-          size={size.fontSize(30)}
-        />
+        <Text style={styles.text}>Coming soon</Text>
       </View>
-      <View style={[styles.wallet, { backgroundColor: appColor.kDisabledColor }]}>
+      <View
+        style={[styles.wallet, { backgroundColor: appColor.kDisabledColor }]}
+      >
         <View style={[styles.rows]}>
           <Image source={images.matian} />
           <Text style={styles.text}>Martian</Text>
