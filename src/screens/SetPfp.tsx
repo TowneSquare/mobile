@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor, fonts, images } from '../constants';
 import { useFonts } from 'expo-font';
 import Modal from "react-native-modal"
+import SetNftProfile from '../components/SetNftProfile';
 
 
 
@@ -90,15 +91,7 @@ const SetPfp = () => {
             onSwipeComplete={() => setModalVisible(false)}
           >
           <View style={styles.modalContent}>
-            <TouchableOpacity style={styles.optionButtonStyle}>
-                <View style={[styles.rows]}>
-                  <Image source={images.cat} />
-                  <Text style={styles.text}>NFT</Text>
-                </View>
-                <Image source={images.arrow} style={{
-                  marginRight:size.hMargin(80)
-                }}/>
-            </TouchableOpacity>
+           <SetNftProfile/>
             <TouchableOpacity style={styles.optionButtonStyle}>
                 <View style={[styles.rows]}>
                   <Image source={images.imagesSquare} />
@@ -117,7 +110,6 @@ const SetPfp = () => {
                   marginRight:size.hMargin(80)
                 }}/>
             </TouchableOpacity>
-            {/* <Button title="Hide modal" onPress={toggleModal} /> */}
             <Pressable onPress={toggleModal}>
               <Text style={{
                 color: appColor.kTextColor,
@@ -132,6 +124,8 @@ const SetPfp = () => {
 }
 
 export default SetPfp
+
+
 const styles = StyleSheet.create({
   center: {
     alignItems: 'center',
