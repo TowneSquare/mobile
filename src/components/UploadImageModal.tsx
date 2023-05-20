@@ -91,7 +91,7 @@ const UploadImageModal = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={['32%']}
+      snapPoints={['35%']}
       handleComponent={Handler}
       backgroundStyle={{
         backgroundColor: appColor.kNavydark,

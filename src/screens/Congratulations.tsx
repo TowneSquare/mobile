@@ -60,6 +60,7 @@ const Congratulations = () => {
               color: appColor.kTextColor,
               fontSize: size.fontSize(30),
               fontFamily: 'Outfit-Bold',
+              marginTop:10
             }}
           >
             Congrats!

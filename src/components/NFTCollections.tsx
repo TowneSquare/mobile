@@ -73,88 +73,105 @@ const NFTCollections = () => {
     return null;
   }
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        width: '90%',
-
-        justifyContent: 'space-around',
-        alignSelf: 'center',
-        marginTop: 20,
-      }}
-    >
-      {collections.map((collection) => (
-        <Pressable
+    <>
+      {collections.length > 0 ? (
+        <View
           style={{
-            marginBottom: 20,
-          }}
-          onPress={() => {
-            console.log('Presse');
-            dispatch(updateNftRender(0));
-            dispatch(updateNftOpen(false));
-            dispatch(updateSelectedRender(1));
-            dispatch(updateSelectedCollection(true));
+            flex: 1,
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            width: '90%',
+
+            justifyContent: 'space-around',
+            alignSelf: 'center',
+            marginTop: 20,
           }}
         >
-          <Image
-            source={collection.image}
-            resizeMode="contain"
-            // style={{ width: size.sWidth(0.42), height: size.sHeight(0.25) }}
-          />
-          <View
-            style={{
-              height: size.sHeight(0.05),
-              width: size.sWidth(0.32),
-              position: 'absolute',
-              backgroundColor: '#101323',
-              bottom: size.sHeight(0.01),
-              left: size.sWidth(0.03),
-              right: 0,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 10,
-            }}
-          >
-            <Text
+          {collections.map((collection) => (
+            <Pressable
               style={{
-                color: appColor.kTextColor,
-                fontSize: size.fontSize(16),
-                fontFamily: 'UrbanistSemiBold',
+                marginBottom: 20,
+              }}
+              onPress={() => {
+                dispatch(updateNftRender(0));
+                dispatch(updateNftOpen(false));
+                dispatch(updateSelectedRender(1));
+                dispatch(updateSelectedCollection(true));
               }}
             >
-              {collection.Name}
-            </Text>
-          </View>
-          <View
-            style={{
-              height: size.sHeight(0.035),
-              width: size.sWidth(0.08),
-              position: 'absolute',
-              backgroundColor: appColor.kSecondaryButtonColor,
-              //   bottom: size.sHeight(0.01),
-              left: '70%',
-              top: 10,
-              //   right: 0,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 100,
-            }}
-          >
-            <Text
-              style={{
-                color: appColor.kTextColor,
-                fontSize: size.fontSize(16),
-                fontFamily: 'UrbanistSemiBold',
-              }}
-            >
-              {collection.id}
-            </Text>
-          </View>
-        </Pressable>
-      ))}
-    </View>
+              <Image
+                source={collection.image}
+                resizeMode="contain"
+                // style={{ width: size.sWidth(0.42), height: size.sHeight(0.25) }}
+              />
+              <View
+                style={{
+                  height: size.sHeight(0.05),
+                  width: size.sWidth(0.32),
+                  position: 'absolute',
+                  backgroundColor: '#101323',
+                  bottom: size.sHeight(0.01),
+                  left: size.sWidth(0.03),
+                  right: 0,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    color: appColor.kTextColor,
+                    fontSize: size.fontSize(16),
+                    fontFamily: 'Outfit-Bold',
+                  }}
+                >
+                  {collection.Name}
+                </Text>
+              </View>
+              <View
+                style={{
+                  height: size.sHeight(0.035),
+                  width: size.sWidth(0.08),
+                  position: 'absolute',
+                  backgroundColor: appColor.kSecondaryButtonColor,
+                  //   bottom: size.sHeight(0.01),
+                  left: '70%',
+                  top: 10,
+                  //   right: 0,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 100,
+                }}
+              >
+                <Text
+                  style={{
+                    color: appColor.kTextColor,
+                    fontSize: size.fontSize(16),
+                    fontFamily: 'Outfit-Bold',
+                  }}
+                >
+                  {collection.id}
+                </Text>
+              </View>
+            </Pressable>
+          ))}
+        </View>
+      ) : (
+        <Text
+          style={{
+            color: appColor.kTextColor,
+            fontSize: size.fontSize(16),
+            fontFamily: 'Outfit-Medium',
+            textAlign: 'center',
+            marginTop: size.sHeight(0.01),
+            marginHorizontal: 20,
+            alignSelf:"center"
+          }}
+        >
+          NFT not Found
+        </Text>
+      )}
+    </>
   );
 };
 

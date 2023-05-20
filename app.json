@@ -4,24 +4,13 @@
     "slug": "TowneSquare",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/images/png/logo.png",
+    "icon": "./src/images/png/appLogo.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
       "package": "com.townesquare.townesqaure"
     },
     "web": {

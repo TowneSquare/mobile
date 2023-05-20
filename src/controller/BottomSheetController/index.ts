@@ -14,7 +14,8 @@ const initialState = {
     name: '',
     id: 0,
   },
-  backgroundOpacity: false,
+  notFoundModal: false,
+  notFoundRender: 0,
 };
 export const bottomSheetSlice = createSlice({
   name: 'BottomSheet',
@@ -28,21 +29,18 @@ export const bottomSheetSlice = createSlice({
     },
     updateUploadImageModalOpen: (state, action: PayloadAction<boolean>) => {
       state.uploadImageModalOpen = action.payload;
-      state.backgroundOpacity = action.payload;
     },
     updateUploadModalRenderCount: (state, action: PayloadAction<number>) => {
       state.uploadModalRenderCount = action.payload;
     },
     updateNftOpen: (state, action: PayloadAction<boolean>) => {
       state.NftModalOpen = action.payload;
-      state.backgroundOpacity = action.payload;
     },
     updateNftRender: (state, action: PayloadAction<number>) => {
       state.NFTRender = action.payload;
     },
     updateSelectedCollection: (state, action: PayloadAction<boolean>) => {
       state.selectedCollectionModal = action.payload;
-      state.backgroundOpacity = action.payload;
     },
     updateSelectedRender: (state, action: PayloadAction<number>) => {
       state.selectedRender = action.payload;
@@ -50,7 +48,12 @@ export const bottomSheetSlice = createSlice({
     updateProfilePics: (state, action: PayloadAction<any>) => {
       state.profilePics = action.payload;
     },
- 
+    updateNotFoundModal: (state, action: PayloadAction<boolean>) => {
+      state.notFoundModal = action.payload;
+    },
+    updateNotFoundRender: (state, action: PayloadAction<number>) => {
+      state.notFoundRender = action.payload;
+    },
   },
 });
 export const {
@@ -63,7 +66,8 @@ export const {
   updateSelectedCollection,
   updateSelectedRender,
   updateProfilePics,
-
+  updateNotFoundRender,
+  updateNotFoundModal,
 } = bottomSheetSlice.actions;
 
 export default bottomSheetSlice.reducer;
