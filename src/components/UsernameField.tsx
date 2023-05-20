@@ -23,7 +23,7 @@ const UsernameField = () => {
       }}
     >
       <TextInput
-        cursorColor={appColor.kDisabledColor}
+        cursorColor={appColor.kgrayColor}
         placeholder="Insert username"
         placeholderTextColor={appColor.kSecondaryNavy}
         style={{
@@ -33,7 +33,7 @@ const UsernameField = () => {
           borderRadius: 40,
           borderWidth: 1,
           borderColor: appColor.kSecondaryButtonColor,
-          paddingHorizontal: size.sWidth(0.03),
+          paddingHorizontal: size.hMargin(50),
           fontSize: size.fontSize(16),
           fontFamily: 'Outfit-Medium',
           color: appColor.kTextColor,

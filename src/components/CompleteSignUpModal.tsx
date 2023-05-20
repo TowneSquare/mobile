@@ -50,7 +50,7 @@ const CompleteSignUpModal = () => {
     'Urbanist-Bold': fonts.EXTRABOLD,
     UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
   });
 
   const contentStyle = useAnimatedStyle(() => ({
@@ -87,7 +87,6 @@ const CompleteSignUpModal = () => {
       }}
     >
       <Animatable.View
-        style={contentStyle}
         animation={'fadeInUp'}
         delay={500}
         easing={'ease-in-out'}
@@ -109,9 +108,10 @@ const CompleteSignUpModal = () => {
           style={{
             textAlign: 'center',
             color: appColor.kTextColor,
-            fontFamily: 'Outfit-Regular',
+            fontFamily: 'Outfit-Medium',
             marginTop: size.vMargin(20),
             fontSize: size.fontSize(18),
+            marginHorizontal: size.hMargin(50),
           }}
         >
           Connecting your wallet allows you to performtransactions by signing
@@ -140,7 +140,7 @@ const CompleteSignUpModal = () => {
               style={{
                 fontSize: size.fontSize(18),
                 color: appColor.kTextColor,
-                fontFamily: 'Outfit-Regular',
+                fontFamily: 'Outfit-Medium',
                 textAlign: 'left',
                 paddingLeft: size.hMargin(20),
               }}
@@ -150,7 +150,7 @@ const CompleteSignUpModal = () => {
             </Text>
           </View>
         </View>
-        <ContinueButton marginTop={60}  navigateTo='ChooseUsername'/>
+        <ContinueButton marginTop={60} closeModal navigateTo="ChooseUsername" />
         <BackButton marginTop={50} closeModal={true} />
       </Animatable.View>
     </BottomSheet>

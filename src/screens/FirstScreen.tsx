@@ -75,6 +75,8 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             textShadowColor: appColor.kTextShadowColor,
             textShadowOffset: { width: 4, height: 4 },
             textShadowRadius: 3,
+            marginLeft:15,
+            
           }}
         >
           All you need,
@@ -88,6 +90,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             textShadowColor: appColor.kTextShadowColor,
             textShadowOffset: { width: 4, height: 4 },
             textShadowRadius: 3,
+            marginRight:15,
           }}
         >
           in one place
@@ -98,7 +101,8 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             textAlign: 'center',
             color: appColor.kTextColor,
             fontFamily: 'Outfit-Bold',
-            fontSize: size.fontSize(16),
+            fontSize: size.fontSize(23),
+            marginHorizontal: size.hMargin(100),
           }}
         >
           Social, create, build, and transact with anyone anywhere
@@ -108,7 +112,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
           style={{
             top: size.vMargin(200),
             width: size.sWidth(0.9),
-            height: size.sHeight(0.06),
+            height: size.heightSize(48),
             justifyContent: 'center',
             backgroundColor: appColor.kButtonBackgroundColor,
             alignSelf: 'center',
@@ -146,21 +150,36 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             alignSelf: 'center',
           }}
         >
-          <View style={styles.socials}>
+          <Pressable
+            onPress={() => navigation.navigate('Congratulations')}
+            style={styles.socials}
+          >
             <Image source={images.twitter} />
-          </View>
-          <View style={styles.socials}>
+          </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate('Congratulations')}
+            style={styles.socials}
+          >
             <Image source={images.discord} />
-          </View>
-          <View style={styles.socials}>
+          </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate('Congratulations')}
+            style={styles.socials}
+          >
             <Image source={images.apple} />
-          </View>
-          <View style={styles.socials}>
+          </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate('Congratulations')}
+            style={styles.socials}
+          >
             <Image source={images.google} />
-          </View>
-          <View style={styles.socials}>
+          </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate('Congratulations')}
+            style={styles.socials}
+          >
             <Image source={images.email} />
-          </View>
+          </Pressable>
         </View>
       </ImageBackground>
     </SafeAreaView>

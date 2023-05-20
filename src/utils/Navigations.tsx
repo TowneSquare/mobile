@@ -9,6 +9,11 @@ import React from 'react';
 import { RootStackParamList } from './NavigationTypes';
 import ChooseProfile from '../screens/ChooseProfile';
 import ChooseUsername from '../screens/ChooseUsername';
+import ConnectSocialsAndVrify from '../screens/ConnectSocialsAndVrify';
+import ConnectSocials from '../screens/ConnectSocials';
+import FindFriends from '../screens/FindFriends';
+import ExploreCommunities from '../screens/ExploreCommunities';
+import Congratulations from '../screens/Congratulations';
 const Navigations = () => {
   const Stack = createStackNavigator<RootStackParamList>();
   const config = {
@@ -52,9 +57,44 @@ const Navigations = () => {
           headerShown: false,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="ChooseUsername"
         component={ChooseUsername}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ConnectSocialsAndVrify"
+        component={ConnectSocialsAndVrify}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ConnectSocials"
+        component={ConnectSocials}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="FindFriends"
+        component={FindFriends}
+        options={{
+          headerShown: false,
+        }}
+      />
+       <Stack.Screen
+        name="ExploreCommunities"
+        component={ExploreCommunities}
+        options={{
+          headerShown: false,
+        }}
+      />
+         <Stack.Screen
+        name="Congratulations"
+        component={Congratulations}
         options={{
           headerShown: false,
         }}

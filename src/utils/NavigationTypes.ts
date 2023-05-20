@@ -8,6 +8,11 @@ export type RootStackParamList = {
   FirstScreen: undefined;
   ChooseProfile: undefined;
   ChooseUsername: undefined;
+  ConnectSocialsAndVrify: undefined;
+  ConnectSocials: undefined;
+  FindFriends: undefined;
+  ExploreCommunities: undefined;
+  Congratulations: undefined;
 };
 export type FirstScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'FirstScreen'>;
@@ -20,4 +25,24 @@ export type ChooseProfileProps = {
 export type ChooseUsernameProps = {
   navigation: NavigationProp<RootStackParamList, 'ChooseUsername'>;
   route: RouteProp<ParamListBase, 'ChooseUsername'>;
+};
+export type ConnectSocialsAndVrifyProps = {
+  navigation: NavigationProp<RootStackParamList, 'ConnectSocialsAndVrify'>;
+  route: RouteProp<ParamListBase, 'ConnectSocialsAndVrify'>;
+};
+export type ConnectSocialsProps = {
+  navigation: NavigationProp<RootStackParamList, 'ConnectSocials'>;
+  route: RouteProp<ParamListBase, 'ConnectSocials'>;
+};
+export type FindFriendsProps = {
+  navigation: NavigationProp<RootStackParamList, 'FindFriends'>;
+  route: RouteProp<ParamListBase, 'FindFriends'>;
+};
+export type ExploreCommunitiesProps = {
+  navigation: NavigationProp<RootStackParamList, 'ExploreCommunities'>;
+  route: RouteProp<ParamListBase, 'ExploreCommunities'>;
+};
+export type CongratulationsProps = {
+  navigation: NavigationProp<RootStackParamList, 'Congratulations'>;
+  route: RouteProp<ParamListBase, 'Congratulations'>;
 };
