@@ -34,5 +34,12 @@ const appImages = {
   user3: require('../images/png/users3.png'),
   background3: require('../images/png/background3.png'),
   congratulations: require('../images/png/congratulations.png'),
+  userCircle: require('../images/png/UserCircle.png'),
+  cat: require('../images/png/Cat.png'),
+  Camera: require('../images/png/Camera.png'),
+  ImagesSquare: require('../images/png/ImagesSquare.png'),
+  NftCollection1: require('../images/png/NFTcolletion.png'),
+  NftCollection2: require('../images/png/NFTcolletion2.png'),
+  Aptomingos:require("../images/png/Aptomingos.png")
 };
 export const images = appImages;

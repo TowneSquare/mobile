@@ -137,7 +137,8 @@ const FindFriends = () => {
             flex: 1,
           }}
         >
-          <ScrollView>
+          <ScrollView 
+          showsVerticalScrollIndicator={false}>
             <View
               style={{
                 justifyContent: 'space-between',

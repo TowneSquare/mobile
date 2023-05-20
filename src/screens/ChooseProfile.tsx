@@ -27,12 +27,11 @@ const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
   }
   return (
     <SafeAreaView
-    
       style={{
         flex: 1,
       }}
     >
-      <StatusBar  style="light" backgroundColor={appColor.kStatusBarNaviDark} />
+      <StatusBar style="light" backgroundColor={appColor.kStatusBarNaviDark} />
       <ImageBackground
         style={{
           flex: 1,

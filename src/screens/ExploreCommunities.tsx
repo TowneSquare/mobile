@@ -130,7 +130,9 @@ const ExploreCommunities = () => {
         </View>
         <View style={{ flex: 1 }}>
           {/* ScrollView */}
-          <ScrollView>
+          <ScrollView 
+          showsVerticalScrollIndicator={false}
+          >
             <View
               style={{
                 justifyContent: 'space-between',
@@ -190,7 +192,7 @@ const ExploreCommunities = () => {
       >
         <ContinueButton
           disabled={disableOnPress}
-          navigateTo="Congratulations"
+          navigateTo="ChooseProfilePics"
           marginTop={2}
         />
         <BackButton marginTop={50} />

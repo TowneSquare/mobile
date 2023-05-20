@@ -13,6 +13,7 @@ import ConnectSocialsAndVrify from '../screens/ConnectSocialsAndVrify';
 import ConnectSocials from '../screens/ConnectSocials';
 import FindFriends from '../screens/FindFriends';
 import ExploreCommunities from '../screens/ExploreCommunities';
+import ChooseProfilePics from '../screens/ChooseProfilePics';
 import Congratulations from '../screens/Congratulations';
 const Navigations = () => {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -95,6 +96,13 @@ const Navigations = () => {
          <Stack.Screen
         name="Congratulations"
         component={Congratulations}
+        options={{
+          headerShown: false,
+        }}
+      />
+           <Stack.Screen
+        name="ChooseProfilePics"
+        component={ChooseProfilePics}
         options={{
           headerShown: false,
         }}
