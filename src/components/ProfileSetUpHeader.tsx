@@ -148,7 +148,7 @@ const ProfileSetUpHeader = ({
           fontFamily: 'Outfit-Medium',
           textAlign: 'center',
           marginTop: size.vMargin(20),
-          marginHorizontal: size.hMargin(50),
+          marginHorizontal: size.hMargin(80),
         }}
       >
         {sub_title}

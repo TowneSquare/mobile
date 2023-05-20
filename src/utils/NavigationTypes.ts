@@ -13,6 +13,7 @@ export type RootStackParamList = {
   FindFriends: undefined;
   ExploreCommunities: undefined;
   Congratulations: undefined;
+  ChooseProfilePics: undefined;
 };
 export type FirstScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'FirstScreen'>;
@@ -45,4 +46,8 @@ export type ExploreCommunitiesProps = {
 export type CongratulationsProps = {
   navigation: NavigationProp<RootStackParamList, 'Congratulations'>;
   route: RouteProp<ParamListBase, 'Congratulations'>;
+};
+export type ChooseProfilePicsProps = {
+  navigation: NavigationProp<RootStackParamList, 'ChooseProfilePics'>;
+  route: RouteProp<ParamListBase, 'ChooseProfilePics'>;
 };
