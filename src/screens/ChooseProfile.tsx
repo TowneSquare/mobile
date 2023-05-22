@@ -3,25 +3,28 @@ import React,{useEffect} from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../constants';
 import { StatusBar } from 'expo-status-bar';
+import CompleteSignUpModal from '../components/CompleteSignUpModal';
 import { sizes } from '../utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Wallets from '../components/Wallets';
-import { useNavigation } from '@react-navigation/native';
-import { StackActions } from '@react-navigation/native';
+import { useAppSelector } from '../controller/hooks';
+import BackButton from '../components/BackButton';
+import { ChooseProfileProps } from '../utils/NavigationTypes';
 const { height, width } = Dimensions.get('window');
-const ChooseProfile = () => {
-  const navigation = useNavigation();
+const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
   const size = new sizes(height, width);
+  const isVisible = useAppSelector(
+    (state) => state.bottomSheetController.isBottomSheetOpen
+  );
+  const renderCount = useAppSelector(
+    (state) => state.bottomSheetController.renderCount
+  );
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
   });
-  useEffect(() => {
-    setTimeout(() => {
-      navigation.dispatch(StackActions.replace('SetPfp'));
-    }, 4000);
-  }, []);
+  if (!isLoaded) {
+    return null;
+  }
   return (
     <SafeAreaView
       style={{
@@ -36,35 +39,39 @@ const ChooseProfile = () => {
           height: '100%',
           alignItems: 'center',
         }}
+        imageStyle={{}}
         resizeMode="cover"
         source={images.background1}
       >
-        <Text
+        <View
           style={{
-            top: size.sHeight(0.04),
-            color: appColor.kTextColor,
-            fontWeight: '600',
-            fontSize: size.fontSize(38),
-            fontFamily: 'Outfit-Bold',
-            textAlign: 'center',
+            width: '100%',
+            height: '100%',
+            backgroundColor:
+              isVisible && renderCount > 0
+                ? appColor.kBlackWithOpacity
+                : undefined,
+            alignItems: 'center',
           }}
         >
-          Choose your wallet
-        </Text>
-        <Wallets />
-        <Text
-          style={{
-            
-            color: appColor.kTextColor,
-            fontSize: size.fontSize(18),
-            fontFamily: 'Outfit-Bold',
-            marginTop:size.vMargin(190),
-            
-          }}
-        >
-          BACK
-        </Text>
+          <Text
+            style={{
+              opacity: isVisible && renderCount > 0 ? 0.3 : 1,
+              top: size.sHeight(0.04),
+              color: appColor.kTextColor,
+              fontWeight: '600',
+              fontSize: size.fontSize(38),
+              fontFamily: 'Outfit-Bold',
+              textAlign: 'center',
+            }}
+          >
+            Choose your wallet
+          </Text>
+          <Wallets />
+          <BackButton marginTop={120} />
+        </View>
       </ImageBackground>
+      <CompleteSignUpModal />
     </SafeAreaView>
   );
 };

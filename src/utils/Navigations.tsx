@@ -2,14 +2,21 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
-import Splash from '../screens/Splash';
+import FirstScreen from '../screens/FirstScreen';
 import { Easing, Animated } from 'react-native';
 import { View, Text } from 'react-native';
 import React from 'react';
+import { RootStackParamList } from './NavigationTypes';
 import ChooseProfile from '../screens/ChooseProfile';
-import SetPfp from '../screens/SetPfp';
+import ChooseUsername from '../screens/ChooseUsername';
+import ConnectSocialsAndVrify from '../screens/ConnectSocialsAndVrify';
+import ConnectSocials from '../screens/ConnectSocials';
+import FindFriends from '../screens/FindFriends';
+import ExploreCommunities from '../screens/ExploreCommunities';
+import ChooseProfilePics from '../screens/ChooseProfilePics';
+import Congratulations from '../screens/Congratulations';
 const Navigations = () => {
-  const Stack = createStackNavigator();
+  const Stack = createStackNavigator<RootStackParamList>();
   const config = {
     animation: Animated.timing,
     config: {
@@ -38,22 +45,64 @@ const Navigations = () => {
       }}
     >
       <Stack.Screen
-        name="Splash"
-        component={Splash}
+        name="FirstScreen"
+        component={FirstScreen}
         options={{
           headerShown: false,
         }}
       />
-        <Stack.Screen
+      <Stack.Screen
         name="ChooseProfile"
         component={ChooseProfile}
         options={{
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="ChooseUsername"
+        component={ChooseUsername}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ConnectSocialsAndVrify"
+        component={ConnectSocialsAndVrify}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ConnectSocials"
+        component={ConnectSocials}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="FindFriends"
+        component={FindFriends}
+        options={{
+          headerShown: false,
+        }}
+      />
        <Stack.Screen
-        name="SetPfp"
-        component={SetPfp}
+        name="ExploreCommunities"
+        component={ExploreCommunities}
+        options={{
+          headerShown: false,
+        }}
+      />
+         <Stack.Screen
+        name="Congratulations"
+        component={Congratulations}
+        options={{
+          headerShown: false,
+        }}
+      />
+           <Stack.Screen
+        name="ChooseProfilePics"
+        component={ChooseProfilePics}
         options={{
           headerShown: false,
         }}

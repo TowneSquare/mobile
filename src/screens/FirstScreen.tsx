@@ -5,6 +5,7 @@ import {
   Image,
   Dimensions,
   StyleSheet,
+  Pressable,
 } from 'react-native';
 import React, { useEffect } from 'react';
 import { useFonts } from 'expo-font';
@@ -14,21 +15,17 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { sizes } from '../utils';
 import { StackActions } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
-const { height, width } = Dimensions.get('window');
-const size = new sizes(height, width);
-const Splash = () => {
-  const navigation = useNavigation();
-  useEffect(() => {
-    setTimeout(() => {
-      navigation.dispatch(StackActions.replace('ChooseProfile'));
-    }, 4000);
-  }, []);
 
+const { height, width } = Dimensions.get('window');
+import { FirstScreenProps } from '../utils/NavigationTypes';
+
+const size = new sizes(height, width);
+const FirstScreen = ({ navigation }: FirstScreenProps) => {
   let [isLoaded] = useFonts({
     'Urbanist-Bold': fonts.EXTRABOLD,
     UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
   });
   if (!isLoaded) {
     return null;
@@ -78,6 +75,8 @@ const Splash = () => {
             textShadowColor: appColor.kTextShadowColor,
             textShadowOffset: { width: 4, height: 4 },
             textShadowRadius: 3,
+            marginLeft:15,
+            
           }}
         >
           All you need,
@@ -91,6 +90,7 @@ const Splash = () => {
             textShadowColor: appColor.kTextShadowColor,
             textShadowOffset: { width: 4, height: 4 },
             textShadowRadius: 3,
+            marginRight:15,
           }}
         >
           in one place
@@ -101,16 +101,18 @@ const Splash = () => {
             textAlign: 'center',
             color: appColor.kTextColor,
             fontFamily: 'Outfit-Bold',
-            fontSize: size.fontSize(16),
+            fontSize: size.fontSize(23),
+            marginHorizontal: size.hMargin(100),
           }}
         >
           Social, create, build, and transact with anyone anywhere
         </Text>
-        <View
+        <Pressable
+          onPress={() => navigation.navigate('ChooseProfile')}
           style={{
             top: size.vMargin(200),
             width: size.sWidth(0.9),
-            height: size.sHeight(0.06),
+            height: size.heightSize(48),
             justifyContent: 'center',
             backgroundColor: appColor.kButtonBackgroundColor,
             alignSelf: 'center',
@@ -127,7 +129,7 @@ const Splash = () => {
           >
             CONNECT WALLET
           </Text>
-        </View>
+        </Pressable>
         <Text
           style={{
             color: appColor.kTextColor,
@@ -148,28 +150,43 @@ const Splash = () => {
             alignSelf: 'center',
           }}
         >
-          <View style={styles.socials}>
+          <Pressable
+            onPress={() => navigation.navigate('Congratulations')}
+            style={styles.socials}
+          >
             <Image source={images.twitter} />
-          </View>
-          <View style={styles.socials}>
+          </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate('Congratulations')}
+            style={styles.socials}
+          >
             <Image source={images.discord} />
-          </View>
-          <View style={styles.socials}>
+          </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate('Congratulations')}
+            style={styles.socials}
+          >
             <Image source={images.apple} />
-          </View>
-          <View style={styles.socials}>
+          </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate('Congratulations')}
+            style={styles.socials}
+          >
             <Image source={images.google} />
-          </View>
-          <View style={styles.socials}>
+          </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate('Congratulations')}
+            style={styles.socials}
+          >
             <Image source={images.email} />
-          </View>
+          </Pressable>
         </View>
       </ImageBackground>
     </SafeAreaView>
   );
 };
 
-export default Splash;
+export default FirstScreen;
 const styles = StyleSheet.create({
   socials: {
     height: 55,
