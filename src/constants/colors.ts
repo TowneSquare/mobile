@@ -20,5 +20,6 @@ const colors = {
   kBlackWithOpacity: '#00000070',
   kBackgroundColor2: '#111111',
   kNavydark: '#1F2547',
+  kSecondaryNavyWithOpacity:"#707CC050"
 };
 export const appColor = colors;

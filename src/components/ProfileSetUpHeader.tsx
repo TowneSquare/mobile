@@ -17,6 +17,7 @@ interface Props {
   title: string;
   sub_title: string;
   image: ImageSourcePropType;
+  addOpacity?: boolean;
 }
 const ProfileSetUpHeader = ({
   steps,
@@ -24,6 +25,7 @@ const ProfileSetUpHeader = ({
   title,
   sub_title,
   image,
+  addOpacity,
 }: Props) => {
   let [isLoaded] = useFonts({
     'Urbanist-Bold': fonts.EXTRABOLD,
@@ -46,7 +48,9 @@ const ProfileSetUpHeader = ({
         <Text
           style={{
             marginTop: size.vMargin(5),
-            color: appColor.kTextColor,
+            color: addOpacity
+              ? appColor.kWhiteColorWithOpacity
+              : appColor.kTextColor,
             fontFamily: 'Outfit-Medium',
             fontSize: size.fontSize(16),
           }}
@@ -128,11 +132,18 @@ const ProfileSetUpHeader = ({
           alignSelf: 'center',
         }}
       >
-        <Image source={image} />
+        <Image
+          style={{
+            opacity: addOpacity ? 0.5 : 1,
+          }}
+          source={image}
+        />
       </View>
       <Text
         style={{
-          color: appColor.kTextColor,
+          color: addOpacity
+            ? appColor.kWhiteColorWithOpacity
+            : appColor.kTextColor,
           fontSize: size.fontSize(39),
           fontFamily: 'Outfit-Bold',
           textAlign: 'center',
@@ -143,7 +154,9 @@ const ProfileSetUpHeader = ({
       </Text>
       <Text
         style={{
-          color: appColor.kTextColor,
+          color: addOpacity
+            ? appColor.kWhiteColorWithOpacity
+            : appColor.kTextColor,
           fontSize: size.fontSize(19),
           fontFamily: 'Outfit-Medium',
           textAlign: 'center',

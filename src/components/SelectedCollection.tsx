@@ -27,6 +27,8 @@ import { useAppDispatch, useAppSelector } from '../controller/hooks';
 import {
   updateSelectedCollection,
   updateSelectedRender,
+  updateNftOpen,
+  updateNftRender,
 } from '../controller/BottomSheetController';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
@@ -168,6 +170,12 @@ const SelectedCollection = () => {
           </Text>
         </Pressable>
         <Text
+          onPress={() => {
+            dispatch(updateSelectedRender(0));
+            dispatch(updateSelectedCollection(false));
+            dispatch(updateNftRender(1));
+            dispatch(updateNftOpen(true));
+          }}
           style={{
             textAlign: 'center',
             color: appColor.kTextColor,

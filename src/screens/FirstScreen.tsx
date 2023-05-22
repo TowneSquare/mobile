@@ -112,7 +112,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
           style={{
             top: size.vMargin(200),
             width: size.sWidth(0.9),
-            height: size.heightSize(48),
+            height: size.heightSize(55),
             justifyContent: 'center',
             backgroundColor: appColor.kButtonBackgroundColor,
             alignSelf: 'center',

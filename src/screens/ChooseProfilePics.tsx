@@ -26,17 +26,27 @@ import SelectedCollection from '../components/SelectedCollection';
 import {
   updateUploadImageModalOpen,
   updateUploadModalRenderCount,
+  updateNotFoundRender,
+  updateNotFoundModal,
 } from '../controller/BottomSheetController';
 import ChooseNFT from '../components/ChooseNFT';
 import { ChooseProfilePicsProps } from '../utils/NavigationTypes';
+import tinycolor from 'tinycolor2';
 const size = new sizes(height, width);
 const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
   const dispatch = useAppDispatch();
   const profilePics = useAppSelector(
     (state) => state.bottomSheetController.profilePics
   );
-  const addOpacity = useAppSelector(
-    (state) => state.bottomSheetController.backgroundOpacity
+
+  const uploadImageModal = useAppSelector(
+    (state) => state.bottomSheetController.uploadImageModalOpen
+  );
+  const NftModal = useAppSelector(
+    (state) => state.bottomSheetController.NftModalOpen
+  );
+  const selectedCollectionModal = useAppSelector(
+    (state) => state.bottomSheetController.selectedCollectionModal
   );
   let [isLoaded] = useFonts({
     'Urbanist-Bold': fonts.EXTRABOLD,
@@ -52,23 +62,31 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: appColor.kDisabledColor,
+        backgroundColor:
+          uploadImageModal || NftModal || selectedCollectionModal
+            ? tinycolor(appColor.kDisabledColor).darken(10).toString()
+            : appColor.kDisabledColor,
       }}
     >
-      <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
-      <View
-        style={{
-          backgroundColor: addOpacity ? appColor.kBlackWithOpacity : undefined,
-        }}
-      >
-        <ProfileSetUpHeader
-          image={images.userCircle}
-          stepDescription="All done! Explore TowneSquare"
-          title="Your profile picture"
-          sub_title="Make your favorite NFT or photo your profile picture to help other TowneSquare members recognize you"
-          steps={6}
-        />
-      </View>
+      <StatusBar
+        style="light"
+        backgroundColor={
+          uploadImageModal || NftModal || selectedCollectionModal
+            ? tinycolor(appColor.kDisabledColor).darken(10).toString()
+            : appColor.kDisabledColor
+        }
+      />
+
+      <ProfileSetUpHeader
+        addOpacity={
+          uploadImageModal || NftModal || selectedCollectionModal ? true : false
+        }
+        image={images.userCircle}
+        stepDescription="All done! Explore TowneSquare"
+        title="Your profile picture"
+        sub_title="Make your favorite NFT or photo your profile picture to help other TowneSquare members recognize you"
+        steps={6}
+      />
 
       <View
         style={{
@@ -78,9 +96,6 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
         {profilePics.image ? (
           <View
             style={{
-              backgroundColor: addOpacity
-                ? appColor.kBlackWithOpacity
-                : undefined,
               flex: 1,
               alignItems: 'center',
               justifyContent: 'center',
@@ -99,7 +114,6 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
 
             <Text
               style={{
-                opacity: addOpacity ? 0.3 : 1,
                 color: appColor.kTextColor,
                 fontSize: size.fontSize(20),
                 fontFamily: 'Outfit-Medium',
@@ -117,21 +131,33 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
               dispatch(updateUploadImageModalOpen(true));
             }}
             style={{
-              height: '50%',
-              width: '45%',
+              height: 150,
+              width: 150,
               alignItems: 'center',
-              backgroundColor: addOpacity
-                ? appColor.kBlackWithOpacity
-                : appColor.kSecondaryNavy,
+              backgroundColor:
+                uploadImageModal || NftModal || selectedCollectionModal
+                  ? appColor.kSecondaryNavyWithOpacity
+                  : appColor.kSecondaryNavy,
               alignSelf: 'center',
               marginTop: 50,
               borderRadius: 100,
               borderWidth: 2,
-              borderColor: appColor.kWhiteColor,
+              borderColor:
+                uploadImageModal || NftModal || selectedCollectionModal
+                  ? appColor.kWhiteColorWithOpacity
+                  : appColor.kWhiteColor,
               justifyContent: 'center',
             }}
           >
-            <Entypo name="plus" color={appColor.kWhiteColor} size={30} />
+            <Entypo
+              name="plus"
+              color={
+                uploadImageModal || NftModal || selectedCollectionModal
+                  ? appColor.kWhiteColorWithOpacity
+                  : appColor.kWhiteColor
+              }
+              size={30}
+            />
           </Pressable>
         )}
       </View>
@@ -164,6 +190,7 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
           I'LL DO IT LATER
         </Text>
       </View>
+
       <UploadImageModal />
       <ChooseNFT />
       <SelectedCollection />
@@ -187,5 +214,9 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    // backgroundColor: 'rgba(0, 0, 0, 0.5)', // Opacity color
   },
 });

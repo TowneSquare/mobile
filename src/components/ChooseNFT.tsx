@@ -26,6 +26,8 @@ import { useAppDispatch, useAppSelector } from '../controller/hooks';
 import {
   updateNftOpen,
   updateNftRender,
+  updateUploadImageModalOpen,
+  updateUploadModalRenderCount,
 } from '../controller/BottomSheetController';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
@@ -156,6 +158,8 @@ const ChooseNFT = () => {
           onPress={() => {
             dispatch(updateNftRender(0));
             dispatch(updateNftOpen(false));
+            dispatch(updateUploadModalRenderCount(1));
+            dispatch(updateUploadImageModalOpen(true));
           }}
         >
           BACK

@@ -79,6 +79,7 @@ const ProfilePicsCollection = () => {
         justifyContent: 'space-between',
         alignSelf: 'center',
         marginTop: 20,
+        paddingHorizontal:9
       }}
     >
       {profilePics.map((profile) => (
@@ -86,14 +87,14 @@ const ProfilePicsCollection = () => {
           style={{
             marginBottom: 20,
             borderWidth:
-              profilePicture.id && profile.id === profilePicture.id ? 3 : 0,
-            borderRadius: 10,
+              profilePicture.id && profile.id === profilePicture.id ? 5 : 0,
+            borderRadius: 15,
             borderColor:
               typeof profilePicture === 'undefined'
                 ? 'undefined'
                 : appColor.kSecondaryButtonColor,
             overflow: 'hidden',
-            width: 150,
+            width: size.sWidth(0.4),
             height: 150,
           }}
           onPress={() => {
