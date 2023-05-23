@@ -9,13 +9,18 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { appColor, fonts, images } from '../constants';
+import Robot from '../images/svg/Robot';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../utils';
+import UserFriends from '../images/svg/UserFriends';
+import SealChecks from '../images/svg/SealChecks';
+import Clap from '../images/svg/Clap';
 import ContinueButton from '../components/ContinueButton';
 import BackButton from '../components/BackButton';
+import Link from '../images/svg/Link';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 const size = new sizes(height, width);
 const ConnectSocialsAndVrify = () => {
@@ -38,7 +43,7 @@ const ConnectSocialsAndVrify = () => {
     >
       <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
       <ProfileSetUpHeader
-        image={images.link}
+     SvgImage={<Link/>}
         stepDescription="Select socials"
         title="Connect socials & verify"
         sub_title="Bots and spam accounts are a huge problem for social apps. But there are ways to fight them."
@@ -71,21 +76,21 @@ const ConnectSocialsAndVrify = () => {
             Connect your social accounts, verify your account and get rewarded!
           </Text>
           <View style={styles.row}>
-            <Image source={images.checked} />
+           <SealChecks/>
             <Text style={styles.description}>
               Gain status points in TowneSquare
             </Text>
           </View>
           <View style={styles.row}>
-            <Image source={images.users} />
+            <UserFriends/>
             <Text style={styles.description}>Find your friends faster</Text>
           </View>
           <View style={styles.row}>
-            <Image source={images.hands} />
+           <Clap/>
             <Text style={styles.description}>Build trust with others</Text>
           </View>
           <View style={styles.row}>
-            <Image source={images.robot} />
+            <Robot/>
             <Text style={styles.description}>Bye to bots & spammers</Text>
           </View>
         </View>

@@ -6,7 +6,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import React from 'react';
+import React,{ReactNode} from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../constants';
 import { sizes } from '../utils';
@@ -16,7 +16,7 @@ interface Props {
   stepDescription: string;
   title: string;
   sub_title: string;
-  image: ImageSourcePropType;
+  SvgImage:ReactNode
   addOpacity?: boolean;
 }
 const ProfileSetUpHeader = ({
@@ -24,7 +24,7 @@ const ProfileSetUpHeader = ({
   stepDescription,
   title,
   sub_title,
-  image,
+  SvgImage,
   addOpacity,
 }: Props) => {
   let [isLoaded] = useFonts({
@@ -132,12 +132,8 @@ const ProfileSetUpHeader = ({
           alignSelf: 'center',
         }}
       >
-        <Image
-          style={{
-            opacity: addOpacity ? 0.5 : 1,
-          }}
-          source={image}
-        />
+
+        {SvgImage}
       </View>
       <Text
         style={{

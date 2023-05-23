@@ -8,17 +8,24 @@ import {
   Pressable,
 } from 'react-native';
 import React, { useEffect } from 'react';
+import Twitter from '../../assets/svg/Twitter';
 import { useFonts } from 'expo-font';
 import { Avatar } from 'react-native-elements';
+import Apple from '../images/svg/Apple';
 import { appColor, fonts, images } from '../constants';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { sizes } from '../utils';
+import Background1 from '../images/svg/Background1';
 import { StackActions } from '@react-navigation/native';
-
 const { height, width } = Dimensions.get('window');
 import { FirstScreenProps } from '../utils/NavigationTypes';
-
+import Description from '../images/svg/Description';
+import Discord from '../images/svg/Discord';
+import Google from '../images/svg/Google';
+import Mail from '../images/svg/Mail';
+import Logo from '../images/svg/Logo';
+import Description2 from '../images/svg/Description2';
 const size = new sizes(height, width);
 const FirstScreen = ({ navigation }: FirstScreenProps) => {
   let [isLoaded] = useFonts({
@@ -37,151 +44,131 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
       }}
     >
       <StatusBar style="light" backgroundColor={appColor.kStatusBarColor} />
-      <ImageBackground
+
+      <View>
+        <Background1
+          style={{
+            position: 'absolute',
+          }}
+        />
+      </View>
+      <View
         style={{
-          flex: 1,
-          width: '100%',
-          height: '100%',
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginLeft: size.sWidth(0.1),
+          marginTop: size.sHeight(0.03),
         }}
-        resizeMode="cover"
-        source={images.background2}
       >
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginLeft: size.sWidth(0.1),
-            marginTop: size.sHeight(0.03),
-          }}
-        >
-          <Image source={images.logo} />
-          <Text
-            style={{
-              marginLeft: size.sWidth(0.03),
-              color: appColor.kTextColor,
-              fontSize: size.fontSize(30),
-              fontFamily: 'Outfit-Bold',
-            }}
-          >
-            TowneSquare
-          </Text>
-        </View>
+        <Logo />
         <Text
           style={{
-            marginTop: size.vMargin(85),
+            marginLeft: size.sWidth(0.03),
             color: appColor.kTextColor,
-            fontSize: size.fontSize(66),
+            fontSize: size.fontSize(30),
             fontFamily: 'Outfit-Bold',
-            textShadowColor: appColor.kTextShadowColor,
-            textShadowOffset: { width: 4, height: 4 },
-            textShadowRadius: 3,
-            marginLeft:15,
-            
           }}
         >
-          All you need,
+          TowneSquare
         </Text>
+      </View>
+      <Description
+        style={{
+          alignSelf: 'flex-start',
+          marginTop: 20,
+        }}
+      />
+      <Description2
+        style={{
+          alignSelf: 'flex-end',
+        }}
+      />
+      <Text
+        style={{
+          marginTop: size.vMargin(21),
+          textAlign: 'center',
+          color: appColor.kTextColor,
+          fontFamily: 'Outfit-Bold',
+          fontSize: size.fontSize(23),
+          marginHorizontal: size.hMargin(100),
+        }}
+      >
+        Social, create, build, and transact with anyone anywhere
+      </Text>
+      <Pressable
+        onPress={() => navigation.navigate('ChooseProfile')}
+        style={{
+          top: size.vMargin(200),
+          width: size.sWidth(0.9),
+          height: size.heightSize(55),
+          justifyContent: 'center',
+          backgroundColor: appColor.kButtonBackgroundColor,
+          alignSelf: 'center',
+          borderRadius: 40,
+        }}
+      >
         <Text
           style={{
-            color: appColor.kTextColor,
-            fontSize: size.fontSize(66),
-            fontFamily: 'Outfit-Bold',
-            textAlign: 'right',
-            textShadowColor: appColor.kTextShadowColor,
-            textShadowOffset: { width: 4, height: 4 },
-            textShadowRadius: 3,
-            marginRight:15,
-          }}
-        >
-          in one place
-        </Text>
-        <Text
-          style={{
-            marginTop: size.vMargin(21),
             textAlign: 'center',
-            color: appColor.kTextColor,
+            color: appColor.kButtonTextColor,
             fontFamily: 'Outfit-Bold',
-            fontSize: size.fontSize(23),
-            marginHorizontal: size.hMargin(100),
+            fontSize: size.fontSize(16),
           }}
         >
-          Social, create, build, and transact with anyone anywhere
+          CONNECT WALLET
         </Text>
+      </Pressable>
+      <Text
+        style={{
+          color: appColor.kTextColor,
+          textAlign: 'center',
+          fontFamily: 'Outfit-Bold',
+          fontSize: size.fontSize(20),
+          top: size.vMargin(250),
+        }}
+      >
+        or
+      </Text>
+      <View
+        style={{
+          top: size.vMargin(300),
+          flexDirection: 'row',
+          width: size.sWidth(0.9),
+          justifyContent: 'space-between',
+          alignSelf: 'center',
+        }}
+      >
         <Pressable
-          onPress={() => navigation.navigate('ChooseProfile')}
-          style={{
-            top: size.vMargin(200),
-            width: size.sWidth(0.9),
-            height: size.heightSize(55),
-            justifyContent: 'center',
-            backgroundColor: appColor.kButtonBackgroundColor,
-            alignSelf: 'center',
-            borderRadius: 40,
-          }}
+          onPress={() => navigation.navigate('Congratulations')}
+          style={styles.socials}
         >
-          <Text
-            style={{
-              textAlign: 'center',
-              color: appColor.kButtonTextColor,
-              fontFamily: 'Outfit-Bold',
-              fontSize: size.fontSize(16),
-            }}
-          >
-            CONNECT WALLET
-          </Text>
+          <Twitter />
         </Pressable>
-        <Text
-          style={{
-            color: appColor.kTextColor,
-            textAlign: 'center',
-            fontFamily: 'Outfit-Bold',
-            fontSize: size.fontSize(20),
-            top: size.vMargin(250),
-          }}
+        <Pressable
+          onPress={() => navigation.navigate('Congratulations')}
+          style={styles.socials}
         >
-          or
-        </Text>
-        <View
-          style={{
-            top: size.vMargin(300),
-            flexDirection: 'row',
-            width: size.sWidth(0.9),
-            justifyContent: 'space-between',
-            alignSelf: 'center',
-          }}
+          <Discord />
+        </Pressable>
+        <Pressable
+          onPress={() => navigation.navigate('Congratulations')}
+          style={styles.socials}
         >
-          <Pressable
-            onPress={() => navigation.navigate('Congratulations')}
-            style={styles.socials}
-          >
-            <Image source={images.twitter} />
-          </Pressable>
-          <Pressable
-            onPress={() => navigation.navigate('Congratulations')}
-            style={styles.socials}
-          >
-            <Image source={images.discord} />
-          </Pressable>
-          <Pressable
-            onPress={() => navigation.navigate('Congratulations')}
-            style={styles.socials}
-          >
-            <Image source={images.apple} />
-          </Pressable>
-          <Pressable
-            onPress={() => navigation.navigate('Congratulations')}
-            style={styles.socials}
-          >
-            <Image source={images.google} />
-          </Pressable>
-          <Pressable
-            onPress={() => navigation.navigate('Congratulations')}
-            style={styles.socials}
-          >
-            <Image source={images.email} />
-          </Pressable>
-        </View>
-      </ImageBackground>
+          <Apple />
+        </Pressable>
+        <Pressable
+          onPress={() => navigation.navigate('Congratulations')}
+          style={styles.socials}
+        >
+          <Google />
+        </Pressable>
+        <Pressable
+          onPress={() => navigation.navigate('Congratulations')}
+          style={styles.socials}
+        >
+          <Mail />
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 };

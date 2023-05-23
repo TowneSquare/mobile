@@ -15,6 +15,7 @@ import {
   updateRenderCount,
   updateBottomSheet,
 } from '../controller/BottomSheetController';
+import Info from '../images/svg/Info';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../constants';
 import { sizes } from '../utils';
@@ -130,7 +131,7 @@ const CompleteSignUpModal = () => {
             marginTop: size.vMargin(25),
           }}
         >
-          <Image source={images.info} />
+         <Info/>
           <View
             style={{
               flexShrink: 1,

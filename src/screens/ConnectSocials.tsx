@@ -16,6 +16,10 @@ const { height, width } = Dimensions.get('window');
 import { sizes } from '../utils';
 import ContinueButton from '../components/ContinueButton';
 import BackButton from '../components/BackButton';
+import Link from '../images/svg/Link';
+import Checked from '../images/svg/Checked';
+import DiscordBG from '../images/svg/DiscordBG';
+import TwitterBG from '../images/svg/TwitterBg';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 const size = new sizes(height, width);
 const ConnectSocials = () => {
@@ -45,7 +49,7 @@ const ConnectSocials = () => {
     >
       <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
       <ProfileSetUpHeader
-        image={images.link}
+        SvgImage={<Link />}
         stepDescription="Select socials"
         title="Connect your socials"
         sub_title="Connect both to receive extra credentials in your profile"
@@ -73,14 +77,14 @@ const ConnectSocials = () => {
               alignItems: 'center',
             }}
           >
-            <Image source={images.twitter2} />
+            <TwitterBG/>
             <Text style={styles.socialText}>Twitter</Text>
             {isTwitterConected ? (
               <Pressable
                 onPress={handleTwitterConnection}
                 style={styles.isConnected}
               >
-                <Image source={images.connected} />
+                <Checked/>
                 <Text style={styles.isConnectedText}>CONNECTED</Text>
               </Pressable>
             ) : (
@@ -99,14 +103,14 @@ const ConnectSocials = () => {
               marginTop: size.vMargin(40),
             }}
           >
-            <Image source={images.discord2} />
+           <DiscordBG/>
             <Text style={styles.socialText}>Discord</Text>
             {isDiscordConnected ? (
               <Pressable
                 onPress={handleDiscordConnection}
                 style={styles.isConnected}
               >
-                <Image source={images.connected} />
+                  <Checked/>
                 <Text style={styles.isConnectedText}>CONNECTED</Text>
               </Pressable>
             ) : (

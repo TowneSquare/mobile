@@ -23,6 +23,7 @@ import BackButton from '../components/BackButton';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 import UploadImageModal from '../components/UploadImageModal';
 import SelectedCollection from '../components/SelectedCollection';
+import User from '../images/svg/User';
 import {
   updateUploadImageModalOpen,
   updateUploadModalRenderCount,
@@ -81,7 +82,7 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
         addOpacity={
           uploadImageModal || NftModal || selectedCollectionModal ? true : false
         }
-        image={images.userCircle}
+       SvgImage={<User/>}
         stepDescription="All done! Explore TowneSquare"
         title="Your profile picture"
         sub_title="Make your favorite NFT or photo your profile picture to help other TowneSquare members recognize you"

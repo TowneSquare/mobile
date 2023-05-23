@@ -61,7 +61,7 @@ const ContinueButton = ({
         style={{
           textAlign: 'center',
           color: appColor.kButtonTextColor,
-          fontSize: size.fontSize(18),
+          fontSize: size.fontSize(16),
           fontFamily: 'Outfit-Bold',
         }}
       >
