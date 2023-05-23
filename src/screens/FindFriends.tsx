@@ -9,41 +9,46 @@ import {
   ImageSourcePropType,
   ScrollView,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { ReactNode,useState, useEffect } from 'react';
 import { appColor, fonts, images } from '../constants';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../utils';
+import Hands from '../images/svg/Hands';
+import Friend1 from '../images/svg/Friend1';
+import Friend2 from '../images/svg/Friend2';
+import Friend3 from '../images/svg/Friend3';
+import Friend4 from '../images/svg/Friend4';
 import ContinueButton from '../components/ContinueButton';
 import BackButton from '../components/BackButton';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 const size = new sizes(height, width);
 interface Friend {
-  image: ImageSourcePropType;
+  image: ReactNode;
   name: string;
   username: string;
 }
 const FindFriends = () => {
   const friends: Array<Friend> = [
     {
-      image: images.friend1,
+      image: <Friend1/>,
       name: 'User Name',
       username: '@username1',
     },
     {
-      image: images.friend2,
+      image:<Friend2/>,
       name: 'User Name',
       username: '@username2',
     },
     {
-      image: images.friend3,
+      image: <Friend3/>,
       name: 'User Name',
       username: '@username3',
     },
     {
-      image: images.friend4,
+      image:<Friend4/>,
       name: 'User Name',
       username: '@username4',
     },
@@ -85,7 +90,7 @@ const FindFriends = () => {
     >
       <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
       <ProfileSetUpHeader
-        image={images.hadnwave}
+        SvgImage={<Hands/>}
         stepDescription="Explore Communities"
         title="Find your friends"
         sub_title="See the following for your friend that are on TowneSquare! Give them a big high five"
@@ -152,7 +157,7 @@ const FindFriends = () => {
                     width: size.sWidth(0.9),
                   }}
                 >
-                  <Image source={friend.image} />
+                 {friend.image}
                   <View
                     style={{
                       flex: 1,

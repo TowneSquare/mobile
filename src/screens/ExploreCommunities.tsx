@@ -9,9 +9,14 @@ import {
   ImageSourcePropType,
   ScrollView,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import { appColor, fonts, images } from '../constants';
 import { StatusBar } from 'expo-status-bar';
+import Community from '../images/svg/Community';
+import Community1 from '../images/svg/Community1';
+import Community2 from '../images/svg/Community2';
+import Community3 from '../images/svg/Community3';
+import Community4 from '../images/svg/Community4';
 import { useFonts } from 'expo-font';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
@@ -21,29 +26,29 @@ import BackButton from '../components/BackButton';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 const size = new sizes(height, width);
 interface Communities {
-  image: ImageSourcePropType;
+  image: ReactNode;
   name: string;
   message?: string;
 }
 const ExploreCommunities = () => {
   const Communities: Array<Communities> = [
     {
-      image: images.community1,
+      image: <Community1 />,
       name: 'Aptomingos',
       message: 'You have their NFT!',
     },
     {
-      image: images.community2,
+      image: <Community2 />,
       name: 'Bruh Bears',
       message: 'You have their NFT!',
     },
     {
-      image: images.community3,
+      image: <Community3 />,
       name: 'Pontem Space Pirates from Siberia',
       message: 'You have their NFT!',
     },
     {
-      image: images.community4,
+      image: <Community4 />,
       name: 'Aptos Monkey',
     },
   ];
@@ -83,7 +88,7 @@ const ExploreCommunities = () => {
     >
       <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
       <ProfileSetUpHeader
-        image={images.user3}
+        SvgImage={<Community />}
         stepDescription="Choose PFP"
         title="Explore Communities"
         sub_title="Here are some communities you might be interested in"
@@ -130,9 +135,7 @@ const ExploreCommunities = () => {
         </View>
         <View style={{ flex: 1 }}>
           {/* ScrollView */}
-          <ScrollView 
-          showsVerticalScrollIndicator={false}
-          >
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View
               style={{
                 justifyContent: 'space-between',
@@ -147,7 +150,7 @@ const ExploreCommunities = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Image source={Community.image} />
+                 {Community.image}
                   <View
                     style={{
                       flex: 1,

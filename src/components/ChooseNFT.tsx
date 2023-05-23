@@ -181,21 +181,7 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
   },
-  location: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  locationText: {
-    fontSize: 18,
-    color: 'white',
-  },
-  locationIcon: {
-    tintColor: 'gray',
-  },
-  scrollBox: {
-    marginTop: 10,
-    marginBottom: 10,
-  },
+
   sectionHeader: {
     marginTop: 10,
   },

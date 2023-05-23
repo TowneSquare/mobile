@@ -8,12 +8,14 @@ import {
   Pressable,
 } from 'react-native';
 import React, { useEffect } from 'react';
+import Background2 from '../images/svg/Background2';
 import { useFonts } from 'expo-font';
 import { Avatar } from 'react-native-elements';
 import { appColor, fonts, images } from '../constants';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { sizes } from '../utils';
+import Congrats from '../images/svg/Congrats';
 import { StackActions } from '@react-navigation/native';
 import LetGoButton from '../components/LetGoButton';
 const { height, width } = Dimensions.get('window');
@@ -35,48 +37,42 @@ const Congratulations = () => {
         flex: 1,
       }}
     >
-      <StatusBar style="light" backgroundColor={appColor.kBackgroundColor2} />
-      <ImageBackground
+      <StatusBar style="light" />
+      <Background2
         style={{
-          flex: 1,
-          width: '100%',
-          height: '100%',
-          alignItems:"center",
-          justifyContent:"center"
+          position: 'absolute',
         }}
-        resizeMode="cover"
-        source={images.background3}
+      />
+      <View
+        style={{
+          alignSelf: 'center',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: 1,
+        }}
       >
-        <View
+        <Congrats />
+        <Text
           style={{
-            alignSelf: 'center',
-            alignItems: 'center',
-            justifyContent: 'center',
+            color: appColor.kTextColor,
+            fontSize: size.fontSize(30),
+            fontFamily: 'Outfit-Bold',
+            marginTop: 10,
           }}
         >
-          <Image source={images.congratulations} />
-          <Text
-            style={{
-              color: appColor.kTextColor,
-              fontSize: size.fontSize(30),
-              fontFamily: 'Outfit-Bold',
-              marginTop:10
-            }}
-          >
-            Congrats!
-          </Text>
-          <Text
-            style={{
-              color: appColor.kTextColor,
-              fontSize: size.fontSize(30),
-              fontFamily: 'Outfit-Bold',
-            }}
-          >
-            You made it!
-          </Text>
-          <LetGoButton navigateTo='ChooseUsername'/>
-        </View>
-      </ImageBackground>
+          Congrats!
+        </Text>
+        <Text
+          style={{
+            color: appColor.kTextColor,
+            fontSize: size.fontSize(30),
+            fontFamily: 'Outfit-Bold',
+          }}
+        >
+          You made it!
+        </Text>
+        <LetGoButton navigateTo="ChooseUsername" />
+      </View>
     </SafeAreaView>
   );
 };

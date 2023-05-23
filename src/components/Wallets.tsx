@@ -8,14 +8,20 @@ import {
 } from 'react-native';
 import React from 'react';
 import { appColor, fonts, images } from '../constants';
+
 import { useFonts } from 'expo-font';
 import { MaterialIcons } from '@expo/vector-icons';
+import Petra from '../images/svg/Petra';
 import { sizes } from '../utils';
 import {
   updateBottomSheet,
   updateRenderCount,
 } from '../controller/BottomSheetController';
+import Pontem from '../images/svg/Pontem';
 import { useAppDispatch, useAppSelector } from '../controller/hooks';
+import Fewcha from '../images/svg/Fewcha';
+import Rise from '../images/svg/Rise';
+import Martian from '../images/svg/Martian';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Wallets = () => {
@@ -52,7 +58,7 @@ const Wallets = () => {
         style={styles.wallet}
       >
         <View style={styles.rows}>
-          <Image source={images.pontem} />
+          <Pontem />
           <Text style={styles.text}>Pontem</Text>
         </View>
         <MaterialIcons
@@ -69,7 +75,7 @@ const Wallets = () => {
         style={styles.wallet}
       >
         <View style={styles.rows}>
-          <Image source={images.rise} />
+          <Rise />
           <Text style={styles.text}>Rise</Text>
         </View>
         <MaterialIcons
@@ -82,7 +88,7 @@ const Wallets = () => {
         style={[styles.wallet, { backgroundColor: appColor.kDisabledColor }]}
       >
         <View style={styles.rows}>
-          <Image source={images.petra} />
+          <Petra />
           <Text style={styles.text}>Petra</Text>
         </View>
         <Text style={styles.text}>Coming soon</Text>
@@ -91,8 +97,7 @@ const Wallets = () => {
         style={[styles.wallet, { backgroundColor: appColor.kDisabledColor }]}
       >
         <View style={styles.rows}>
-          <Image source={images.fewcha} />
-          <Text style={styles.text}>Fewcha</Text>
+          <Fewcha />
         </View>
         <Text style={styles.text}>Coming soon</Text>
       </View>
@@ -100,7 +105,7 @@ const Wallets = () => {
         style={[styles.wallet, { backgroundColor: appColor.kDisabledColor }]}
       >
         <View style={[styles.rows]}>
-          <Image source={images.matian} />
+      <Martian/>
           <Text style={styles.text}>Martian</Text>
         </View>
         <Text style={styles.text}>Coming soon</Text>

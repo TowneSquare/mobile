@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Wallets from '../components/Wallets';
 import { useAppSelector } from '../controller/hooks';
 import BackButton from '../components/BackButton';
+import Background3 from '../images/svg/Background3';
 import { ChooseProfileProps } from '../utils/NavigationTypes';
 const { height, width } = Dimensions.get('window');
 const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
@@ -29,49 +30,42 @@ const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
     <SafeAreaView
       style={{
         flex: 1,
-       
       }}
     >
-      <StatusBar style="light" backgroundColor={appColor.kStatusBarNaviDark} />
-      <ImageBackground
+      <StatusBar style="light" />
+      <Background3
         style={{
-          flex: 1,
+          position: 'absolute',
+        }}
+      />
+      <View
+        style={{
           width: '100%',
           height: '100%',
+          backgroundColor:
+            isVisible && renderCount > 0
+              ? appColor.kBlackWithOpacity
+              : undefined,
           alignItems: 'center',
         }}
-        imageStyle={{}}
-        resizeMode="cover"
-        source={images.background1}
       >
-        <View
+        <Text
           style={{
-            width: '100%',
-            height: '100%',
-            backgroundColor:
-              isVisible && renderCount > 0
-                ? appColor.kBlackWithOpacity
-                : undefined,
-            alignItems: 'center',
+            opacity: isVisible && renderCount > 0 ? 0.3 : 1,
+            top: size.sHeight(0.04),
+            color: appColor.kTextColor,
+            fontWeight: '600',
+            fontSize: size.fontSize(38),
+            fontFamily: 'Outfit-Bold',
+            textAlign: 'center',
           }}
         >
-          <Text
-            style={{
-              opacity: isVisible && renderCount > 0 ? 0.3 : 1,
-              top: size.sHeight(0.04),
-              color: appColor.kTextColor,
-              fontWeight: '600',
-              fontSize: size.fontSize(38),
-              fontFamily: 'Outfit-Bold',
-              textAlign: 'center',
-            }}
-          >
-            Choose your wallet
-          </Text>
-          <Wallets />
-          <BackButton marginTop={120} />
-        </View>
-      </ImageBackground>
+          Choose your wallet
+        </Text>
+        <Wallets />
+        <BackButton marginTop={120} />
+      </View>
+
       <CompleteSignUpModal />
     </SafeAreaView>
   );
