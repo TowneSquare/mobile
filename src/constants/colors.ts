@@ -1,13 +1,13 @@
 const colors = {
   APPBACKGROUNDCOLOR: '#000000',
-  kTextColor: 'white',
+  kTextColor: '#FFFFFF',
   kChooseWalletButtonColor: '#363F72',
-  kButtonTextColor: 'black',
+  kButtonTextColor: '#2F2F2F',
   kTextSubtitleClor: '#B5B3BC',
   kButtonColor: '#FFFFFF',
   kStatusBarColor: '#4F2AB2',
   kStatusBarNaviDark: '#101323',
-  kButtonBackgroundColor: 'white',
+  kButtonBackgroundColor: '#FFFFFF',
   kWhiteColor: 'white',
   kTextShadowColor: 'rgba(0, 0, 0, 0.5)',
   kSecondaryColor: '#363F72',
@@ -20,6 +20,6 @@ const colors = {
   kBlackWithOpacity: '#00000070',
   kBackgroundColor2: '#111111',
   kNavydark: '#1F2547',
-  kSecondaryNavyWithOpacity:"#707CC050"
+  kSecondaryNavyWithOpacity: '#707CC050',
 };
 export const appColor = colors;

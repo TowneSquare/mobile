@@ -95,7 +95,7 @@ const SelectedCollection = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={['68%']}
+      snapPoints={['87%']}
       handleComponent={Customhandler}
       backgroundStyle={{
         backgroundColor: appColor.kNavydark,
@@ -114,7 +114,9 @@ const SelectedCollection = () => {
             fontSize: size.fontSize(29),
             fontFamily: 'Outfit-Bold',
             textAlign: 'center',
-            marginTop: size.sHeight(0.015),
+            marginTop: size.getHeightSize(29),
+            lineHeight: size.getHeightSize(37),
+            marginBottom: size.getHeightSize(32),
           }}
         >
           Aptomingos
@@ -134,9 +136,7 @@ const SelectedCollection = () => {
 
       <View
         style={{
-          alignItems: 'center',
-          width: '100%',
-          height: 150,
+          height: size.getHeightSize(116),
         }}
       >
         <Pressable
@@ -146,12 +146,12 @@ const SelectedCollection = () => {
           }}
           disabled={typeof profilePics.image === 'undefined' ? true : false}
           style={{
-            marginTop: 15,
             alignSelf: 'center',
-            width: size.sWidth(0.9),
+            width: size.getWidthSize(328),
             borderRadius: 40,
-            height: '35%',
+            height: size.getHeightSize(48),
             justifyContent: 'center',
+            marginTop: size.getHeightSize(8),
             backgroundColor:
               typeof profilePics.image === 'undefined'
                 ? appColor.kWhiteColorWithOpacity
@@ -162,8 +162,11 @@ const SelectedCollection = () => {
             style={{
               textAlign: 'center',
               color: appColor.kButtonTextColor,
-              fontSize: size.fontSize(18),
-              fontFamily: 'Outfit-Bold',
+              fontSize: size.fontSize(16),
+              fontFamily: 'Outfit-SemiBold',
+              lineHeight: size.getHeightSize(20),
+              textTransform: 'uppercase',
+              letterSpacing: 0.01,
             }}
           >
             CHOOSE
@@ -179,9 +182,11 @@ const SelectedCollection = () => {
           style={{
             textAlign: 'center',
             color: appColor.kTextColor,
-            fontSize: size.fontSize(18),
-            fontFamily: 'Outfit-Bold',
-            marginTop: 30,
+            fontSize: size.fontSize(16),
+            fontFamily: 'Outfit-SemiBold',
+            lineHeight: size.getHeightSize(20),
+            textTransform: 'uppercase',
+            marginTop: size.getHeightSize(20),
           }}
         >
           BACK

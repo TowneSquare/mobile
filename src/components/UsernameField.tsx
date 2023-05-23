@@ -17,8 +17,7 @@ const UsernameField = () => {
     <View
       style={{
         alignSelf: 'center',
-        marginTop: size.sHeight(0.1),
-        width: size.sWidth(0.9),
+        width: size.getWidthSize(328),
         alignItems: 'center',
       }}
     >
@@ -27,30 +26,38 @@ const UsernameField = () => {
         placeholder="Insert username"
         placeholderTextColor={appColor.kSecondaryNavy}
         style={{
-          marginTop: size.sHeight(0.01),
-          width: size.sWidth(0.9),
-          height: size.sHeight(0.07),
-          borderRadius: 40,
+          width: size.getWidthSize(328),
+          height: size.getHeightSize(48),
+          borderRadius: 48,
           borderWidth: 1,
           borderColor: appColor.kSecondaryButtonColor,
-          paddingHorizontal: size.hMargin(50),
+          paddingHorizontal: size.getWidthSize(16),
+          paddingVertical: size.getHeightSize(8),
           fontSize: size.fontSize(16),
           fontFamily: 'Outfit-Medium',
           color: appColor.kTextColor,
           backgroundColor: appColor.kStatusBarNaviDark,
+          marginHorizontal: size.getWidthSize(16),
         }}
       />
-      <Text
+      <View
         style={{
-          marginTop: size.sHeight(0.008),
-          color: appColor.kErrorText,
-          fontSize: size.fontSize(16),
-            marginLeft:3,
           alignSelf: 'flex-start',
         }}
       >
-        Username taken
-      </Text>
+        <Text
+          style={{
+            marginTop: size.getHeightSize(8),
+            color: appColor.kErrorText,
+            fontSize: size.fontSize(16),
+            lineHeight: size.getHeightSize(21),
+            marginLeft: size.getWidthSize(16),
+            fontFamily: 'Outfit-Medium',
+          }}
+        >
+         Error message
+        </Text>
+      </View>
     </View>
   );
 };

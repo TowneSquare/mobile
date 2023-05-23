@@ -82,7 +82,7 @@ const CompleteSignUpModal = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={['60%']}
+      snapPoints={['50%']}
       backgroundStyle={{
         backgroundColor: appColor.kDisabledColor,
       }}
@@ -97,10 +97,11 @@ const CompleteSignUpModal = () => {
           style={{
             textAlign: 'center',
             color: appColor.kTextColor,
-
             fontFamily: 'Outfit-Bold',
             fontSize: size.fontSize(29),
-            marginTop: size.vMargin(40),
+            marginTop: size.getHeightSize(48),
+            fontStyle: 'normal',
+            lineHeight: size.getHeightSize(37),
           }}
         >
           Complete Signing in
@@ -110,28 +111,31 @@ const CompleteSignUpModal = () => {
             textAlign: 'center',
             color: appColor.kTextColor,
             fontFamily: 'Outfit-Medium',
-            marginTop: size.vMargin(20),
-            fontSize: size.fontSize(18),
-            marginHorizontal: size.hMargin(50),
+            marginTop: size.getHeightSize(16),
+            fontSize: size.fontSize(16),
+            marginHorizontal: size.getWidthSize(16),
+            lineHeight: size.getHeightSize(21),
+            fontStyle: 'normal',
           }}
         >
-          Connecting your wallet allows you to performtransactions by signing
+          Connecting your wallet allows you to perform transactions by signing
           natively in the app
         </Text>
         <View
           style={{
-            paddingVertical: size.vMargin(30),
-            paddingHorizontal: size.hMargin(40),
-
-            width: size.sWidth(0.9),
+            paddingVertical: size.getHeightSize(16),
+            paddingLeft: size.getWidthSize(18),
+            paddingRight:size.getWidthSize(16),
+            height: size.getHeightSize(95),
+            width: size.getWidthSize(328),
             backgroundColor: appColor.kSecondaryColor,
             alignSelf: 'center',
             flexDirection: 'row',
-            borderRadius: 25,
+            borderRadius: 8,
             marginTop: size.vMargin(25),
           }}
         >
-         <Info/>
+          <Info />
           <View
             style={{
               flexShrink: 1,
@@ -139,11 +143,11 @@ const CompleteSignUpModal = () => {
           >
             <Text
               style={{
-                fontSize: size.fontSize(18),
+                fontSize: size.fontSize(16),
                 color: appColor.kTextColor,
                 fontFamily: 'Outfit-Medium',
                 textAlign: 'left',
-                paddingLeft: size.hMargin(20),
+                paddingLeft:size.getWidthSize(10),
               }}
             >
               Townesquare will not be able to make any changes to your wallet
@@ -151,8 +155,8 @@ const CompleteSignUpModal = () => {
             </Text>
           </View>
         </View>
-        <ContinueButton marginTop={60} closeModal navigateTo="ChooseUsername" />
-        <BackButton marginTop={50} closeModal={true} />
+        <ContinueButton marginTop={32} closeModal navigateTo="ChooseUsername" />
+        <BackButton marginTop={8} closeModal={true} />
       </Animatable.View>
     </BottomSheet>
   );

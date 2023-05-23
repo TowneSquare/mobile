@@ -20,7 +20,10 @@ import User from '../images/svg/User';
 import ContinueButton from '../components/ContinueButton';
 import BackButton from '../components/BackButton';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
+import { sizes } from '../utils';
+
 const ChooseUsername = () => {
+  const size = new sizes(height, width);
   return (
     <SafeAreaView
       style={{
@@ -31,26 +34,19 @@ const ChooseUsername = () => {
       <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <ProfileSetUpHeader
-          SvgImage = {<User/>}
+          SvgImage={<User />}
           stepDescription="Connect socials & verify"
           title="Choose your username"
-          sub_title="Stand out in Towne Square with a unique username"
+          sub_title="Stand out in TowneSquare with a unique username"
           steps={1}
         />
-        <View style={{ flex: 1 }}>
+        <View style={{ height: size.getHeightSize(174.5) }} />
+        <View >
           <UsernameField />
         </View>
-        <View
-          style={{
-            alignSelf: 'baseline',
-            alignItems: 'center',
-            width: '100%',
-            height: 150,
-          }}
-        >
-          <ContinueButton navigateTo="ConnectSocialsAndVrify" marginTop={2} />
-          <BackButton marginTop={50} />
-        </View>
+      <View style={{ height: size.getHeightSize(174.5) }}/>
+        <ContinueButton  navigateTo="ConnectSocialsAndVrify" />
+        <BackButton marginTop={16} />
       </ScrollView>
     </SafeAreaView>
   );

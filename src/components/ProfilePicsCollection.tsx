@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Pressable,Dimensions } from 'react-native';
 import React, { useState } from 'react';
 import { useFonts } from 'expo-font';
 import { images, fonts, appColor } from '../constants';
@@ -74,28 +74,25 @@ const ProfilePicsCollection = () => {
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        width: '90%',
-
-        justifyContent: 'space-between',
+        width: size.getWidthSize(328),
+        justifyContent: 'space-around',
         alignSelf: 'center',
-        marginTop: 20,
-        paddingHorizontal:9
       }}
     >
       {profilePics.map((profile) => (
-        <TouchableOpacity
+        <Pressable
           style={{
-            marginBottom: 20,
+            marginBottom: size.getHeightSize(16),
             borderWidth:
-              profilePicture.id && profile.id === profilePicture.id ? 5 : 0,
-            borderRadius: 15,
+              profilePicture.id && profile.id === profilePicture.id ? 8 : 0,
+            borderRadius: 20,
             borderColor:
               typeof profilePicture === 'undefined'
                 ? 'undefined'
                 : appColor.kSecondaryButtonColor,
             overflow: 'hidden',
-            width: size.sWidth(0.4),
-            height: 150,
+            width: size.getWidthSize(140),
+            height: size.getHeightSize(140),
           }}
           onPress={() => {
             dispatch(updateProfilePics(profile));
@@ -107,33 +104,40 @@ const ProfilePicsCollection = () => {
               height: '100%',
             }}
             source={profile.image}
-            resizeMode="contain"
+            resizeMode="cover"
           />
           <View
             style={{
-              height: size.sHeight(0.05),
-              width: size.sWidth(0.32),
+              width: size.getWidthSize(124),
               position: 'absolute',
               backgroundColor: '#101323',
-              bottom: size.sHeight(0.01),
-              left: size.sWidth(0.03),
+              bottom:
+                profilePicture.id && profile.id === profilePicture.id
+                  ? size.getHeightSize(0)
+                  : size.getHeightSize(12),
+              left:
+                profilePicture.id && profile.id === profilePicture.id
+                  ? size.getWidthSize(0)
+                  : size.getWidthSize(8),
               right: 0,
               justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 10,
+              borderRadius: 8,
+              paddingVertical: size.getHeightSize(4),
+              paddingHorizontal: size.getWidthSize(10),
             }}
           >
             <Text
               style={{
                 color: appColor.kTextColor,
                 fontSize: size.fontSize(16),
-                fontFamily: 'UrbanistSemiBold',
+                fontFamily: 'Outfit-Regular',
+                lineHeight: size.getHeightSize(18),
               }}
             >
               {profile.Name}
             </Text>
           </View>
-        </TouchableOpacity>
+        </Pressable>
       ))}
     </View>
   );

@@ -8,6 +8,7 @@ import {
   Pressable,
 } from 'react-native';
 import React, { useEffect } from 'react';
+import { SvgXml } from 'react-native-svg';
 import Twitter from '../../assets/svg/Twitter';
 import { useFonts } from 'expo-font';
 import { Avatar } from 'react-native-elements';
@@ -33,6 +34,9 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
     UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Urbanist-ExtraBold': fonts.EXTRABOLD,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -43,132 +47,158 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
         flex: 1,
       }}
     >
-      <StatusBar style="light" backgroundColor={appColor.kStatusBarColor} />
+      <StatusBar backgroundColor={appColor.kStatusBarColor} style="light" />
 
-      <View>
-        <Background1
+      <ImageBackground
+        style={{
+          height: '100%',
+          width: '100%',
+          flex: 1,
+        }}
+        source={images.background2}
+      >
+        <View
           style={{
-            position: 'absolute',
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginLeft: size.widthSize(65.56),
+            marginRight: size.widthSize(108.44),
+            marginTop: size.heightSize(40.19),
+          }}
+        >
+          <Logo />
+          <Text
+            style={{
+              marginLeft: size.widthSize(4.42),
+              color: appColor.kTextColor,
+              fontSize: size.fontSize(29.47),
+              fontFamily: 'Urbanist-ExtraBold',
+              fontStyle: 'normal',
+              lineHeight: size.heightSize(35),
+              textAlign: 'right',
+            }}
+          >
+            TowneSquare
+          </Text>
+        </View>
+
+        <Description
+          style={{
+            alignSelf: 'flex-start',
+            marginTop: size.heightSize(85.81),
+            width: size.widthSize(355.7),
+            height: size.heightSize(61.45),
           }}
         />
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginLeft: size.sWidth(0.1),
-          marginTop: size.sHeight(0.03),
-        }}
-      >
-        <Logo />
-        <Text
+        <Description2
           style={{
-            marginLeft: size.sWidth(0.03),
-            color: appColor.kTextColor,
-            fontSize: size.fontSize(30),
-            fontFamily: 'Outfit-Bold',
+            alignSelf: 'flex-end',
+            width: size.widthSize(355.7),
+            height: size.getHeightSize(61.45),
           }}
-        >
-          TowneSquare
-        </Text>
-      </View>
-      <Description
-        style={{
-          alignSelf: 'flex-start',
-          marginTop: 20,
-        }}
-      />
-      <Description2
-        style={{
-          alignSelf: 'flex-end',
-        }}
-      />
-      <Text
-        style={{
-          marginTop: size.vMargin(21),
-          textAlign: 'center',
-          color: appColor.kTextColor,
-          fontFamily: 'Outfit-Bold',
-          fontSize: size.fontSize(23),
-          marginHorizontal: size.hMargin(100),
-        }}
-      >
-        Social, create, build, and transact with anyone anywhere
-      </Text>
-      <Pressable
-        onPress={() => navigation.navigate('ChooseProfile')}
-        style={{
-          top: size.vMargin(200),
-          width: size.sWidth(0.9),
-          height: size.heightSize(55),
-          justifyContent: 'center',
-          backgroundColor: appColor.kButtonBackgroundColor,
-          alignSelf: 'center',
-          borderRadius: 40,
-        }}
-      >
+        />
         <Text
           style={{
+            marginTop: size.getHeightSize(24.47),
             textAlign: 'center',
-            color: appColor.kButtonTextColor,
-            fontFamily: 'Outfit-Bold',
+            color: appColor.kTextColor,
+            fontFamily: 'Outfit-SemiBold',
             fontSize: size.fontSize(16),
+            marginLeft: size.getWidthSize(49),
+            marginRight: size.getHeightSize(42),
+            lineHeight: size.getHeightSize(21),
+            fontStyle: 'normal',
           }}
         >
-          CONNECT WALLET
+          Social, create, build, and transact with anyone anywhere
         </Text>
-      </Pressable>
-      <Text
-        style={{
-          color: appColor.kTextColor,
-          textAlign: 'center',
-          fontFamily: 'Outfit-Bold',
-          fontSize: size.fontSize(20),
-          top: size.vMargin(250),
-        }}
-      >
-        or
-      </Text>
-      <View
-        style={{
-          top: size.vMargin(300),
-          flexDirection: 'row',
-          width: size.sWidth(0.9),
-          justifyContent: 'space-between',
-          alignSelf: 'center',
-        }}
-      >
         <Pressable
-          onPress={() => navigation.navigate('Congratulations')}
-          style={styles.socials}
+          onPress={() => navigation.navigate('ChooseProfile')}
+          style={{
+            marginTop: size.getHeightSize(129),
+            width: size.getWidthSize(328),
+            height: size.getHeightSize(48),
+            justifyContent: 'center',
+            backgroundColor: appColor.kButtonBackgroundColor,
+            alignSelf: 'center',
+            borderRadius: 40,
+            flexGrow: 0,
+            gap: size.getWidthSize(8),
+            paddingHorizontal: size.getWidthSize(8),
+            paddingVertical: size.getHeightSize(16),
+            display: 'flex',
+          }}
         >
-          <Twitter />
+          <Text
+            style={{
+              textAlign: 'center',
+              color: appColor.kButtonTextColor,
+              fontFamily: 'Outfit-Bold',
+              fontSize: size.fontSize(16),
+              lineHeight: size.getHeightSize(20),
+              fontStyle: 'normal',
+              textTransform: 'uppercase',
+            }}
+          >
+            CONNECT WALLET
+          </Text>
         </Pressable>
-        <Pressable
-          onPress={() => navigation.navigate('Congratulations')}
-          style={styles.socials}
+        <Text
+          style={{
+            color: appColor.kTextColor,
+            textAlign: 'center',
+            fontFamily: 'Outfit-Regular',
+            fontSize: size.fontSize(20),
+            marginTop: size.getHeightSize(24),
+            fontStyle: 'normal',
+            lineHeight: size.getHeightSize(25),
+          }}
         >
-          <Discord />
-        </Pressable>
-        <Pressable
-          onPress={() => navigation.navigate('Congratulations')}
-          style={styles.socials}
+          or
+        </Text>
+        <View
+          style={{
+            marginTop: size.getHeightSize(24),
+            flexDirection: 'row',
+            width: size.getWidthSize(328),
+            justifyContent: 'space-between',
+            alignSelf: 'center',
+            alignItems: 'flex-start',
+          }}
         >
-          <Apple />
-        </Pressable>
-        <Pressable
-          onPress={() => navigation.navigate('Congratulations')}
-          style={styles.socials}
-        >
-          <Google />
-        </Pressable>
-        <Pressable
-          onPress={() => navigation.navigate('Congratulations')}
-          style={styles.socials}
-        >
-          <Mail />
-        </Pressable>
-      </View>
+          <Pressable
+            onPress={() => navigation.navigate('Congratulations')}
+            style={styles.socials}
+          >
+            <Twitter />
+          </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate('Congratulations')}
+            style={styles.socials}
+          >
+            <Discord />
+          </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate('Congratulations')}
+            style={styles.socials}
+          >
+            <Apple />
+          </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate('Congratulations')}
+            style={styles.socials}
+          >
+            <Google />
+          </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate('Congratulations')}
+            style={styles.socials}
+          >
+            <Mail />
+          </Pressable>
+        </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 };
@@ -176,8 +206,8 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
 export default FirstScreen;
 const styles = StyleSheet.create({
   socials: {
-    height: 55,
-    width: 55,
+    height: size.getHeightSize(48),
+    width: size.getWidthSize(48),
     backgroundColor: appColor.kWhiteColor,
     borderRadius: 100,
     alignItems: 'center',

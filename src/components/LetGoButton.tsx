@@ -21,19 +21,24 @@ const LetGoButton = ({ navigateTo }: Props) => {
       style={{
         backgroundColor: appColor.kWhiteColor,
         alignSelf: 'center',
-        width: size.sWidth(0.6),
+        width: size.getWidthSize(220),
         borderRadius: 40,
-        height: size.sHeight(0.075),
+        height: size.getHeightSize(48),
         justifyContent: 'center',
-        marginTop:size.vMargin(60)
+        marginTop: size.getHeightSize(48),
+        paddingVertical: size.getHeightSize(8),
+        paddingHorizontal: size.getWidthSize(16),
+        gap: size.getWidthSize(8),
       }}
     >
       <Text
         style={{
           textAlign: 'center',
-          color: appColor.kButtonTextColor,
-          fontSize: size.fontSize(23),
-          fontFamily: 'Outfit-Bold',
+          color: "#111423",
+          fontSize: size.fontSize(16),
+          fontFamily: 'Outfit-SemiBold',
+          letterSpacing: 0.01,
+          lineHeight: size.getHeightSize(20),
         }}
       >
         LET'S GOOO!

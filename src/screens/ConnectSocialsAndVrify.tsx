@@ -29,6 +29,7 @@ const ConnectSocialsAndVrify = () => {
     UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
@@ -43,71 +44,61 @@ const ConnectSocialsAndVrify = () => {
     >
       <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
       <ProfileSetUpHeader
-     SvgImage={<Link/>}
+        SvgImage={<Link />}
         stepDescription="Select socials"
         title="Connect socials & verify"
-        sub_title="Bots and spam accounts are a huge problem for social apps. But there are ways to fight them."
+        sub_title="Connect your socials, help us fight bots and get rewarded."
         steps={2}
+        subTitleWidth={328}
       />
       <View
         style={{
-          width: size.sWidth(0.9),
-          marginTop: size.vMargin(70),
+          width: size.getWidthSize(328),
+          marginTop: size.getHeightSize(45),
           alignSelf: 'center',
-
-          flex: 1,
+          height: size.getHeightSize(286),
         }}
       >
-        <View
+        <Text
           style={{
-            height: '90%',
-
-            justifyContent: 'space-between',
+            color: appColor.kTextColor,
+            fontSize: size.fontSize(18),
+            fontFamily: 'Outfit-SemiBold',
+            textAlign: 'center',
+            lineHeight: size.getHeightSize(22.68),
+            fontStyle: 'normal',
           }}
         >
-          <Text
-            style={{
-              color: appColor.kTextColor,
-              fontSize: size.fontSize(20),
-              fontFamily: 'Outfit-Bold',
-              textAlign: 'center',
-            }}
-          >
-            Connect your social accounts, verify your account and get rewarded!
+          Connect your social accounts, verify your account and get rewarded!
+        </Text>
+        <View style={[styles.row, { marginTop: size.getHeightSize(16) }]}>
+          <SealChecks />
+          <Text style={styles.description}>
+            Gain status points in TowneSquare
           </Text>
-          <View style={styles.row}>
-           <SealChecks/>
-            <Text style={styles.description}>
-              Gain status points in TowneSquare
-            </Text>
-          </View>
-          <View style={styles.row}>
-            <UserFriends/>
-            <Text style={styles.description}>Find your friends faster</Text>
-          </View>
-          <View style={styles.row}>
-           <Clap/>
-            <Text style={styles.description}>Build trust with others</Text>
-          </View>
-          <View style={styles.row}>
-            <Robot/>
-            <Text style={styles.description}>Bye to bots & spammers</Text>
-          </View>
+        </View>
+        <View style={styles.row}>
+          <UserFriends />
+          <Text style={styles.description}>Find your friends faster</Text>
+        </View>
+        <View style={styles.row}>
+          <Clap />
+          <Text style={styles.description}>Build trust with others</Text>
+        </View>
+        <View style={styles.row}>
+          <Robot />
+          <Text style={styles.description}>Bye to bots & spammers</Text>
         </View>
       </View>
-
+      <View style={{ flex: 1 }} />
       <View
         style={{
-          alignSelf: 'baseline',
-
-          alignItems: 'center',
-          width: '100%',
-
-          height: 150,
+          height: size.getHeightSize(108),
+          marginBottom: size.getHeightSize(24),
         }}
       >
-        <ContinueButton navigateTo="ConnectSocials" marginTop={2} />
-        <BackButton marginTop={50} />
+        <ContinueButton navigateTo="ConnectSocials" />
+        <BackButton marginTop={16} />
       </View>
     </SafeAreaView>
   );
@@ -118,12 +109,18 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
+    height: size.getHeightSize(56),
+    width: size.getWidthSize(339),
+    alignSelf: 'center',
+    paddingHorizontal: size.getWidthSize(12),
+    paddingVertical: size.getHeightSize(12),
+    gap: size.getWidthSize(8),
   },
   description: {
     color: appColor.kTextColor,
-    fontSize: size.fontSize(18),
-    fontFamily: 'Outfit-Bold',
+    fontSize: size.fontSize(16),
+    fontFamily: 'Outfit-SemiBold',
     textAlign: 'center',
-    marginLeft: size.hMargin(20),
+    lineHeight: size.getHeightSize(24),
   },
 });

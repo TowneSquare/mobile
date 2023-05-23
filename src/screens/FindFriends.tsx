@@ -9,7 +9,7 @@ import {
   ImageSourcePropType,
   ScrollView,
 } from 'react-native';
-import React, { ReactNode,useState, useEffect } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import { appColor, fonts, images } from '../constants';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
@@ -33,22 +33,22 @@ interface Friend {
 const FindFriends = () => {
   const friends: Array<Friend> = [
     {
-      image: <Friend1/>,
+      image: <Friend1 />,
       name: 'User Name',
       username: '@username1',
     },
     {
-      image:<Friend2/>,
+      image: <Friend2 />,
       name: 'User Name',
       username: '@username2',
     },
     {
-      image: <Friend3/>,
+      image: <Friend3 />,
       name: 'User Name',
       username: '@username3',
     },
     {
-      image:<Friend4/>,
+      image: <Friend4 />,
       name: 'User Name',
       username: '@username4',
     },
@@ -63,9 +63,10 @@ const FindFriends = () => {
   }, [following]);
   let [isLoaded] = useFonts({
     'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
@@ -90,77 +91,97 @@ const FindFriends = () => {
     >
       <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
       <ProfileSetUpHeader
-        SvgImage={<Hands/>}
+        SvgImage={<Hands />}
         stepDescription="Explore Communities"
         title="Find your friends"
-        sub_title="See the following for your friend that are on TowneSquare! Give them a big high five"
+        sub_title="See the following for your friends that are on TowneSquare! Give them a big high five."
         steps={4}
+        subTitleWidth={304}
       />
+
       <View
         style={{
-          width: size.sWidth(0.9),
-          marginTop: size.vMargin(40),
+          width: size.getWidthSize(328),
+          marginTop: size.getHeightSize(32),
           alignSelf: 'center',
-          flex: 1,
-          marginBottom: size.vMargin(40),
-          justifyContent: 'space-between',
+          height: size.getHeightSize(300),
         }}
       >
         <View
           style={{
-            width: size.sWidth(0.9),
+            width: size.getWidthSize(328),
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginBottom: size.vMargin(40),
+            gap: size.getHeightSize(8),
+            height: size.getHeightSize(44),
+
+            paddingHorizontal: size.getWidthSize(8),
           }}
         >
           <Text
             style={{
-              fontSize: size.fontSize(19),
-              fontFamily: 'Outfit-Medium',
+              fontSize: size.fontSize(18),
+              fontFamily: 'Outfit-Regular',
               textAlign: 'center',
+              lineHeight: size.getHeightSize(23),
               color: appColor.kTextColor,
+              fontStyle: 'normal',
             }}
           >
             Suggested Friends
           </Text>
-          <Text
+          <View
             style={{
-              fontSize: size.fontSize(19),
-              fontFamily: 'Outfit-Medium',
-              textAlign: 'center',
-              color: appColor.kSecondaryButtonColor,
+              width: size.getWidthSize(91),
             }}
           >
-            Follow all
-          </Text>
+            <Text
+              style={{
+                fontSize: size.fontSize(16),
+                fontFamily: 'Outfit-SemiBold',
+                textAlign: 'center',
+                color: appColor.kSecondaryButtonColor,
+                lineHeight: size.getHeightSize(24),
+              }}
+            >
+              Follow all
+            </Text>
+          </View>
         </View>
 
         {/* ScrollView */}
         <View
           style={{
-            flex: 1,
+            height: size.getHeightSize(248),
+            marginTop: size.getHeightSize(8),
+            width: size.getWidthSize(328),
           }}
         >
-          <ScrollView 
-          showsVerticalScrollIndicator={false}>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View
               style={{
                 justifyContent: 'space-between',
-                height: 300,
+                height: size.getHeightSize(248),
               }}
             >
               {friends.map((friend) => (
                 <View
                   style={{
                     flexDirection: 'row',
-                    width: size.sWidth(0.9),
+                    width: size.getWidthSize(328),
+                    height: size.getHeightSize(56),
+                    borderRadius: 40,
+                    paddingVertical: size.getHeightSize(8),
+                    paddingHorizontal: size.getWidthSize(8),
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
-                 {friend.image}
+                  {friend.image}
                   <View
                     style={{
                       flex: 1,
+                      marginLeft: size.getWidthSize(8),
                     }}
                   >
                     <Text style={styles.username}>{friend.name}</Text>
@@ -189,22 +210,18 @@ const FindFriends = () => {
           </ScrollView>
         </View>
       </View>
+      <View style={{ flex: 1 }} />
       <View
         style={{
-          alignSelf: 'baseline',
-
-          alignItems: 'center',
-          width: '100%',
-
-          height: 150,
+          height: size.getHeightSize(108),
+          marginBottom: size.getHeightSize(24),
         }}
       >
         <ContinueButton
           disabled={disableOnPress}
           navigateTo="ExploreCommunities"
-          marginTop={2}
         />
-        <BackButton marginTop={50} />
+        <BackButton marginTop={16} />
       </View>
     </SafeAreaView>
   );
@@ -213,35 +230,40 @@ const FindFriends = () => {
 export default FindFriends;
 const styles = StyleSheet.create({
   button: {
+    width: size.getWidthSize(91),
     backgroundColor: appColor.kSecondaryButtonColor,
-    borderRadius: 20,
-    paddingHorizontal: size.hMargin(50),
-    paddingVertical: size.vMargin(10),
+    borderRadius: 40,
+    paddingHorizontal: size.getWidthSize(16),
+    paddingVertical: size.getHeightSize(4),
     justifyContent: 'center',
+    height: size.getHeightSize(38),
   },
   buttonText: {
-    fontSize: size.fontSize(19),
-    fontFamily: 'Outfit-Medium',
+    fontSize: size.fontSize(14),
+    fontFamily: 'Outfit-SemiBold',
     textAlign: 'center',
     color: appColor.kTextColor,
+    lineHeight: size.getHeightSize(18),
   },
   username: {
-    fontSize: size.fontSize(19),
-    fontFamily: 'Outfit-Medium',
-    paddingLeft: size.hMargin(50),
+    fontSize: size.fontSize(16),
+    fontFamily: 'Outfit-SemiBold',
     color: appColor.kTextColor,
+    lineHeight: size.getHeightSize(24),
   },
   subusername: {
-    fontSize: size.fontSize(19),
-    fontFamily: 'Outfit-Medium',
-    paddingLeft: size.hMargin(50),
+    fontSize: size.fontSize(14),
+    fontFamily: 'Outfit-Regular',
     color: appColor.kgrayColor,
+    lineHeight: size.getHeightSize(18),
   },
   followingButton: {
     backgroundColor: appColor.kSecondaryColor,
-    borderRadius: 20,
-    paddingHorizontal: size.hMargin(50),
-    paddingVertical: size.vMargin(10),
+    borderRadius: 40,
+    height: size.getHeightSize(38),
     justifyContent: 'center',
+    width: size.getWidthSize(116),
+    paddingVertical: size.getHeightSize(4),
+    paddingHorizontal: size.getWidthSize(16),
   },
 });
