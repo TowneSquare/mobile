@@ -19,7 +19,7 @@ const BackButton = ({ marginTop, closeModal }: Props) => {
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-SemiBold': fonts.SEMIBOLD,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
