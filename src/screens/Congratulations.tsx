@@ -37,42 +37,62 @@ const Congratulations = () => {
         flex: 1,
       }}
     >
-      <StatusBar style="light" />
-      <Background2
+      <StatusBar style="light" backgroundColor={appColor.kBackgroundColor2} />
+      <ImageBackground
         style={{
-          position: 'absolute',
-        }}
-      />
-      <View
-        style={{
-          alignSelf: 'center',
+          flex: 1,
+          width: '100%',
+          height: '100%',
           alignItems: 'center',
           justifyContent: 'center',
-          flex: 1,
         }}
+        resizeMode="cover"
+        source={images.background3}
       >
-        <Congrats />
-        <Text
+        <View
           style={{
-            color: appColor.kTextColor,
-            fontSize: size.fontSize(30),
-            fontFamily: 'Outfit-Bold',
-            marginTop: 10,
+            alignSelf: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flex: 1,
           }}
         >
-          Congrats!
-        </Text>
-        <Text
-          style={{
-            color: appColor.kTextColor,
-            fontSize: size.fontSize(30),
-            fontFamily: 'Outfit-Bold',
-          }}
-        >
-          You made it!
-        </Text>
-        <LetGoButton navigateTo="ChooseUsername" />
-      </View>
+          <Congrats />
+          <View
+            style={{
+              marginTop: size.getHeightSize(22),
+              width: size.getWidthSize(180),
+              height: size.getHeightSize(80),
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Text
+              style={{
+                color: appColor.kTextColor,
+                fontSize: size.fontSize(30),
+                fontFamily: 'Outfit-Bold',
+
+                lineHeight: size.getHeightSize(40),
+              }}
+            >
+              Congrats!
+            </Text>
+            <Text
+              style={{
+                color: appColor.kTextColor,
+                fontSize: size.fontSize(32),
+                fontFamily: 'Outfit-Bold',
+                lineHeight: size.getHeightSize(40),
+              }}
+            >
+              You made it!
+            </Text>
+          </View>
+
+          <LetGoButton navigateTo="ChooseUsername" />
+        </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 };

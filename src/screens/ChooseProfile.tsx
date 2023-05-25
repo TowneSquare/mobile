@@ -32,41 +32,49 @@ const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
         flex: 1,
       }}
     >
-      <StatusBar style="light" />
-      <Background3
+      <StatusBar style="light" backgroundColor={appColor.kStatusBarNaviDark} />
+      <ImageBackground
         style={{
-          position: 'absolute',
-        }}
-      />
-      <View
-        style={{
+          flex: 1,
           width: '100%',
           height: '100%',
-          backgroundColor:
-            isVisible && renderCount > 0
-              ? appColor.kBlackWithOpacity
-              : undefined,
           alignItems: 'center',
         }}
+        resizeMode="cover"
+        source={images.ChooseWallet}
       >
-        <Text
+        <View
           style={{
-            opacity: isVisible && renderCount > 0 ? 0.3 : 1,
-            top: size.sHeight(0.04),
-            color: appColor.kTextColor,
-            fontWeight: '600',
-            fontSize: size.fontSize(38),
-            fontFamily: 'Outfit-Bold',
-            textAlign: 'center',
+            width: '100%',
+            height: '100%',
+            backgroundColor:
+              isVisible && renderCount > 0
+                ? appColor.kBlackWithOpacity
+                : undefined,
+            alignItems: 'center',
+            paddingTop: size.getHeightSize(72),
           }}
         >
-          Choose your wallet
-        </Text>
-        <Wallets />
-        <BackButton marginTop={120} />
-      </View>
+          <Text
+            style={{
+              opacity: isVisible && renderCount > 0 ? 0.3 : 1,
+              top: size.sHeight(0.04),
+              color: appColor.kTextColor,
+              fontStyle: 'normal',
+              fontSize: size.fontSize(32),
+              fontFamily: 'Outfit-Bold',
+              textAlign: 'center',
+              lineHeight: size.getHeightSize(40),
+            }}
+          >
+            Choose your wallet
+          </Text>
+          <Wallets />
+          <BackButton marginTop={164} />
+        </View>
 
-      <CompleteSignUpModal />
+        <CompleteSignUpModal />
+      </ImageBackground>
     </SafeAreaView>
   );
 };

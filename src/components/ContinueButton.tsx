@@ -27,11 +27,11 @@ const ContinueButton = ({
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
   });
   if (!isLoaded) {
     return null;
   }
-
   const size = new sizes(height, width);
   return (
     <Pressable
@@ -49,12 +49,11 @@ const ContinueButton = ({
           ? appColor.kWhiteColorWithOpacity
           : appColor.kWhiteColor,
         alignSelf: 'center',
-        width: size.sWidth(0.9),
+        width: size.getWidthSize(328),
         borderRadius: 40,
-        height: size.sHeight(0.075),
+        height: size.getHeightSize(48),
         justifyContent: 'center',
-        marginTop: marginTop ? size.vMargin(marginTop) : 0,
-  
+        marginTop: marginTop ? size.getHeightSize(marginTop) : 0,
       }}
     >
       <Text
@@ -62,7 +61,11 @@ const ContinueButton = ({
           textAlign: 'center',
           color: appColor.kButtonTextColor,
           fontSize: size.fontSize(16),
-          fontFamily: 'Outfit-Bold',
+          fontFamily: 'Outfit-SemiBold',
+          fontStyle: 'normal',
+          lineHeight: size.getHeightSize(20),
+          letterSpacing: 0.01,
+          textTransform: 'uppercase',
         }}
       >
         CONTINUE

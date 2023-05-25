@@ -54,6 +54,7 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
     UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -82,27 +83,22 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
         addOpacity={
           uploadImageModal || NftModal || selectedCollectionModal ? true : false
         }
-       SvgImage={<User/>}
+        SvgImage={<User />}
         stepDescription="All done! Explore TowneSquare"
         title="Your profile picture"
         sub_title="Make your favorite NFT or photo your profile picture to help other TowneSquare members recognize you"
         steps={6}
+        subTitleHeight={63}
+        subTitleWidth={304}
       />
 
       <View
         style={{
-          flex: 1,
+          height: size.getHeightSize(376),
         }}
       >
         {profilePics.image ? (
-          <View
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 30,
-            }}
-          >
+          <>
             <View style={styles.container}>
               <View style={styles.imageContainer}>
                 <Image
@@ -116,15 +112,16 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
             <Text
               style={{
                 color: appColor.kTextColor,
-                fontSize: size.fontSize(20),
-                fontFamily: 'Outfit-Medium',
+                fontSize: size.fontSize(22),
+                fontFamily: 'Outfit-Regular',
                 textAlign: 'center',
-                marginTop: 15,
+                marginTop: size.getHeightSize(16),
+                lineHeight: size.getHeightSize(21),
               }}
             >
               Looks Amazing!
             </Text>
-          </View>
+          </>
         ) : (
           <Pressable
             onPress={() => {
@@ -132,8 +129,8 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
               dispatch(updateUploadImageModalOpen(true));
             }}
             style={{
-              height: 150,
-              width: 150,
+              height: 160,
+              width: 160,
               alignItems: 'center',
               backgroundColor:
                 uploadImageModal || NftModal || selectedCollectionModal
@@ -141,8 +138,8 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
                   : appColor.kSecondaryNavy,
               alignSelf: 'center',
               marginTop: 50,
-              borderRadius: 100,
-              borderWidth: 2,
+              borderRadius: 200,
+              borderWidth: 3,
               borderColor:
                 uploadImageModal || NftModal || selectedCollectionModal
                   ? appColor.kWhiteColorWithOpacity
@@ -157,39 +154,50 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
                   ? appColor.kWhiteColorWithOpacity
                   : appColor.kWhiteColor
               }
-              size={30}
+              size={35}
             />
           </Pressable>
         )}
       </View>
+      <View style={{ flex: 1 }} />
       <View
         style={{
-          alignSelf: 'baseline',
-          alignItems: 'center',
-          width: '100%',
-          height: 150,
+          height: size.getHeightSize(108),
+          marginBottom: size.getHeightSize(24),
         }}
       >
         <ContinueButton
           disabled={typeof profilePics.image === 'undefined' ? true : false}
           navigateTo="Congratulations"
-          marginTop={2}
         />
-        <Text
-          onPress={() => {
-            navigation.navigate('Congratulations');
-          }}
+        <View
           style={{
-            marginTop: 40,
-
-            textAlign: 'center',
-            color: appColor.kTextColor,
-            fontSize: size.fontSize(18),
-            fontFamily: 'Outfit-Bold',
+            alignSelf: 'center',
+            width: size.getWidthSize(328),
+            borderRadius: 40,
+            height: size.getHeightSize(48),
+            justifyContent: 'center',
+            marginVertical: size.getHeightSize(16),
+            marginHorizontal: size.getWidthSize(16),
           }}
         >
-          I'LL DO IT LATER
-        </Text>
+          <Text
+            onPress={() => {
+              navigation.navigate('Congratulations');
+            }}
+            style={{
+              fontStyle: 'normal',
+              textAlign: 'center',
+              color: appColor.kTextColor,
+              fontSize: size.fontSize(16),
+              fontFamily: 'Outfit-SemiBold',
+              textTransform: 'uppercase',
+              lineHeight: size.getHeightSize(20),
+            }}
+          >
+            I'LL DO IT LATER
+          </Text>
+        </View>
       </View>
 
       <UploadImageModal />
@@ -205,11 +213,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
+    marginTop: size.getHeightSize(56),
   },
   imageContainer: {
-    width: 150,
-    height: 150,
-    borderRadius: 100,
+    width: 160,
+    height: 160,
+    borderRadius: 200,
     overflow: 'hidden',
   },
   image: {

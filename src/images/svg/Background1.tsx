@@ -1,4 +1,4 @@
-// @ts-nocheck
+//@ts-nocheck
 import * as React from 'react';
 import Svg, {
   SvgProps,
@@ -13,7 +13,13 @@ import Svg, {
   ClipPath,
 } from 'react-native-svg';
 const Background1 = (props: SvgProps) => (
-  <Svg width={360} height={800} fill="none" {...props}>
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={600}
+    height={800}
+    fill="none"
+    {...props}
+  >
     <G clipPath="url(#a)">
       <Path fill="url(#b)" d="M0 0h360v800H0z" />
       <G clipPath="url(#c)">

@@ -67,6 +67,7 @@ const NFTCollections = () => {
   let [isLoaded] = useFonts({
     'Urbanist-Bold': fonts.EXTRABOLD,
     UrbanistSemiBold: fonts.SEMIBOLD,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
   });
   if (!isLoaded) {
@@ -80,17 +81,19 @@ const NFTCollections = () => {
             flex: 1,
             flexDirection: 'row',
             flexWrap: 'wrap',
-            width: '90%',
-
+            width: size.getWidthSize(328),
             justifyContent: 'space-around',
             alignSelf: 'center',
-            marginTop: 20,
           }}
         >
           {collections.map((collection) => (
             <Pressable
               style={{
-                marginBottom: 20,
+                marginBottom: size.getHeightSize(16),
+                overflow: 'hidden',
+                width: size.getWidthSize(140),
+                height: size.getHeightSize(140),
+                borderRadius: 20,
               }}
               onPress={() => {
                 dispatch(updateNftRender(0));
@@ -101,28 +104,35 @@ const NFTCollections = () => {
             >
               <Image
                 source={collection.image}
-                resizeMode="contain"
+                resizeMode="cover"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                }}
                 // style={{ width: size.sWidth(0.42), height: size.sHeight(0.25) }}
               />
               <View
                 style={{
-                  height: size.sHeight(0.05),
-                  width: size.sWidth(0.32),
+                  width: size.getWidthSize(124),
                   position: 'absolute',
                   backgroundColor: '#101323',
-                  bottom: size.sHeight(0.01),
-                  left: size.sWidth(0.03),
-                  right: 0,
+                  bottom: size.getHeightSize(12),
+                  left: size.getWidthSize(8),
+                  // right: 0,
                   justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 10,
+                  borderRadius: 8,
+                  paddingVertical: size.getHeightSize(4),
+                  paddingHorizontal: size.getWidthSize(10),
+                  alignSelf: 'center',
+                  zIndex: 0,
                 }}
               >
                 <Text
                   style={{
                     color: appColor.kTextColor,
                     fontSize: size.fontSize(16),
-                    fontFamily: 'Outfit-Bold',
+                    fontFamily: 'Outfit-Regular',
+                    textAlign: 'left',
                   }}
                 >
                   {collection.Name}
@@ -130,14 +140,12 @@ const NFTCollections = () => {
               </View>
               <View
                 style={{
-                  height: size.sHeight(0.035),
-                  width: size.sWidth(0.08),
+                  height: 26,
+                  width: 25,
                   position: 'absolute',
                   backgroundColor: appColor.kSecondaryButtonColor,
-                  //   bottom: size.sHeight(0.01),
-                  left: '70%',
-                  top: 10,
-                  //   right: 0,
+                  left: size.getWidthSize(107),
+                  top: size.getHeightSize(10),
                   justifyContent: 'center',
                   alignItems: 'center',
                   borderRadius: 100,
@@ -147,7 +155,8 @@ const NFTCollections = () => {
                   style={{
                     color: appColor.kTextColor,
                     fontSize: size.fontSize(16),
-                    fontFamily: 'Outfit-Bold',
+                    fontFamily: 'Outfit-Regular',
+                    lineHeight: size.getHeightSize(18),
                   }}
                 >
                   {collection.id}
@@ -160,12 +169,12 @@ const NFTCollections = () => {
         <Text
           style={{
             color: appColor.kTextColor,
-            fontSize: size.fontSize(16),
+            fontSize: size.fontSize(14),
             fontFamily: 'Outfit-Medium',
             textAlign: 'center',
             marginTop: size.sHeight(0.01),
             marginHorizontal: 20,
-            alignSelf:"center"
+            alignSelf: 'center',
           }}
         >
           NFT not Found

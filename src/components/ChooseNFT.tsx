@@ -78,6 +78,7 @@ const ChooseNFT = () => {
     UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -91,14 +92,13 @@ const ChooseNFT = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={['70%']}
+      snapPoints={['85%']}
       handleComponent={Customhandler}
       backgroundStyle={{
         backgroundColor: appColor.kNavydark,
       }}
     >
       <Animatable.View
-        style={styles.header}
         animation={'fadeInUp'}
         delay={500}
         easing={'ease-in-out'}
@@ -110,23 +110,33 @@ const ChooseNFT = () => {
             fontSize: size.fontSize(29),
             fontFamily: 'Outfit-Bold',
             textAlign: 'center',
-            marginTop: size.sHeight(0.015),
+            marginTop: size.getHeightSize(29),
+            lineHeight: size.getHeightSize(37),
           }}
         >
           NFT
         </Text>
-        <Text
+        <View
           style={{
-            color: appColor.kTextColor,
-            fontSize: size.fontSize(16),
-            fontFamily: 'Outfit-Medium',
-            textAlign: 'center',
-            marginTop: size.sHeight(0.01),
-            marginHorizontal: 20,
+            width: size.getWidthSize(304),
+            alignSelf: 'center',
+            marginBottom: size.getHeightSize(32),
+            marginTop: size.getHeightSize(8),
           }}
         >
-          Select the NFT you want to use as your PFP
-        </Text>
+          <Text
+            style={{
+              color: appColor.kTextColor,
+              fontSize: size.fontSize(16),
+              fontFamily: 'Outfit-Regular',
+              textAlign: 'center',
+
+              lineHeight: size.getHeightSize(21),
+            }}
+          >
+            Select the NFT you want to use as your PFP
+          </Text>
+        </View>
       </Animatable.View>
       <BottomSheetScrollView showsVerticalScrollIndicator={false}>
         <Animatable.View
@@ -170,32 +180,4 @@ const ChooseNFT = () => {
 };
 
 export default ChooseNFT;
-const styles = StyleSheet.create({
-  header: {
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-  },
-
-  sectionHeader: {
-    marginTop: 10,
-  },
-  sectionTitle: {
-    color: 'gray',
-    fontWeight: 'normal',
-  },
-  summary: {
-    marginHorizontal: 10,
-  },
-  summaryText: {
-    color: 'red',
-  },
-  rating: {
-    marginHorizontal: 10,
-  },
-});
+const styles = StyleSheet.create({});

@@ -1,7 +1,6 @@
 const appImages = {
   logo: require('../images/png/logo.png'),
   apple: require('../images/png/apple.png'),
-  background1: require('../images/png/background1.png'),
   background2: require('../images/png/background2.png'),
   discord: require('../images/png/Discord.png'),
   email: require('../images/png/email.png'),
@@ -40,6 +39,7 @@ const appImages = {
   ImagesSquare: require('../images/png/ImagesSquare.png'),
   NftCollection1: require('../images/png/NFTcolletion.png'),
   NftCollection2: require('../images/png/NFTcolletion2.png'),
-  Aptomingos:require("../images/png/Aptomingos.png")
+  Aptomingos: require('../images/png/Aptomingos.png'),
+  ChooseWallet: require('../images/png/Choosewallet.png'),
 };
 export const images = appImages;

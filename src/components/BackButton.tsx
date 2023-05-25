@@ -19,31 +19,46 @@ const BackButton = ({ marginTop, closeModal }: Props) => {
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-SemiBold': fonts.SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
   }
   const size = new sizes(height, width);
   return (
-    <Text
-      onPress={() => {
-        if (closeModal) {
-          dispatch(updateRenderCount(0));
-          dispatch(updateBottomSheet(false));
-        }
-        navigation.goBack();
-      }}
+    <View
       style={{
-        marginTop: marginTop ? size.vMargin(marginTop) : 0,
-
-        textAlign: 'center',
-        color: appColor.kTextColor,
-        fontSize: size.fontSize(18),
-        fontFamily: 'Outfit-Bold',
+        alignSelf: 'center',
+        width: size.getWidthSize(328),
+        borderRadius: 40,
+        height: size.getHeightSize(48),
+        justifyContent: 'center',
+        marginTop: marginTop ? size.getHeightSize(marginTop) : 0,
+        marginVertical:size.getHeightSize(16),
+        marginHorizontal:size.getWidthSize(16)
       }}
     >
-      BACK
-    </Text>
+      <Text
+        onPress={() => {
+          if (closeModal) {
+            dispatch(updateRenderCount(0));
+            dispatch(updateBottomSheet(false));
+          }
+          navigation.goBack();
+        }}
+        style={{
+          fontStyle: 'normal',
+          textAlign: 'center',
+          color: appColor.kTextColor,
+          fontSize: size.fontSize(16),
+          fontFamily: 'Outfit-SemiBold',
+          textTransform: 'uppercase',
+          lineHeight: size.getHeightSize(20),
+        }}
+      >
+        BACK
+      </Text>
+    </View>
   );
 };
 

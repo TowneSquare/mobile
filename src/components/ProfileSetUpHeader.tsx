@@ -6,7 +6,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import React,{ReactNode} from 'react';
+import React, { ReactNode } from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../constants';
 import { sizes } from '../utils';
@@ -16,8 +16,10 @@ interface Props {
   stepDescription: string;
   title: string;
   sub_title: string;
-  SvgImage:ReactNode
+  SvgImage: ReactNode;
   addOpacity?: boolean;
+  subTitleWidth?: number;
+  subTitleHeight?: number;
 }
 const ProfileSetUpHeader = ({
   steps,
@@ -26,12 +28,15 @@ const ProfileSetUpHeader = ({
   sub_title,
   SvgImage,
   addOpacity,
+  subTitleWidth,
+  subTitleHeight,
 }: Props) => {
   let [isLoaded] = useFonts({
     'Urbanist-Bold': fonts.EXTRABOLD,
     UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -41,13 +46,12 @@ const ProfileSetUpHeader = ({
     <>
       <View
         style={{
-          width: size.sWidth(0.9),
           alignSelf: 'center',
+          marginTop: size.getHeightSize(34),
         }}
       >
         <Text
           style={{
-            marginTop: size.vMargin(5),
             color: addOpacity
               ? appColor.kWhiteColorWithOpacity
               : appColor.kTextColor,
@@ -128,40 +132,55 @@ const ProfileSetUpHeader = ({
       </View>
       <View
         style={{
-          marginTop: size.vMargin(80),
+          marginTop: size.getHeightSize(63.5),
           alignSelf: 'center',
         }}
       >
-
         {SvgImage}
       </View>
-      <Text
+      <View
         style={{
-          color: addOpacity
-            ? appColor.kWhiteColorWithOpacity
-            : appColor.kTextColor,
-          fontSize: size.fontSize(39),
-          fontFamily: 'Outfit-Bold',
-          textAlign: 'center',
-          marginTop: size.vMargin(40),
+          width: size.getWidthSize(355),
+          height: size.getHeightSize(37),
         }}
       >
-        {title}
-      </Text>
-      <Text
+        <Text
+          style={{
+            color: addOpacity
+              ? appColor.kWhiteColorWithOpacity
+              : appColor.kTextColor,
+            fontSize: size.fontSize(29),
+            fontFamily: 'Outfit-Bold',
+            textAlign: 'center',
+            marginTop: size.getHeightSize(8),
+            lineHeight: size.getHeightSize(37),
+          }}
+        >
+          {title}
+        </Text>
+      </View>
+      <View
         style={{
-          color: addOpacity
-            ? appColor.kWhiteColorWithOpacity
-            : appColor.kTextColor,
-          fontSize: size.fontSize(19),
-          fontFamily: 'Outfit-Medium',
-          textAlign: 'center',
-          marginTop: size.vMargin(20),
-          marginHorizontal: size.hMargin(80),
+          alignSelf: 'center',
+          marginTop: size.getHeightSize(8),
+          height: subTitleHeight ? subTitleHeight : size.getHeightSize(42),
+          width: subTitleWidth ? subTitleWidth : undefined,
         }}
       >
-        {sub_title}
-      </Text>
+        <Text
+          style={{
+            color: addOpacity
+              ? appColor.kWhiteColorWithOpacity
+              : appColor.kTextColor,
+            fontSize: size.fontSize(16),
+            fontFamily: 'Outfit-Regular',
+            textAlign: 'center',
+            lineHeight: size.getHeightSize(21),
+          }}
+        >
+          {sub_title}
+        </Text>
+      </View>
     </>
   );
 };
