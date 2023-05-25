@@ -30,13 +30,11 @@ import Description2 from '../images/svg/Description2';
 const size = new sizes(height, width);
 const FirstScreen = ({ navigation }: FirstScreenProps) => {
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Urbanist-ExtraBold': fonts.EXTRABOLD,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    'Outfit-ExtraBold': fonts.OUTFIT_EXTRABOLD,
   });
   if (!isLoaded) {
     return null;
@@ -73,7 +71,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
               marginLeft: size.widthSize(4.42),
               color: appColor.kTextColor,
               fontSize: size.fontSize(29.47),
-              fontFamily: 'Urbanist-ExtraBold',
+              fontFamily: 'Outfit-ExtraBold',
               fontStyle: 'normal',
               lineHeight: size.heightSize(35),
               textAlign: 'right',

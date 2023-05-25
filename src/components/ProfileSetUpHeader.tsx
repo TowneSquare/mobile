@@ -32,8 +32,6 @@ const ProfileSetUpHeader = ({
   subTitleHeight,
 }: Props) => {
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,

@@ -61,8 +61,6 @@ const ProfilePicsCollection = () => {
     },
   ];
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
   });
   if (!isLoaded) {

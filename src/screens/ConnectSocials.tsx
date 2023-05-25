@@ -26,8 +26,6 @@ const ConnectSocials = () => {
   const [isTwitterConected, setTwitterConnected] = useState(false);
   const [isDiscordConnected, setDiscordConnected] = useState(false);
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,

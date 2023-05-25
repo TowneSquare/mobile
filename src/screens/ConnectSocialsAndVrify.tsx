@@ -25,8 +25,6 @@ import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 const size = new sizes(height, width);
 const ConnectSocialsAndVrify = () => {
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
