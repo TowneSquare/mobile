@@ -33,8 +33,7 @@ const Wallets = () => {
     (state) => state.bottomSheetController.renderCount
   );
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
+   
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
@@ -46,7 +45,7 @@ const Wallets = () => {
     <View
       style={{
         opacity: isVisible && renderCount > 0 ? 0.3 : 1,
-        marginTop: size.getHeightSize(108),
+
         height: size.getHeightSize(312),
         justifyContent: 'space-between',
         width: size.getWidthSize(359),

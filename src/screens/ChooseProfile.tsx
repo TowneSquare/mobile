@@ -27,12 +27,8 @@ const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
     return null;
   }
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-      }}
-    >
-      <StatusBar style="light" backgroundColor={appColor.kStatusBarNaviDark} />
+    <>
+      <StatusBar style="light" />
       <ImageBackground
         style={{
           flex: 1,
@@ -58,7 +54,7 @@ const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
           <Text
             style={{
               opacity: isVisible && renderCount > 0 ? 0.3 : 1,
-              top: size.sHeight(0.04),
+              marginTop: size.getHeightSize(72),
               color: appColor.kTextColor,
               fontStyle: 'normal',
               fontSize: size.fontSize(32),
@@ -69,13 +65,28 @@ const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
           >
             Choose your wallet
           </Text>
+          <View
+            style={{
+              height: size.getHeightSize(108),
+            }}
+          />
           <Wallets />
-          <BackButton marginTop={164} />
+          <View style={{ flex: 1 }} />
+          <View
+            style={{
+              height: size.getHeightSize(124),
+              marginBottom: size.getHeightSize(24),
+            }}
+          >
+            <View style={{ height: 48 }} />
+
+            <BackButton marginTop={16} />
+          </View>
         </View>
 
         <CompleteSignUpModal />
       </ImageBackground>
-    </SafeAreaView>
+    </>
   );
 };
 

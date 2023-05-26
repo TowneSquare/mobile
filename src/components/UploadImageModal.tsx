@@ -44,6 +44,9 @@ const UploadImageModal = () => {
   const renderCount = useAppSelector(
     (state) => state.bottomSheetController.uploadModalRenderCount
   );
+  const collectionLength = useAppSelector(
+    (state) => state.bottomSheetController.listOfNftCollections.length
+  );
   useEffect(() => {
     dispatch(updateUploadModalRenderCount(0));
   }, []);
@@ -78,8 +81,7 @@ const UploadImageModal = () => {
   }));
 
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
   });
   if (!isLoaded) {
@@ -94,7 +96,7 @@ const UploadImageModal = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={['36%']}
+      snapPoints={['35']}
       handleComponent={Handler}
       backgroundStyle={{
         backgroundColor: appColor.kNavydark,
@@ -157,25 +159,26 @@ const UploadImageModal = () => {
               size={size.fontSize(23)}
             />
           </View>
-          {/* <Text
-            style={[styles.Text, { textAlign: 'center', marginTop: 40 }]}
+        
+        </View>
+        <View
+          style={{
+            height: size.getHeightSize(44),
+            marginTop: size.getHeightSize(16),
+            justifyContent: 'center',
+          
+          }}
+        >
+          <Text
+            style={[styles.Text, { textAlign: 'center' }]}
             onPress={() => {
               dispatch(updateUploadModalRenderCount(0));
               dispatch(updateUploadImageModalOpen(false));
             }}
           >
             BACK
-          </Text> */}
+          </Text>
         </View>
-        <Text
-          style={[styles.Text, { textAlign: 'center', marginTop: 40 }]}
-          onPress={() => {
-            dispatch(updateUploadModalRenderCount(0));
-            dispatch(updateUploadImageModalOpen(false));
-          }}
-        >
-          BACK
-        </Text>
       </Animatable.View>
     </BottomSheet>
   );
@@ -201,10 +204,10 @@ const styles = StyleSheet.create({
   },
 
   Text: {
-    paddingLeft: size.getWidthSize(8),
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     fontFamily: 'Outfit-SemiBold',
-    lineHeight: size.getHeightSize(24),
+    lineHeight: size.getHeightSize(20),
+    marginLeft: size.getWidthSize(8),
   },
 });

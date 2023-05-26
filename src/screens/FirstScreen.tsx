@@ -27,14 +27,13 @@ import Google from '../images/svg/Google';
 import Mail from '../images/svg/Mail';
 import Logo from '../images/svg/Logo';
 import Description2 from '../images/svg/Description2';
+import TowneSquareLogo from '../images/svg/TownesquareLogo';
 const size = new sizes(height, width);
 const FirstScreen = ({ navigation }: FirstScreenProps) => {
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
+    'Urbanist-ExtraBold': fonts.EXTRABOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Urbanist-ExtraBold': fonts.EXTRABOLD,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
@@ -42,18 +41,15 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
     return null;
   }
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-      }}
-    >
-      <StatusBar backgroundColor={appColor.kStatusBarColor} style="light" />
+    <>
+      <StatusBar style="light" />
 
       <ImageBackground
+        resizeMode="cover"
         style={{
           height: '100%',
           width: '100%',
-          flex: 1,
+         
         }}
         source={images.background2}
       >
@@ -62,9 +58,15 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            marginLeft: size.widthSize(65.56),
-            marginRight: size.widthSize(108.44),
-            marginTop: size.heightSize(40.19),
+            marginLeft: size.widthSize(18.58),
+
+            top: 18.58,
+            bottom: 76.96,
+            left: size.widthSize(18.58),
+            right: size.widthSize(37.15),
+            width: size.widthSize(224),
+            gap: size.widthSize(4.42),
+            marginTop: size.getHeightSize(40),
           }}
         >
           <Logo />
@@ -86,7 +88,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
         <Description
           style={{
             alignSelf: 'flex-start',
-            marginTop: size.heightSize(85.81),
+            marginTop: size.heightSize(103.9),
             width: size.widthSize(355.7),
             height: size.heightSize(61.45),
           }}
@@ -96,6 +98,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             alignSelf: 'flex-end',
             width: size.widthSize(355.7),
             height: size.getHeightSize(61.45),
+            marginTop: size.heightSize(11.55),
           }}
         />
         <Text
@@ -111,7 +114,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             fontStyle: 'normal',
           }}
         >
-          Social, create, build, and transact with anyone anywhere
+          Social, create, build, and transact {'\n'} with anyone anywhere
         </Text>
         <Pressable
           onPress={() => navigation.navigate('ChooseProfile')}
@@ -199,7 +202,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
           </Pressable>
         </View>
       </ImageBackground>
-    </SafeAreaView>
+    </>
   );
 };
 
@@ -207,7 +210,7 @@ export default FirstScreen;
 const styles = StyleSheet.create({
   socials: {
     height: size.getHeightSize(48),
-    width: size.getWidthSize(48),
+    width: size.getHeightSize(48),
     backgroundColor: appColor.kWhiteColor,
     borderRadius: 100,
     alignItems: 'center',

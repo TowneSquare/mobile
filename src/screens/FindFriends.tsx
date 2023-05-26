@@ -52,6 +52,21 @@ const FindFriends = () => {
       name: 'User Name',
       username: '@username4',
     },
+    {
+      image: <Friend2 />,
+      name: 'User Name',
+      username: '@username5',
+    },
+    {
+      image: <Friend3 />,
+      name: 'User Name',
+      username: '@username6',
+    },
+    {
+      image: <Friend4 />,
+      name: 'User Name',
+      username: '@username7',
+    },
   ];
 
   const [following, setFollowers] = useState<Friend[]>([]);
@@ -62,7 +77,6 @@ const FindFriends = () => {
     } else setOnPress(true);
   }, [following]);
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -94,17 +108,16 @@ const FindFriends = () => {
         SvgImage={<Hands />}
         stepDescription="Explore Communities"
         title="Find your friends"
-        sub_title="See the following for your friends that are on TowneSquare! Give them a big high five."
+        sub_title="See the following for your friends that are on \n TowneSquare! Give them a big high five."
         steps={4}
         subTitleWidth={304}
       />
 
       <View
         style={{
-          width: size.getWidthSize(328),
           marginTop: size.getHeightSize(32),
           alignSelf: 'center',
-          height: size.getHeightSize(300),
+          flex: 1,
         }}
       >
         <View
@@ -136,6 +149,7 @@ const FindFriends = () => {
             }}
           >
             <Text
+              onPress={() => setFollowers(friends)}
               style={{
                 fontSize: size.fontSize(16),
                 fontFamily: 'Outfit-SemiBold',
@@ -148,78 +162,69 @@ const FindFriends = () => {
             </Text>
           </View>
         </View>
-
-        {/* ScrollView */}
         <View
           style={{
-            height: size.getHeightSize(248),
-            marginTop: size.getHeightSize(8),
-            width: size.getWidthSize(328),
+            flex: 1,
           }}
         >
           <ScrollView showsVerticalScrollIndicator={false}>
-            <View
-              style={{
-                justifyContent: 'space-between',
-                height: size.getHeightSize(248),
-              }}
-            >
-              {friends.map((friend) => (
+            {friends.map((friend) => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width: size.getWidthSize(328),
+                  height: size.getHeightSize(56),
+                  borderRadius: 40,
+                  paddingVertical: size.getHeightSize(8),
+                  paddingHorizontal: size.getWidthSize(8),
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom:size.getHeightSize(8),
+                 
+                }}
+              >
+                {friend.image}
                 <View
                   style={{
-                    flexDirection: 'row',
-                    width: size.getWidthSize(328),
-                    height: size.getHeightSize(56),
-                    borderRadius: 40,
-                    paddingVertical: size.getHeightSize(8),
-                    paddingHorizontal: size.getWidthSize(8),
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    flex: 1,
+                    marginLeft: size.getWidthSize(8),
                   }}
                 >
-                  {friend.image}
-                  <View
-                    style={{
-                      flex: 1,
-                      marginLeft: size.getWidthSize(8),
-                    }}
-                  >
-                    <Text style={styles.username}>{friend.name}</Text>
-                    <Text style={styles.subusername}>{friend.username}</Text>
-                  </View>
-                  {following.some(
-                    (myFollower) => myFollower.username === friend.username
-                  ) ? (
-                    <Pressable
-                      onPress={() => removeFollowers(friend)}
-                      style={styles.followingButton}
-                    >
-                      <Text style={styles.buttonText}>FOLLOWING</Text>
-                    </Pressable>
-                  ) : (
-                    <Pressable
-                      onPress={() => addFollowers(friend)}
-                      style={styles.button}
-                    >
-                      <Text style={styles.buttonText}>FOLLOW</Text>
-                    </Pressable>
-                  )}
+                  <Text style={styles.username}>{friend.name}</Text>
+                  <Text style={styles.subusername}>{friend.username}</Text>
                 </View>
-              ))}
-            </View>
+                {following.some(
+                  (myFollower) => myFollower.username === friend.username
+                ) ? (
+                  <Pressable
+                    onPress={() => removeFollowers(friend)}
+                    style={styles.followingButton}
+                  >
+                    <Text style={styles.buttonText}>FOLLOWING</Text>
+                  </Pressable>
+                ) : (
+                  <Pressable
+                    onPress={() => addFollowers(friend)}
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>FOLLOW</Text>
+                  </Pressable>
+                )}
+              </View>
+            ))}
           </ScrollView>
         </View>
       </View>
-      <View style={{ flex: 1 }} />
       <View
         style={{
-          height: size.getHeightSize(108),
+          height: size.getHeightSize(124),
           marginBottom: size.getHeightSize(24),
         }}
       >
         <ContinueButton
           disabled={disableOnPress}
           navigateTo="ExploreCommunities"
+          marginTop={8}
         />
         <BackButton marginTop={16} />
       </View>
@@ -249,7 +254,7 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(16),
     fontFamily: 'Outfit-SemiBold',
     color: appColor.kTextColor,
-    lineHeight: size.getHeightSize(24),
+    lineHeight: size.getHeightSize(21),
   },
   subusername: {
     fontSize: size.fontSize(14),

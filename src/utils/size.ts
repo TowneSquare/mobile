@@ -60,5 +60,8 @@ class sizeConfig {
   getScaledWidth(value: number): number {
     return this.screenWidth * value;
   }
+  getScaledHeight(value: number) {
+    return this.screenHeight * value;
+  }
 }
 export const sizes = sizeConfig;

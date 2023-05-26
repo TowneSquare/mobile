@@ -23,8 +23,6 @@ import { FirstScreenProps } from '../utils/NavigationTypes';
 const size = new sizes(height, width);
 const Congratulations = () => {
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
   });
@@ -32,15 +30,10 @@ const Congratulations = () => {
     return null;
   }
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-      }}
-    >
-      <StatusBar style="light" backgroundColor={appColor.kBackgroundColor2} />
+    <>
+      <StatusBar style="light" />
       <ImageBackground
         style={{
-          flex: 1,
           width: '100%',
           height: '100%',
           alignItems: 'center',
@@ -60,7 +53,7 @@ const Congratulations = () => {
           <Congrats />
           <View
             style={{
-              marginTop: size.getHeightSize(22),
+              marginTop: size.getHeightSize(20),
               width: size.getWidthSize(180),
               height: size.getHeightSize(80),
               alignItems: 'center',
@@ -70,9 +63,9 @@ const Congratulations = () => {
             <Text
               style={{
                 color: appColor.kTextColor,
-                fontSize: size.fontSize(30),
+                fontSize: size.fontSize(32),
                 fontFamily: 'Outfit-Bold',
-
+                textAlign: 'center',
                 lineHeight: size.getHeightSize(40),
               }}
             >
@@ -84,6 +77,7 @@ const Congratulations = () => {
                 fontSize: size.fontSize(32),
                 fontFamily: 'Outfit-Bold',
                 lineHeight: size.getHeightSize(40),
+                textAlign: 'center',
               }}
             >
               You made it!
@@ -93,7 +87,7 @@ const Congratulations = () => {
           <LetGoButton navigateTo="ChooseUsername" />
         </View>
       </ImageBackground>
-    </SafeAreaView>
+    </>
   );
 };
 

@@ -1,11 +1,11 @@
 import { View, Text, Dimensions, TextInput } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { sizes } from '../utils';
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../constants';
 const UsernameField = () => {
   const { height, width } = Dimensions.get('window');
-
+  const [error, setError] = useState(false);
   const size = new sizes(height, width);
   let [isLoaded] = useFonts({
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -30,7 +30,9 @@ const UsernameField = () => {
           height: size.getHeightSize(48),
           borderRadius: 48,
           borderWidth: 1,
-          borderColor: appColor.kSecondaryButtonColor,
+          borderColor: error
+            ? appColor.kErrorText
+            : appColor.kSecondaryButtonColor,
           paddingHorizontal: size.getWidthSize(16),
           paddingVertical: size.getHeightSize(8),
           fontSize: size.fontSize(16),
@@ -40,24 +42,26 @@ const UsernameField = () => {
           marginHorizontal: size.getWidthSize(16),
         }}
       />
-      <View
-        style={{
-          alignSelf: 'flex-start',
-        }}
-      >
-        <Text
+      {error && (
+        <View
           style={{
-            marginTop: size.getHeightSize(8),
-            color: appColor.kErrorText,
-            fontSize: size.fontSize(16),
-            lineHeight: size.getHeightSize(21),
-            marginLeft: size.getWidthSize(16),
-            fontFamily: 'Outfit-Medium',
+            alignSelf: 'flex-start',
           }}
         >
-         Error message
-        </Text>
-      </View>
+          <Text
+            style={{
+              marginTop: size.getHeightSize(8),
+              color: appColor.kErrorText,
+              fontSize: size.fontSize(16),
+              lineHeight: size.getHeightSize(21),
+              marginLeft: size.getWidthSize(16),
+              fontFamily: 'Outfit-Medium',
+            }}
+          >
+            Error message
+          </Text>
+        </View>
+      )}
     </View>
   );
 };

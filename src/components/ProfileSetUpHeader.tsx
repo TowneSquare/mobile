@@ -6,7 +6,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../constants';
 import { sizes } from '../utils';
@@ -20,6 +20,7 @@ interface Props {
   addOpacity?: boolean;
   subTitleWidth?: number;
   subTitleHeight?: number;
+  iconMarginTop?: number;
 }
 const ProfileSetUpHeader = ({
   steps,
@@ -30,10 +31,9 @@ const ProfileSetUpHeader = ({
   addOpacity,
   subTitleWidth,
   subTitleHeight,
+  iconMarginTop,
 }: Props) => {
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
@@ -41,13 +41,14 @@ const ProfileSetUpHeader = ({
   if (!isLoaded) {
     return null;
   }
+
   const size = new sizes(height, width);
   return (
     <>
       <View
         style={{
           alignSelf: 'center',
-          marginTop: size.getHeightSize(34),
+          marginTop: size.getHeightSize(56),
         }}
       >
         <Text
@@ -57,14 +58,15 @@ const ProfileSetUpHeader = ({
               : appColor.kTextColor,
             fontFamily: 'Outfit-Medium',
             fontSize: size.fontSize(16),
+            lineHeight: size.getHeightSize(18),
           }}
         >
           Next Step: {stepDescription}
         </Text>
         <View
           style={{
-            marginTop: size.vMargin(5),
-            width: size.sWidth(0.9),
+            marginTop: size.getHeightSize(8),
+            width:size.getWidthSize(306),
             flexDirection: 'row',
           }}
         >
@@ -73,7 +75,9 @@ const ProfileSetUpHeader = ({
               flex: 1,
               backgroundColor:
                 steps >= 1
-                  ? appColor.kSecondaryButtonColor
+                  ? addOpacity
+                    ? appColor.kSecondaryButtonColorWithOpacity
+                    : appColor.kSecondaryButtonColor
                   : appColor.kStatusBarNaviDark,
               height: 2,
             }}
@@ -83,7 +87,9 @@ const ProfileSetUpHeader = ({
               flex: 1,
               backgroundColor:
                 steps >= 2
-                  ? appColor.kSecondaryButtonColor
+                  ? addOpacity
+                    ? appColor.kSecondaryButtonColorWithOpacity
+                    : appColor.kSecondaryButtonColor
                   : appColor.kStatusBarNaviDark,
               height: 2,
             }}
@@ -93,7 +99,9 @@ const ProfileSetUpHeader = ({
               flex: 1,
               backgroundColor:
                 steps >= 3
-                  ? appColor.kSecondaryButtonColor
+                  ? addOpacity
+                    ? appColor.kSecondaryButtonColorWithOpacity
+                    : appColor.kSecondaryButtonColor
                   : appColor.kStatusBarNaviDark,
               height: 2,
             }}
@@ -103,7 +111,9 @@ const ProfileSetUpHeader = ({
               flex: 1,
               backgroundColor:
                 steps >= 4
-                  ? appColor.kSecondaryButtonColor
+                  ? addOpacity
+                    ? appColor.kSecondaryButtonColorWithOpacity
+                    : appColor.kSecondaryButtonColor
                   : appColor.kStatusBarNaviDark,
               height: 2,
             }}
@@ -113,7 +123,9 @@ const ProfileSetUpHeader = ({
               flex: 1,
               backgroundColor:
                 steps >= 5
-                  ? appColor.kSecondaryButtonColor
+                  ? addOpacity
+                    ? appColor.kSecondaryButtonColorWithOpacity
+                    : appColor.kSecondaryButtonColor
                   : appColor.kStatusBarNaviDark,
               height: 2,
             }}
@@ -123,7 +135,9 @@ const ProfileSetUpHeader = ({
               flex: 1,
               backgroundColor:
                 steps >= 6
-                  ? appColor.kSecondaryButtonColor
+                  ? addOpacity
+                    ? appColor.kSecondaryButtonColorWithOpacity
+                    : appColor.kSecondaryButtonColor
                   : appColor.kStatusBarNaviDark,
               height: 2,
             }}
@@ -132,7 +146,7 @@ const ProfileSetUpHeader = ({
       </View>
       <View
         style={{
-          marginTop: size.getHeightSize(63.5),
+          marginTop: iconMarginTop ? iconMarginTop : size.getHeightSize(32),
           alignSelf: 'center',
         }}
       >
@@ -140,8 +154,8 @@ const ProfileSetUpHeader = ({
       </View>
       <View
         style={{
-          width: size.getWidthSize(355),
           height: size.getHeightSize(37),
+          marginHorizontal: size.getWidthSize(16),
         }}
       >
         <Text
@@ -163,8 +177,8 @@ const ProfileSetUpHeader = ({
         style={{
           alignSelf: 'center',
           marginTop: size.getHeightSize(8),
-          height: subTitleHeight ? subTitleHeight : size.getHeightSize(42),
           width: subTitleWidth ? subTitleWidth : undefined,
+          marginHorizontal: size.getWidthSize(16),
         }}
       >
         <Text
@@ -178,7 +192,7 @@ const ProfileSetUpHeader = ({
             lineHeight: size.getHeightSize(21),
           }}
         >
-          {sub_title}
+          {sub_title.replace(/\\n/g, '\n')}
         </Text>
       </View>
     </>
