@@ -10,7 +10,7 @@ import React from 'react';
 import { useFonts } from 'expo-font';
 import { images, fonts, appColor } from '../constants';
 const { height, width } = Dimensions.get('window');
-import { useAppDispatch } from '../controller/hooks';
+import { useAppDispatch, useAppSelector } from '../controller/hooks';
 import {
   updateSelectedCollection,
   updateSelectedRender,
@@ -21,49 +21,9 @@ import { sizes } from '../utils';
 const size = new sizes(height, width);
 const NFTCollections = () => {
   const dispatch = useAppDispatch();
-  const collections = [
-    {
-      image: images.NftCollection1,
-      Name: 'Aptos Monkey lorem Ipsumdalr',
-      id: 4,
-    },
-    {
-      image: images.NftCollection2,
-      Name: 'Aptomingos',
-      id: 12,
-    },
-    {
-      image: images.NftCollection1,
-      Name: 'Aptos Monkey lorem Ipsumdalr',
-      id: 4,
-    },
-    {
-      image: images.NftCollection2,
-      Name: 'Aptomingos',
-      id: 12,
-    },
-    {
-      image: images.NftCollection1,
-      Name: 'Aptos Monkey lorem Ipsumdalr',
-      id: 4,
-    },
-    {
-      image: images.NftCollection2,
-      Name: 'Aptomingos',
-      id: 12,
-    },
-    {
-      image: images.NftCollection1,
-      Name: 'Aptos Monkey lorem Ipsumdalr',
-      id: 4,
-    },
-    {
-      image: images.NftCollection2,
-      Name: 'Aptomingos',
-      id: 12,
-    },
-  ];
-
+  const collections = useAppSelector(
+    (state) => state.bottomSheetController.listOfNftCollections
+  );
   let [isLoaded] = useFonts({
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -73,7 +33,7 @@ const NFTCollections = () => {
   }
   return (
     <>
-      {collections.length > 0 ? (
+      {collections.length > 0 && (
         <View
           style={{
             flex: 1,
@@ -100,15 +60,17 @@ const NFTCollections = () => {
                 dispatch(updateSelectedCollection(true));
               }}
             >
-              <Image
-                source={collection.image}
-                resizeMode="cover"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                }}
-                // style={{ width: size.sWidth(0.42), height: size.sHeight(0.25) }}
-              />
+              {
+                <Image
+                  source={collection.image}
+                  resizeMode="cover"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                  }}
+                 
+                />
+              }
               <View
                 style={{
                   width: size.getWidthSize(124),
@@ -123,6 +85,7 @@ const NFTCollections = () => {
                   paddingHorizontal: size.getWidthSize(10),
                   alignSelf: 'center',
                   zIndex: 0,
+                  opacity: 0.9,
                 }}
               >
                 <Text
@@ -163,20 +126,6 @@ const NFTCollections = () => {
             </Pressable>
           ))}
         </View>
-      ) : (
-        <Text
-          style={{
-            color: appColor.kTextColor,
-            fontSize: size.fontSize(14),
-            fontFamily: 'Outfit-Medium',
-            textAlign: 'center',
-            marginTop: size.sHeight(0.01),
-            marginHorizontal: 20,
-            alignSelf: 'center',
-          }}
-        >
-          NFT not Found
-        </Text>
       )}
     </>
   );

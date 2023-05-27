@@ -51,16 +51,18 @@ const ConnectSocials = () => {
         SvgImage={<Link />}
         stepDescription="Select socials"
         title="Connect your socials"
-        sub_title="Connect both to receive extra credentials in your profile"
+        sub_title="Connect both to receive extra \n credentials in your profile"
         steps={3}
         subTitleWidth={304}
       />
-      <View style={{ height: size.getHeightSize(132.5) }} />
+
       <View
         style={{
-          height: size.getHeightSize(132),
+          height: size.getHeightSize(343),
           width: size.getWidthSize(328),
           alignSelf: 'center',
+          justifyContent: 'center',
+          gap: size.getHeightSize(16),
         }}
       >
         <View
@@ -89,7 +91,6 @@ const ConnectSocials = () => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            marginTop: size.vMargin(40),
           }}
         >
           <DiscordBG />
@@ -109,16 +110,16 @@ const ConnectSocials = () => {
           )}
         </View>
       </View>
-      <View style={{ height: size.getHeightSize(132.5) }} />
-      <View style={{ flex: 1 }} />
+      <View style={{ flex: 1 ,}} />
+
       <View
         style={{
-          height: size.getHeightSize(108),
+          height: size.getHeightSize(124),
           marginBottom: size.getHeightSize(24),
         }}
       >
         <ContinueButton navigateTo="FindFriends" />
-        <BackButton marginTop={16} />
+        <BackButton marginTop={20} />
       </View>
     </SafeAreaView>
   );
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(18),
   },
   isConnected: {
-    paddingVertical: size.vMargin(10),
+    paddingVertical: size.getHeightSize(10),
     justifyContent: 'center',
     flexDirection: 'row',
     width: size.getWidthSize(113),

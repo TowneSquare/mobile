@@ -33,6 +33,7 @@ import {
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const SelectedCollection = () => {
+  const [snapPoint, setSnap] = useState('67%');
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -89,18 +90,18 @@ const SelectedCollection = () => {
       onClose={() => {
         dispatch(updateSelectedRender(0));
         dispatch(updateSelectedCollection(false));
+        setSnap('67%');
       }}
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={['87%']}
+      snapPoints={[snapPoint]}
       handleComponent={Customhandler}
       backgroundStyle={{
         backgroundColor: appColor.kNavydark,
       }}
     >
       <Animatable.View
-        style={styles.header}
         animation={'fadeInUp'}
         delay={500}
         easing={'ease-in-out'}
@@ -120,7 +121,10 @@ const SelectedCollection = () => {
           Aptomingos
         </Text>
       </Animatable.View>
-      <BottomSheetScrollView showsVerticalScrollIndicator={false}>
+      <BottomSheetScrollView
+        onScroll={() => setSnap('90%')}
+        showsVerticalScrollIndicator={false}
+      >
         <Animatable.View
           animation={'fadeInUp'}
           delay={500}
@@ -135,12 +139,14 @@ const SelectedCollection = () => {
       <View
         style={{
           height: size.getHeightSize(116),
+          marginBottom: size.getHeightSize(16),
         }}
       >
         <Pressable
           onPress={() => {
             dispatch(updateSelectedRender(0));
             dispatch(updateSelectedCollection(false));
+            setSnap('67%');
           }}
           disabled={typeof profilePics.image === 'undefined' ? true : false}
           style={{
@@ -176,6 +182,7 @@ const SelectedCollection = () => {
             dispatch(updateSelectedCollection(false));
             dispatch(updateNftRender(1));
             dispatch(updateNftOpen(true));
+            setSnap('67%');
           }}
           style={{
             textAlign: 'center',
@@ -195,46 +202,3 @@ const SelectedCollection = () => {
 };
 
 export default SelectedCollection;
-const styles = StyleSheet.create({
-  header: {
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-  },
-  location: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  locationText: {
-    fontSize: 18,
-    color: 'white',
-  },
-  locationIcon: {
-    tintColor: 'gray',
-  },
-  scrollBox: {
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  sectionHeader: {
-    marginTop: 10,
-  },
-  sectionTitle: {
-    color: 'gray',
-    fontWeight: 'normal',
-  },
-  summary: {
-    marginHorizontal: 10,
-  },
-  summaryText: {
-    color: 'red',
-  },
-  rating: {
-    marginHorizontal: 10,
-  },
-});

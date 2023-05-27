@@ -122,6 +122,7 @@ const ProfilePicsCollection = () => {
               borderRadius: 8,
               paddingVertical: size.getHeightSize(4),
               paddingHorizontal: size.getWidthSize(10),
+              opacity:0.9
             }}
           >
             <Text

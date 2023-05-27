@@ -35,18 +35,26 @@ const ChooseUsername = () => {
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <ProfileSetUpHeader
           SvgImage={<User />}
-          stepDescription="Connect socials & verify"
+          stepDescription="Connect socials and verify"
           title="Choose your username"
-          sub_title="Stand out in TowneSquare with a unique username"
+          sub_title={`Stand out in TowneSquare with \n  a unique username.`}
           steps={1}
+          iconMarginTop={32}
         />
-        <View style={{ height: size.getHeightSize(174.5) }} />
-        <View >
+        <View style={{ height: size.getHeightSize(156) }} />
+        <View>
           <UsernameField />
         </View>
-      <View style={{ height: size.getHeightSize(174.5) }}/>
-        <ContinueButton  navigateTo="ConnectSocialsAndVrify" />
-        <BackButton marginTop={16} />
+        <View style={{ flex: 1 }} />
+        <View
+          style={{
+            height: size.getHeightSize(124),
+            marginBottom: size.getHeightSize(24),
+          }}
+        >
+          <ContinueButton navigateTo="ConnectSocialsAndVrify" />
+          <BackButton marginTop={16} />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

@@ -43,33 +43,21 @@ const ConnectSocialsAndVrify = () => {
       <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
       <ProfileSetUpHeader
         SvgImage={<Link />}
-        stepDescription="Select socials"
+        stepDescription="Connect socials and verify"
         title="Connect socials & verify"
-        sub_title="Connect your socials, help us fight bots and get rewarded."
+        sub_title="Connect your socials, help us fight bots, and \n get rewarded!"
         steps={2}
         subTitleWidth={328}
       />
       <View
         style={{
           width: size.getWidthSize(328),
-          marginTop: size.getHeightSize(45),
+          marginTop: size.getHeightSize(32),
           alignSelf: 'center',
-          height: size.getHeightSize(286),
+          height: size.getHeightSize(224),
         }}
       >
-        <Text
-          style={{
-            color: appColor.kTextColor,
-            fontSize: size.fontSize(18),
-            fontFamily: 'Outfit-SemiBold',
-            textAlign: 'center',
-            lineHeight: size.getHeightSize(22.68),
-            fontStyle: 'normal',
-          }}
-        >
-          Connect your social accounts, verify your account and get rewarded!
-        </Text>
-        <View style={[styles.row, { marginTop: size.getHeightSize(16) }]}>
+        <View style={[styles.row]}>
           <SealChecks />
           <Text style={styles.description}>
             Gain status points in TowneSquare
@@ -91,7 +79,7 @@ const ConnectSocialsAndVrify = () => {
       <View style={{ flex: 1 }} />
       <View
         style={{
-          height: size.getHeightSize(108),
+          height: size.getHeightSize(124),
           marginBottom: size.getHeightSize(24),
         }}
       >

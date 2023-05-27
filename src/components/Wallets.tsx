@@ -44,7 +44,7 @@ const Wallets = () => {
     <View
       style={{
         opacity: isVisible && renderCount > 0 ? 0.3 : 1,
-        marginTop: size.getHeightSize(108),
+
         height: size.getHeightSize(312),
         justifyContent: 'space-between',
         width: size.getWidthSize(359),

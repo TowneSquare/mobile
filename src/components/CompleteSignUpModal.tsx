@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  Image,
+  Dimensions,
+} from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
 import Animated, {
   Extrapolation,
@@ -50,6 +57,7 @@ const CompleteSignUpModal = () => {
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
 
   const contentStyle = useAnimatedStyle(() => ({
@@ -80,7 +88,7 @@ const CompleteSignUpModal = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={['50%']}
+      snapPoints={[Platform.OS === 'ios' ? '58%' : '60%']}
       backgroundStyle={{
         backgroundColor: appColor.kDisabledColor,
       }}
@@ -90,6 +98,9 @@ const CompleteSignUpModal = () => {
         delay={500}
         easing={'ease-in-out'}
         duration={400}
+        style={{
+          flex: 1,
+        }}
       >
         <Text
           style={{
@@ -116,92 +127,64 @@ const CompleteSignUpModal = () => {
             fontStyle: 'normal',
           }}
         >
-          Connecting your wallet allows you to perform transactions by signing
-          natively in the app
+          Connecting your wallet allows you to perform{'\n'} transactions by
+          signing natively in the app.
         </Text>
         <View
           style={{
             paddingVertical: size.getHeightSize(16),
             paddingLeft: size.getWidthSize(18),
-            paddingRight:size.getWidthSize(16),
-            height: size.getHeightSize(95),
+            paddingRight: size.getWidthSize(16),
+            // height: size.getHeightSize(95),
             width: size.getWidthSize(328),
             backgroundColor: appColor.kSecondaryColor,
             alignSelf: 'center',
             flexDirection: 'row',
             borderRadius: 8,
-            marginTop: size.vMargin(25),
+            marginTop: size.getHeightSize(24),
+            marginHorizontal: size.getWidthSize(16),
           }}
         >
           <Info />
           <View
             style={{
               flexShrink: 1,
+              width: size.getWidthSize(264),
+             
             }}
           >
             <Text
               style={{
                 fontSize: size.fontSize(16),
                 color: appColor.kTextColor,
-                fontFamily: 'Outfit-Medium',
                 textAlign: 'left',
-                paddingLeft:size.getWidthSize(10),
+                paddingLeft: size.getWidthSize(10),
+                lineHeight: 21,
+                fontFamily: 'Outfit-Regular',
               }}
             >
-              Townesquare will not be able to make any changes to your wallet
-              without your permission
+              All transactions on TowneSquare{'\n'} need to be signed by you
+              like {'\n'}
+              anywhere else.
             </Text>
           </View>
         </View>
-        <ContinueButton marginTop={32} closeModal navigateTo="ChooseUsername" />
-        <BackButton marginTop={8} closeModal={true} />
+        <View
+          style={{
+            flex: 1,
+          }}
+        />
+        <View
+          style={{
+            marginBottom: size.getHeightSize(28),
+          }}
+        >
+          <ContinueButton closeModal navigateTo="ChooseUsername" />
+          <BackButton marginTop={8} closeModal={true} />
+        </View>
       </Animatable.View>
     </BottomSheet>
   );
 };
 
 export default CompleteSignUpModal;
-
-const styles = StyleSheet.create({
-  header: {
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-  },
-  location: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  locationText: {
-    fontSize: 18,
-    color: 'white',
-  },
-  locationIcon: {
-    tintColor: 'gray',
-  },
-  scrollBox: {
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  sectionHeader: {
-    marginTop: 10,
-  },
-  sectionTitle: {
-    color: 'gray',
-    fontWeight: 'normal',
-  },
-  summary: {
-    marginHorizontal: 10,
-  },
-  summaryText: {
-    color: 'red',
-  },
-  rating: {
-    marginHorizontal: 10,
-  },
-});

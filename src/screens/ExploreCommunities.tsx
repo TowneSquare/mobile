@@ -90,7 +90,7 @@ const ExploreCommunities = () => {
         SvgImage={<Community />}
         stepDescription="Choose PFP"
         title="Explore Communities"
-        sub_title="Here are some communities you might be interested in"
+        sub_title="Here are some communities you might be \n interested in"
         steps={5}
         subTitleWidth={304}
       />
@@ -99,7 +99,7 @@ const ExploreCommunities = () => {
           width: size.getWidthSize(328),
           marginTop: size.getHeightSize(32),
           alignSelf: 'center',
-          height: size.getHeightSize(333),
+          flex: 1,
         }}
       >
         <View
@@ -126,16 +126,17 @@ const ExploreCommunities = () => {
           </Text>
           <View
             style={{
-              width: size.getWidthSize(91),
+              width: size.getWidthSize(65),
             }}
           >
             <Text
+              onPress={() => setCommunities(Communities)}
               style={{
                 fontSize: size.fontSize(16),
                 fontFamily: 'Outfit-SemiBold',
                 textAlign: 'center',
                 color: appColor.kSecondaryButtonColor,
-                lineHeight: size.getHeightSize(24),
+                lineHeight: size.getHeightSize(21),
               }}
             >
               Join all
@@ -146,76 +147,71 @@ const ExploreCommunities = () => {
         {/* ScrollView */}
         <View
           style={{
-            height: size.getHeightSize(281),
-            marginTop: size.getHeightSize(8),
-            width: size.getWidthSize(328),
+            flex: 1,
           }}
         >
           <ScrollView showsVerticalScrollIndicator={false}>
-            <View
-              style={{
-                justifyContent: 'space-between',
-                height: size.getHeightSize(281),
-              }}
-            >
-              {Communities.map((Community) => (
+            {Communities.map((Community) => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width: size.getWidthSize(328),
+                  height: size.getHeightSize(58),
+                  borderRadius: 40,
+                  paddingVertical: size.getHeightSize(8),
+                  paddingHorizontal: size.getWidthSize(8),
+                  alignItems: 'center',
+                  // justifyContent: 'center',
+                  marginBottom: size.getHeightSize(8),
+                 
+                }}
+              >
+                {Community.image}
                 <View
                   style={{
-                    flexDirection: 'row',
-                    width: size.getWidthSize(328),
-                    height: size.getHeightSize(58),
-                    borderRadius: 40,
-                    paddingVertical: size.getHeightSize(8),
-                    paddingHorizontal: size.getWidthSize(8),
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    flex: 1,
+                    marginLeft: size.getWidthSize(8),
+                  
                   }}
                 >
-                  {Community.image}
-                  <View
-                    style={{
-                      flex: 1,
-                      marginLeft: size.getWidthSize(8),
-                    }}
-                  >
-                    <Text style={styles.username}>{Community.name}</Text>
-                    {Community.message && (
-                      <Text style={styles.message}>{Community.message}</Text>
-                    )}
-                  </View>
-                  {communities.some(
-                    (myCommuinty) => myCommuinty.name === Community.name
-                  ) ? (
-                    <Pressable
-                      onPress={() => removeCommunity(Community)}
-                      style={styles.myCommunityButton}
-                    >
-                      <Text style={styles.buttonText}>JOINED</Text>
-                    </Pressable>
-                  ) : (
-                    <Pressable
-                      onPress={() => addCommunity(Community)}
-                      style={styles.button}
-                    >
-                      <Text style={styles.buttonText}>JOIN</Text>
-                    </Pressable>
+                  <Text style={styles.username}>{Community.name}</Text>
+                  {Community.message && (
+                    <Text style={styles.message}>{Community.message}</Text>
                   )}
                 </View>
-              ))}
-            </View>
+                {communities.some(
+                  (myCommuinty) => myCommuinty.name === Community.name
+                ) ? (
+                  <Pressable
+                    onPress={() => removeCommunity(Community)}
+                    style={styles.myCommunityButton}
+                  >
+                    <Text style={styles.buttonText}>JOINED</Text>
+                  </Pressable>
+                ) : (
+                  <Pressable
+                    onPress={() => addCommunity(Community)}
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>JOIN</Text>
+                  </Pressable>
+                )}
+              </View>
+            ))}
           </ScrollView>
         </View>
       </View>
-      <View style={{ flex: 1 }} />
+
       <View
         style={{
-          height: size.getHeightSize(108),
+          height: size.getHeightSize(124),
           marginBottom: size.getHeightSize(24),
         }}
       >
         <ContinueButton
           disabled={disableOnPress}
           navigateTo="ChooseProfilePics"
+          marginTop={8}
         />
         <BackButton marginTop={16} />
       </View>
@@ -245,7 +241,9 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(16),
     fontFamily: 'Outfit-SemiBold',
     color: appColor.kTextColor,
-    lineHeight: size.getHeightSize(24),
+    lineHeight: size.getHeightSize(21),
+    // flexWrap: 'wrap',
+    // position: 'relative',
   },
   message: {
     fontSize: size.fontSize(14),

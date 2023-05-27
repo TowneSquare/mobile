@@ -27,10 +27,9 @@ import User from '../images/svg/User';
 import {
   updateUploadImageModalOpen,
   updateUploadModalRenderCount,
-  updateNotFoundRender,
-  updateNotFoundModal,
 } from '../controller/BottomSheetController';
 import ChooseNFT from '../components/ChooseNFT';
+
 import { ChooseProfilePicsProps } from '../utils/NavigationTypes';
 import tinycolor from 'tinycolor2';
 const size = new sizes(height, width);
@@ -84,15 +83,16 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
         SvgImage={<User />}
         stepDescription="All done! Explore TowneSquare"
         title="Your profile picture"
-        sub_title="Make your favorite NFT or photo your profile picture to help other TowneSquare members recognize you"
+        sub_title="Make your favorite NFT or photo your profile \n picture to help other TowneSquare members \n  recognize you."
         steps={6}
         subTitleHeight={63}
-        subTitleWidth={304}
+        subTitleWidth={328}
       />
 
       <View
         style={{
-          height: size.getHeightSize(376),
+          // height: size.getHeightSize(376),
+          marginTop: size.getHeightSize(90),
         }}
       >
         {profilePics.image ? (
@@ -127,15 +127,14 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
               dispatch(updateUploadImageModalOpen(true));
             }}
             style={{
-              height: 160,
-              width: 160,
+              height: size.getHeightSize(160),
+              width: size.getHeightSize(160),
               alignItems: 'center',
               backgroundColor:
                 uploadImageModal || NftModal || selectedCollectionModal
                   ? appColor.kSecondaryNavyWithOpacity
                   : appColor.kSecondaryNavy,
               alignSelf: 'center',
-              marginTop: 50,
               borderRadius: 200,
               borderWidth: 3,
               borderColor:
@@ -152,7 +151,7 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
                   ? appColor.kWhiteColorWithOpacity
                   : appColor.kWhiteColor
               }
-              size={35}
+              size={size.fontSize(30)}
             />
           </Pressable>
         )}
@@ -160,7 +159,7 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
       <View style={{ flex: 1 }} />
       <View
         style={{
-          height: size.getHeightSize(108),
+          height: size.getHeightSize(124),
           marginBottom: size.getHeightSize(24),
         }}
       >
@@ -211,11 +210,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: size.getHeightSize(56),
   },
   imageContainer: {
-    width: 160,
-    height: 160,
+    height: size.getHeightSize(124),
+    width: size.getHeightSize(124),
+    marginBottom: size.getHeightSize(24),
     borderRadius: 200,
     overflow: 'hidden',
   },

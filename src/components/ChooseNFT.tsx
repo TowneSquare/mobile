@@ -32,9 +32,13 @@ import {
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const ChooseNFT = () => {
+  const collectionLength = useAppSelector(
+    (state) => state.bottomSheetController.listOfNftCollections.length
+  );
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const [snapPoint, setSnap] = useState('67%');
   const isVisible = useAppSelector(
     (state) => state.bottomSheetController.NftModalOpen
   );
@@ -86,11 +90,12 @@ const ChooseNFT = () => {
       onClose={() => {
         dispatch(updateNftRender(0));
         dispatch(updateNftOpen(false));
+        collectionLength > 0 && setSnap('67%');
       }}
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={['85%']}
+      snapPoints={[collectionLength > 0 ? snapPoint : '30%']}
       handleComponent={Customhandler}
       backgroundStyle={{
         backgroundColor: appColor.kNavydark,
@@ -136,7 +141,10 @@ const ChooseNFT = () => {
           </Text>
         </View>
       </Animatable.View>
-      <BottomSheetScrollView showsVerticalScrollIndicator={false}>
+      <BottomSheetScrollView
+        onScroll={() => collectionLength > 0 && setSnap('90%')}
+        showsVerticalScrollIndicator={false}
+      >
         <Animatable.View
           animation={'fadeInUp'}
           delay={500}
@@ -144,19 +152,40 @@ const ChooseNFT = () => {
           duration={400}
           style={contentStyle}
         >
-          <NFTCollections />
+          {collectionLength > 0 ? (
+            <NFTCollections />
+          ) : (
+            <View
+              style={{
+                alignSelf: 'center',
+              }}
+            >
+              <Text
+                style={{
+                  color: appColor.kTextColor,
+                  fontSize: size.fontSize(16),
+                  fontFamily: 'Outfit-Regular',
+                  textAlign: 'center',
+                  marginTop: size.getHeightSize(16),
+                  lineHeight: size.getHeightSize(21),
+                }}
+              >
+                Nft not found
+              </Text>
+            </View>
+          )}
         </Animatable.View>
       </BottomSheetScrollView>
       <View
         style={{
           justifyContent: 'center',
-          height: 70,
+          height: size.getHeightSize(70),
         }}
       >
         <Text
           style={[
             {
-              paddingBottom: size.vMargin(20),
+              paddingBottom: size.getHeightSize(20),
               color: appColor.kTextColor,
               fontSize: size.fontSize(18),
               fontFamily: 'Outfit-Bold',
@@ -168,6 +197,7 @@ const ChooseNFT = () => {
             dispatch(updateNftOpen(false));
             dispatch(updateUploadModalRenderCount(1));
             dispatch(updateUploadImageModalOpen(true));
+            collectionLength > 0 && setSnap('67%');
           }}
         >
           BACK
