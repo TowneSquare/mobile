@@ -31,11 +31,11 @@ import TowneSquareLogo from '../images/svg/TownesquareLogo';
 const size = new sizes(height, width);
 const FirstScreen = ({ navigation }: FirstScreenProps) => {
   let [isLoaded] = useFonts({
-    'Urbanist-ExtraBold': fonts.EXTRABOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    'Outfit-ExtraBold': fonts.OUTFIT_EXTRABOLD,
   });
   if (!isLoaded) {
     return null;
@@ -75,7 +75,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
               marginLeft: size.widthSize(4.42),
               color: appColor.kTextColor,
               fontSize: size.fontSize(29.47),
-              fontFamily: 'Urbanist-ExtraBold',
+              fontFamily: 'Outfit-ExtraBold',
               fontStyle: 'normal',
               lineHeight: size.heightSize(35),
               textAlign: 'right',

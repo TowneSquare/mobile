@@ -33,7 +33,6 @@ const Wallets = () => {
     (state) => state.bottomSheetController.renderCount
   );
   let [isLoaded] = useFonts({
-   
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
