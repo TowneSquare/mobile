@@ -21,6 +21,7 @@ import BackButton from '../components/BackButton';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 const size = new sizes(height, width);
 interface Friend {
+  id:number,
   image: ImageSourcePropType;
   name: string;
   username: string;
@@ -28,21 +29,25 @@ interface Friend {
 const FindFriends = () => {
   const friends: Array<Friend> = [
     {
+      id:1,
       image: images.friend1,
       name: 'User Name',
       username: '@username1',
     },
     {
+      id:2,
       image: images.friend2,
       name: 'User Name',
       username: '@username2',
     },
     {
+      id:3,
       image: images.friend3,
       name: 'User Name',
       username: '@username3',
     },
     {
+      id:4,
       image: images.friend4,
       name: 'User Name',
       username: '@username4',
@@ -147,19 +152,20 @@ const FindFriends = () => {
             >
               {friends.map((friend) => (
                 <View
+                  key={friend.id}
                   style={{
                     flexDirection: 'row',
                     width: size.sWidth(0.9),
                   }}
                 >
-                  <Image source={friend.image} />
+                  <Image  source={friend.image} />
                   <View
                     style={{
                       flex: 1,
                     }}
                   >
-                    <Text style={styles.username}>{friend.name}</Text>
-                    <Text style={styles.subusername}>{friend.username}</Text>
+                    <Text  style={styles.username}>{friend.name}</Text>
+                    <Text  style={styles.subusername}>{friend.username}</Text>
                   </View>
                   {following.some(
                     (myFollower) => myFollower.username === friend.username

@@ -1,11 +1,18 @@
 import { View, Text, Dimensions, TextInput } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import { sizes } from '../utils';
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../constants';
-const UsernameField = () => {
+interface UsernameFieldProps {
+  value: string,
+  onChangeText:(e:string) => any ,
+}
+const UsernameField = ({
+  value,
+  onChangeText
+}:UsernameFieldProps) => {
   const { height, width } = Dimensions.get('window');
-
+   
   const size = new sizes(height, width);
   let [isLoaded] = useFonts({
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -26,6 +33,8 @@ const UsernameField = () => {
         cursorColor={appColor.kgrayColor}
         placeholder="Insert username"
         placeholderTextColor={appColor.kSecondaryNavy}
+        onChangeText={text => onChangeText(text)}
+        value={value}
         style={{
           marginTop: size.sHeight(0.01),
           width: size.sWidth(0.9),
@@ -45,7 +54,7 @@ const UsernameField = () => {
           marginTop: size.sHeight(0.008),
           color: appColor.kErrorText,
           fontSize: size.fontSize(16),
-            marginLeft:3,
+          marginLeft:3,
           alignSelf: 'flex-start',
         }}
       >
