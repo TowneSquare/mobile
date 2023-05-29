@@ -9,48 +9,88 @@ import {
   ImageSourcePropType,
   ScrollView,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import { appColor, fonts, images } from '../constants';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../utils';
+import Hands from '../images/svg/Hands';
+import Friend1 from '../images/svg/Friend1';
+import Friend2 from '../images/svg/Friend2';
+import Friend3 from '../images/svg/Friend3';
+import Friend4 from '../images/svg/Friend4';
 import ContinueButton from '../components/ContinueButton';
 import BackButton from '../components/BackButton';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 const size = new sizes(height, width);
 interface Friend {
+<<<<<<< HEAD
   id:number,
   image: ImageSourcePropType;
+=======
+  image: ReactNode;
+>>>>>>> a3a8715f871f30afd6f0de8cd48c65d3dc690b43
   name: string;
   username: string;
 }
 const FindFriends = () => {
   const friends: Array<Friend> = [
     {
+<<<<<<< HEAD
       id:1,
       image: images.friend1,
+=======
+      image: <Friend1 />,
+>>>>>>> a3a8715f871f30afd6f0de8cd48c65d3dc690b43
       name: 'User Name',
       username: '@username1',
     },
     {
+<<<<<<< HEAD
       id:2,
       image: images.friend2,
+=======
+      image: <Friend2 />,
+>>>>>>> a3a8715f871f30afd6f0de8cd48c65d3dc690b43
       name: 'User Name',
       username: '@username2',
     },
     {
+<<<<<<< HEAD
       id:3,
       image: images.friend3,
+=======
+      image: <Friend3 />,
+>>>>>>> a3a8715f871f30afd6f0de8cd48c65d3dc690b43
       name: 'User Name',
       username: '@username3',
     },
     {
+<<<<<<< HEAD
       id:4,
       image: images.friend4,
+=======
+      image: <Friend4 />,
+>>>>>>> a3a8715f871f30afd6f0de8cd48c65d3dc690b43
       name: 'User Name',
       username: '@username4',
+    },
+    {
+      image: <Friend2 />,
+      name: 'User Name',
+      username: '@username5',
+    },
+    {
+      image: <Friend3 />,
+      name: 'User Name',
+      username: '@username6',
+    },
+    {
+      image: <Friend4 />,
+      name: 'User Name',
+      username: '@username7',
     },
   ];
 
@@ -62,10 +102,10 @@ const FindFriends = () => {
     } else setOnPress(true);
   }, [following]);
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
@@ -90,74 +130,93 @@ const FindFriends = () => {
     >
       <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
       <ProfileSetUpHeader
-        image={images.hadnwave}
+        SvgImage={<Hands />}
         stepDescription="Explore Communities"
         title="Find your friends"
-        sub_title="See the following for your friend that are on TowneSquare! Give them a big high five"
+        sub_title="See the following for your friends that are on \n TowneSquare! Give them a big high five."
         steps={4}
+        subTitleWidth={304}
       />
+
       <View
         style={{
-          width: size.sWidth(0.9),
-          marginTop: size.vMargin(40),
+          marginTop: size.getHeightSize(32),
           alignSelf: 'center',
           flex: 1,
-          marginBottom: size.vMargin(40),
-          justifyContent: 'space-between',
         }}
       >
         <View
           style={{
-            width: size.sWidth(0.9),
+            width: size.getWidthSize(328),
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginBottom: size.vMargin(40),
+            gap: size.getHeightSize(8),
+            height: size.getHeightSize(44),
+
+            paddingHorizontal: size.getWidthSize(8),
           }}
         >
           <Text
             style={{
-              fontSize: size.fontSize(19),
-              fontFamily: 'Outfit-Medium',
+              fontSize: size.fontSize(18),
+              fontFamily: 'Outfit-Regular',
               textAlign: 'center',
+              lineHeight: size.getHeightSize(23),
               color: appColor.kTextColor,
+              fontStyle: 'normal',
             }}
           >
             Suggested Friends
           </Text>
-          <Text
+          <View
             style={{
-              fontSize: size.fontSize(19),
-              fontFamily: 'Outfit-Medium',
-              textAlign: 'center',
-              color: appColor.kSecondaryButtonColor,
+              width: size.getWidthSize(91),
             }}
           >
-            Follow all
-          </Text>
+            <Text
+              onPress={() => setFollowers(friends)}
+              style={{
+                fontSize: size.fontSize(16),
+                fontFamily: 'Outfit-SemiBold',
+                textAlign: 'center',
+                color: appColor.kSecondaryButtonColor,
+                lineHeight: size.getHeightSize(24),
+              }}
+            >
+              Follow all
+            </Text>
+          </View>
         </View>
-
-        {/* ScrollView */}
         <View
           style={{
             flex: 1,
           }}
         >
-          <ScrollView 
-          showsVerticalScrollIndicator={false}>
-            <View
-              style={{
-                justifyContent: 'space-between',
-                height: 300,
-              }}
-            >
-              {friends.map((friend) => (
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {friends.map((friend) => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width: size.getWidthSize(328),
+                  height: size.getHeightSize(56),
+                  borderRadius: 40,
+                  paddingVertical: size.getHeightSize(8),
+                  paddingHorizontal: size.getWidthSize(8),
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom:size.getHeightSize(8),
+                 
+                }}
+              >
+                {friend.image}
                 <View
                   key={friend.id}
                   style={{
-                    flexDirection: 'row',
-                    width: size.sWidth(0.9),
+                    flex: 1,
+                    marginLeft: size.getWidthSize(8),
                   }}
                 >
+<<<<<<< HEAD
                   <Image  source={friend.image} />
                   <View
                     style={{
@@ -184,28 +243,45 @@ const FindFriends = () => {
                       <Text style={styles.buttonText}>FOLLOW</Text>
                     </Pressable>
                   )}
+=======
+                  <Text style={styles.username}>{friend.name}</Text>
+                  <Text style={styles.subusername}>{friend.username}</Text>
+>>>>>>> a3a8715f871f30afd6f0de8cd48c65d3dc690b43
                 </View>
-              ))}
-            </View>
+                {following.some(
+                  (myFollower) => myFollower.username === friend.username
+                ) ? (
+                  <Pressable
+                    onPress={() => removeFollowers(friend)}
+                    style={styles.followingButton}
+                  >
+                    <Text style={styles.buttonText}>FOLLOWING</Text>
+                  </Pressable>
+                ) : (
+                  <Pressable
+                    onPress={() => addFollowers(friend)}
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>FOLLOW</Text>
+                  </Pressable>
+                )}
+              </View>
+            ))}
           </ScrollView>
         </View>
       </View>
       <View
         style={{
-          alignSelf: 'baseline',
-
-          alignItems: 'center',
-          width: '100%',
-
-          height: 150,
+          height: size.getHeightSize(124),
+          marginBottom: size.getHeightSize(24),
         }}
       >
         <ContinueButton
           disabled={disableOnPress}
           navigateTo="ExploreCommunities"
-          marginTop={2}
+          marginTop={8}
         />
-        <BackButton marginTop={50} />
+        <BackButton marginTop={16} />
       </View>
     </SafeAreaView>
   );
@@ -214,35 +290,40 @@ const FindFriends = () => {
 export default FindFriends;
 const styles = StyleSheet.create({
   button: {
+    width: size.getWidthSize(91),
     backgroundColor: appColor.kSecondaryButtonColor,
-    borderRadius: 20,
-    paddingHorizontal: size.hMargin(50),
-    paddingVertical: size.vMargin(10),
+    borderRadius: 40,
+    paddingHorizontal: size.getWidthSize(16),
+    paddingVertical: size.getHeightSize(4),
     justifyContent: 'center',
+    height: size.getHeightSize(38),
   },
   buttonText: {
-    fontSize: size.fontSize(19),
-    fontFamily: 'Outfit-Medium',
+    fontSize: size.fontSize(14),
+    fontFamily: 'Outfit-SemiBold',
     textAlign: 'center',
     color: appColor.kTextColor,
+    lineHeight: size.getHeightSize(18),
   },
   username: {
-    fontSize: size.fontSize(19),
-    fontFamily: 'Outfit-Medium',
-    paddingLeft: size.hMargin(50),
+    fontSize: size.fontSize(16),
+    fontFamily: 'Outfit-SemiBold',
     color: appColor.kTextColor,
+    lineHeight: size.getHeightSize(21),
   },
   subusername: {
-    fontSize: size.fontSize(19),
-    fontFamily: 'Outfit-Medium',
-    paddingLeft: size.hMargin(50),
+    fontSize: size.fontSize(14),
+    fontFamily: 'Outfit-Regular',
     color: appColor.kgrayColor,
+    lineHeight: size.getHeightSize(18),
   },
   followingButton: {
     backgroundColor: appColor.kSecondaryColor,
-    borderRadius: 20,
-    paddingHorizontal: size.hMargin(50),
-    paddingVertical: size.vMargin(10),
+    borderRadius: 40,
+    height: size.getHeightSize(38),
     justifyContent: 'center',
+    width: size.getWidthSize(116),
+    paddingVertical: size.getHeightSize(4),
+    paddingHorizontal: size.getWidthSize(16),
   },
 });

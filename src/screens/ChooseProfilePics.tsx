@@ -23,26 +23,35 @@ import BackButton from '../components/BackButton';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 import UploadImageModal from '../components/UploadImageModal';
 import SelectedCollection from '../components/SelectedCollection';
+import User from '../images/svg/User';
 import {
   updateUploadImageModalOpen,
   updateUploadModalRenderCount,
 } from '../controller/BottomSheetController';
 import ChooseNFT from '../components/ChooseNFT';
+
 import { ChooseProfilePicsProps } from '../utils/NavigationTypes';
+import tinycolor from 'tinycolor2';
 const size = new sizes(height, width);
 const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
   const dispatch = useAppDispatch();
   const profilePics = useAppSelector(
     (state) => state.bottomSheetController.profilePics
   );
-  const addOpacity = useAppSelector(
-    (state) => state.bottomSheetController.backgroundOpacity
+
+  const uploadImageModal = useAppSelector(
+    (state) => state.bottomSheetController.uploadImageModalOpen
+  );
+  const NftModal = useAppSelector(
+    (state) => state.bottomSheetController.NftModalOpen
+  );
+  const selectedCollectionModal = useAppSelector(
+    (state) => state.bottomSheetController.selectedCollectionModal
   );
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -52,41 +61,42 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: appColor.kDisabledColor,
+        backgroundColor:
+          uploadImageModal || NftModal || selectedCollectionModal
+            ? tinycolor(appColor.kDisabledColor).darken(10).toString()
+            : appColor.kDisabledColor,
       }}
     >
-      <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
-      <View
-        style={{
-          backgroundColor: addOpacity ? appColor.kBlackWithOpacity : undefined,
-        }}
-      >
-        <ProfileSetUpHeader
-          image={images.userCircle}
-          stepDescription="All done! Explore TowneSquare"
-          title="Your profile picture"
-          sub_title="Make your favorite NFT or photo your profile picture to help other TowneSquare members recognize you"
-          steps={6}
-        />
-      </View>
+      <StatusBar
+        style="light"
+        backgroundColor={
+          uploadImageModal || NftModal || selectedCollectionModal
+            ? tinycolor(appColor.kDisabledColor).darken(10).toString()
+            : appColor.kDisabledColor
+        }
+      />
+
+      <ProfileSetUpHeader
+        addOpacity={
+          uploadImageModal || NftModal || selectedCollectionModal ? true : false
+        }
+        SvgImage={<User />}
+        stepDescription="All done! Explore TowneSquare"
+        title="Your profile picture"
+        sub_title="Make your favorite NFT or photo your profile \n picture to help other TowneSquare members \n  recognize you."
+        steps={6}
+        subTitleHeight={63}
+        subTitleWidth={328}
+      />
 
       <View
         style={{
-          flex: 1,
+          // height: size.getHeightSize(376),
+          marginTop: size.getHeightSize(90),
         }}
       >
         {profilePics.image ? (
-          <View
-            style={{
-              backgroundColor: addOpacity
-                ? appColor.kBlackWithOpacity
-                : undefined,
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 30,
-            }}
-          >
+          <>
             <View style={styles.container}>
               <View style={styles.imageContainer}>
                 <Image
@@ -99,17 +109,17 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
 
             <Text
               style={{
-                opacity: addOpacity ? 0.3 : 1,
                 color: appColor.kTextColor,
-                fontSize: size.fontSize(20),
-                fontFamily: 'Outfit-Medium',
+                fontSize: size.fontSize(22),
+                fontFamily: 'Outfit-Regular',
                 textAlign: 'center',
-                marginTop: 15,
+                marginTop: size.getHeightSize(16),
+                lineHeight: size.getHeightSize(21),
               }}
             >
               Looks Amazing!
             </Text>
-          </View>
+          </>
         ) : (
           <Pressable
             onPress={() => {
@@ -117,53 +127,76 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
               dispatch(updateUploadImageModalOpen(true));
             }}
             style={{
-              height: '50%',
-              width: '45%',
+              height: size.getHeightSize(160),
+              width: size.getHeightSize(160),
               alignItems: 'center',
-              backgroundColor: addOpacity
-                ? appColor.kBlackWithOpacity
-                : appColor.kSecondaryNavy,
+              backgroundColor:
+                uploadImageModal || NftModal || selectedCollectionModal
+                  ? appColor.kSecondaryNavyWithOpacity
+                  : appColor.kSecondaryNavy,
               alignSelf: 'center',
-              marginTop: 50,
-              borderRadius: 100,
-              borderWidth: 2,
-              borderColor: appColor.kWhiteColor,
+              borderRadius: 200,
+              borderWidth: 3,
+              borderColor:
+                uploadImageModal || NftModal || selectedCollectionModal
+                  ? appColor.kWhiteColorWithOpacity
+                  : appColor.kWhiteColor,
               justifyContent: 'center',
             }}
           >
-            <Entypo name="plus" color={appColor.kWhiteColor} size={30} />
+            <Entypo
+              name="plus"
+              color={
+                uploadImageModal || NftModal || selectedCollectionModal
+                  ? appColor.kWhiteColorWithOpacity
+                  : appColor.kWhiteColor
+              }
+              size={size.fontSize(30)}
+            />
           </Pressable>
         )}
       </View>
+      <View style={{ flex: 1 }} />
       <View
         style={{
-          alignSelf: 'baseline',
-          alignItems: 'center',
-          width: '100%',
-          height: 150,
+          height: size.getHeightSize(124),
+          marginBottom: size.getHeightSize(24),
         }}
       >
         <ContinueButton
           disabled={typeof profilePics.image === 'undefined' ? true : false}
           navigateTo="Congratulations"
-          marginTop={2}
         />
-        <Text
-          onPress={() => {
-            navigation.navigate('Congratulations');
-          }}
+        <View
           style={{
-            marginTop: 40,
-
-            textAlign: 'center',
-            color: appColor.kTextColor,
-            fontSize: size.fontSize(18),
-            fontFamily: 'Outfit-Bold',
+            alignSelf: 'center',
+            width: size.getWidthSize(328),
+            borderRadius: 40,
+            height: size.getHeightSize(48),
+            justifyContent: 'center',
+            marginVertical: size.getHeightSize(16),
+            marginHorizontal: size.getWidthSize(16),
           }}
         >
-          I'LL DO IT LATER
-        </Text>
+          <Text
+            onPress={() => {
+              navigation.navigate('Congratulations');
+            }}
+            style={{
+              fontStyle: 'normal',
+              textAlign: 'center',
+              color: appColor.kTextColor,
+              fontSize: size.fontSize(16),
+              fontFamily: 'Outfit-SemiBold',
+              textTransform: 'uppercase',
+              lineHeight: size.getHeightSize(20),
+            }}
+          >
+            I'LL DO IT LATER
+          </Text>
+        </View>
       </View>
+
       <UploadImageModal />
       <ChooseNFT />
       <SelectedCollection />
@@ -179,13 +212,18 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   imageContainer: {
-    width: 150,
-    height: 150,
-    borderRadius: 100,
+    height: size.getHeightSize(124),
+    width: size.getHeightSize(124),
+    marginBottom: size.getHeightSize(24),
+    borderRadius: 200,
     overflow: 'hidden',
   },
   image: {
     width: '100%',
     height: '100%',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    // backgroundColor: 'rgba(0, 0, 0, 0.5)', // Opacity color
   },
 });

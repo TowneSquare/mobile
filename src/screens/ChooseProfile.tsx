@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Wallets from '../components/Wallets';
 import { useAppSelector } from '../controller/hooks';
 import BackButton from '../components/BackButton';
+import Background3 from '../images/svg/Background3';
 import { ChooseProfileProps } from '../utils/NavigationTypes';
 const { height, width } = Dimensions.get('window');
 const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
@@ -26,12 +27,8 @@ const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
     return null;
   }
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-      }}
-    >
-      <StatusBar style="light" backgroundColor={appColor.kStatusBarNaviDark} />
+    <>
+      <StatusBar style="light" />
       <ImageBackground
         style={{
           flex: 1,
@@ -39,9 +36,8 @@ const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
           height: '100%',
           alignItems: 'center',
         }}
-        imageStyle={{}}
         resizeMode="cover"
-        source={images.background1}
+        source={images.ChooseWallet}
       >
         <View
           style={{
@@ -52,27 +48,45 @@ const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
                 ? appColor.kBlackWithOpacity
                 : undefined,
             alignItems: 'center',
+            paddingTop: size.getHeightSize(72),
           }}
         >
           <Text
             style={{
               opacity: isVisible && renderCount > 0 ? 0.3 : 1,
-              top: size.sHeight(0.04),
+              marginTop: size.getHeightSize(72),
               color: appColor.kTextColor,
-              fontWeight: '600',
-              fontSize: size.fontSize(38),
+              fontStyle: 'normal',
+              fontSize: size.fontSize(32),
               fontFamily: 'Outfit-Bold',
               textAlign: 'center',
+              lineHeight: size.getHeightSize(40),
             }}
           >
             Choose your wallet
           </Text>
+          <View
+            style={{
+              height: size.getHeightSize(108),
+            }}
+          />
           <Wallets />
-          <BackButton marginTop={120} />
+          <View style={{ flex: 1 }} />
+          <View
+            style={{
+              height: size.getHeightSize(124),
+              marginBottom: size.getHeightSize(24),
+            }}
+          >
+            <View style={{ height: 48 }} />
+
+            <BackButton marginTop={16} />
+          </View>
         </View>
+
+        <CompleteSignUpModal />
       </ImageBackground>
-      <CompleteSignUpModal />
-    </SafeAreaView>
+    </>
   );
 };
 

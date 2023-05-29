@@ -1,3 +1,5 @@
+import { PixelRatio } from 'react-native';
+
 class sizeConfig {
   screenHeight: number;
   screenWidth: number;
@@ -22,7 +24,6 @@ class sizeConfig {
   }
   widthSize(value: number): number {
     const size = value / 4.14;
-
     return size * this.widthMultiplier;
   }
   heightSize(value: number): number {
@@ -30,7 +31,7 @@ class sizeConfig {
     return size * this.heightMultiplier;
   }
   fontSize(value: number): number {
-    const size = value / 8.96;
+    const size = value / 8.0;
     return size * this.textMultiplier;
   }
   sHeight(value: number): number {
@@ -44,6 +45,23 @@ class sizeConfig {
   }
   hMargin(value: number): number {
     return (this.screenWidth * value) / 1000;
+  }
+  rheight(value: number): number {
+    return (value * 100) / this.screenHeight;
+  }
+  getWidthSize(value: number): number {
+    const size = value / 3.7;
+    return size * this.widthMultiplier;
+  }
+  getHeightSize(value: number): number {
+    const size = value / 8.3;
+    return size * this.heightMultiplier;
+  }
+  getScaledWidth(value: number): number {
+    return this.screenWidth * value;
+  }
+  getScaledHeight(value: number) {
+    return this.screenHeight * value;
   }
 }
 export const sizes = sizeConfig;

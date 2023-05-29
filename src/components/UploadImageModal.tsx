@@ -10,6 +10,7 @@ import {
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Animatable from 'react-native-animatable';
+import Photo from '../images/svg/Photo';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import Handler from './Handler';
 import Animated, {
@@ -24,10 +25,12 @@ import {
   updateNftOpen,
   updateNftRender,
 } from '../controller/BottomSheetController';
+import Cat from '../images/svg/Cat';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../constants';
 import { sizes } from '../utils';
 import Customhandler from './Customhandler';
+import Camera from '../images/svg/Camera';
 import { useAppDispatch, useAppSelector } from '../controller/hooks';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
@@ -40,6 +43,9 @@ const UploadImageModal = () => {
   );
   const renderCount = useAppSelector(
     (state) => state.bottomSheetController.uploadModalRenderCount
+  );
+  const collectionLength = useAppSelector(
+    (state) => state.bottomSheetController.listOfNftCollections.length
   );
   useEffect(() => {
     dispatch(updateUploadModalRenderCount(0));
@@ -75,8 +81,7 @@ const UploadImageModal = () => {
   }));
 
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
   });
   if (!isLoaded) {
@@ -91,7 +96,7 @@ const UploadImageModal = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={['32%']}
+      snapPoints={['35']}
       handleComponent={Handler}
       backgroundStyle={{
         backgroundColor: appColor.kNavydark,
@@ -106,9 +111,11 @@ const UploadImageModal = () => {
       >
         <View
           style={{
-            height: '100%',
-            justifyContent: 'space-around',
-            paddingBottom: 30,
+            height: size.getHeightSize(160),
+            justifyContent: 'space-between',
+            marginTop: size.getHeightSize(32),
+            width: size.getWidthSize(328),
+            alignSelf: 'center',
           }}
         >
           <Pressable
@@ -121,39 +128,49 @@ const UploadImageModal = () => {
             style={styles.container}
           >
             <View style={styles.innerStyle}>
-              <Image source={images.cat} />
+              <Cat />
               <Text style={styles.Text}>NFT</Text>
             </View>
             <MaterialIcons
               name="keyboard-arrow-right"
               color={appColor.kWhiteColor}
-              size={size.fontSize(30)}
+              size={size.fontSize(23)}
             />
           </Pressable>
           <View style={styles.container}>
             <View style={styles.innerStyle}>
-              <Image source={images.ImagesSquare} />
+              <Photo />
               <Text style={styles.Text}>Existing photo</Text>
             </View>
             <MaterialIcons
               name="keyboard-arrow-right"
               color={appColor.kWhiteColor}
-              size={size.fontSize(30)}
+              size={size.fontSize(23)}
             />
           </View>
           <View style={styles.container}>
             <View style={styles.innerStyle}>
-              <Image source={images.Camera} />
+              <Camera />
               <Text style={styles.Text}>Take Photo</Text>
             </View>
             <MaterialIcons
               name="keyboard-arrow-right"
               color={appColor.kWhiteColor}
-              size={size.fontSize(30)}
+              size={size.fontSize(23)}
             />
           </View>
+        
+        </View>
+        <View
+          style={{
+            height: size.getHeightSize(44),
+            marginTop: size.getHeightSize(16),
+            justifyContent: 'center',
+          
+          }}
+        >
           <Text
-            style={[styles.Text, { textAlign: 'center', marginTop: 40 }]}
+            style={[styles.Text, { textAlign: 'center' }]}
             onPress={() => {
               dispatch(updateUploadModalRenderCount(0));
               dispatch(updateUploadImageModalOpen(false));
@@ -170,15 +187,15 @@ const UploadImageModal = () => {
 export default UploadImageModal;
 const styles = StyleSheet.create({
   container: {
-    width: '90%',
-    height: size.heightSize(50),
+    width: size.getWidthSize(328),
+    height: size.getHeightSize(48),
     backgroundColor: appColor.kSecondaryColor,
     flexDirection: 'row',
     alignSelf: 'center',
     borderRadius: 40,
-    paddingHorizontal: size.hMargin(40),
+    paddingVertical: size.getHeightSize(8),
+    paddingHorizontal: size.getWidthSize(16),
     alignItems: 'center',
-    marginTop: 20,
   },
   innerStyle: {
     flexDirection: 'row',
@@ -187,9 +204,10 @@ const styles = StyleSheet.create({
   },
 
   Text: {
-    paddingHorizontal: size.hMargin(40),
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-Bold',
+    fontFamily: 'Outfit-SemiBold',
+    lineHeight: size.getHeightSize(20),
+    marginLeft: size.getWidthSize(8),
   },
 });

@@ -16,7 +16,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
 import UsernameField from '../components/UsernameField';
-import { useNavigation } from '@react-navigation/native';
+import User from '../images/svg/User';import { useNavigation } from '@react-navigation/native';
 import ContinueButton from '../components/ContinueButton';
 import BackButton from '../components/BackButton';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
@@ -42,21 +42,22 @@ const ChooseUsername = () => {
       <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <ProfileSetUpHeader
-          image={images.user}
-          stepDescription="Connect socials & verify"
+          SvgImage={<User />}
+          stepDescription="Connect socials and verify"
           title="Choose your username"
-          sub_title="Stand out in Towne Square with a unique username"
+          sub_title={`Stand out in TowneSquare with \n  a unique username.`}
           steps={1}
+          iconMarginTop={32}
         />
-        <View style={{ flex: 1 }}>
-          <UsernameField value={value} onChangeText={onChange}/>
+        <View style={{ height: size.getHeightSize(156) }} />
+        <View>
+          <UsernameField value={value} onChangeText={onChange} />
         </View>
+        <View style={{ flex: 1 }} />
         <View
           style={{
-            alignSelf: 'baseline',
-            alignItems: 'center',
-            width: '100%',
-            height: 150,
+            height: size.getHeightSize(124),
+            marginBottom: size.getHeightSize(24),
           }}
         >
           {/* <ContinueButton navigateTo="ConnectSocialsAndVrify" marginTop={2} /> */}

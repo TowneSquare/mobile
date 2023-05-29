@@ -6,7 +6,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import React from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../constants';
 import { sizes } from '../utils';
@@ -16,47 +16,57 @@ interface Props {
   stepDescription: string;
   title: string;
   sub_title: string;
-  image: ImageSourcePropType;
+  SvgImage: ReactNode;
+  addOpacity?: boolean;
+  subTitleWidth?: number;
+  subTitleHeight?: number;
+  iconMarginTop?: number;
 }
 const ProfileSetUpHeader = ({
   steps,
   stepDescription,
   title,
   sub_title,
-  image,
+  SvgImage,
+  addOpacity,
+  subTitleWidth,
+  subTitleHeight,
+  iconMarginTop,
 }: Props) => {
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
   }
+
   const size = new sizes(height, width);
   return (
     <>
       <View
         style={{
-          width: size.sWidth(0.9),
           alignSelf: 'center',
+          marginTop: size.getHeightSize(56),
         }}
       >
         <Text
           style={{
-            marginTop: size.vMargin(5),
-            color: appColor.kTextColor,
+            color: addOpacity
+              ? appColor.kWhiteColorWithOpacity
+              : appColor.kTextColor,
             fontFamily: 'Outfit-Medium',
             fontSize: size.fontSize(16),
+            lineHeight: size.getHeightSize(18),
           }}
         >
           Next Step: {stepDescription}
         </Text>
         <View
           style={{
-            marginTop: size.vMargin(5),
-            width: size.sWidth(0.9),
+            marginTop: size.getHeightSize(8),
+            width:size.getWidthSize(306),
             flexDirection: 'row',
           }}
         >
@@ -65,7 +75,9 @@ const ProfileSetUpHeader = ({
               flex: 1,
               backgroundColor:
                 steps >= 1
-                  ? appColor.kSecondaryButtonColor
+                  ? addOpacity
+                    ? appColor.kSecondaryButtonColorWithOpacity
+                    : appColor.kSecondaryButtonColor
                   : appColor.kStatusBarNaviDark,
               height: 2,
             }}
@@ -75,7 +87,9 @@ const ProfileSetUpHeader = ({
               flex: 1,
               backgroundColor:
                 steps >= 2
-                  ? appColor.kSecondaryButtonColor
+                  ? addOpacity
+                    ? appColor.kSecondaryButtonColorWithOpacity
+                    : appColor.kSecondaryButtonColor
                   : appColor.kStatusBarNaviDark,
               height: 2,
             }}
@@ -85,7 +99,9 @@ const ProfileSetUpHeader = ({
               flex: 1,
               backgroundColor:
                 steps >= 3
-                  ? appColor.kSecondaryButtonColor
+                  ? addOpacity
+                    ? appColor.kSecondaryButtonColorWithOpacity
+                    : appColor.kSecondaryButtonColor
                   : appColor.kStatusBarNaviDark,
               height: 2,
             }}
@@ -95,7 +111,9 @@ const ProfileSetUpHeader = ({
               flex: 1,
               backgroundColor:
                 steps >= 4
-                  ? appColor.kSecondaryButtonColor
+                  ? addOpacity
+                    ? appColor.kSecondaryButtonColorWithOpacity
+                    : appColor.kSecondaryButtonColor
                   : appColor.kStatusBarNaviDark,
               height: 2,
             }}
@@ -105,7 +123,9 @@ const ProfileSetUpHeader = ({
               flex: 1,
               backgroundColor:
                 steps >= 5
-                  ? appColor.kSecondaryButtonColor
+                  ? addOpacity
+                    ? appColor.kSecondaryButtonColorWithOpacity
+                    : appColor.kSecondaryButtonColor
                   : appColor.kStatusBarNaviDark,
               height: 2,
             }}
@@ -115,7 +135,9 @@ const ProfileSetUpHeader = ({
               flex: 1,
               backgroundColor:
                 steps >= 6
-                  ? appColor.kSecondaryButtonColor
+                  ? addOpacity
+                    ? appColor.kSecondaryButtonColorWithOpacity
+                    : appColor.kSecondaryButtonColor
                   : appColor.kStatusBarNaviDark,
               height: 2,
             }}
@@ -124,35 +146,55 @@ const ProfileSetUpHeader = ({
       </View>
       <View
         style={{
-          marginTop: size.vMargin(80),
+          marginTop: iconMarginTop ? iconMarginTop : size.getHeightSize(32),
           alignSelf: 'center',
         }}
       >
-        <Image source={image} />
+        {SvgImage}
       </View>
-      <Text
+      <View
         style={{
-          color: appColor.kTextColor,
-          fontSize: size.fontSize(39),
-          fontFamily: 'Outfit-Bold',
-          textAlign: 'center',
-          marginTop: size.vMargin(40),
+          height: size.getHeightSize(37),
+          marginHorizontal: size.getWidthSize(16),
         }}
       >
-        {title}
-      </Text>
-      <Text
+        <Text
+          style={{
+            color: addOpacity
+              ? appColor.kWhiteColorWithOpacity
+              : appColor.kTextColor,
+            fontSize: size.fontSize(29),
+            fontFamily: 'Outfit-Bold',
+            textAlign: 'center',
+            marginTop: size.getHeightSize(8),
+            lineHeight: size.getHeightSize(37),
+          }}
+        >
+          {title}
+        </Text>
+      </View>
+      <View
         style={{
-          color: appColor.kTextColor,
-          fontSize: size.fontSize(19),
-          fontFamily: 'Outfit-Medium',
-          textAlign: 'center',
-          marginTop: size.vMargin(20),
-          marginHorizontal: size.hMargin(80),
+          alignSelf: 'center',
+          marginTop: size.getHeightSize(8),
+          width: subTitleWidth ? subTitleWidth : undefined,
+          marginHorizontal: size.getWidthSize(16),
         }}
       >
-        {sub_title}
-      </Text>
+        <Text
+          style={{
+            color: addOpacity
+              ? appColor.kWhiteColorWithOpacity
+              : appColor.kTextColor,
+            fontSize: size.fontSize(16),
+            fontFamily: 'Outfit-Regular',
+            textAlign: 'center',
+            lineHeight: size.getHeightSize(21),
+          }}
+        >
+          {sub_title.replace(/\\n/g, '\n')}
+        </Text>
+      </View>
     </>
   );
 };

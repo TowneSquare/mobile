@@ -9,21 +9,25 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { appColor, fonts, images } from '../constants';
+import Robot from '../images/svg/Robot';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../utils';
+import UserFriends from '../images/svg/UserFriends';
+import SealChecks from '../images/svg/SealChecks';
+import Clap from '../images/svg/Clap';
 import ContinueButton from '../components/ContinueButton';
 import BackButton from '../components/BackButton';
+import Link from '../images/svg/Link';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 const size = new sizes(height, width);
 const ConnectSocialsAndVrify = () => {
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
@@ -38,71 +42,49 @@ const ConnectSocialsAndVrify = () => {
     >
       <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
       <ProfileSetUpHeader
-        image={images.link}
-        stepDescription="Select socials"
+        SvgImage={<Link />}
+        stepDescription="Connect socials and verify"
         title="Connect socials & verify"
-        sub_title="Bots and spam accounts are a huge problem for social apps. But there are ways to fight them."
+        sub_title="Connect your socials, help us fight bots, and \n get rewarded!"
         steps={2}
+        subTitleWidth={328}
       />
       <View
         style={{
-          width: size.sWidth(0.9),
-          marginTop: size.vMargin(70),
+          width: size.getWidthSize(328),
+          marginTop: size.getHeightSize(32),
           alignSelf: 'center',
-
-          flex: 1,
+          height: size.getHeightSize(224),
         }}
       >
-        <View
-          style={{
-            height: '90%',
-
-            justifyContent: 'space-between',
-          }}
-        >
-          <Text
-            style={{
-              color: appColor.kTextColor,
-              fontSize: size.fontSize(20),
-              fontFamily: 'Outfit-Bold',
-              textAlign: 'center',
-            }}
-          >
-            Connect your social accounts, verify your account and get rewarded!
+        <View style={[styles.row]}>
+          <SealChecks />
+          <Text style={styles.description}>
+            Gain status points in TowneSquare
           </Text>
-          <View style={styles.row}>
-            <Image source={images.checked} />
-            <Text style={styles.description}>
-              Gain status points in TowneSquare
-            </Text>
-          </View>
-          <View style={styles.row}>
-            <Image source={images.users} />
-            <Text style={styles.description}>Find your friends faster</Text>
-          </View>
-          <View style={styles.row}>
-            <Image source={images.hands} />
-            <Text style={styles.description}>Build trust with others</Text>
-          </View>
-          <View style={styles.row}>
-            <Image source={images.robot} />
-            <Text style={styles.description}>Bye to bots & spammers</Text>
-          </View>
+        </View>
+        <View style={styles.row}>
+          <UserFriends />
+          <Text style={styles.description}>Find your friends faster</Text>
+        </View>
+        <View style={styles.row}>
+          <Clap />
+          <Text style={styles.description}>Build trust with others</Text>
+        </View>
+        <View style={styles.row}>
+          <Robot />
+          <Text style={styles.description}>Bye to bots & spammers</Text>
         </View>
       </View>
-
+      <View style={{ flex: 1 }} />
       <View
         style={{
-          alignSelf: 'baseline',
-
-          alignItems: 'center',
-          width: '100%',
-
-          height: 150,
+          height: size.getHeightSize(124),
+          marginBottom: size.getHeightSize(24),
         }}
       >
-        <ContinueButton navigateTo="ConnectSocials" marginTop={2} />
-        <BackButton marginTop={50} />
+        <ContinueButton navigateTo="ConnectSocials" />
+        <BackButton marginTop={16} />
       </View>
     </SafeAreaView>
   );
@@ -113,12 +95,18 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
+    height: size.getHeightSize(56),
+    width: size.getWidthSize(339),
+    alignSelf: 'center',
+    paddingHorizontal: size.getWidthSize(12),
+    paddingVertical: size.getHeightSize(12),
+    gap: size.getWidthSize(8),
   },
   description: {
     color: appColor.kTextColor,
-    fontSize: size.fontSize(18),
-    fontFamily: 'Outfit-Bold',
+    fontSize: size.fontSize(16),
+    fontFamily: 'Outfit-SemiBold',
     textAlign: 'center',
-    marginLeft: size.hMargin(20),
+    lineHeight: size.getHeightSize(24),
   },
 });

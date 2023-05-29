@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  Image,
+  Dimensions,
+} from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
 import Animated, {
   Extrapolation,
@@ -15,6 +22,7 @@ import {
   updateRenderCount,
   updateBottomSheet,
 } from '../controller/BottomSheetController';
+import Info from '../images/svg/Info';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../constants';
 import { sizes } from '../utils';
@@ -47,10 +55,9 @@ const CompleteSignUpModal = () => {
     }
   }, [isVisible]);
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
 
   const contentStyle = useAnimatedStyle(() => ({
@@ -81,7 +88,7 @@ const CompleteSignUpModal = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={['60%']}
+      snapPoints={[Platform.OS === 'ios' ? '58%' : '60%']}
       backgroundStyle={{
         backgroundColor: appColor.kDisabledColor,
       }}
@@ -91,15 +98,19 @@ const CompleteSignUpModal = () => {
         delay={500}
         easing={'ease-in-out'}
         duration={400}
+        style={{
+          flex: 1,
+        }}
       >
         <Text
           style={{
             textAlign: 'center',
             color: appColor.kTextColor,
-
             fontFamily: 'Outfit-Bold',
             fontSize: size.fontSize(29),
-            marginTop: size.vMargin(40),
+            marginTop: size.getHeightSize(48),
+            fontStyle: 'normal',
+            lineHeight: size.getHeightSize(37),
           }}
         >
           Complete Signing in
@@ -109,96 +120,71 @@ const CompleteSignUpModal = () => {
             textAlign: 'center',
             color: appColor.kTextColor,
             fontFamily: 'Outfit-Medium',
-            marginTop: size.vMargin(20),
-            fontSize: size.fontSize(18),
-            marginHorizontal: size.hMargin(50),
+            marginTop: size.getHeightSize(16),
+            fontSize: size.fontSize(16),
+            marginHorizontal: size.getWidthSize(16),
+            lineHeight: size.getHeightSize(21),
+            fontStyle: 'normal',
           }}
         >
-          Connecting your wallet allows you to performtransactions by signing
-          natively in the app
+          Connecting your wallet allows you to perform{'\n'} transactions by
+          signing natively in the app.
         </Text>
         <View
           style={{
-            paddingVertical: size.vMargin(30),
-            paddingHorizontal: size.hMargin(40),
-
-            width: size.sWidth(0.9),
+            paddingVertical: size.getHeightSize(16),
+            paddingLeft: size.getWidthSize(18),
+            paddingRight: size.getWidthSize(16),
+            // height: size.getHeightSize(95),
+            width: size.getWidthSize(328),
             backgroundColor: appColor.kSecondaryColor,
             alignSelf: 'center',
             flexDirection: 'row',
-            borderRadius: 25,
-            marginTop: size.vMargin(25),
+            borderRadius: 8,
+            marginTop: size.getHeightSize(24),
+            marginHorizontal: size.getWidthSize(16),
           }}
         >
-          <Image source={images.info} />
+          <Info />
           <View
             style={{
               flexShrink: 1,
+              width: size.getWidthSize(264),
+             
             }}
           >
             <Text
               style={{
-                fontSize: size.fontSize(18),
+                fontSize: size.fontSize(16),
                 color: appColor.kTextColor,
-                fontFamily: 'Outfit-Medium',
                 textAlign: 'left',
-                paddingLeft: size.hMargin(20),
+                paddingLeft: size.getWidthSize(10),
+                lineHeight: 21,
+                fontFamily: 'Outfit-Regular',
               }}
             >
-              Townesquare will not be able to make any changes to your wallet
-              without your permission
+              All transactions on TowneSquare{'\n'} need to be signed by you
+              like {'\n'}
+              anywhere else.
             </Text>
           </View>
         </View>
-        <ContinueButton marginTop={60} closeModal navigateTo="ChooseUsername" />
-        <BackButton marginTop={50} closeModal={true} />
+        <View
+          style={{
+            flex: 1,
+          }}
+        />
+        <View
+          style={{
+            marginBottom: size.getHeightSize(28),
+          }}
+        >
+          <ContinueButton closeModal navigateTo="ChooseUsername" />
+          <BackButton marginTop={8} closeModal={true} />
+        </View>
       </Animatable.View>
     </BottomSheet>
   );
 };
 
 export default CompleteSignUpModal;
-
-const styles = StyleSheet.create({
-  header: {
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-  },
-  location: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  locationText: {
-    fontSize: 18,
-    color: 'white',
-  },
-  locationIcon: {
-    tintColor: 'gray',
-  },
-  scrollBox: {
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  sectionHeader: {
-    marginTop: 10,
-  },
-  sectionTitle: {
-    color: 'gray',
-    fontWeight: 'normal',
-  },
-  summary: {
-    marginHorizontal: 10,
-  },
-  summaryText: {
-    color: 'red',
-  },
-  rating: {
-    marginHorizontal: 10,
-  },
-});

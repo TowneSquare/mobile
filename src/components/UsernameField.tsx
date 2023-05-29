@@ -12,7 +12,7 @@ const UsernameField = ({
   onChangeText
 }:UsernameFieldProps) => {
   const { height, width } = Dimensions.get('window');
-   
+  const [error, setError] = useState(false);
   const size = new sizes(height, width);
   let [isLoaded] = useFonts({
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -24,8 +24,7 @@ const UsernameField = ({
     <View
       style={{
         alignSelf: 'center',
-        marginTop: size.sHeight(0.1),
-        width: size.sWidth(0.9),
+        width: size.getWidthSize(328),
         alignItems: 'center',
       }}
     >
@@ -36,30 +35,42 @@ const UsernameField = ({
         onChangeText={text => onChangeText(text)}
         value={value}
         style={{
-          marginTop: size.sHeight(0.01),
-          width: size.sWidth(0.9),
-          height: size.sHeight(0.07),
-          borderRadius: 40,
+          width: size.getWidthSize(328),
+          height: size.getHeightSize(48),
+          borderRadius: 48,
           borderWidth: 1,
-          borderColor: appColor.kSecondaryButtonColor,
-          paddingHorizontal: size.hMargin(50),
+          borderColor: error
+            ? appColor.kErrorText
+            : appColor.kSecondaryButtonColor,
+          paddingHorizontal: size.getWidthSize(16),
+          paddingVertical: size.getHeightSize(8),
           fontSize: size.fontSize(16),
           fontFamily: 'Outfit-Medium',
           color: appColor.kTextColor,
           backgroundColor: appColor.kStatusBarNaviDark,
+          marginHorizontal: size.getWidthSize(16),
         }}
       />
-      <Text
-        style={{
-          marginTop: size.sHeight(0.008),
-          color: appColor.kErrorText,
-          fontSize: size.fontSize(16),
-          marginLeft:3,
-          alignSelf: 'flex-start',
-        }}
-      >
-        Username taken
-      </Text>
+      {error && (
+        <View
+          style={{
+            alignSelf: 'flex-start',
+          }}
+        >
+          <Text
+            style={{
+              marginTop: size.getHeightSize(8),
+              color: appColor.kErrorText,
+              fontSize: size.fontSize(16),
+              lineHeight: size.getHeightSize(21),
+              marginLeft: size.getWidthSize(16),
+              fontFamily: 'Outfit-Medium',
+            }}
+          >
+            Error message
+          </Text>
+        </View>
+      )}
     </View>
   );
 };

@@ -8,14 +8,20 @@ import {
 } from 'react-native';
 import React from 'react';
 import { appColor, fonts, images } from '../constants';
+
 import { useFonts } from 'expo-font';
 import { MaterialIcons } from '@expo/vector-icons';
+import Petra from '../images/svg/Petra';
 import { sizes } from '../utils';
 import {
   updateBottomSheet,
   updateRenderCount,
 } from '../controller/BottomSheetController';
+import Pontem from '../images/svg/Pontem';
 import { useAppDispatch, useAppSelector } from '../controller/hooks';
+import Fewcha from '../images/svg/Fewcha';
+import Rise from '../images/svg/Rise';
+import Martian from '../images/svg/Martian';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Wallets = () => {
@@ -27,9 +33,9 @@ const Wallets = () => {
     (state) => state.bottomSheetController.renderCount
   );
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -37,11 +43,12 @@ const Wallets = () => {
   return (
     <View
       style={{
-        opacity: isVisible && renderCount > 0 ? 0.7 : 1,
-        marginTop: size.sHeight(0.2),
-        height: size.sHeight(0.46),
+        opacity: isVisible && renderCount > 0 ? 0.3 : 1,
+
+        height: size.getHeightSize(312),
         justifyContent: 'space-between',
-        paddingVertical: 10,
+        width: size.getWidthSize(359),
+        alignItems: 'center',
       }}
     >
       <Pressable
@@ -52,13 +59,13 @@ const Wallets = () => {
         style={styles.wallet}
       >
         <View style={styles.rows}>
-          <Image source={images.pontem} />
-          <Text style={styles.text}>Pontem</Text>
+          <Pontem />
+          <Text style={styles.leadingText}>Pontem</Text>
         </View>
         <MaterialIcons
           name="keyboard-arrow-right"
           color={appColor.kWhiteColor}
-          size={size.fontSize(30)}
+          size={size.fontSize(25)}
         />
       </Pressable>
       <Pressable
@@ -69,21 +76,21 @@ const Wallets = () => {
         style={styles.wallet}
       >
         <View style={styles.rows}>
-          <Image source={images.rise} />
-          <Text style={styles.text}>Rise</Text>
+          <Rise />
+          <Text style={styles.leadingText}>Rise</Text>
         </View>
         <MaterialIcons
           name="keyboard-arrow-right"
           color={appColor.kWhiteColor}
-          size={size.fontSize(30)}
+          size={size.fontSize(25)}
         />
       </Pressable>
       <View
         style={[styles.wallet, { backgroundColor: appColor.kDisabledColor }]}
       >
         <View style={styles.rows}>
-          <Image source={images.petra} />
-          <Text style={styles.text}>Petra</Text>
+          <Petra />
+          <Text style={styles.leadingText}>Petra</Text>
         </View>
         <Text style={styles.text}>Coming soon</Text>
       </View>
@@ -91,8 +98,8 @@ const Wallets = () => {
         style={[styles.wallet, { backgroundColor: appColor.kDisabledColor }]}
       >
         <View style={styles.rows}>
-          <Image source={images.fewcha} />
-          <Text style={styles.text}>Fewcha</Text>
+          <Fewcha />
+          <Text style={styles.leadingText}>Fewcha</Text>
         </View>
         <Text style={styles.text}>Coming soon</Text>
       </View>
@@ -100,8 +107,8 @@ const Wallets = () => {
         style={[styles.wallet, { backgroundColor: appColor.kDisabledColor }]}
       >
         <View style={[styles.rows]}>
-          <Image source={images.matian} />
-          <Text style={styles.text}>Martian</Text>
+          <Martian />
+          <Text style={styles.leadingText}>Martian</Text>
         </View>
         <Text style={styles.text}>Coming soon</Text>
       </View>
@@ -112,24 +119,36 @@ const Wallets = () => {
 export default Wallets;
 const styles = StyleSheet.create({
   wallet: {
-    padding: size.hMargin(30),
-    height: size.sHeight(0.07),
-    width: size.sWidth(0.9),
+    paddingHorizontal: size.getWidthSize(8),
+    paddingVertical: size.getHeightSize(16),
+    height: size.getHeightSize(56),
+    width: size.getWidthSize(329),
     backgroundColor: appColor.kChooseWalletButtonColor,
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderRadius: 40,
     alignItems: 'center',
+    display: 'flex',
   },
   rows: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  text: {
-    marginLeft: size.hMargin(30),
+  leadingText: {
     color: appColor.kTextColor,
-    fontSize: size.fontSize(18),
-    fontFamily: 'Outfit-Bold',
+    fontSize: size.fontSize(16),
+    fontFamily: 'Outfit-SemiBold',
     textAlign: 'center',
+    lineHeight: size.getHeightSize(21),
+    fontStyle: 'normal',
+    marginLeft: size.getWidthSize(8),
+  },
+  text: {
+    color: appColor.kTextColor,
+    fontSize: size.fontSize(14),
+    fontFamily: 'Outfit-Regular',
+    textAlign: 'center',
+    lineHeight: size.getHeightSize(18),
+    marginRight: size.getWidthSize(24),
   },
 });

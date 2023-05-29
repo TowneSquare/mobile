@@ -8,115 +8,129 @@ import {
   Pressable,
 } from 'react-native';
 import React, { useEffect } from 'react';
+import { SvgXml } from 'react-native-svg';
+import Twitter from '../../assets/svg/Twitter';
 import { useFonts } from 'expo-font';
 import { Avatar } from 'react-native-elements';
+import Apple from '../images/svg/Apple';
 import { appColor, fonts, images } from '../constants';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { sizes } from '../utils';
+import Background1 from '../images/svg/Background1';
 import { StackActions } from '@react-navigation/native';
-
 const { height, width } = Dimensions.get('window');
 import { FirstScreenProps } from '../utils/NavigationTypes';
-
+import Description from '../images/svg/Description';
+import Discord from '../images/svg/Discord';
+import Google from '../images/svg/Google';
+import Mail from '../images/svg/Mail';
+import Logo from '../images/svg/Logo';
+import Description2 from '../images/svg/Description2';
+import TowneSquareLogo from '../images/svg/TownesquareLogo';
 const size = new sizes(height, width);
 const FirstScreen = ({ navigation }: FirstScreenProps) => {
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    'Outfit-ExtraBold': fonts.OUTFIT_EXTRABOLD,
   });
   if (!isLoaded) {
     return null;
   }
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-      }}
-    >
-      <StatusBar style="light" backgroundColor={appColor.kStatusBarColor} />
+    <>
+      <StatusBar style="light" />
+
       <ImageBackground
-        style={{
-          flex: 1,
-          width: '100%',
-          height: '100%',
-        }}
         resizeMode="cover"
+        style={{
+          height: '100%',
+          width: '100%',
+         
+        }}
         source={images.background2}
       >
         <View
           style={{
+            display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            marginLeft: size.sWidth(0.1),
-            marginTop: size.sHeight(0.03),
+            marginLeft: size.widthSize(18.58),
+
+            top: 18.58,
+            bottom: 76.96,
+            left: size.widthSize(18.58),
+            right: size.widthSize(37.15),
+            width: size.widthSize(224),
+            gap: size.widthSize(4.42),
+            marginTop: size.getHeightSize(40),
           }}
         >
-          <Image source={images.logo} />
+          <Logo />
           <Text
             style={{
-              marginLeft: size.sWidth(0.03),
+              marginLeft: size.widthSize(4.42),
               color: appColor.kTextColor,
-              fontSize: size.fontSize(30),
-              fontFamily: 'Outfit-Bold',
+              fontSize: size.fontSize(29.47),
+              fontFamily: 'Outfit-ExtraBold',
+              fontStyle: 'normal',
+              lineHeight: size.heightSize(35),
+              textAlign: 'right',
             }}
           >
             TowneSquare
           </Text>
         </View>
-        <Text
+
+        <Description
           style={{
-            marginTop: size.vMargin(85),
-            color: appColor.kTextColor,
-            fontSize: size.fontSize(66),
-            fontFamily: 'Outfit-Bold',
-            textShadowColor: appColor.kTextShadowColor,
-            textShadowOffset: { width: 4, height: 4 },
-            textShadowRadius: 3,
-            marginLeft:15,
-            
+            alignSelf: 'flex-start',
+            marginTop: size.heightSize(103.9),
+            width: size.widthSize(355.7),
+            height: size.heightSize(61.45),
           }}
-        >
-          All you need,
-        </Text>
-        <Text
+        />
+        <Description2
           style={{
-            color: appColor.kTextColor,
-            fontSize: size.fontSize(66),
-            fontFamily: 'Outfit-Bold',
-            textAlign: 'right',
-            textShadowColor: appColor.kTextShadowColor,
-            textShadowOffset: { width: 4, height: 4 },
-            textShadowRadius: 3,
-            marginRight:15,
+            alignSelf: 'flex-end',
+            width: size.widthSize(355.7),
+            height: size.getHeightSize(61.45),
+            marginTop: size.heightSize(11.55),
           }}
-        >
-          in one place
-        </Text>
+        />
         <Text
           style={{
-            marginTop: size.vMargin(21),
+            marginTop: size.getHeightSize(24.47),
             textAlign: 'center',
             color: appColor.kTextColor,
-            fontFamily: 'Outfit-Bold',
-            fontSize: size.fontSize(23),
-            marginHorizontal: size.hMargin(100),
+            fontFamily: 'Outfit-SemiBold',
+            fontSize: size.fontSize(16),
+            marginLeft: size.getWidthSize(49),
+            marginRight: size.getHeightSize(42),
+            lineHeight: size.getHeightSize(21),
+            fontStyle: 'normal',
           }}
         >
-          Social, create, build, and transact with anyone anywhere
+          Social, create, build, and transact {'\n'} with anyone anywhere
         </Text>
         <Pressable
           onPress={() => navigation.navigate('ChooseProfile')}
           style={{
-            top: size.vMargin(200),
-            width: size.sWidth(0.9),
-            height: size.heightSize(48),
+            marginTop: size.getHeightSize(129),
+            width: size.getWidthSize(328),
+            height: size.getHeightSize(48),
             justifyContent: 'center',
             backgroundColor: appColor.kButtonBackgroundColor,
             alignSelf: 'center',
             borderRadius: 40,
+            flexGrow: 0,
+            gap: size.getWidthSize(8),
+            paddingHorizontal: size.getWidthSize(8),
+            paddingVertical: size.getHeightSize(16),
+            display: 'flex',
           }}
         >
           <Text
@@ -125,6 +139,9 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
               color: appColor.kButtonTextColor,
               fontFamily: 'Outfit-Bold',
               fontSize: size.fontSize(16),
+              lineHeight: size.getHeightSize(20),
+              fontStyle: 'normal',
+              textTransform: 'uppercase',
             }}
           >
             CONNECT WALLET
@@ -134,63 +151,66 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
           style={{
             color: appColor.kTextColor,
             textAlign: 'center',
-            fontFamily: 'Outfit-Bold',
+            fontFamily: 'Outfit-Regular',
             fontSize: size.fontSize(20),
-            top: size.vMargin(250),
+            marginTop: size.getHeightSize(24),
+            fontStyle: 'normal',
+            lineHeight: size.getHeightSize(25),
           }}
         >
           or
         </Text>
         <View
           style={{
-            top: size.vMargin(300),
+            marginTop: size.getHeightSize(24),
             flexDirection: 'row',
-            width: size.sWidth(0.9),
+            width: size.getWidthSize(328),
             justifyContent: 'space-between',
             alignSelf: 'center',
+            alignItems: 'flex-start',
           }}
         >
           <Pressable
             onPress={() => navigation.navigate('Congratulations')}
             style={styles.socials}
           >
-            <Image source={images.twitter} />
+            <Twitter />
           </Pressable>
           <Pressable
             onPress={() => navigation.navigate('Congratulations')}
             style={styles.socials}
           >
-            <Image source={images.discord} />
+            <Discord />
           </Pressable>
           <Pressable
             onPress={() => navigation.navigate('Congratulations')}
             style={styles.socials}
           >
-            <Image source={images.apple} />
+            <Apple />
           </Pressable>
           <Pressable
             onPress={() => navigation.navigate('Congratulations')}
             style={styles.socials}
           >
-            <Image source={images.google} />
+            <Google />
           </Pressable>
           <Pressable
             onPress={() => navigation.navigate('Congratulations')}
             style={styles.socials}
           >
-            <Image source={images.email} />
+            <Mail />
           </Pressable>
         </View>
       </ImageBackground>
-    </SafeAreaView>
+    </>
   );
 };
 
 export default FirstScreen;
 const styles = StyleSheet.create({
   socials: {
-    height: 55,
-    width: 55,
+    height: size.getHeightSize(48),
+    width: size.getHeightSize(48),
     backgroundColor: appColor.kWhiteColor,
     borderRadius: 100,
     alignItems: 'center',

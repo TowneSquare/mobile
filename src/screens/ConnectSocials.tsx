@@ -16,16 +16,19 @@ const { height, width } = Dimensions.get('window');
 import { sizes } from '../utils';
 import ContinueButton from '../components/ContinueButton';
 import BackButton from '../components/BackButton';
+import Link from '../images/svg/Link';
+import Checked from '../images/svg/Checked';
+import DiscordBG from '../images/svg/DiscordBG';
+import TwitterBG from '../images/svg/TwitterBg';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 const size = new sizes(height, width);
 const ConnectSocials = () => {
   const [isTwitterConected, setTwitterConnected] = useState(false);
   const [isDiscordConnected, setDiscordConnected] = useState(false);
   let [isLoaded] = useFonts({
-    'Urbanist-Bold': fonts.EXTRABOLD,
-    UrbanistSemiBold: fonts.SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
@@ -45,93 +48,78 @@ const ConnectSocials = () => {
     >
       <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
       <ProfileSetUpHeader
-        image={images.link}
+        SvgImage={<Link />}
         stepDescription="Select socials"
         title="Connect your socials"
-        sub_title="Connect both to receive extra credentials in your profile"
+        sub_title="Connect both to receive extra \n credentials in your profile"
         steps={3}
+        subTitleWidth={304}
       />
+
       <View
         style={{
-          width: size.sWidth(0.9),
-          marginTop: size.vMargin(40),
+          height: size.getHeightSize(343),
+          width: size.getWidthSize(328),
           alignSelf: 'center',
-          //   justifyContent: 'space-between',
-
-          paddingTop: size.vMargin(100),
-          flex: 1,
+          justifyContent: 'center',
+          gap: size.getHeightSize(16),
         }}
       >
         <View
           style={{
-            height: '100%',
+            flexDirection: 'row',
+            alignItems: 'center',
           }}
         >
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
-          >
-            <Image source={images.twitter2} />
-            <Text style={styles.socialText}>Twitter</Text>
-            {isTwitterConected ? (
-              <Pressable
-                onPress={handleTwitterConnection}
-                style={styles.isConnected}
-              >
-                <Image source={images.connected} />
-                <Text style={styles.isConnectedText}>CONNECTED</Text>
-              </Pressable>
-            ) : (
-              <Pressable
-                onPress={handleTwitterConnection}
-                style={styles.button}
-              >
-                <Text style={styles.buttonText}>CONNECT</Text>
-              </Pressable>
-            )}
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginTop: size.vMargin(40),
-            }}
-          >
-            <Image source={images.discord2} />
-            <Text style={styles.socialText}>Discord</Text>
-            {isDiscordConnected ? (
-              <Pressable
-                onPress={handleDiscordConnection}
-                style={styles.isConnected}
-              >
-                <Image source={images.connected} />
-                <Text style={styles.isConnectedText}>CONNECTED</Text>
-              </Pressable>
-            ) : (
-              <Pressable
-                onPress={handleDiscordConnection}
-                style={styles.button}
-              >
-                <Text style={styles.buttonText}>CONNECT</Text>
-              </Pressable>
-            )}
-          </View>
+          <TwitterBG />
+          <Text style={styles.socialText}>Twitter</Text>
+          {isTwitterConected ? (
+            <Pressable
+              onPress={handleTwitterConnection}
+              style={styles.isConnected}
+            >
+              <Checked />
+              <Text style={styles.isConnectedText}>CONNECTED</Text>
+            </Pressable>
+          ) : (
+            <Pressable onPress={handleTwitterConnection} style={styles.button}>
+              <Text style={styles.buttonText}>CONNECT</Text>
+            </Pressable>
+          )}
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <DiscordBG />
+          <Text style={styles.socialText}>Discord</Text>
+          {isDiscordConnected ? (
+            <Pressable
+              onPress={handleDiscordConnection}
+              style={styles.isConnected}
+            >
+              <Checked />
+              <Text style={styles.isConnectedText}>CONNECTED</Text>
+            </Pressable>
+          ) : (
+            <Pressable onPress={handleDiscordConnection} style={styles.button}>
+              <Text style={styles.buttonText}>CONNECT</Text>
+            </Pressable>
+          )}
         </View>
       </View>
+      <View style={{ flex: 1 ,}} />
+
       <View
         style={{
-          alignSelf: 'baseline',
-
-          alignItems: 'center',
-          width: '100%',
-
-          height: 150,
+          height: size.getHeightSize(124),
+          marginBottom: size.getHeightSize(24),
         }}
       >
-        <ContinueButton navigateTo="FindFriends" marginTop={2} />
-        <BackButton marginTop={50} />
+        <ContinueButton navigateTo="FindFriends" />
+        <BackButton marginTop={20} />
       </View>
     </SafeAreaView>
   );
@@ -140,35 +128,45 @@ const ConnectSocials = () => {
 export default ConnectSocials;
 const styles = StyleSheet.create({
   socialText: {
-    fontSize: size.fontSize(19),
-    fontFamily: 'Outfit-Medium',
-    paddingLeft: size.hMargin(50),
+    fontSize: size.fontSize(16),
+    fontFamily: 'Outfit-SemiBold',
+    paddingLeft: size.getWidthSize(16),
     color: appColor.kTextColor,
     flex: 1,
+    lineHeight: size.getHeightSize(24),
+    fontStyle: 'normal',
   },
   button: {
     backgroundColor: appColor.kSecondaryButtonColor,
-    borderRadius: 20,
-    paddingHorizontal: size.hMargin(50),
-    paddingVertical: size.vMargin(10),
+    borderRadius: 40,
     justifyContent: 'center',
+    height: size.getHeightSize(38),
+    width: size.getWidthSize(100),
+    paddingHorizontal: size.getWidthSize(16),
+    paddingVertical: size.getHeightSize(4),
   },
   buttonText: {
-    fontSize: size.fontSize(19),
+    fontSize: size.fontSize(14),
     fontFamily: 'Outfit-Medium',
     textAlign: 'center',
     color: appColor.kTextColor,
+    lineHeight: size.getHeightSize(18),
   },
   isConnected: {
-    paddingVertical: size.vMargin(10),
+    paddingVertical: size.getHeightSize(10),
     justifyContent: 'center',
     flexDirection: 'row',
+    width: size.getWidthSize(113),
+    height: size.getHeightSize(38),
+    gap: size.getWidthSize(8),
+    alignItems: 'center',
   },
   isConnectedText: {
-    fontSize: size.fontSize(19),
-    fontFamily: 'Outfit-Medium',
+    fontSize: size.fontSize(14),
+    fontFamily: 'Outfit-SemiBold',
     textAlign: 'center',
     color: appColor.kTextColor,
-    marginLeft: size.hMargin(30),
+    lineHeight: size.getHeightSize(18),
+    fontStyle: 'normal',
   },
 });
