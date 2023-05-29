@@ -55,7 +55,7 @@ const Congratulations = () => {
             style={{
               marginTop: size.getHeightSize(20),
               width: size.getWidthSize(180),
-              height: size.getHeightSize(80),
+              // height: size.getHeightSize(80),
               alignItems: 'center',
               justifyContent: 'space-between',
             }}

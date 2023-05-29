@@ -23,18 +23,17 @@ const LetGoButton = ({ navigateTo }: Props) => {
         alignSelf: 'center',
         width: size.getWidthSize(220),
         borderRadius: 40,
-        height: size.getHeightSize(48),
+        // height: size.getHeightSize(48),
         justifyContent: 'center',
         marginTop: size.getHeightSize(48),
-        paddingVertical: size.getHeightSize(8),
-        paddingHorizontal: size.getWidthSize(16),
+        paddingVertical: size.getHeightSize(14),
         gap: size.getWidthSize(8),
       }}
     >
       <Text
         style={{
           textAlign: 'center',
-          color: "#111423",
+          color: '#111423',
           fontSize: size.fontSize(16),
           fontFamily: 'Outfit-SemiBold',
           letterSpacing: 0.01,

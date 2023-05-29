@@ -82,15 +82,15 @@ const ExploreCommunities = () => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: appColor.kDisabledColor,
+        backgroundColor: appColor.signUpBackground,
       }}
     >
-      <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
+      <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
       <ProfileSetUpHeader
         SvgImage={<Community />}
         stepDescription="Choose PFP"
         title="Explore Communities"
-        sub_title="Here are some communities you might be \n interested in"
+        sub_title="Here are some communities you might be interested in"
         steps={5}
         subTitleWidth={304}
       />
@@ -156,7 +156,7 @@ const ExploreCommunities = () => {
                 style={{
                   flexDirection: 'row',
                   width: size.getWidthSize(328),
-                  height: size.getHeightSize(58),
+                  // height: size.getHeightSize(58),
                   borderRadius: 40,
                   paddingVertical: size.getHeightSize(8),
                   paddingHorizontal: size.getWidthSize(8),
@@ -186,14 +186,14 @@ const ExploreCommunities = () => {
                     onPress={() => removeCommunity(Community)}
                     style={styles.myCommunityButton}
                   >
-                    <Text style={styles.buttonText}>JOINED</Text>
+                    <Text style={styles.buttonText}>Joined</Text>
                   </Pressable>
                 ) : (
                   <Pressable
                     onPress={() => addCommunity(Community)}
                     style={styles.button}
                   >
-                    <Text style={styles.buttonText}>JOIN</Text>
+                    <Text style={styles.buttonText}>Join</Text>
                   </Pressable>
                 )}
               </View>
@@ -222,7 +222,7 @@ const ExploreCommunities = () => {
 export default ExploreCommunities;
 const styles = StyleSheet.create({
   button: {
-    width: size.getWidthSize(65),
+    // width: size.getWidthSize(65),
     backgroundColor: appColor.kSecondaryButtonColor,
     borderRadius: 40,
     paddingHorizontal: size.getWidthSize(16),
@@ -231,8 +231,8 @@ const styles = StyleSheet.create({
     height: size.getHeightSize(38),
   },
   buttonText: {
-    fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-SemiBold',
+    fontSize: size.fontSize(16),
+    fontFamily: 'Outfit-Medium',
     textAlign: 'center',
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(18),
@@ -252,11 +252,11 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(18),
   },
   myCommunityButton: {
-    backgroundColor: appColor.kSecondaryColor,
+    backgroundColor: appColor.kGrayLight3,
     borderRadius: 40,
     height: size.getHeightSize(38),
     justifyContent: 'center',
-    width: size.getWidthSize(84),
+    // width: size.getWidthSize(84),
     paddingVertical: size.getHeightSize(4),
     paddingHorizontal: size.getWidthSize(16),
   },

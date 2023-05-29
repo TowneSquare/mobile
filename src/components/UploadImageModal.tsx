@@ -83,6 +83,7 @@ const UploadImageModal = () => {
   let [isLoaded] = useFonts({
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
   });
   if (!isLoaded) {
     return null;
@@ -99,7 +100,7 @@ const UploadImageModal = () => {
       snapPoints={['35']}
       handleComponent={Handler}
       backgroundStyle={{
-        backgroundColor: appColor.kNavydark,
+        backgroundColor: appColor.kgrayDark2,
       }}
     >
       <Animatable.View
@@ -119,13 +120,20 @@ const UploadImageModal = () => {
           }}
         >
           <Pressable
+            disabled={collectionLength === 0}
             onPress={() => {
               dispatch(updateUploadModalRenderCount(0));
               dispatch(updateUploadImageModalOpen(false));
               dispatch(updateNftRender(1));
               dispatch(updateNftOpen(true));
             }}
-            style={styles.container}
+            style={[
+              styles.container,
+              {
+                backgroundColor:
+                  collectionLength === 0 ? '#66666660' : appColor.kGrayLight3,
+              },
+            ]}
           >
             <View style={styles.innerStyle}>
               <Cat />
@@ -159,24 +167,29 @@ const UploadImageModal = () => {
               size={size.fontSize(23)}
             />
           </View>
-        
         </View>
         <View
           style={{
             height: size.getHeightSize(44),
             marginTop: size.getHeightSize(16),
             justifyContent: 'center',
-          
           }}
         >
           <Text
-            style={[styles.Text, { textAlign: 'center' }]}
+            style={{
+              color: appColor.kTextColor,
+              fontSize: size.fontSize(18),
+              fontFamily: 'Outfit-Medium',
+              lineHeight: size.getHeightSize(23),
+              textAlign: 'center',
+              letterSpacing: 0.02,
+            }}
             onPress={() => {
               dispatch(updateUploadModalRenderCount(0));
               dispatch(updateUploadImageModalOpen(false));
             }}
           >
-            BACK
+            Back
           </Text>
         </View>
       </Animatable.View>
@@ -189,7 +202,7 @@ const styles = StyleSheet.create({
   container: {
     width: size.getWidthSize(328),
     height: size.getHeightSize(48),
-    backgroundColor: appColor.kSecondaryColor,
+    backgroundColor: appColor.kGrayLight3,
     flexDirection: 'row',
     alignSelf: 'center',
     borderRadius: 40,

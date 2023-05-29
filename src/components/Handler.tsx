@@ -10,7 +10,7 @@ const Handler = () => {
       style={{
         height: 5,
         width: size.getWidthSize(114),
-        backgroundColor: appColor.kSecondaryNavy,
+        backgroundColor: appColor.kGrayscale,
         borderRadius: 8,
         alignSelf: 'center',
         marginTop: size.getHeightSize(16),

@@ -59,6 +59,7 @@ const ProfileSetUpHeader = ({
             fontFamily: 'Outfit-Medium',
             fontSize: size.fontSize(16),
             lineHeight: size.getHeightSize(18),
+            width: size.getWidthSize(257),
           }}
         >
           Next Step: {stepDescription}
@@ -66,7 +67,7 @@ const ProfileSetUpHeader = ({
         <View
           style={{
             marginTop: size.getHeightSize(8),
-            width:size.getWidthSize(306),
+            width: size.getWidthSize(306),
             flexDirection: 'row',
           }}
         >
@@ -154,7 +155,7 @@ const ProfileSetUpHeader = ({
       </View>
       <View
         style={{
-          height: size.getHeightSize(37),
+          // height: size.getHeightSize(37),
           marginHorizontal: size.getWidthSize(16),
         }}
       >

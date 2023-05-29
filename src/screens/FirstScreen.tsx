@@ -31,7 +31,7 @@ import TowneSquareLogo from '../images/svg/TownesquareLogo';
 const size = new sizes(height, width);
 const FirstScreen = ({ navigation }: FirstScreenProps) => {
   let [isLoaded] = useFonts({
-    'Urbanist-ExtraBold': fonts.EXTRABOLD,
+ 
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
@@ -64,7 +64,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             bottom: 76.96,
             left: size.widthSize(18.58),
             right: size.widthSize(37.15),
-            width: size.widthSize(224),
+            // width: size.widthSize(224),
             gap: size.widthSize(4.42),
             marginTop: size.getHeightSize(40),
           }}
@@ -75,7 +75,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
               marginLeft: size.widthSize(4.42),
               color: appColor.kTextColor,
               fontSize: size.fontSize(29.47),
-              fontFamily: 'Urbanist-ExtraBold',
+              fontFamily:'Outfit-Bold',
               fontStyle: 'normal',
               lineHeight: size.heightSize(35),
               textAlign: 'right',
@@ -88,7 +88,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
         <Description
           style={{
             alignSelf: 'flex-start',
-            marginTop: size.heightSize(103.9),
+            marginTop: size.heightSize(103.71),
             width: size.widthSize(355.7),
             height: size.heightSize(61.45),
           }}
@@ -121,7 +121,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
           style={{
             marginTop: size.getHeightSize(129),
             width: size.getWidthSize(328),
-            height: size.getHeightSize(48),
+          //  height: size.getHeightSize(48),
             justifyContent: 'center',
             backgroundColor: appColor.kButtonBackgroundColor,
             alignSelf: 'center',
@@ -144,7 +144,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
               textTransform: 'uppercase',
             }}
           >
-            CONNECT WALLET
+            Connect Wallet
           </Text>
         </Pressable>
         <Text

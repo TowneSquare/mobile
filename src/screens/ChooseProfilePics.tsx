@@ -63,16 +63,16 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
         flex: 1,
         backgroundColor:
           uploadImageModal || NftModal || selectedCollectionModal
-            ? tinycolor(appColor.kDisabledColor).darken(10).toString()
-            : appColor.kDisabledColor,
+            ? tinycolor(appColor.signUpBackground).darken(5).toString()
+            : appColor.signUpBackground,
       }}
     >
       <StatusBar
         style="light"
         backgroundColor={
           uploadImageModal || NftModal || selectedCollectionModal
-            ? tinycolor(appColor.kDisabledColor).darken(10).toString()
-            : appColor.kDisabledColor
+            ? tinycolor(appColor.signUpBackground).darken(5).toString()
+            : appColor.signUpBackground
         }
       />
 
@@ -80,10 +80,12 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
         addOpacity={
           uploadImageModal || NftModal || selectedCollectionModal ? true : false
         }
-        SvgImage={<User />}
+        SvgImage={<User style={{
+          
+        }} />}
         stepDescription="All done! Explore TowneSquare"
         title="Your profile picture"
-        sub_title="Make your favorite NFT or photo your profile \n picture to help other TowneSquare members \n  recognize you."
+        sub_title="Make your favorite NFT or photo your profile picture to help other TowneSquare members recognize you."
         steps={6}
         subTitleHeight={63}
         subTitleWidth={328}
@@ -132,8 +134,8 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
               alignItems: 'center',
               backgroundColor:
                 uploadImageModal || NftModal || selectedCollectionModal
-                  ? appColor.kSecondaryNavyWithOpacity
-                  : appColor.kSecondaryNavy,
+                  ? appColor.kGrayscaleWithOPacity
+                  : appColor.kGrayscale,
               alignSelf: 'center',
               borderRadius: 200,
               borderWidth: 3,
@@ -212,8 +214,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   imageContainer: {
-    height: size.getHeightSize(124),
-    width: size.getHeightSize(124),
+    height: size.getHeightSize(160),
+    width: size.getHeightSize(160),
     marginBottom: size.getHeightSize(24),
     borderRadius: 200,
     overflow: 'hidden',

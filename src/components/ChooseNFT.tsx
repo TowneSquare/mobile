@@ -98,7 +98,7 @@ const ChooseNFT = () => {
       snapPoints={[collectionLength > 0 ? snapPoint : '30%']}
       handleComponent={Customhandler}
       backgroundStyle={{
-        backgroundColor: appColor.kNavydark,
+        backgroundColor: appColor.kgrayDark2,
       }}
     >
       <Animatable.View
@@ -200,7 +200,7 @@ const ChooseNFT = () => {
             collectionLength > 0 && setSnap('67%');
           }}
         >
-          BACK
+          Back
         </Text>
       </View>
     </BottomSheet>
