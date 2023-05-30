@@ -31,11 +31,13 @@ const BackButton = ({ marginTop, closeModal }: Props) => {
         alignSelf: 'center',
         width: size.getWidthSize(328),
         borderRadius: 40,
-        height: size.getHeightSize(48),
+        // height: size.getHeightSize(48),
         justifyContent: 'center',
-        marginTop: marginTop ? size.getHeightSize(marginTop) : 0,
-        marginVertical:size.getHeightSize(16),
-        marginHorizontal:size.getWidthSize(16)
+        marginTop:  marginTop ? size.getHeightSize(8) : 8,
+        marginBottom: size.getHeightSize(16),
+        marginHorizontal: size.getWidthSize(16),
+        paddingVertical: size.getHeightSize(12),
+        
       }}
     >
       <Text
@@ -50,13 +52,13 @@ const BackButton = ({ marginTop, closeModal }: Props) => {
           fontStyle: 'normal',
           textAlign: 'center',
           color: appColor.kTextColor,
-          fontSize: size.fontSize(16),
+          fontSize: size.fontSize(18),
           fontFamily: 'Outfit-SemiBold',
-          textTransform: 'uppercase',
+
           lineHeight: size.getHeightSize(20),
         }}
       >
-        BACK
+        Back
       </Text>
     </View>
   );

@@ -43,10 +43,10 @@ const ConnectSocials = () => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: appColor.kDisabledColor,
+        backgroundColor: appColor.signUpBackground,
       }}
     >
-      <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
+      <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
       <ProfileSetUpHeader
         SvgImage={<Link />}
         stepDescription="Select socials"
@@ -79,11 +79,11 @@ const ConnectSocials = () => {
               style={styles.isConnected}
             >
               <Checked />
-              <Text style={styles.isConnectedText}>CONNECTED</Text>
+              <Text style={styles.isConnectedText}>Connected</Text>
             </Pressable>
           ) : (
             <Pressable onPress={handleTwitterConnection} style={styles.button}>
-              <Text style={styles.buttonText}>CONNECT</Text>
+              <Text style={styles.buttonText}>Connect</Text>
             </Pressable>
           )}
         </View>
@@ -101,11 +101,11 @@ const ConnectSocials = () => {
               style={styles.isConnected}
             >
               <Checked />
-              <Text style={styles.isConnectedText}>CONNECTED</Text>
+              <Text style={styles.isConnectedText}>Connected</Text>
             </Pressable>
           ) : (
             <Pressable onPress={handleDiscordConnection} style={styles.button}>
-              <Text style={styles.buttonText}>CONNECT</Text>
+              <Text style={styles.buttonText}>Connect</Text>
             </Pressable>
           )}
         </View>
@@ -141,12 +141,12 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     justifyContent: 'center',
     height: size.getHeightSize(38),
-    width: size.getWidthSize(100),
+    // width: size.getWidthSize(100),
     paddingHorizontal: size.getWidthSize(16),
     paddingVertical: size.getHeightSize(4),
   },
   buttonText: {
-    fontSize: size.fontSize(14),
+    fontSize: size.fontSize(16),
     fontFamily: 'Outfit-Medium',
     textAlign: 'center',
     color: appColor.kTextColor,
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   isConnectedText: {
-    fontSize: size.fontSize(14),
+    fontSize: size.fontSize(16),
     fontFamily: 'Outfit-SemiBold',
     textAlign: 'center',
     color: appColor.kTextColor,

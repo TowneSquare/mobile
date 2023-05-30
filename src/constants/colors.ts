@@ -21,6 +21,15 @@ const colors = {
   kBackgroundColor2: '#111111',
   kNavydark: '#1F2547',
   kSecondaryNavyWithOpacity: '#707CC050',
-  kSecondaryButtonColorWithOpacity:"#9264F860"
+  kSecondaryButtonColorWithOpacity: '#9264F860',
+  signUpBackground: '#222222',
+  kGrayLight3: '#666666',
+  kgrayDark2: '#222222',
+  kGrayscale: '#CCCCCC',
+  kGrayscaleDart: '#121212',
+  kgrayTextColor:'#666666',
+  klightPurple:"#B882FF",
+  kGrayscaleWithOPacity:"#CCCCCC60",
+  kgrayDark2WithOpacity:"#22222260"
 };
 export const appColor = colors;

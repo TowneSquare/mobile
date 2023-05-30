@@ -11,6 +11,7 @@ import { useAppSelector } from '../controller/hooks';
 import BackButton from '../components/BackButton';
 import Background3 from '../images/svg/Background3';
 import { ChooseProfileProps } from '../utils/NavigationTypes';
+import tinycolor from 'tinycolor2';
 const { height, width } = Dimensions.get('window');
 const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
   const size = new sizes(height, width);
@@ -45,8 +46,8 @@ const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
             height: '100%',
             backgroundColor:
               isVisible && renderCount > 0
-                ? appColor.kBlackWithOpacity
-                : undefined,
+                ? tinycolor('#12121270').darken(10).toString()
+                : tinycolor('#12121220').darken(10).toString(),
             alignItems: 'center',
             paddingTop: size.getHeightSize(72),
           }}

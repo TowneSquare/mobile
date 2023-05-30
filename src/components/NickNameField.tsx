@@ -1,18 +1,14 @@
 import { View, Text, Dimensions, TextInput } from 'react-native';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { sizes } from '../utils';
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../constants';
 import { useAppSelector, useAppDispatch } from '../controller/hooks';
-import Info from '../images/svg/Info';
-import { updateUsername } from '../controller/SignUpController';
-const UsernameField = () => {
+import { updateNickname } from '../controller/SignUpController';
+const NickNameField = () => {
   const dispatch = useAppDispatch();
-  const userNameError = useAppSelector(
-    (state) => state.signUpController.errors.usernameError
-  );
-  const ErrorMessage = useAppSelector(
-    (state) => state.signUpController.errors.usernameErrorMessage
+  const nickNameError = useAppSelector(
+    (state) => state.signUpController.errors.nicknameError
   );
   const { height, width } = Dimensions.get('window');
   const size = new sizes(height, width);
@@ -23,6 +19,7 @@ const UsernameField = () => {
   if (!isLoaded) {
     return null;
   }
+
   return (
     <View
       style={{
@@ -33,15 +30,16 @@ const UsernameField = () => {
     >
       <TextInput
         cursorColor={appColor.klightPurple}
-        placeholder="@username"
+        placeholder="Nickname"
         placeholderTextColor={appColor.kgrayTextColor}
-        onChangeText={(text) => dispatch(updateUsername(text))}
+        
+        onChangeText={(text)=>dispatch(updateNickname(text))}
         style={{
           width: size.getWidthSize(328),
           height: size.getHeightSize(48),
           borderRadius: 48,
           borderWidth: 1,
-          borderColor: userNameError
+          borderColor: nickNameError
             ? appColor.kErrorText
             : appColor.kGrayscale,
           paddingHorizontal: size.getWidthSize(16),
@@ -53,7 +51,7 @@ const UsernameField = () => {
           marginHorizontal: size.getWidthSize(16),
         }}
       />
-      {userNameError && (
+      {nickNameError && (
         <View
           style={{
             alignSelf: 'flex-start',
@@ -69,49 +67,12 @@ const UsernameField = () => {
               fontFamily: 'Outfit-Regular',
             }}
           >
-            {ErrorMessage}
+            Username can be max. 30 characters long
           </Text>
         </View>
       )}
-      <View
-        style={{
-          paddingBottom: size.getHeightSize(16),
-          paddingLeft: size.getWidthSize(18),
-          paddingRight: size.getWidthSize(16),
-          // height: size.getHeightSize(95),
-          width: size.getWidthSize(328),
-          backgroundColor: 'transparent',
-          alignSelf: 'center',
-          flexDirection: 'row',
-          borderRadius: 8,
-          marginTop: size.getHeightSize(8),
-          marginHorizontal: size.getWidthSize(16),
-        }}
-      >
-        <Info />
-        <View
-          style={{
-            flexShrink: 1,
-            width: size.getWidthSize(264),
-          }}
-        >
-          <Text
-            style={{
-              fontSize: size.fontSize(16),
-              color: appColor.kTextColor,
-              textAlign: 'left',
-              paddingLeft: size.getWidthSize(10),
-              lineHeight: 21,
-              fontFamily: 'Outfit-Regular',
-            }}
-          >
-            Username can contain alphanumeric characters (letters A-Z, numbers
-            0-9) with the exception of underscores.
-          </Text>
-        </View>
-      </View>
     </View>
   );
 };
 
-export default UsernameField;
+export default NickNameField;

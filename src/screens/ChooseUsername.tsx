@@ -15,31 +15,37 @@ import { appColor, fonts, images } from '../constants';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
-import UsernameField from '../components/UsernameField';
-import User from '../images/svg/User';import { useNavigation } from '@react-navigation/native';
+import NickNameField from '../components/NickNameField';
+import User from '../images/svg/User';
 import ContinueButton from '../components/ContinueButton';
 import BackButton from '../components/BackButton';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
+import UsernameField from '../components/UsernameField';
 import { sizes } from '../utils';
+import { useAppSelector } from '../controller/hooks';
 
 const ChooseUsername = () => {
-   const navigation = useNavigation();
-   const size = new sizes(height, width);
-   const [value, onChangeText] = React.useState('');
-
-   const onChange = (e:string) => {
-    onChangeText(e)
-   }
-
-   const disabled = value === ''
+  const usernameError = useAppSelector(
+    (state) => state.signUpController.errors.usernameError
+  );
+  const nickNameError = useAppSelector(
+    (state) => state.signUpController.errors.nicknameError
+  );
+  const userNameLength = useAppSelector(
+    (state) => state.signUpController.details.username.length
+  );
+  const size = new sizes(height, width);
+  const nickNameLength = useAppSelector(
+    (state) => state.signUpController.details.Nickname.length
+  );
   return (
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: appColor.kDisabledColor,
+        backgroundColor: appColor.signUpBackground,
       }}
     >
-      <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
+      <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <ProfileSetUpHeader
           SvgImage={<User />}
@@ -49,9 +55,11 @@ const ChooseUsername = () => {
           steps={1}
           iconMarginTop={32}
         />
-        <View style={{ height: size.getHeightSize(156) }} />
+        <View style={{ height: size.getHeightSize(113.5) }} />
         <View>
-          <UsernameField value={value} onChangeText={onChange} />
+          <NickNameField />
+          <View style={{ height: size.getHeightSize(32) }} />
+          <UsernameField />
         </View>
         <View style={{ flex: 1 }} />
         <View
@@ -60,43 +68,16 @@ const ChooseUsername = () => {
             marginBottom: size.getHeightSize(24),
           }}
         >
-          {/* <ContinueButton navigateTo="ConnectSocialsAndVrify" marginTop={2} /> */}
-           <Pressable
-              disabled={disabled}
-              onPress={() => {
-       
-
-               navigation.navigate("ConnectSocialsAndVrify"  as never);
-            }}
-            style={{
-              backgroundColor: disabled
-                ? appColor.kWhiteColorWithOpacity
-                : appColor.kWhiteColor,
-              alignSelf: 'center',
-              width: size.getWidthSize(328),
-              borderRadius: 40,
-              height: size.sHeight(0.060),
-              justifyContent: 'center',
-              marginTop: 2 ? size.vMargin(2) : 0,
-        
-            }}
-           >
-            <Text
-              style={{
-                textAlign: 'center',
-                color: appColor.kButtonTextColor,
-                fontSize: size.fontSize(16),
-                fontFamily: 'Outfit-SemiBold',
-                fontStyle: 'normal',
-                lineHeight: size.getHeightSize(20),
-                letterSpacing: 0.01,
-                textTransform: 'uppercase',
-              }}
-            >
-              CONTINUE
-            </Text>
-          </Pressable>
-          <BackButton marginTop={30} />
+          <ContinueButton
+            disabled={
+              usernameError ||
+              nickNameError ||
+              userNameLength < 1 ||
+              nickNameLength < 1
+            }
+            navigateTo="ConnectSocialsAndVrify"
+          />
+          <BackButton />
         </View>
       </ScrollView>
     </SafeAreaView>
