@@ -80,9 +80,16 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
         addOpacity={
           uploadImageModal || NftModal || selectedCollectionModal ? true : false
         }
-        SvgImage={<User style={{
-          
-        }} />}
+        SvgImage={
+          <User
+            style={{
+              opacity:
+                uploadImageModal || NftModal || selectedCollectionModal
+                  ? 0.6
+                  : undefined,
+            }}
+          />
+        }
         stepDescription="All done! Explore TowneSquare"
         title="Your profile picture"
         sub_title="Make your favorite NFT or photo your profile picture to help other TowneSquare members recognize you."
@@ -90,13 +97,12 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
         subTitleHeight={63}
         subTitleWidth={328}
       />
-
       <View
         style={{
-          // height: size.getHeightSize(376),
-          marginTop: size.getHeightSize(90),
+          flex: 1,
         }}
-      >
+      />
+      <View>
         {profilePics.image ? (
           <>
             <View style={styles.container}>
@@ -188,13 +194,13 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
               fontStyle: 'normal',
               textAlign: 'center',
               color: appColor.kTextColor,
-              fontSize: size.fontSize(16),
-              fontFamily: 'Outfit-SemiBold',
-              textTransform: 'uppercase',
-              lineHeight: size.getHeightSize(20),
+              fontSize: size.fontSize(18),
+              fontFamily: 'Outfit-Medium',
+              lineHeight: size.getHeightSize(23),
+              letterSpacing:0.02
             }}
           >
-            I'LL DO IT LATER
+            I'll do it later
           </Text>
         </View>
       </View>
@@ -216,7 +222,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     height: size.getHeightSize(160),
     width: size.getHeightSize(160),
-    marginBottom: size.getHeightSize(24),
+
     borderRadius: 200,
     overflow: 'hidden',
   },

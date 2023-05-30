@@ -20,6 +20,7 @@ const BackButton = ({ marginTop, closeModal }: Props) => {
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
   });
   if (!isLoaded) {
     return null;
@@ -33,11 +34,9 @@ const BackButton = ({ marginTop, closeModal }: Props) => {
         borderRadius: 40,
         // height: size.getHeightSize(48),
         justifyContent: 'center',
-        marginTop:  marginTop ? size.getHeightSize(8) : 8,
+        marginTop: marginTop ? size.getHeightSize(8) : 8,
         marginBottom: size.getHeightSize(16),
-        marginHorizontal: size.getWidthSize(16),
-        paddingVertical: size.getHeightSize(12),
-        
+        paddingVertical: size.getHeightSize(16),
       }}
     >
       <Text
@@ -53,9 +52,10 @@ const BackButton = ({ marginTop, closeModal }: Props) => {
           textAlign: 'center',
           color: appColor.kTextColor,
           fontSize: size.fontSize(18),
-          fontFamily: 'Outfit-SemiBold',
+          fontFamily: 'Outfit-Medium',
 
-          lineHeight: size.getHeightSize(20),
+          lineHeight: size.getHeightSize(23),
+          letterSpacing: 0.02,
         }}
       >
         Back

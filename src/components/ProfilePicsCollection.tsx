@@ -1,4 +1,11 @@
-import { View, Text, Image, TouchableOpacity, Pressable,Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Pressable,
+  Dimensions,
+} from 'react-native';
 import React, { useState } from 'react';
 import { useFonts } from 'expo-font';
 import { images, fonts, appColor } from '../constants';
@@ -61,7 +68,6 @@ const ProfilePicsCollection = () => {
     },
   ];
   let [isLoaded] = useFonts({
-
     'Outfit-Bold': fonts.OUTFIT_BOLD,
   });
   if (!isLoaded) {
@@ -113,7 +119,7 @@ const ProfilePicsCollection = () => {
               bottom:
                 profilePicture.id && profile.id === profilePicture.id
                   ? size.getHeightSize(0)
-                  : size.getHeightSize(12),
+                  : size.getHeightSize(8),
               left:
                 profilePicture.id && profile.id === profilePicture.id
                   ? size.getWidthSize(0)
@@ -121,9 +127,9 @@ const ProfilePicsCollection = () => {
               right: 0,
               justifyContent: 'center',
               borderRadius: 8,
-              paddingVertical: size.getHeightSize(4),
+              paddingVertical: size.getHeightSize(8),
               paddingHorizontal: size.getWidthSize(10),
-              opacity:0.9
+              opacity: 0.9,
             }}
           >
             <Text

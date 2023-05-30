@@ -24,48 +24,61 @@ import Friend4 from '../images/svg/Friend4';
 import ContinueButton from '../components/ContinueButton';
 import BackButton from '../components/BackButton';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
+import Citizen from '../images/svg/Citizen';
+import VerifiedBlue from '../images/svg/VerifiedBlue';
+import AvatarFriend from '../images/svg/AvatarFriend';
+import Checked from '../images/svg/Checked';
+import Queen from '../images/svg/Queen';
 const size = new sizes(height, width);
 interface Friend {
   image: ReactNode;
   name: string;
   username: string;
+  verification: string;
 }
 const FindFriends = () => {
   const friends: Array<Friend> = [
     {
-      image: <Friend1 />,
+      image: <AvatarFriend />,
       name: 'User Name',
       username: '@username1',
+      verification: 'citizen',
     },
     {
-      image: <Friend2 />,
+      image: <AvatarFriend />,
       name: 'User Name',
       username: '@username2',
+      verification: 'verified',
     },
     {
-      image: <Friend3 />,
+      image: <AvatarFriend />,
       name: 'User Name',
       username: '@username3',
+      verification: 'citizen',
     },
     {
-      image: <Friend4 />,
+      image: <AvatarFriend />,
       name: 'User Name',
       username: '@username4',
+      verification: 'verified',
     },
     {
-      image: <Friend2 />,
+      image: <AvatarFriend />,
       name: 'User Name',
       username: '@username5',
+      verification: 'citizen',
     },
     {
-      image: <Friend3 />,
+      image: <AvatarFriend />,
       name: 'User Name',
       username: '@username6',
+      verification: 'verified',
     },
     {
-      image: <Friend4 />,
+      image: <AvatarFriend />,
       name: 'User Name',
       username: '@username7',
+      verification: 'citizen',
     },
   ];
 
@@ -179,8 +192,7 @@ const FindFriends = () => {
                   paddingHorizontal: size.getWidthSize(8),
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginBottom:size.getHeightSize(8),
-                 
+                  marginBottom: size.getHeightSize(8),
                 }}
               >
                 {friend.image}
@@ -190,7 +202,20 @@ const FindFriends = () => {
                     marginLeft: size.getWidthSize(8),
                   }}
                 >
-                  <Text style={styles.username}>{friend.name}</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      gap: size.getWidthSize(4.56),
+                    }}
+                  >
+                    <Text style={styles.username}>{friend.name}</Text>
+                    {friend.verification === 'verified' ? (
+                      <VerifiedBlue />
+                    ) : (
+                      <Queen />
+                    )}
+                  </View>
+
                   <Text style={styles.subusername}>{friend.username}</Text>
                 </View>
                 {following.some(

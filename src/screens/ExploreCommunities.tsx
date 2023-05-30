@@ -13,17 +13,16 @@ import React, { ReactNode, useState, useEffect } from 'react';
 import { appColor, fonts, images } from '../constants';
 import { StatusBar } from 'expo-status-bar';
 import Community from '../images/svg/Community';
-import Community1 from '../images/svg/Community1';
-import Community2 from '../images/svg/Community2';
-import Community3 from '../images/svg/Community3';
-import Community4 from '../images/svg/Community4';
 import { useFonts } from 'expo-font';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../utils';
+import Verified from '../images/svg/Verified';
 import ContinueButton from '../components/ContinueButton';
 import BackButton from '../components/BackButton';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
+import PolygonImage from '../images/svg/PolygonImage';
+import Checked from '../images/svg/Checked';
 const size = new sizes(height, width);
 interface Communities {
   image: ReactNode;
@@ -33,22 +32,22 @@ interface Communities {
 const ExploreCommunities = () => {
   const Communities: Array<Communities> = [
     {
-      image: <Community1 />,
+      image: <PolygonImage />,
       name: 'Aptomingos',
       message: 'You have their NFT!',
     },
     {
-      image: <Community2 />,
+      image: <PolygonImage />,
       name: 'Bruh Bears',
       message: 'You have their NFT!',
     },
     {
-      image: <Community3 />,
+      image: <PolygonImage />,
       name: 'Pontem Space Pirates from Siberia',
       message: 'You have their NFT!',
     },
     {
-      image: <Community4 />,
+      image: <PolygonImage />,
       name: 'Aptos Monkey',
     },
   ];
@@ -163,7 +162,6 @@ const ExploreCommunities = () => {
                   alignItems: 'center',
                   // justifyContent: 'center',
                   marginBottom: size.getHeightSize(8),
-                 
                 }}
               >
                 {Community.image}
@@ -171,10 +169,25 @@ const ExploreCommunities = () => {
                   style={{
                     flex: 1,
                     marginLeft: size.getWidthSize(8),
-                  
                   }}
                 >
-                  <Text style={styles.username}>{Community.name}</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      gap: size.getWidthSize(4.56),
+                      width:size.getWidthSize(179)
+                    }}
+                  >
+                    <Text
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                      style={styles.username}
+                    >
+                      {Community.name}
+                    </Text>
+                    <Verified />
+                  </View>
+
                   {Community.message && (
                     <Text style={styles.message}>{Community.message}</Text>
                   )}
@@ -242,6 +255,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Outfit-SemiBold',
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(21),
+
     // flexWrap: 'wrap',
     // position: 'relative',
   },

@@ -31,7 +31,6 @@ import TowneSquareLogo from '../images/svg/TownesquareLogo';
 const size = new sizes(height, width);
 const FirstScreen = ({ navigation }: FirstScreenProps) => {
   let [isLoaded] = useFonts({
- 
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
@@ -49,7 +48,6 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
         style={{
           height: '100%',
           width: '100%',
-         
         }}
         source={images.background2}
       >
@@ -74,10 +72,10 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             style={{
               marginLeft: size.widthSize(4.42),
               color: appColor.kTextColor,
-              fontSize: size.fontSize(29.47),
-              fontFamily:'Outfit-Bold',
+              fontSize: size.fontSize(31.3587),
+              fontFamily: 'Outfit-Bold',
               fontStyle: 'normal',
-              lineHeight: size.heightSize(35),
+              lineHeight: size.heightSize(38),
               textAlign: 'right',
             }}
           >
@@ -107,10 +105,10 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             textAlign: 'center',
             color: appColor.kTextColor,
             fontFamily: 'Outfit-SemiBold',
-            fontSize: size.fontSize(16),
+            fontSize: size.fontSize(17.0213),
             marginLeft: size.getWidthSize(49),
             marginRight: size.getHeightSize(42),
-            lineHeight: size.getHeightSize(21),
+            lineHeight: size.getHeightSize(22),
             fontStyle: 'normal',
           }}
         >
@@ -120,16 +118,16 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
           onPress={() => navigation.navigate('ChooseProfile')}
           style={{
             marginTop: size.getHeightSize(129),
-            width: size.getWidthSize(328),
-          //  height: size.getHeightSize(48),
+            width: size.getWidthSize(348.94),
+            //  height: size.getHeightSize(51.06),
             justifyContent: 'center',
             backgroundColor: appColor.kButtonBackgroundColor,
             alignSelf: 'center',
             borderRadius: 40,
             flexGrow: 0,
             gap: size.getWidthSize(8),
-            paddingHorizontal: size.getWidthSize(8),
-            paddingVertical: size.getHeightSize(16),
+            paddingHorizontal: size.getWidthSize(8.51064),
+            paddingVertical: size.getHeightSize(17.0213),
             display: 'flex',
           }}
         >
@@ -138,8 +136,8 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
               textAlign: 'center',
               color: appColor.kButtonTextColor,
               fontFamily: 'Outfit-Bold',
-              fontSize: size.fontSize(16),
-              lineHeight: size.getHeightSize(20),
+              fontSize: size.fontSize(17.0213),
+              lineHeight: size.getHeightSize(21),
               fontStyle: 'normal',
               textTransform: 'uppercase',
             }}
@@ -152,10 +150,10 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             color: appColor.kTextColor,
             textAlign: 'center',
             fontFamily: 'Outfit-Regular',
-            fontSize: size.fontSize(20),
+            fontSize: size.fontSize(21.2766),
             marginTop: size.getHeightSize(24),
             fontStyle: 'normal',
-            lineHeight: size.getHeightSize(25),
+            lineHeight: size.getHeightSize(27),
           }}
         >
           or
@@ -209,8 +207,8 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
 export default FirstScreen;
 const styles = StyleSheet.create({
   socials: {
-    height: size.getHeightSize(48),
-    width: size.getHeightSize(48),
+    height: size.getHeightSize(51.06),
+    width: size.getHeightSize(51.06),
     backgroundColor: appColor.kWhiteColor,
     borderRadius: 100,
     alignItems: 'center',
