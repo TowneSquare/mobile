@@ -73,9 +73,9 @@ const ChooseUsername = () => {
                 ? appColor.kWhiteColorWithOpacity
                 : appColor.kWhiteColor,
               alignSelf: 'center',
-              width: size.sWidth(0.9),
+              width: size.getWidthSize(328),
               borderRadius: 40,
-              height: size.sHeight(0.075),
+              height: size.sHeight(0.060),
               justifyContent: 'center',
               marginTop: 2 ? size.vMargin(2) : 0,
         
@@ -85,14 +85,18 @@ const ChooseUsername = () => {
               style={{
                 textAlign: 'center',
                 color: appColor.kButtonTextColor,
-                fontSize: size.fontSize(18),
-                fontFamily: 'Outfit-Bold',
+                fontSize: size.fontSize(16),
+                fontFamily: 'Outfit-SemiBold',
+                fontStyle: 'normal',
+                lineHeight: size.getHeightSize(20),
+                letterSpacing: 0.01,
+                textTransform: 'uppercase',
               }}
             >
               CONTINUE
             </Text>
           </Pressable>
-          <BackButton marginTop={50} />
+          <BackButton marginTop={30} />
         </View>
       </ScrollView>
     </SafeAreaView>

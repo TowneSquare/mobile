@@ -46,6 +46,7 @@ const NFTCollections = () => {
         >
           {collections.map((collection) => (
             <Pressable
+              key={collection.id}
               style={{
                 marginBottom: size.getHeightSize(16),
                 overflow: 'hidden',

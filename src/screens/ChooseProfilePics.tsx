@@ -29,7 +29,6 @@ import {
   updateUploadModalRenderCount,
 } from '../controller/BottomSheetController';
 import ChooseNFT from '../components/ChooseNFT';
-
 import { ChooseProfilePicsProps } from '../utils/NavigationTypes';
 import tinycolor from 'tinycolor2';
 const size = new sizes(height, width);
@@ -101,7 +100,7 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
               <View style={styles.imageContainer}>
                 <Image
                   style={styles.image}
-                  source={images.Aptomingos}
+                  source={profilePics.image}
                   resizeMode="contain"
                 />
               </View>

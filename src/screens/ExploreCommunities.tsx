@@ -26,6 +26,7 @@ import BackButton from '../components/BackButton';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 const size = new sizes(height, width);
 interface Communities {
+  id:number,
   image: ReactNode;
   name: string;
   message?: string;
@@ -33,21 +34,25 @@ interface Communities {
 const ExploreCommunities = () => {
   const Communities: Array<Communities> = [
     {
+      id:1,
       image: <Community1 />,
       name: 'Aptomingos',
       message: 'You have their NFT!',
     },
     {
+      id:2,
       image: <Community2 />,
       name: 'Bruh Bears',
       message: 'You have their NFT!',
     },
     {
+      id:3,
       image: <Community3 />,
       name: 'Pontem Space Pirates from Siberia',
       message: 'You have their NFT!',
     },
     {
+      id:4,
       image: <Community4 />,
       name: 'Aptos Monkey',
     },
@@ -153,6 +158,7 @@ const ExploreCommunities = () => {
           <ScrollView showsVerticalScrollIndicator={false}>
             {Communities.map((Community) => (
               <View
+                key={Community.id}
                 style={{
                   flexDirection: 'row',
                   width: size.getWidthSize(328),

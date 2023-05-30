@@ -32,10 +32,15 @@ import { sizes } from '../utils';
 import Customhandler from './Customhandler';
 import Camera from '../images/svg/Camera';
 import { useAppDispatch, useAppSelector } from '../controller/hooks';
+import * as ImagePicker from 'expo-image-picker';
+
+
+
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const UploadImageModal = () => {
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
+  const [image, setImage] = useState("")
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const isVisible = useAppSelector(
@@ -59,6 +64,34 @@ const UploadImageModal = () => {
       setBottomSheetOpen(false);
     }
   }, [isVisible]);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing:true,
+      aspect:[4,3],
+      quality:1
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  }
+
+  const takePhoto =async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+    })
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  }
 
   const animatedIndex = useSharedValue(0);
   const contentStyle = useAnimatedStyle(() => ({
@@ -138,10 +171,10 @@ const UploadImageModal = () => {
             />
           </Pressable>
           <View style={styles.container}>
-            <View style={styles.innerStyle}>
+            <Pressable style={styles.innerStyle} onPress={pickImage}>
               <Photo />
               <Text style={styles.Text}>Existing photo</Text>
-            </View>
+            </Pressable>
             <MaterialIcons
               name="keyboard-arrow-right"
               color={appColor.kWhiteColor}
@@ -149,10 +182,10 @@ const UploadImageModal = () => {
             />
           </View>
           <View style={styles.container}>
-            <View style={styles.innerStyle}>
+            <Pressable style={styles.innerStyle} onPress={takePhoto}>
               <Camera />
               <Text style={styles.Text}>Take Photo</Text>
-            </View>
+            </Pressable>
             <MaterialIcons
               name="keyboard-arrow-right"
               color={appColor.kWhiteColor}

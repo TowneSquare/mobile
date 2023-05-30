@@ -26,68 +26,51 @@ import BackButton from '../components/BackButton';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 const size = new sizes(height, width);
 interface Friend {
-<<<<<<< HEAD
   id:number,
-  image: ImageSourcePropType;
-=======
   image: ReactNode;
->>>>>>> a3a8715f871f30afd6f0de8cd48c65d3dc690b43
   name: string;
   username: string;
 }
 const FindFriends = () => {
   const friends: Array<Friend> = [
     {
-<<<<<<< HEAD
       id:1,
-      image: images.friend1,
-=======
       image: <Friend1 />,
->>>>>>> a3a8715f871f30afd6f0de8cd48c65d3dc690b43
       name: 'User Name',
       username: '@username1',
     },
     {
-<<<<<<< HEAD
       id:2,
-      image: images.friend2,
-=======
       image: <Friend2 />,
->>>>>>> a3a8715f871f30afd6f0de8cd48c65d3dc690b43
       name: 'User Name',
       username: '@username2',
     },
     {
-<<<<<<< HEAD
       id:3,
-      image: images.friend3,
-=======
       image: <Friend3 />,
->>>>>>> a3a8715f871f30afd6f0de8cd48c65d3dc690b43
       name: 'User Name',
       username: '@username3',
     },
     {
-<<<<<<< HEAD
       id:4,
-      image: images.friend4,
-=======
       image: <Friend4 />,
->>>>>>> a3a8715f871f30afd6f0de8cd48c65d3dc690b43
       name: 'User Name',
       username: '@username4',
     },
     {
+       id:5,
       image: <Friend2 />,
       name: 'User Name',
       username: '@username5',
     },
     {
+      id:6,
       image: <Friend3 />,
       name: 'User Name',
       username: '@username6',
     },
     {
+       id:7,
       image: <Friend4 />,
       name: 'User Name',
       username: '@username7',
@@ -195,6 +178,7 @@ const FindFriends = () => {
           <ScrollView showsVerticalScrollIndicator={false}>
             {friends.map((friend) => (
               <View
+                key={friend.id}
                 style={{
                   flexDirection: 'row',
                   width: size.getWidthSize(328),
@@ -210,43 +194,13 @@ const FindFriends = () => {
               >
                 {friend.image}
                 <View
-                  key={friend.id}
                   style={{
                     flex: 1,
                     marginLeft: size.getWidthSize(8),
                   }}
                 >
-<<<<<<< HEAD
-                  <Image  source={friend.image} />
-                  <View
-                    style={{
-                      flex: 1,
-                    }}
-                  >
-                    <Text  style={styles.username}>{friend.name}</Text>
-                    <Text  style={styles.subusername}>{friend.username}</Text>
-                  </View>
-                  {following.some(
-                    (myFollower) => myFollower.username === friend.username
-                  ) ? (
-                    <Pressable
-                      onPress={() => removeFollowers(friend)}
-                      style={styles.followingButton}
-                    >
-                      <Text style={styles.buttonText}>FOLLOWING</Text>
-                    </Pressable>
-                  ) : (
-                    <Pressable
-                      onPress={() => addFollowers(friend)}
-                      style={styles.button}
-                    >
-                      <Text style={styles.buttonText}>FOLLOW</Text>
-                    </Pressable>
-                  )}
-=======
                   <Text style={styles.username}>{friend.name}</Text>
                   <Text style={styles.subusername}>{friend.username}</Text>
->>>>>>> a3a8715f871f30afd6f0de8cd48c65d3dc690b43
                 </View>
                 {following.some(
                   (myFollower) => myFollower.username === friend.username
