@@ -31,11 +31,11 @@ import TowneSquareLogo from '../images/svg/TownesquareLogo';
 const size = new sizes(height, width);
 const FirstScreen = ({ navigation }: FirstScreenProps) => {
   let [isLoaded] = useFonts({
- 
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    'Outfit-ExtraBold': fonts.OUTFIT_EXTRABOLD,
   });
   if (!isLoaded) {
     return null;

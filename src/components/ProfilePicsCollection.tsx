@@ -61,7 +61,6 @@ const ProfilePicsCollection = () => {
     },
   ];
   let [isLoaded] = useFonts({
-
     'Outfit-Bold': fonts.OUTFIT_BOLD,
   });
   if (!isLoaded) {
