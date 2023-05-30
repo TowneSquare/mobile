@@ -88,9 +88,9 @@ const CompleteSignUpModal = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={[Platform.OS === 'ios' ? '58%' : '60%']}
+      snapPoints={[Platform.OS === 'ios' ? '58%' : '58%']}
       backgroundStyle={{
-        backgroundColor: appColor.kDisabledColor,
+        backgroundColor: appColor.kgrayDark2,
       }}
     >
       <Animatable.View
@@ -127,21 +127,22 @@ const CompleteSignUpModal = () => {
             fontStyle: 'normal',
           }}
         >
-          Connecting your wallet allows you to perform{'\n'} transactions by
-          signing natively in the app.
+          Connecting your wallet allows you to perform transactions by signing
+          natively in the app.
         </Text>
+        <View style={{ flex:1}}/>
         <View
           style={{
             paddingVertical: size.getHeightSize(16),
-            paddingLeft: size.getWidthSize(18),
+            paddingLeft: size.getWidthSize(16),
             paddingRight: size.getWidthSize(16),
             // height: size.getHeightSize(95),
             width: size.getWidthSize(328),
-            backgroundColor: appColor.kSecondaryColor,
+            backgroundColor: appColor.kGrayLight3,
             alignSelf: 'center',
             flexDirection: 'row',
             borderRadius: 8,
-            marginTop: size.getHeightSize(24),
+            // marginTop: size.getHeightSize(24),
             marginHorizontal: size.getWidthSize(16),
           }}
         >
@@ -150,7 +151,6 @@ const CompleteSignUpModal = () => {
             style={{
               flexShrink: 1,
               width: size.getWidthSize(264),
-             
             }}
           >
             <Text
@@ -163,8 +163,7 @@ const CompleteSignUpModal = () => {
                 fontFamily: 'Outfit-Regular',
               }}
             >
-              All transactions on TowneSquare{'\n'} need to be signed by you
-              like {'\n'}
+              All transactions on TowneSquare need to be signed by you like
               anywhere else.
             </Text>
           </View>

@@ -51,7 +51,7 @@ const NFTCollections = () => {
                 overflow: 'hidden',
                 width: size.getWidthSize(140),
                 height: size.getHeightSize(140),
-                borderRadius: 20,
+               
               }}
               onPress={() => {
                 dispatch(updateNftRender(0));
@@ -63,7 +63,7 @@ const NFTCollections = () => {
               {
                 <Image
                   source={collection.image}
-                  resizeMode="cover"
+                  resizeMode="contain"
                   style={{
                     width: '100%',
                     height: '100%',

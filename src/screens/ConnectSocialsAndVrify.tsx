@@ -37,24 +37,25 @@ const ConnectSocialsAndVrify = () => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: appColor.kDisabledColor,
+        backgroundColor: appColor.signUpBackground,
       }}
     >
-      <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
+      <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
       <ProfileSetUpHeader
         SvgImage={<Link />}
         stepDescription="Connect socials and verify"
         title="Connect socials & verify"
-        sub_title="Connect your socials, help us fight bots, and \n get rewarded!"
+        sub_title="Connect your socials, help us fight bots, and get rewarded!"
         steps={2}
         subTitleWidth={328}
       />
+      <View style={{ flex: 1 }} />
       <View
         style={{
           width: size.getWidthSize(328),
-          marginTop: size.getHeightSize(32),
           alignSelf: 'center',
           height: size.getHeightSize(224),
+          alignItems: 'center',
         }}
       >
         <View style={[styles.row]}>

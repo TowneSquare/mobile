@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import bottomSheetSlice from './BottomSheetController';
+import signupSlice from './SignUpController';
 export const store = configureStore({
   reducer: {
     bottomSheetController: bottomSheetSlice,
+    signUpController: signupSlice,
   },
 });
 

@@ -85,27 +85,21 @@ const Wallets = () => {
           size={size.fontSize(25)}
         />
       </Pressable>
-      <View
-        style={[styles.wallet, { backgroundColor: appColor.kDisabledColor }]}
-      >
+      <View style={[styles.wallet, { backgroundColor: appColor.kgrayDark2 }]}>
         <View style={styles.rows}>
           <Petra />
           <Text style={styles.leadingText}>Petra</Text>
         </View>
         <Text style={styles.text}>Coming soon</Text>
       </View>
-      <View
-        style={[styles.wallet, { backgroundColor: appColor.kDisabledColor }]}
-      >
+      <View style={[styles.wallet, { backgroundColor: appColor.kgrayDark2 }]}>
         <View style={styles.rows}>
           <Fewcha />
           <Text style={styles.leadingText}>Fewcha</Text>
         </View>
         <Text style={styles.text}>Coming soon</Text>
       </View>
-      <View
-        style={[styles.wallet, { backgroundColor: appColor.kDisabledColor }]}
-      >
+      <View style={[styles.wallet, { backgroundColor: appColor.kgrayDark2 }]}>
         <View style={[styles.rows]}>
           <Martian />
           <Text style={styles.leadingText}>Martian</Text>
@@ -119,11 +113,11 @@ const Wallets = () => {
 export default Wallets;
 const styles = StyleSheet.create({
   wallet: {
-    paddingHorizontal: size.getWidthSize(8),
-    paddingVertical: size.getHeightSize(16),
+    paddingHorizontal: size.getWidthSize(16),
+    paddingVertical: size.getHeightSize(8),
     height: size.getHeightSize(56),
     width: size.getWidthSize(329),
-    backgroundColor: appColor.kChooseWalletButtonColor,
+    backgroundColor: appColor.kGrayLight3,
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderRadius: 40,

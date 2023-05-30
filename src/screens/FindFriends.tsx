@@ -100,15 +100,15 @@ const FindFriends = () => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: appColor.kDisabledColor,
+        backgroundColor: appColor.signUpBackground,
       }}
     >
-      <StatusBar style="light" backgroundColor={appColor.kDisabledColor} />
+      <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
       <ProfileSetUpHeader
         SvgImage={<Hands />}
         stepDescription="Explore Communities"
         title="Find your friends"
-        sub_title="See the following for your friends that are on \n TowneSquare! Give them a big high five."
+        sub_title="See the following for your friends that are on TowneSquare! Give them a big high five."
         steps={4}
         subTitleWidth={304}
       />
@@ -200,14 +200,14 @@ const FindFriends = () => {
                     onPress={() => removeFollowers(friend)}
                     style={styles.followingButton}
                   >
-                    <Text style={styles.buttonText}>FOLLOWING</Text>
+                    <Text style={styles.buttonText}>Following</Text>
                   </Pressable>
                 ) : (
                   <Pressable
                     onPress={() => addFollowers(friend)}
                     style={styles.button}
                   >
-                    <Text style={styles.buttonText}>FOLLOW</Text>
+                    <Text style={styles.buttonText}>Follow</Text>
                   </Pressable>
                 )}
               </View>
@@ -235,7 +235,7 @@ const FindFriends = () => {
 export default FindFriends;
 const styles = StyleSheet.create({
   button: {
-    width: size.getWidthSize(91),
+    // width: size.getWidthSize(91),
     backgroundColor: appColor.kSecondaryButtonColor,
     borderRadius: 40,
     paddingHorizontal: size.getWidthSize(16),
@@ -244,8 +244,8 @@ const styles = StyleSheet.create({
     height: size.getHeightSize(38),
   },
   buttonText: {
-    fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-SemiBold',
+    fontSize: size.fontSize(16),
+    fontFamily: 'Outfit-Medium',
     textAlign: 'center',
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(18),
@@ -263,11 +263,11 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(18),
   },
   followingButton: {
-    backgroundColor: appColor.kSecondaryColor,
+    backgroundColor: appColor.kGrayLight3,
     borderRadius: 40,
     height: size.getHeightSize(38),
     justifyContent: 'center',
-    width: size.getWidthSize(116),
+    // width: size.getWidthSize(116),
     paddingVertical: size.getHeightSize(4),
     paddingHorizontal: size.getWidthSize(16),
   },

@@ -51,24 +51,25 @@ const ContinueButton = ({
         alignSelf: 'center',
         width: size.getWidthSize(328),
         borderRadius: 40,
-        height: size.getHeightSize(48),
+        // height: size.getHeightSize(48),
         justifyContent: 'center',
-        marginTop: marginTop ? size.getHeightSize(marginTop) : 0,
+        marginTop: marginTop ? size.getHeightSize(8) : 8,
+        paddingVertical:size.getHeightSize(14)
       }}
     >
       <Text
         style={{
           textAlign: 'center',
           color: appColor.kButtonTextColor,
-          fontSize: size.fontSize(16),
+          fontSize: size.fontSize(18),
           fontFamily: 'Outfit-SemiBold',
           fontStyle: 'normal',
           lineHeight: size.getHeightSize(20),
           letterSpacing: 0.01,
-          textTransform: 'uppercase',
+        
         }}
       >
-        CONTINUE
+        Continue
       </Text>
     </Pressable>
   );

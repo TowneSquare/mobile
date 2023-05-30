@@ -98,7 +98,7 @@ const SelectedCollection = () => {
       snapPoints={[snapPoint]}
       handleComponent={Customhandler}
       backgroundStyle={{
-        backgroundColor: appColor.kNavydark,
+        backgroundColor: appColor.kgrayDark2,
       }}
     >
       <Animatable.View
@@ -169,11 +169,11 @@ const SelectedCollection = () => {
               fontSize: size.fontSize(16),
               fontFamily: 'Outfit-SemiBold',
               lineHeight: size.getHeightSize(20),
-              textTransform: 'uppercase',
+            
               letterSpacing: 0.01,
             }}
           >
-            CHOOSE
+            Choose
           </Text>
         </Pressable>
         <Text
@@ -190,11 +190,11 @@ const SelectedCollection = () => {
             fontSize: size.fontSize(16),
             fontFamily: 'Outfit-SemiBold',
             lineHeight: size.getHeightSize(20),
-            textTransform: 'uppercase',
+       
             marginTop: size.getHeightSize(20),
           }}
         >
-          BACK
+          Back
         </Text>
       </View>
     </BottomSheet>
