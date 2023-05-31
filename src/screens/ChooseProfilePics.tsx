@@ -35,8 +35,10 @@ const size = new sizes(height, width);
 const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
   const dispatch = useAppDispatch();
   const profilePics = useAppSelector(
-    (state) => state.bottomSheetController.profilePics
+    (state) => state.USER.details.profileImage
   );
+
+  console.log(profilePics, "hhh")
 
   const uploadImageModal = useAppSelector(
     (state) => state.bottomSheetController.uploadImageModalOpen
@@ -102,13 +104,13 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
         }}
       />
       <View>
-        {profilePics.image ? (
+        {profilePics ? (
           <>
             <View style={styles.container}>
               <View style={styles.imageContainer}>
                 <Image
                   style={styles.image}
-                  source={profilePics.image}
+                  source={{uri: profilePics}}
                   resizeMode="contain"
                 />
               </View>
@@ -171,7 +173,7 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
         }}
       >
         <ContinueButton
-          disabled={typeof profilePics.image === 'undefined' ? true : false}
+          disabled={typeof profilePics === 'undefined' ? true : false}
           navigateTo="Congratulations"
         />
         <View

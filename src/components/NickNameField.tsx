@@ -4,11 +4,11 @@ import { sizes } from '../utils';
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../constants';
 import { useAppSelector, useAppDispatch } from '../controller/hooks';
-import { updateNickname } from '../controller/SignUpController';
+import { updateNickname } from '../controller/User';
 const NickNameField = () => {
   const dispatch = useAppDispatch();
   const nickNameError = useAppSelector(
-    (state) => state.signUpController.errors.nicknameError
+    (state) => state.USER.errors.nicknameError
   );
   const { height, width } = Dimensions.get('window');
   const size = new sizes(height, width);

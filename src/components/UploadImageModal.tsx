@@ -33,6 +33,7 @@ import Customhandler from './Customhandler';
 import Camera from '../images/svg/Camera';
 import { useAppDispatch, useAppSelector } from '../controller/hooks';
 import * as ImagePicker from 'expo-image-picker';
+import { updateProfileImage } from '../controller/User';
 
 
 
@@ -73,11 +74,14 @@ const UploadImageModal = () => {
       quality:1
     });
 
-    console.log(result);
-
+    console.log(result)
     if (!result.canceled) {
+      dispatch(updateProfileImage(result.assets[0].uri))
       setImage(result.assets[0].uri);
+      dispatch(updateUploadImageModalOpen(false))
     }
+
+    
   }
 
   const takePhoto =async () => {
@@ -86,11 +90,12 @@ const UploadImageModal = () => {
       allowsEditing: true,
     })
 
-    console.log(result);
-
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      dispatch(updateProfileImage(result.assets[0].uri))
+      dispatch(updateUploadImageModalOpen(false))
     }
+
+     
   }
 
   const animatedIndex = useSharedValue(0);

@@ -28,17 +28,17 @@ import { useNavigation } from '@react-navigation/native';
 
 const ChooseUsername = () => {
   const usernameError = useAppSelector(
-    (state) => state.signUpController.errors.usernameError
+    (state) => state.USER.errors.usernameError
   );
   const nickNameError = useAppSelector(
-    (state) => state.signUpController.errors.nicknameError
+    (state) => state.USER.errors.nicknameError
   );
   const userNameLength = useAppSelector(
-    (state) => state.signUpController.details.username.length
+    (state) => state.USER.details.username.length
   );
   const size = new sizes(height, width);
   const nickNameLength = useAppSelector(
-    (state) => state.signUpController.details.Nickname.length
+    (state) => state.USER.details.Nickname.length
   );
   const navigation = useNavigation();
   const disabled =  usernameError || nickNameError || userNameLength < 1 || nickNameLength < 1
