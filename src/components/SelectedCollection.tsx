@@ -153,49 +153,58 @@ const SelectedCollection = () => {
             alignSelf: 'center',
             width: size.getWidthSize(328),
             borderRadius: 40,
-            height: size.getHeightSize(48),
+            // height: size.getHeightSize(48),
             justifyContent: 'center',
             marginTop: size.getHeightSize(8),
             backgroundColor:
               typeof profilePics.image === 'undefined'
                 ? appColor.kWhiteColorWithOpacity
                 : appColor.kWhiteColor,
+            paddingVertical: size.getHeightSize(16),
           }}
         >
           <Text
             style={{
               textAlign: 'center',
               color: appColor.kButtonTextColor,
-              fontSize: size.fontSize(16),
+              fontSize: size.fontSize(18),
               fontFamily: 'Outfit-SemiBold',
-              lineHeight: size.getHeightSize(20),
-            
+              lineHeight: size.getHeightSize(23),
+
               letterSpacing: 0.01,
             }}
           >
             Choose
           </Text>
         </Pressable>
-        <Text
-          onPress={() => {
-            dispatch(updateSelectedRender(0));
-            dispatch(updateSelectedCollection(false));
-            dispatch(updateNftRender(1));
-            dispatch(updateNftOpen(true));
-            setSnap('67%');
-          }}
+        <View
           style={{
-            textAlign: 'center',
-            color: appColor.kTextColor,
-            fontSize: size.fontSize(16),
-            fontFamily: 'Outfit-SemiBold',
-            lineHeight: size.getHeightSize(20),
-       
-            marginTop: size.getHeightSize(20),
+            justifyContent: 'center',
+            height: size.getHeightSize(48),
+            marginTop: size.getHeightSize(8),
+            paddingVertical: size.getHeightSize(12.5),
+            marginBottom: size.getHeightSize(20),
           }}
         >
-          Back
-        </Text>
+          <Text
+            onPress={() => {
+              dispatch(updateSelectedRender(0));
+              dispatch(updateSelectedCollection(false));
+              dispatch(updateNftRender(1));
+              dispatch(updateNftOpen(true));
+              setSnap('67%');
+            }}
+            style={{
+              color: appColor.kTextColor,
+              fontSize: size.fontSize(18),
+              fontFamily: 'Outfit-SemiBold',
+              textAlign: 'center',
+              lineHeight: size.getHeightSize(23),
+            }}
+          >
+            Back
+          </Text>
+        </View>
       </View>
     </BottomSheet>
   );

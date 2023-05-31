@@ -159,7 +159,7 @@ const CompleteSignUpModal = () => {
                 color: appColor.kTextColor,
                 textAlign: 'left',
                 paddingLeft: size.getWidthSize(10),
-                lineHeight: 21,
+                lineHeight:  size.getHeightSize(21),
                 fontFamily: 'Outfit-Regular',
               }}
             >

@@ -152,44 +152,26 @@ const ChooseNFT = () => {
           duration={400}
           style={contentStyle}
         >
-          {collectionLength > 0 ? (
-            <NFTCollections />
-          ) : (
-            <View
-              style={{
-                alignSelf: 'center',
-              }}
-            >
-              <Text
-                style={{
-                  color: appColor.kTextColor,
-                  fontSize: size.fontSize(16),
-                  fontFamily: 'Outfit-Regular',
-                  textAlign: 'center',
-                  marginTop: size.getHeightSize(16),
-                  lineHeight: size.getHeightSize(21),
-                }}
-              >
-                Nft not found
-              </Text>
-            </View>
-          )}
+          <NFTCollections />
         </Animatable.View>
       </BottomSheetScrollView>
       <View
         style={{
           justifyContent: 'center',
-          height: size.getHeightSize(70),
+          height: size.getHeightSize(48),
+          marginTop: size.getHeightSize(8),
+          paddingVertical: size.getHeightSize(12.5),
+          marginBottom: size.getHeightSize(20),
         }}
       >
         <Text
           style={[
             {
-              paddingBottom: size.getHeightSize(20),
               color: appColor.kTextColor,
               fontSize: size.fontSize(18),
-              fontFamily: 'Outfit-Bold',
+              fontFamily: 'Outfit-SemiBold',
               textAlign: 'center',
+              lineHeight: size.getHeightSize(23),
             },
           ]}
           onPress={() => {

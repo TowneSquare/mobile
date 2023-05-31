@@ -52,7 +52,6 @@ const NFTCollections = () => {
                 overflow: 'hidden',
                 width: size.getWidthSize(140),
                 height: size.getHeightSize(140),
-               
               }}
               onPress={() => {
                 dispatch(updateNftRender(0));
@@ -69,7 +68,6 @@ const NFTCollections = () => {
                     width: '100%',
                     height: '100%',
                   }}
-                 
                 />
               }
               <View
@@ -78,15 +76,16 @@ const NFTCollections = () => {
                   position: 'absolute',
                   backgroundColor: '#101323',
                   bottom: size.getHeightSize(12),
-                  left: size.getWidthSize(8),
+
                   // right: 0,
                   justifyContent: 'center',
                   borderRadius: 8,
-                  paddingVertical: size.getHeightSize(4),
+                  paddingVertical: size.getHeightSize(8),
                   paddingHorizontal: size.getWidthSize(10),
                   alignSelf: 'center',
                   zIndex: 0,
                   opacity: 0.9,
+                  marginHorizontal: size.getWidthSize(8),
                 }}
               >
                 <Text
@@ -102,11 +101,11 @@ const NFTCollections = () => {
               </View>
               <View
                 style={{
-                  height: 26,
-                  width: 25,
+                  height: size.getHeightSize(26),
+                  width: size.getHeightSize(26),
                   position: 'absolute',
                   backgroundColor: appColor.kSecondaryButtonColor,
-                  left: size.getWidthSize(107),
+                  left: size.getWidthSize(103),
                   top: size.getHeightSize(10),
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -116,7 +115,7 @@ const NFTCollections = () => {
                 <Text
                   style={{
                     color: appColor.kTextColor,
-                    fontSize: size.fontSize(16),
+                    fontSize: size.fontSize(14),
                     fontFamily: 'Outfit-Regular',
                     lineHeight: size.getHeightSize(18),
                   }}
