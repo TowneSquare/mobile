@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="811d43b0-8117-47d1-9cac-d8b643f4f772" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/screens/FirstScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/FirstScreen.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2QXdkqgLXmwnGBOLZBIx0ZEBVRu" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="811d43b0-8117-47d1-9cac-d8b643f4f772" name="Default Changelist" comment="" />
+      <created>1685504005708</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1685504005708</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="174" y="84" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1685515663862">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="174" y="84" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.860@0.0.1440.860" timestamp="1685515663862" />
+    <state x="92" y="92" width="1256" height="676" key="AVDManager" timestamp="1685528803184">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="92" y="92" width="1256" height="676" key="AVDManager/0.0.1440.860@0.0.1440.860" timestamp="1685528803184" />
+    <state x="426" y="29" width="587" height="801" key="find.popup" timestamp="1685518762390">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="426" y="29" width="587" height="801" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1685518762390" />
+  </component>
+</project>

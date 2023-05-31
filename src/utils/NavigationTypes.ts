@@ -14,6 +14,8 @@ export type RootStackParamList = {
   ExploreCommunities: undefined;
   Congratulations: undefined;
   ChooseProfilePics: undefined;
+
+  EmailLogin: undefined;
 };
 export type FirstScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'FirstScreen'>;
@@ -50,4 +52,10 @@ export type CongratulationsProps = {
 export type ChooseProfilePicsProps = {
   navigation: NavigationProp<RootStackParamList, 'ChooseProfilePics'>;
   route: RouteProp<ParamListBase, 'ChooseProfilePics'>;
+};
+
+
+export type EmailLoginProps = {
+  navigation: NavigationProp<RootStackParamList, 'EmailLogin'>;
+  route: RouteProp<ParamListBase, 'EmailLogin'>;
 };

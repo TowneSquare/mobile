@@ -15,7 +15,7 @@ import { Avatar } from 'react-native-elements';
 import Apple from '../images/svg/Apple';
 import { appColor, fonts, images } from '../constants';
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { sizes } from '../utils';
 import Background1 from '../images/svg/Background1';
 import { StackActions } from '@react-navigation/native';
@@ -194,7 +194,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             <Google />
           </Pressable>
           <Pressable
-            onPress={() => navigation.navigate('Congratulations')}
+            onPress={() => navigation.navigate('EmailLogin')}
             style={styles.socials}
           >
             <Mail />

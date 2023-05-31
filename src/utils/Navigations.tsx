@@ -15,6 +15,9 @@ import FindFriends from '../screens/FindFriends';
 import ExploreCommunities from '../screens/ExploreCommunities';
 import ChooseProfilePics from '../screens/ChooseProfilePics';
 import Congratulations from '../screens/Congratulations';
+
+import EmailLogin from '../screens/EmailLogin';
+
 const Navigations = () => {
   const Stack = createStackNavigator<RootStackParamList>();
   const config = {
@@ -86,23 +89,31 @@ const Navigations = () => {
           headerShown: false,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="ExploreCommunities"
         component={ExploreCommunities}
         options={{
           headerShown: false,
         }}
       />
-         <Stack.Screen
+      <Stack.Screen
         name="Congratulations"
         component={Congratulations}
         options={{
           headerShown: false,
         }}
       />
-           <Stack.Screen
+      <Stack.Screen
         name="ChooseProfilePics"
         component={ChooseProfilePics}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="EmailLogin"
+        component={EmailLogin}
         options={{
           headerShown: false,
         }}
