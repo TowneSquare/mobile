@@ -91,7 +91,7 @@ const ExploreCommunities = () => {
         title="Explore Communities"
         sub_title="Here are some communities you might be interested in"
         steps={5}
-        subTitleWidth={304}
+        subTitleWidth= {size.getWidthSize(304)}
       />
       <View
         style={{

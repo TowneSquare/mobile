@@ -121,9 +121,9 @@ const FindFriends = () => {
         SvgImage={<Hands />}
         stepDescription="Explore Communities"
         title="Find your friends"
-        sub_title="See the following for your friends that are on TowneSquare! Give them a big high five."
+        sub_title="Say hi to your friends that are already on TowneSquare!"
         steps={4}
-        subTitleWidth={304}
+        subTitleWidth= {size.getWidthSize(304)}
       />
 
       <View
