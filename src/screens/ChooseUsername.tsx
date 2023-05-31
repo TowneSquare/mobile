@@ -49,9 +49,9 @@ const ChooseUsername = () => {
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <ProfileSetUpHeader
           SvgImage={<User />}
-          stepDescription="Connect socials and verify"
+          stepDescription="Connect socials & verify"
           title="Choose your username"
-          sub_title={`Stand out in TowneSquare with \n  a unique username.`}
+          sub_title={`Stand out in TowneSquare with a unique username.`}
           steps={1}
           iconMarginTop={32}
         />

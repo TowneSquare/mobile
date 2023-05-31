@@ -55,10 +55,14 @@ const ConnectSocials = () => {
         steps={3}
         subTitleWidth={304}
       />
-
       <View
         style={{
-          height: size.getHeightSize(343),
+          flex: 1,
+        }}
+      />
+      <View
+        style={{
+          // height: size.getHeightSize(343),
           width: size.getWidthSize(328),
           alignSelf: 'center',
           justifyContent: 'center',
@@ -110,7 +114,7 @@ const ConnectSocials = () => {
           )}
         </View>
       </View>
-      <View style={{ flex: 1 ,}} />
+      <View style={{ flex: 1 }} />
 
       <View
         style={{
@@ -133,7 +137,7 @@ const styles = StyleSheet.create({
     paddingLeft: size.getWidthSize(16),
     color: appColor.kTextColor,
     flex: 1,
-    lineHeight: size.getHeightSize(24),
+    lineHeight: size.getHeightSize(16),
     fontStyle: 'normal',
   },
   button: {

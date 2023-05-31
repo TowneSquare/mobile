@@ -43,7 +43,7 @@ const ConnectSocialsAndVrify = () => {
       <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
       <ProfileSetUpHeader
         SvgImage={<Link />}
-        stepDescription="Connect socials and verify"
+        stepDescription="Connect socials & verify"
         title="Connect socials & verify"
         sub_title="Connect your socials, help us fight bots, and get rewarded!"
         steps={2}
@@ -108,6 +108,6 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(16),
     fontFamily: 'Outfit-SemiBold',
     textAlign: 'center',
-    lineHeight: size.getHeightSize(24),
+    lineHeight: size.getHeightSize(21),
   },
 });

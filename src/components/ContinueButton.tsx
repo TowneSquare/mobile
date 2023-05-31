@@ -54,7 +54,7 @@ const ContinueButton = ({
         // height: size.getHeightSize(48),
         justifyContent: 'center',
         marginTop: marginTop ? size.getHeightSize(8) : 8,
-        paddingVertical:size.getHeightSize(14)
+        paddingVertical: size.getHeightSize(16),
       }}
     >
       <Text
@@ -62,11 +62,10 @@ const ContinueButton = ({
           textAlign: 'center',
           color: appColor.kButtonTextColor,
           fontSize: size.fontSize(18),
-          fontFamily: 'Outfit-SemiBold',
+          fontFamily: 'Outfit-Medium',
           fontStyle: 'normal',
-          lineHeight: size.getHeightSize(20),
-          letterSpacing: 0.01,
-        
+          lineHeight: size.getHeightSize(23),
+          letterSpacing: 0.02,
         }}
       >
         Continue

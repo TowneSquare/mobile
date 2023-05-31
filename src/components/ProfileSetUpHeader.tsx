@@ -48,7 +48,7 @@ const ProfileSetUpHeader = ({
       <View
         style={{
           alignSelf: 'center',
-          marginTop: size.getHeightSize(56),
+          marginTop: size.getHeightSize(46),
         }}
       >
         <Text
@@ -56,8 +56,8 @@ const ProfileSetUpHeader = ({
             color: addOpacity
               ? appColor.kWhiteColorWithOpacity
               : appColor.kTextColor,
-            fontFamily: 'Outfit-Medium',
-            fontSize: size.fontSize(16),
+            fontFamily: 'Outfit-Regular',
+            fontSize: size.fontSize(14),
             lineHeight: size.getHeightSize(18),
             width: size.getWidthSize(257),
           }}
