@@ -86,6 +86,7 @@ const ProfilePicsCollection = () => {
     >
       {profilePics.map((profile) => (
         <Pressable
+        key={profile.id}
           style={{
             marginBottom: size.getHeightSize(16),
             borderWidth:

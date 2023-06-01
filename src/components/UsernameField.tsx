@@ -1,18 +1,18 @@
 import { View, Text, Dimensions, TextInput } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import { sizes } from '../utils';
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../constants';
 import { useAppSelector, useAppDispatch } from '../controller/hooks';
 import Info from '../images/svg/Info';
-import { updateUsername } from '../controller/SignUpController';
+import { updateUsername } from '../controller/User';
 const UsernameField = () => {
   const dispatch = useAppDispatch();
   const userNameError = useAppSelector(
-    (state) => state.signUpController.errors.usernameError
+    (state) => state.USER.errors.usernameError
   );
   const ErrorMessage = useAppSelector(
-    (state) => state.signUpController.errors.usernameErrorMessage
+    (state) => state.USER.errors.usernameErrorMessage
   );
   const { height, width } = Dimensions.get('window');
   const size = new sizes(height, width);

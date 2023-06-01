@@ -10,7 +10,7 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import { appColor, fonts, images } from '../constants';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -23,21 +23,25 @@ import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 import UsernameField from '../components/UsernameField';
 import { sizes } from '../utils';
 import { useAppSelector } from '../controller/hooks';
+import { useNavigation } from '@react-navigation/native';
+
 
 const ChooseUsername = () => {
   const usernameError = useAppSelector(
-    (state) => state.signUpController.errors.usernameError
+    (state) => state.USER.errors.usernameError
   );
   const nickNameError = useAppSelector(
-    (state) => state.signUpController.errors.nicknameError
+    (state) => state.USER.errors.nicknameError
   );
   const userNameLength = useAppSelector(
-    (state) => state.signUpController.details.username.length
+    (state) => state.USER.details.username.length
   );
   const size = new sizes(height, width);
   const nickNameLength = useAppSelector(
-    (state) => state.signUpController.details.Nickname.length
+    (state) => state.USER.details.Nickname.length
   );
+  const navigation = useNavigation();
+  const disabled =  usernameError || nickNameError || userNameLength < 1 || nickNameLength < 1
   return (
     <SafeAreaView
       style={{
@@ -68,7 +72,7 @@ const ChooseUsername = () => {
             marginBottom: size.getHeightSize(24),
           }}
         >
-          <ContinueButton
+          {/* <ContinueButton
             disabled={
               usernameError ||
               nickNameError ||
@@ -76,7 +80,42 @@ const ChooseUsername = () => {
               nickNameLength < 1
             }
             navigateTo="ConnectSocialsAndVrify"
-          />
+          /> */}
+           <Pressable
+            disabled={disabled}
+             onPress={() => {
+        
+
+            navigation.navigate("ConnectSocialsAndVrify" as never);
+          }}
+          style={{
+            backgroundColor: disabled
+              ? appColor.kWhiteColorWithOpacity
+              : appColor.kWhiteColor,
+            alignSelf: 'center',
+            width: size.getWidthSize(328),
+            borderRadius: 40,
+            // height: size.getHeightSize(48),
+            justifyContent: 'center',
+            marginTop: 0 ? size.getHeightSize(8) : 8,
+            paddingVertical:size.getHeightSize(14)
+          }}
+        >
+        <Text
+          style={{
+            textAlign: 'center',
+            color: appColor.kButtonTextColor,
+            fontSize: size.fontSize(18),
+            fontFamily: 'Outfit-SemiBold',
+            fontStyle: 'normal',
+            lineHeight: size.getHeightSize(20),
+            letterSpacing: 0.01,
+          
+          }}
+          >
+            Continue
+          </Text>
+          </Pressable>
           <BackButton />
         </View>
       </ScrollView>

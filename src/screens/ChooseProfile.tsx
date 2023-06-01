@@ -1,5 +1,5 @@
 import { View, Text, Dimensions, ImageBackground } from 'react-native';
-import React from 'react';
+import React,{useEffect} from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../constants';
 import { StatusBar } from 'expo-status-bar';

@@ -42,4 +42,5 @@ const appImages = {
   Aptomingos: require('../images/png/Aptomingos.png'),
   ChooseWallet: require('../images/png/Choosewallet.png'),
 };
+
 export const images = appImages;

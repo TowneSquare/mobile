@@ -23,6 +23,14 @@
     },
     "packagerOpts": {
       "config": "metro.config.js"
-    }
+    },
+    "plugin":[
+      [
+        "expo-image-picker",
+        {
+          "photosPermission":"The app accesses your photos"
+        }
+      ]
+    ]
   }
 }
