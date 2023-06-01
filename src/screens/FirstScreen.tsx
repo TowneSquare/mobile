@@ -31,6 +31,7 @@ import TowneSquareLogo from '../images/svg/TownesquareLogo';
 
 import { Magic } from '@magic-sdk/react-native-expo';
 import { OAuthExtension } from '@magic-ext/react-native-expo-oauth';
+import { makeUrl, createURL } from 'expo-linking';
 
 const size = new sizes(height, width);
 
@@ -38,10 +39,11 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
   const magic = new Magic('pk_live_CA547FCC1F472701', {
     extensions: [new OAuthExtension()],
   });
+console.log(createURL("/Congratulations"))
   const loginGoogle = async () => {
     const result = await magic.oauth.loginWithPopup({
       provider: 'google' /* 'google', 'facebook', 'apple', or 'github' */,
-      redirectURI: 'TowneSquare://oauth/callback', /* must be string */
+      redirectURI: createURL("/Congratulations"), /* must be string */
       scope: ['email','profile'], /* optional */
     });
     console.log(result)
@@ -50,7 +52,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
   const loginDiscord = async () => {
     const result = await magic.oauth.loginWithPopup({
       provider: 'discord' /* 'google', 'facebook', 'apple', or 'github' */,
-      redirectURI: 'TowneSquare://oauth/callback', /* must be string */
+      redirectURI: createURL("/Congratulations"), /* must be string */
       // scope: ['user:email'], /* optional */
     });
     console.log(result)
