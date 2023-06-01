@@ -28,8 +28,34 @@ import Mail from '../images/svg/Mail';
 import Logo from '../images/svg/Logo';
 import Description2 from '../images/svg/Description2';
 import TowneSquareLogo from '../images/svg/TownesquareLogo';
+
+import { Magic } from '@magic-sdk/react-native-expo';
+import { OAuthExtension } from '@magic-ext/react-native-expo-oauth';
+
 const size = new sizes(height, width);
+
 const FirstScreen = ({ navigation }: FirstScreenProps) => {
+  const magic = new Magic('pk_live_CA547FCC1F472701', {
+    extensions: [new OAuthExtension()],
+  });
+  const loginGoogle = async () => {
+    const result = await magic.oauth.loginWithPopup({
+      provider: 'google' /* 'google', 'facebook', 'apple', or 'github' */,
+      redirectURI: 'testapp://demo/your/oauth/callback', /* must be string */
+      scope: ['user:email'], /* optional */
+    });
+    console.log(result)
+  }
+
+  const loginDiscord = async () => {
+    const result = await magic.oauth.loginWithPopup({
+      provider: 'discord' /* 'google', 'facebook', 'apple', or 'github' */,
+      redirectURI: 'testapp://demo/your/oauth/callback', /* must be string */
+      scope: ['user:email'], /* optional */
+    });
+    console.log(result)
+  }
+
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -176,7 +202,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             <Twitter />
           </Pressable>
           <Pressable
-            onPress={() => navigation.navigate('Congratulations')}
+            onPress={() => loginDiscord()}
             style={styles.socials}
           >
             <Discord />
@@ -188,7 +214,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             <Apple />
           </Pressable>
           <Pressable
-            onPress={() => navigation.navigate('Congratulations')}
+            onPress={() => loginGoogle()}
             style={styles.socials}
           >
             <Google />
