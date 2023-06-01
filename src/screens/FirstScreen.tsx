@@ -41,8 +41,8 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
   const loginGoogle = async () => {
     const result = await magic.oauth.loginWithPopup({
       provider: 'google' /* 'google', 'facebook', 'apple', or 'github' */,
-      redirectURI: 'testapp://demo/your/oauth/callback', /* must be string */
-      scope: ['user:email'], /* optional */
+      redirectURI: 'TowneSquare://oauth/callback', /* must be string */
+      scope: ['email','profile'], /* optional */
     });
     console.log(result)
   }
@@ -50,8 +50,8 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
   const loginDiscord = async () => {
     const result = await magic.oauth.loginWithPopup({
       provider: 'discord' /* 'google', 'facebook', 'apple', or 'github' */,
-      redirectURI: 'testapp://demo/your/oauth/callback', /* must be string */
-      scope: ['user:email'], /* optional */
+      redirectURI: 'TowneSquare://oauth/callback', /* must be string */
+      // scope: ['user:email'], /* optional */
     });
     console.log(result)
   }
