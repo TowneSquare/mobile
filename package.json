@@ -11,10 +11,10 @@
   "dependencies": {
     "@gorhom/bottom-sheet": "^4",
     "@magic-ext/auth": "^0.4.0",
-    "@magic-ext/react-native-expo-oauth": "^12.4.0",
-    "@magic-sdk/react-native-expo": "^18.4.0",
+    "@magic-ext/react-native-expo-oauth": "^12.1.2",
+    "@magic-sdk/react-native-expo": "^18.2.0",
     "@react-native-async-storage/async-storage": "^1.18.1",
-    "@react-navigation/native": "^6.1.6",
+    "@react-navigation/native": "^6.1.1",
     "@react-navigation/native-stack": "^6.9.7",    
     "@reduxjs/toolkit": "^1.9.5",
     "expo": "~48.0.15",

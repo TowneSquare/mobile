@@ -3,7 +3,7 @@ import {
   ParamListBase,
   RouteProp,
 } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+// import { StackNavigationProp } from '@react-navigation/stack';
 export type RootStackParamList = {
   FirstScreen: undefined;
   ChooseProfile: undefined;
