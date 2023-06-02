@@ -1,7 +1,7 @@
 import {
-  createStackNavigator,
-  CardStyleInterpolators,
-} from '@react-navigation/stack';
+  createNativeStackNavigator,
+  // CardStyleInterpolators,
+} from '@react-navigation/native-stack';
 import FirstScreen from '../screens/FirstScreen';
 import { Easing, Animated } from 'react-native';
 import { View, Text } from 'react-native';
@@ -19,7 +19,7 @@ import Congratulations from '../screens/Congratulations';
 import EmailLogin from '../screens/EmailLogin';
 
 const Navigations = () => {
-  const Stack = createStackNavigator<RootStackParamList>();
+  const Stack = createNativeStackNavigator<RootStackParamList>();
   const config = {
     animation: Animated.timing,
     config: {
@@ -40,11 +40,11 @@ const Navigations = () => {
     <Stack.Navigator
       screenOptions={{
         gestureEnabled: false,
-        transitionSpec: {
-          open: config as any,
-          close: closeconfig as any,
-        },
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        // transitionSpec: {
+        //   open: config as any,
+        //   close: closeconfig as any,
+        // },
+        // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
     >
       <Stack.Screen

@@ -39,7 +39,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
   const magic = new Magic('pk_live_CA547FCC1F472701', {
     extensions: [new OAuthExtension()],
   });
-console.log(createURL("/Congratulations"))
+  
   const loginGoogle = async () => {
     const result = await magic.oauth.loginWithPopup({
       provider: 'google' /* 'google', 'facebook', 'apple', or 'github' */,
