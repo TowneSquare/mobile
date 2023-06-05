@@ -45,7 +45,6 @@ export const signUpSlice = createSlice({
         state.details.Nickname = action.payload;
         state.errors.nicknameError = false;
       }
-      console.log(state.details.Nickname);
     },
     updateUsername: (state, action: PayloadAction<string>) => {
       const usernameRegex = /^[a-zA-Z0-9]+$/;
