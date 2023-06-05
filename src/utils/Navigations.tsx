@@ -2,19 +2,21 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
-import FirstScreen from '../screens/FirstScreen';
+import FirstScreen from '../screens/SignUp/FirstScreen';
 import { Easing, Animated } from 'react-native';
 import { View, Text } from 'react-native';
 import React from 'react';
 import { RootStackParamList } from './NavigationTypes';
-import ChooseProfile from '../screens/ChooseProfile';
-import ChooseUsername from '../screens/ChooseUsername';
-import ConnectSocialsAndVrify from '../screens/ConnectSocialsAndVrify';
-import ConnectSocials from '../screens/ConnectSocials';
-import FindFriends from '../screens/FindFriends';
-import ExploreCommunities from '../screens/ExploreCommunities';
-import ChooseProfilePics from '../screens/ChooseProfilePics';
-import Congratulations from '../screens/Congratulations';
+import ChooseProfile from '../screens/SignUp/ChooseProfile';
+import ChooseUsername from '../screens/SignUp/ChooseUsername';
+import ConnectSocialsAndVrify from '../screens/SignUp/ConnectSocialsAndVrify';
+import ConnectSocials from '../screens/SignUp/ConnectSocials';
+import FindFriends from '../screens/SignUp/FindFriends';
+import ExploreCommunities from '../screens/SignUp/ExploreCommunities';
+import ChooseProfilePics from '../screens/SignUp/ChooseProfilePics';
+import Congratulations from '../screens/SignUp/Congratulations';
+import BottomTabNavigation from './BottomTabNavigation';
+import ChooseUsernameSlide from '../screens/SignUp/ChooseUsernameSlide';
 const Navigations = () => {
   const Stack = createStackNavigator<RootStackParamList>();
   const config = {
@@ -86,23 +88,39 @@ const Navigations = () => {
           headerShown: false,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="ExploreCommunities"
         component={ExploreCommunities}
         options={{
           headerShown: false,
         }}
       />
-         <Stack.Screen
+      <Stack.Screen
         name="Congratulations"
         component={Congratulations}
         options={{
           headerShown: false,
         }}
       />
-           <Stack.Screen
+      <Stack.Screen
         name="ChooseProfilePics"
         component={ChooseProfilePics}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="ChooseUsernameSlide"
+        component={ChooseUsernameSlide}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="BottomTabNavigation"
+        component={BottomTabNavigation}
         options={{
           headerShown: false,
         }}

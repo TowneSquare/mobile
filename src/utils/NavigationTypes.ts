@@ -14,6 +14,9 @@ export type RootStackParamList = {
   ExploreCommunities: undefined;
   Congratulations: undefined;
   ChooseProfilePics: undefined;
+  PageView: undefined;
+  ChooseUsernameSlide: undefined;
+  BottomTabNavigation: undefined;
 };
 export type FirstScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'FirstScreen'>;
@@ -50,4 +53,16 @@ export type CongratulationsProps = {
 export type ChooseProfilePicsProps = {
   navigation: NavigationProp<RootStackParamList, 'ChooseProfilePics'>;
   route: RouteProp<ParamListBase, 'ChooseProfilePics'>;
+};
+export type PageViewProps = {
+  navigation: NavigationProp<RootStackParamList, 'PageView'>;
+  route: RouteProp<ParamListBase, 'PageView'>;
+};
+export type ChooseUsernameSlideProps = {
+  navigation: NavigationProp<RootStackParamList, 'ChooseUsernameSlide'>;
+  route: RouteProp<ParamListBase, 'ChooseUsernameSlide'>;
+};
+export type BottomTabNavigationProps = {
+  navigation: NavigationProp<RootStackParamList, 'BottomTabNavigation'>;
+  route: RouteProp<ParamListBase, 'BottomTabNavigation'>;
 };
