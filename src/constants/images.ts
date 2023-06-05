@@ -41,6 +41,13 @@ const appImages = {
   NftCollection2: require('../images/png/NFTcolletion2.png'),
   Aptomingos: require('../images/png/Aptomingos.png'),
   ChooseWallet: require('../images/png/Choosewallet.png'),
+  feedImage1: require('../images/png/feedImage1.png'),
+  feedImage2: require('../images/png/imageFeed2.png'),
+  feedImage3: require('../images/png/feedImage3.png'),
+  feedImage4: require('../images/png/imageFeed4.png'),
+  feedImage5: require('../images/png/imageFeed5.png'),
+  feedImageLink: require('../images/png/feedlink.png'),
+  collectionImage: require('../images/png/collectionImage.png'),
 };
 
 export const images = appImages;
