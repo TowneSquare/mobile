@@ -21,11 +21,16 @@ interface UserState {
   };
 }
 
-interface ReqBody{
+interface signUpRequest{
   aptosWallet:string
   nickname:string
   username:string
   email:string
+}
+
+interface followRequest{
+  fromUserId: string,
+  toUserIds: string[]
 }
 const initialState: UserState = {
   details: {
@@ -46,22 +51,32 @@ const initialState: UserState = {
 };
 
 
-
-
-
-export const signUp = createAsyncThunk("User/signUp", async(reqbody:ReqBody, thunkAPI) => {
-  const {aptosWallet, nickname, username, email} = reqbody;
+export const signUp = createAsyncThunk("User/signUp", async(signupRequest:signUpRequest, thunkAPI) => {
+  const {aptosWallet, nickname, username, email} = signupRequest;
  try {
-   const res = await axios.post(`${process.env.BASE_URL}/user`,{
+   const res = await axios.post(`${process.env.BASE_URL}`,{
     aptosWallet,
     nickname,
     username,
     email
-  })
+  });
   return res.data
  } catch (error) {
   return thunkAPI.rejectWithValue(error)
  }
+})
+
+export const follow = createAsyncThunk("User/follow",async (followRequest: followRequest, thunkAPI) => {
+  const {fromUserId,toUserIds} = followRequest;
+  try {
+    const res = await axios.post(`${process.env.BASE_URL}/follow-friends`, {
+      fromUserId: fromUserId,
+      toUserIds: toUserIds
+    });
+    return res.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error)
+  }
 })
 
 
@@ -127,7 +142,7 @@ export const USER = createSlice({
     },
     updateProfileImage: (state, action:PayloadAction<string>) => {
       state.details.profileImage = action.payload
-    }
+    },
   },
   extraReducers: builder => {
     builder
