@@ -1,22 +1,27 @@
-import {
-  createStackNavigator,
-  CardStyleInterpolators,
-} from '@react-navigation/stack';
-import FirstScreen from '../screens/FirstScreen';
+// import {
+//   createStackNavigator,
+//   CardStyleInterpolators,
+// } from '@react-navigation/stack';
+import FirstScreen from '../screens/SignUp/FirstScreen';
 import { Easing, Animated } from 'react-native';
 import { View, Text } from 'react-native';
 import React from 'react';
 import { RootStackParamList } from './NavigationTypes';
-import ChooseProfile from '../screens/ChooseProfile';
-import ChooseUsername from '../screens/ChooseUsername';
-import ConnectSocialsAndVrify from '../screens/ConnectSocialsAndVrify';
-import ConnectSocials from '../screens/ConnectSocials';
-import FindFriends from '../screens/FindFriends';
-import ExploreCommunities from '../screens/ExploreCommunities';
-import ChooseProfilePics from '../screens/ChooseProfilePics';
-import Congratulations from '../screens/Congratulations';
+import ChooseProfile from '../screens/SignUp/ChooseProfile';
+import ChooseUsername from '../screens/SignUp/ChooseUsername';
+import ConnectSocialsAndVrify from '../screens/SignUp/ConnectSocialsAndVrify';
+import ConnectSocials from '../screens/SignUp/ConnectSocials';
+import FindFriends from '../screens/SignUp/FindFriends';
+import ExploreCommunities from '../screens/SignUp/ExploreCommunities';
+import ChooseProfilePics from '../screens/SignUp/ChooseProfilePics';
+import Congratulations from '../screens/SignUp/Congratulations';
+import BottomTabNavigation from './BottomTabNavigation';
+import ChooseUsernameSlide from '../screens/SignUp/ChooseUsernameSlide';
+import EmailLogin from '../screens/SignUp/EmailLogin';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 const Navigations = () => {
-  const Stack = createStackNavigator<RootStackParamList>();
+  const Stack = createNativeStackNavigator<RootStackParamList>();
   const config = {
     animation: Animated.timing,
     config: {
@@ -37,11 +42,11 @@ const Navigations = () => {
     <Stack.Navigator
       screenOptions={{
         gestureEnabled: false,
-        transitionSpec: {
-          open: config as any,
-          close: closeconfig as any,
-        },
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        // transitionSpec: {
+        //   open: config as any,
+        //   close: closeconfig as any,
+        // },
+        // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
     >
       <Stack.Screen
@@ -86,23 +91,31 @@ const Navigations = () => {
           headerShown: false,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="ExploreCommunities"
         component={ExploreCommunities}
         options={{
           headerShown: false,
         }}
       />
-         <Stack.Screen
+      <Stack.Screen
         name="Congratulations"
         component={Congratulations}
         options={{
           headerShown: false,
         }}
       />
-           <Stack.Screen
+      <Stack.Screen
         name="ChooseProfilePics"
         component={ChooseProfilePics}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="EmailLogin"
+        component={EmailLogin}
         options={{
           headerShown: false,
         }}
