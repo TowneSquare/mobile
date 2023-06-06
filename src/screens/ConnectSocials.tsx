@@ -22,6 +22,8 @@ import DiscordBG from '../images/svg/DiscordBG';
 import TwitterBG from '../images/svg/TwitterBg';
 import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 const size = new sizes(height, width);
+
+
 const ConnectSocials = () => {
   const [isTwitterConected, setTwitterConnected] = useState(false);
   const [isDiscordConnected, setDiscordConnected] = useState(false);

@@ -8,7 +8,6 @@ import {
   Pressable,
 } from 'react-native';
 import React, { useEffect } from 'react';
-import { SvgXml } from 'react-native-svg';
 import Twitter from '../../assets/svg/Twitter';
 import { useFonts } from 'expo-font';
 import { Avatar } from 'react-native-elements';
@@ -18,7 +17,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { sizes } from '../utils';
 import Background1 from '../images/svg/Background1';
-import { StackActions } from '@react-navigation/native';
+import { StackActions, useNavigation } from '@react-navigation/native';
 const { height, width } = Dimensions.get('window');
 import { FirstScreenProps } from '../utils/NavigationTypes';
 import Description from '../images/svg/Description';
@@ -29,31 +28,25 @@ import Logo from '../images/svg/Logo';
 import Description2 from '../images/svg/Description2';
 import TowneSquareLogo from '../images/svg/TownesquareLogo';
 
-import { Magic } from '@magic-sdk/react-native-expo';
-import { OAuthExtension } from '@magic-ext/react-native-expo-oauth';
-import { makeUrl, createURL } from 'expo-linking';
+import * as Linking from 'expo-linking';
 
 const size = new sizes(height, width);
 
-const FirstScreen = ({ navigation }: FirstScreenProps) => {
-  const magic = new Magic('pk_live_CA547FCC1F472701', {
-    extensions: [new OAuthExtension()],
-  });
-  
+export default function FirstScreen({magic}: { magic: any; web3?: any; }) {
+  const navigation = useNavigation();
+
   const loginGoogle = async () => {
     const result = await magic.oauth.loginWithPopup({
-      provider: 'google' /* 'google', 'facebook', 'apple', or 'github' */,
-      redirectURI: createURL("/Congratulations"), /* must be string */
-      scope: ['email','profile'], /* optional */
+      provider: 'google',
+      redirectURI: Linking.createURL("Congratulations"),
     });
     console.log(result)
   }
 
   const loginDiscord = async () => {
     const result = await magic.oauth.loginWithPopup({
-      provider: 'discord' /* 'google', 'facebook', 'apple', or 'github' */,
-      redirectURI: createURL("/Congratulations"), /* must be string */
-      // scope: ['user:email'], /* optional */
+      provider: 'discord',
+      redirectURI: Linking.createURL("Congratulations"),
     });
     console.log(result)
   }
@@ -69,8 +62,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
     return null;
   }
   return (
-    <>
-      <StatusBar style="light" />
+    // <>
 
       <ImageBackground
         resizeMode="cover"
@@ -229,11 +221,11 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
           </Pressable>
         </View>
       </ImageBackground>
-    </>
+    // </>
   );
 };
 
-export default FirstScreen;
+// export default FirstScreen;
 const styles = StyleSheet.create({
   socials: {
     height: size.getHeightSize(51.06),

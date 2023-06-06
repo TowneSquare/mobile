@@ -12,8 +12,11 @@ import BackButton from '../components/BackButton';
 import Background3 from '../images/svg/Background3';
 import { ChooseProfileProps } from '../utils/NavigationTypes';
 import tinycolor from 'tinycolor2';
+import { RootStackScreenProps } from '../../types';
 const { height, width } = Dimensions.get('window');
-const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
+
+export default function ChooseProfile({ navigation }: RootStackScreenProps<'ChooseProfile'>) {
+// const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
   const size = new sizes(height, width);
   const isVisible = useAppSelector(
     (state) => state.bottomSheetController.isBottomSheetOpen
@@ -91,4 +94,4 @@ const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
   );
 };
 
-export default ChooseProfile;
+// export default ChooseProfile;

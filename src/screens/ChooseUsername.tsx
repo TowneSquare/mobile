@@ -23,8 +23,9 @@ import ProfileSetUpHeader from '../components/ProfileSetUpHeader';
 import UsernameField from '../components/UsernameField';
 import { sizes } from '../utils';
 import { useAppSelector } from '../controller/hooks';
+import { RootStackScreenProps } from '../../types';
 
-const ChooseUsername = () => {
+export default function ChooseUsername({ navigation }: RootStackScreenProps<'ChooseUsername'>) {
   const usernameError = useAppSelector(
     (state) => state.signUpController.errors.usernameError
   );
@@ -84,4 +85,4 @@ const ChooseUsername = () => {
   );
 };
 
-export default ChooseUsername;
+// export default ChooseUsername;
