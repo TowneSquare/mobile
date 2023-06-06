@@ -15,7 +15,7 @@ const linking: LinkingOptions<RootStackParamList> = {
     screens: {
       FirstScreen: "FirstScreen",
       Congratulations: "Congratulations",
-
+      ChooseUsername:"ChooseUsername",
       Root: {
         screens: {
           Login: {

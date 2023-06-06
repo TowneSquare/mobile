@@ -33,20 +33,20 @@ import * as Linking from 'expo-linking';
 const size = new sizes(height, width);
 
 export default function FirstScreen({magic}: { magic: any; web3?: any; }) {
-  const navigation = useNavigation();
+ const navigation = useNavigation();
 
   const loginGoogle = async () => {
     const result = await magic.oauth.loginWithPopup({
       provider: 'google',
-      redirectURI: Linking.createURL("Congratulations"),
+      redirectURI: Linking.createURL("ChooseUsername"),
     });
-    console.log(result)
+    console.log(JSON.stringify(result))
   }
 
   const loginDiscord = async () => {
     const result = await magic.oauth.loginWithPopup({
       provider: 'discord',
-      redirectURI: Linking.createURL("Congratulations"),
+      redirectURI: Linking.createURL("ChooseUsername"),
     });
     console.log(result)
   }
