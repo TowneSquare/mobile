@@ -14,8 +14,6 @@ declare global {
 }
 
 export type RootStackParamList = {
-
-
   FirstScreen: undefined;
   ChooseProfile: undefined;
   ChooseUsername: undefined;
@@ -27,6 +25,10 @@ export type RootStackParamList = {
   ChooseProfilePics: undefined;
 
   EmailLogin: undefined;
+  
+  PageView: undefined;
+  ChooseUsernameSlide: undefined;
+  BottomTabNavigation: undefined;
 
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   Modal: undefined;

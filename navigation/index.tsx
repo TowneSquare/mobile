@@ -19,16 +19,19 @@ import { RootStackParamList, RootTabParamList, TabOneParamList, TabTwoParamList 
 import LinkingConfiguration from './LinkingConfiguration';
 import HeaderDropdown from "./HeaderDropdown";
 
-import FirstScreen from '../src/screens/FirstScreen';
-import Congratulations from '../src/screens/Congratulations';
-import ChooseProfile from '../src/screens/ChooseProfile';
-import ChooseUsername from '../src/screens/ChooseUsername';
-import ConnectSocialsAndVrify from '../src/screens/ConnectSocialsAndVrify';
-import ConnectSocials from '../src/screens/ConnectSocials';
-import FindFriends from '../src/screens/FindFriends';
-import ExploreCommunities from '../src/screens/ExploreCommunities';
-import ChooseProfilePics from '../src/screens/ChooseProfilePics';
-import EmailLogin from '../src/screens/EmailLogin';
+
+import EmailLogin from '../src/screens/SignUp/EmailLogin';
+import FirstScreen from '../src/screens/SignUp/FirstScreen';
+import ChooseProfile from '../src/screens/SignUp/ChooseProfile';
+import ChooseUsername from '../src/screens/SignUp/ChooseUsername';
+import ConnectSocialsAndVrify from '../src/screens/SignUp/ConnectSocialsAndVrify';
+import ConnectSocials from '../src/screens/SignUp/ConnectSocials';
+import FindFriends from '../src/screens/SignUp/FindFriends';
+import ExploreCommunities from '../src/screens/SignUp/ExploreCommunities';
+import Congratulations from '../src/screens/SignUp/Congratulations';
+import ChooseProfilePics from '../src/screens/SignUp/ChooseProfilePics';
+import ChooseUsernameSlide from '../src/screens/SignUp/ChooseUsernameSlide';
+import BottomTabNavigation from '../src/utils/BottomTabNavigation';
 
 export default function Navigation({ colorScheme, magicProps }: { colorScheme: ColorSchemeName, magicProps: any }) {
   return (
@@ -56,6 +59,13 @@ function RootNavigator({ magicProps }: any) {
       <Stack.Screen
         name="ChooseProfile"
         component={ChooseProfile}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ChooseUsernameSlide"
+        component={ChooseUsernameSlide}
         options={{
           headerShown: false,
         }}
@@ -109,7 +119,13 @@ function RootNavigator({ magicProps }: any) {
           headerShown: false,
         }}
       />
-
+      <Stack.Screen
+        name="BottomTabNavigation"
+        component={BottomTabNavigation}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen
         name="EmailLogin"
         component={EmailLogin}
