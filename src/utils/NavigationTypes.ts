@@ -3,7 +3,7 @@ import {
   ParamListBase,
   RouteProp,
 } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+// import { StackNavigationProp } from '@react-navigation/stack';
 export type RootStackParamList = {
   FirstScreen: undefined;
   ChooseProfile: undefined;
@@ -14,6 +14,8 @@ export type RootStackParamList = {
   ExploreCommunities: undefined;
   Congratulations: undefined;
   ChooseProfilePics: undefined;
+
+  EmailLogin: undefined;
   PageView: undefined;
   ChooseUsernameSlide: undefined;
   BottomTabNavigation: undefined;
@@ -53,6 +55,11 @@ export type CongratulationsProps = {
 export type ChooseProfilePicsProps = {
   navigation: NavigationProp<RootStackParamList, 'ChooseProfilePics'>;
   route: RouteProp<ParamListBase, 'ChooseProfilePics'>;
+};
+
+export type EmailLoginProps = {
+  navigation: NavigationProp<RootStackParamList, 'EmailLogin'>;
+  route: RouteProp<ParamListBase, 'EmailLogin'>;
 };
 export type PageViewProps = {
   navigation: NavigationProp<RootStackParamList, 'PageView'>;

@@ -1,7 +1,7 @@
-import {
-  createStackNavigator,
-  CardStyleInterpolators,
-} from '@react-navigation/stack';
+// import {
+//   createStackNavigator,
+//   CardStyleInterpolators,
+// } from '@react-navigation/stack';
 import FirstScreen from '../screens/SignUp/FirstScreen';
 import { Easing, Animated } from 'react-native';
 import { View, Text } from 'react-native';
@@ -17,8 +17,11 @@ import ChooseProfilePics from '../screens/SignUp/ChooseProfilePics';
 import Congratulations from '../screens/SignUp/Congratulations';
 import BottomTabNavigation from './BottomTabNavigation';
 import ChooseUsernameSlide from '../screens/SignUp/ChooseUsernameSlide';
+import EmailLogin from '../screens/SignUp/EmailLogin';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 const Navigations = () => {
-  const Stack = createStackNavigator<RootStackParamList>();
+  const Stack = createNativeStackNavigator<RootStackParamList>();
   const config = {
     animation: Animated.timing,
     config: {
@@ -39,11 +42,11 @@ const Navigations = () => {
     <Stack.Navigator
       screenOptions={{
         gestureEnabled: false,
-        transitionSpec: {
-          open: config as any,
-          close: closeconfig as any,
-        },
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        // transitionSpec: {
+        //   open: config as any,
+        //   close: closeconfig as any,
+        // },
+        // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
     >
       <Stack.Screen
@@ -111,16 +114,8 @@ const Navigations = () => {
       />
 
       <Stack.Screen
-        name="ChooseUsernameSlide"
-        component={ChooseUsernameSlide}
-        options={{
-          headerShown: false,
-        }}
-      />
-
-      <Stack.Screen
-        name="BottomTabNavigation"
-        component={BottomTabNavigation}
+        name="EmailLogin"
+        component={EmailLogin}
         options={{
           headerShown: false,
         }}

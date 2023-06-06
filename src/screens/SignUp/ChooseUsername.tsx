@@ -30,6 +30,7 @@ import TransitionBackButton from '../../components/SignUp/TransitionBackButton';
 
 import { Transition, Transitioning } from 'react-native-reanimated';
 const size = new sizes(height, width);
+
 const ChooseUsername = () => {
   const animation = useRef(new Animated.Value(0)).current;
   const fadeAnimation = useRef(new Animated.Value(1)).current;

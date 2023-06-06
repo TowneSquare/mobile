@@ -32,9 +32,11 @@ import {
 import ChooseNFT from '../../components/SignUp/ChooseNFT';
 import { ChooseProfilePicsProps } from '../../utils/NavigationTypes';
 import tinycolor from 'tinycolor2';
-
+import { RootStackScreenProps } from '../../../types';
 const size = new sizes(height, width);
-const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
+
+export default function ChooseProfilePics({ navigation }: RootStackScreenProps<'ChooseProfilePics'>) {
+// const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
   const dispatch = useAppDispatch();
 
   const profilePics = useAppSelector(
@@ -216,7 +218,8 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
   );
 };
 
-export default ChooseProfilePics;
+// export default ChooseProfilePics;
+
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',

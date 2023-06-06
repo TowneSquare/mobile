@@ -20,8 +20,10 @@ import { StackActions } from '@react-navigation/native';
 import LetGoButton from '../../components/SignUp/LetGoButton';
 const { height, width } = Dimensions.get('window');
 import { FirstScreenProps } from '../../utils/NavigationTypes';
+import { RootStackScreenProps } from '../../../types';
 const size = new sizes(height, width);
-const Congratulations = () => {
+
+export default function Congratulations({ navigation }: RootStackScreenProps<'Congratulations'>) {
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -91,4 +93,4 @@ const Congratulations = () => {
   );
 };
 
-export default Congratulations;
+// export default Congratulations;
