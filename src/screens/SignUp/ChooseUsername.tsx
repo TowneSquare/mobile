@@ -27,11 +27,12 @@ import { useNavigation } from '@react-navigation/native';
 
 import TranslationForwardButton from '../../components/SignUp/TranslationForwardButton';
 import TransitionBackButton from '../../components/SignUp/TransitionBackButton';
+import { RootStackScreenProps } from '../../../types';
 
 import { Transition, Transitioning } from 'react-native-reanimated';
 const size = new sizes(height, width);
 
-const ChooseUsername = () => {
+const ChooseUsername = ({ navigation}: RootStackScreenProps<'ChooseUsername'>) => {
   const animation = useRef(new Animated.Value(0)).current;
   const fadeAnimation = useRef(new Animated.Value(1)).current;
   const usernameError = useAppSelector(
@@ -47,7 +48,7 @@ const ChooseUsername = () => {
   const nickNameLength = useAppSelector(
     (state) => state.USER.details.Nickname.length
   );
-  const navigation = useNavigation();
+  //const navigation = useNavigation();
   const disabled =  usernameError || nickNameError || userNameLength < 1 || nickNameLength < 1
   const transitionConfig = {
     duration: 500,
@@ -128,8 +129,8 @@ const ChooseUsername = () => {
             Continue
           </Text>
           </Pressable>
-          <TranslationForwardButton action={() => {}} />
-          <TransitionBackButton action={() => {}} />
+          {/* <TranslationForwardButton action={() => {}} />
+          <TransitionBackButton action={() => {}} /> */}
         </View>
       </ScrollView>
     </SafeAreaView>
