@@ -17,6 +17,7 @@ import ChooseProfilePics from '../screens/SignUp/ChooseProfilePics';
 import Congratulations from '../screens/SignUp/Congratulations';
 import BottomTabNavigation from './BottomTabNavigation';
 import ChooseUsernameSlide from '../screens/SignUp/ChooseUsernameSlide';
+import DrawerNavigation from './DrawerNavigation';
 const Navigations = () => {
   const Stack = createStackNavigator<RootStackParamList>();
   const config = {
@@ -121,6 +122,13 @@ const Navigations = () => {
       <Stack.Screen
         name="BottomTabNavigation"
         component={BottomTabNavigation}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="DrawerNavigation"
+        component={DrawerNavigation}
         options={{
           headerShown: false,
         }}

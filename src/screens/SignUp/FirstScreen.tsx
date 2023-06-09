@@ -20,7 +20,7 @@ import { sizes } from '../../utils';
 import Background1 from '../../images/svg/Background1';
 import { StackActions } from '@react-navigation/native';
 const { height, width } = Dimensions.get('window');
-import { FirstScreenProps } from '../../utils/NavigationTypes';
+import { FirstScreenProps } from '../../navigations/NavigationTypes';
 import Description from '../../images/svg/Description';
 import Discord from '../../images/svg/Discord';
 import Google from '../../images/svg/Google';

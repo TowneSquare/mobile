@@ -8,7 +8,7 @@ import { updateNickname } from '../../controller/SignUpController';
 const NickNameField = () => {
   const dispatch = useAppDispatch();
   const nickNameError = useAppSelector(
-    (state) => state.signUpController.errors.nicknameError
+    (state) => state.USER.errors.nicknameError
   );
   const { height, width } = Dimensions.get('window');
   const size = new sizes(height, width);
@@ -32,8 +32,7 @@ const NickNameField = () => {
         cursorColor={appColor.klightPurple}
         placeholder="Nickname"
         placeholderTextColor={appColor.kgrayTextColor}
-        
-        onChangeText={(text)=>dispatch(updateNickname(text))}
+        onChangeText={(text) => dispatch(updateNickname(text))}
         style={{
           width: size.getWidthSize(328),
           height: size.getHeightSize(48),

@@ -17,6 +17,7 @@ export type RootStackParamList = {
   PageView: undefined;
   ChooseUsernameSlide: undefined;
   BottomTabNavigation: undefined;
+  DrawerNavigation: undefined;
 };
 export type FirstScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'FirstScreen'>;
@@ -38,7 +39,7 @@ export type ConnectSocialsProps = {
   navigation: NavigationProp<RootStackParamList, 'ConnectSocials'>;
   route: RouteProp<ParamListBase, 'ConnectSocials'>;
 };
-export type FindFriendsProps = {
+export type FinundefineddFriendsProps = {
   navigation: NavigationProp<RootStackParamList, 'FindFriends'>;
   route: RouteProp<ParamListBase, 'FindFriends'>;
 };
@@ -65,4 +66,8 @@ export type ChooseUsernameSlideProps = {
 export type BottomTabNavigationProps = {
   navigation: NavigationProp<RootStackParamList, 'BottomTabNavigation'>;
   route: RouteProp<ParamListBase, 'BottomTabNavigation'>;
+};
+export type DrawerNavigationProps = {
+  navigation: NavigationProp<RootStackParamList, 'DrawerNavigation'>;
+  route: RouteProp<ParamListBase, 'DrawerNavigation'>;
 };

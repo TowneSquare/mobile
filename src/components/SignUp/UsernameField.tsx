@@ -5,14 +5,14 @@ import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../../constants';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import Info from '../../images/svg/Info';
-import { updateUsername } from '../../controller/User';
+import { updateUsername } from '../../controller/SignUpController';
 const UsernameField = () => {
   const dispatch = useAppDispatch();
   const userNameError = useAppSelector(
-    (state) => state.signUpController.errors.usernameError
+    (state) => state.USER.errors.usernameError
   );
   const ErrorMessage = useAppSelector(
-    (state) => state.signUpController.errors.usernameErrorMessage
+    (state) => state.USER.errors.usernameErrorMessage
   );
   const { height, width } = Dimensions.get('window');
   const size = new sizes(height, width);

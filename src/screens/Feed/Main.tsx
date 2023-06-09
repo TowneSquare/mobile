@@ -6,7 +6,7 @@ import {
   FlatList,
   Pressable,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 import { appColor, fonts } from '../../constants';
@@ -17,17 +17,29 @@ import More from '../../images/svg/More';
 import BarCode from '../../images/svg/Barcode';
 import Bell from '../../images/svg/Bell';
 import Feather from '@expo/vector-icons/Feather';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { useFonts } from 'expo-font';
 import { FeedContent, UserPost, UserCommunityPost } from '../../models';
 import ForYou from '../../components/Feed/ForYou';
 import Community from '../../components/Feed/Community';
 import { UserPosts, CommunityPost } from '../../components/Feed/DuumyData';
+import { useNavigation } from '@react-navigation/native';
 const size = new sizes(height, width);
+import { DrawerActions } from '@react-navigation/native';
+import ReceiveTokenModal from '../../components/Feed/ReceiveTokenModal';
+import { useAppSelector, useAppDispatch } from '../../controller/hooks';
+import { updateReceiveModalState } from '../../controller/FeedsController';
+
 const Main = () => {
+  const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+
   const [view, setSwitchView] = useState(true);
+
   const handleView = () => {
     setSwitchView((previous) => !previous);
   };
+
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -36,7 +48,15 @@ const Main = () => {
   if (!isLoaded) {
     return null;
   }
-
+  const closeModal = () => {
+    dispatch(updateReceiveModalState(false));
+  };
+  const openModal = () => {
+    dispatch(updateReceiveModalState(true));
+  };
+  const openDrawer = () => {
+    navigation.dispatch(DrawerActions.openDrawer());
+  };
   return (
     <SafeAreaView
       style={{
@@ -47,7 +67,7 @@ const Main = () => {
       <StatusBar style="light" backgroundColor={appColor.kgrayDark2} />
       <View style={styles.Header}>
         <View style={styles.Navigation}>
-          <More />
+          <More onPress={openDrawer} />
           <Text style={styles.title}>TowneSquare</Text>
           <Feather
             name="search"
@@ -55,7 +75,7 @@ const Main = () => {
             size={size.fontSize(24)}
           />
           <Bell />
-          <BarCode />
+          <BarCode onPress={openModal} />
         </View>
         <View
           style={{
@@ -100,6 +120,11 @@ const Main = () => {
           />
         )}
       </View>
+      <View style={styles.addButton}>
+        <AntDesign name="plus" size={25} color={appColor.kTextColor} />
+      </View>
+
+      <ReceiveTokenModal closeModal={closeModal} />
     </SafeAreaView>
   );
 };
@@ -159,5 +184,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: size.getWidthSize(4),
     borderRadius: 40,
+  },
+  addButton: {
+    height: size.getHeightSize(56),
+    width: size.getHeightSize(56),
+    borderRadius: 50,
+    backgroundColor: appColor.kSecondaryButtonColor,
+    position: 'absolute',
+    bottom: size.getHeightSize(42),
+    right: size.getWidthSize(18),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

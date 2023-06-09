@@ -10,7 +10,7 @@ import Wallets from '../../components/SignUp//Wallets';
 import { useAppSelector } from '../../controller/hooks';
 import BackButton from '../../components/SignUp/BackButton';
 import Background3 from '../../images/svg/Background3';
-import { ChooseProfileProps } from '../../utils/NavigationTypes';
+import { ChooseProfileProps } from '../../navigations/NavigationTypes';
 import tinycolor from 'tinycolor2';
 const { height, width } = Dimensions.get('window');
 const ChooseProfile = ({ navigation }: ChooseProfileProps) => {

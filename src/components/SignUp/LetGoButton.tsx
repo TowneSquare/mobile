@@ -38,6 +38,7 @@ const LetGoButton = ({ navigateTo }: Props) => {
           fontFamily: 'Outfit-SemiBold',
           letterSpacing: 0.01,
           lineHeight: size.getHeightSize(20),
+          
         }}
       >
         LET'S GOOO!

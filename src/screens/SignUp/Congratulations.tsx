@@ -19,7 +19,7 @@ import Congrats from '../../images/svg/Congrats';
 import { StackActions } from '@react-navigation/native';
 import LetGoButton from '../../components/SignUp/LetGoButton';
 const { height, width } = Dimensions.get('window');
-import { FirstScreenProps } from '../../utils/NavigationTypes';
+import { FirstScreenProps } from '../../navigations/NavigationTypes';
 const size = new sizes(height, width);
 const Congratulations = () => {
   let [isLoaded] = useFonts({
@@ -84,7 +84,7 @@ const Congratulations = () => {
             </Text>
           </View>
 
-          <LetGoButton navigateTo="BottomTabNavigation" />
+          <LetGoButton navigateTo="DrawerNavigation" />
         </View>
       </ImageBackground>
     </>

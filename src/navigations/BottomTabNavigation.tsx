@@ -11,11 +11,15 @@ import ChatSvg from '../images/svg/ChatSvg';
 import Space from '../screens/Feed/Space';
 import Community from '../screens/Feed/Community';
 import Chats from '../screens/Feed/Chats';
-import { sizes } from './size';
+import { sizes } from '../utils/size';
 import { appColor } from '../constants';
 const { height, width } = Dimensions.get('window');
+import { useAppSelector } from '../controller/hooks';
 const Tab = createBottomTabNavigator();
 const BottomTabNavigation = () => {
+  const ReceiveModalVisibility = useAppSelector(
+    (state) => state.FeedsSliceController.ReceiveModalState
+  );
   const main = 'Main';
   const profile = 'Profile';
   const space = 'Space';
@@ -31,6 +35,7 @@ const BottomTabNavigation = () => {
           borderWidth: 0,
           height: size.getHeightSize(64),
           backgroundColor: appColor.kGrayscaleDart,
+          display: ReceiveModalVisibility ? 'none' : 'flex',
         },
         tabBarLabel: () => null,
         tabBarIcon: ({ focused }) => {

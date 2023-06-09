@@ -31,7 +31,7 @@ import {
 } from '../../controller/BottomSheetController';
 import ChooseNFT from '../../components/SignUp/ChooseNFT';
 
-import { ChooseProfilePicsProps } from '../../utils/NavigationTypes';
+import { ChooseProfilePicsProps } from '../../navigations/NavigationTypes';
 import tinycolor from 'tinycolor2';
 const size = new sizes(height, width);
 const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {

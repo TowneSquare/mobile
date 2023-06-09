@@ -38,22 +38,28 @@ const PostHeader = ({ username, nickname, timepost }: Props) => {
         }}
       >
         <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
           style={{
             fontSize: size.fontSize(16),
             color: appColor.kTextColor,
             fontFamily: 'Outfit-Medium',
             lineHeight: size.getHeightSize(21),
+            maxWidth: size.getWidthSize(74),
           }}
         >
           {username}
         </Text>
         <Queen />
         <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
           style={{
             color: appColor.grayLight,
             fontSize: size.fontSize(14),
             lineHeight: size.getHeightSize(18),
             fontFamily: 'Outfit-Regular',
+            maxWidth: size.getWidthSize(67),
           }}
         >
           @{nickname}
