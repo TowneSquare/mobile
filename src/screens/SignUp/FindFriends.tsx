@@ -31,6 +31,7 @@ import Checked from '../../images/svg/Checked';
 import Queen from '../../images/svg/Queen';
 const size = new sizes(height, width);
 interface Friend {
+  userId:string,
   image: ReactNode;
   name: string;
   username: string;
@@ -39,42 +40,49 @@ interface Friend {
 const FindFriends = () => {
   const friends: Array<Friend> = [
     {
+      userId:"1",
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username1',
       verification: 'citizen',
     },
     {
+      userId:"2",
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username2',
       verification: 'verified',
     },
     {
+      userId:"3",
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username3',
       verification: 'citizen',
     },
     {
+      userId:"4",
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username4',
       verification: 'verified',
     },
     {
+       userId:"5",
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username5',
       verification: 'citizen',
     },
     {
+      userId:"6",
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username6',
       verification: 'verified',
     },
     {
+       userId:"7",
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username7',
@@ -123,7 +131,7 @@ const FindFriends = () => {
         title="Find your friends"
         sub_title="Say hi to your friends that are already on TowneSquare!"
         steps={4}
-        subTitleWidth={304}
+        subTitleWidth= {size.getWidthSize(304)}
       />
 
       <View
@@ -183,6 +191,7 @@ const FindFriends = () => {
           <ScrollView showsVerticalScrollIndicator={false}>
             {friends.map((friend) => (
               <View
+                key={friend.userId}
                 style={{
                   flexDirection: 'row',
                   width: size.getWidthSize(328),
