@@ -1,17 +1,12 @@
 {
   "expo": {
-    "name": "Townesquare",
-    "slug": "Townesquare",
-    "scheme": "Townesquare",
+    "name": "TowneSquare",
+    "slug": "TowneSquare",
+    "scheme": "townesquare",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/images/png/appLogo.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -39,7 +34,7 @@
     "packagerOpts": {
       "config": "metro.config.js"
     },
-    "plugin":[
+    "plugins":[
       [
         "expo-image-picker",
         {

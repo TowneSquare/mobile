@@ -13,7 +13,7 @@ import { ColorSchemeName } from 'react-native';
 import Colors from '../constants/Colors';
 import NotFoundScreen from '../src/screens/NotFoundScreen';
 import useColorScheme from '../hooks/useColorScheme';
-import { RootStackParamList, RootTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import { RootStackParamList, RootTabParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import HeaderDropdown from "./HeaderDropdown";
 
@@ -197,7 +197,7 @@ function TabBarIcon(props: {
 }
 
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createNativeStackNavigator<TabOneParamList>();
+//const TabOneStack = createNativeStackNavigator<TabOneParamList>();
 
 // function TabOneNavigator(header: () => JSX.Element, magic: any, web3: any) {
 //   return (

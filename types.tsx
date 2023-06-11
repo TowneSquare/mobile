@@ -30,8 +30,8 @@ export type RootStackParamList = {
   ChooseUsernameSlide: undefined;
   BottomTabNavigation: undefined;
 
-  Root: NavigatorScreenParams<RootTabParamList> | undefined;
-  Modal: undefined;
+  // Root: NavigatorScreenParams<RootTabParamList> | undefined;
+  // Modal: undefined;
   NotFound: undefined;
 };
 
@@ -51,10 +51,10 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
 >;
 
 
-export type TabOneParamList = {
-  LoginScreen: undefined;
-};
+// export type TabOneParamList = {
+//   LoginScreen: undefined;
+// };
 
-export type TabTwoParamList = {
-  Web3Screen: undefined;
-};
+// export type TabTwoParamList = {
+//   Web3Screen: undefined;
+// };
