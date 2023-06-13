@@ -2,17 +2,11 @@
   "expo": {
     "name": "TowneSquare",
     "slug": "TowneSquare",
-    "scheme": "townesquare",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/images/png/appLogo.png",
     "userInterfaceStyle": "light",
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -29,14 +23,6 @@
     },
     "packagerOpts": {
       "config": "metro.config.js"
-    },
-    "plugins":[
-      [
-        "expo-image-picker",
-        {
-          "photosPermission":"The app accesses your photos"
-        }
-      ]
-    ]
+    }
   }
 }
