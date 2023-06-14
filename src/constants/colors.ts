@@ -33,6 +33,7 @@ const colors = {
   feedBackground: '#000000',
   grayLight: '#AAAAAA',
   grayDark:"#404040",
-  primaryLight:"#B882FF"
+  primaryLight:"#B882FF",
+  primary300:"#D6BBFB"
 };
 export const appColor = colors;
