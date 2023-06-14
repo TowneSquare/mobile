@@ -7,8 +7,7 @@ export enum FeedContent {
   NFT_FOR_SALE = 'nft-for-sale',
   ATTACHED_NFT = 'attached-nft',
   SWAP_OPTION_INCLUDED = 'swap-option-included',
-  FLOOR_PRICE_INCLUDED = 'floor-price',
-  REPOST = 'repost',
+  FLOOR_PRICE_INCLUDED = 'attached-nft',
 }
 export interface Message_Only {
   message: string;
@@ -56,19 +55,6 @@ export interface FLOOR_PRICE_INCLUDED {
   collectionName: string;
   amount: number;
 }
-export interface Repost {
-  contentTypeOfRepost: string;
-  content:
-    | Message_Only
-    | Message_Image
-    | Message_External_Link
-    | NFT_FOR_SALE
-    | ATTACHED_NFT
-    | SWAP_OPTION_INCLUDED
-    | FLOOR_PRICE_INCLUDED
-    | GIF
-    | VIDEO;
-}
 export interface UserPost {
   id: string;
   pfp: string;
@@ -88,8 +74,7 @@ export interface UserPost {
     | SWAP_OPTION_INCLUDED
     | FLOOR_PRICE_INCLUDED
     | GIF
-    | VIDEO
-    | Repost;
+    | VIDEO;
 }
 export interface UserCommunityPost extends UserPost {
   postedin: string;

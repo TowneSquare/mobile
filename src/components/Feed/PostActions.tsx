@@ -1,5 +1,5 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
-import React, { useState } from 'react';
+import { View, Text, Dimensions } from 'react-native';
+import React from 'react';
 import { sizes } from '../../utils';
 import { appColor, fonts } from '../../constants';
 import { useFonts } from 'expo-font';
@@ -9,18 +9,6 @@ import Retweet from '../../images/svg/Retweet';
 import BookMark from '../../images/svg/BookMark';
 import LikePost from '../../images/svg/LikePost';
 import ShareFeed from '../../images/svg/ShareFeed';
-import LikedIcon from '../../images/svg/LikedIcon';
-import Retweeted from '../../images/svg/Retweeted';
-import BookMarkedIcon from '../../images/svg/BookMarkedIcon';
-import Animated, {
-  Extrapolate,
-  Extrapolation,
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated';
-
 const size = new sizes(height, width);
 interface Props {
   noOfComments: string;
@@ -28,88 +16,6 @@ interface Props {
   noOfLikes: string;
 }
 const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
-  const [changeLikeTextColor, setlikesTextColor] = useState(false);
-  const [changeRetweetTextColor, setRetweetTextColor] = useState(false);
-  const handleLike = () => {
-    liked.value = withSpring(liked.value ? 0 : 1);
-    setlikesTextColor((previous) => !previous);
-  };
-  const handleRetweet = () => {
-    retweet.value = withSpring(retweet.value ? 0 : 1);
-    setRetweetTextColor((previous) => !previous);
-  };
-  const handleBookMark = () => {
-    bookmark.value = withSpring(bookmark.value ? 0 : 1);
-  };
-  const liked = useSharedValue(0);
-  const outlineStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: interpolate(liked.value, [0, 1], [1, 0], Extrapolate.CLAMP),
-        },
-      ],
-    };
-  });
-  const fillStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: liked.value,
-        },
-      ],
-      opacity: liked.value,
-    };
-  });
-  const bookmark = useSharedValue(0);
-  const bookmarkoutlineStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: interpolate(bookmark.value, [0, 1], [1, 0], Extrapolate.CLAMP),
-        },
-      ],
-    };
-  });
-  const bookmarkfillStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: bookmark.value,
-        },
-      ],
-      opacity: bookmark.value,
-    };
-  });
-  const retweet = useSharedValue(0);
-  const retweetoutlineStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: interpolate(retweet.value, [0, 1], [1, 0], Extrapolate.CLAMP),
-        },
-      ],
-    };
-  });
-  const retweetfillStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: retweet.value,
-        },
-      ],
-      opacity: retweet.value,
-    };
-  });
-  let [isLoaded] = useFonts({
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
-  });
-  if (!isLoaded) {
-    return null;
-  }
-
   return (
     <View
       style={{
@@ -149,26 +55,12 @@ const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
           gap: size.getWidthSize(2),
         }}
       >
-        <Pressable onPress={handleRetweet}>
-          <Animated.View
-            style={[StyleSheet.absoluteFillObject, retweetoutlineStyle]}
-          >
-            <Retweet />
-          </Animated.View>
-
-          <Animated.View style={retweetfillStyle}>
-            <Retweeted />
-          </Animated.View>
-        </Pressable>
+        <Retweet />
         <Text
           style={{
             fontSize: size.fontSize(13),
-            fontFamily: changeRetweetTextColor
-              ? 'Outfit-SemiBold'
-              : 'Outfit-Regular',
-            color: changeRetweetTextColor
-              ? appColor.kSecondaryButtonColor
-              : appColor.grayLight,
+            fontFamily: 'Outfit-Regular',
+            color: appColor.grayLight,
             lineHeight: size.getHeightSize(16),
           }}
         >
@@ -183,24 +75,12 @@ const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
           flex: 1,
         }}
       >
-        <Pressable onPress={handleLike}>
-          <Animated.View style={[StyleSheet.absoluteFillObject, outlineStyle]}>
-            <LikePost />
-          </Animated.View>
-
-          <Animated.View style={fillStyle}>
-            <LikedIcon />
-          </Animated.View>
-        </Pressable>
+        <LikePost />
         <Text
           style={{
             fontSize: size.fontSize(13),
-            fontFamily: changeLikeTextColor
-              ? 'Outfit-SemiBold'
-              : 'Outfit-Regular',
-            color: changeLikeTextColor
-              ? appColor.kSecondaryButtonColor
-              : appColor.grayLight,
+            fontFamily: 'Outfit-Regular',
+            color: appColor.grayLight,
             lineHeight: size.getHeightSize(16),
           }}
         >
@@ -221,17 +101,7 @@ const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
           gap: size.getWidthSize(2),
         }}
       >
-        <Pressable onPress={handleBookMark}>
-          <Animated.View
-            style={[StyleSheet.absoluteFillObject, bookmarkoutlineStyle]}
-          >
-            <BookMark />
-          </Animated.View>
-
-          <Animated.View style={bookmarkfillStyle}>
-            <BookMarkedIcon />
-          </Animated.View>
-        </Pressable>
+        <BookMark />
       </View>
     </View>
   );

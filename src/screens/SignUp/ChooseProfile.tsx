@@ -1,5 +1,5 @@
 import { View, Text, Dimensions, ImageBackground } from 'react-native';
-import React from 'react';
+import React,{useEffect} from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
@@ -10,10 +10,13 @@ import Wallets from '../../components/SignUp//Wallets';
 import { useAppSelector } from '../../controller/hooks';
 import BackButton from '../../components/SignUp/BackButton';
 import Background3 from '../../images/svg/Background3';
-import { ChooseProfileProps } from '../../navigations/NavigationTypes';
+import { ChooseProfileProps } from '../../utils/NavigationTypes';
 import tinycolor from 'tinycolor2';
+import { RootStackScreenProps } from '../../../types';
 const { height, width } = Dimensions.get('window');
-const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
+
+export default function ChooseProfile({ navigation }: RootStackScreenProps<'ChooseProfile'>) {
+// const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
   const size = new sizes(height, width);
   const isVisible = useAppSelector(
     (state) => state.bottomSheetController.isBottomSheetOpen
@@ -91,4 +94,4 @@ const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
   );
 };
 
-export default ChooseProfile;
+// export default ChooseProfile;
