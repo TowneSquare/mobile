@@ -19,7 +19,7 @@ import { sizes } from '../../utils';
 import TranslationForwardButton from '../../components/SignUp/TranslationForwardButton';
 import SelectSocialsHeader from '../../components/SignUp/SelectSocialsHeader';
 import ConnectSocialsAndVerifyContent from '../../components/SignUp/ConnectSocialsAndVerifyContent';
-import { ChooseUsernameSlideProps } from '../../navigations/NavigationTypes';
+import { ChooseUsernameSlideProps } from '../../utils/NavigationTypes';
 const { width, height } = Dimensions.get('window');
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);

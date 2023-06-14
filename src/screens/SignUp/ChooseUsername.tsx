@@ -23,13 +23,16 @@ import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
 import UsernameField from '../../components/SignUp/UsernameField';
 import { sizes } from '../../utils';
 import { useAppSelector } from '../../controller/hooks';
+import { useNavigation } from '@react-navigation/native';
 
 import TranslationForwardButton from '../../components/SignUp/TranslationForwardButton';
 import TransitionBackButton from '../../components/SignUp/TransitionBackButton';
+import { RootStackScreenProps } from '../../../types';
 
 import { Transition, Transitioning } from 'react-native-reanimated';
 const size = new sizes(height, width);
-const ChooseUsername = () => {
+
+const ChooseUsername = ({ navigation}: RootStackScreenProps<'ChooseUsername'>) => {
   const animation = useRef(new Animated.Value(0)).current;
   const fadeAnimation = useRef(new Animated.Value(1)).current;
   const usernameError = useAppSelector(
@@ -45,6 +48,8 @@ const ChooseUsername = () => {
   const nickNameLength = useAppSelector(
     (state) => state.USER.details.Nickname.length
   );
+  //const navigation = useNavigation();
+  const disabled =  usernameError || nickNameError || userNameLength < 1 || nickNameLength < 1
   const transitionConfig = {
     duration: 500,
   };
@@ -80,8 +85,52 @@ const ChooseUsername = () => {
             marginBottom: size.getHeightSize(24),
           }}
         >
-          <TranslationForwardButton action={() => {}} />
-          <TransitionBackButton action={() => {}} />
+          {/* <ContinueButton
+            disabled={
+              usernameError ||
+              nickNameError ||
+              userNameLength < 1 ||
+              nickNameLength < 1
+            }
+            navigateTo="ConnectSocialsAndVrify"
+          /> */}
+           <Pressable
+            disabled={disabled}
+             onPress={() => {
+        
+
+            navigation.navigate("ConnectSocialsAndVrify" as never);
+          }}
+          style={{
+            backgroundColor: disabled
+              ? appColor.kWhiteColorWithOpacity
+              : appColor.kWhiteColor,
+            alignSelf: 'center',
+            width: size.getWidthSize(328),
+            borderRadius: 40,
+            // height: size.getHeightSize(48),
+            justifyContent: 'center',
+            marginTop: 0 ? size.getHeightSize(8) : 8,
+            paddingVertical:size.getHeightSize(14)
+          }}
+        >
+        <Text
+          style={{
+            textAlign: 'center',
+            color: appColor.kButtonTextColor,
+            fontSize: size.fontSize(18),
+            fontFamily: 'Outfit-SemiBold',
+            fontStyle: 'normal',
+            lineHeight: size.getHeightSize(20),
+            letterSpacing: 0.01,
+          
+          }}
+          >
+            Continue
+          </Text>
+          </Pressable>
+          {/* <TranslationForwardButton action={() => {}} />
+          <TransitionBackButton action={() => {}} /> */}
         </View>
       </ScrollView>
     </SafeAreaView>

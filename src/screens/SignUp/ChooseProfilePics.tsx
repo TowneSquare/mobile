@@ -30,16 +30,20 @@ import {
   updateUploadModalRenderCount,
 } from '../../controller/BottomSheetController';
 import ChooseNFT from '../../components/SignUp/ChooseNFT';
-
-import { ChooseProfilePicsProps } from '../../navigations/NavigationTypes';
+import { ChooseProfilePicsProps } from '../../utils/NavigationTypes';
 import tinycolor from 'tinycolor2';
+import { RootStackScreenProps } from '../../../types';
 const size = new sizes(height, width);
-const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
+
+export default function ChooseProfilePics({ navigation }: RootStackScreenProps<'ChooseProfilePics'>) {
+// const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
   const dispatch = useAppDispatch();
 
   const profilePics = useAppSelector(
-    (state) => state.bottomSheetController.profilePics
+    (state) => state.USER.details.profileImage
   );
+
+  console.log(profilePics, "hhh")
 
   const uploadImageModal = useAppSelector(
     (state) => state.bottomSheetController.uploadImageModalOpen
@@ -105,13 +109,13 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
         }}
       />
       <View>
-        {profilePics.image ? (
+        {profilePics ? (
           <>
             <View style={styles.container}>
               <View style={styles.imageContainer}>
                 <Image
                   style={styles.image}
-                  source={images.Aptomingos}
+                  source={{uri: profilePics}}
                   resizeMode="contain"
                 />
               </View>
@@ -174,7 +178,7 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
         }}
       >
         <ContinueButton
-          disabled={typeof profilePics.image === 'undefined' ? true : false}
+          disabled={typeof profilePics === 'undefined' ? true : false}
           navigateTo="Congratulations"
         />
         <View
@@ -214,7 +218,8 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
   );
 };
 
-export default ChooseProfilePics;
+// export default ChooseProfilePics;
+
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',

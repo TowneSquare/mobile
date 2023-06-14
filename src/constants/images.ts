@@ -7,8 +7,8 @@ const appImages = {
   fewcha: require('../images/png/fewcha.png'),
   google: require('../images/png/google.png'),
   matian: require('../images/png/matian.png'),
-  petra: require('../images/png/petra.png'),
-  pontem: require('../images/png/pontem.png'),
+  petra: require('../images/png/Petra.png'),
+  pontem: require('../images/png/Pontem.png'),
   rise: require('../images/png/rise.png'),
   twitter: require('../images/png/twitter.png'),
   info: require('../images/png/info.png'),
@@ -48,6 +48,6 @@ const appImages = {
   feedImage5: require('../images/png/imageFeed5.png'),
   feedImageLink: require('../images/png/feedlink.png'),
   collectionImage: require('../images/png/collectionImage.png'),
-  repostImage: require('../images/png/repostedImage.png'),
 };
+
 export const images = appImages;

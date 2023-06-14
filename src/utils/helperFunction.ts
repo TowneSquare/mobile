@@ -1,2 +1,3 @@
-import * as Sharing from 'expo-sharing';
-
+export function isPageButtonDisabled(){
+    
+}
