@@ -29,26 +29,31 @@ import Logo from '../../images/svg/Logo';
 import Description2 from '../../images/svg/Description2';
 import TowneSquareLogo from '../../images/svg/TownesquareLogo';
 import * as Linking from 'expo-linking';
+import { useAppDispatch } from '../../controller/hooks';
+import { updateDidToken } from '../../controller/User';
 
 const size = new sizes(height, width);
 
 export default function FirstScreen({magic}: { magic: any; web3?: any; }) {
- const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation();
 
   const loginGoogle = async () => {
-    const result = await magic.oauth.loginWithPopup({
+    const token = await magic.oauth.loginWithPopup({
       provider: 'google',
       redirectURI: Linking.createURL("ChooseUsername"),
     });
-    console.log(JSON.stringify(result))
+    console.log(JSON.stringify(token))
+    dispatch(updateDidToken(token))
   }
 
   const loginDiscord = async () => {
-    const result = await magic.oauth.loginWithPopup({
+    const token = await magic.oauth.loginWithPopup({
       provider: 'discord',
       redirectURI: Linking.createURL("ChooseUsername"),
     });
-    console.log(result)
+    console.log(token)
+    dispatch(updateDidToken(token))
   }
 
   let [isLoaded] = useFonts({

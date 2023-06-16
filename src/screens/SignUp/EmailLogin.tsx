@@ -17,10 +17,14 @@ const size = new sizes(height, width);
 import { Magic } from '@magic-sdk/react-native-expo';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Text } from 'react-native';
+import { useAppDispatch } from '../../controller/hooks';
+import { useNavigation } from '@react-navigation/native';
+import { updateDidToken } from '../../controller/User';
 
-const EmailLogin = ({ navigation }: EmailLoginProps) => {
-  const magic = new Magic('pk_live_CA547FCC1F472701'); // ✨
+export default function EmailLogin({magic}: { magic: any; web3?: any; }) {
+  const dispatch = useAppDispatch();
   const [email, setEmail] = useState("");
+  const navigation = useNavigation();
 
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -35,8 +39,12 @@ const EmailLogin = ({ navigation }: EmailLoginProps) => {
 
   const login = async () => {
     const res = await magic.auth.loginWithEmailOTP({ email });
-    navigation.navigate('ChooseProfile')
     console.log(res)
+
+    const token = await magic.user.getIdToken();
+    dispatch(updateDidToken(token));
+
+    navigation.navigate('ChooseProfile')
   }
   return (
     <ImageBackground
@@ -128,7 +136,6 @@ const EmailLogin = ({ navigation }: EmailLoginProps) => {
   );
 };
 
-export default EmailLogin;
 const styles = StyleSheet.create({
   socials: {
     height: size.getHeightSize(51.06),

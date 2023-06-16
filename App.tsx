@@ -23,10 +23,10 @@ export default function App() {
   const magic = new Magic(API_KEY[env], {
     extensions: [
       new OAuthExtension(),
-      // new BitcoinExtension({
-      //   rpcUrl: 'BTC_RPC_NODE_URL',
-      //   network: 'testnet' // testnet or mainnet
-      // }),
+      new BitcoinExtension({
+        rpcUrl: 'BTC_RPC_NODE_URL',
+        network: 'testnet' // testnet or mainnet
+      }),
       // new AptosExtension({
       //   nodeUrl: 'https://fullnode.testnet.aptoslabs.com'
       // })
