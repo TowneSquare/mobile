@@ -4,7 +4,7 @@
     "slug": "TowneSquare",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/images/png/appLogo.png",
+    "icon": ".assets/images/png/appLogo.png",
     "userInterfaceStyle": "light",
     "assetBundlePatterns": ["**/*"],
     "ios": {

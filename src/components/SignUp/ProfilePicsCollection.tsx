@@ -103,6 +103,7 @@ const ProfilePicsCollection = () => {
           onPress={() => {
             dispatch(updateProfilePics(profile));
           }}
+          key={profile.id}
         >
           <Image
             style={{

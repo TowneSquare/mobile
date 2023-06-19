@@ -31,6 +31,7 @@ import Checked from '../../../assets/images/svg/Checked';
 import Queen from '../../../assets/images/svg/Queen';
 const size = new sizes(height, width);
 interface Friend {
+  id:number;
   image: ReactNode;
   name: string;
   username: string;
@@ -39,42 +40,49 @@ interface Friend {
 const FindFriends = () => {
   const friends: Array<Friend> = [
     {
+      id:1,
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username1',
       verification: 'citizen',
     },
     {
+      id:2,
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username2',
       verification: 'verified',
     },
     {
+      id:3,
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username3',
       verification: 'citizen',
     },
     {
+      id:4,
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username4',
       verification: 'verified',
     },
     {
+      id:5,
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username5',
       verification: 'citizen',
     },
     {
+      id:6,
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username6',
       verification: 'verified',
     },
     {
+      id:7,
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username7',
@@ -194,6 +202,7 @@ const FindFriends = () => {
                   justifyContent: 'center',
                   marginBottom: size.getHeightSize(8),
                 }}
+                key={friend.id}
               >
                 {friend.image}
                 <View
