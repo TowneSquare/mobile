@@ -16,10 +16,10 @@ const { height, width } = Dimensions.get('window');
 import { sizes } from '../../utils';
 import ContinueButton from '../../components/SignUp/ContinueButton';
 import BackButton from '../../components/SignUp/BackButton';
-import Link from '../../images/svg/Link';
-import Checked from '../../images/svg/Checked';
-import DiscordBG from '../../images/svg/DiscordBG';
-import TwitterBG from '../../images/svg/TwitterBg';
+import Link from '../../../assets/images/svg/Link';
+import Checked from '../../../assets/images/svg/Checked';
+import DiscordBG from '../../../assets/images/svg/DiscordBG';
+import TwitterBG from '../../../assets/images/svg/TwitterBg';
 import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
 const size = new sizes(height, width);
 const ConnectSocials = () => {

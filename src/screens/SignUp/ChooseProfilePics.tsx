@@ -24,7 +24,7 @@ import BackButton from '../../components/SignUp/BackButton';
 import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
 import UploadImageModal from '../../components/SignUp/UploadImageModal';
 import SelectedCollection from '../../components/SignUp/SelectedCollection';
-import User from '../../images/svg/User';
+import User from '../../../assets/images/svg/User';
 import {
   updateUploadImageModalOpen,
   updateUploadModalRenderCount,

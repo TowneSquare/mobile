@@ -12,17 +12,17 @@ import {
 import React, { ReactNode, useState, useEffect } from 'react';
 import { appColor, fonts, images } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
-import Community from '../../images/svg/Community';
+import Community from '../../../assets/images/svg/Community';
 import { useFonts } from 'expo-font';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../../utils';
-import Verified from '../../images/svg/Verified';
+import Verified from '../../../assets/images/svg/Verified';
 import ContinueButton from '../../components/SignUp/ContinueButton';
 import BackButton from '../../components/SignUp/BackButton';
 import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
-import PolygonImage from '../../images/svg/PolygonImage';
-import Checked from '../../images/svg/Checked';
+import PolygonImage from '../../../assets/images/svg/PolygonImage';
+import Checked from '../../../assets/images/svg/Checked';
 const size = new sizes(height, width);
 interface Communities {
   image: ReactNode;

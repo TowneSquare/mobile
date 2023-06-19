@@ -9,18 +9,18 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { appColor, fonts, images } from '../../constants';
-import Robot from '../../images/svg/Robot';
+import Robot from '../../../assets/images/svg/Robot';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../../utils';
-import UserFriends from '../../images/svg/UserFriends';
-import SealChecks from '../../images/svg/SealChecks';
-import Clap from '../../images/svg/Clap';
+import UserFriends from '../../../assets/images/svg/UserFriends';
+import SealChecks from '../../../assets/images/svg/SealChecks';
+import Clap from '../../../assets/images/svg/Clap';
 import ContinueButton from '../../components/SignUp/ContinueButton';
 import BackButton from '../../components/SignUp/BackButton';
-import Link from '../../images/svg/Link';
+import Link from '../../../assets/images/svg/Link';
 import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
 const size = new sizes(height, width);
 const ConnectSocialsAndVrify = () => {

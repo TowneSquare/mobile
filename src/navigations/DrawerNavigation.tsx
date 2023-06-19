@@ -8,7 +8,7 @@ import {
   import { sizes } from '../utils';
   import React from 'react';
   import BookMarks from '../screens/DrawerScreens/BookMarks';
-  import Calender from '../screens/DrawerScreens/Calender';
+  import Calender from '../screens/DrawerScreens/Calendar';
   import Settings from '../screens/DrawerScreens/Settings';
   import Support from '../screens/DrawerScreens/Support';
   import TowneSquarePurpleScreen from '../screens/DrawerScreens/TowneSquarePurpleScreen';

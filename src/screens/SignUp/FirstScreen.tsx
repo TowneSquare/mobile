@@ -9,25 +9,25 @@ import {
 } from 'react-native';
 import React, { useEffect } from 'react';
 import { SvgXml } from 'react-native-svg';
-import Twitter from '../../images/svg/Twitter';
+import Twitter from '../../../assets/images/svg/Twitter';
 import { useFonts } from 'expo-font';
 import { Avatar } from 'react-native-elements';
-import Apple from '../../images/svg/Apple';
+import Apple from '../../../assets/images/svg/Apple';
 import { appColor, fonts, images } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { sizes } from '../../utils';
-import Background1 from '../../images/svg/Background1';
+import Background1 from '../../../assets/images/svg/Background1';
 import { StackActions } from '@react-navigation/native';
 const { height, width } = Dimensions.get('window');
 import { FirstScreenProps } from '../../navigations/NavigationTypes';
-import Description from '../../images/svg/Description';
-import Discord from '../../images/svg/Discord';
-import Google from '../../images/svg/Google';
-import Mail from '../../images/svg/Mail';
-import Logo from '../../images/svg/Logo';
-import Description2 from '../../images/svg/Description2';
-import TowneSquareLogo from '../../images/svg/TownesquareLogo';
+import Description from '../../../assets/images/svg/Description';
+import Discord from '../../../assets/images/svg/Discord';
+import Google from '../../../assets/images/svg/Google';
+import Mail from '../../../assets/images/svg/Mail';
+import Logo from '../../../assets/images/svg/Logo';
+import Description2 from '../../../assets/images/svg/Description2';
+import TowneSquareLogo from '../../../assets/images/svg/TownesquareLogo';
 const size = new sizes(height, width);
 const FirstScreen = ({ navigation }: FirstScreenProps) => {
   let [isLoaded] = useFonts({

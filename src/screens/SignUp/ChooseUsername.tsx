@@ -18,7 +18,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
 import NickNameField from '../../components/SignUp/NickNameField';
-import User from '../../images/svg/User';
+import User from '../../../assets/images/svg/User';
 import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
 import UsernameField from '../../components/SignUp/UsernameField';
 import { sizes } from '../../utils';

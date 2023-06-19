@@ -1,13 +1,13 @@
 import { View, Text, Dimensions } from 'react-native';
 import React, { ReactNode } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../images/svg/Home';
-import ProfileSvg from '../images/svg/ProfileSvg';
-import MicrophoneSvg from '../images/svg/MicrophoneSvg';
-import MultipleSvg from '../images/svg/MultipleSvg';
+import Home from '../../assets/images/svg/Home';
+import ProfileSvg from '../../assets/images/svg/ProfileSvg';
+import MicrophoneSvg from '../../assets/images/svg/MicrophoneSvg';
+import MultipleSvg from '../../assets/images/svg/MultipleSvg';
 import Main from '../screens/Feed/Main';
 import Profile from '../screens/Feed/Profile';
-import ChatSvg from '../images/svg/ChatSvg';
+import ChatSvg from '../../assets/images/svg/ChatSvg';
 import Space from '../screens/Feed/Space';
 import Community from '../screens/Feed/Community';
 import Chats from '../screens/Feed/Chats';

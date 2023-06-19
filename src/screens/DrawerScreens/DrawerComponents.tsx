@@ -4,14 +4,14 @@ const { height, width } = Dimensions.get('window');
 import { sizes } from '../../utils';
 const size = new sizes(height, width);
 import { Avatar } from 'react-native-elements';
-import BarCode from '../../images/svg/Barcode';
+import BarCode from '../../../assets/images/svg/Barcode';
 import { images, fonts } from '../../constants';
-import TowneSquareIcon from '../../images/svg/TowneSquareIcon';
-import SettingsIcon from '../../images/svg/SettingsIcon';
-import CalendarIcon from '../../images/svg/CalendarIcon';
-import QuestionIcon from '../../images/svg/QuestionIcon';
-import LogOutIcon from '../../images/svg/LogOutIcon';
-import BookmarkLogo from '../../images/svg/BookmarkLogo';
+import TowneSquareIcon from '../../../assets/images/svg/TowneSquareIcon';
+import SettingsIcon from '../../../assets/images/svg/SettingsIcon';
+import CalendarIcon from '../../../assets/images/svg/CalendarIcon';
+import QuestionIcon from '../../../assets/images/svg/QuestionIcon';
+import LogOutIcon from '../../../assets/images/svg/LogOutIcon';
+import BookmarkLogo from '../../../assets/images/svg/BookmarkLogo';
 import { useFonts } from 'expo-font';
 import {
   createDrawerNavigator,
