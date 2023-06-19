@@ -22,7 +22,7 @@ import {
   updateRenderCount,
   updateBottomSheet,
 } from '../../controller/BottomSheetController';
-import Info from '../../images/svg/Info';
+import Info from '../../../assets/images/svg/Info';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
 import { sizes } from '../../utils';
