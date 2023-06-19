@@ -41,42 +41,41 @@ const initialState: initialStateProps = {
     {
       image: images.NftCollection1,
       Name: 'Aptos Monkey lorem Ipsumdalr',
-      id: 1,
-    },
-    {
-      image: images.NftCollection2,
-      Name: 'Aptomingos',
-      id: 2,
-    },
-    {
-      image: images.NftCollection1,
-      Name: 'Aptos Monkey lorem Ipsumdalr',
-      id: 3,
-    },
-    {
-      image: images.NftCollection2,
-      Name: 'Aptomingos',
       id: 4,
     },
     {
-      image: images.NftCollection1,
-      Name: 'Aptos Monkey lorem Ipsumdalr',
-      id: 5,
-    },
-    {
       image: images.NftCollection2,
       Name: 'Aptomingos',
-      id: 6,
+      id: 12,
     },
     {
       image: images.NftCollection1,
       Name: 'Aptos Monkey lorem Ipsumdalr',
-      id: 7,
+      id: 4,
     },
     {
       image: images.NftCollection2,
       Name: 'Aptomingos',
-      id: 8,
+    },
+    {
+      image: images.NftCollection1,
+      Name: 'Aptos Monkey lorem Ipsumdalr',
+      id: 4,
+    },
+    {
+      image: images.NftCollection2,
+      Name: 'Aptomingos',
+      id: 12,
+    },
+    {
+      image: images.NftCollection1,
+      Name: 'Aptos Monkey lorem Ipsumdalr',
+      id: 4,
+    },
+    {
+      image: images.NftCollection2,
+      Name: 'Aptomingos',
+      id: 12,
     },
   ],
 };
