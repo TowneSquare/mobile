@@ -4,7 +4,7 @@ import { sizes } from '../../utils';
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../../constants';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import { updateNickname } from '../../controller/User';
+import { updateNickname } from '../../controller/SignUpController';
 const NickNameField = () => {
   const dispatch = useAppDispatch();
   const nickNameError = useAppSelector(
@@ -32,8 +32,7 @@ const NickNameField = () => {
         cursorColor={appColor.klightPurple}
         placeholder="Nickname"
         placeholderTextColor={appColor.kgrayTextColor}
-        
-        onChangeText={(text)=>dispatch(updateNickname(text))}
+        onChangeText={(text) => dispatch(updateNickname(text))}
         style={{
           width: size.getWidthSize(328),
           height: size.getHeightSize(48),
