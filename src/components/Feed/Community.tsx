@@ -4,9 +4,9 @@ import { sizes } from '../../utils';
 import { appColor, fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
-import FeedLink from '../../images/svg/FeedLink';
+import FeedLink from '../../../assets/images/svg/FeedLink';
 import { feedStyle } from './FeedsStyles';
-import APT from '../../images/svg/APT';
+import APT from '../../../assets/images/svg/APT';
 import PostedIn from './PostedIn';
 import {
   UserPost,
@@ -16,8 +16,8 @@ import {
   UserCommunityPost,
 } from '../../models';
 const size = new sizes(height, width);
-import AvatarFeed from '../../images/svg/AvatarFeed';
-import ImageFeed2 from '../../images/svg/ImageFeed2';
+import AvatarFeed from '../../../assets/images/svg/AvatarFeed';
+import ImageFeed2 from '../../../assets/images/svg/ImageFeed2';
 import PostHeader from './PostHeader';
 import {
   Message_Only,
@@ -28,7 +28,7 @@ import {
   NFT_FOR_SALE,
 } from '../../models';
 import PostActions from './PostActions';
-import APTMonkey from '../../images/svg/APTMonkey';
+import APTMonkey from '../../../assets/images/svg/APTMonkey';
 interface Props {
   data: UserCommunityPost;
 }

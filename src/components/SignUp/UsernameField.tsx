@@ -4,8 +4,8 @@ import { sizes } from '../../utils';
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../../constants';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import Info from '../../images/svg/Info';
-import { updateUsername } from '../../controller/User';
+import Info from '../../../assets/images/svg/Info';
+import { updateUsername } from '../../controller/SignUpController';
 const UsernameField = () => {
   const dispatch = useAppDispatch();
   const userNameError = useAppSelector(

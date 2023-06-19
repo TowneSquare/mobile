@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import React from 'react';
-import APTMonkey from '../../images/svg/APTMonkey';
+import APTMonkey from '../../../assets/images/svg/APTMonkey';
 import { appColor } from '../../constants';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../../utils';

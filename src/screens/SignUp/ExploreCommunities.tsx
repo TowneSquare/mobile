@@ -12,20 +12,19 @@ import {
 import React, { ReactNode, useState, useEffect } from 'react';
 import { appColor, fonts, images } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
-import Community from '../../images/svg/Community';
+import Community from '../../../assets/images/svg/Community';
 import { useFonts } from 'expo-font';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../../utils';
-import Verified from '../../images/svg/Verified';
+import Verified from '../../../assets/images/svg/Verified';
 import ContinueButton from '../../components/SignUp/ContinueButton';
 import BackButton from '../../components/SignUp/BackButton';
 import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
-import PolygonImage from '../../images/svg/PolygonImage';
-import Checked from '../../images/svg/Checked';
+import PolygonImage from '../../../assets/images/svg/PolygonImage';
+import Checked from '../../../assets/images/svg/Checked';
 const size = new sizes(height, width);
 interface Communities {
-  id:number,
   image: ReactNode;
   name: string;
   message?: string;
@@ -33,25 +32,21 @@ interface Communities {
 const ExploreCommunities = () => {
   const Communities: Array<Communities> = [
     {
-      id:1,
       image: <PolygonImage />,
       name: 'Aptomingos',
       message: 'You have their NFT!',
     },
     {
-      id:2,
       image: <PolygonImage />,
       name: 'Bruh Bears',
       message: 'You have their NFT!',
     },
     {
-      id:3,
       image: <PolygonImage />,
       name: 'Pontem Space Pirates from Siberia',
       message: 'You have their NFT!',
     },
     {
-      id:4,
       image: <PolygonImage />,
       name: 'Aptos Monkey',
     },
@@ -96,7 +91,7 @@ const ExploreCommunities = () => {
         title="Explore Communities"
         sub_title="Here are some communities you might be interested in"
         steps={5}
-        subTitleWidth= {size.getWidthSize(304)}
+        subTitleWidth={304}
       />
       <View
         style={{
@@ -157,7 +152,6 @@ const ExploreCommunities = () => {
           <ScrollView showsVerticalScrollIndicator={false}>
             {Communities.map((Community) => (
               <View
-                key={Community.id}
                 style={{
                   flexDirection: 'row',
                   width: size.getWidthSize(328),

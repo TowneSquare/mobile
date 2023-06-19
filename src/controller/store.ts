@@ -1,10 +1,13 @@
+
 import { configureStore } from '@reduxjs/toolkit';
 import bottomSheetSlice from './BottomSheetController';
-import USER from './User';
+import USER from './UserController';
+import FeedsSlice from './FeedsController';
 export const store = configureStore({
   reducer: {
     bottomSheetController: bottomSheetSlice,
     USER,
+    FeedsSliceController: FeedsSlice,
   },
 });
 
