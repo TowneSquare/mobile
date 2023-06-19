@@ -19,11 +19,9 @@ import Congrats from '../../images/svg/Congrats';
 import { StackActions } from '@react-navigation/native';
 import LetGoButton from '../../components/SignUp/LetGoButton';
 const { height, width } = Dimensions.get('window');
-import { FirstScreenProps } from '../../utils/NavigationTypes';
-import { RootStackScreenProps } from '../../../types';
+import { FirstScreenProps } from '../../navigations/NavigationTypes';
 const size = new sizes(height, width);
-
-export default function Congratulations({ navigation }: RootStackScreenProps<'Congratulations'>) {
+const Congratulations = () => {
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -86,11 +84,11 @@ export default function Congratulations({ navigation }: RootStackScreenProps<'Co
             </Text>
           </View>
 
-          <LetGoButton navigateTo="BottomTabNavigation" />
+          <LetGoButton navigateTo="DrawerNavigation" />
         </View>
       </ImageBackground>
     </>
   );
 };
 
-// export default Congratulations;
+export default Congratulations;
