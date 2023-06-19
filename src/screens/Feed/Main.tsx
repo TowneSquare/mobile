@@ -24,9 +24,9 @@ import Community from '../../components/Feed/Community';
 import { UserPosts, CommunityPost } from '../../components/Feed/DuumyData';
 const size = new sizes(height, width);
 const Main = () => {
-  const [view, setSwitchView] = useState(true);
+  const [view, setSwitchView] = useState<boolean>(false);
   const handleView = () => {
-    setSwitchView((previous) => !previous);
+    setSwitchView(!view);
   };
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,

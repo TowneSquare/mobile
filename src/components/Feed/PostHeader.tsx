@@ -1,7 +1,7 @@
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, Image } from 'react-native';
 import React from 'react';
 import { sizes } from '../../utils';
-import { appColor, fonts } from '../../constants';
+import { appColor, fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
 import Queen from '../../images/svg/Queen';
 const { height, width } = Dimensions.get('window');
@@ -39,7 +39,7 @@ const PostHeader = ({ username, nickname, timepost }: Props) => {
       >
         <Text
           style={{
-            fontSize: size.fontSize(16),
+            fontSize: size.fontSize(17),
             color: appColor.kTextColor,
             fontFamily: 'Outfit-Medium',
             lineHeight: size.getHeightSize(21),
@@ -51,7 +51,7 @@ const PostHeader = ({ username, nickname, timepost }: Props) => {
         <Text
           style={{
             color: appColor.grayLight,
-            fontSize: size.fontSize(14),
+            fontSize: size.fontSize(15),
             lineHeight: size.getHeightSize(18),
             fontFamily: 'Outfit-Regular',
           }}
@@ -61,7 +61,7 @@ const PostHeader = ({ username, nickname, timepost }: Props) => {
         <Text
           style={{
             color: appColor.grayLight,
-            fontSize: size.fontSize(14),
+            fontSize: size.fontSize(15),
             lineHeight: size.getHeightSize(18),
             fontFamily: 'Outfit-Bold',
           }}
@@ -71,7 +71,7 @@ const PostHeader = ({ username, nickname, timepost }: Props) => {
         <Text
           style={{
             color: appColor.grayLight,
-            fontSize: size.fontSize(14),
+            fontSize: size.fontSize(15),
             lineHeight: size.getHeightSize(18),
             fontFamily: 'Outfit-Regular',
           }}
@@ -84,11 +84,13 @@ const PostHeader = ({ username, nickname, timepost }: Props) => {
           alignSelf: 'flex-end',
         }}
       >
-        <Feather
+        {/* <Feather
           name="more-horizontal"
           size={size.fontSize(20)}
           color={appColor.grayLight}
-        />
+        /> */}
+
+        <Image source={images.More}/>
       </View>
     </View>
   );

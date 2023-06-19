@@ -1,7 +1,7 @@
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions,Image } from 'react-native';
 import React from 'react';
 import { sizes } from '../../utils';
-import { appColor, fonts } from '../../constants';
+import { appColor, fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
 import EvilIcons from '@expo/vector-icons/EvilIcons';
@@ -32,17 +32,14 @@ const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
           gap: size.getWidthSize(2),
         }}
       >
-        <EvilIcons
-          name="comment"
-          size={size.fontSize(26)}
-          color={appColor.grayLight}
-        />
+        <Image source={images.Comment}/>
         <Text
           style={{
             fontSize: size.fontSize(13),
             fontFamily: 'Outfit-Regular',
             color: appColor.grayLight,
             lineHeight: size.getHeightSize(16),
+            paddingLeft: 7
           }}
         >
           {noOfComments}

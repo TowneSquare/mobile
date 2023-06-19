@@ -48,6 +48,8 @@ const appImages = {
   feedImage5: require('../images/png/imageFeed5.png'),
   feedImageLink: require('../images/png/feedlink.png'),
   collectionImage: require('../images/png/collectionImage.png'),
+  Comment:require('../images/png/comment.png'),
+  More: require('../images/png/more.png')
 };
 
 export const images = appImages;
