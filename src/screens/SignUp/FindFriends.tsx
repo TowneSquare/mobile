@@ -16,22 +16,21 @@ import { useFonts } from 'expo-font';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../../utils';
-import Hands from '../../images/svg/Hands';
-import Friend1 from '../../images/svg/Friend1';
-import Friend2 from '../../images/svg/Friend2';
-import Friend3 from '../../images/svg/Friend3';
-import Friend4 from '../../images/svg/Friend4';
+import Hands from '../../../assets/images/svg/Hands';
+import Friend1 from '../../../assets/images/svg/Friend1';
+import Friend2 from '../../../assets/images/svg/Friend2';
+import Friend3 from '../../../assets/images/svg/Friend3';
+import Friend4 from '../../../assets/images/svg/Friend4';
 import ContinueButton from '../../components/SignUp/ContinueButton';
 import BackButton from '../../components/SignUp/BackButton';
 import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
-import Citizen from '../../images/svg/Citizen';
-import VerifiedBlue from '../../images/svg/VerifiedBlue';
-import AvatarFriend from '../../images/svg/AvatarFriend';
-import Checked from '../../images/svg/Checked';
-import Queen from '../../images/svg/Queen';
+import Citizen from '../../../assets/images/svg/Citizen';
+import VerifiedBlue from '../../../assets/images/svg/VerifiedBlue';
+import AvatarFriend from '../../../assets/images/svg/AvatarFriend';
+import Checked from '../../../assets/images/svg/Checked';
+import Queen from '../../../assets/images/svg/Queen';
 const size = new sizes(height, width);
 interface Friend {
-  userId:string,
   image: ReactNode;
   name: string;
   username: string;
@@ -40,49 +39,42 @@ interface Friend {
 const FindFriends = () => {
   const friends: Array<Friend> = [
     {
-      userId:"1",
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username1',
       verification: 'citizen',
     },
     {
-      userId:"2",
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username2',
       verification: 'verified',
     },
     {
-      userId:"3",
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username3',
       verification: 'citizen',
     },
     {
-      userId:"4",
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username4',
       verification: 'verified',
     },
     {
-       userId:"5",
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username5',
       verification: 'citizen',
     },
     {
-      userId:"6",
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username6',
       verification: 'verified',
     },
     {
-       userId:"7",
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username7',
@@ -131,7 +123,7 @@ const FindFriends = () => {
         title="Find your friends"
         sub_title="Say hi to your friends that are already on TowneSquare!"
         steps={4}
-        subTitleWidth= {size.getWidthSize(304)}
+        subTitleWidth={304}
       />
 
       <View
@@ -191,7 +183,6 @@ const FindFriends = () => {
           <ScrollView showsVerticalScrollIndicator={false}>
             {friends.map((friend) => (
               <View
-                key={friend.userId}
                 style={{
                   flexDirection: 'row',
                   width: size.getWidthSize(328),

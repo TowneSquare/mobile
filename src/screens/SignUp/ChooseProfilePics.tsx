@@ -24,26 +24,22 @@ import BackButton from '../../components/SignUp/BackButton';
 import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
 import UploadImageModal from '../../components/SignUp/UploadImageModal';
 import SelectedCollection from '../../components/SignUp/SelectedCollection';
-import User from '../../images/svg/User';
+import User from '../../../assets/images/svg/User';
 import {
   updateUploadImageModalOpen,
   updateUploadModalRenderCount,
 } from '../../controller/BottomSheetController';
 import ChooseNFT from '../../components/SignUp/ChooseNFT';
-import { ChooseProfilePicsProps } from '../../utils/NavigationTypes';
-import tinycolor from 'tinycolor2';
-import { RootStackScreenProps } from '../../../types';
-const size = new sizes(height, width);
 
-export default function ChooseProfilePics({ navigation }: RootStackScreenProps<'ChooseProfilePics'>) {
-// const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
+import { ChooseProfilePicsProps } from '../../navigations/NavigationTypes';
+import tinycolor from 'tinycolor2';
+const size = new sizes(height, width);
+const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
   const dispatch = useAppDispatch();
 
   const profilePics = useAppSelector(
-    (state) => state.USER.details.profileImage
+    (state) => state.bottomSheetController.profilePics
   );
-
-  console.log(profilePics, "hhh")
 
   const uploadImageModal = useAppSelector(
     (state) => state.bottomSheetController.uploadImageModalOpen
@@ -109,13 +105,13 @@ export default function ChooseProfilePics({ navigation }: RootStackScreenProps<'
         }}
       />
       <View>
-        {profilePics ? (
+        {profilePics.image ? (
           <>
             <View style={styles.container}>
               <View style={styles.imageContainer}>
                 <Image
                   style={styles.image}
-                  source={{uri: profilePics}}
+                  source={images.Aptomingos}
                   resizeMode="contain"
                 />
               </View>
@@ -178,7 +174,7 @@ export default function ChooseProfilePics({ navigation }: RootStackScreenProps<'
         }}
       >
         <ContinueButton
-          disabled={typeof profilePics === 'undefined' ? true : false}
+          disabled={typeof profilePics.image === 'undefined' ? true : false}
           navigateTo="Congratulations"
         />
         <View
@@ -218,8 +214,7 @@ export default function ChooseProfilePics({ navigation }: RootStackScreenProps<'
   );
 };
 
-// export default ChooseProfilePics;
-
+export default ChooseProfilePics;
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',

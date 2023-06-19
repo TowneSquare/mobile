@@ -9,60 +9,39 @@ import {
 } from 'react-native';
 import React, { useEffect } from 'react';
 import { SvgXml } from 'react-native-svg';
-import Twitter from '../../images/svg/Twitter';
+import Twitter from '../../../assets/images/svg/Twitter';
 import { useFonts } from 'expo-font';
 import { Avatar } from 'react-native-elements';
-import Apple from '../../images/svg/Apple';
+import Apple from '../../../assets/images/svg/Apple';
 import { appColor, fonts, images } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { sizes } from '../../utils';
-import Background1 from '../../images/svg/Background1';
-import { StackActions, useNavigation } from '@react-navigation/native';
+import Background1 from '../../../assets/images/svg/Background1';
+import { StackActions } from '@react-navigation/native';
 const { height, width } = Dimensions.get('window');
-import { FirstScreenProps } from '../../utils/NavigationTypes';
-import Description from '../../images/svg/Description';
-import Discord from '../../images/svg/Discord';
-import Google from '../../images/svg/Google';
-import Mail from '../../images/svg/Mail';
-import Logo from '../../images/svg/Logo';
-import Description2 from '../../images/svg/Description2';
-import TowneSquareLogo from '../../images/svg/TownesquareLogo';
-import * as Linking from 'expo-linking';
-
+import { FirstScreenProps } from '../../navigations/NavigationTypes';
+import Description from '../../../assets/images/svg/Description';
+import Discord from '../../../assets/images/svg/Discord';
+import Google from '../../../assets/images/svg/Google';
+import Mail from '../../../assets/images/svg/Mail';
+import Logo from '../../../assets/images/svg/Logo';
+import Description2 from '../../../assets/images/svg/Description2';
+import TowneSquareLogo from '../../../assets/images/svg/TownesquareLogo';
 const size = new sizes(height, width);
-
-export default function FirstScreen({magic}: { magic: any; web3?: any; }) {
- const navigation = useNavigation();
-
-  const loginGoogle = async () => {
-    const result = await magic.oauth.loginWithPopup({
-      provider: 'google',
-      redirectURI: Linking.createURL("ChooseUsername"),
-    });
-    console.log(JSON.stringify(result))
-  }
-
-  const loginDiscord = async () => {
-    const result = await magic.oauth.loginWithPopup({
-      provider: 'discord',
-      redirectURI: Linking.createURL("ChooseUsername"),
-    });
-    console.log(result)
-  }
-
+const FirstScreen = ({ navigation }: FirstScreenProps) => {
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
-    'Outfit-ExtraBold': fonts.OUTFIT_EXTRABOLD,
   });
   if (!isLoaded) {
     return null;
   }
   return (
-    // <>
+    <>
+      <StatusBar style="light" />
 
       <ImageBackground
         resizeMode="cover"
@@ -196,7 +175,7 @@ export default function FirstScreen({magic}: { magic: any; web3?: any; }) {
             <Twitter />
           </Pressable>
           <Pressable
-            onPress={() => loginDiscord()}
+            onPress={() => navigation.navigate('ChooseUsernameSlide')}
             style={styles.socials}
           >
             <Discord />
@@ -208,24 +187,24 @@ export default function FirstScreen({magic}: { magic: any; web3?: any; }) {
             <Apple />
           </Pressable>
           <Pressable
-            onPress={() => loginGoogle()}
+            onPress={() => navigation.navigate('ChooseUsernameSlide')}
             style={styles.socials}
           >
             <Google />
           </Pressable>
           <Pressable
-            onPress={() => navigation.navigate('EmailLogin')}
+            onPress={() => navigation.navigate('ChooseUsernameSlide')}
             style={styles.socials}
           >
             <Mail />
           </Pressable>
         </View>
       </ImageBackground>
-    // </>
+    </>
   );
 };
 
-// export default FirstScreen;
+export default FirstScreen;
 const styles = StyleSheet.create({
   socials: {
     height: size.getHeightSize(51.06),

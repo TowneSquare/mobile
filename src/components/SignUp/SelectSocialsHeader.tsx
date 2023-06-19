@@ -3,7 +3,7 @@ import React from 'react';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../../utils';
 import { appColor } from '../../constants';
-import User from '../../images/svg/User';
+import User from '../../../assets/images/svg/User';
 import NickNameField from './NickNameField';
 import UsernameField from './UsernameField';
 import { useAppSelector } from '../../controller/hooks';

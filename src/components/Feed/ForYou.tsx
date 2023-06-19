@@ -4,8 +4,9 @@ import { sizes } from '../../utils';
 import { appColor, fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
-import FeedLink from '../../images/svg/FeedLink';
-import APT from '../../images/svg/APT';
+import FeedLink from '../../../assets/images/svg/FeedLink';
+import Reposted from './Reposted';
+import APT from '../../../assets/images/svg/APT';
 import {
   UserPost,
   FeedContent,
@@ -14,8 +15,8 @@ import {
 } from '../../models';
 const size = new sizes(height, width);
 import PostedIn from './PostedIn';
-import AvatarFeed from '../../images/svg/AvatarFeed';
-import ImageFeed2 from '../../images/svg/ImageFeed2';
+import AvatarFeed from '../../../assets/images/svg/AvatarFeed';
+import ImageFeed2 from '../../../assets/images/svg/ImageFeed2';
 import PostHeader from './PostHeader';
 import {
   Message_Only,
@@ -26,9 +27,9 @@ import {
   NFT_FOR_SALE,
 } from '../../models';
 import PostActions from './PostActions';
-import APTMonkey from '../../images/svg/APTMonkey';
+import APTMonkey from '../../../assets/images/svg/APTMonkey';
 import { feedStyle } from './FeedsStyles';
-
+import ShowThread from './ShowThread';
 const ForYou = memo(({ data }: { data: UserPost }) => {
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -63,6 +64,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
+              <ShowThread />
             </View>
           </View>
         </>
@@ -96,6 +98,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
+              <ShowThread />
             </View>
           </View>
         </>
@@ -127,6 +130,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
+              <ShowThread />
             </View>
           </View>
         </>
@@ -157,6 +161,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
+              <ShowThread />
             </View>
           </View>
         </>
@@ -206,6 +211,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
+              <ShowThread />
             </View>
           </View>
         </>
@@ -269,6 +275,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
+             
             </View>
           </View>
         </>
@@ -323,6 +330,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
+              <ShowThread />
             </View>
           </View>
         </>
@@ -369,6 +377,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
+              <ShowThread />
             </View>
           </View>
         </>
@@ -414,10 +423,14 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
+              <ShowThread />
             </View>
           </View>
         </>
       );
+      break;
+    case FeedContent.REPOST:
+      content = <Reposted data={data} />;
       break;
   }
   return <>{content}</>;

@@ -2,26 +2,16 @@
   "expo": {
     "name": "TowneSquare",
     "slug": "TowneSquare",
-    "scheme": "townesquare",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/images/png/appLogo.png",
     "userInterfaceStyle": "light",
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "package": "com.townesquare.townesqaure",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+      "package": "com.townesquare.townesquare"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,14 +23,6 @@
     },
     "packagerOpts": {
       "config": "metro.config.js"
-    },
-    "plugins":[
-      [
-        "expo-image-picker",
-        {
-          "photosPermission":"The app accesses your photos"
-        }
-      ]
-    ]
+    }
   }
 }
