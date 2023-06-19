@@ -13,8 +13,8 @@ import {
     useAnimatedStyle,
     useSharedValue,
   } from 'react-native-reanimated';
-  import ShareIcon from '../../images/svg/ShareIcon';
-  import CopyIcon from '../../images/svg/CopyIcon';
+  import ShareIcon from '../../../assets/images/svg/ShareIcon';
+  import CopyIcon from '../../../assets/images/svg/CopyIcon';
   import { useFonts } from 'expo-font';
   import { appColor, fonts, images } from '../../constants';
   import { sizes } from '../../utils';
@@ -24,7 +24,7 @@ import {
   
   import { useAppSelector } from '../../controller/hooks';
   import CustomHandler from './CustomHandler';
-  import ReceiveBarCode from '../../images/svg/ReceiveBarCode';
+  import ReceiveBarCode from '../../../assets/images/svg/ReceiveBarCode';
   import QRCode from 'react-native-qrcode-svg';
   interface Props {
     closeModal: () => void;

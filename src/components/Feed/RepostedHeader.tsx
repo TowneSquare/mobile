@@ -3,11 +3,11 @@ import React from 'react';
 import { sizes } from '../../utils';
 import { appColor, fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
-import Queen from '../../images/svg/Queen';
+import Queen from '../../../assets/images/svg/Queen';
 const { height, width } = Dimensions.get('window');
 import Feather from '@expo/vector-icons/Feather';
 import Entypo from '@expo/vector-icons/Entypo';
-import RepostedIcon from '../../images/svg/RepostedIcon';
+import RepostedIcon from '../../../assets/images/svg/RepostedIcon';
 import { Avatar } from 'react-native-elements';
 const size = new sizes(height, width);
 const RepostedHeader = () => {

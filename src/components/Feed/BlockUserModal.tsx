@@ -13,11 +13,11 @@ import {
   import { sizes } from '../../utils';
   import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
   import CustomHandler from './CustomHandler';
-  import ReportFlag from '../../images/svg/ReportFlag';
+  import ReportFlag from '../../../assets/images/svg/ReportFlag';
   import { useAppDispatch, useAppSelector } from '../../controller/hooks';
   import { updateBlockUserModal } from '../../controller/FeedsController';
   const { height, width } = Dimensions.get('window');
-  import BlockIcon from '../../images/svg/BlockIcon';
+  import BlockIcon from '../../../assets/images/svg/BlockIcon';
   const size = new sizes(height, width);
   interface Props {
     block: () => void;

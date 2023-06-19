@@ -14,8 +14,8 @@ import {
   import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
   import CustomHandler from './CustomHandler';
   import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-  import Flag from '../../images/svg/Flag';
-  import Block from '../../images/svg/Block';
+  import Flag from '../../../assets/images/svg/Flag';
+  import Block from '../../../assets/images/svg/Block';
   import * as Animatable from 'react-native-animatable';
   import {
     updtaeReportingModal,

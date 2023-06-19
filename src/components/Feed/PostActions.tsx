@@ -5,13 +5,13 @@ import { appColor, fonts } from '../../constants';
 import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
 import EvilIcons from '@expo/vector-icons/EvilIcons';
-import Retweet from '../../images/svg/Retweet';
-import BookMark from '../../images/svg/BookMark';
-import LikePost from '../../images/svg/LikePost';
-import ShareFeed from '../../images/svg/ShareFeed';
-import LikedIcon from '../../images/svg/LikedIcon';
-import Retweeted from '../../images/svg/Retweeted';
-import BookMarkedIcon from '../../images/svg/BookMarkedIcon';
+import Retweet from '../../../assets/images/svg/Retweet';
+import BookMark from '../../../assets/images/svg/BookMark';
+import LikePost from '../../../assets/images/svg/LikePost';
+import ShareFeed from '../../../assets/images/svg/ShareFeed';
+import LikedIcon from '../../../assets/images/svg/LikedIcon';
+import Retweeted from '../../../assets/images/svg/Retweeted';
+import BookMarkedIcon from '../../../assets/images/svg/BookMarkedIcon';
 import Animated, {
   Extrapolate,
   Extrapolation,

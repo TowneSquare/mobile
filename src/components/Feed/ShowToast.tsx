@@ -5,7 +5,7 @@ import { appColor, fonts, images } from '../../constants';
 import { sizes } from '../../utils';
 import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
-import ToastIcon from '../../images/svg/ToastIcon';
+import ToastIcon from '../../../assets/images/svg/ToastIcon';
 const size = new sizes(height, width);
 export const toastConfig = {
   success: ({ text1, text2, ...rest }: any) => (

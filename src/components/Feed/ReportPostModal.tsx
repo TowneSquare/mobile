@@ -13,7 +13,7 @@ import {
   import { sizes } from '../../utils';
   import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
   import CustomHandler from './CustomHandler';
-  import ReportFlag from '../../images/svg/ReportFlag';
+  import ReportFlag from '../../../assets/images/svg/ReportFlag';
   import { useAppDispatch, useAppSelector } from '../../controller/hooks';
   import { updateReportPostModal } from '../../controller/FeedsController';
   const { height, width } = Dimensions.get('window');

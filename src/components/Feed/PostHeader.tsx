@@ -3,7 +3,7 @@ import React from 'react';
 import { sizes } from '../../utils';
 import { appColor, fonts } from '../../constants';
 import { useFonts } from 'expo-font';
-import Queen from '../../images/svg/Queen';
+import Queen from '../../../assets/images/svg/Queen';
 const { height, width } = Dimensions.get('window');
 import { useAppDispatch } from '../../controller/hooks';
 import { updtaeReportingModal } from '../../controller/FeedsController';

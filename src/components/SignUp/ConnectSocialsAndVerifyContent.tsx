@@ -3,14 +3,14 @@ import React from 'react';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../../utils';
 import { appColor } from '../../constants';
-import User from '../../images/svg/User';
-import Link from '../../images/svg/Link';
+import User from '../../../assets/images/svg/User';
+import Link from '../../../assets/images/svg/Link';
 import NickNameField from './NickNameField';
 import UsernameField from './UsernameField';
-import SealChecks from '../../images/svg/SealChecks';
-import Clap from '../../images/svg/Clap';
-import Robot from '../../images/svg/Robot';
-import UserFriends from '../../images/svg/UserFriends';
+import SealChecks from '../../../assets/images/svg/SealChecks';
+import Clap from '../../../assets/images/svg/Clap';
+import Robot from '../../../assets/images/svg/Robot';
+import UserFriends from '../../../assets/images/svg/UserFriends';
 const size = new sizes(height, width);
 
 const ConnectSocialsAndVerifyContent = () => {
