@@ -56,6 +56,7 @@ const initialState: initialStateProps = {
     {
       image: images.NftCollection2,
       Name: 'Aptomingos',
+      id: 12,
     },
     {
       image: images.NftCollection1,
