@@ -2,6 +2,7 @@
   "expo": {
     "name": "TowneSquare",
     "slug": "TowneSquare",
+    "scheme": "townesquare",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/png/appLogo.png",
