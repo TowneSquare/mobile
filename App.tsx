@@ -9,6 +9,22 @@ import { Magic } from '@magic-sdk/react-native-expo';
 import { API_KEY } from './config/env';
 import { OAuthExtension } from "@magic-ext/react-native-expo-oauth";
 
+import { LinkingOptions } from '@react-navigation/native';
+import * as Linking from 'expo-linking';
+
+import { RootStackParamList } from './src/navigations/NavigationTypes';
+
+const linking: LinkingOptions<RootStackParamList> = {
+  prefixes: [Linking.createURL('/')],
+  config: {
+    screens: {
+      FirstScreen: "FirstScreen",
+      ChooseUsername: "ChooseUsername",
+      Congratulations: "*",
+    },
+  },
+};
+
 export default function App() {
   const magic = new Magic(API_KEY, {
     extensions: [
@@ -21,7 +37,9 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      <NavigationContainer
+        linking={linking}
+      >
         <Navigations magicProps={magicProps} />
       </NavigationContainer>
     </Provider>
