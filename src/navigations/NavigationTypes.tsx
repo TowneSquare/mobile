@@ -5,7 +5,11 @@ import {
   } from '@react-navigation/native';
   import { StackNavigationProp } from '@react-navigation/stack';
   
-  
+  declare global {
+    namespace ReactNavigation {
+      interface RootParamList extends RootStackParamList {}
+    }
+  }
   
   export type RootStackParamList = {
     FirstScreen: undefined;
@@ -21,9 +25,11 @@ import {
     ChooseUsernameSlide: undefined;
     BottomTabNavigation: undefined;
     DrawerNavigation: undefined;
+    EmailLogin: undefined;
   };
   export type FirstScreenProps = {
     navigation: NavigationProp<RootStackParamList, 'FirstScreen'>;
+    magic: any;
     route: RouteProp<ParamListBase, 'FirstScreen'>;
   };
   export type ChooseProfileProps = {
@@ -73,5 +79,10 @@ import {
   export type DrawerNavigationProps = {
     navigation: NavigationProp<RootStackParamList, 'DrawerNavigation'>;
     route: RouteProp<ParamListBase, 'DrawerNavigation'>;
+  };
+  export type EmailLoginProps = {
+    navigation: NavigationProp<RootStackParamList, 'EmailLogin'>;
+    magic: any;
+    route: RouteProp<ParamListBase, 'EmailLogin'>;
   };
   

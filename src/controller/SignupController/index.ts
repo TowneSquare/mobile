@@ -15,6 +15,8 @@ interface SignUpDetails {
     usernameError: boolean;
     usernameErrorMessage: string;
   };
+  didToken: string;
+
 }
 const initialState: SignUpDetails = {
   details: {
@@ -29,6 +31,7 @@ const initialState: SignUpDetails = {
     usernameError: false,
     usernameErrorMessage: '',
   },
+  didToken: ""
 };
 export const signUpSlice = createSlice({
   name: 'SignUp',
@@ -89,6 +92,9 @@ export const signUpSlice = createSlice({
     updateUsernameError: (state, action) => {
       state.errors.usernameError = action.payload;
     },
+    updateDidToken: (state, action: PayloadAction<string>) => {
+      state.didToken = action.payload;
+    }
   },
 });
 export const {
@@ -99,5 +105,6 @@ export const {
   updateJoinedCommunities,
   updateNicknameError,
   updateUsernameError,
+  updateDidToken,
 } = signUpSlice.actions;
 export default signUpSlice.reducer;
