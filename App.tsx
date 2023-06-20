@@ -37,6 +37,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
+      <magic.Relayer />
       <NavigationContainer
         linking={linking}
       >
