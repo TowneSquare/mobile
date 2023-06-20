@@ -1,12 +1,12 @@
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, Image, Pressable } from 'react-native';
 import React from 'react';
 import { sizes } from '../../utils';
-import { appColor, fonts } from '../../constants';
+import { appColor, fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
 import Queen from '../../../assets/images/svg/Queen';
 const { height, width } = Dimensions.get('window');
 import { useAppDispatch } from '../../controller/hooks';
-import { updtaeReportingModal } from '../../controller/FeedsController';
+import { updateReportingModal } from '../../controller/FeedsController';
 import Feather from '@expo/vector-icons/Feather';
 import Entypo from '@expo/vector-icons/Entypo';
 const size = new sizes(height, width);
@@ -26,8 +26,7 @@ const PostHeader = ({ username, nickname, timepost }: Props) => {
     return null;
   }
   const showModal = () => {
-  
-    dispatch(updtaeReportingModal(true));
+    dispatch(updateReportingModal(true));
   };
   return (
     <View
@@ -48,7 +47,7 @@ const PostHeader = ({ username, nickname, timepost }: Props) => {
           numberOfLines={1}
           ellipsizeMode="tail"
           style={{
-            fontSize: size.fontSize(16),
+            fontSize: size.fontSize(17),
             color: appColor.kTextColor,
             fontFamily: 'Outfit-Medium',
             lineHeight: size.getHeightSize(21),
@@ -63,7 +62,7 @@ const PostHeader = ({ username, nickname, timepost }: Props) => {
           ellipsizeMode="tail"
           style={{
             color: appColor.grayLight,
-            fontSize: size.fontSize(14),
+            fontSize: size.fontSize(15),
             lineHeight: size.getHeightSize(18),
             fontFamily: 'Outfit-Regular',
             maxWidth: size.getWidthSize(67),
@@ -74,7 +73,7 @@ const PostHeader = ({ username, nickname, timepost }: Props) => {
         <Text
           style={{
             color: appColor.grayLight,
-            fontSize: size.fontSize(14),
+            fontSize: size.fontSize(15),
             lineHeight: size.getHeightSize(18),
             fontFamily: 'Outfit-Bold',
           }}
@@ -84,7 +83,7 @@ const PostHeader = ({ username, nickname, timepost }: Props) => {
         <Text
           style={{
             color: appColor.grayLight,
-            fontSize: size.fontSize(14),
+            fontSize: size.fontSize(15),
             lineHeight: size.getHeightSize(18),
             fontFamily: 'Outfit-Regular',
           }}
@@ -97,12 +96,10 @@ const PostHeader = ({ username, nickname, timepost }: Props) => {
           alignSelf: 'flex-end',
         }}
       >
-        <Feather
-          onPress={showModal}
-          name="more-horizontal"
-          size={size.fontSize(20)}
-          color={appColor.grayLight}
-        />
+        <Pressable 
+          onPress={showModal}>
+           <Image source={images.More}/>
+        </Pressable>
       </View>
     </View>
   );

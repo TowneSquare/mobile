@@ -49,5 +49,7 @@ const appImages = {
   feedImageLink: require('../../assets/images/png/feedlink.png'),
   collectionImage: require('../../assets/images/png/collectionImage.png'),
   repostImage: require('../../assets/images/png/repostedImage.png'),
+  Comment: require('../../assets/images/png/comment.png'),
+  More: require('../../assets/images/png/more.png')
 };
 export const images = appImages;

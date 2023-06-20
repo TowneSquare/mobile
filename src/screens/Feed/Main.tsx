@@ -32,7 +32,7 @@ import ReceiveTokenModal from '../../components/Feed/ReceiveTokenModal';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import {
   updateReceiveModalState,
-  updtaeReportingModal,
+  updateReportingModal,
   updateReportPostModal,
   updateReportUserModal,
   updateBlockUserModal,
@@ -118,7 +118,7 @@ const Main = () => {
         <View
           style={{
             flexDirection: 'row',
-            marginBottom: size.getWidthSize(4),
+            marginBottom: size.getWidthSize(7),
           }}
         >
           <Pressable
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: size.getWidthSize(4),
     borderRadius: 40,
-    height: size.getHeightSize(36),
+    height: size.getHeightSize(39),
   },
   focusedtabText: {
     color: appColor.kTextColor,

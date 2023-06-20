@@ -18,7 +18,7 @@ import {
   import Block from '../../../assets/images/svg/Block';
   import * as Animatable from 'react-native-animatable';
   import {
-    updtaeReportingModal,
+    updateReportingModal,
     updateReportPostModal,
     updateReportUserModal,
     updateBlockUserModal,
@@ -39,7 +39,7 @@ import {
     });
     const closeModal = () => {
       bottomSheetRef.current?.close();
-      dispatch(updtaeReportingModal(false));
+      dispatch(updateReportingModal(false));
     };
    
     return (
