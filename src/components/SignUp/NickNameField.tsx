@@ -4,7 +4,7 @@ import { sizes } from '../../utils';
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../../constants';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import { updateNickname } from '../../controller/SignupController';
+import { updateNickname } from '../../controller/UserController';
 const NickNameField = () => {
   const dispatch = useAppDispatch();
   const nickNameError = useAppSelector(
