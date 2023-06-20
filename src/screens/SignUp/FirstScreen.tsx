@@ -32,7 +32,7 @@ const size = new sizes(height, width);
 
 import * as Linking from 'expo-linking';
 import { useAppDispatch } from '../../controller/hooks';
-import { updateDidToken } from '../../controller/SignupController';
+import { updateDidToken } from '../../controller/UserController';
 
 const FirstScreen = ({ magic }: FirstScreenProps) => {
   const navigation = useNavigation();

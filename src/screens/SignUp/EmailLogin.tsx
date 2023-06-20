@@ -18,7 +18,7 @@ import { Text } from 'react-native';
 import { EmailLoginProps } from '../../navigations/NavigationTypes';
 import { useNavigation } from '@react-navigation/native';
 import { useAppDispatch } from '../../controller/hooks';
-import { updateDidToken } from '../../controller/SignupController';
+import { updateDidToken } from '../../controller/UserController';
 
 const EmailLogin = ({magic}: EmailLoginProps)  => {
   const navigation = useNavigation();
@@ -133,4 +133,3 @@ const EmailLogin = ({magic}: EmailLoginProps)  => {
   );
 };
 export default EmailLogin;
-

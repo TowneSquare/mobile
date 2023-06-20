@@ -20,7 +20,7 @@ export const FeedsSlice = createSlice({
     updateReceiveModalState: (state, action: PayloadAction<boolean>) => {
       state.ReceiveModalState = action.payload;
     },
-    updtaeReportingModal: (state, action: PayloadAction<boolean>) => {
+    updateReportingModal: (state, action: PayloadAction<boolean>) => {
       state.ReportingModal = action.payload;
     },
     updateReportPostModal: (state, action: PayloadAction<boolean>) => {
@@ -36,7 +36,7 @@ export const FeedsSlice = createSlice({
 });
 export const {
   updateReceiveModalState,
-  updtaeReportingModal,
+  updateReportingModal,
   updateReportPostModal,
   updateReportUserModal,
   updateBlockUserModal,

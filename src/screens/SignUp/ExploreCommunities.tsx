@@ -25,6 +25,7 @@ import PolygonImage from '../../../assets/images/svg/PolygonImage';
 import Checked from '../../../assets/images/svg/Checked';
 const size = new sizes(height, width);
 interface Communities {
+  id:number;
   image: ReactNode;
   name: string;
   message?: string;
@@ -32,21 +33,25 @@ interface Communities {
 const ExploreCommunities = () => {
   const Communities: Array<Communities> = [
     {
+      id:1,
       image: <PolygonImage />,
       name: 'Aptomingos',
       message: 'You have their NFT!',
     },
     {
+       id:2,
       image: <PolygonImage />,
       name: 'Bruh Bears',
       message: 'You have their NFT!',
     },
     {
+       id:3,
       image: <PolygonImage />,
       name: 'Pontem Space Pirates from Siberia',
       message: 'You have their NFT!',
     },
     {
+       id:4,
       image: <PolygonImage />,
       name: 'Aptos Monkey',
     },
@@ -163,6 +168,7 @@ const ExploreCommunities = () => {
                   // justifyContent: 'center',
                   marginBottom: size.getHeightSize(8),
                 }}
+                key={Community.id}
               >
                 {Community.image}
                 <View
