@@ -60,6 +60,7 @@ const NFTCollections = () => {
                 dispatch(updateSelectedRender(1));
                 dispatch(updateSelectedCollection(true));
               }}
+              key={collection.id}
             >
               {
                 <Image

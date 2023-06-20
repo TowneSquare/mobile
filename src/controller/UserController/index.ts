@@ -2,27 +2,46 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { ImageSourcePropType } from 'react-native';
 import { communities, friends } from './models';
 import { bottomSheetSlice } from '../BottomSheetController';
-interface SignUpDetails {
+import axios from 'axios';
+interface UserState {
   details: {
+    userId:string
     TypeOfWallet: string;
     Nickname: string;
     username: string;
+    email:string
     followedFriends: friends[];
     joinedCommunities: communities[];
-  };
+    profileImage:any
+  },
   errors: {
     nicknameError: boolean;
     usernameError: boolean;
     usernameErrorMessage: string;
   };
 }
-const initialState: SignUpDetails = {
+
+interface signUpRequest{
+  aptosWallet:string
+  nickname:string
+  username:string
+  email:string
+}
+
+interface followRequest{
+  fromUserId: string,
+  toUserIds: string[]
+}
+const initialState: UserState = {
   details: {
+    userId:"",
     TypeOfWallet: '',
     Nickname: '',
     username: '',
+    email:"",
     followedFriends: [],
     joinedCommunities: [],
+    profileImage:undefined
   },
   errors: {
     nicknameError: false,
@@ -30,8 +49,39 @@ const initialState: SignUpDetails = {
     usernameErrorMessage: '',
   },
 };
-export const signUpSlice = createSlice({
-  name: 'SignUp',
+
+
+export const signUp = createAsyncThunk("User/signUp", async(signupRequest:signUpRequest, thunkAPI) => {
+  const {aptosWallet, nickname, username, email} = signupRequest;
+ try {
+   const res = await axios.post(`${process.env.BASE_URL}`,{
+    aptosWallet,
+    nickname,
+    username,
+    email
+  });
+  return res.data
+ } catch (error) {
+  return thunkAPI.rejectWithValue(error)
+ }
+})
+
+export const follow = createAsyncThunk("User/follow",async (followRequest: followRequest, thunkAPI) => {
+  const {fromUserId,toUserIds} = followRequest;
+  try {
+    const res = await axios.post(`${process.env.BASE_URL}/follow-friends`, {
+      fromUserId: fromUserId,
+      toUserIds: toUserIds
+    });
+    return res.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error)
+  }
+})
+
+
+export const USER = createSlice({
+  name: 'User',
   initialState,
   reducers: {
     updateTypeOfWallet: (state, action: PayloadAction<string>) => {
@@ -89,7 +139,17 @@ export const signUpSlice = createSlice({
     updateUsernameError: (state, action) => {
       state.errors.usernameError = action.payload;
     },
+    updateProfileImage: (state, action:PayloadAction<string>) => {
+      state.details.profileImage = action.payload
+    },
   },
+  extraReducers: builder => {
+    builder
+      .addCase(signUp.fulfilled, (state, action) => {
+        const userId = action.payload;
+        state.details.userId = userId
+      })
+  }
 });
 export const {
   updateTypeOfWallet,
@@ -99,5 +159,6 @@ export const {
   updateJoinedCommunities,
   updateNicknameError,
   updateUsernameError,
-} = signUpSlice.actions;
-export default signUpSlice.reducer;
+  updateProfileImage
+} = USER.actions;
+export default USER.reducer;
