@@ -18,7 +18,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { sizes } from '../../utils';
 import Background1 from '../../../assets/images/svg/Background1';
-import { StackActions } from '@react-navigation/native';
+import { StackActions, useNavigation } from '@react-navigation/native';
 const { height, width } = Dimensions.get('window');
 import { FirstScreenProps } from '../../navigations/NavigationTypes';
 import Description from '../../../assets/images/svg/Description';
@@ -29,7 +29,15 @@ import Logo from '../../../assets/images/svg/Logo';
 import Description2 from '../../../assets/images/svg/Description2';
 import TowneSquareLogo from '../../../assets/images/svg/TownesquareLogo';
 const size = new sizes(height, width);
-const FirstScreen = ({ navigation }: FirstScreenProps) => {
+
+import * as Linking from 'expo-linking';
+import { useAppDispatch } from '../../controller/hooks';
+import { updateDidToken } from '../../controller/SignupController';
+
+const FirstScreen = ({ magic }: FirstScreenProps) => {
+  const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -39,6 +47,25 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
   if (!isLoaded) {
     return null;
   }
+
+  const loginGoogle = async () => {
+    const token = await magic.oauth.loginWithPopup({
+      provider: 'google',
+      redirectURI: Linking.createURL("ChooseUsername"),
+    });
+    console.log(JSON.stringify(token))
+    dispatch(updateDidToken(token));
+  }
+
+  const loginDiscord = async () => {
+    const token = await magic.oauth.loginWithPopup({
+      provider: 'discord',
+      redirectURI: Linking.createURL("ChooseUsername"),
+    });
+    console.log(token)
+    dispatch(updateDidToken(token));
+  }
+
   return (
     <>
       <StatusBar style="light" />
@@ -175,7 +202,7 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             <Twitter />
           </Pressable>
           <Pressable
-            onPress={() => navigation.navigate('ChooseUsernameSlide')}
+            onPress={() => loginDiscord()}
             style={styles.socials}
           >
             <Discord />
@@ -187,13 +214,13 @@ const FirstScreen = ({ navigation }: FirstScreenProps) => {
             <Apple />
           </Pressable>
           <Pressable
-            onPress={() => navigation.navigate('ChooseUsernameSlide')}
+            onPress={() => loginGoogle()}
             style={styles.socials}
           >
             <Google />
           </Pressable>
           <Pressable
-            onPress={() => navigation.navigate('ChooseUsernameSlide')}
+            onPress={() => navigation.navigate('EmailLogin')}
             style={styles.socials}
           >
             <Mail />
