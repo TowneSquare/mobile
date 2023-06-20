@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import bottomSheetSlice from './BottomSheetController';
-import signupSlice from './SignUpController';
+import signupSlice from './UserController';
 import FeedsSlice from './FeedsController';
 export const store = configureStore({
   reducer: {
