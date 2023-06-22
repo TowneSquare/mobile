@@ -16,6 +16,7 @@ import { appColor } from '../constants';
 const { height, width } = Dimensions.get('window');
 import { useAppSelector } from '../controller/hooks';
 const Tab = createBottomTabNavigator();
+
 const BottomTabNavigation = () => {
   const ReceiveModalVisibility = useAppSelector(
     (state) => state.FeedsSliceController.ReceiveModalState
