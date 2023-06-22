@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add expo-constants@~14.2.1
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js test
 
 PATH: 
-  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Webdeveloper\bin;D:\work\townesquare\mobile\node_modules\.bin;D:\work\townesquare\mobile\node_modules\.bin;D:\work\townesquare\node_modules\.bin;D:\work\node_modules\.bin;D:\node_modules\.bin;C:\Users\Webdeveloper\AppData\Roaming\nvm\v18.15.0\node_modules\npm\node_modules\@npmcli\run-script\lib\node-gyp-bin;C:\Python27;C:\Python27\Scripts;C:\Users\Webdeveloper\AppData\Local\Programs\Python\Python39;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files (x86)\Yarn\bin;C:\Program Files\Git\cmd;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\xampp_latest\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files (x86)\NetSarang\Xshell 7;C:\Program Files (x86)\NetSarang\Xftp 7;C:\Program Files (x86)\NetSarang\Xlpd 7;C:\Users\Webdeveloper\AppData\Roaming\npm;C:\Users\Webdeveloper\AppData\Roaming\Composer\vendor\bin;C:\Program Files\PuTTY;C:\ProgramData\chocolatey\bin;C:\Program Files\dotnet;C:\MinGW\bin1;C:\Program Files (x86)\GnuWin32\bin;C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin;C:\Program Files (x86)\Smart Projects\IsoBuster;C:\Program Files\nodejs;C:\Users\Webdeveloper\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Go\bin;D:\Source\sqlite-tools-win32-x86-3390200;C:\Users\Webdeveloper\AppData\Local\Programs\Python\Python39;C:\Ruby27-x64\bin;C:\Users\Webdeveloper\AppData\Local\Microsoft\WindowsApps;C:\Users\Webdeveloper\AppData\Local\Yarn\bin;C:\Users\Webdeveloper\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Webdeveloper\AppData\Local\GitHubDesktop\bin;C:\Users\Webdeveloper\AppData\Roaming\Composer\vendor\bin;C:\Users\Webdeveloper\AppData\Local\GitHubDesktop\bin;C:\Users\Web developer\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\nodejs;C:\Users\Webdeveloper\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\heroku\bin;D:\Source\OpenSSL\bin;C:\flutter\bin;C:\Users\Webdeveloper\go\bin;C:\Program Files (x86)\BrowserStackLocal;C:\Users\Webdeveloper\AppData\Local\Android\Sdk\platform-tools;C:\Program Files\MongoDB\Server\5.0\bin
+  C:\Python27;C:\Python27\Scripts;C:\Users\Webdeveloper\AppData\Local\Programs\Python\Python39;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Git\cmd;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\xampp_latest\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files (x86)\NetSarang\Xshell 7\;C:\Program Files (x86)\NetSarang\Xftp 7\;C:\Program Files (x86)\NetSarang\Xlpd 7\;C:\Users\Webdeveloper\AppData\Roaming\npm;C:\Users\Webdeveloper\AppData\Roaming\Composer\vendor\bin;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files\dotnet\;C:\MinGW\bin1;C:\Program Files (x86)\GnuWin32\bin;C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin;C:\Program Files (x86)\Smart Projects\IsoBuster;C:\Program Files\nodejs;C:\Users\Webdeveloper\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Go\bin;D:\Source\sqlite-tools-win32-x86-3390200;C:\Users\Webdeveloper\AppData\Local\Programs\Python\Python39;C:\Ruby27-x64\bin;C:\Users\Webdeveloper\AppData\Local\Microsoft\WindowsApps;C:\Users\Webdeveloper\AppData\Local\Yarn\bin;C:\Users\Webdeveloper\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Webdeveloper\AppData\Local\GitHubDesktop\bin;C:\Users\Webdeveloper\AppData\Roaming\Composer\vendor\bin;C:\Users\Webdeveloper\AppData\Local\GitHubDesktop\bin;C:\Users\Web developer\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\nodejs;C:\Users\Webdeveloper\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\heroku\bin;D:\Source\OpenSSL\bin;C:\flutter\bin;C:\Users\Webdeveloper\go\bin;C:\Program Files (x86)\BrowserStackLocal\;C:\Users\Webdeveloper\AppData\Local\Android\Sdk\platform-tools;C:\Program Files\MongoDB\Server\5.0\bin;
 
 Yarn version: 
   1.22.5
@@ -14,7 +14,12 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'D:\work\townesquare\mobile\node_modules\.bin\expo'
+  SyntaxError: D:\work\townesquare\mobile\package.json: Unexpected token / in JSON at position 2068
+      at JSON.parse (<anonymous>)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (C:\Program Files (x86)\Yarn\lib\cli.js:310:30)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:321:13
 
 npm manifest: 
   {
@@ -81,22 +86,13 @@ npm manifest:
     "private": true,
     "jest": {
       "preset": "jest-expo",
-      "transformIgnorePatterns": [
-        "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
-      ],
+      // "transformIgnorePatterns": [
+      //   "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
+      // ],
       "moduleFileExtensions": [
         "ts",
         "tsx",
-        "js"
-      ]
-    },
-    "bin": {
-      "expo-yarn-workspaces": "./bin/expo-yarn-workspaces.js"
-    },
-    "expo-yarn-workspaces": {
-      "symlinks": [
-        "expo-constants"
-      ]
+        "js"    ]
     }
   }
 
