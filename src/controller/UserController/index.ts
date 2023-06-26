@@ -20,7 +20,7 @@ interface UserState {
     usernameErrorMessage: string;
   };
   didToken: string;
-
+  accountInfo: any;
 }
 
 interface signUpRequest{
@@ -50,7 +50,8 @@ const initialState: UserState = {
     usernameError: false,
     usernameErrorMessage: '',
   },
-  didToken: ""
+  didToken: "",
+  accountInfo: undefined
 };
 
 
@@ -147,6 +148,9 @@ export const USER = createSlice({
     },
     updateDidToken: (state, action: PayloadAction<string>) => {
       state.didToken = action.payload;
+    },
+    updateAccountInfo: (state, action: PayloadAction<any>) => {
+      state.accountInfo = action.payload;
     }
   },
   extraReducers: builder => {
@@ -166,6 +170,7 @@ export const {
   updateNicknameError,
   updateUsernameError,
   updateDidToken,
-  updateProfileImage
+  updateProfileImage,
+  updateAccountInfo
 } = USER.actions;
 export default USER.reducer;

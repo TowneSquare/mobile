@@ -32,7 +32,7 @@ const size = new sizes(height, width);
 
 import * as Linking from 'expo-linking';
 import { useAppDispatch } from '../../controller/hooks';
-import { updateDidToken } from '../../controller/UserController';
+import { updateAccountInfo, updateDidToken } from '../../controller/UserController';
 
 const FirstScreen = ({ magic }: FirstScreenProps) => {
   const navigation = useNavigation();
@@ -55,6 +55,10 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
     });
     console.log(JSON.stringify(token))
     dispatch(updateDidToken(token));
+
+    const accountInfo = await magic.aptos.getAccountInfo();
+    console.log(accountInfo);
+    dispatch(updateAccountInfo(accountInfo));
   }
 
   const loginDiscord = async () => {
@@ -64,6 +68,10 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
     });
     console.log(token)
     dispatch(updateDidToken(token));
+
+    const accountInfo = await magic.aptos.getAccountInfo();
+    console.log(accountInfo);
+    dispatch(updateAccountInfo(accountInfo));
   }
 
   return (

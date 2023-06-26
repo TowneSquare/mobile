@@ -10,7 +10,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "@aptos-labs/wallet-adapter-core": "^2.2.0",
     "@gorhom/bottom-sheet": "^4",
+    "@magic-ext/aptos": "^0.6.0",
     "@magic-ext/connect": "6.2.0",
     "@magic-ext/react-native-expo-oauth": "^12.1.2",
     "@magic-sdk/react-native-expo": "^18.2.0",
@@ -22,6 +24,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@types/jest": "^29.5.2",
     "@types/react-test-renderer": "^18.0.0",
+    "aptos": "^1.10.0",
     "axios": "^1.4.0",
     "expo": "~48.0.15",
     "expo-constants": "^14.2.1",
