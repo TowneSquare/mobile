@@ -18,9 +18,9 @@ import { Text } from 'react-native';
 import { EmailLoginProps } from '../../navigations/NavigationTypes';
 import { useNavigation } from '@react-navigation/native';
 import { useAppDispatch } from '../../controller/hooks';
-import { updateDidToken } from '../../controller/UserController';
+import { updateAccountInfo, updateDidToken } from '../../controller/UserController';
 
-const EmailLogin = ({magic}: EmailLoginProps)  => {
+const EmailLogin = ({ magic }: EmailLoginProps) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState("");
@@ -38,8 +38,12 @@ const EmailLogin = ({magic}: EmailLoginProps)  => {
 
   const login = async () => {
     const token = await magic.auth.loginWithEmailOTP({ email });
-    console.log(token)
+  console.log(token)
     dispatch(updateDidToken(token));
+    
+    const accountInfo = await magic.aptos.getAccountInfo();
+  console.log(accountInfo);
+    dispatch(updateAccountInfo(accountInfo));
     navigation.navigate('ChooseUsernameSlide');
   }
 
@@ -54,81 +58,88 @@ const EmailLogin = ({magic}: EmailLoginProps)  => {
     >
       <View
         style={{
-          alignSelf: 'center',
-          width: size.getWidthSize(328),
-          alignItems: 'center',
-          top: 18.58,
-          marginTop: size.getHeightSize(40),
+          height: "100%",
+          justifyContent: "center",
         }}
       >
-        <Text
+        <View
           style={{
-            textAlign: 'center',
-            color: appColor.kButtonTextColor,
-            fontFamily: 'Outfit-Bold',
-            fontSize: size.fontSize(17.0213),
-            lineHeight: size.getHeightSize(21),
-            fontStyle: 'normal',
-          }}
-        >
-          Email
-        </Text>
-        <TextInput
-          cursorColor={appColor.klightPurple}
-          placeholder="@username"
-          placeholderTextColor={appColor.kgrayTextColor}
-          onChangeText={(e) => setEmail(e)}
-          style={{
-            width: size.getWidthSize(328),
-            height: size.getHeightSize(48),
-            borderRadius: 48,
-            borderWidth: 1,
-            borderColor: appColor.kGrayscale,
-            paddingHorizontal: size.getWidthSize(16),
-            paddingVertical: size.getHeightSize(8),
-            fontSize: size.fontSize(16),
-            fontFamily: 'Outfit-Regular',
-            color: appColor.kTextColor,
-            backgroundColor: appColor.kGrayscaleDart,
-            marginHorizontal: size.getWidthSize(16),
-          }}
-        />
-        <Pressable
-          onPress={() => login()}
-          style={{
-            marginTop: size.getHeightSize(129),
-            width: size.getWidthSize(348.94),
-            //  height: size.getHeightSize(51.06),
-            justifyContent: 'center',
-            backgroundColor: appColor.kButtonBackgroundColor,
             alignSelf: 'center',
-            borderRadius: 40,
-            flexGrow: 0,
-            gap: size.getWidthSize(8),
-            paddingHorizontal: size.getWidthSize(8.51064),
-            paddingVertical: size.getHeightSize(17.0213),
-            display: 'flex',
+            width: size.getWidthSize(328),
+            alignItems: 'center',
+            justifyContent: 'center',
+            top: 18.58,
+            marginTop: size.getHeightSize(40),
           }}
         >
+
           <Text
             style={{
               textAlign: 'center',
-              color: appColor.kButtonTextColor,
+              color: appColor.kWhiteColor,
               fontFamily: 'Outfit-Bold',
               fontSize: size.fontSize(17.0213),
               lineHeight: size.getHeightSize(21),
               fontStyle: 'normal',
-              textTransform: 'uppercase',
             }}
           >
-            Signin/up
+            Email
           </Text>
-        </Pressable>
-      </View >
-      <SafeAreaProvider>
-        {/* Remember to render the `Relayer` component into your app! */}
-        <magic.Relayer />
-      </SafeAreaProvider >
+          <TextInput
+            cursorColor={appColor.klightPurple}
+            placeholder="@username"
+            placeholderTextColor={appColor.kgrayTextColor}
+            onChangeText={(e) => setEmail(e)}
+            style={{
+              width: "100%",
+              height: size.getHeightSize(48),
+              borderRadius: 48,
+              borderWidth: 1,
+              borderColor: appColor.kGrayscale,
+              paddingHorizontal: size.getWidthSize(16),
+              paddingVertical: size.getHeightSize(8),
+              fontSize: size.fontSize(16),
+              fontFamily: 'Outfit-Regular',
+              color: appColor.kTextColor,
+              backgroundColor: appColor.kGrayscaleDart,
+              marginHorizontal: size.getWidthSize(16),
+            }}
+          />
+
+          <Pressable
+            onPress={() => login()}
+            style={{
+              marginTop: size.getHeightSize(50),
+              marginBottom: size.getHeightSize(200),
+              width: "100%",
+              //  height: size.getHeightSize(51.06),
+              justifyContent: 'center',
+              backgroundColor: appColor.kButtonBackgroundColor,
+              alignSelf: 'center',
+              borderRadius: 40,
+              flexGrow: 0,
+              gap: size.getWidthSize(8),
+              paddingHorizontal: size.getWidthSize(8.51064),
+              paddingVertical: size.getHeightSize(17.0213),
+              display: 'flex',
+            }}
+          >
+            <Text
+              style={{
+                textAlign: 'center',
+                color: appColor.kButtonTextColor,
+                fontFamily: 'Outfit-Bold',
+                fontSize: size.fontSize(17.0213),
+                lineHeight: size.getHeightSize(21),
+                fontStyle: 'normal',
+                textTransform: 'uppercase',
+              }}
+            >
+              Signin/up
+            </Text>
+          </Pressable>
+        </View >
+      </View>
     </ImageBackground>
   );
 };
