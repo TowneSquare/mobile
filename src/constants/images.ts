@@ -50,6 +50,11 @@ const appImages = {
   collectionImage: require('../../assets/images/png/collectionImage.png'),
   repostImage: require('../../assets/images/png/repostedImage.png'),
   Comment: require('../../assets/images/png/comment.png'),
-  More: require('../../assets/images/png/more.png')
+  More: require('../../assets/images/png/more.png'),
+  black_logo:require("../../assets/images/png/black_logo.png"),
+  purple_badge: require("../../assets/images/png/purple_badge.png"),
+  green_badge: require("../../assets/images/png/green_badge.png"),
+  blue_badge: require("../../assets/images/png/blue_badge.png"),
+  pfp_avatar:require("../../assets/images/png/PFP_Avatar.png")
 };
 export const images = appImages;

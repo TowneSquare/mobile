@@ -5,13 +5,16 @@ import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
+import Wallet from '../../components/Profile/Wallet';
+import About from '../../components/Profile/About';
+import { buildHeader } from '../../components/Profile/Header';
 
 
-const Header = () => {
-  return <View style={styles.header} />
-}
 
-const HEADER_HEIGHT = 40
+const title = "Real JC"
+
+const header = buildHeader(title)
+
 const size = new sizes(height, width);
 
 const tabBar = (props:any) => (
@@ -27,23 +30,6 @@ const tabBar = (props:any) => (
 );
 
 
-function AboutScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Profile</Text>
-    </View>
-  );
-}
-
-
-function WalletScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Wallet</Text>
-    </View>
-  );
-}
-
 const Profile = () => {
    let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -54,15 +40,15 @@ const Profile = () => {
     return null;
   }
   return (
-   <Tabs.Container renderHeader={Header} renderTabBar={tabBar}>
+   <Tabs.Container renderHeader={header} renderTabBar={tabBar}>
        <Tabs.Tab name="Profile" label="Profile" >
         <Tabs.ScrollView>
-           <AboutScreen />
+           <About />
         </Tabs.ScrollView>
        </Tabs.Tab>
        <Tabs.Tab name="Wallet" label="Wallet">
          <Tabs.ScrollView>
-          <WalletScreen />
+          <Wallet/>
          </Tabs.ScrollView>
        </Tabs.Tab>
      </Tabs.Container>
@@ -71,11 +57,6 @@ const Profile = () => {
 
 
 const styles = StyleSheet.create({
-  header: {
-    height: HEADER_HEIGHT,
-    width: '100%',
-    backgroundColor: '#2196f3',
-  },
   tabStyle:{
    backgroundColor: appColor.kgrayDark2,
    color:appColor.kTextColor,
