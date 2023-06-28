@@ -167,7 +167,7 @@ const About = () => {
                 ))}
             </ScrollView>
         </View>
-        <View style={{flexDirection:"row"}}>
+        <View style={{flexDirection:"row", backgroundColor:appColor.kgrayDark2, borderRadius:40, marginTop:10}}>
             <Pressable 
                 style={view == 2 ? styles.focusedTab : styles.tab}
                  onPress={() => {setView(2)}}
@@ -191,9 +191,24 @@ const About = () => {
                 </Text>
             </Pressable> 
         </View>
-        {view == 2 ? Posts() : 
+        {/* {view == 2 ? Posts() : 
             view == 1 ? Replies() :
             Media()
+        } */}
+        {
+            view == 2 && (
+                Posts()
+            )
+        }
+        {
+            view == 1 && (
+               Replies()
+            )
+        }
+         {
+            view == 0 && (
+               Media()
+            )
         }
     </SafeAreaView>
   )

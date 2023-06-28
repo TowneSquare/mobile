@@ -1,8 +1,9 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, Pressable, Image } from 'react-native'
 import { TabBarProps } from 'react-native-collapsible-tab-view'
 import { appColor, fonts } from '../../../constants'
 import { useFonts } from 'expo-font'
+import { images } from '../../../constants'
 
 type Props = {
   title: string
@@ -24,9 +25,16 @@ export const Header = ({
 
   return (
     <View style={[styles.root, { height }]}>
+      <Text>
+        {''}
+      </Text>
       <Text style={styles.title}>
         {title}
       </Text>
+      <Pressable 
+          >
+           <Image source={images.More}/>
+        </Pressable>
     </View>
   )
 }
@@ -49,9 +57,10 @@ export { buildHeader }
 const styles = StyleSheet.create({
   root: {
     backgroundColor: appColor.kgrayDark2,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "space-between",
+    alignItems: 'flex-end',
     padding: 16,
+    flexDirection:"row",
   },
   title: {
     color: 'white',
