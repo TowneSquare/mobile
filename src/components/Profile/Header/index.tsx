@@ -14,7 +14,7 @@ export const HEADER_HEIGHT = 130
 
 export const Header = ({
   title,
-  height = HEADER_HEIGHT,
+  height
 }: TabBarProps & Props) => {
     let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -33,10 +33,12 @@ export const Header = ({
 
 function buildHeader<T extends TabBarProps<any>>(
   title: string,
-  description?: string
+  height:number,
+  description?: string,
+ 
 ) {
   const NewHeader = (props: T) => {
-    return <Header title={title} description={description} {...props} />
+    return <Header title={title} height={height} description={description} {...props} />
   }
 
   return NewHeader

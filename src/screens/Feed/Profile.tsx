@@ -1,6 +1,6 @@
 import { View, Text, Dimensions, StyleSheet } from 'react-native'
 import React, {useState} from 'react'
-import { Tabs, MaterialTabBar,useFocusedTab } from 'react-native-collapsible-tab-view'
+import { Tabs, MaterialTabBar } from 'react-native-collapsible-tab-view'
 import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
@@ -13,11 +13,11 @@ import { buildHeader } from '../../components/Profile/Header';
 
 const title = "Real JC"
 
-const header = buildHeader(title)
+const header = buildHeader(title, 130)
 
 const size = new sizes(height, width);
 
-const tabBar = (props:any) => (
+export const tabBar = (props:any) => (
   <MaterialTabBar
     {...props}
     indicatorStyle={styles.focusedTab}

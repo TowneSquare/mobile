@@ -1,14 +1,23 @@
 
-import React from 'react'
-import { SafeAreaView, StyleSheet, Text, View , Image, Dimensions} from 'react-native'
+import React, {useState} from 'react'
+import { SafeAreaView, StyleSheet, Text, View , Image, Dimensions, ScrollView, Pressable, FlatList} from 'react-native'
 import { appColor } from '../../../constants'
 import { useFonts } from 'expo-font'
 import { fonts } from '../../../constants'
 import { useAppSelector } from '../../../controller/hooks'
 import { images } from '../../../constants'
 import { sizes } from '../../../utils'
+import Info from '../../../../assets/images/svg/Info'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { UserPosts } from '../../Feed/DuumyData'
+import ForYou from '../../Feed/ForYou'
+
+
+const Tab = createMaterialTopTabNavigator();
+
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
+
 
 
 const About = () => {
@@ -18,6 +27,8 @@ const About = () => {
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
 
+  const [view, setView] = useState<number>(2)
+
   const NAME = 'Real JC'
   const NICKNAME = 'jczhang'
   const APTOS_DOMAIN_NAME = 'jczhang.apt'
@@ -26,6 +37,48 @@ const About = () => {
   const FOLLOWERS = "28,872"
   const POST = "189"
   const COMMUNITIES = "22"
+
+  const NFTs = [
+    {
+        id: 1,
+        source: images.pinnedNFT
+    },
+    {
+        id: 2,
+        source: images.pinnedNFT_1
+    },
+    {
+        id: 3,
+        source: images.pinnedNFT
+    },
+    {
+        id: 4,
+        source: images.pinnedNFT_1
+    }
+  ]
+
+  const onlyUserPost = UserPosts.filter(userPost => userPost.nickname == NICKNAME )
+
+  const Posts = () => {
+    return (
+        onlyUserPost.map((userpost) => <ForYou key={userpost.id} data={userpost}/> )
+    )
+  }
+
+  const Replies = () => {
+    return (
+        onlyUserPost.map((userpost) => <ForYou key={userpost.id} data={userpost}/> )
+    )
+  }
+
+  const Media = () => {
+    return (
+       <View>
+        <Text>Media</Text>
+       </View>
+    )
+  }
+
   return (
     
     <SafeAreaView style={{backgroundColor: appColor.feedBackground, paddingHorizontal:15}}>
@@ -98,13 +151,57 @@ const About = () => {
                 <Text style={styles.aboutText}>Always on a lookout for a blue chips</Text>
             </View>
         </View>
+        <View>
+            <View style={{flexDirection:"row", justifyContent:"space-between"} }>
+               <View style={{flexDirection:"row"}}>
+                    <Text style={styles.aboutHeader}>My Super Stars </Text> 
+                    <Info/> 
+               </View>
+                <Text style={{color: appColor.kSecondaryButtonColor, fontFamily:"Outfit-Bold", fontSize: size.fontSize(16)}}>
+                    Edit
+                </Text>
+            </View>
+            <ScrollView horizontal>
+                {NFTs.map((nft) => (
+                    <Image key={nft.id} source={nft.source}/>
+                ))}
+            </ScrollView>
+        </View>
+        <View style={{flexDirection:"row"}}>
+            <Pressable 
+                style={view == 2 ? styles.focusedTab : styles.tab}
+                 onPress={() => {setView(2)}}
+            >
+                <Text style={view == 2? styles.focusedtabText : styles.tabText}>
+                    Posts
+                </Text>
+            </Pressable> 
+            <Pressable style={view == 1 ? styles.focusedTab : styles.tab}
+                onPress={() => {setView(1)}}
+            >
+                <Text style={view == 1 ? styles.focusedtabText : styles.tabText}>
+                    Replies
+                </Text>
+            </Pressable> 
+            <Pressable style={view == 0? styles.focusedTab : styles.tab}
+                onPress={() => setView(0)}
+            >
+                <Text style={view == 0 ? styles.focusedtabText : styles.tabText}>
+                    Media
+                </Text>
+            </Pressable> 
+        </View>
+        {view == 2 ? Posts() : 
+            view == 1 ? Replies() :
+            Media()
+        }
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
     view1:{
-        backgroundColor: appColor.grayDark,
+        backgroundColor: appColor.kgrayDark2,
         marginTop:15,
         borderRadius:40,
         borderColor:"white",
@@ -123,7 +220,7 @@ const styles = StyleSheet.create({
         elevation:5
     },
     view2:{
-        backgroundColor: appColor.grayDark,
+        backgroundColor: appColor.kgrayDark2,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
         borderWidth:5,
@@ -151,13 +248,43 @@ const styles = StyleSheet.create({
         color: appColor.kTextColor,
         fontFamily:"Outfit-Bold",
         fontSize: size.fontSize(20),
-        paddingBottom:10
+        paddingBottom:10,
     },
     aboutText:{
         color: appColor.kTextColor,
         fontFamily:"Outfit-Regular"
-    }
-
+    },
+    focusedTab: {
+    backgroundColor: appColor.kSecondaryButtonColor,
+    flex: 1,
+    paddingVertical: size.getHeightSize(8),
+    justifyContent: 'center',
+    marginHorizontal: size.getWidthSize(4),
+    borderRadius: 40,
+    height: size.getHeightSize(39),
+  },
+  focusedtabText: {
+    color: appColor.kTextColor,
+    textAlign: 'center',
+    fontSize: size.fontSize(14),
+    lineHeight: size.getHeightSize(20),
+    fontFamily: 'Outfit-SemiBold',
+  },
+  tabText: {
+    color: appColor.kTextColor,
+    textAlign: 'center',
+    fontSize: size.fontSize(14),
+    lineHeight: size.getHeightSize(18),
+    fontFamily: 'Outfit-Regular',
+  },
+  tab: {
+    backgroundColor: 'transparent',
+    flex: 1,
+    paddingVertical: size.getHeightSize(8),
+    justifyContent: 'center',
+    paddingHorizontal: size.getWidthSize(4),
+    borderRadius: 40,
+  },
 
 })
 

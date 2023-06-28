@@ -55,6 +55,8 @@ const appImages = {
   purple_badge: require("../../assets/images/png/purple_badge.png"),
   green_badge: require("../../assets/images/png/green_badge.png"),
   blue_badge: require("../../assets/images/png/blue_badge.png"),
-  pfp_avatar:require("../../assets/images/png/PFP_Avatar.png")
+  pfp_avatar:require("../../assets/images/png/PFP_Avatar.png"),
+  pinnedNFT: require("../../assets/images/png/Pinned_NFT.png"),
+  pinnedNFT_1: require("../../assets/images/png/Pinned_NFT_1.png"),
 };
 export const images = appImages;
