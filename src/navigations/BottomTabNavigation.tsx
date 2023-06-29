@@ -33,6 +33,9 @@ const BottomTabNavigation = () => {
   const reportUserModal = useAppSelector(
     (state) => state.FeedsSliceController.ReportUserModal
   );
+  const editProfile = useAppSelector(
+    (state) => state.USER.editProfile
+  );
   const main = 'Main';
   const profile = 'Profile';
   const space = 'Space';
@@ -53,7 +56,8 @@ const BottomTabNavigation = () => {
             reportModal ||
             reportPostModal ||
             blockModal ||
-            reportUserModal
+            reportUserModal ||
+            editProfile
               ? 'none'
               : 'flex',
         },

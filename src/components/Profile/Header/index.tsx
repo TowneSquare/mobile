@@ -3,7 +3,10 @@ import { StyleSheet, View, Text, Pressable, Image } from 'react-native'
 import { TabBarProps } from 'react-native-collapsible-tab-view'
 import { appColor, fonts } from '../../../constants'
 import { useFonts } from 'expo-font'
-import { images } from '../../../constants'
+import { images } from '../../../constants';
+import { useAppDispatch } from '../../../controller/hooks'
+import { updateEditProfile } from '../../../controller/UserController'
+import { updateReportingModal } from '../../../controller/FeedsController'
 
 type Props = {
   title: string
@@ -22,7 +25,16 @@ export const Header = ({
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
+   const dispatch=useAppDispatch()
+    const showEditProfile = () => {
+        dispatch(updateEditProfile(true));
+        console.log("edit profile")
+    };
+    const showModal = () => {
+    dispatch(updateReportingModal(true));
+  };
 
+  
   return (
     <View style={[styles.root, { height }]}>
       <Text>
@@ -32,9 +44,10 @@ export const Header = ({
         {title}
       </Text>
       <Pressable 
+        onPress={showEditProfile}
           >
            <Image source={images.More}/>
-        </Pressable>
+      </Pressable>
     </View>
   )
 }

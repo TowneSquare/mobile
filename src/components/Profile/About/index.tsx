@@ -11,6 +11,9 @@ import Info from '../../../../assets/images/svg/Info'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { UserPosts } from '../../Feed/DuumyData'
 import ForYou from '../../Feed/ForYou'
+import EditProfile from './EditProfile'
+import ReportPanel from '../../Feed/ReportPanel'
+import BottomSheet, {BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -80,8 +83,9 @@ const About = () => {
   }
 
   return (
-    
+    <BottomSheetModalProvider>
     <SafeAreaView style={{backgroundColor: appColor.feedBackground, paddingHorizontal:15}}>
+
         <View style={[styles.view1, styles.shadowProp]}>
             <View style={{
                 display:"flex",
@@ -167,6 +171,7 @@ const About = () => {
                 ))}
             </ScrollView>
         </View>
+         
         <View style={{flexDirection:"row", backgroundColor:appColor.kgrayDark2, borderRadius:40, marginTop:10}}>
             <Pressable 
                 style={view == 2 ? styles.focusedTab : styles.tab}
@@ -191,10 +196,8 @@ const About = () => {
                 </Text>
             </Pressable> 
         </View>
-        {/* {view == 2 ? Posts() : 
-            view == 1 ? Replies() :
-            Media()
-        } */}
+       <View>
+
         {
             view == 2 && (
                 Posts()
@@ -210,7 +213,11 @@ const About = () => {
                Media()
             )
         }
+       </View>
+      
+         <EditProfile/>
     </SafeAreaView>
+    </BottomSheetModalProvider>
   )
 }
 
