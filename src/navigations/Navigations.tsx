@@ -19,7 +19,14 @@ import BottomTabNavigation from './BottomTabNavigation';
 import ChooseUsernameSlide from '../screens/SignUp/ChooseUsernameSlide';
 import DrawerNavigation from './DrawerNavigation';
 import EmailLogin from '../screens/SignUp/EmailLogin';
+import Notifications from '../screens/Feed/Notifications';
+import ViewImageScreen from '../screens/Feed/ViewImageScreen';
+import VideoPlayer from '../screens/Feed/VideoPlayer';
+import SinglePost from '../screens/Feed/SinglePost';
 
+import CreatePost from '../screens/Feed/CreatePost';
+import NftCollectionScreen from '../screens/Feed/NftCollectionScreen';
+import SelectedCollectionScreen from '../screens/Feed/SelectedCollectionScreen';
 const Navigations = ({ magicProps }: { magicProps: any }) => {
   const Stack = createStackNavigator<RootStackParamList>();
   const config = {
@@ -49,7 +56,7 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
     >
-      <Stack.Screen name="FirstScreen" options={{ headerShown: false }} >
+      <Stack.Screen name="FirstScreen" options={{ headerShown: false }}>
         {() => <FirstScreen {...magicProps} />}
       </Stack.Screen>
 
@@ -132,8 +139,58 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
+     
+      <Stack.Screen
+        name="ViewImageScreen"
+        component={ViewImageScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="VideoPlayer"
+        component={VideoPlayer}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SinglePost"
+        component={SinglePost}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Notifications"
+        component={Notifications}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CreatePost"
+        component={CreatePost}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SelectedCollectionScreen"
+        component={SelectedCollectionScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
 
-      <Stack.Screen name="EmailLogin" options={{ headerShown: false }} >
+      <Stack.Screen
+        name="NftCollectionScreen"
+        component={NftCollectionScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen name="EmailLogin" options={{ headerShown: false }}>
         {() => <EmailLogin {...magicProps} />}
       </Stack.Screen>
     </Stack.Navigator>

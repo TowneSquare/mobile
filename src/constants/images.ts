@@ -50,6 +50,16 @@ const appImages = {
   collectionImage: require('../../assets/images/png/collectionImage.png'),
   repostImage: require('../../assets/images/png/repostedImage.png'),
   Comment: require('../../assets/images/png/comment.png'),
-  More: require('../../assets/images/png/more.png')
+  More: require('../../assets/images/png/more.png'),
+  videoImage: require('../../assets/images/png/videoPlayer.png'),
+  profileImage: require('../../assets/images/png/profileImage.png'),
+  myfeedProfileImage: require('../../assets/images/png/myfeedprofilepics.png'),
+  commuintyInvite: require('../../assets/images/png/communityInvite.png'),
+  stackImage: require('../../assets/images/png/stackImage3.png'),
+  createPostPfp: require('../../assets/images/png/createPost.png'),
+  createPost1: require('../../assets/images/png/createPost1.png'),
+  createPost2: require('../../assets/images/png/createPost2.png'),
+  createPost3: require('../../assets/images/png/createPost3.png'),
+  NftCollection: require('../../assets/images/png/NFTcollection.png'),
 };
 export const images = appImages;

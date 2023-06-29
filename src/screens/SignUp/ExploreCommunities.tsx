@@ -20,9 +20,11 @@ import { sizes } from '../../utils';
 import Verified from '../../../assets/images/svg/Verified';
 import ContinueButton from '../../components/SignUp/ContinueButton';
 import BackButton from '../../components/SignUp/BackButton';
-import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
+
 import PolygonImage from '../../../assets/images/svg/PolygonImage';
 import Checked from '../../../assets/images/svg/Checked';
+import ScrollableProfileSetUpHeader from '../../components/SignUp/ScrollableProfileSetUpHeader';
+import ScrollableHeaderContent from '../../components/SignUp/ScrollableHeaderContent';
 const size = new sizes(height, width);
 interface Communities {
   id:number;
@@ -84,79 +86,96 @@ const ExploreCommunities = () => {
 
   return (
     <SafeAreaView
+    style={{
+      flex: 1,
+      backgroundColor: appColor.signUpBackground,
+    }}
+  >
+    <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
+    {/* <ProfileSetUpHeader
+      SvgImage={<Community />}
+      stepDescription="Next Step: Choose PFP"
+      title="Explore Communities"
+      sub_title="Here are some communities you might be interested in"
+      steps={5}
+      subTitleWidth= {size.getWidthSize(304)}
+    /> */}
+    <ScrollableProfileSetUpHeader
+      stepDescription="Next Step: Choose PFP"
+      steps={5}
+    />
+    <View
       style={{
         flex: 1,
-        backgroundColor: appColor.signUpBackground,
       }}
     >
-      <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
-      <ProfileSetUpHeader
-        SvgImage={<Community />}
-        stepDescription="Next Step: Choose PFP"
-        title="Explore Communities"
-        sub_title="Here are some communities you might be interested in"
-        steps={5}
-        subTitleWidth={304}
-      />
-      <View
-        style={{
-          width: size.getWidthSize(328),
-          marginTop: size.getHeightSize(32),
-          alignSelf: 'center',
-          flex: 1,
-        }}
-      >
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollableHeaderContent
+          SvgImage={<Community />}
+          title="Explore Communities"
+          sub_title="Here are some communities you might be interested in"
+          subTitleWidth={size.getWidthSize(304)}
+        />
         <View
           style={{
             width: size.getWidthSize(328),
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            gap: size.getHeightSize(8),
-            height: size.getHeightSize(44),
-            paddingHorizontal: size.getWidthSize(8),
-          }}
-        >
-          <Text
-            style={{
-              fontSize: size.fontSize(18),
-              fontFamily: 'Outfit-Regular',
-              textAlign: 'center',
-              lineHeight: size.getHeightSize(23),
-              color: appColor.kTextColor,
-              fontStyle: 'normal',
-            }}
-          >
-            Suggested Communities
-          </Text>
-          <View
-            style={{
-              width: size.getWidthSize(65),
-            }}
-          >
-            <Text
-              onPress={() => setCommunities(Communities)}
-              style={{
-                fontSize: size.fontSize(16),
-                fontFamily: 'Outfit-SemiBold',
-                textAlign: 'right',
-                color: appColor.kSecondaryButtonColor,
-                lineHeight: size.getHeightSize(21),
-              }}
-            >
-              Join all
-            </Text>
-          </View>
-        </View>
-
-        {/* ScrollView */}
-        <View
-          style={{
+            marginTop: size.getHeightSize(32),
+            alignSelf: 'center',
             flex: 1,
           }}
         >
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <View
+            style={{
+              width: size.getWidthSize(328),
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              gap: size.getHeightSize(8),
+              paddingVertical: size.getHeightSize(10.5),
+              paddingHorizontal: size.getWidthSize(8),
+              alignItems: 'center',
+            }}
+          >
+            <Text
+              style={{
+                fontSize: size.fontSize(18),
+                fontFamily: 'Outfit-Regular',
+                textAlign: 'center',
+                lineHeight: size.getHeightSize(23),
+                color: appColor.kTextColor,
+                fontStyle: 'normal',
+              }}
+            >
+              Suggested Communities
+            </Text>
+            <View
+              style={{
+                width: size.getWidthSize(65),
+              }}
+            >
+              <Text
+                onPress={() => setCommunities(Communities)}
+                style={{
+                  fontSize: size.fontSize(16),
+                  fontFamily: 'Outfit-SemiBold',
+                  textAlign: 'right',
+                  color: appColor.kSecondaryButtonColor,
+                  lineHeight: size.getHeightSize(21),
+                }}
+              >
+                Join all
+              </Text>
+            </View>
+          </View>
+
+          {/* ScrollView */}
+          <View
+            style={{
+              flex: 1,
+            }}
+          >
             {Communities.map((Community) => (
               <View
+                key={Community.id}
                 style={{
                   flexDirection: 'row',
                   width: size.getWidthSize(328),
@@ -168,7 +187,6 @@ const ExploreCommunities = () => {
                   // justifyContent: 'center',
                   marginBottom: size.getHeightSize(8),
                 }}
-                key={Community.id}
               >
                 {Community.image}
                 <View
@@ -217,24 +235,25 @@ const ExploreCommunities = () => {
                 )}
               </View>
             ))}
-          </ScrollView>
+          </View>
         </View>
-      </View>
+      </ScrollView>
+    </View>
 
-      <View
-        style={{
-          height: size.getHeightSize(124),
-          marginBottom: size.getHeightSize(24),
-        }}
-      >
-        <ContinueButton
-          disabled={disableOnPress}
-          navigateTo="ChooseProfilePics"
-          marginTop={8}
-        />
-        <BackButton marginTop={16} />
-      </View>
-    </SafeAreaView>
+    <View
+      style={{
+        height: size.getHeightSize(124),
+        marginBottom: size.getHeightSize(24),
+      }}
+    >
+      <ContinueButton
+        disabled={false}
+        navigateTo="ChooseProfilePics"
+        marginTop={8}
+      />
+      <BackButton marginTop={16} />
+    </View>
+  </SafeAreaView>
   );
 };
 

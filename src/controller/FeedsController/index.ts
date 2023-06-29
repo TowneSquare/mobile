@@ -5,6 +5,8 @@ interface FeedController {
   ReportPostModal: boolean;
   ReportUserModal: boolean;
   BlockUserModal: boolean;
+  MyPostPanel: boolean;
+  DeleteMyPostPanel: boolean;
 }
 const initialState: FeedController = {
   ReceiveModalState: false,
@@ -12,6 +14,8 @@ const initialState: FeedController = {
   ReportPostModal: false,
   ReportUserModal: false,
   BlockUserModal: false,
+  MyPostPanel: false,
+  DeleteMyPostPanel: false,
 };
 export const FeedsSlice = createSlice({
   name: 'FeedsController',
@@ -20,7 +24,7 @@ export const FeedsSlice = createSlice({
     updateReceiveModalState: (state, action: PayloadAction<boolean>) => {
       state.ReceiveModalState = action.payload;
     },
-    updateReportingModal: (state, action: PayloadAction<boolean>) => {
+    updtaeReportingModal: (state, action: PayloadAction<boolean>) => {
       state.ReportingModal = action.payload;
     },
     updateReportPostModal: (state, action: PayloadAction<boolean>) => {
@@ -32,13 +36,21 @@ export const FeedsSlice = createSlice({
     updateBlockUserModal: (state, action: PayloadAction<boolean>) => {
       state.BlockUserModal = action.payload;
     },
+    updateMyPostPanel: (state, action: PayloadAction<boolean>) => {
+      state.MyPostPanel = action.payload;
+    },
+    updateDeletePostPanel: (state, action: PayloadAction<boolean>) => {
+      state.DeleteMyPostPanel = action.payload;
+    },
   },
 });
 export const {
   updateReceiveModalState,
-  updateReportingModal,
+  updtaeReportingModal,
   updateReportPostModal,
   updateReportUserModal,
   updateBlockUserModal,
+  updateMyPostPanel,
+  updateDeletePostPanel,
 } = FeedsSlice.actions;
 export default FeedsSlice.reducer;

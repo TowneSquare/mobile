@@ -54,7 +54,7 @@ const ContinueButton = ({
         // height: size.getHeightSize(48),
         justifyContent: 'center',
         marginTop: marginTop ? size.getHeightSize(8) : 8,
-        paddingVertical: size.getHeightSize(16),
+        paddingVertical: size.getHeightSize(12.5),
       }}
     >
       <Text
@@ -73,5 +73,6 @@ const ContinueButton = ({
     </Pressable>
   );
 };
+
 
 export default ContinueButton;

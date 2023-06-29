@@ -1,10 +1,19 @@
-import { View, Text, Dimensions, Image, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  Image,
+  StyleSheet,
+  Pressable,
+} from 'react-native';
 import React, { memo } from 'react';
 import { sizes } from '../../utils';
 import { appColor, fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
 import FeedLink from '../../../assets/images/svg/FeedLink';
+import { useNavigation } from '@react-navigation/native';
+import ProfilePicture from './ProfilePicture';
 import { feedStyle } from './FeedsStyles';
 import APT from '../../../assets/images/svg/APT';
 import PostedIn from './PostedIn';
@@ -33,6 +42,7 @@ interface Props {
   data: UserCommunityPost;
 }
 const Community: React.FC<Props> = memo(({ data }) => {
+  const navigation = useNavigation();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -51,7 +61,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -77,7 +87,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -86,13 +96,16 @@ const Community: React.FC<Props> = memo(({ data }) => {
               />
               <PostedIn communityName={userPost.postedin} />
               <Text style={styles.message}>{userPost.content.message}</Text>
-              <View style={styles.mediaContainer}>
+              <Pressable
+                onPress={() => navigation.navigate('ViewImageScreen' as never)}
+                style={styles.mediaContainer}
+              >
                 <Image
                   source={images.feedImage1}
                   style={styles.imageStyle}
                   resizeMode="cover"
                 />
-              </View>
+              </Pressable>
               <PostActions
                 noOfComments={userPost.comments}
                 noOfLikes={userPost.like}
@@ -109,7 +122,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -139,7 +152,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -147,13 +160,16 @@ const Community: React.FC<Props> = memo(({ data }) => {
                 timepost={userPost.timepost}
               />
               <PostedIn communityName={userPost.postedin} />
-              <View style={styles.mediaContainer}>
+              <Pressable
+                onPress={() => navigation.navigate('VideoPlayer' as never)}
+                style={styles.mediaContainer}
+              >
                 <Image
                   source={images.feedImage3}
                   style={styles.imageStyle}
                   resizeMode="stretch"
                 />
-              </View>
+              </Pressable>
               <PostActions
                 noOfComments={userPost.comments}
                 noOfLikes={userPost.like}
@@ -170,7 +186,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -220,7 +236,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -283,7 +299,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -338,7 +354,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -385,7 +401,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}

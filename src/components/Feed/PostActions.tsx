@@ -1,10 +1,10 @@
-import { View, Text, Dimensions, StyleSheet, Pressable, Image } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
 import React, { useState } from 'react';
 import { sizes } from '../../utils';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, fonts } from '../../constants';
 import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
-// import EvilIcons from '@expo/vector-icons/EvilIcons';
+import EvilIcons from '@expo/vector-icons/EvilIcons';
 import Retweet from '../../../assets/images/svg/Retweet';
 import BookMark from '../../../assets/images/svg/BookMark';
 import LikePost from '../../../assets/images/svg/LikePost';
@@ -14,7 +14,6 @@ import Retweeted from '../../../assets/images/svg/Retweeted';
 import BookMarkedIcon from '../../../assets/images/svg/BookMarkedIcon';
 import Animated, {
   Extrapolate,
-  Extrapolation,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
@@ -26,8 +25,18 @@ interface Props {
   noOfComments: string;
   noOfRetweet: string;
   noOfLikes: string;
+  paddingHorizontal?: number;
+  marginTop?: number;
+  paddingTop?: number;
 }
-const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
+const PostActions = ({
+  noOfComments,
+  noOfLikes,
+  noOfRetweet,
+  paddingHorizontal,
+  marginTop,
+  paddingTop,
+}: Props) => {
   const [changeLikeTextColor, setlikesTextColor] = useState(false);
   const [changeRetweetTextColor, setRetweetTextColor] = useState(false);
   const handleLike = () => {
@@ -115,8 +124,14 @@ const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
       style={{
         gap: size.getWidthSize(20),
         flexDirection: 'row',
-        marginTop: size.getHeightSize(9),
+        marginTop: marginTop
+          ? size.getHeightSize(marginTop)
+          : size.getHeightSize(9),
         marginBottom: size.getHeightSize(16),
+        paddingHorizontal: paddingHorizontal
+          ? size.getWidthSize(paddingHorizontal)
+          : 0,
+        paddingTop: paddingTop ? size.getHeightSize(paddingTop) : 0,
       }}
     >
       <View
@@ -126,7 +141,11 @@ const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
           gap: size.getWidthSize(2),
         }}
       >
-       <Image source={images.Comment}/>
+        <EvilIcons
+          name="comment"
+          size={size.fontSize(26)}
+          color={appColor.grayLight}
+        />
         <Text
           style={{
             fontSize: size.fontSize(13),

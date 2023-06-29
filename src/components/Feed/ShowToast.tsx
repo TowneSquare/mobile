@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     borderWidth: size.getWidthSize(1),
     paddingVertical: size.getHeightSize(24),
     borderColor: appColor.kGrayLight3,
+    alignItems:"center"
   },
   toastText: {
     color: appColor.kTextColor,
