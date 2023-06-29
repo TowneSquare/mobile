@@ -1,12 +1,20 @@
-import { View, Text, Dimensions, Image, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  Image,
+  StyleSheet,
+  Pressable,
+} from 'react-native';
 import React, { memo } from 'react';
 import { sizes } from '../../utils';
 import { appColor, fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
-import FeedLink from '../../../assets/images/svg/FeedLink';
 import Reposted from './Reposted';
 import APT from '../../../assets/images/svg/APT';
+import ProfilePicture from './ProfilePicture';
+import { useNavigation } from '@react-navigation/native';
 import {
   UserPost,
   FeedContent,
@@ -14,9 +22,6 @@ import {
   FLOOR_PRICE_INCLUDED,
 } from '../../models';
 const size = new sizes(height, width);
-import PostedIn from './PostedIn';
-import AvatarFeed from '../../../assets/images/svg/AvatarFeed';
-import ImageFeed2 from '../../../assets/images/svg/ImageFeed2';
 import PostHeader from './PostHeader';
 import {
   Message_Only,
@@ -31,6 +36,7 @@ import APTMonkey from '../../../assets/images/svg/APTMonkey';
 import { feedStyle } from './FeedsStyles';
 import ShowThread from './ShowThread';
 const ForYou = memo(({ data }: { data: UserPost }) => {
+  const navigation = useNavigation();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -39,7 +45,9 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
   if (!isLoaded) {
     return null;
   }
-
+  const handleNavigation = () => {
+    navigation.navigate('SinglePost');
+  };
   let content;
   const type_of_post = data.type;
   const userPost = data;
@@ -49,7 +57,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -57,7 +65,9 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 timepost={userPost.timepost}
               />
 
-              <Text style={styles.message}>{userPost.content.message}</Text>
+              <Text onPress={handleNavigation} style={styles.message}>
+                {userPost.content.message}
+              </Text>
 
               <PostActions
                 noOfComments={userPost.comments}
@@ -76,7 +86,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -84,15 +94,20 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 timepost={userPost.timepost}
               />
 
-              <Text style={styles.message}>{userPost.content.message}</Text>
+              <Text onPress={handleNavigation} style={styles.message}>
+                {userPost.content.message}
+              </Text>
 
-              <View style={styles.mediaContainer}>
+              <Pressable
+                onPress={() => navigation.navigate('ViewImageScreen' as never)}
+                style={styles.mediaContainer}
+              >
                 <Image
                   source={images.feedImage1}
                   style={styles.imageStyle}
                   resizeMode="cover"
                 />
-              </View>
+              </Pressable>
               <PostActions
                 noOfComments={userPost.comments}
                 noOfLikes={userPost.like}
@@ -110,9 +125,10 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
+                onPress={handleNavigation}
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
@@ -141,21 +157,25 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
+                onPress={handleNavigation}
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
               />
 
-              <View style={styles.mediaContainer}>
+              <Pressable
+                onPress={() => navigation.navigate('VideoPlayer' as never)}
+                style={styles.mediaContainer}
+              >
                 <Image
                   source={images.feedImage3}
                   style={styles.imageStyle}
                   resizeMode="stretch"
                 />
-              </View>
+              </Pressable>
               <PostActions
                 noOfComments={userPost.comments}
                 noOfLikes={userPost.like}
@@ -173,14 +193,16 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
               />
-              <Text style={styles.message}>{linkContent.message}</Text>
+              <Text onPress={handleNavigation} style={styles.message}>
+                {linkContent.message}
+              </Text>
               <Text style={styles.link}>{linkContent.link}</Text>
               <View
                 style={[
@@ -223,14 +245,16 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
               />
-              <Text style={styles.message}>{nftContent.message}</Text>
+              <Text onPress={handleNavigation} style={styles.message}>
+                {nftContent.message}
+              </Text>
               <View
                 style={[
                   styles.mediaContainer,
@@ -275,7 +299,6 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
-             
             </View>
           </View>
         </>
@@ -286,9 +309,10 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
+                onPress={handleNavigation}
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
@@ -341,14 +365,14 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
               />
-              <Text style={styles.message}>
+              <Text onPress={handleNavigation} style={styles.message}>
                 {swapContent.message}
                 <Text style={styles.swapTextTag}>
                   {' '}
@@ -388,14 +412,14 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
               />
-              <Text style={styles.message}>
+              <Text onPress={handleNavigation} style={styles.message}>
                 {floorPriceContent.message}
                 <Text style={styles.swapTextTag}>
                   {' '}

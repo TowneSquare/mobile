@@ -3,7 +3,7 @@ import React from 'react';
 import { sizes } from '../../utils';
 import { appColor, fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
-import Queen from '../../../assets/images/svg/Queen';
+
 const { height, width } = Dimensions.get('window');
 import Feather from '@expo/vector-icons/Feather';
 import Entypo from '@expo/vector-icons/Entypo';

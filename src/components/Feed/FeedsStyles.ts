@@ -24,7 +24,7 @@ export const feedStyle = StyleSheet.create({
   },
   mediaContainer: {
     marginVertical: size.getHeightSize(8),
-    flex: 1,
+    // flex: 1,
     height: size.getHeightSize(218),
   },
   imageStyle: {

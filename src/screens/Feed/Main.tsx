@@ -20,6 +20,7 @@ import Bell from '../../../assets/images/svg/Bell';
 import Feather from '@expo/vector-icons/Feather';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useFonts } from 'expo-font';
+import NotificationBell from '../../components/Feed/NotificationBell';
 import ReportPanel from '../../components/Feed/ReportPanel';
 import { FeedContent, UserPost, UserCommunityPost } from '../../models';
 import ForYou from '../../components/Feed/ForYou';
@@ -32,7 +33,7 @@ import ReceiveTokenModal from '../../components/Feed/ReceiveTokenModal';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import {
   updateReceiveModalState,
-  updateReportingModal,
+  updtaeReportingModal,
   updateReportPostModal,
   updateReportUserModal,
   updateBlockUserModal,
@@ -40,13 +41,27 @@ import {
 import ReportPostModal from '../../components/Feed/ReportPostModal';
 import ReportUserModal from '../../components/Feed/ReportUserModal';
 import BlockUserModal from '../../components/Feed/BlockUserModal';
+import useBlockToast from '../../hooks/Feeds/useBlockToast';
+import useReportPostToast from '../../hooks/Feeds/useReportPostToast';
+import useReportUserToast from '../../hooks/Feeds/useReportUserToast';
 import Toast from 'react-native-toast-message';
 const Main = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
   const [view, setSwitchView] = useState(true);
-
+  const { showBlockToast } = useBlockToast();
+  const { showReportUserToast } = useReportUserToast();
+  const { showReportPostToast } = useReportPostToast();
+  const modals = useAppSelector((state) => ({
+    reportPostModal: state.FeedsSliceController.ReportPostModal,
+    reportPanel: state.FeedsSliceController.ReportingModal,
+    reportUser: state.FeedsSliceController.ReportUserModal,
+    blockUser: state.FeedsSliceController.BlockUserModal,
+    myPostModal: state.FeedsSliceController.MyPostPanel,
+    deletePost: state.FeedsSliceController.DeleteMyPostPanel,
+  }));
+  const isAnyModalOpen = Object.values(modals).some((value) => value === true);
   const handleView = () => {
     setSwitchView((previous) => !previous);
   };
@@ -68,33 +83,6 @@ const Main = () => {
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
   };
-  const showBlockToast = () => {
-    Toast.show({
-      type: 'success',
-      text2: 'You have blocked JohnFlock',
-      onHide: () => {
-        dispatch(updateBlockUserModal(false));
-      },
-    });
-  };
-  const showReportUserToast = () => {
-    Toast.show({
-      type: 'success',
-      text2: 'JohnFlock is reported successfully',
-      onHide: () => {
-        dispatch(updateReportUserModal(false));
-      },
-    });
-  };
-  const showReportPostToast = () => {
-    Toast.show({
-      type: 'success',
-      text2: 'Post is reported successfully',
-      onHide: () => {
-        dispatch(updateReportPostModal(false));
-      },
-    });
-  };
   return (
     <SafeAreaView
       style={{
@@ -112,13 +100,13 @@ const Main = () => {
             color={appColor.kWhiteColor}
             size={size.fontSize(24)}
           />
-          <Bell />
+          <NotificationBell />
           <BarCode onPress={openModal} />
         </View>
         <View
           style={{
             flexDirection: 'row',
-            marginBottom: size.getWidthSize(7),
+            marginBottom: size.getWidthSize(4),
           }}
         >
           <Pressable
@@ -158,9 +146,13 @@ const Main = () => {
           />
         )}
       </View>
-      <View style={styles.addButton}>
+      <Pressable
+        onPress={() => navigation.navigate('CreatePost' as never)}
+        style={styles.FAB}
+      >
         <AntDesign name="plus" size={25} color={appColor.kTextColor} />
-      </View>
+      </Pressable>
+      {isAnyModalOpen && <View style={styles.overlay} />}
       <ReportUserModal reportUser={showReportUserToast} />
       <ReportPanel />
       <ReportPostModal reportPost={showReportPostToast} />
@@ -203,7 +195,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: size.getWidthSize(4),
     borderRadius: 40,
-    height: size.getHeightSize(39),
+    height: size.getHeightSize(36),
   },
   focusedtabText: {
     color: appColor.kTextColor,
@@ -227,7 +219,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: size.getWidthSize(4),
     borderRadius: 40,
   },
-  addButton: {
+  FAB: {
     height: size.getHeightSize(56),
     width: size.getHeightSize(56),
     borderRadius: 50,
@@ -237,5 +229,9 @@ const styles = StyleSheet.create({
     right: size.getWidthSize(18),
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.7)',
   },
 });

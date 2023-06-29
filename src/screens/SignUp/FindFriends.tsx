@@ -29,9 +29,11 @@ import VerifiedBlue from '../../../assets/images/svg/VerifiedBlue';
 import AvatarFriend from '../../../assets/images/svg/AvatarFriend';
 import Checked from '../../../assets/images/svg/Checked';
 import Queen from '../../../assets/images/svg/Queen';
+import ScrollableHeaderContent from '../../components/SignUp/ScrollableHeaderContent';
+import ScrollableProfileSetUpHeader from '../../components/SignUp/ScrollableProfileSetUpHeader';
 const size = new sizes(height, width);
 interface Friend {
-  id:number;
+  id: number;
   image: ReactNode;
   name: string;
   username: string;
@@ -40,49 +42,49 @@ interface Friend {
 const FindFriends = () => {
   const friends: Array<Friend> = [
     {
-      id:1,
+      id: 1,
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username1',
       verification: 'citizen',
     },
     {
-        id:2,
+      id: 2,
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username2',
       verification: 'verified',
     },
     {
-        id:3,
+      id: 3,
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username3',
       verification: 'citizen',
     },
     {
-        id:4,
+      id: 4,
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username4',
       verification: 'verified',
     },
     {
-        id:5,
+      id: 5,
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username5',
       verification: 'citizen',
     },
     {
-      id:6,
+      id: 6,
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username6',
       verification: 'verified',
     },
     {
-       id:7,
+      id: 7,
       image: <AvatarFriend />,
       name: 'User Name',
       username: '@username7',
@@ -125,72 +127,76 @@ const FindFriends = () => {
       }}
     >
       <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
-      <ProfileSetUpHeader
-        SvgImage={<Hands />}
-        stepDescription="Next Step: Explore Communities"
-        title="Find your friends"
-        sub_title="Say hi to your friends that are already on TowneSquare!"
-        steps={4}
-        subTitleWidth={304}
-      />
 
+      <ScrollableProfileSetUpHeader
+        stepDescription="Next Step: Explore Communities"
+        steps={4}
+      />
       <View
         style={{
-          marginTop: size.getHeightSize(32),
-          alignSelf: 'center',
           flex: 1,
         }}
       >
-        <View
-          style={{
-            width: size.getWidthSize(328),
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            gap: size.getHeightSize(8),
-            height: size.getHeightSize(44),
-
-            paddingHorizontal: size.getWidthSize(8),
-          }}
-        >
-          <Text
-            style={{
-              fontSize: size.fontSize(18),
-              fontFamily: 'Outfit-Regular',
-              textAlign: 'center',
-              lineHeight: size.getHeightSize(23),
-              color: appColor.kTextColor,
-              fontStyle: 'normal',
-            }}
-          >
-            Suggested Friends
-          </Text>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollableHeaderContent
+            SvgImage={<Hands />}
+            title="Find your friends"
+            sub_title="Say hi to your friends that are already on TowneSquare!"
+            subTitleWidth={size.getWidthSize(304)}
+          />
           <View
             style={{
-              width: size.getWidthSize(91),
+              marginTop: size.getHeightSize(32),
+              alignSelf: 'center',
+              flex: 1,
             }}
           >
-            <Text
-              onPress={() => setFollowers(friends)}
+            <View
               style={{
-                fontSize: size.fontSize(16),
-                fontFamily: 'Outfit-SemiBold',
-                textAlign: 'right',
-                color: appColor.kSecondaryButtonColor,
-                lineHeight: size.getHeightSize(24),
+                width: size.getWidthSize(328),
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                gap: size.getHeightSize(8),
+                paddingVertical: size.getHeightSize(10.5),
+                alignItems: 'center',
+                paddingHorizontal: size.getWidthSize(8),
               }}
             >
-              Follow all
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          <ScrollView showsVerticalScrollIndicator={false}>
+              <Text
+                style={{
+                  fontSize: size.fontSize(18),
+                  fontFamily: 'Outfit-Regular',
+                  textAlign: 'center',
+                  lineHeight: size.getHeightSize(23),
+                  color: appColor.kTextColor,
+                  fontStyle: 'normal',
+                }}
+              >
+                Suggested Friends
+              </Text>
+              <View
+                style={{
+                  width: size.getWidthSize(91),
+                }}
+              >
+                <Text
+                  onPress={() => setFollowers(friends)}
+                  style={{
+                    fontSize: size.fontSize(16),
+                    fontFamily: 'Outfit-SemiBold',
+                    textAlign: 'right',
+                    color: appColor.kSecondaryButtonColor,
+                    lineHeight: size.getHeightSize(24),
+                  }}
+                >
+                  Follow all
+                </Text>
+              </View>
+            </View>
+
             {friends.map((friend) => (
               <View
+                key={friend.id}
                 style={{
                   flexDirection: 'row',
                   width: size.getWidthSize(328),
@@ -202,7 +208,6 @@ const FindFriends = () => {
                   justifyContent: 'center',
                   marginBottom: size.getHeightSize(8),
                 }}
-                key={friend.id}
               >
                 {friend.image}
                 <View
@@ -253,8 +258,8 @@ const FindFriends = () => {
                 )}
               </View>
             ))}
-          </ScrollView>
-        </View>
+          </View>
+        </ScrollView>
       </View>
       <View
         style={{
@@ -263,7 +268,7 @@ const FindFriends = () => {
         }}
       >
         <ContinueButton
-          disabled={disableOnPress}
+          disabled={false}
           navigateTo="ExploreCommunities"
           marginTop={8}
         />
