@@ -19,6 +19,8 @@ import BottomTabNavigation from './BottomTabNavigation';
 import ChooseUsernameSlide from '../screens/SignUp/ChooseUsernameSlide';
 import DrawerNavigation from './DrawerNavigation';
 import EmailLogin from '../screens/SignUp/EmailLogin';
+import EditProfile from '../components/Profile/About/EditProfile';
+import { appColor, images } from '../constants';
 
 const Navigations = ({ magicProps }: { magicProps: any }) => {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -131,6 +133,24 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
         options={{
           headerShown: false,
         }}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{
+          headerTitle:"Edit profile",
+          headerStyle:{
+            backgroundColor: appColor.kgrayDark2,
+            height:150,
+          },
+          headerTitleStyle:{
+            color:appColor.kTextColor,
+            textAlign:"auto",
+            fontFamily:"Outfit-Regular"
+          },
+         
+        }}
+        
       />
 
       <Stack.Screen name="EmailLogin" options={{ headerShown: false }} >

@@ -4,9 +4,9 @@ import { TabBarProps } from 'react-native-collapsible-tab-view'
 import { appColor, fonts } from '../../../constants'
 import { useFonts } from 'expo-font'
 import { images } from '../../../constants';
-import { useAppDispatch } from '../../../controller/hooks'
+import { useAppDispatch, useAppSelector } from '../../../controller/hooks'
 import { updateEditProfile } from '../../../controller/UserController'
-import { updateReportingModal } from '../../../controller/FeedsController'
+
 
 type Props = {
   title: string
@@ -26,13 +26,10 @@ export const Header = ({
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
    const dispatch=useAppDispatch()
+  
     const showEditProfile = () => {
         dispatch(updateEditProfile(true));
-        console.log("edit profile")
     };
-    const showModal = () => {
-    dispatch(updateReportingModal(true));
-  };
 
   
   return (

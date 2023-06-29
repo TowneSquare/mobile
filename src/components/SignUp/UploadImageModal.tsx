@@ -6,6 +6,7 @@ import {
   ScrollView,
   Image,
   Pressable,
+  Alert
 } from 'react-native';
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -29,13 +30,17 @@ import Cat from '../../../assets/images/svg/Cat';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
 import { sizes } from '../../utils';
-import Customhandler from './Customhandler';
 import Camera from '../../../assets/images/svg/Camera';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import {launchImageLibraryAsync, MediaTypeOptions,launchCameraAsync, useCameraPermissions, PermissionStatus} from 'expo-image-picker';
+import { updateProfileImage } from '../../controller/UserController';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
+
+
 const UploadImageModal = () => {
-  const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
+  const [bottomSheetOpen, setBottomSheetOpen] = useState<boolean>(false);
+  const [cameraPermissionInformation, requestPermission] = useCameraPermissions();
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const isVisible = useAppSelector(
@@ -88,6 +93,54 @@ const UploadImageModal = () => {
   if (!isLoaded) {
     return null;
   }
+
+  async function verifyPermission(){
+    if (cameraPermissionInformation?.status===PermissionStatus.UNDETERMINED){
+        const permissionResponse=await requestPermission();
+
+        return permissionResponse.granted;
+    }
+    if (cameraPermissionInformation?.status===PermissionStatus.DENIED){
+        Alert.alert(
+            'Insufficient permission!',
+            'You need to grant camera access to use this app'
+        );
+        return false
+    }
+    return true;
+}
+  const pickImage = async () => {
+    const hasPermission=await verifyPermission()
+    if (!hasPermission){
+        return;
+    }
+
+    let result = await launchImageLibraryAsync({
+      mediaTypes: MediaTypeOptions.Images,
+      allowsEditing:true,
+      aspect:[4,3],
+      quality:1
+    });
+
+    if (result.assets != null) {
+      dispatch(updateProfileImage(result?.assets[0].uri))
+      dispatch(updateUploadImageModalOpen(false))
+    }
+  }
+
+  const takePhoto =async () => {
+    let result = await launchCameraAsync({
+      mediaTypes:MediaTypeOptions.Images,
+      allowsEditing: true,
+    })
+
+    if (result.assets != null) {
+      dispatch(updateProfileImage(result.assets[0].uri))
+      dispatch(updateUploadImageModalOpen(false))
+    }
+  }
+
+
   return (
     <BottomSheet
       onClose={() => {
@@ -146,10 +199,12 @@ const UploadImageModal = () => {
             />
           </Pressable>
           <View style={styles.container}>
-            <View style={styles.innerStyle}>
-              <Photo />
+            
+             <Pressable style={styles.innerStyle} onPress={pickImage}>
+               <Photo />
               <Text style={styles.Text}>Existing photo</Text>
-            </View>
+             </Pressable>
+            
             <MaterialIcons
               name="keyboard-arrow-right"
               color={appColor.kWhiteColor}
@@ -157,10 +212,10 @@ const UploadImageModal = () => {
             />
           </View>
           <View style={styles.container}>
-            <View style={styles.innerStyle}>
+            <Pressable style={styles.innerStyle} onPress={takePhoto}>
               <Camera />
               <Text style={styles.Text}>Take Photo</Text>
-            </View>
+            </Pressable>
             <MaterialIcons
               name="keyboard-arrow-right"
               color={appColor.kWhiteColor}

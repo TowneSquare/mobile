@@ -3,6 +3,7 @@ import { ImageSourcePropType } from 'react-native';
 import { communities, friends } from './models';
 import { bottomSheetSlice } from '../BottomSheetController';
 import axios from 'axios';
+
 interface UserState {
   details: {
     userId:string
@@ -44,7 +45,7 @@ const initialState: UserState = {
     email:"",
     followedFriends: [],
     joinedCommunities: [],
-    profileImage:undefined
+    profileImage: undefined
   },
   errors: {
     nicknameError: false,

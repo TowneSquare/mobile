@@ -24,6 +24,14 @@
     },
     "packagerOpts": {
       "config": "metro.config.js"
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker", 
+        {
+        "photoPermission": "Let TowneSquare access your photo"
+        }
+      ]
+    ]
   }
 }

@@ -11,7 +11,7 @@ import Info from '../../../../assets/images/svg/Info'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { UserPosts } from '../../Feed/DuumyData'
 import ForYou from '../../Feed/ForYou'
-import EditProfile from './EditProfile'
+import EditProfile from './EditProfileModal'
 import ReportPanel from '../../Feed/ReportPanel'
 import BottomSheet, {BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
@@ -82,10 +82,28 @@ const About = () => {
     )
   }
 
+
+  const POST_MEDIA_REPLIES = () => {
+    if(view == 2) {
+        return (
+            Posts()
+        )
+    }
+    if(view == 1) {
+        return (
+            Replies()
+        )
+    }
+    if(view == 1) {
+        return (
+            Media()
+        )
+    }
+  }
+
   return (
     <BottomSheetModalProvider>
     <SafeAreaView style={{backgroundColor: appColor.feedBackground, paddingHorizontal:15}}>
-
         <View style={[styles.view1, styles.shadowProp]}>
             <View style={{
                 display:"flex",
@@ -197,25 +215,8 @@ const About = () => {
             </Pressable> 
         </View>
        <View>
-
-        {
-            view == 2 && (
-                Posts()
-            )
-        }
-        {
-            view == 1 && (
-               Replies()
-            )
-        }
-         {
-            view == 0 && (
-               Media()
-            )
-        }
+        {POST_MEDIA_REPLIES()}
        </View>
-      
-         <EditProfile/>
     </SafeAreaView>
     </BottomSheetModalProvider>
   )

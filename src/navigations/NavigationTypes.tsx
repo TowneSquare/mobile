@@ -26,6 +26,7 @@ import {
     BottomTabNavigation: undefined;
     DrawerNavigation: undefined;
     EmailLogin: undefined;
+    EditProfile:undefined
   };
   export type FirstScreenProps = {
     navigation: NavigationProp<RootStackParamList, 'FirstScreen'>;
@@ -84,5 +85,9 @@ import {
     navigation: NavigationProp<RootStackParamList, 'EmailLogin'>;
     magic: any;
     route: RouteProp<ParamListBase, 'EmailLogin'>;
+  };
+  export type EditProfileProps = {
+    navigation: NavigationProp<RootStackParamList, 'EditProfile'>;
+    route: RouteProp<ParamListBase, 'EditProfile'>;
   };
   

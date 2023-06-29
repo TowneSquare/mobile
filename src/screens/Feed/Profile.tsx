@@ -8,11 +8,12 @@ import { useFonts } from 'expo-font';
 import Wallet from '../../components/Profile/Wallet';
 import About from '../../components/Profile/About';
 import { buildHeader } from '../../components/Profile/Header';
+import EditProfileModal from '../../components/Profile/About/EditProfileModal';
+
 
 
 
 const title = "Real JC"
-
 const header = buildHeader(title, 130)
 
 const size = new sizes(height, width);
@@ -45,6 +46,7 @@ const Profile = () => {
         <Tabs.ScrollView>
            <About />
         </Tabs.ScrollView>
+         <EditProfileModal/>
        </Tabs.Tab>
        <Tabs.Tab name="Wallet" label="Wallet">
          <Tabs.ScrollView>
