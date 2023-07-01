@@ -11,6 +11,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Constants from 'expo-constants';
+import { StatusBar } from 'expo-status-bar';
 import { useAppSelector } from '../../controller/hooks';
 import { useFonts } from 'expo-font';
 import TransitionBackButton from '../../components/SignUp/TransitionBackButton';

@@ -98,15 +98,16 @@ const UsernameField = () => {
           <Text
             style={{
               fontSize: size.fontSize(16),
-              color: appColor.kTextColor,
+              color: appColor.grayLight,
               textAlign: 'left',
               marginLeft: size.getWidthSize(6),
               lineHeight: 21,
               fontFamily: 'Outfit-Regular',
             }}
           >
-            Username can contain alphanumeric characters (letters A-Z, numbers
-            0-9) with the exception of underscores.
+            A Username is unique to you, and it is how the community can
+            reference you specifically in their conversations.{`\n\n`} It can
+            only contain letters, numbers and underscore.
           </Text>
         </View>
       </View>

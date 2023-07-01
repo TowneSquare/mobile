@@ -12,9 +12,9 @@ import { useFonts } from 'expo-font';
 import Offer from '../../../assets/images/svg/Offer';
 import Clip from '../../../assets/images/svg/Clip';
 import { appColor, fonts, images } from '../../constants';
-
+import ToastHook from '../../hooks/Feeds/ToastHook';
 import { sizes } from '../../utils';
-
+import { batch } from 'react-redux';
 const size = new sizes(height, width);
 import { SelectedCollectionContext } from './SelectedCollectionContext';
 import { useNavigation, StackActions } from '@react-navigation/native';
@@ -31,6 +31,19 @@ const AttachNftModal = () => {
     SelectedCollectionContext
   );
   const navigation = useNavigation();
+  const { showNftAttachmentToast } = ToastHook();
+  const handlePress = async () => {
+    dispatch(
+      updatePostNft({
+        name: 'Aptomingos',
+        id: 'Aptomingos #9280',
+      })
+    );
+  
+    handleModalState();
+    navigation.dispatch(StackActions.pop(2));
+   
+  };
   return (
     <Modal
       backdropOpacity={0.1}
@@ -66,6 +79,7 @@ const AttachNftModal = () => {
         />
         <Pressable
           onPress={() => {
+            handleModalState();
             navigation.dispatch(StackActions.pop(2));
             dispatch(
               updatePostNft({
@@ -79,10 +93,10 @@ const AttachNftModal = () => {
           <Clip />
           <Text style={styles.AttachText}>Attach to post</Text>
         </Pressable>
-        <View style={styles.offerButton}>
+        <Pressable onPress={handlePress} style={styles.offerButton}>
           <Offer />
           <Text style={styles.OfferText}>Attach & offer for sale</Text>
-        </View>
+        </Pressable>
         <View
           style={{
             width: size.getWidthSize(310),

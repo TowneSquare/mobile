@@ -38,21 +38,18 @@ import {
   updateReportUserModal,
   updateBlockUserModal,
 } from '../../controller/FeedsController';
+import ToastHook from '../../hooks/Feeds/ToastHook';
 import ReportPostModal from '../../components/Feed/ReportPostModal';
 import ReportUserModal from '../../components/Feed/ReportUserModal';
 import BlockUserModal from '../../components/Feed/BlockUserModal';
-import useBlockToast from '../../hooks/Feeds/useBlockToast';
-import useReportPostToast from '../../hooks/Feeds/useReportPostToast';
-import useReportUserToast from '../../hooks/Feeds/useReportUserToast';
 import Toast from 'react-native-toast-message';
 const Main = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
   const [view, setSwitchView] = useState(true);
-  const { showBlockToast } = useBlockToast();
-  const { showReportUserToast } = useReportUserToast();
-  const { showReportPostToast } = useReportPostToast();
+  const { showBlockToast, showReportUserToast, showReportPostToast } =
+    ToastHook();
   const modals = useAppSelector((state) => ({
     reportPostModal: state.FeedsSliceController.ReportPostModal,
     reportPanel: state.FeedsSliceController.ReportingModal,

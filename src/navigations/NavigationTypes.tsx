@@ -31,9 +31,14 @@ export type RootStackParamList = {
   VideoPlayer: undefined;
   SinglePost: undefined;
   Notifications: undefined;
-  CreatePost: undefined;
+  CreatePost: { showToast?: boolean };
   NftCollectionScreen: undefined;
   SelectedCollectionScreen: undefined;
+};
+type CreatePostParameter = {
+  [CreatePost: string]: {
+    showToast: boolean;
+  };
 };
 export type FirstScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'FirstScreen'>;
@@ -117,7 +122,7 @@ export type NotificationsProps = {
 export type CreatePostProps = {
   navigation: NavigationProp<RootStackParamList, 'CreatePost'>;
   magic: any;
-  route: RouteProp<ParamListBase, 'CreatePost'>;
+  route: RouteProp<CreatePostParameter, 'CreatePost'>;
 };
 export type NftCollectionScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'NftCollectionScreen'>;

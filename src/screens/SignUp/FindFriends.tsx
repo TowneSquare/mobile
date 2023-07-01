@@ -156,7 +156,7 @@ const FindFriends = () => {
                 width: size.getWidthSize(328),
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                gap: size.getHeightSize(8),
+
                 paddingVertical: size.getHeightSize(10.5),
                 alignItems: 'center',
                 paddingHorizontal: size.getWidthSize(8),
@@ -177,6 +177,7 @@ const FindFriends = () => {
               <View
                 style={{
                   width: size.getWidthSize(91),
+                  marginRight: size.getWidthSize(8),
                 }}
               >
                 <Text

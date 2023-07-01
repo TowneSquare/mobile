@@ -53,6 +53,7 @@ interface Post {
   NFTBottomSheet: boolean;
   posts: Partial<CreatePost>;
   priceModal: boolean;
+  attachNftCountDown: number;
 }
 const initialState: Post = {
   data: atMentionData,
@@ -84,7 +85,9 @@ const initialState: Post = {
     nft: null,
   },
   priceModal: false,
+  attachNftCountDown: 0,
 };
+
 export const fieldHandlerSlice = createSlice({
   name: 'postHandler',
   initialState,
@@ -194,12 +197,14 @@ export const fieldHandlerSlice = createSlice({
           hash.replace('#', '') +
           state.inputText.slice(cursor_index);
         state.posts.message = state.inputText;
+        state.posts.tags = ExtractTags(state.posts.message);
       } else {
         state.inputText = currentTextInput.replace(
           current_word,
           '#' + hash.replace('#', '')
         );
         state.posts.message = state.inputText;
+        state.posts.tags = ExtractTags(state.posts.message);
       }
     },
     updateInputText: (state, action: PayloadAction<string>) => {
@@ -237,6 +242,9 @@ export const fieldHandlerSlice = createSlice({
     ) => {
       state.posts.nft = action.payload;
     },
+    updateAttachNftCountDown: (state, action: PayloadAction<number>) => {
+      state.attachNftCountDown = action.payload;
+    },
   },
 });
 export const {
@@ -260,5 +268,6 @@ export const {
   updateTag,
   updateShowPriceModal,
   updatePostNft,
+  updateAttachNftCountDown,
 } = fieldHandlerSlice.actions;
 export default fieldHandlerSlice.reducer;

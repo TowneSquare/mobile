@@ -11,6 +11,7 @@ import { updateShowPriceModal } from '../../controller/createPost';
 const { height, width } = Dimensions.get('window');
 import InfoLarge from '../../../assets/images/svg/InfoLarge';
 const size = new sizes(height, width);
+
 const OfferSaleSheet = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const dispatch = useAppDispatch();

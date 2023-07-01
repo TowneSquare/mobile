@@ -33,6 +33,7 @@ const FieldInput = () => {
   const value = useAppSelector((state) => state.CreatePostController.inputText);
   const [formatedContent, setFormartedContent] = useState([]);
   const [cursorPostion, setCursorPosition] = useState('');
+
   useEffect(() => {
     batch(() => {
       dispatch(updateShowAtContainer(false));
@@ -44,7 +45,7 @@ const FieldInput = () => {
   }, []);
   useEffect(() => {
     const formattedText = [];
-    const splitWords = value.split(' ');
+    const splitWords = value.split(/\s+/);
     const contentLength = splitWords.length;
     let format = /[ !#@$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n]/;
     splitWords.forEach((word, index) => {
@@ -83,24 +84,23 @@ const FieldInput = () => {
     return null;
   }
   const handleKey = (event: any) => {
-    if (event.nativeEvent.key === ' ') {
-      dispatch(updateShowAtContainer(false));
-      dispatch(updateShowHashTags(false));
-    }
+    // if (event.nativeEvent.key === ' ') {
+    //   dispatch(updateShowAtContainer(false));
+    //   dispatch(updateShowHashTags(false));
+    // }
   };
   const handleText = (text_input: string) => {
     const cursorIndex = Number(cursorPostion);
-    const words = text_input.split(' ');
+    const words = text_input.split(/\s+/);
     let currentWord = '';
     for (let i = 0; i < words.length; i++) {
       const word = words[i];
-      if (cursorIndex <= currentWord.length + word.length) {
+      if (cursorIndex < currentWord.length + word.length) {
         currentWord = word;
         break;
       }
-      currentWord = word + ' ';
+      currentWord += word + ' ';
     }
-    // console.log(currentWord);
     if (currentWord.startsWith('@')) {
       batch(() => {
         dispatch(updateCurrentWord(currentWord.trim()));
@@ -161,7 +161,7 @@ const FieldInput = () => {
           fontFamily: 'Outfit-Regular',
           color: appColor.kTextColor,
           width: size.getWidthSize(280),
-          maxHeight: size.getHeightSize(105),
+          // maxHeight: size.getHeightSize(105),
           marginTop: size.getHeightSize(8),
           minHeight: size.getHeightSize(32),
         }}
