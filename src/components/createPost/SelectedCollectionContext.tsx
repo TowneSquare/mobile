@@ -22,7 +22,6 @@ export const SelectedCollectionProvider: React.FC<
   const handleModalState = () => {
     setIsModalVisible((previous) => !previous);
   };
-
   const contextValue: SelectedCollectionContextProps = {
     isModalVisible,
     handleModalState,

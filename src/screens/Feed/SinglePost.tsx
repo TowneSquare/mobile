@@ -22,9 +22,7 @@ import AddCommentTextInput from '../../components/SinglePostView/AddCommentTextI
 import { sizes } from '../../utils';
 import MyPostPanel from '../../shared/Feed/MyPostPanel';
 import { toastConfig } from '../../components/Feed/ShowToast';
-import useBlockToast from '../../hooks/Feeds/useBlockToast';
-import useReportPostToast from '../../hooks/Feeds/useReportPostToast';
-import useReportUserToast from '../../hooks/Feeds/useReportUserToast';
+import ToastHook from '../../hooks/Feeds/ToastHook';
 import DeleteMyPostPanel from '../../shared/Feed/DeleteMyPostPanel';
 const size = new sizes(height, width);
 import Toast from 'react-native-toast-message';
@@ -37,9 +35,8 @@ const SinglePost = () => {
   const scrollViewRef = useRef<ScrollView>(null);
   const textInputRef = useRef<TextInput>(null);
   const [replyingTo, setReplyingTo] = useState(false);
-  const { showBlockToast } = useBlockToast();
-  const { showReportUserToast } = useReportUserToast();
-  const { showReportPostToast } = useReportPostToast();
+  const { showBlockToast, showReportUserToast, showReportPostToast } =
+    ToastHook();
   const navigation = useNavigation();
   const modals = useAppSelector((state) => ({
     reportPostModal: state.FeedsSliceController.ReportPostModal,

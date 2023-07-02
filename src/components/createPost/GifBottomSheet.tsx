@@ -10,6 +10,7 @@ import CustomHandler from '../Feed/CustomHandler';
 import { updateGifBottomSheet } from '../../controller/createPost';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
+
 const GifBottomSheet = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const dispatch = useAppDispatch();

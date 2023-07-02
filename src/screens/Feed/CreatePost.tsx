@@ -7,13 +7,14 @@ import {
   FlatList,
   KeyboardAvoidingView,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HashTags from '../../components/createPost/HashTags';
 import { sizes } from '../../utils';
+import ToastIcon from '../../../assets/images/svg/ToastIcon';
 import AtMention from '../../components/createPost/AtMention';
 import { useNavigation } from '@react-navigation/native';
 import FieldInput from '../../components/createPost/FieldInput';
@@ -28,17 +29,20 @@ import Media from '../../components/createPost/Media';
 import GifBottomSheet from '../../components/createPost/GifBottomSheet';
 import OfferSaleSheet from '../../components/createPost/OfferSaleSheet';
 import { Avatar } from 'react-native-elements';
-const CreatePost = () => {
+import Toast from 'react-native-toast-message';
+import { LinearProgress } from 'react-native-elements';
+import { CreatePostProps } from '../../navigations/NavigationTypes';
+const CreatePost = ({ route }: CreatePostProps) => {
+  const { showToast } = route.params;
   const {
     showAtMentions,
     showHashTags,
     showAPTPanel,
     showApt,
-    message,
     media,
-    tags,
-    community,
     nft,
+    post,
+    interval,
   } = useAppSelector((state) => ({
     showAtMentions: state.CreatePostController.showAtMentionContainer,
     showHashTags: state.CreatePostController.showHashTags,
@@ -49,13 +53,10 @@ const CreatePost = () => {
     tags: state.CreatePostController.posts.tags,
     community: state.CreatePostController.posts.community,
     nft: state.CreatePostController.posts.nft,
+    post: state.CreatePostController.posts,
+    interval: state.CreatePostController.attachNftCountDown,
   }));
-  // console.log('media:');
-  // console.log('community:');
-  // console.log(community);
-  // console.log('nft:');
-  // console.log(nft);
-
+  // console.log(interval)
   const shouldShowAptosPanel = showAPTPanel;
   const shouldShowAtMention = showAtMentions;
   const shouldShowHashTags = showHashTags;
@@ -73,7 +74,25 @@ const CreatePost = () => {
   if (!isLoaded) {
     return null;
   }
+  const toastConfig = {
+    success: ({ text1, text2, ...rest }: any) => {
+      return (
+        <View style={styles.toastContainer}>
+          <View style={styles.toastRow}>
+            <ToastIcon />
+            <Text style={styles.toastText}>{text2}</Text>
+          </View>
 
+          <LinearProgress
+            color="white"
+            trackColor={appColor.kgrayDark2}
+            value={interval}
+            variant="determinate"
+          />
+        </View>
+      );
+    },
+  };
   return (
     <SafeAreaView
       style={{
@@ -124,6 +143,7 @@ const CreatePost = () => {
       )}
       <OfferSaleSheet />
       <GifBottomSheet />
+      <Toast config={toastConfig} />
     </SafeAreaView>
   );
 };
@@ -175,5 +195,28 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
+  },
+  toastText: {
+    color: appColor.kTextColor,
+    fontSize: size.fontSize(14),
+    fontFamily: 'Outfit-Regular',
+    lineHeight: size.getHeightSize(18),
+  },
+  toastContainer: {
+    backgroundColor: appColor.kgrayDark2,
+    borderRadius: 4,
+    width: size.getWidthSize(340),
+    marginTop: size.getHeightSize(35),
+    borderWidth: size.getWidthSize(1),
+    borderColor: appColor.kGrayLight3,
+  },
+  toastRow: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    marginHorizontal: size.getWidthSize(16),
+    gap: size.getWidthSize(4),
+    marginVertical: size.getHeightSize(16),
+    width: size.getWidthSize(286),
+    alignSelf: 'center',
   },
 });

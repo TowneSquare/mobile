@@ -40,7 +40,7 @@ const SelectedCollectionScreen = () => {
       >
         <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
         <SelectedCollectionProvider>
-          <AttachNftModal />
+          <AttachNftModal  />
           <View style={styles.header}>
             <Pressable onPress={navigation.goBack}>
               <AntDesign
