@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import Svg, {
   SvgProps,
   G,
@@ -7,7 +7,7 @@ import Svg, {
   LinearGradient,
   Stop,
   ClipPath,
-} from 'react-native-svg';
+} from "react-native-svg";
 const Verified = (props: SvgProps) => (
   <Svg width={18} height={18} fill="none" {...props}>
     <G

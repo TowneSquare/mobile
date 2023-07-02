@@ -1,5 +1,5 @@
 // @ts-nocheck
-import * as React from 'react';
+import * as React from "react";
 import Svg, {
   SvgProps,
   G,
@@ -8,7 +8,7 @@ import Svg, {
   Pattern,
   Use,
   Image,
-} from 'react-native-svg';
+} from "react-native-svg";
 /* SVGR has dropped some elements not supported by react-native-svg: filter */
 const TowneSquareLogo = (props: SvgProps) => (
   <Svg

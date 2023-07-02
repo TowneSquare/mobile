@@ -1,11 +1,11 @@
-import { View, Text, Dimensions, Pressable } from 'react-native';
-import React from 'react';
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
-import { sizes } from '../../utils';
-import { useNavigation } from '@react-navigation/native';
-import { useAppSelector } from '../../controller/hooks';
-const { height, width } = Dimensions.get('window');
+import { View, Text, Dimensions, Pressable } from "react-native";
+import React from "react";
+import { useFonts } from "expo-font";
+import { appColor, fonts, images } from "../../constants";
+import { sizes } from "../../utils";
+import { useNavigation } from "@react-navigation/native";
+import { useAppSelector } from "../../controller/hooks";
+const { height, width } = Dimensions.get("window");
 interface Props {
   action: () => void;
 }
@@ -35,22 +35,22 @@ const TranslationForwardButton = ({ action }: Props) => {
         backgroundColor: disabled
           ? appColor.kWhiteColorWithOpacity
           : appColor.kWhiteColor,
-        alignSelf: 'center',
+        alignSelf: "center",
         width: size.getWidthSize(328),
         borderRadius: 40,
         // height: size.getHeightSize(48),
-        justifyContent: 'center',
+        justifyContent: "center",
         marginTop: size.getHeightSize(8),
         paddingVertical: size.getHeightSize(16),
       }}
     >
       <Text
         style={{
-          textAlign: 'center',
+          textAlign: "center",
           color: appColor.kButtonTextColor,
           fontSize: size.fontSize(18),
-          fontFamily: 'Outfit-Medium',
-          fontStyle: 'normal',
+          fontFamily: "Outfit-Medium",
+          fontStyle: "normal",
           lineHeight: size.getHeightSize(23),
           letterSpacing: 0.02,
         }}

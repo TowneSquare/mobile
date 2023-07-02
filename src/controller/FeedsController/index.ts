@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 interface FeedController {
   ReceiveModalState: boolean;
   ReportingModal: boolean;
@@ -14,7 +14,7 @@ const initialState: FeedController = {
   BlockUserModal: false,
 };
 export const FeedsSlice = createSlice({
-  name: 'FeedsController',
+  name: "FeedsController",
   initialState,
   reducers: {
     updateReceiveModalState: (state, action: PayloadAction<boolean>) => {

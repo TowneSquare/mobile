@@ -1,3 +1,1 @@
-export function isPageButtonDisabled(){
-    
-}
+export function isPageButtonDisabled() {}

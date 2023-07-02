@@ -1,16 +1,12 @@
-import React from 'react'
-import { View, Text, Dimensions, StyleSheet, SafeAreaView } from 'react-native'
+import React from "react";
+import { View, Text, Dimensions, StyleSheet, SafeAreaView } from "react-native";
 
 const Wallet = () => {
   return (
     <SafeAreaView>
-        <Text>
-            Wallet
-        </Text>
+      <Text>Wallet</Text>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-
-
-export default Wallet
+export default Wallet;

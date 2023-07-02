@@ -1,5 +1,5 @@
 //@ts-nocheck
-import * as React from 'react';
+import * as React from "react";
 import Svg, {
   SvgProps,
   G,
@@ -11,7 +11,7 @@ import Svg, {
   LinearGradient,
   Stop,
   ClipPath,
-} from 'react-native-svg';
+} from "react-native-svg";
 const Background1 = (props: SvgProps) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +32,7 @@ const Background1 = (props: SvgProps) => (
             y={226}
             maskUnits="userSpaceOnUse"
             style={{
-              maskType: 'alpha',
+              maskType: "alpha",
             }}
           >
             <Path
@@ -58,7 +58,7 @@ const Background1 = (props: SvgProps) => (
             y={530}
             maskUnits="userSpaceOnUse"
             style={{
-              maskType: 'alpha',
+              maskType: "alpha",
             }}
           >
             <Ellipse cx={-6.5} cy={658} fill="#D9D9D9" rx={106.5} ry={128} />
@@ -77,7 +77,7 @@ const Background1 = (props: SvgProps) => (
           d="M316.891 117.33C368.55 62.369 336.995 12.184 279.276-6.463L-95-126v826c58.513-54.875 183.063-177.977 213.155-231.383C155.771 401.86 82.42 324.732 80.54 249.549c-1.881-75.183 171.778-63.517 236.351-132.219Z"
           opacity={0.8}
           style={{
-            mixBlendMode: 'lighten',
+            mixBlendMode: "lighten",
           }}
         />
         <Path
@@ -85,7 +85,7 @@ const Background1 = (props: SvgProps) => (
           d="M396.559 165.903C463.729 96.846 407 18.5 347.65 10.363L-139-67v965c76.082-68.948 238.026-223.619 277.154-290.721 48.91-83.878-46.464-180.785-48.91-275.249-2.445-94.465 223.354-79.806 307.315-166.127Z"
           opacity={0.8}
           style={{
-            mixBlendMode: 'lighten',
+            mixBlendMode: "lighten",
           }}
         />
         <Path
@@ -93,7 +93,7 @@ const Background1 = (props: SvgProps) => (
           d="M183.785 742.254c-82.753 49.319-29.823 129.149 6.987 162.899l450.044 200.677 249.761-932.114c-91.334 46.907-287.793 154.394-342.955 209.082-68.952 68.361-1.909 186.651-23.996 278.529-22.087 91.878-236.399 19.278-339.841 80.927Z"
           opacity={0.8}
           style={{
-            mixBlendMode: 'lighten',
+            mixBlendMode: "lighten",
           }}
         />
         <Circle cx={212.5} cy={230.5} r={4.5} fill="#944DB7" />

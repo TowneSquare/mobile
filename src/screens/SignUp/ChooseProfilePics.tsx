@@ -5,38 +5,36 @@ import {
   Dimensions,
   StyleSheet,
   Pressable,
-} from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { appColor, fonts, images } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import { useFonts } from 'expo-font';
-import { SafeAreaView } from 'react-native-safe-area-context';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../../utils';
-import ContinueButton from '../../components/SignUp/ContinueButton';
-import { Entypo } from '@expo/vector-icons';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-import BackButton from '../../components/SignUp/BackButton';
-import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
-import UploadImageModal from '../../components/SignUp/UploadImageModal';
-import SelectedCollection from '../../components/SignUp/SelectedCollection';
-import User from '../../../assets/images/svg/User';
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import { appColor, fonts, images } from "../../constants";
+import { StatusBar } from "expo-status-bar";
+import { useFonts } from "expo-font";
+import { SafeAreaView } from "react-native-safe-area-context";
+const { height, width } = Dimensions.get("window");
+import { sizes } from "../../utils";
+import ContinueButton from "../../components/SignUp/ContinueButton";
+import { Entypo } from "@expo/vector-icons";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import BackButton from "../../components/SignUp/BackButton";
+import ProfileSetUpHeader from "../../components/SignUp/ProfileSetUpHeader";
+import UploadImageModal from "../../components/SignUp/UploadImageModal";
+import SelectedCollection from "../../components/SignUp/SelectedCollection";
+import User from "../../../assets/images/svg/User";
 import {
   updateUploadImageModalOpen,
   updateUploadModalRenderCount,
-} from '../../controller/BottomSheetController';
-import ChooseNFT from '../../components/SignUp/ChooseNFT';
+} from "../../controller/BottomSheetController";
+import ChooseNFT from "../../components/SignUp/ChooseNFT";
 
-import { ChooseProfilePicsProps } from '../../navigations/NavigationTypes';
-import tinycolor from 'tinycolor2';
+import { ChooseProfilePicsProps } from "../../navigations/NavigationTypes";
+import tinycolor from "tinycolor2";
 const size = new sizes(height, width);
 const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
   const dispatch = useAppDispatch();
   const profilePics = useAppSelector(
     (state) => state.USER.details.profileImage
   );
-
-  
 
   const uploadImageModal = useAppSelector(
     (state) => state.bottomSheetController.uploadImageModalOpen
@@ -48,9 +46,9 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
     (state) => state.bottomSheetController.selectedCollectionModal
   );
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -105,15 +103,16 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
         {profilePics ? (
           <>
             <View style={styles.container}>
-              <Pressable style={styles.imageContainer}
+              <Pressable
+                style={styles.imageContainer}
                 onPress={() => {
-              dispatch(updateUploadModalRenderCount(1));
-              dispatch(updateUploadImageModalOpen(true));
-            }}
+                  dispatch(updateUploadModalRenderCount(1));
+                  dispatch(updateUploadImageModalOpen(true));
+                }}
               >
                 <Image
                   style={styles.image}
-                  source={{uri:profilePics}}
+                  source={{ uri: profilePics }}
                   resizeMode="contain"
                 />
               </Pressable>
@@ -123,8 +122,8 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
               style={{
                 color: appColor.kTextColor,
                 fontSize: size.fontSize(22),
-                fontFamily: 'Outfit-Regular',
-                textAlign: 'center',
+                fontFamily: "Outfit-Regular",
+                textAlign: "center",
                 marginTop: size.getHeightSize(16),
                 lineHeight: size.getHeightSize(21),
               }}
@@ -141,19 +140,19 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
             style={{
               height: size.getHeightAndWidth(160),
               width: size.getHeightAndWidth(160),
-              alignItems: 'center',
+              alignItems: "center",
               backgroundColor:
                 uploadImageModal || NftModal || selectedCollectionModal
                   ? appColor.kGrayscaleWithOPacity
                   : appColor.kGrayLight3,
-              alignSelf: 'center',
+              alignSelf: "center",
               borderRadius: 200,
               borderWidth: 3,
               borderColor:
                 uploadImageModal || NftModal || selectedCollectionModal
                   ? appColor.kWhiteColorWithOpacity
                   : appColor.kWhiteColor,
-              justifyContent: 'center',
+              justifyContent: "center",
             }}
           >
             <Entypo
@@ -176,30 +175,30 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
         }}
       >
         <ContinueButton
-          disabled={typeof profilePics === 'undefined' ? true : false}
+          disabled={typeof profilePics === "undefined" ? true : false}
           navigateTo="Congratulations"
         />
         <View
           style={{
-            alignSelf: 'center',
+            alignSelf: "center",
             width: size.getWidthSize(328),
             borderRadius: 40,
             height: size.getHeightSize(48),
-            justifyContent: 'center',
+            justifyContent: "center",
             marginVertical: size.getHeightSize(16),
             marginHorizontal: size.getWidthSize(16),
           }}
         >
           <Text
             onPress={() => {
-              navigation.navigate('Congratulations');
+              navigation.navigate("Congratulations");
             }}
             style={{
-              fontStyle: 'normal',
-              textAlign: 'center',
+              fontStyle: "normal",
+              textAlign: "center",
               color: appColor.kTextColor,
               fontSize: size.fontSize(18),
-              fontFamily: 'Outfit-Medium',
+              fontFamily: "Outfit-Medium",
               lineHeight: size.getHeightSize(23),
               letterSpacing: 0.02,
             }}
@@ -219,21 +218,21 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
 export default ChooseProfilePics;
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
   },
   imageContainer: {
     height: size.getHeightAndWidth(160),
     width: size.getHeightAndWidth(160),
 
     borderRadius: 200,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   image: {
-    width: '100%',
-    height: '100%',
-    borderRadius:50
+    width: "100%",
+    height: "100%",
+    borderRadius: 50,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

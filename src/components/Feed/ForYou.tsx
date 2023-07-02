@@ -1,23 +1,23 @@
-import { View, Text, Dimensions, Image, StyleSheet } from 'react-native';
-import React, { memo } from 'react';
-import { sizes } from '../../utils';
-import { appColor, fonts, images } from '../../constants';
-import { useFonts } from 'expo-font';
-const { height, width } = Dimensions.get('window');
-import FeedLink from '../../../assets/images/svg/FeedLink';
-import Reposted from './Reposted';
-import APT from '../../../assets/images/svg/APT';
+import { View, Text, Dimensions, Image, StyleSheet } from "react-native";
+import React, { memo } from "react";
+import { sizes } from "../../utils";
+import { appColor, fonts, images } from "../../constants";
+import { useFonts } from "expo-font";
+const { height, width } = Dimensions.get("window");
+import FeedLink from "../../../assets/images/svg/FeedLink";
+import Reposted from "./Reposted";
+import APT from "../../../assets/images/svg/APT";
 import {
   UserPost,
   FeedContent,
   SWAP_OPTION_INCLUDED,
   FLOOR_PRICE_INCLUDED,
-} from '../../models';
+} from "../../models";
 const size = new sizes(height, width);
-import PostedIn from './PostedIn';
-import AvatarFeed from '../../../assets/images/svg/AvatarFeed';
-import ImageFeed2 from '../../../assets/images/svg/ImageFeed2';
-import PostHeader from './PostHeader';
+import PostedIn from "./PostedIn";
+import AvatarFeed from "../../../assets/images/svg/AvatarFeed";
+import ImageFeed2 from "../../../assets/images/svg/ImageFeed2";
+import PostHeader from "./PostHeader";
 import {
   Message_Only,
   Message_Image,
@@ -25,16 +25,16 @@ import {
   Message_External_Link,
   VIDEO,
   NFT_FOR_SALE,
-} from '../../models';
-import PostActions from './PostActions';
-import APTMonkey from '../../../assets/images/svg/APTMonkey';
-import { feedStyle } from './FeedsStyles';
-import ShowThread from './ShowThread';
+} from "../../models";
+import PostActions from "./PostActions";
+import APTMonkey from "../../../assets/images/svg/APTMonkey";
+import { feedStyle } from "./FeedsStyles";
+import ShowThread from "./ShowThread";
 const ForYou = memo(({ data }: { data: UserPost }) => {
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -275,7 +275,6 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
-             
             </View>
           </View>
         </>
@@ -351,7 +350,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
               <Text style={styles.message}>
                 {swapContent.message}
                 <Text style={styles.swapTextTag}>
-                  {' '}
+                  {" "}
                   ${swapContent.messageTag}
                 </Text>
               </Text>
@@ -363,7 +362,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                   </View>
                   <Text style={styles.swapPriceTag}>${swapContent.price}</Text>
                   <Text style={styles.priceFeed}>
-                    Price feed{' '}
+                    Price feed{" "}
                     <Text style={styles.priceFeedType}>Liquidswap</Text>
                   </Text>
                 </View>
@@ -398,7 +397,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
               <Text style={styles.message}>
                 {floorPriceContent.message}
                 <Text style={styles.swapTextTag}>
-                  {' '}
+                  {" "}
                   ${floorPriceContent.messageTag}
                 </Text>
               </Text>
@@ -411,7 +410,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                     </Text>
                   </View>
                   <Text style={styles.floorPrice}>
-                    Floor price{' '}
+                    Floor price{" "}
                     <Text style={styles.floorAmount}>
                       {floorPriceContent.amount} APT
                     </Text>
@@ -440,20 +439,20 @@ export default ForYou;
 const styles = StyleSheet.create(feedStyle);
 const communityStyles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(6),
-    alignItems: 'center',
+    alignItems: "center",
   },
   postedIn: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.grayLight,
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
   },
   communityName: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.primaryLight,
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
   },
 });

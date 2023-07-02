@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from 'react-native-svg';
+import * as React from "react";
+import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg";
 const ReportFlag = (props: SvgProps) => (
   <Svg width={60} height={60} fill="none" {...props}>
     <G fill="#fff" clipPath="url(#a)">

@@ -5,30 +5,30 @@ import {
   Platform,
   Image,
   Dimensions,
-} from 'react-native';
-import React, { useState, useRef, useEffect } from 'react';
+} from "react-native";
+import React, { useState, useRef, useEffect } from "react";
 import Animated, {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
-} from 'react-native-reanimated';
-import BackButton from './BackButton';
-import ContinueButton from './ContinueButton';
-import { MaterialIcons } from '@expo/vector-icons';
-import Customhandler from './Customhandler';
-import * as Animatable from 'react-native-animatable';
+} from "react-native-reanimated";
+import BackButton from "./BackButton";
+import ContinueButton from "./ContinueButton";
+import { MaterialIcons } from "@expo/vector-icons";
+import Customhandler from "./Customhandler";
+import * as Animatable from "react-native-animatable";
 import {
   updateRenderCount,
   updateBottomSheet,
-} from '../../controller/BottomSheetController';
-import Info from '../../../assets/images/svg/Info';
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
-import { sizes } from '../../utils';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-const { height, width } = Dimensions.get('window');
+} from "../../controller/BottomSheetController";
+import Info from "../../../assets/images/svg/Info";
+import { useFonts } from "expo-font";
+import { appColor, fonts, images } from "../../constants";
+import { sizes } from "../../utils";
+import { useAppSelector, useAppDispatch } from "../../controller/hooks";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+const { height, width } = Dimensions.get("window");
 const CompleteSignUpModal = () => {
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -55,9 +55,9 @@ const CompleteSignUpModal = () => {
     }
   }, [isVisible]);
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
 
   const contentStyle = useAnimatedStyle(() => ({
@@ -88,15 +88,15 @@ const CompleteSignUpModal = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={[Platform.OS === 'ios' ? '58%' : '58%']}
+      snapPoints={[Platform.OS === "ios" ? "58%" : "58%"]}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
       }}
     >
       <Animatable.View
-        animation={'fadeInUp'}
+        animation={"fadeInUp"}
         delay={500}
-        easing={'ease-in-out'}
+        easing={"ease-in-out"}
         duration={400}
         style={{
           flex: 1,
@@ -104,12 +104,12 @@ const CompleteSignUpModal = () => {
       >
         <Text
           style={{
-            textAlign: 'center',
+            textAlign: "center",
             color: appColor.kTextColor,
-            fontFamily: 'Outfit-Bold',
+            fontFamily: "Outfit-Bold",
             fontSize: size.fontSize(29),
             marginTop: size.getHeightSize(48),
-            fontStyle: 'normal',
+            fontStyle: "normal",
             lineHeight: size.getHeightSize(37),
           }}
         >
@@ -117,14 +117,14 @@ const CompleteSignUpModal = () => {
         </Text>
         <Text
           style={{
-            textAlign: 'center',
+            textAlign: "center",
             color: appColor.kTextColor,
-            fontFamily: 'Outfit-Medium',
+            fontFamily: "Outfit-Medium",
             marginTop: size.getHeightSize(16),
             fontSize: size.fontSize(16),
             marginHorizontal: size.getWidthSize(16),
             lineHeight: size.getHeightSize(21),
-            fontStyle: 'normal',
+            fontStyle: "normal",
           }}
         >
           Connecting your wallet allows you to perform transactions by signing
@@ -139,8 +139,8 @@ const CompleteSignUpModal = () => {
             // height: size.getHeightSize(95),
             width: size.getWidthSize(328),
             backgroundColor: appColor.kGrayLight3,
-            alignSelf: 'center',
-            flexDirection: 'row',
+            alignSelf: "center",
+            flexDirection: "row",
             borderRadius: 8,
             // marginTop: size.getHeightSize(24),
             marginHorizontal: size.getWidthSize(16),
@@ -157,10 +157,10 @@ const CompleteSignUpModal = () => {
               style={{
                 fontSize: size.fontSize(16),
                 color: appColor.kTextColor,
-                textAlign: 'left',
+                textAlign: "left",
                 paddingLeft: size.getWidthSize(10),
                 lineHeight: size.getHeightSize(21),
-                fontFamily: 'Outfit-Regular',
+                fontFamily: "Outfit-Regular",
               }}
             >
               TowneSquare will not be able to make any changes to your wallet

@@ -1,13 +1,7 @@
-import * as React from "react"
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
+import * as React from "react";
+import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg";
 const BookmarkLogo = (props: SvgProps) => (
-  <Svg
- 
-    width={24}
-    height={24}
-    fill="none"
-    {...props}
-  >
+  <Svg width={24} height={24} fill="none" {...props}>
     <G clipPath="url(#a)">
       <Path
         stroke="#fff"
@@ -23,5 +17,5 @@ const BookmarkLogo = (props: SvgProps) => (
       </ClipPath>
     </Defs>
   </Svg>
-)
-export default BookmarkLogo
+);
+export default BookmarkLogo;

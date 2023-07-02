@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from "react";
 import {
   Text,
   View,
@@ -9,18 +9,18 @@ import {
   Pressable,
   FlatList,
   ScrollView,
-} from 'react-native';
-import Constants from 'expo-constants';
-import { useAppSelector } from '../../controller/hooks';
-import { useFonts } from 'expo-font';
-import TransitionBackButton from '../../components/SignUp/TransitionBackButton';
-import { appColor, fonts, images } from '../../constants';
-import { sizes } from '../../utils';
-import TranslationForwardButton from '../../components/SignUp/TranslationForwardButton';
-import SelectSocialsHeader from '../../components/SignUp/SelectSocialsHeader';
-import ConnectSocialsAndVerifyContent from '../../components/SignUp/ConnectSocialsAndVerifyContent';
-import { ChooseUsernameSlideProps } from '../../navigations/NavigationTypes';
-const { width, height } = Dimensions.get('window');
+} from "react-native";
+import Constants from "expo-constants";
+import { useAppSelector } from "../../controller/hooks";
+import { useFonts } from "expo-font";
+import TransitionBackButton from "../../components/SignUp/TransitionBackButton";
+import { appColor, fonts, images } from "../../constants";
+import { sizes } from "../../utils";
+import TranslationForwardButton from "../../components/SignUp/TranslationForwardButton";
+import SelectSocialsHeader from "../../components/SignUp/SelectSocialsHeader";
+import ConnectSocialsAndVerifyContent from "../../components/SignUp/ConnectSocialsAndVerifyContent";
+import { ChooseUsernameSlideProps } from "../../navigations/NavigationTypes";
+const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
 let newWidth = width - 2 * PADDING;
@@ -38,7 +38,7 @@ const ChooseUsernameSlide = ({ navigation }: ChooseUsernameSlideProps) => {
     if (newIndex < views.length && flatListRef.current) {
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
     } else {
-      navigation.navigate('ConnectSocials');
+      navigation.navigate("ConnectSocials");
     }
   };
 
@@ -55,25 +55,25 @@ const ChooseUsernameSlide = ({ navigation }: ChooseUsernameSlideProps) => {
   const progressWidth = stagePosition.interpolate({
     inputRange: [0, 1, 2],
     outputRange: [newWidth / 6, (newWidth / 6) * 2, newWidth],
-    extrapolate: 'clamp',
+    extrapolate: "clamp",
   });
 
   let stageTitle = (index: number) => {
     switch (index) {
       case 0:
-        return 'Select Socials';
+        return "Select Socials";
       case 1:
-        return 'Connect Socials & Verify';
+        return "Connect Socials & Verify";
 
       default:
-        return 'Select Socials';
+        return "Select Socials";
     }
   };
 
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -92,7 +92,7 @@ const ChooseUsernameSlide = ({ navigation }: ChooseUsernameSlideProps) => {
             style={{
               color: appColor.kTextColor,
               marginBottom: size.getHeightSize(8),
-              fontFamily: 'Outfit-Regular',
+              fontFamily: "Outfit-Regular",
               fontSize: size.fontSize(14),
               lineHeight: size.getHeightSize(18),
               width: size.getWidthSize(257),
@@ -137,7 +137,7 @@ const ChooseUsernameSlide = ({ navigation }: ChooseUsernameSlideProps) => {
               <View
                 style={{
                   width: width,
-                  backgroundColor: 'transparent',
+                  backgroundColor: "transparent",
                   flex: 1,
                 }}
               >
@@ -172,7 +172,7 @@ export default ChooseUsernameSlide;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingTop: Constants.statusBarHeight,
     backgroundColor: appColor.signUpBackground,
   },

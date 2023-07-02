@@ -6,25 +6,25 @@ import {
   Dimensions,
   StyleSheet,
   Pressable,
-} from 'react-native';
-import React, { useEffect } from 'react';
-import Background2 from '../../../assets/images/svg/Background2';
-import { useFonts } from 'expo-font';
-import { Avatar } from 'react-native-elements';
-import { appColor, fonts, images } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { sizes } from '../../utils';
-import Congrats from '../../../assets/images/svg/Congrats';
-import { StackActions } from '@react-navigation/native';
-import LetGoButton from '../../components/SignUp/LetGoButton';
-const { height, width } = Dimensions.get('window');
-import { FirstScreenProps } from '../../navigations/NavigationTypes';
+} from "react-native";
+import React, { useEffect } from "react";
+import Background2 from "../../../assets/images/svg/Background2";
+import { useFonts } from "expo-font";
+import { Avatar } from "react-native-elements";
+import { appColor, fonts, images } from "../../constants";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { sizes } from "../../utils";
+import Congrats from "../../../assets/images/svg/Congrats";
+import { StackActions } from "@react-navigation/native";
+import LetGoButton from "../../components/SignUp/LetGoButton";
+const { height, width } = Dimensions.get("window");
+import { FirstScreenProps } from "../../navigations/NavigationTypes";
 const size = new sizes(height, width);
 const Congratulations = () => {
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
   });
   if (!isLoaded) {
     return null;
@@ -34,19 +34,19 @@ const Congratulations = () => {
       <StatusBar style="light" />
       <ImageBackground
         style={{
-          width: '100%',
-          height: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
+          width: "100%",
+          height: "100%",
+          alignItems: "center",
+          justifyContent: "center",
         }}
         resizeMode="cover"
         source={images.background3}
       >
         <View
           style={{
-            alignSelf: 'center',
-            alignItems: 'center',
-            justifyContent: 'center',
+            alignSelf: "center",
+            alignItems: "center",
+            justifyContent: "center",
             flex: 1,
           }}
         >
@@ -56,16 +56,16 @@ const Congratulations = () => {
               marginTop: size.getHeightSize(20),
               width: size.getWidthSize(180),
               // height: size.getHeightSize(80),
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
             <Text
               style={{
                 color: appColor.kTextColor,
                 fontSize: size.fontSize(32),
-                fontFamily: 'Outfit-Bold',
-                textAlign: 'center',
+                fontFamily: "Outfit-Bold",
+                textAlign: "center",
                 lineHeight: size.getHeightSize(40),
               }}
             >
@@ -75,9 +75,9 @@ const Congratulations = () => {
               style={{
                 color: appColor.kTextColor,
                 fontSize: size.fontSize(32),
-                fontFamily: 'Outfit-Bold',
+                fontFamily: "Outfit-Bold",
                 lineHeight: size.getHeightSize(40),
-                textAlign: 'center',
+                textAlign: "center",
               }}
             >
               You made it!

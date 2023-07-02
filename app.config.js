@@ -1,5 +1,5 @@
-export default{
-  "expo": {
-    "scheme": "scheme"
-  }
-}
+export default {
+  expo: {
+    scheme: "scheme",
+  },
+};

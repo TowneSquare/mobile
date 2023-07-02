@@ -1,5 +1,5 @@
 //@ts-nocheck
-import * as React from 'react';
+import * as React from "react";
 import Svg, {
   SvgProps,
   Rect,
@@ -7,7 +7,7 @@ import Svg, {
   Pattern,
   Use,
   Image,
-} from 'react-native-svg';
+} from "react-native-svg";
 const AvatarFeed = (props: SvgProps) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"

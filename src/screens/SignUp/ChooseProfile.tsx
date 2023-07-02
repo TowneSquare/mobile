@@ -1,18 +1,18 @@
-import { View, Text, Dimensions, ImageBackground } from 'react-native';
-import React from 'react';
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import CompleteSignUpModal from '../../components/SignUp/CompleteSignUpModal';
-import { sizes } from '../../utils';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Wallets from '../../components/SignUp//Wallets';
-import { useAppSelector } from '../../controller/hooks';
-import BackButton from '../../components/SignUp/BackButton';
-import Background3 from '../../../assets/images/svg/Background3';
-import { ChooseProfileProps } from '../../navigations/NavigationTypes';
-import tinycolor from 'tinycolor2';
-const { height, width } = Dimensions.get('window');
+import { View, Text, Dimensions, ImageBackground } from "react-native";
+import React from "react";
+import { useFonts } from "expo-font";
+import { appColor, fonts, images } from "../../constants";
+import { StatusBar } from "expo-status-bar";
+import CompleteSignUpModal from "../../components/SignUp/CompleteSignUpModal";
+import { sizes } from "../../utils";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Wallets from "../../components/SignUp//Wallets";
+import { useAppSelector } from "../../controller/hooks";
+import BackButton from "../../components/SignUp/BackButton";
+import Background3 from "../../../assets/images/svg/Background3";
+import { ChooseProfileProps } from "../../navigations/NavigationTypes";
+import tinycolor from "tinycolor2";
+const { height, width } = Dimensions.get("window");
 const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
   const size = new sizes(height, width);
   const isVisible = useAppSelector(
@@ -22,7 +22,7 @@ const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
     (state) => state.bottomSheetController.renderCount
   );
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
   });
   if (!isLoaded) {
     return null;
@@ -33,22 +33,22 @@ const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
       <ImageBackground
         style={{
           flex: 1,
-          width: '100%',
-          height: '100%',
-          alignItems: 'center',
+          width: "100%",
+          height: "100%",
+          alignItems: "center",
         }}
         resizeMode="cover"
         source={images.ChooseWallet}
       >
         <View
           style={{
-            width: '100%',
-            height: '100%',
+            width: "100%",
+            height: "100%",
             backgroundColor:
               isVisible && renderCount > 0
-                ? tinycolor('#12121270').darken(10).toString()
-                : tinycolor('#12121220').darken(10).toString(),
-            alignItems: 'center',
+                ? tinycolor("#12121270").darken(10).toString()
+                : tinycolor("#12121220").darken(10).toString(),
+            alignItems: "center",
             paddingTop: size.getHeightSize(72),
           }}
         >
@@ -57,10 +57,10 @@ const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
               opacity: isVisible && renderCount > 0 ? 0.3 : 1,
               marginTop: size.getHeightSize(72),
               color: appColor.kTextColor,
-              fontStyle: 'normal',
+              fontStyle: "normal",
               fontSize: size.fontSize(32),
-              fontFamily: 'Outfit-Bold',
-              textAlign: 'center',
+              fontFamily: "Outfit-Bold",
+              textAlign: "center",
               lineHeight: size.getHeightSize(40),
             }}
           >

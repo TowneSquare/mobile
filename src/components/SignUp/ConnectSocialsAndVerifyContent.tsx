@@ -1,16 +1,16 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
-import React from 'react';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../../utils';
-import { appColor } from '../../constants';
-import User from '../../../assets/images/svg/User';
-import Link from '../../../assets/images/svg/Link';
-import NickNameField from './NickNameField';
-import UsernameField from './UsernameField';
-import SealChecks from '../../../assets/images/svg/SealChecks';
-import Clap from '../../../assets/images/svg/Clap';
-import Robot from '../../../assets/images/svg/Robot';
-import UserFriends from '../../../assets/images/svg/UserFriends';
+import { View, Text, Dimensions, StyleSheet } from "react-native";
+import React from "react";
+const { height, width } = Dimensions.get("window");
+import { sizes } from "../../utils";
+import { appColor } from "../../constants";
+import User from "../../../assets/images/svg/User";
+import Link from "../../../assets/images/svg/Link";
+import NickNameField from "./NickNameField";
+import UsernameField from "./UsernameField";
+import SealChecks from "../../../assets/images/svg/SealChecks";
+import Clap from "../../../assets/images/svg/Clap";
+import Robot from "../../../assets/images/svg/Robot";
+import UserFriends from "../../../assets/images/svg/UserFriends";
 const size = new sizes(height, width);
 
 const ConnectSocialsAndVerifyContent = () => {
@@ -19,7 +19,7 @@ const ConnectSocialsAndVerifyContent = () => {
       <View
         style={{
           marginTop: size.getHeightSize(32),
-          alignSelf: 'center',
+          alignSelf: "center",
         }}
       >
         <Link />
@@ -34,8 +34,8 @@ const ConnectSocialsAndVerifyContent = () => {
           style={{
             color: appColor.kTextColor,
             fontSize: size.fontSize(29),
-            fontFamily: 'Outfit-Bold',
-            textAlign: 'center',
+            fontFamily: "Outfit-Bold",
+            textAlign: "center",
             marginTop: size.getHeightSize(8),
             lineHeight: size.getHeightSize(37),
           }}
@@ -45,7 +45,7 @@ const ConnectSocialsAndVerifyContent = () => {
       </View>
       <View
         style={{
-          alignSelf: 'center',
+          alignSelf: "center",
           marginTop: size.getHeightSize(8),
           width: size.getWidthSize(304),
           marginHorizontal: size.getWidthSize(16),
@@ -55,8 +55,8 @@ const ConnectSocialsAndVerifyContent = () => {
           style={{
             color: appColor.kTextColor,
             fontSize: size.fontSize(16),
-            fontFamily: 'Outfit-Regular',
-            textAlign: 'center',
+            fontFamily: "Outfit-Regular",
+            textAlign: "center",
             lineHeight: size.getHeightSize(21),
           }}
         >
@@ -67,9 +67,9 @@ const ConnectSocialsAndVerifyContent = () => {
       <View
         style={{
           width: size.getWidthSize(328),
-          alignSelf: 'center',
+          alignSelf: "center",
           height: size.getHeightSize(224),
-          alignItems: 'center',
+          alignItems: "center",
         }}
       >
         <View style={[styles.row]}>
@@ -99,11 +99,11 @@ const ConnectSocialsAndVerifyContent = () => {
 export default ConnectSocialsAndVerifyContent;
 const styles = StyleSheet.create({
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     height: size.getHeightSize(56),
     width: size.getWidthSize(339),
-    alignSelf: 'center',
+    alignSelf: "center",
     paddingHorizontal: size.getWidthSize(12),
     paddingVertical: size.getHeightSize(12),
     gap: size.getWidthSize(8),
@@ -111,8 +111,8 @@ const styles = StyleSheet.create({
   description: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-SemiBold',
-    textAlign: 'center',
+    fontFamily: "Outfit-SemiBold",
+    textAlign: "center",
     lineHeight: size.getHeightSize(21),
   },
 });

@@ -11,23 +11,23 @@ import {
   ScrollView,
   Animated,
   TouchableOpacity,
-} from 'react-native';
-import React, { useState, useRef } from 'react';
-import { appColor, fonts, images } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
-const { height, width } = Dimensions.get('window');
-import NickNameField from '../../components/SignUp/NickNameField';
-import User from '../../../assets/images/svg/User';
-import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
-import UsernameField from '../../components/SignUp/UsernameField';
-import { sizes } from '../../utils';
-import { useAppSelector } from '../../controller/hooks';
+} from "react-native";
+import React, { useState, useRef } from "react";
+import { appColor, fonts, images } from "../../constants";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
+const { height, width } = Dimensions.get("window");
+import NickNameField from "../../components/SignUp/NickNameField";
+import User from "../../../assets/images/svg/User";
+import ProfileSetUpHeader from "../../components/SignUp/ProfileSetUpHeader";
+import UsernameField from "../../components/SignUp/UsernameField";
+import { sizes } from "../../utils";
+import { useAppSelector } from "../../controller/hooks";
 
-import TranslationForwardButton from '../../components/SignUp/TranslationForwardButton';
-import TransitionBackButton from '../../components/SignUp/TransitionBackButton';
+import TranslationForwardButton from "../../components/SignUp/TranslationForwardButton";
+import TransitionBackButton from "../../components/SignUp/TransitionBackButton";
 
-import { Transition, Transitioning } from 'react-native-reanimated';
+import { Transition, Transitioning } from "react-native-reanimated";
 const size = new sizes(height, width);
 const ChooseUsername = () => {
   const animation = useRef(new Animated.Value(0)).current;
@@ -91,11 +91,11 @@ const ChooseUsername = () => {
 export default ChooseUsername;
 const styles = StyleSheet.create({
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     height: size.getHeightSize(56),
     width: size.getWidthSize(339),
-    alignSelf: 'center',
+    alignSelf: "center",
     paddingHorizontal: size.getWidthSize(12),
     paddingVertical: size.getHeightSize(12),
     gap: size.getWidthSize(8),
@@ -103,8 +103,8 @@ const styles = StyleSheet.create({
   description: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-SemiBold',
-    textAlign: 'center',
+    fontFamily: "Outfit-SemiBold",
+    textAlign: "center",
     lineHeight: size.getHeightSize(21),
   },
 });

@@ -8,24 +8,24 @@ import {
   Pressable,
   ImageSourcePropType,
   ScrollView,
-} from 'react-native';
-import React, { ReactNode, useState, useEffect } from 'react';
-import { appColor, fonts, images } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import Community from '../../../assets/images/svg/Community';
-import { useFonts } from 'expo-font';
-import { SafeAreaView } from 'react-native-safe-area-context';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../../utils';
-import Verified from '../../../assets/images/svg/Verified';
-import ContinueButton from '../../components/SignUp/ContinueButton';
-import BackButton from '../../components/SignUp/BackButton';
-import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
-import PolygonImage from '../../../assets/images/svg/PolygonImage';
-import Checked from '../../../assets/images/svg/Checked';
+} from "react-native";
+import React, { ReactNode, useState, useEffect } from "react";
+import { appColor, fonts, images } from "../../constants";
+import { StatusBar } from "expo-status-bar";
+import Community from "../../../assets/images/svg/Community";
+import { useFonts } from "expo-font";
+import { SafeAreaView } from "react-native-safe-area-context";
+const { height, width } = Dimensions.get("window");
+import { sizes } from "../../utils";
+import Verified from "../../../assets/images/svg/Verified";
+import ContinueButton from "../../components/SignUp/ContinueButton";
+import BackButton from "../../components/SignUp/BackButton";
+import ProfileSetUpHeader from "../../components/SignUp/ProfileSetUpHeader";
+import PolygonImage from "../../../assets/images/svg/PolygonImage";
+import Checked from "../../../assets/images/svg/Checked";
 const size = new sizes(height, width);
 interface Communities {
-  id:number;
+  id: number;
   image: ReactNode;
   name: string;
   message?: string;
@@ -33,27 +33,27 @@ interface Communities {
 const ExploreCommunities = () => {
   const Communities: Array<Communities> = [
     {
-      id:1,
+      id: 1,
       image: <PolygonImage />,
-      name: 'Aptomingos',
-      message: 'You have their NFT!',
+      name: "Aptomingos",
+      message: "You have their NFT!",
     },
     {
-       id:2,
+      id: 2,
       image: <PolygonImage />,
-      name: 'Bruh Bears',
-      message: 'You have their NFT!',
+      name: "Bruh Bears",
+      message: "You have their NFT!",
     },
     {
-       id:3,
+      id: 3,
       image: <PolygonImage />,
-      name: 'Pontem Space Pirates from Siberia',
-      message: 'You have their NFT!',
+      name: "Pontem Space Pirates from Siberia",
+      message: "You have their NFT!",
     },
     {
-       id:4,
+      id: 4,
       image: <PolygonImage />,
-      name: 'Aptos Monkey',
+      name: "Aptos Monkey",
     },
   ];
   const [communities, setCommunities] = useState<Communities[]>([]);
@@ -64,9 +64,9 @@ const ExploreCommunities = () => {
     } else setOnPress(true);
   }, [communities]);
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -102,15 +102,15 @@ const ExploreCommunities = () => {
         style={{
           width: size.getWidthSize(328),
           marginTop: size.getHeightSize(32),
-          alignSelf: 'center',
+          alignSelf: "center",
           flex: 1,
         }}
       >
         <View
           style={{
             width: size.getWidthSize(328),
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            flexDirection: "row",
+            justifyContent: "space-between",
             gap: size.getHeightSize(8),
             height: size.getHeightSize(44),
             paddingHorizontal: size.getWidthSize(8),
@@ -119,11 +119,11 @@ const ExploreCommunities = () => {
           <Text
             style={{
               fontSize: size.fontSize(18),
-              fontFamily: 'Outfit-Regular',
-              textAlign: 'center',
+              fontFamily: "Outfit-Regular",
+              textAlign: "center",
               lineHeight: size.getHeightSize(23),
               color: appColor.kTextColor,
-              fontStyle: 'normal',
+              fontStyle: "normal",
             }}
           >
             Suggested Communities
@@ -137,8 +137,8 @@ const ExploreCommunities = () => {
               onPress={() => setCommunities(Communities)}
               style={{
                 fontSize: size.fontSize(16),
-                fontFamily: 'Outfit-SemiBold',
-                textAlign: 'right',
+                fontFamily: "Outfit-SemiBold",
+                textAlign: "right",
                 color: appColor.kSecondaryButtonColor,
                 lineHeight: size.getHeightSize(21),
               }}
@@ -158,13 +158,13 @@ const ExploreCommunities = () => {
             {Communities.map((Community) => (
               <View
                 style={{
-                  flexDirection: 'row',
+                  flexDirection: "row",
                   width: size.getWidthSize(328),
                   // height: size.getHeightSize(58),
                   borderRadius: 40,
                   paddingVertical: size.getHeightSize(8),
                   paddingHorizontal: size.getWidthSize(8),
-                  alignItems: 'center',
+                  alignItems: "center",
                   // justifyContent: 'center',
                   marginBottom: size.getHeightSize(8),
                 }}
@@ -179,7 +179,7 @@ const ExploreCommunities = () => {
                 >
                   <View
                     style={{
-                      flexDirection: 'row',
+                      flexDirection: "row",
                       gap: size.getWidthSize(4.56),
                       width: size.getWidthSize(153),
                     }}
@@ -246,19 +246,19 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     paddingHorizontal: size.getWidthSize(16),
     paddingVertical: size.getHeightSize(4),
-    justifyContent: 'center',
+    justifyContent: "center",
     height: size.getHeightSize(38),
   },
   buttonText: {
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-Medium',
-    textAlign: 'center',
+    fontFamily: "Outfit-Medium",
+    textAlign: "center",
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(18),
   },
   username: {
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(21),
 
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
   },
   message: {
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.kgrayColor,
     lineHeight: size.getHeightSize(18),
   },
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
     backgroundColor: appColor.kGrayLight3,
     borderRadius: 40,
     height: size.getHeightSize(38),
-    justifyContent: 'center',
+    justifyContent: "center",
     // width: size.getWidthSize(84),
     paddingVertical: size.getHeightSize(4),
     paddingHorizontal: size.getWidthSize(16),

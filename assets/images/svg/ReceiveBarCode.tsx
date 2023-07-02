@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Svg, { SvgProps, Path } from 'react-native-svg';
+import * as React from "react";
+import Svg, { SvgProps, Path } from "react-native-svg";
 const ReceiveBarCode = (props: SvgProps) => (
   <Svg width={60} height={60} fill="none" {...props}>
     <Path

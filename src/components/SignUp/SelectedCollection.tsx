@@ -6,34 +6,34 @@ import {
   ScrollView,
   Image,
   Pressable,
-} from 'react-native';
-import React, { useMemo, useRef, useState, useEffect } from 'react';
-import { MaterialIcons } from '@expo/vector-icons';
-import * as Animatable from 'react-native-animatable';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import Customhandler from './Customhandler';
-import NFTCollections from './NFTCollections';
+} from "react-native";
+import React, { useMemo, useRef, useState, useEffect } from "react";
+import { MaterialIcons } from "@expo/vector-icons";
+import * as Animatable from "react-native-animatable";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import Customhandler from "./Customhandler";
+import NFTCollections from "./NFTCollections";
 import Animated, {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
-} from 'react-native-reanimated';
-import ProfilePicsCollection from './ProfilePicsCollection';
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
-import { sizes } from '../../utils';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+} from "react-native-reanimated";
+import ProfilePicsCollection from "./ProfilePicsCollection";
+import { useFonts } from "expo-font";
+import { appColor, fonts, images } from "../../constants";
+import { sizes } from "../../utils";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
 import {
   updateSelectedCollection,
   updateSelectedRender,
   updateNftOpen,
   updateNftRender,
-} from '../../controller/BottomSheetController';
-const { height, width } = Dimensions.get('window');
+} from "../../controller/BottomSheetController";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const SelectedCollection = () => {
-  const [snapPoint, setSnap] = useState('67%');
+  const [snapPoint, setSnap] = useState("67%");
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -79,8 +79,8 @@ const SelectedCollection = () => {
   }));
 
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
   });
   if (!isLoaded) {
     return null;
@@ -90,7 +90,7 @@ const SelectedCollection = () => {
       onClose={() => {
         dispatch(updateSelectedRender(0));
         dispatch(updateSelectedCollection(false));
-        setSnap('67%');
+        setSnap("67%");
       }}
       ref={bottomSheetRef}
       enablePanDownToClose={true}
@@ -102,17 +102,17 @@ const SelectedCollection = () => {
       }}
     >
       <Animatable.View
-        animation={'fadeInUp'}
+        animation={"fadeInUp"}
         delay={500}
-        easing={'ease-in-out'}
+        easing={"ease-in-out"}
         duration={400}
       >
         <Text
           style={{
             color: appColor.kTextColor,
             fontSize: size.fontSize(29),
-            fontFamily: 'Outfit-Bold',
-            textAlign: 'center',
+            fontFamily: "Outfit-Bold",
+            textAlign: "center",
             marginTop: size.getHeightSize(29),
             lineHeight: size.getHeightSize(37),
             marginBottom: size.getHeightSize(32),
@@ -122,13 +122,13 @@ const SelectedCollection = () => {
         </Text>
       </Animatable.View>
       <BottomSheetScrollView
-        onScroll={() => setSnap('90%')}
+        onScroll={() => setSnap("90%")}
         showsVerticalScrollIndicator={false}
       >
         <Animatable.View
-          animation={'fadeInUp'}
+          animation={"fadeInUp"}
           delay={500}
-          easing={'ease-in-out'}
+          easing={"ease-in-out"}
           duration={400}
           style={contentStyle}
         >
@@ -146,18 +146,18 @@ const SelectedCollection = () => {
           onPress={() => {
             dispatch(updateSelectedRender(0));
             dispatch(updateSelectedCollection(false));
-            setSnap('67%');
+            setSnap("67%");
           }}
-          disabled={typeof profilePics.image === 'undefined' ? true : false}
+          disabled={typeof profilePics.image === "undefined" ? true : false}
           style={{
-            alignSelf: 'center',
+            alignSelf: "center",
             width: size.getWidthSize(328),
             borderRadius: 40,
             // height: size.getHeightSize(48),
-            justifyContent: 'center',
+            justifyContent: "center",
             marginTop: size.getHeightSize(8),
             backgroundColor:
-              typeof profilePics.image === 'undefined'
+              typeof profilePics.image === "undefined"
                 ? appColor.kWhiteColorWithOpacity
                 : appColor.kWhiteColor,
             paddingVertical: size.getHeightSize(16),
@@ -165,10 +165,10 @@ const SelectedCollection = () => {
         >
           <Text
             style={{
-              textAlign: 'center',
+              textAlign: "center",
               color: appColor.kButtonTextColor,
               fontSize: size.fontSize(18),
-              fontFamily: 'Outfit-SemiBold',
+              fontFamily: "Outfit-SemiBold",
               lineHeight: size.getHeightSize(23),
 
               letterSpacing: 0.01,
@@ -179,7 +179,7 @@ const SelectedCollection = () => {
         </Pressable>
         <View
           style={{
-            justifyContent: 'center',
+            justifyContent: "center",
             height: size.getHeightSize(48),
             marginTop: size.getHeightSize(8),
             paddingVertical: size.getHeightSize(12.5),
@@ -192,13 +192,13 @@ const SelectedCollection = () => {
               dispatch(updateSelectedCollection(false));
               dispatch(updateNftRender(1));
               dispatch(updateNftOpen(true));
-              setSnap('67%');
+              setSnap("67%");
             }}
             style={{
               color: appColor.kTextColor,
               fontSize: size.fontSize(18),
-              fontFamily: 'Outfit-SemiBold',
-              textAlign: 'center',
+              fontFamily: "Outfit-SemiBold",
+              textAlign: "center",
               lineHeight: size.getHeightSize(23),
             }}
           >

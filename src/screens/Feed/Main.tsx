@@ -5,42 +5,42 @@ import {
   StyleSheet,
   FlatList,
   Pressable,
-} from 'react-native';
-import { toastConfig } from '../../components/Feed/ShowToast';
-import React, { useState, createContext, useContext } from 'react';
-import { sizes } from '../../utils';
-const { height, width } = Dimensions.get('window');
-import { appColor, fonts } from '../../constants';
-import Constants from 'expo-constants';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import More from '../../../assets/images/svg/More';
-import BarCode from '../../../assets/images/svg/Barcode';
-import Bell from '../../../assets/images/svg/Bell';
-import Feather from '@expo/vector-icons/Feather';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import { useFonts } from 'expo-font';
-import ReportPanel from '../../components/Feed/ReportPanel';
-import { FeedContent, UserPost, UserCommunityPost } from '../../models';
-import ForYou from '../../components/Feed/ForYou';
-import Community from '../../components/Feed/Community';
-import { UserPosts, CommunityPost } from '../../components/Feed/DuumyData';
-import { useNavigation } from '@react-navigation/native';
+} from "react-native";
+import { toastConfig } from "../../components/Feed/ShowToast";
+import React, { useState, createContext, useContext } from "react";
+import { sizes } from "../../utils";
+const { height, width } = Dimensions.get("window");
+import { appColor, fonts } from "../../constants";
+import Constants from "expo-constants";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
+import More from "../../../assets/images/svg/More";
+import BarCode from "../../../assets/images/svg/Barcode";
+import Bell from "../../../assets/images/svg/Bell";
+import Feather from "@expo/vector-icons/Feather";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { useFonts } from "expo-font";
+import ReportPanel from "../../components/Feed/ReportPanel";
+import { FeedContent, UserPost, UserCommunityPost } from "../../models";
+import ForYou from "../../components/Feed/ForYou";
+import Community from "../../components/Feed/Community";
+import { UserPosts, CommunityPost } from "../../components/Feed/DuumyData";
+import { useNavigation } from "@react-navigation/native";
 const size = new sizes(height, width);
-import { DrawerActions } from '@react-navigation/native';
-import ReceiveTokenModal from '../../components/Feed/ReceiveTokenModal';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
+import { DrawerActions } from "@react-navigation/native";
+import ReceiveTokenModal from "../../components/Feed/ReceiveTokenModal";
+import { useAppSelector, useAppDispatch } from "../../controller/hooks";
 import {
   updateReceiveModalState,
   updateReportingModal,
   updateReportPostModal,
   updateReportUserModal,
   updateBlockUserModal,
-} from '../../controller/FeedsController';
-import ReportPostModal from '../../components/Feed/ReportPostModal';
-import ReportUserModal from '../../components/Feed/ReportUserModal';
-import BlockUserModal from '../../components/Feed/BlockUserModal';
-import Toast from 'react-native-toast-message';
+} from "../../controller/FeedsController";
+import ReportPostModal from "../../components/Feed/ReportPostModal";
+import ReportUserModal from "../../components/Feed/ReportUserModal";
+import BlockUserModal from "../../components/Feed/BlockUserModal";
+import Toast from "react-native-toast-message";
 const Main = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
@@ -52,9 +52,9 @@ const Main = () => {
   };
 
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -70,8 +70,8 @@ const Main = () => {
   };
   const showBlockToast = () => {
     Toast.show({
-      type: 'success',
-      text2: 'You have blocked JohnFlock',
+      type: "success",
+      text2: "You have blocked JohnFlock",
       onHide: () => {
         dispatch(updateBlockUserModal(false));
       },
@@ -79,8 +79,8 @@ const Main = () => {
   };
   const showReportUserToast = () => {
     Toast.show({
-      type: 'success',
-      text2: 'JohnFlock is reported successfully',
+      type: "success",
+      text2: "JohnFlock is reported successfully",
       onHide: () => {
         dispatch(updateReportUserModal(false));
       },
@@ -88,8 +88,8 @@ const Main = () => {
   };
   const showReportPostToast = () => {
     Toast.show({
-      type: 'success',
-      text2: 'Post is reported successfully',
+      type: "success",
+      text2: "Post is reported successfully",
       onHide: () => {
         dispatch(updateReportPostModal(false));
       },
@@ -117,7 +117,7 @@ const Main = () => {
         </View>
         <View
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             marginBottom: size.getWidthSize(7),
           }}
         >
@@ -175,16 +175,16 @@ export default Main;
 const styles = StyleSheet.create({
   Header: {
     height: size.heightSize(130),
-    width: '100%',
+    width: "100%",
     backgroundColor: appColor.kgrayDark2,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     paddingTop: size.getHeightSize(42) - Constants.statusBarHeight,
   },
   Navigation: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: size.getWidthSize(16),
     flex: 1,
   },
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     color: appColor.kTextColor,
     fontSize: size.fontSize(20),
     lineHeight: size.getHeightSize(24),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     letterSpacing: 0.04,
     width: size.getWidthSize(152),
   },
@@ -200,30 +200,30 @@ const styles = StyleSheet.create({
     backgroundColor: appColor.kSecondaryButtonColor,
     flex: 1,
     paddingVertical: size.getHeightSize(8),
-    justifyContent: 'center',
+    justifyContent: "center",
     marginHorizontal: size.getWidthSize(4),
     borderRadius: 40,
     height: size.getHeightSize(39),
   },
   focusedtabText: {
     color: appColor.kTextColor,
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(20),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
   },
   tabText: {
     color: appColor.kTextColor,
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
   },
   tab: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     flex: 1,
     paddingVertical: size.getHeightSize(8),
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingHorizontal: size.getWidthSize(4),
     borderRadius: 40,
   },
@@ -232,10 +232,10 @@ const styles = StyleSheet.create({
     width: size.getHeightSize(56),
     borderRadius: 50,
     backgroundColor: appColor.kSecondaryButtonColor,
-    position: 'absolute',
+    position: "absolute",
     bottom: size.getHeightSize(42),
     right: size.getWidthSize(18),
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

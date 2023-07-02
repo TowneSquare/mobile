@@ -1,17 +1,24 @@
-import { View, Text, Dimensions, StyleSheet, Pressable, Image } from 'react-native';
-import React, { useState } from 'react';
-import { sizes } from '../../utils';
-import { appColor, fonts, images } from '../../constants';
-import { useFonts } from 'expo-font';
-const { height, width } = Dimensions.get('window');
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  Pressable,
+  Image,
+} from "react-native";
+import React, { useState } from "react";
+import { sizes } from "../../utils";
+import { appColor, fonts, images } from "../../constants";
+import { useFonts } from "expo-font";
+const { height, width } = Dimensions.get("window");
 // import EvilIcons from '@expo/vector-icons/EvilIcons';
-import Retweet from '../../../assets/images/svg/Retweet';
-import BookMark from '../../../assets/images/svg/BookMark';
-import LikePost from '../../../assets/images/svg/LikePost';
-import ShareFeed from '../../../assets/images/svg/ShareFeed';
-import LikedIcon from '../../../assets/images/svg/LikedIcon';
-import Retweeted from '../../../assets/images/svg/Retweeted';
-import BookMarkedIcon from '../../../assets/images/svg/BookMarkedIcon';
+import Retweet from "../../../assets/images/svg/Retweet";
+import BookMark from "../../../assets/images/svg/BookMark";
+import LikePost from "../../../assets/images/svg/LikePost";
+import ShareFeed from "../../../assets/images/svg/ShareFeed";
+import LikedIcon from "../../../assets/images/svg/LikedIcon";
+import Retweeted from "../../../assets/images/svg/Retweeted";
+import BookMarkedIcon from "../../../assets/images/svg/BookMarkedIcon";
 import Animated, {
   Extrapolate,
   Extrapolation,
@@ -19,7 +26,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 
 const size = new sizes(height, width);
 interface Props {
@@ -102,9 +109,9 @@ const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
     };
   });
   let [isLoaded] = useFonts({
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -114,23 +121,23 @@ const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
     <View
       style={{
         gap: size.getWidthSize(20),
-        flexDirection: 'row',
+        flexDirection: "row",
         marginTop: size.getHeightSize(9),
         marginBottom: size.getHeightSize(16),
       }}
     >
       <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
+          flexDirection: "row",
+          alignItems: "center",
           gap: size.getWidthSize(2),
         }}
       >
-       <Image source={images.Comment}/>
+        <Image source={images.Comment} />
         <Text
           style={{
             fontSize: size.fontSize(13),
-            fontFamily: 'Outfit-Regular',
+            fontFamily: "Outfit-Regular",
             color: appColor.grayLight,
             lineHeight: size.getHeightSize(16),
           }}
@@ -140,8 +147,8 @@ const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
       </View>
       <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
+          flexDirection: "row",
+          alignItems: "center",
           gap: size.getWidthSize(2),
         }}
       >
@@ -160,8 +167,8 @@ const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
           style={{
             fontSize: size.fontSize(13),
             fontFamily: changeRetweetTextColor
-              ? 'Outfit-SemiBold'
-              : 'Outfit-Regular',
+              ? "Outfit-SemiBold"
+              : "Outfit-Regular",
             color: changeRetweetTextColor
               ? appColor.kSecondaryButtonColor
               : appColor.grayLight,
@@ -173,8 +180,8 @@ const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
       </View>
       <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
+          flexDirection: "row",
+          alignItems: "center",
           gap: size.getWidthSize(2),
           flex: 1,
         }}
@@ -192,8 +199,8 @@ const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
           style={{
             fontSize: size.fontSize(13),
             fontFamily: changeLikeTextColor
-              ? 'Outfit-SemiBold'
-              : 'Outfit-Regular',
+              ? "Outfit-SemiBold"
+              : "Outfit-Regular",
             color: changeLikeTextColor
               ? appColor.kSecondaryButtonColor
               : appColor.grayLight,
@@ -205,7 +212,7 @@ const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
       </View>
       <View
         style={{
-          alignItems: 'center',
+          alignItems: "center",
           gap: size.getWidthSize(2),
         }}
       >
@@ -213,7 +220,7 @@ const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
       </View>
       <View
         style={{
-          alignItems: 'center',
+          alignItems: "center",
           gap: size.getWidthSize(2),
         }}
       >

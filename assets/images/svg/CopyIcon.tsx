@@ -1,13 +1,7 @@
-import * as React from "react"
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
+import * as React from "react";
+import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg";
 const CopyIcon = (props: SvgProps) => (
-  <Svg
-    
-    width={25}
-    height={24}
-    fill="none"
-    {...props}
-  >
+  <Svg width={25} height={24} fill="none" {...props}>
     <G
       stroke="#fff"
       strokeLinecap="round"
@@ -24,5 +18,5 @@ const CopyIcon = (props: SvgProps) => (
       </ClipPath>
     </Defs>
   </Svg>
-)
-export default CopyIcon
+);
+export default CopyIcon;

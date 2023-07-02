@@ -1,24 +1,24 @@
-import { View, Text, Dimensions, Image, StyleSheet } from 'react-native';
-import React, { memo } from 'react';
-import { sizes } from '../../utils';
-import { appColor, fonts, images } from '../../constants';
-import { useFonts } from 'expo-font';
-const { height, width } = Dimensions.get('window');
-import FeedLink from '../../../assets/images/svg/FeedLink';
-import { feedStyle } from './FeedsStyles';
-import APT from '../../../assets/images/svg/APT';
-import PostedIn from './PostedIn';
+import { View, Text, Dimensions, Image, StyleSheet } from "react-native";
+import React, { memo } from "react";
+import { sizes } from "../../utils";
+import { appColor, fonts, images } from "../../constants";
+import { useFonts } from "expo-font";
+const { height, width } = Dimensions.get("window");
+import FeedLink from "../../../assets/images/svg/FeedLink";
+import { feedStyle } from "./FeedsStyles";
+import APT from "../../../assets/images/svg/APT";
+import PostedIn from "./PostedIn";
 import {
   UserPost,
   FeedContent,
   SWAP_OPTION_INCLUDED,
   FLOOR_PRICE_INCLUDED,
   UserCommunityPost,
-} from '../../models';
+} from "../../models";
 const size = new sizes(height, width);
-import AvatarFeed from '../../../assets/images/svg/AvatarFeed';
-import ImageFeed2 from '../../../assets/images/svg/ImageFeed2';
-import PostHeader from './PostHeader';
+import AvatarFeed from "../../../assets/images/svg/AvatarFeed";
+import ImageFeed2 from "../../../assets/images/svg/ImageFeed2";
+import PostHeader from "./PostHeader";
 import {
   Message_Only,
   Message_Image,
@@ -26,17 +26,17 @@ import {
   Message_External_Link,
   VIDEO,
   NFT_FOR_SALE,
-} from '../../models';
-import PostActions from './PostActions';
-import APTMonkey from '../../../assets/images/svg/APTMonkey';
+} from "../../models";
+import PostActions from "./PostActions";
+import APTMonkey from "../../../assets/images/svg/APTMonkey";
 interface Props {
   data: UserCommunityPost;
 }
 const Community: React.FC<Props> = memo(({ data }) => {
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -349,7 +349,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
               <Text style={styles.message}>
                 {swapContent.message}
                 <Text style={styles.swapTextTag}>
-                  {' '}
+                  {" "}
                   ${swapContent.messageTag}
                 </Text>
               </Text>
@@ -361,7 +361,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
                   </View>
                   <Text style={styles.swapPriceTag}>${swapContent.price}</Text>
                   <Text style={styles.priceFeed}>
-                    Price feed{' '}
+                    Price feed{" "}
                     <Text style={styles.priceFeedType}>Liquidswap</Text>
                   </Text>
                 </View>
@@ -396,7 +396,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
               <Text style={styles.message}>
                 {floorPriceContent.message}
                 <Text style={styles.swapTextTag}>
-                  {' '}
+                  {" "}
                   ${floorPriceContent.messageTag}
                 </Text>
               </Text>
@@ -409,7 +409,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
                     </Text>
                   </View>
                   <Text style={styles.floorPrice}>
-                    Floor price{' '}
+                    Floor price{" "}
                     <Text style={styles.floorAmount}>
                       {floorPriceContent.amount} APT
                     </Text>
@@ -434,20 +434,20 @@ export default Community;
 const styles = StyleSheet.create(feedStyle);
 const communityStyles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(6),
-    alignItems: 'center',
+    alignItems: "center",
   },
   postedIn: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.grayLight,
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
   },
   communityName: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.primaryLight,
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
   },
 });

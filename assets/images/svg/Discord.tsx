@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Svg, { SvgProps, Path } from 'react-native-svg';
+import * as React from "react";
+import Svg, { SvgProps, Path } from "react-native-svg";
 const Discord = (props: SvgProps) => (
   <Svg width={28} height={22} fill="none" {...props}>
     <Path

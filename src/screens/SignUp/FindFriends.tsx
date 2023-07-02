@@ -8,30 +8,30 @@ import {
   Pressable,
   ImageSourcePropType,
   ScrollView,
-} from 'react-native';
-import React, { ReactNode, useState, useEffect } from 'react';
-import { appColor, fonts, images } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import { useFonts } from 'expo-font';
-import { SafeAreaView } from 'react-native-safe-area-context';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../../utils';
-import Hands from '../../../assets/images/svg/Hands';
-import Friend1 from '../../../assets/images/svg/Friend1';
-import Friend2 from '../../../assets/images/svg/Friend2';
-import Friend3 from '../../../assets/images/svg/Friend3';
-import Friend4 from '../../../assets/images/svg/Friend4';
-import ContinueButton from '../../components/SignUp/ContinueButton';
-import BackButton from '../../components/SignUp/BackButton';
-import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
-import Citizen from '../../../assets/images/svg/Citizen';
-import VerifiedBlue from '../../../assets/images/svg/VerifiedBlue';
-import AvatarFriend from '../../../assets/images/svg/AvatarFriend';
-import Checked from '../../../assets/images/svg/Checked';
-import Queen from '../../../assets/images/svg/Queen';
+} from "react-native";
+import React, { ReactNode, useState, useEffect } from "react";
+import { appColor, fonts, images } from "../../constants";
+import { StatusBar } from "expo-status-bar";
+import { useFonts } from "expo-font";
+import { SafeAreaView } from "react-native-safe-area-context";
+const { height, width } = Dimensions.get("window");
+import { sizes } from "../../utils";
+import Hands from "../../../assets/images/svg/Hands";
+import Friend1 from "../../../assets/images/svg/Friend1";
+import Friend2 from "../../../assets/images/svg/Friend2";
+import Friend3 from "../../../assets/images/svg/Friend3";
+import Friend4 from "../../../assets/images/svg/Friend4";
+import ContinueButton from "../../components/SignUp/ContinueButton";
+import BackButton from "../../components/SignUp/BackButton";
+import ProfileSetUpHeader from "../../components/SignUp/ProfileSetUpHeader";
+import Citizen from "../../../assets/images/svg/Citizen";
+import VerifiedBlue from "../../../assets/images/svg/VerifiedBlue";
+import AvatarFriend from "../../../assets/images/svg/AvatarFriend";
+import Checked from "../../../assets/images/svg/Checked";
+import Queen from "../../../assets/images/svg/Queen";
 const size = new sizes(height, width);
 interface Friend {
-  id:number;
+  id: number;
   image: ReactNode;
   name: string;
   username: string;
@@ -40,53 +40,53 @@ interface Friend {
 const FindFriends = () => {
   const friends: Array<Friend> = [
     {
-      id:1,
+      id: 1,
       image: <AvatarFriend />,
-      name: 'User Name',
-      username: '@username1',
-      verification: 'citizen',
+      name: "User Name",
+      username: "@username1",
+      verification: "citizen",
     },
     {
-        id:2,
+      id: 2,
       image: <AvatarFriend />,
-      name: 'User Name',
-      username: '@username2',
-      verification: 'verified',
+      name: "User Name",
+      username: "@username2",
+      verification: "verified",
     },
     {
-        id:3,
+      id: 3,
       image: <AvatarFriend />,
-      name: 'User Name',
-      username: '@username3',
-      verification: 'citizen',
+      name: "User Name",
+      username: "@username3",
+      verification: "citizen",
     },
     {
-        id:4,
+      id: 4,
       image: <AvatarFriend />,
-      name: 'User Name',
-      username: '@username4',
-      verification: 'verified',
+      name: "User Name",
+      username: "@username4",
+      verification: "verified",
     },
     {
-        id:5,
+      id: 5,
       image: <AvatarFriend />,
-      name: 'User Name',
-      username: '@username5',
-      verification: 'citizen',
+      name: "User Name",
+      username: "@username5",
+      verification: "citizen",
     },
     {
-      id:6,
+      id: 6,
       image: <AvatarFriend />,
-      name: 'User Name',
-      username: '@username6',
-      verification: 'verified',
+      name: "User Name",
+      username: "@username6",
+      verification: "verified",
     },
     {
-       id:7,
+      id: 7,
       image: <AvatarFriend />,
-      name: 'User Name',
-      username: '@username7',
-      verification: 'citizen',
+      name: "User Name",
+      username: "@username7",
+      verification: "citizen",
     },
   ];
 
@@ -98,10 +98,10 @@ const FindFriends = () => {
     } else setOnPress(true);
   }, [following]);
   let [isLoaded] = useFonts({
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
@@ -137,15 +137,15 @@ const FindFriends = () => {
       <View
         style={{
           marginTop: size.getHeightSize(32),
-          alignSelf: 'center',
+          alignSelf: "center",
           flex: 1,
         }}
       >
         <View
           style={{
             width: size.getWidthSize(328),
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            flexDirection: "row",
+            justifyContent: "space-between",
             gap: size.getHeightSize(8),
             height: size.getHeightSize(44),
 
@@ -155,11 +155,11 @@ const FindFriends = () => {
           <Text
             style={{
               fontSize: size.fontSize(18),
-              fontFamily: 'Outfit-Regular',
-              textAlign: 'center',
+              fontFamily: "Outfit-Regular",
+              textAlign: "center",
               lineHeight: size.getHeightSize(23),
               color: appColor.kTextColor,
-              fontStyle: 'normal',
+              fontStyle: "normal",
             }}
           >
             Suggested Friends
@@ -173,8 +173,8 @@ const FindFriends = () => {
               onPress={() => setFollowers(friends)}
               style={{
                 fontSize: size.fontSize(16),
-                fontFamily: 'Outfit-SemiBold',
-                textAlign: 'right',
+                fontFamily: "Outfit-SemiBold",
+                textAlign: "right",
                 color: appColor.kSecondaryButtonColor,
                 lineHeight: size.getHeightSize(24),
               }}
@@ -192,14 +192,14 @@ const FindFriends = () => {
             {friends.map((friend) => (
               <View
                 style={{
-                  flexDirection: 'row',
+                  flexDirection: "row",
                   width: size.getWidthSize(328),
                   height: size.getHeightSize(56),
                   borderRadius: 40,
                   paddingVertical: size.getHeightSize(8),
                   paddingHorizontal: size.getWidthSize(8),
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  alignItems: "center",
+                  justifyContent: "center",
                   marginBottom: size.getHeightSize(8),
                 }}
                 key={friend.id}
@@ -213,7 +213,7 @@ const FindFriends = () => {
                 >
                   <View
                     style={{
-                      flexDirection: 'row',
+                      flexDirection: "row",
                       gap: size.getWidthSize(4.56),
                       width: size.getWidthSize(153),
                     }}
@@ -225,7 +225,7 @@ const FindFriends = () => {
                     >
                       {friend.name}
                     </Text>
-                    {friend.verification === 'verified' ? (
+                    {friend.verification === "verified" ? (
                       <VerifiedBlue />
                     ) : (
                       <Queen />
@@ -281,25 +281,25 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     paddingHorizontal: size.getWidthSize(16),
     paddingVertical: size.getHeightSize(4),
-    justifyContent: 'center',
+    justifyContent: "center",
     height: size.getHeightSize(38),
   },
   buttonText: {
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-Medium',
-    textAlign: 'center',
+    fontFamily: "Outfit-Medium",
+    textAlign: "center",
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(18),
   },
   username: {
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(21),
   },
   subusername: {
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.kgrayColor,
     lineHeight: size.getHeightSize(18),
   },
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     backgroundColor: appColor.kGrayLight3,
     borderRadius: 40,
     height: size.getHeightSize(38),
-    justifyContent: 'center',
+    justifyContent: "center",
     // width: size.getWidthSize(116),
     paddingVertical: size.getHeightSize(4),
     paddingHorizontal: size.getWidthSize(16),
