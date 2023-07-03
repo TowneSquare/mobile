@@ -38,6 +38,9 @@ const About = () => {
   const selectedimage = useAppSelector(
     (state) => state.USER.selectedCollection
   );
+  const profilePics = useAppSelector(
+    (state) => state.USER.details.profileImage
+  );
 
   const [view, setView] = useState<number>(2);
 
@@ -49,25 +52,6 @@ const About = () => {
   const FOLLOWERS = "28,872";
   const POST = "189";
   const COMMUNITIES = "22";
-
-  const NFTs = [
-    {
-      id: 1,
-      source: images.pinnedNFT,
-    },
-    {
-      id: 2,
-      source: images.pinnedNFT_1,
-    },
-    {
-      id: 3,
-      source: images.pinnedNFT,
-    },
-    {
-      id: 4,
-      source: images.pinnedNFT_1,
-    },
-  ];
 
   const onlyUserPost = UserPosts.filter(
     (userPost) => userPost.nickname == NICKNAME
@@ -86,11 +70,9 @@ const About = () => {
   };
 
   const Media = () => {
-    return (
-      <View>
-        <Text>Media</Text>
-      </View>
-    );
+    return onlyUserPost.map((userpost) => (
+      <ForYou key={userpost.id} data={userpost} />
+    ));
   };
 
   const POST_MEDIA_REPLIES = () => {
@@ -136,8 +118,16 @@ const About = () => {
           </View>
         </View>
         <View style={{ marginTop: 15, flexDirection: "row" }}>
-          <View>
-            <Image style={{ borderRadius: 50 }} source={images.pfp_avatar} />
+          <View style={styles.imageContainer}>
+            {profilePics ? (
+              <Image
+                style={styles.image}
+                source={{ uri: profilePics }}
+                resizeMode="contain"
+              />
+            ) : (
+              <Image style={{ borderRadius: 50 }} source={images.pfp_avatar} />
+            )}
           </View>
           <View style={{ justifyContent: "center", marginLeft: 15 }}>
             <Text
@@ -449,6 +439,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: size.getWidthSize(4),
     borderRadius: 40,
+  },
+  imageContainer: {
+    height: size.getHeightAndWidth(140),
+    width: size.getHeightAndWidth(140),
+    borderRadius: 200,
+    overflow: "hidden",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 50,
   },
 });
 

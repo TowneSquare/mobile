@@ -52,7 +52,7 @@ const Wallets = () => {
         alignItems: "center",
       }}
     >
-      {/* <Pressable
+      <Pressable
         onPress={() => {
           dispatch(updateRenderCount(1));
           dispatch(updateBottomSheet(true));
@@ -68,8 +68,8 @@ const Wallets = () => {
           color={appColor.kWhiteColor}
           size={size.fontSize(25)}
         />
-      </Pressable> */}
-      <LetGoButton navigateTo="DrawerNavigation" />
+      </Pressable>
+      {/* <LetGoButton navigateTo="DrawerNavigation" /> */}
       <Pressable
         onPress={() => {
           dispatch(updateRenderCount(1));
