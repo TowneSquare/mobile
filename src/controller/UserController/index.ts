@@ -6,8 +6,9 @@ import { communities, friends } from "./models";
 import { bottomSheetSlice } from "../BottomSheetController";
 import axios from "axios";
 
+
 export interface collection {
-  image: string;
+  image: ImageSourcePropType;
   id: number;
   isSelected:boolean;
 }
@@ -15,7 +16,7 @@ export interface NftCollection {
   Collectionimage?: any;
   collections: collection[];
   Name: string;
-  id: string;
+  id: number;
 }
 interface UserState {
   details: {
@@ -74,7 +75,7 @@ const initialState: UserState = {
         {
           image: images.pinnedNFT,
           id: 1,
-          isSelected:true
+          isSelected:false
         },
         {
           image: images.pinnedNFT_1,
@@ -133,7 +134,7 @@ const initialState: UserState = {
         },
       ],
       Name: "Aptomingos",
-      id: "1",
+      id: 1,
     },
     {
       Collectionimage: images.NftCollection2,
@@ -150,7 +151,7 @@ const initialState: UserState = {
         },
       ],
       Name: "Aptomingos",
-      id: "2",
+      id: 2,
     },
     {
       Collectionimage: images.NftCollection1,
@@ -217,7 +218,7 @@ const initialState: UserState = {
         },
       ],
       Name: "Aptos Monkey lorem Ipsumdalr",
-      id: "3",
+      id: 3,
     },
     {
       Collectionimage: images.NftCollection2,
@@ -284,7 +285,7 @@ const initialState: UserState = {
         },
       ],
       Name: "Aptomingos",
-      id: "4",
+      id: 4,
     },
     {
       Collectionimage: images.NftCollection1,
@@ -351,7 +352,7 @@ const initialState: UserState = {
         },
       ],
       Name: "Aptos Monkey lorem Ipsumdalr",
-      id: "5",
+      id: 5,
     },
     {
       Collectionimage: images.NftCollection2,
@@ -418,7 +419,7 @@ const initialState: UserState = {
         },
       ],
       Name: "Aptomingos",
-      id: "6",
+      id: 6,
     },
     {
       Collectionimage: images.NftCollection1,
@@ -485,7 +486,7 @@ const initialState: UserState = {
         },
       ],
       Name: "Aptos Monkey lorem Ipsumdalr",
-      id: "7",
+      id: 7,
     },
     {
       Collectionimage: images.NftCollection2,
@@ -552,7 +553,7 @@ const initialState: UserState = {
         },
       ],
       Name: "Aptomingos",
-      id: "8",
+      id: 8,
     },
     {
       Collectionimage: images.NftCollection2,
@@ -619,7 +620,7 @@ const initialState: UserState = {
         },
       ],
       Name: "Aptomingos",
-      id: "9",
+      id: 9,
     },
     {
       Collectionimage: images.NftCollection1,
@@ -686,7 +687,7 @@ const initialState: UserState = {
         },
       ],
       Name: "Aptos Monkey lorem Ipsumdalr",
-      id: "10",
+      id: 10,
     },
     {
       Collectionimage: images.NftCollection2,
@@ -753,7 +754,7 @@ const initialState: UserState = {
         },
       ],
       Name: "Aptomingos",
-      id: "11",
+      id: 11,
     },
   ],
   accountInfo: undefined
@@ -865,8 +866,6 @@ export const USER = createSlice({
     },
     updateCollectionIsSelected:(state, action: PayloadAction<{collectionId: number, isSelected:boolean}>) => {
     const newArray = [...state.NFTCollections]
-    console.log( action.payload.collectionId, action.payload.isSelected, 
-      newArray[0].collections.find(c => c.id === action.payload.collectionId)!.isSelected)
     newArray[0].collections.find(c => c.id === action.payload.collectionId)!.isSelected= action.payload.isSelected
     state.NFTCollections = newArray
     

@@ -7,16 +7,31 @@ import { collection } from "../../../controller/UserController";
 import { appColor, images } from '../../../constants';
 import { useAppDispatch } from '../../../controller/hooks';
 import { updateCollectionIsSelected } from '../../../controller/UserController';
+import { useAppSelector } from "../../../controller/hooks";
+
 
 const Collection:FC<{
     collectionData:collection[] | undefined
-    name:string
-}> = ({collectionData, name}) => {
+    name:string,
+    collectionId:number
+}> = ({collectionData, name, collectionId}) => {
     const [numColumns, setnumColumns] = useState(3)
-    const [selectedId, setSelectedId] = useState<number>()
-    const [first, setfirst] = useState(0)
+    const [selectedId, setSelectedId] = useState<boolean>(false)
     const dispatch = useAppDispatch();
-     const CollectionImage = ({ item }: any) => {
+    const NFTCollections = useAppSelector((state) => state.USER.NFTCollections);
+    const COLLECTION_DATA = NFTCollections.find(c => c.id == collectionId).collections
+
+    const CollectionImage:FC<{
+      item: collection
+     }> = ({ item }) => {
+
+      const handle_select = () => {
+        if(item.isSelected == true){
+          return dispatch(updateCollectionIsSelected({collectionId:item.id, isSelected:false}))
+        }
+         dispatch(updateCollectionIsSelected({collectionId:item.id, isSelected:true}));
+      }
+      
     return (
       <View
         style={{
@@ -30,19 +45,18 @@ const Collection:FC<{
             position:"relative"
           }}
           onPress={() => {
-            dispatch(updateCollectionIsSelected({collectionId:item.id, isSelected:true}))
-            setSelectedId(item.id)
+           handle_select()
           }}
         >
           <View>
             <Image
-            source={item?.image}
+            source={item.image}
             style={{
               width: size.getWidthSize(100),
               height: size.getHeightSize(100),
               borderRadius:10,
-            marginBottom:10,
-            position: "relative"
+              marginBottom:10,
+              position: "relative"
             }}
            
           />
@@ -51,7 +65,7 @@ const Collection:FC<{
             item.isSelected && (
                 <View style={{
                 backgroundColor: appColor.kSecondaryColor,
-               width: size.getWidthSize(100),
+              width: size.getWidthSize(100),
               height: size.getHeightSize(100),
               justifyContent:"center",
               alignItems:"center",
@@ -81,17 +95,19 @@ const Collection:FC<{
 
   return (
     
-        <FlatList
+       <>
+       {collectionData &&  <FlatList
             key={numColumns}
-            data={collectionData}
+            data={COLLECTION_DATA}
             renderItem={({ item }) => <CollectionImage item={item} />}
             keyExtractor={(item) => item.id.toString()}
             numColumns={numColumns}
             style={{
-                marginBottom:"60%"
+               
             }}
             extraData={selectedId}
-        />
+        />}
+       </>
     
   )
 }

@@ -16,7 +16,6 @@ import { appColor } from "../../../constants";
 import SearchIcon from "../../../../assets/images/svg/SearchIcon";
 import BottomSheet, {
   BottomSheetScrollView,
-  BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { sizes } from "../../../utils";
 import { useAppSelector } from "../../../controller/hooks";
@@ -32,7 +31,7 @@ const SetNFT = () => {
   const [numColumns, setnumColumns] = useState<number>(2);
   const [showCollection, setshowCollection] = useState(false)
   const [collectionName, setCollectionName] = useState("")
-  const [selectedId, setSelectedId] = useState<string>()
+  const [selectedId, setSelectedId] = useState<number>()
   const [collection, setCollection] = useState<collection[]>()
   const NFTCollections = useAppSelector((state) => state.USER.NFTCollections);
   const {navigate,setOptions} = useNavigation()
@@ -114,18 +113,25 @@ const SetNFT = () => {
 
   const DisplayNameBottomSheet = () => {
     return (
-      <BottomSheet
-        ref={bottomSheetRef}
-        snapPoints={[Platform.OS === "ios" ? "33%" : "33%"]}
-        index={0}
-        backgroundStyle={{
-          backgroundColor: appColor.kgrayDark2,
-        }}
-        handleComponent={CustomHandler}
-      >
+      // <BottomSheet
+      //   ref={bottomSheetRef}
+      //   snapPoints={[Platform.OS === "ios" ? "33%" : "33%"]}
+      //   index={0}
+      //   backgroundStyle={{
+      //     backgroundColor: appColor.kgrayDark2,
+      //   }}
+      //   handleComponent={CustomHandler}
+      //   enableHandlePanningGesture={false}
+      //>
+      <View style={{
+        backgroundColor: appColor.kgrayDark2,
+        height:"35%"
+      }}>
         <View
           style={{
             margin: 10,
+
+            
           }}
         >
           <Text
@@ -145,7 +151,7 @@ const SetNFT = () => {
             </Text>
           </Text>
         </View>
-        <BottomSheetScrollView
+        <ScrollView
           horizontal={true}
           style={{
             margin: 10,
@@ -165,7 +171,7 @@ const SetNFT = () => {
               }}
             ></Pressable>
           ))}
-        </BottomSheetScrollView>
+        </ScrollView>
 
         <View
           style={{
@@ -206,7 +212,7 @@ const SetNFT = () => {
             </Text>
           </Pressable>
         </View>
-      </BottomSheet>
+      </View>
     );
   };
 
@@ -228,21 +234,21 @@ const SetNFT = () => {
         />
       </View>
 
-      <FlatList
+      {NFTCollections && <FlatList
         key={numColumns}
         data={NFTCollections}
         renderItem={({ item }) => <CollectionImage item={item} />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         style={{}}
         contentContainerStyle={{
           justifyContent: "space-between",
         }}
         numColumns={numColumns}
-       extraData={selectedId}
-      />
+       extraData={NFTCollections}
+      />}
          </>
         ):(
-          <Collection name={collectionName} collectionData={collection}/>
+          <Collection name={collectionName} collectionId={selectedId} collectionData={collection}/>
         )
       }
       
