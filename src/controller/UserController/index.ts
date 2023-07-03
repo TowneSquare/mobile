@@ -1,7 +1,4 @@
-
-
-
-import { store } from './../store';
+import { store } from "./../store";
 
 import { images } from "./../../constants/images";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
@@ -10,17 +7,16 @@ import { communities, friends } from "./models";
 import { bottomSheetSlice } from "../BottomSheetController";
 import axios from "axios";
 
-
 export interface collection {
   image: ImageSourcePropType;
   id: number;
-  isSelected:boolean;
+  isSelected: boolean;
 }
 
 export interface selectedCollection {
   image: ImageSourcePropType;
-  collectionId:number
-  itemId:number
+  collectionId: number;
+  itemId: number;
   id: number;
 }
 export interface NftCollection {
@@ -46,9 +42,10 @@ interface UserState {
     usernameErrorMessage: string;
   };
   didToken: string;
-  accountInfo: any;  editProfile: boolean;
+  accountInfo: any;
+  editProfile: boolean;
   NFTCollections: NftCollection[];
-  selectedCollection:selectedCollection[];
+  selectedCollection: selectedCollection[];
 }
 
 interface signUpRequest {
@@ -87,62 +84,62 @@ const initialState: UserState = {
         {
           image: images.pinnedNFT,
           id: 1,
-          isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 2,
-          isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 3,
-        isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 4,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 5,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 6,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 7,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 8,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 9,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 10,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 11,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 12,
-         isSelected:false
+          isSelected: false,
         },
       ],
       Name: "Aptomingos",
@@ -154,12 +151,12 @@ const initialState: UserState = {
         {
           image: images.pinnedNFT,
           id: 1,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 2,
-         isSelected:false
+          isSelected: false,
         },
       ],
       Name: "Aptomingos",
@@ -171,62 +168,62 @@ const initialState: UserState = {
         {
           image: images.pinnedNFT,
           id: 1,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 2,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 3,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 4,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 5,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 6,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 7,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 8,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 9,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 10,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 11,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 12,
-         isSelected:false
+          isSelected: false,
         },
       ],
       Name: "Aptos Monkey lorem Ipsumdalr",
@@ -238,62 +235,62 @@ const initialState: UserState = {
         {
           image: images.pinnedNFT,
           id: 1,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 2,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 3,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 4,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 5,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 6,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 7,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 8,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 9,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 10,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 11,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 12,
-         isSelected:false
+          isSelected: false,
         },
       ],
       Name: "Aptomingos",
@@ -305,62 +302,62 @@ const initialState: UserState = {
         {
           image: images.pinnedNFT,
           id: 1,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 2,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 3,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 4,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 5,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 6,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 7,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 8,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 9,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 10,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 11,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 12,
-         isSelected:false
+          isSelected: false,
         },
       ],
       Name: "Aptos Monkey lorem Ipsumdalr",
@@ -372,62 +369,62 @@ const initialState: UserState = {
         {
           image: images.pinnedNFT,
           id: 1,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 2,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 3,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 4,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 5,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 6,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 7,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 8,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 9,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 10,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 11,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 12,
-         isSelected:false
+          isSelected: false,
         },
       ],
       Name: "Aptomingos",
@@ -439,62 +436,62 @@ const initialState: UserState = {
         {
           image: images.pinnedNFT,
           id: 1,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 2,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 3,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 4,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 5,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 6,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 7,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 8,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 9,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 10,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 11,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 12,
-         isSelected:false
+          isSelected: false,
         },
       ],
       Name: "Aptos Monkey lorem Ipsumdalr",
@@ -506,62 +503,62 @@ const initialState: UserState = {
         {
           image: images.pinnedNFT,
           id: 1,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 2,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 3,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 4,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 5,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 6,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 7,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 8,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 9,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 10,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 11,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 12,
-         isSelected:false
+          isSelected: false,
         },
       ],
       Name: "Aptomingos",
@@ -573,62 +570,62 @@ const initialState: UserState = {
         {
           image: images.pinnedNFT,
           id: 1,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 2,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 3,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 4,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 5,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 6,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 7,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 8,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 9,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 10,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 11,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 12,
-         isSelected:false
+          isSelected: false,
         },
       ],
       Name: "Aptomingos",
@@ -640,62 +637,62 @@ const initialState: UserState = {
         {
           image: images.pinnedNFT,
           id: 1,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 2,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 3,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 4,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 5,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 6,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 7,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 8,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 9,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 10,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 11,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 12,
-         isSelected:false
+          isSelected: false,
         },
       ],
       Name: "Aptos Monkey lorem Ipsumdalr",
@@ -707,62 +704,62 @@ const initialState: UserState = {
         {
           image: images.pinnedNFT,
           id: 1,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 2,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 3,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 4,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 5,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 6,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 7,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 8,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 9,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 10,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 11,
-         isSelected:false
+          isSelected: false,
         },
         {
           image: images.pinnedNFT_1,
           id: 12,
-         isSelected:false
+          isSelected: false,
         },
       ],
       Name: "Aptomingos",
@@ -770,10 +767,8 @@ const initialState: UserState = {
     },
   ],
   accountInfo: undefined,
-  selectedCollection:[]
+  selectedCollection: [],
 };
-
-
 
 export const signUp = createAsyncThunk(
   "User/signUp",
@@ -877,38 +872,63 @@ export const USER = createSlice({
     updateEditProfile: (state, action: PayloadAction<boolean>) => {
       state.editProfile = action.payload;
     },
-    updateCollectionIsSelected:(state, action: PayloadAction<{collectionId: number, itemId:number ,isSelected:boolean}>) => {
-      const newArray = [...state.NFTCollections]
-      newArray[action.payload.collectionId-1].collections.find(c => c.id === action.payload.itemId)!.isSelected = action.payload.isSelected
-      state.NFTCollections = newArray
-      if(action.payload.isSelected == true){
+    updateCollectionIsSelected: (
+      state,
+      action: PayloadAction<{
+        collectionId: number;
+        itemId: number;
+        isSelected: boolean;
+      }>
+    ) => {
+      const newArray = [...state.NFTCollections];
+      newArray[action.payload.collectionId - 1].collections.find(
+        (c) => c.id === action.payload.itemId
+      )!.isSelected = action.payload.isSelected;
+      state.NFTCollections = newArray;
+      if (action.payload.isSelected == true) {
         state.selectedCollection = [
-        ...state.selectedCollection,
-        {
-          id: state.selectedCollection.length++,
-          collectionId:action.payload.collectionId-1,
-          itemId:action.payload.itemId,
-          image:newArray[action.payload.collectionId-1].collections.find(c => c.id === action.payload.itemId).image
-        }
-      ]
+          ...state.selectedCollection,
+          {
+            id: state.selectedCollection.length++,
+            collectionId: action.payload.collectionId - 1,
+            itemId: action.payload.itemId,
+            image: newArray[action.payload.collectionId - 1].collections.find(
+              (c) => c.id === action.payload.itemId
+            ).image,
+          },
+        ];
       }
-      if(action.payload.isSelected == false){
-       const filtered = state.selectedCollection.filter(sel => sel.image !== newArray[action.payload.collectionId-1].collections.find(c => c.id === action.payload.itemId).image)
-      state.selectedCollection = filtered
-        
+      if (action.payload.isSelected == false) {
+        const filtered = state.selectedCollection.filter(
+          (sel) =>
+            sel.image !==
+            newArray[action.payload.collectionId - 1].collections.find(
+              (c) => c.id === action.payload.itemId
+            ).image
+        );
+        state.selectedCollection = filtered;
       }
     },
-    updateSelectedImage:(state, action:PayloadAction<{imageSrc:ImageSourcePropType}>) => {
-      const filtered = state.selectedCollection.filter(sel => sel.image != action.payload.imageSrc)
-      const filter = state.selectedCollection.find(sel => sel.image == action.payload.imageSrc);
-      const newArray = [...state.NFTCollections]
-      newArray[filter.collectionId].collections.find(c => c.id === filter.itemId)!.isSelected = false
-      state.NFTCollections = newArray
-      state.selectedCollection = filtered
+    updateSelectedImage: (
+      state,
+      action: PayloadAction<{ imageSrc: ImageSourcePropType }>
+    ) => {
+      const filtered = state.selectedCollection.filter(
+        (sel) => sel.image != action.payload.imageSrc
+      );
+      const filter = state.selectedCollection.find(
+        (sel) => sel.image == action.payload.imageSrc
+      );
+      const newArray = [...state.NFTCollections];
+      newArray[filter?.collectionId].collections.find(
+        (c) => c.id === filter.itemId
+      )!.isSelected = false;
+      state.NFTCollections = newArray;
+      state.selectedCollection = filtered;
     },
     updateAccountInfo: (state, action: PayloadAction<any>) => {
       state.accountInfo = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(signUp.fulfilled, (state, action) => {
@@ -930,6 +950,6 @@ export const {
   updateEditProfile,
   updateCollectionIsSelected,
   updateAccountInfo,
-  updateSelectedImage
+  updateSelectedImage,
 } = USER.actions;
 export default USER.reducer;

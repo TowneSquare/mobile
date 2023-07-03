@@ -28,13 +28,14 @@ export type RootStackParamList = {
   EmailLogin: undefined;
   EditProfile: undefined;
   SetNFTs: undefined;
-   ViewImageScreen: undefined;
+  ViewImageScreen: undefined;
   VideoPlayer: undefined;
   SinglePost: undefined;
   Notifications: undefined;
   CreatePost: { showToast?: boolean };
   NftCollectionScreen: undefined;
   SelectedCollectionScreen: undefined;
+  Collection:undefined
 };
 
 type CreatePostParameter = {
@@ -111,39 +112,39 @@ export type SetNFTsProps = {
 };
 
 export type SinglePostProps = {
-  navigation: NavigationProp<RootStackParamList, 'SinglePost'>;
+  navigation: NavigationProp<RootStackParamList, "SinglePost">;
   magic: any;
-  route: RouteProp<ParamListBase, 'SinglePost'>;
+  route: RouteProp<ParamListBase, "SinglePost">;
 };
 
 export type ViewImageScreenProps = {
-  navigation: NavigationProp<RootStackParamList, 'ViewImageScreen'>;
+  navigation: NavigationProp<RootStackParamList, "ViewImageScreen">;
   magic: any;
-  route: RouteProp<ParamListBase, 'VideoPlayer'>;
+  route: RouteProp<ParamListBase, "VideoPlayer">;
 };
 export type VideoPlayerProps = {
-  navigation: NavigationProp<RootStackParamList, 'VideoPlayer'>;
+  navigation: NavigationProp<RootStackParamList, "VideoPlayer">;
   magic: any;
-  route: RouteProp<ParamListBase, 'VideoPlayer'>;
+  route: RouteProp<ParamListBase, "VideoPlayer">;
 };
 
 export type NotificationsProps = {
-  navigation: NavigationProp<RootStackParamList, 'Notifications'>;
+  navigation: NavigationProp<RootStackParamList, "Notifications">;
   magic: any;
-  route: RouteProp<ParamListBase, 'Notifications'>;
+  route: RouteProp<ParamListBase, "Notifications">;
 };
 export type CreatePostProps = {
-  navigation: NavigationProp<RootStackParamList, 'CreatePost'>;
+  navigation: NavigationProp<RootStackParamList, "CreatePost">;
   magic: any;
-  route: RouteProp<CreatePostParameter, 'CreatePost'>;
+  route: RouteProp<CreatePostParameter, "CreatePost">;
 };
 export type NftCollectionScreenProps = {
-  navigation: NavigationProp<RootStackParamList, 'NftCollectionScreen'>;
+  navigation: NavigationProp<RootStackParamList, "NftCollectionScreen">;
   magic: any;
-  route: RouteProp<ParamListBase, 'NftCollectionScreen'>;
+  route: RouteProp<ParamListBase, "NftCollectionScreen">;
 };
 export type SelectedCollectionScreenProps = {
-  navigation: NavigationProp<RootStackParamList, 'SelectedCollectionScreen'>;
+  navigation: NavigationProp<RootStackParamList, "SelectedCollectionScreen">;
   magic: any;
-  route: RouteProp<ParamListBase, 'SelectedCollectionScreen'>;
+  route: RouteProp<ParamListBase, "SelectedCollectionScreen">;
 };

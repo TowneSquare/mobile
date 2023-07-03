@@ -6,26 +6,26 @@ import {
   FlatList,
   Pressable,
   Image,
-} from 'react-native';
-import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor, fonts, images } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
-import { sizes } from '../../utils';
-import VideoPlayerSvg from '../../../assets/images/svg/VideoPlayerSvg';
-import { useNavigation } from '@react-navigation/native';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
+} from "react-native";
+import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { appColor, fonts, images } from "../../constants";
+import { StatusBar } from "expo-status-bar";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { sizes } from "../../utils";
+import VideoPlayerSvg from "../../../assets/images/svg/VideoPlayerSvg";
+import { useNavigation } from "@react-navigation/native";
+const { height, width } = Dimensions.get("window");
+import { useFonts } from "expo-font";
 const size = new sizes(height, width);
-import PostActions from '../../components/Feed/PostActions';
+import PostActions from "../../components/Feed/PostActions";
 
 const VideoPlayer = () => {
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -62,8 +62,8 @@ const VideoPlayer = () => {
       />
       <View
         style={{
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <Image
@@ -87,9 +87,9 @@ const VideoPlayer = () => {
         }}
       >
         <PostActions
-          noOfComments={'99k'}
-          noOfLikes={'99k'}
-          noOfRetweet={'99k'}
+          noOfComments={"99k"}
+          noOfLikes={"99k"}
+          noOfRetweet={"99k"}
           paddingHorizontal={16}
         />
       </View>

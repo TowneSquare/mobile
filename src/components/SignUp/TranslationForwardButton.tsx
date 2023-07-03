@@ -27,37 +27,37 @@ const TranslationForwardButton = ({ action }: Props) => {
     usernameError || nickNameError || userNameLength < 1 || nickNameLength < 1;
   return (
     <Pressable
-    disabled={disabled}
-    onPress={() => {
-      action();
-    }}
-    style={{
-      backgroundColor: disabled
-        ? appColor.kWhiteColorWithOpacity
-        : appColor.kWhiteColor,
-      alignSelf: 'center',
-      width: size.getWidthSize(328),
-      borderRadius: 40,
-      // height: size.getHeightSize(48),
-      justifyContent: 'center',
-      marginTop: size.getHeightSize(8),
-      paddingVertical: size.getHeightSize(12.5),
-    }}
-  >
-    <Text
+      disabled={disabled}
+      onPress={() => {
+        action();
+      }}
       style={{
-        textAlign: 'center',
-        color: appColor.kButtonTextColor,
-        fontSize: size.fontSize(18),
-        fontFamily: 'Outfit-Medium',
-        fontStyle: 'normal',
-        lineHeight: size.getHeightSize(23),
-        letterSpacing: 0.02,
+        backgroundColor: disabled
+          ? appColor.kWhiteColorWithOpacity
+          : appColor.kWhiteColor,
+        alignSelf: "center",
+        width: size.getWidthSize(328),
+        borderRadius: 40,
+        // height: size.getHeightSize(48),
+        justifyContent: "center",
+        marginTop: size.getHeightSize(8),
+        paddingVertical: size.getHeightSize(12.5),
       }}
     >
-      Continue
-    </Text>
-  </Pressable>
+      <Text
+        style={{
+          textAlign: "center",
+          color: appColor.kButtonTextColor,
+          fontSize: size.fontSize(18),
+          fontFamily: "Outfit-Medium",
+          fontStyle: "normal",
+          lineHeight: size.getHeightSize(23),
+          letterSpacing: 0.02,
+        }}
+      >
+        Continue
+      </Text>
+    </Pressable>
   );
 };
 

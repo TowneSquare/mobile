@@ -5,16 +5,16 @@ import {
   Image,
   StyleSheet,
   Pressable,
-} from 'react-native';
-import React, { memo } from 'react';
-import { sizes } from '../../utils';
-import { appColor, fonts, images } from '../../constants';
-import { useFonts } from 'expo-font';
-const { height, width } = Dimensions.get('window');
-import Reposted from './Reposted';
-import APT from '../../../assets/images/svg/APT';
-import ProfilePicture from './ProfilePicture';
-import { useNavigation } from '@react-navigation/native';
+} from "react-native";
+import React, { memo } from "react";
+import { sizes } from "../../utils";
+import { appColor, fonts, images } from "../../constants";
+import { useFonts } from "expo-font";
+const { height, width } = Dimensions.get("window");
+import Reposted from "./Reposted";
+import APT from "../../../assets/images/svg/APT";
+import ProfilePicture from "./ProfilePicture";
+import { useNavigation } from "@react-navigation/native";
 import {
   UserPost,
   FeedContent,
@@ -22,7 +22,7 @@ import {
   FLOOR_PRICE_INCLUDED,
 } from "../../models";
 const size = new sizes(height, width);
-import PostHeader from './PostHeader';
+import PostHeader from "./PostHeader";
 import {
   Message_Only,
   Message_Image,
@@ -46,7 +46,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
     return null;
   }
   const handleNavigation = () => {
-    navigation.navigate('SinglePost');
+    navigation.navigate("SinglePost");
   };
   let content;
   const type_of_post = data.type;
@@ -99,7 +99,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
               </Text>
 
               <Pressable
-                onPress={() => navigation.navigate('ViewImageScreen' as never)}
+                onPress={() => navigation.navigate("ViewImageScreen" as never)}
                 style={styles.mediaContainer}
               >
                 <Image
@@ -167,7 +167,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
               />
 
               <Pressable
-                onPress={() => navigation.navigate('VideoPlayer' as never)}
+                onPress={() => navigation.navigate("VideoPlayer" as never)}
                 style={styles.mediaContainer}
               >
                 <Image

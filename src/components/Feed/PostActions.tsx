@@ -130,7 +130,7 @@ const PostActions = ({
     <View
       style={{
         gap: size.getWidthSize(20),
-        flexDirection: 'row',
+        flexDirection: "row",
         marginTop: marginTop
           ? size.getHeightSize(marginTop)
           : size.getHeightSize(9),

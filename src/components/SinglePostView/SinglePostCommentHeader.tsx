@@ -1,14 +1,14 @@
-import { View, Text, Dimensions, Pressable, StyleSheet } from 'react-native';
-import React from 'react';
-import { sizes } from '../../utils';
-import { appColor, fonts } from '../../constants';
-import { useFonts } from 'expo-font';
-import Queen from '../../../assets/images/svg/Queen';
-const { height, width } = Dimensions.get('window');
-import { useAppDispatch } from '../../controller/hooks';
-import { updtaeReportingModal } from '../../controller/FeedsController';
-import Feather from '@expo/vector-icons/Feather';
-import Entypo from '@expo/vector-icons/Entypo';
+import { View, Text, Dimensions, Pressable, StyleSheet } from "react-native";
+import React from "react";
+import { sizes } from "../../utils";
+import { appColor, fonts } from "../../constants";
+import { useFonts } from "expo-font";
+import Queen from "../../../assets/images/svg/Queen";
+const { height, width } = Dimensions.get("window");
+import { useAppDispatch } from "../../controller/hooks";
+import { updtaeReportingModal } from "../../controller/FeedsController";
+import Feather from "@expo/vector-icons/Feather";
+import Entypo from "@expo/vector-icons/Entypo";
 const size = new sizes(height, width);
 interface Props {
   username: string;
@@ -26,9 +26,9 @@ const SinglePostCommentHeader = ({
 }: Props) => {
   const dispatch = useAppDispatch();
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -39,7 +39,7 @@ const SinglePostCommentHeader = ({
   return (
     <View
       style={{
-        flexDirection: 'row',
+        flexDirection: "row",
         width: size.getWidthSize(262),
       }}
     >
@@ -50,7 +50,7 @@ const SinglePostCommentHeader = ({
           style={{
             fontSize: size.fontSize(16),
             color: appColor.kTextColor,
-            fontFamily: 'Outfit-Medium',
+            fontFamily: "Outfit-Medium",
             lineHeight: size.getHeightSize(21),
             maxWidth: size.getWidthSize(74),
           }}
@@ -65,7 +65,7 @@ const SinglePostCommentHeader = ({
             color: appColor.grayLight,
             fontSize: size.fontSize(14),
             lineHeight: size.getHeightSize(18),
-            fontFamily: 'Outfit-Regular',
+            fontFamily: "Outfit-Regular",
             maxWidth: maxWidth
               ? size.getWidthSize(maxWidth)
               : size.getWidthSize(73),
@@ -90,9 +90,9 @@ const SinglePostCommentHeader = ({
 export default SinglePostCommentHeader;
 const styles = StyleSheet.create({
   pressable: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(4),
-    alignItems: 'center',
+    alignItems: "center",
 
     flex: 1,
   },
@@ -100,12 +100,12 @@ const styles = StyleSheet.create({
     color: appColor.grayLight,
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
-    fontFamily: 'Outfit-Bold',
+    fontFamily: "Outfit-Bold",
   },
   timePost: {
     color: appColor.grayLight,
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
   },
 });

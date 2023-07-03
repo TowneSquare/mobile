@@ -219,9 +219,6 @@ export const feedStyle = StyleSheet.create({
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(21),
     marginVertical: size.getHeightSize(2),
-    
   },
-  buttons:{
-
-  }
+  buttons: {},
 });

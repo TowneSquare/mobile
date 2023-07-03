@@ -99,7 +99,7 @@ const UsernameField = () => {
             style={{
               fontSize: size.fontSize(16),
               color: appColor.grayLight,
-              textAlign: 'left',
+              textAlign: "left",
               marginLeft: size.getWidthSize(6),
               lineHeight: 21,
               fontFamily: "Outfit-Regular",

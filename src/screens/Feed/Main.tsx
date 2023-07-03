@@ -36,12 +36,12 @@ import {
   updateReportPostModal,
   updateReportUserModal,
   updateBlockUserModal,
-} from '../../controller/FeedsController';
-import ToastHook from '../../hooks/Feeds/ToastHook';
-import ReportPostModal from '../../components/Feed/ReportPostModal';
-import ReportUserModal from '../../components/Feed/ReportUserModal';
-import BlockUserModal from '../../components/Feed/BlockUserModal';
-import Toast from 'react-native-toast-message';
+} from "../../controller/FeedsController";
+import ToastHook from "../../hooks/Feeds/ToastHook";
+import ReportPostModal from "../../components/Feed/ReportPostModal";
+import ReportUserModal from "../../components/Feed/ReportUserModal";
+import BlockUserModal from "../../components/Feed/BlockUserModal";
+import Toast from "react-native-toast-message";
 import NotificationBell from "../../components/Feed/NotificationBell";
 const Main = () => {
   const navigation = useNavigation();
@@ -102,7 +102,7 @@ const Main = () => {
         </View>
         <View
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             marginBottom: size.getWidthSize(4),
           }}
         >
@@ -144,7 +144,7 @@ const Main = () => {
         )}
       </View>
       <Pressable
-        onPress={() => navigation.navigate('CreatePost' as never)}
+        onPress={() => navigation.navigate("CreatePost" as never)}
         style={styles.FAB}
       >
         <AntDesign name="plus" size={25} color={appColor.kTextColor} />
@@ -224,11 +224,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: size.getHeightSize(42),
     right: size.getWidthSize(18),
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: "rgba(0,0,0,0.7)",
   },
 });

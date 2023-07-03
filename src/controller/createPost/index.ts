@@ -1,14 +1,14 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { ImageSourcePropType } from 'react-native';
-import { images } from '../../constants';
-import { ReactNode } from 'react';
-import { atMentionData, hashTagData, aptosTags } from './dummyData';
-import { SearchFuntion, ExtractTags } from '../../utils/helperFunction';
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { ImageSourcePropType } from "react-native";
+import { images } from "../../constants";
+import { ReactNode } from "react";
+import { atMentionData, hashTagData, aptosTags } from "./dummyData";
+import { SearchFuntion, ExtractTags } from "../../utils/helperFunction";
 
 interface CreatePost {
   message: string;
   tags: string[];
-  community: 'Aptos' | 'Aptos Monkeys' | null;
+  community: "Aptos" | "Aptos Monkeys" | null;
   media: any;
   nft: {
     name: string;
@@ -58,17 +58,17 @@ interface Post {
 const initialState: Post = {
   data: atMentionData,
   filteredAtMentions: atMentionData,
-  postMessage: '',
+  postMessage: "",
   showAtMentionContainer: false,
   formattedContent: [],
-  selectedAtMention: '',
-  inputText: '',
-  currentWord: '',
-  cursorIndex: '',
+  selectedAtMention: "",
+  inputText: "",
+  currentWord: "",
+  cursorIndex: "",
   showHashTags: false,
   hashTagData: hashTagData,
   filteredHashTagData: hashTagData,
-  selectedHashTag: '',
+  selectedHashTag: "",
   showAptosMonkey: false,
   showAptosPanel: false,
   showAptosSwap: false,
@@ -78,7 +78,7 @@ const initialState: Post = {
   GIFBottomSheet: false,
   NFTBottomSheet: false,
   posts: {
-    message: '',
+    message: "",
     media: null,
     tags: [],
     community: null,
@@ -89,7 +89,7 @@ const initialState: Post = {
 };
 
 export const fieldHandlerSlice = createSlice({
-  name: 'postHandler',
+  name: "postHandler",
   initialState,
   reducers: {
     updateShowAptosPanel: (state, action: PayloadAction<boolean>) => {
@@ -97,13 +97,13 @@ export const fieldHandlerSlice = createSlice({
     },
     updateShowAptosSwap: (
       state,
-      action: PayloadAction<'Aptos' | 'Aptos Monkeys'>
+      action: PayloadAction<"Aptos" | "Aptos Monkeys">
     ) => {
       state.posts.community = action.payload;
     },
 
     updateFilteredData: (state, action: PayloadAction<string>) => {
-      let searchWord = action.payload.replace('@', '');
+      let searchWord = action.payload.replace("@", "");
       const atMentions = state.data;
       if (searchWord) {
         const newAtMention = SearchFuntion(atMentions, searchWord);
@@ -113,7 +113,7 @@ export const fieldHandlerSlice = createSlice({
       }
     },
     updateFilteredHashData: (state, action: PayloadAction<string>) => {
-      let searchWord = action.payload.replace('#', '');
+      let searchWord = action.payload.replace("#", "");
       const hash_tag = state.hashTagData;
 
       if (searchWord) {
@@ -125,7 +125,7 @@ export const fieldHandlerSlice = createSlice({
     },
     //  The function below append the input tags from keyboard to the existing words
     updateFilteredAptTags: (state, action: PayloadAction<string>) => {
-      let searchWord = action.payload.replace('$', '');
+      let searchWord = action.payload.replace("$", "");
       const apt_tag = state.aptTag;
       if (searchWord) {
         const newAptTag = SearchFuntion(apt_tag, searchWord);
@@ -149,7 +149,7 @@ export const fieldHandlerSlice = createSlice({
       const current_word = state.currentWord;
       const tag = action.payload;
 
-      if (current_word === '@') {
+      if (current_word === "@") {
         const cursor_index = Number(state.cursorIndex);
         state.inputText =
           state.inputText.slice(0, cursor_index) +
@@ -158,7 +158,7 @@ export const fieldHandlerSlice = createSlice({
         state.posts.message = state.inputText;
         state.posts.tags = ExtractTags(state.posts.message);
       } else {
-        state.inputText = currentTextInput.replace(current_word, '@' + tag);
+        state.inputText = currentTextInput.replace(current_word, "@" + tag);
         state.posts.message = state.inputText;
         state.posts.tags = ExtractTags(state.posts.message);
       }
@@ -169,7 +169,7 @@ export const fieldHandlerSlice = createSlice({
       const current_word = state.currentWord;
       const tag = action.payload;
 
-      if (current_word === '$') {
+      if (current_word === "$") {
         const cursor_index = Number(state.cursorIndex);
         state.inputText =
           state.inputText.slice(0, cursor_index) +
@@ -178,7 +178,7 @@ export const fieldHandlerSlice = createSlice({
         state.posts.message = state.inputText;
         state.posts.tags = ExtractTags(state.posts.message);
       } else {
-        state.inputText = currentTextInput.replace(current_word, '$' + tag);
+        state.inputText = currentTextInput.replace(current_word, "$" + tag);
         state.posts.message = state.inputText;
         state.posts.tags = ExtractTags(state.posts.message);
       }
@@ -190,18 +190,18 @@ export const fieldHandlerSlice = createSlice({
       const current_word = state.currentWord;
       const hash = action.payload;
 
-      if (current_word === '#') {
+      if (current_word === "#") {
         const cursor_index = Number(state.cursorIndex);
         state.inputText =
           state.inputText.slice(0, cursor_index) +
-          hash.replace('#', '') +
+          hash.replace("#", "") +
           state.inputText.slice(cursor_index);
         state.posts.message = state.inputText;
         state.posts.tags = ExtractTags(state.posts.message);
       } else {
         state.inputText = currentTextInput.replace(
           current_word,
-          '#' + hash.replace('#', '')
+          "#" + hash.replace("#", "")
         );
         state.posts.message = state.inputText;
         state.posts.tags = ExtractTags(state.posts.message);

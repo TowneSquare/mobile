@@ -5,28 +5,28 @@ import {
   Image,
   StyleSheet,
   Pressable,
-} from 'react-native';
-import React, { memo } from 'react';
-import { sizes } from '../../utils';
-import { appColor, fonts, images } from '../../constants';
-import { useFonts } from 'expo-font';
-const { height, width } = Dimensions.get('window');
-import FeedLink from '../../../assets/images/svg/FeedLink';
-import Reposted from '../Feed/Reposted';
-import APT from '../../../assets/images/svg/APT';
-import ProfilePicture from '../Feed/ProfilePicture';
-import SinglePostHeader from './SinglePostHeader';
-import { singlePostStyles } from './SinglePostsStyles';
-import { useNavigation } from '@react-navigation/native';
+} from "react-native";
+import React, { memo } from "react";
+import { sizes } from "../../utils";
+import { appColor, fonts, images } from "../../constants";
+import { useFonts } from "expo-font";
+const { height, width } = Dimensions.get("window");
+import FeedLink from "../../../assets/images/svg/FeedLink";
+import Reposted from "../Feed/Reposted";
+import APT from "../../../assets/images/svg/APT";
+import ProfilePicture from "../Feed/ProfilePicture";
+import SinglePostHeader from "./SinglePostHeader";
+import { singlePostStyles } from "./SinglePostsStyles";
+import { useNavigation } from "@react-navigation/native";
 import {
   UserPost,
   FeedContent,
   SWAP_OPTION_INCLUDED,
   FLOOR_PRICE_INCLUDED,
-} from '../../models';
+} from "../../models";
 const size = new sizes(height, width);
 
-import PostHeader from '../Feed/PostHeader';
+import PostHeader from "../Feed/PostHeader";
 import {
   Message_Only,
   Message_Image,
@@ -34,16 +34,16 @@ import {
   Message_External_Link,
   VIDEO,
   NFT_FOR_SALE,
-} from '../../models';
-import PostActions from '../Feed/PostActions';
-import APTMonkey from '../../../assets/images/svg/APTMonkey';
-import { feedStyle } from '../Feed/FeedsStyles';
-import ShowThread from '../Feed/ShowThread';
+} from "../../models";
+import PostActions from "../Feed/PostActions";
+import APTMonkey from "../../../assets/images/svg/APTMonkey";
+import { feedStyle } from "../Feed/FeedsStyles";
+import ShowThread from "../Feed/ShowThread";
 const SinglePostContent = ({ data }: { data: UserPost }) => {
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -339,7 +339,7 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
               <Text style={styles.message}>
                 {swapContent.message}
                 <Text style={styles.swapTextTag}>
-                  {' '}
+                  {" "}
                   ${swapContent.messageTag}
                 </Text>
               </Text>
@@ -351,7 +351,7 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
                   </View>
                   <Text style={styles.swapPriceTag}>${swapContent.price}</Text>
                   <Text style={styles.priceFeed}>
-                    Price feed{' '}
+                    Price feed{" "}
                     <Text style={styles.priceFeedType}>Liquidswap</Text>
                   </Text>
                 </View>
@@ -384,7 +384,7 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
               <Text style={styles.message}>
                 {floorPriceContent.message}
                 <Text style={styles.swapTextTag}>
-                  {' '}
+                  {" "}
                   ${floorPriceContent.messageTag}
                 </Text>
               </Text>
@@ -397,7 +397,7 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
                     </Text>
                   </View>
                   <Text style={styles.floorPrice}>
-                    Floor price{' '}
+                    Floor price{" "}
                     <Text style={styles.floorAmount}>
                       {floorPriceContent.amount} APT
                     </Text>

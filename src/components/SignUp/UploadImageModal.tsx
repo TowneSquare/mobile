@@ -71,8 +71,6 @@ const UploadImageModal = () => {
     }
   }, [isVisible]);
 
-  
-
   const animatedIndex = useSharedValue(0);
   const contentStyle = useAnimatedStyle(() => ({
     transform: [

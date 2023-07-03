@@ -74,5 +74,4 @@ const ContinueButton = ({
   );
 };
 
-
 export default ContinueButton;

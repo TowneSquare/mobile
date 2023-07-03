@@ -51,7 +51,7 @@ const PostHeader = ({
           flexDirection: "row",
           gap: size.getWidthSize(4),
           width: size.getWidthSize(214),
-          alignItems: 'center',
+          alignItems: "center",
         }}
       >
         <Text
@@ -65,7 +65,7 @@ const PostHeader = ({
             maxWidth: size.getWidthSize(123),
           }}
         >
-          {myPost ? 'MyAccountName' : username}
+          {myPost ? "MyAccountName" : username}
         </Text>
         <Queen />
         <Text
@@ -75,13 +75,13 @@ const PostHeader = ({
             color: appColor.grayLight,
             fontSize: size.fontSize(14),
             lineHeight: size.getHeightSize(18),
-            fontFamily: 'Outfit-Regular',
+            fontFamily: "Outfit-Regular",
             maxWidth: maxWidth
               ? size.getWidthSize(maxWidth)
               : size.getWidthSize(67),
           }}
         >
-          @{myPost ? 'myaccountName' : nickname}
+          @{myPost ? "myaccountName" : nickname}
         </Text>
         <Text
           style={{
@@ -106,8 +106,8 @@ const PostHeader = ({
       </Pressable>
       <View
         style={{
-          alignSelf: 'flex-start',
-          marginLeft: 'auto',
+          alignSelf: "flex-start",
+          marginLeft: "auto",
         }}
       >
         <Feather

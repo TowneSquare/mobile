@@ -6,12 +6,12 @@ import {
   TextInput,
   TextInputKeyPressEventData,
   TextInputChangeEventData,
-} from 'react-native';
-import { batch } from 'react-redux';
-import React, { useState, useRef, useEffect } from 'react';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+} from "react-native";
+import { batch } from "react-redux";
+import React, { useState, useRef, useEffect } from "react";
+const { height, width } = Dimensions.get("window");
+import { useFonts } from "expo-font";
+import { appColor, fonts, images } from "../../constants";
 import {
   updateFilteredData,
   updateShowAtContainer,
@@ -23,22 +23,22 @@ import {
   updateShowAptosPanel,
   updateShowAptosSwap,
   updateFilteredAptTags,
-} from '../../controller/createPost';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-import { sizes } from '../../utils';
+} from "../../controller/createPost";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import { sizes } from "../../utils";
 const size = new sizes(height, width);
 const FieldInput = () => {
   const textInputRef = useRef(null);
   const dispatch = useAppDispatch();
   const value = useAppSelector((state) => state.CreatePostController.inputText);
   const [formatedContent, setFormartedContent] = useState([]);
-  const [cursorPostion, setCursorPosition] = useState('');
+  const [cursorPostion, setCursorPosition] = useState("");
 
   useEffect(() => {
     batch(() => {
       dispatch(updateShowAtContainer(false));
       dispatch(updateShowHashTags(false));
-      dispatch(updateInputText(''));
+      dispatch(updateInputText(""));
       dispatch(updateShowAptosPanel(false));
       dispatch(updateShowAptosSwap(null));
     });
@@ -50,19 +50,19 @@ const FieldInput = () => {
     let format = /[ !#@$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n]/;
     splitWords.forEach((word, index) => {
       if (
-        (word.startsWith('@') && !format.test(word.substring(1))) ||
-        (word.startsWith('#') && !format.test(word.substring(1))) ||
-        (word.startsWith('$') && !format.test(word.substring(1)))
+        (word.startsWith("@") && !format.test(word.substring(1))) ||
+        (word.startsWith("#") && !format.test(word.substring(1))) ||
+        (word.startsWith("$") && !format.test(word.substring(1)))
       ) {
         const mention = (
           <Text key={index} style={styles.mention}>
             {word}
           </Text>
         );
-        if (index !== contentLength - 1) formattedText.push(mention, ' ');
+        if (index !== contentLength - 1) formattedText.push(mention, " ");
         else formattedText.push(mention);
       } else {
-        if (index !== contentLength - 1) return formattedText.push(word, ' ');
+        if (index !== contentLength - 1) return formattedText.push(word, " ");
         else return formattedText.push(word);
       }
     });
@@ -75,10 +75,10 @@ const FieldInput = () => {
   };
 
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
@@ -92,16 +92,16 @@ const FieldInput = () => {
   const handleText = (text_input: string) => {
     const cursorIndex = Number(cursorPostion);
     const words = text_input.split(/\s+/);
-    let currentWord = '';
+    let currentWord = "";
     for (let i = 0; i < words.length; i++) {
       const word = words[i];
       if (cursorIndex < currentWord.length + word.length) {
         currentWord = word;
         break;
       }
-      currentWord += word + ' ';
+      currentWord += word + " ";
     }
-    if (currentWord.startsWith('@')) {
+    if (currentWord.startsWith("@")) {
       batch(() => {
         dispatch(updateCurrentWord(currentWord.trim()));
         dispatch(updateFilteredData(currentWord.trim()));
@@ -109,27 +109,27 @@ const FieldInput = () => {
       });
     }
 
-    if (!currentWord.trim().startsWith('@')) {
+    if (!currentWord.trim().startsWith("@")) {
       dispatch(updateShowAtContainer(false));
     }
 
-    if (currentWord.startsWith('#')) {
+    if (currentWord.startsWith("#")) {
       batch(() => {
         dispatch(updateCurrentWord(currentWord.trim()));
         dispatch(updateFilteredHashData(currentWord.trim()));
         dispatch(updateShowHashTags(true));
       });
-    } else if (!currentWord.startsWith('#')) {
+    } else if (!currentWord.startsWith("#")) {
       dispatch(updateShowHashTags(false));
     }
 
-    if (currentWord.startsWith('$')) {
+    if (currentWord.startsWith("$")) {
       batch(() => {
         dispatch(updateCurrentWord(currentWord.trim()));
         dispatch(updateShowAptosPanel(true));
         dispatch(updateFilteredAptTags(currentWord.trim()));
       });
-    } else if (!currentWord.startsWith('$')) {
+    } else if (!currentWord.startsWith("$")) {
       dispatch(updateShowAptosPanel(false));
     } else {
       batch(() => {
@@ -139,7 +139,7 @@ const FieldInput = () => {
     }
     dispatch(updateInputText(text_input));
   };
-  if (!value.includes('$')) {
+  if (!value.includes("$")) {
     batch(() => {
       dispatch(updateShowAptosSwap(null));
     });
@@ -158,7 +158,7 @@ const FieldInput = () => {
         style={{
           fontSize: size.fontSize(16),
           lineHeight: size.getHeightSize(21),
-          fontFamily: 'Outfit-Regular',
+          fontFamily: "Outfit-Regular",
           color: appColor.kTextColor,
           width: size.getWidthSize(280),
           // maxHeight: size.getHeightSize(105),
@@ -178,6 +178,6 @@ const styles = StyleSheet.create({
     color: appColor.primaryLight,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
   },
 });

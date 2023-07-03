@@ -6,32 +6,32 @@ import {
   Image,
   FlatList,
   KeyboardAvoidingView,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import HashTags from '../../components/createPost/HashTags';
-import { sizes } from '../../utils';
-import ToastIcon from '../../../assets/images/svg/ToastIcon';
-import AtMention from '../../components/createPost/AtMention';
-import { useNavigation } from '@react-navigation/native';
-import FieldInput from '../../components/createPost/FieldInput';
-import { useAppSelector } from '../../controller/hooks';
-import PostAttachment from '../../components/createPost/PostAttachment';
-import AttachedNftContainer from '../../components/createPost/AttachedNftContainer';
+} from "react-native";
+import React, { useEffect, useState } from "react";
+const { height, width } = Dimensions.get("window");
+import { useFonts } from "expo-font";
+import { appColor, fonts, images } from "../../constants";
+import { SafeAreaView } from "react-native-safe-area-context";
+import HashTags from "../../components/createPost/HashTags";
+import { sizes } from "../../utils";
+import ToastIcon from "../../../assets/images/svg/ToastIcon";
+import AtMention from "../../components/createPost/AtMention";
+import { useNavigation } from "@react-navigation/native";
+import FieldInput from "../../components/createPost/FieldInput";
+import { useAppSelector } from "../../controller/hooks";
+import PostAttachment from "../../components/createPost/PostAttachment";
+import AttachedNftContainer from "../../components/createPost/AttachedNftContainer";
 const size = new sizes(height, width);
-import SwapPost from '../../components/createPost/SwapPost';
-import FloorPricePost from '../../components/createPost/FloorPricePost';
-import AptosPanel from '../../components/createPost/AptosPanel';
-import Media from '../../components/createPost/Media';
-import GifBottomSheet from '../../components/createPost/GifBottomSheet';
-import OfferSaleSheet from '../../components/createPost/OfferSaleSheet';
-import { Avatar } from 'react-native-elements';
-import Toast from 'react-native-toast-message';
-import { LinearProgress } from 'react-native-elements';
-import { CreatePostProps } from '../../navigations/NavigationTypes';
+import SwapPost from "../../components/createPost/SwapPost";
+import FloorPricePost from "../../components/createPost/FloorPricePost";
+import AptosPanel from "../../components/createPost/AptosPanel";
+import Media from "../../components/createPost/Media";
+import GifBottomSheet from "../../components/createPost/GifBottomSheet";
+import OfferSaleSheet from "../../components/createPost/OfferSaleSheet";
+import { Avatar } from "react-native-elements";
+import Toast from "react-native-toast-message";
+import { LinearProgress } from "react-native-elements";
+import { CreatePostProps } from "../../navigations/NavigationTypes";
 const CreatePost = ({ route }: CreatePostProps) => {
   const { showToast } = route.params;
   const {
@@ -60,16 +60,16 @@ const CreatePost = ({ route }: CreatePostProps) => {
   const shouldShowAptosPanel = showAPTPanel;
   const shouldShowAtMention = showAtMentions;
   const shouldShowHashTags = showHashTags;
-  const shouldShowSwapApt = showApt === 'Aptos';
-  const shouldShowAptMonkey = showApt === 'Aptos Monkeys';
+  const shouldShowSwapApt = showApt === "Aptos";
+  const shouldShowAptMonkey = showApt === "Aptos Monkeys";
   const shouldShowPostAttachment =
     !showAPTPanel && !showAtMentions && !showHashTags;
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
@@ -151,19 +151,19 @@ const CreatePost = ({ route }: CreatePostProps) => {
 export default CreatePost;
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    flexDirection: "row",
+    alignItems: "flex-end",
     paddingHorizontal: size.getWidthSize(16),
     height: size.getHeightSize(56),
     backgroundColor: appColor.kgrayDark2,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     paddingVertical: size.getHeightSize(12),
   },
   cancel: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(20),
-    fontFamily: 'Outfit-Medium',
+    fontFamily: "Outfit-Medium",
     letterSpacing: 0.04,
     width: size.getWidthSize(152),
   },
@@ -179,12 +179,12 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(20),
     letterSpacing: 0.02,
-    fontFamily: 'Outfit-Medium',
-    textAlign: 'center',
+    fontFamily: "Outfit-Medium",
+    textAlign: "center",
   },
 
   fieldInputContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(8),
     marginHorizontal: size.getWidthSize(16),
     marginTop: size.getHeightSize(8),
@@ -192,14 +192,14 @@ const styles = StyleSheet.create({
   tagConatiners: {
     maxHeight: size.getHeightSize(260),
     backgroundColor: appColor.kgrayDark2,
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
-    width: '100%',
+    width: "100%",
   },
   toastText: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     lineHeight: size.getHeightSize(18),
   },
   toastContainer: {
@@ -211,12 +211,12 @@ const styles = StyleSheet.create({
     borderColor: appColor.kGrayLight3,
   },
   toastRow: {
-    alignItems: 'flex-start',
-    flexDirection: 'row',
+    alignItems: "flex-start",
+    flexDirection: "row",
     marginHorizontal: size.getWidthSize(16),
     gap: size.getWidthSize(4),
     marginVertical: size.getHeightSize(16),
     width: size.getWidthSize(286),
-    alignSelf: 'center',
+    alignSelf: "center",
   },
 });

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Svg, { SvgProps, G, Rect, Path, Defs, ClipPath } from 'react-native-svg';
+import * as React from "react";
+import Svg, { SvgProps, G, Rect, Path, Defs, ClipPath } from "react-native-svg";
 const CommunityNotificationLogo = (props: SvgProps) => (
   <Svg width={24} height={24} fill="none" {...props}>
     <G clipPath="url(#a)">

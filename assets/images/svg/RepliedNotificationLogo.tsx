@@ -1,13 +1,7 @@
-import * as React from "react"
-import Svg, { SvgProps, G, Rect, Path, Defs, ClipPath } from "react-native-svg"
+import * as React from "react";
+import Svg, { SvgProps, G, Rect, Path, Defs, ClipPath } from "react-native-svg";
 const RepliedNotificationLogo = (props: SvgProps) => (
-  <Svg
-   
-    width={24}
-    height={24}
-    fill="none"
-    {...props}
-  >
+  <Svg width={24} height={24} fill="none" {...props}>
     <G clipPath="url(#a)">
       <Rect width={24} height={24} fill="#fff" rx={12} />
       <G clipPath="url(#b)">
@@ -34,5 +28,5 @@ const RepliedNotificationLogo = (props: SvgProps) => (
       </ClipPath>
     </Defs>
   </Svg>
-)
-export default RepliedNotificationLogo
+);
+export default RepliedNotificationLogo;

@@ -49,6 +49,10 @@ const SetNFT = () => {
     );
   };
 
+  const handle = () => {
+    setshowCollection(!showCollection)
+  }
+
   
 
   
@@ -73,8 +77,7 @@ const SetNFT = () => {
           }}
           onPress={() => {
             setCollection(item.collections)
-            setshowCollection(true)
-            navigate("SetNFTs")
+            handle()
             setOptions({title: `${item.Name}`})
             setCollectionName(item.Name)
             setSelectedId(item.id)
@@ -91,6 +94,8 @@ const SetNFT = () => {
       </View>
     );
   };
+
+  const disabled = selectedimage.length > 0 
 
   const DisplayNameBottomSheet = () => {
     return (
@@ -174,7 +179,11 @@ const SetNFT = () => {
             marginBottom: 10,
           }}
         >
-          <Pressable style={{}}>
+          <Pressable onPress={() => {
+            selectedimage.map((data) => {
+              dispatch(updateSelectedImage({imageSrc: data.image }))
+            })
+          }} style={{}}>
             <Text
               style={{
                 color: appColor.grayDark,
@@ -189,7 +198,7 @@ const SetNFT = () => {
               Cancel
             </Text>
           </Pressable>
-          <Pressable disabled>
+          <Pressable disabled={disabled} >
             <Text
               style={{
                 color: appColor.kWhiteColor,
@@ -198,7 +207,7 @@ const SetNFT = () => {
                 paddingVertical: 15,
                 borderRadius: 30,
                 fontFamily: "Outfit-Bold",
-                opacity: 0.5,
+                opacity: disabled ? 1 : 0.5,
                 fontSize: size.fontSize(18),
               }}
             >
@@ -242,7 +251,7 @@ const SetNFT = () => {
       />
          </>
         ):(
-          <Collection name={collectionName} collectionId={selectedId}/>
+          <Collection handle={handle} name={collectionName} collectionId={selectedId}/>
         )
       }
       <DisplayNameBottomSheet />

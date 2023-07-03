@@ -1,5 +1,5 @@
 //@ts-nocheck
-import * as React from 'react';
+import * as React from "react";
 import Svg, {
   SvgProps,
   Path,
@@ -7,7 +7,7 @@ import Svg, {
   Pattern,
   Use,
   Image,
-} from 'react-native-svg';
+} from "react-native-svg";
 const APTLarge = (props: SvgProps) => (
   <Svg width={40} height={40} fill="none" {...props}>
     <Path

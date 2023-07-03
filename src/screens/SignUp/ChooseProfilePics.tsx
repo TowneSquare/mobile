@@ -40,7 +40,7 @@ export default function ChooseProfilePics({
     (state) => state.USER.details.profileImage
   );
 
-  console.log(profilePics, 'hhh');
+  console.log(profilePics, "hhh");
 
   const uploadImageModal = useAppSelector(
     (state) => state.bottomSheetController.uploadImageModalOpen

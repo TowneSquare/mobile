@@ -5,12 +5,12 @@ import {
   ImageSourcePropType,
   Image,
   Dimensions,
-} from 'react-native';
-import React, { ReactNode, useState, useEffect } from 'react';
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
-import { sizes } from '../../utils';
-const { height, width } = Dimensions.get('window');
+} from "react-native";
+import React, { ReactNode, useState, useEffect } from "react";
+import { useFonts } from "expo-font";
+import { appColor, fonts, images } from "../../constants";
+import { sizes } from "../../utils";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 interface Props {
   steps?: number;
@@ -35,9 +35,9 @@ const ScrollableHeaderContent = ({
   iconMarginTop,
 }: Props) => {
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -46,7 +46,7 @@ const ScrollableHeaderContent = ({
     <>
       <View
         style={{
-          alignSelf: 'center',
+          alignSelf: "center",
         }}
       >
         {SvgImage}
@@ -63,8 +63,8 @@ const ScrollableHeaderContent = ({
               ? appColor.kWhiteColorWithOpacity
               : appColor.kTextColor,
             fontSize: size.fontSize(29),
-            fontFamily: 'Outfit-Bold',
-            textAlign: 'center',
+            fontFamily: "Outfit-Bold",
+            textAlign: "center",
             marginTop: size.getHeightSize(8),
             lineHeight: size.getHeightSize(37),
           }}
@@ -74,7 +74,7 @@ const ScrollableHeaderContent = ({
       </View>
       <View
         style={{
-          alignSelf: 'center',
+          alignSelf: "center",
           marginTop: size.getHeightSize(8),
           width: subTitleWidth ? size.getWidthSize(subTitleWidth) : undefined,
           marginHorizontal: size.getWidthSize(16),
@@ -86,12 +86,12 @@ const ScrollableHeaderContent = ({
               ? appColor.kWhiteColorWithOpacity
               : appColor.kTextColor,
             fontSize: size.fontSize(16),
-            fontFamily: 'Outfit-Regular',
-            textAlign: 'center',
+            fontFamily: "Outfit-Regular",
+            textAlign: "center",
             lineHeight: size.getHeightSize(21),
           }}
         >
-          {sub_title.replace(/\\n/g, '\n')}
+          {sub_title.replace(/\\n/g, "\n")}
         </Text>
       </View>
     </>

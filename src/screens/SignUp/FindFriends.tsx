@@ -8,29 +8,29 @@ import {
   Pressable,
   ImageSourcePropType,
   ScrollView,
-} from 'react-native';
-import React, { ReactNode, useState, useEffect } from 'react';
-import { appColor, fonts, images } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import { useFonts } from 'expo-font';
-import { SafeAreaView } from 'react-native-safe-area-context';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../../utils';
-import Hands from '../../../assets/images/svg/Hands';
-import Friend1 from '../../../assets/images/svg/Friend1';
-import Friend2 from '../../../assets/images/svg/Friend2';
-import Friend3 from '../../../assets/images/svg/Friend3';
-import Friend4 from '../../../assets/images/svg/Friend4';
-import ContinueButton from '../../components/SignUp/ContinueButton';
-import BackButton from '../../components/SignUp/BackButton';
-import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
-import Citizen from '../../../assets/images/svg/Citizen';
-import VerifiedBlue from '../../../assets/images/svg/VerifiedBlue';
-import AvatarFriend from '../../../assets/images/svg/AvatarFriend';
-import Checked from '../../../assets/images/svg/Checked';
-import Queen from '../../../assets/images/svg/Queen';
-import ScrollableHeaderContent from '../../components/SignUp/ScrollableHeaderContent';
-import ScrollableProfileSetUpHeader from '../../components/SignUp/ScrollableProfileSetUpHeader';
+} from "react-native";
+import React, { ReactNode, useState, useEffect } from "react";
+import { appColor, fonts, images } from "../../constants";
+import { StatusBar } from "expo-status-bar";
+import { useFonts } from "expo-font";
+import { SafeAreaView } from "react-native-safe-area-context";
+const { height, width } = Dimensions.get("window");
+import { sizes } from "../../utils";
+import Hands from "../../../assets/images/svg/Hands";
+import Friend1 from "../../../assets/images/svg/Friend1";
+import Friend2 from "../../../assets/images/svg/Friend2";
+import Friend3 from "../../../assets/images/svg/Friend3";
+import Friend4 from "../../../assets/images/svg/Friend4";
+import ContinueButton from "../../components/SignUp/ContinueButton";
+import BackButton from "../../components/SignUp/BackButton";
+import ProfileSetUpHeader from "../../components/SignUp/ProfileSetUpHeader";
+import Citizen from "../../../assets/images/svg/Citizen";
+import VerifiedBlue from "../../../assets/images/svg/VerifiedBlue";
+import AvatarFriend from "../../../assets/images/svg/AvatarFriend";
+import Checked from "../../../assets/images/svg/Checked";
+import Queen from "../../../assets/images/svg/Queen";
+import ScrollableHeaderContent from "../../components/SignUp/ScrollableHeaderContent";
+import ScrollableProfileSetUpHeader from "../../components/SignUp/ScrollableProfileSetUpHeader";
 const size = new sizes(height, width);
 interface Friend {
   id: number;
@@ -147,29 +147,29 @@ const FindFriends = () => {
           <View
             style={{
               marginTop: size.getHeightSize(32),
-              alignSelf: 'center',
+              alignSelf: "center",
               flex: 1,
             }}
           >
             <View
               style={{
                 width: size.getWidthSize(328),
-                flexDirection: 'row',
-                justifyContent: 'space-between',
+                flexDirection: "row",
+                justifyContent: "space-between",
 
                 paddingVertical: size.getHeightSize(10.5),
-                alignItems: 'center',
+                alignItems: "center",
                 paddingHorizontal: size.getWidthSize(8),
               }}
             >
               <Text
                 style={{
                   fontSize: size.fontSize(18),
-                  fontFamily: 'Outfit-Regular',
-                  textAlign: 'center',
+                  fontFamily: "Outfit-Regular",
+                  textAlign: "center",
                   lineHeight: size.getHeightSize(23),
                   color: appColor.kTextColor,
-                  fontStyle: 'normal',
+                  fontStyle: "normal",
                 }}
               >
                 Suggested Friends
@@ -184,8 +184,8 @@ const FindFriends = () => {
                   onPress={() => setFollowers(friends)}
                   style={{
                     fontSize: size.fontSize(16),
-                    fontFamily: 'Outfit-SemiBold',
-                    textAlign: 'right',
+                    fontFamily: "Outfit-SemiBold",
+                    textAlign: "right",
                     color: appColor.kSecondaryButtonColor,
                     lineHeight: size.getHeightSize(24),
                   }}

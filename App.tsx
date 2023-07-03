@@ -11,11 +11,10 @@ import { OAuthExtension } from "@magic-ext/react-native-expo-oauth";
 import { AptosExtension } from "@magic-ext/aptos";
 import { APTOS_NODE_URL } from "./constants";
 
-import { LinkingOptions } from '@react-navigation/native';
-import * as Linking from 'expo-linking';
+import { LinkingOptions } from "@react-navigation/native";
+import * as Linking from "expo-linking";
 
-import { RootStackParamList } from './src/navigations/NavigationTypes';
-
+import { RootStackParamList } from "./src/navigations/NavigationTypes";
 
 const linking: LinkingOptions<RootStackParamList> = {
   prefixes: [Linking.createURL("/")],
@@ -35,7 +34,7 @@ export default function App() {
       new AptosExtension({
         nodeUrl: APTOS_NODE_URL,
       }),
-    ]
+    ],
   });
   const magicProps = {
     magic,

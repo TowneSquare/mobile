@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Svg, { SvgProps, Rect, G, Path, Defs, ClipPath } from 'react-native-svg';
+import * as React from "react";
+import Svg, { SvgProps, Rect, G, Path, Defs, ClipPath } from "react-native-svg";
 const RemoveAttachment = (props: SvgProps) => (
   <Svg width={36} height={36} fill="none" {...props}>
     <Rect width={36} height={36} fill="#000" fillOpacity={0.7} rx={18} />

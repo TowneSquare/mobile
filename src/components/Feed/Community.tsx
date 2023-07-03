@@ -5,18 +5,18 @@ import {
   Image,
   StyleSheet,
   Pressable,
-} from 'react-native';
-import React, { memo } from 'react';
-import { sizes } from '../../utils';
-import { appColor, fonts, images } from '../../constants';
-import { useFonts } from 'expo-font';
-const { height, width } = Dimensions.get('window');
-import FeedLink from '../../../assets/images/svg/FeedLink';
-import { useNavigation } from '@react-navigation/native';
-import ProfilePicture from './ProfilePicture';
-import { feedStyle } from './FeedsStyles';
-import APT from '../../../assets/images/svg/APT';
-import PostedIn from './PostedIn';
+} from "react-native";
+import React, { memo } from "react";
+import { sizes } from "../../utils";
+import { appColor, fonts, images } from "../../constants";
+import { useFonts } from "expo-font";
+const { height, width } = Dimensions.get("window");
+import FeedLink from "../../../assets/images/svg/FeedLink";
+import { useNavigation } from "@react-navigation/native";
+import ProfilePicture from "./ProfilePicture";
+import { feedStyle } from "./FeedsStyles";
+import APT from "../../../assets/images/svg/APT";
+import PostedIn from "./PostedIn";
 import {
   UserPost,
   FeedContent,
@@ -97,7 +97,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
               <PostedIn communityName={userPost.postedin} />
               <Text style={styles.message}>{userPost.content.message}</Text>
               <Pressable
-                onPress={() => navigation.navigate('ViewImageScreen' as never)}
+                onPress={() => navigation.navigate("ViewImageScreen" as never)}
                 style={styles.mediaContainer}
               >
                 <Image
@@ -161,7 +161,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
               />
               <PostedIn communityName={userPost.postedin} />
               <Pressable
-                onPress={() => navigation.navigate('VideoPlayer' as never)}
+                onPress={() => navigation.navigate("VideoPlayer" as never)}
                 style={styles.mediaContainer}
               >
                 <Image
