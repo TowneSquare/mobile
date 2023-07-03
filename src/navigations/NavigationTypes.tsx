@@ -35,7 +35,8 @@ export type RootStackParamList = {
   CreatePost: { showToast?: boolean };
   NftCollectionScreen: undefined;
   SelectedCollectionScreen: undefined;
-  Collection:undefined
+  Collection: undefined;
+  Profile;
 };
 
 type CreatePostParameter = {

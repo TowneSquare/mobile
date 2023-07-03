@@ -13,8 +13,7 @@ import {
 } from "react-native";
 import { appColor, images } from "../../../constants";
 import SearchIcon from "../../../../assets/images/svg/SearchIcon";
-import BottomSheet, {
-} from "@gorhom/bottom-sheet";
+import BottomSheet from "@gorhom/bottom-sheet";
 import { sizes } from "../../../utils";
 import { useAppSelector, useAppDispatch } from "../../../controller/hooks";
 const { height, width } = Dimensions.get("window");
@@ -29,14 +28,16 @@ const SetNFT = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [noSelected, setnoSelected] = useState<number>(0);
   const [numColumns, setnumColumns] = useState<number>(2);
-  const [showCollection, setshowCollection] = useState(false)
-  const [collectionName, setCollectionName] = useState("")
-  const [selectedId, setSelectedId] = useState<number>()
-  const [collection, setCollection] = useState<collection[]>()
+  const [showCollection, setshowCollection] = useState(false);
+  const [collectionName, setCollectionName] = useState("");
+  const [selectedId, setSelectedId] = useState<number>();
+  const [collection, setCollection] = useState<collection[]>();
   const NFTCollections = useAppSelector((state) => state.USER.NFTCollections);
-  const selectedimage = useAppSelector((state) => state.USER.selectedCollection);
-   const dispatch = useAppDispatch();
-  const {navigate,setOptions} = useNavigation()
+  const selectedimage = useAppSelector(
+    (state) => state.USER.selectedCollection
+  );
+  const dispatch = useAppDispatch();
+  const { navigate, setOptions } = useNavigation();
   const CustomHandler = () => {
     return (
       <View
@@ -50,17 +51,12 @@ const SetNFT = () => {
   };
 
   const handle = () => {
-    setshowCollection(!showCollection)
-  }
+    setshowCollection(!showCollection);
+    setOptions({ headerShown: showCollection });
+  };
 
-  
-
-  
-
-
-
-  const CollectionImage:FC<{
-    item: NftCollection
+  const CollectionImage: FC<{
+    item: NftCollection;
   }> = ({ item }) => {
     return (
       <View
@@ -76,11 +72,10 @@ const SetNFT = () => {
             borderRadius: 40,
           }}
           onPress={() => {
-            setCollection(item.collections)
-            handle()
-            setOptions({title: `${item.Name}`})
-            setCollectionName(item.Name)
-            setSelectedId(item.id)
+            setCollection(item.collections);
+            handle();
+            setCollectionName(item.Name);
+            setSelectedId(item.id);
           }}
         >
           <Image
@@ -95,19 +90,19 @@ const SetNFT = () => {
     );
   };
 
-  const disabled = selectedimage.length > 0 
+  const disabled = selectedimage.length > 0;
 
   const DisplayNameBottomSheet = () => {
     return (
-      <View style={{
-        backgroundColor: appColor.kgrayDark2,
-        height:"35%"
-      }}>
+      <View
+        style={{
+          backgroundColor: appColor.kgrayDark2,
+          height: "35%",
+        }}
+      >
         <View
           style={{
             margin: 10,
-
-            
           }}
         >
           <Text
@@ -133,43 +128,56 @@ const SetNFT = () => {
             margin: 10,
           }}
         >
-          {selectedimage.map((data) => (
-            data == undefined ? (<Pressable
-              style={{
-                borderWidth: 0.5,
-                width: 70,
-                height: 70,
-                borderColor: appColor.kgrayColor,
-                borderStyle: "dashed",
-                borderRadius: 10,
-                marginRight: 10,
-              }}
-            ></Pressable>):(<Pressable style={{
-              position:"relative"
-            }}
-            onPress={() => {
-             dispatch( updateSelectedImage({imageSrc:data.image}))
-            }}
-            >
-             <View style={{
-                position: "relative"
-             }}>
-               <Image  key={data.id} source={data.image} style={{
-              width:70,
-              height:70,
-              marginHorizontal:5,
-              borderRadius:10
-            }}/>
-             </View>
-            <View style={{
-              position:"absolute",
-              left:45,
-              top:5
-            }}>
-              <Image source={images.Remove}/>
-            </View>
-            </Pressable>)
-          ))}
+          {selectedimage.map((data) =>
+            data == undefined ? (
+              <Pressable
+                style={{
+                  borderWidth: 0.5,
+                  width: 70,
+                  height: 70,
+                  borderColor: appColor.kgrayColor,
+                  borderStyle: "dashed",
+                  borderRadius: 10,
+                  marginRight: 10,
+                }}
+              ></Pressable>
+            ) : (
+              <Pressable
+                style={{
+                  position: "relative",
+                }}
+                onPress={() => {
+                  dispatch(updateSelectedImage({ imageSrc: data.image }));
+                }}
+              >
+                <View
+                  style={{
+                    position: "relative",
+                  }}
+                >
+                  <Image
+                    key={data.id}
+                    source={data.image}
+                    style={{
+                      width: 70,
+                      height: 70,
+                      marginHorizontal: 5,
+                      borderRadius: 10,
+                    }}
+                  />
+                </View>
+                <View
+                  style={{
+                    position: "absolute",
+                    left: 45,
+                    top: 5,
+                  }}
+                >
+                  <Image source={images.Remove} />
+                </View>
+              </Pressable>
+            )
+          )}
         </ScrollView>
 
         <View
@@ -179,11 +187,14 @@ const SetNFT = () => {
             marginBottom: 10,
           }}
         >
-          <Pressable onPress={() => {
-            selectedimage.map((data) => {
-              dispatch(updateSelectedImage({imageSrc: data.image }))
-            })
-          }} style={{}}>
+          <Pressable
+            onPress={() => {
+              selectedimage.map((data) => {
+                dispatch(updateSelectedImage({ imageSrc: data.image }));
+              });
+            }}
+            style={{}}
+          >
             <Text
               style={{
                 color: appColor.grayDark,
@@ -198,7 +209,12 @@ const SetNFT = () => {
               Cancel
             </Text>
           </Pressable>
-          <Pressable disabled={disabled} >
+          <Pressable
+            disabled={disabled}
+            onPress={() => {
+              navigate("Profile");
+            }}
+          >
             <Text
               style={{
                 color: appColor.kWhiteColor,
@@ -219,41 +235,42 @@ const SetNFT = () => {
     );
   };
 
-  
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: appColor.feedBackground }}>
-      {
-        !showCollection ? (
-         <>
-           <View style={styles.searchSection}>
-        <SearchIcon />
-        <TextInput
-          style={styles.input}
-          cursorColor="white"
-          placeholder="Search by Collection name or ID #"
-          placeholderTextColor={appColor.kTextSubtitleClor}
-          maxLength={40}
-        />
-      </View>
+      <View></View>
+      {!showCollection ? (
+        <>
+          <View style={styles.searchSection}>
+            <SearchIcon />
+            <TextInput
+              style={styles.input}
+              cursorColor="white"
+              placeholder="Search by Collection name or ID #"
+              placeholderTextColor={appColor.kTextSubtitleClor}
+              maxLength={40}
+            />
+          </View>
 
-       <FlatList
-        key={numColumns}
-        data={NFTCollections}
-        renderItem={({ item }) => <CollectionImage item={item} />}
-        keyExtractor={(item) => item.id.toString()}
-        style={{}}
-        contentContainerStyle={{
-          justifyContent: "space-between",
-        }}
-        numColumns={numColumns}
-       extraData={NFTCollections}
-      />
-         </>
-        ):(
-          <Collection handle={handle} name={collectionName} collectionId={selectedId}/>
-        )
-      }
+          <FlatList
+            key={numColumns}
+            data={NFTCollections}
+            renderItem={({ item }) => <CollectionImage item={item} />}
+            keyExtractor={(item) => item.id.toString()}
+            style={{}}
+            contentContainerStyle={{
+              justifyContent: "space-between",
+            }}
+            numColumns={numColumns}
+            extraData={NFTCollections}
+          />
+        </>
+      ) : (
+        <Collection
+          handle={handle}
+          name={collectionName}
+          collectionId={selectedId}
+        />
+      )}
       <DisplayNameBottomSheet />
     </SafeAreaView>
   );

@@ -163,8 +163,7 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerTitleAlign: "center",
           headerLeftContainerStyle: {
             justifyContent: "flex-end",
-          }
-        
+          },
         }}
       />
 
@@ -222,7 +221,6 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
       <Stack.Screen
         name="SetNFTs"
         component={SetNFT}
-        
         options={({ route }) => ({
           title: route.params,
           headerStyle: {
@@ -242,10 +240,6 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           },
         })}
       />
-
-  
-
-      
 
       <Stack.Screen name="EmailLogin" options={{ headerShown: false }}>
         {() => <EmailLogin {...magicProps} />}
