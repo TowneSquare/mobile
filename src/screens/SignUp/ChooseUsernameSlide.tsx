@@ -9,18 +9,19 @@ import {
   Pressable,
   FlatList,
   ScrollView,
-} from "react-native";
-import Constants from "expo-constants";
-import { useAppSelector } from "../../controller/hooks";
-import { useFonts } from "expo-font";
-import TransitionBackButton from "../../components/SignUp/TransitionBackButton";
-import { appColor, fonts, images } from "../../constants";
-import { sizes } from "../../utils";
-import TranslationForwardButton from "../../components/SignUp/TranslationForwardButton";
-import SelectSocialsHeader from "../../components/SignUp/SelectSocialsHeader";
-import ConnectSocialsAndVerifyContent from "../../components/SignUp/ConnectSocialsAndVerifyContent";
-import { ChooseUsernameSlideProps } from "../../navigations/NavigationTypes";
-const { width, height } = Dimensions.get("window");
+} from 'react-native';
+import Constants from 'expo-constants';
+import { StatusBar } from 'expo-status-bar';
+import { useAppSelector } from '../../controller/hooks';
+import { useFonts } from 'expo-font';
+import TransitionBackButton from '../../components/SignUp/TransitionBackButton';
+import { appColor, fonts, images } from '../../constants';
+import { sizes } from '../../utils';
+import TranslationForwardButton from '../../components/SignUp/TranslationForwardButton';
+import SelectSocialsHeader from '../../components/SignUp/SelectSocialsHeader';
+import ConnectSocialsAndVerifyContent from '../../components/SignUp/ConnectSocialsAndVerifyContent';
+import { ChooseUsernameSlideProps } from '../../navigations/NavigationTypes';
+const { width, height } = Dimensions.get('window');
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
 let newWidth = width - 2 * PADDING;

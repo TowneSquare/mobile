@@ -22,6 +22,14 @@ import EmailLogin from "../screens/SignUp/EmailLogin";
 import EditProfile from "../components/Profile/About/EditProfile";
 import { appColor, images } from "../constants";
 import SetNFT from "../components/Profile/About/SetNFTs";
+import Notifications from '../screens/Feed/Notifications';
+import ViewImageScreen from '../screens/Feed/ViewImageScreen';
+import VideoPlayer from '../screens/Feed/VideoPlayer';
+import SinglePost from '../screens/Feed/SinglePost';
+
+import CreatePost from '../screens/Feed/CreatePost';
+import NftCollectionScreen from '../screens/Feed/NftCollectionScreen';
+import SelectedCollectionScreen from '../screens/Feed/SelectedCollectionScreen';
 
 const Navigations = ({ magicProps }: { magicProps: any }) => {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -158,6 +166,61 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
         }}
       />
 
+
+      <Stack.Screen
+        name="ViewImageScreen"
+        component={ViewImageScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="VideoPlayer"
+        component={VideoPlayer}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SinglePost"
+        component={SinglePost}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Notifications"
+        component={Notifications}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CreatePost"
+        component={CreatePost}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SelectedCollectionScreen"
+        component={SelectedCollectionScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="NftCollectionScreen"
+        component={NftCollectionScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      
+
+
       <Stack.Screen
         name="SetNFTs"
         component={SetNFT}
@@ -171,12 +234,12 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
              fontFamily: "Outfit-Regular",
              fontSize: 20,
              marginBottom: -40,},
-             headerTintColor: "white",
+            headerTintColor: "white",
            headerTitleAlign: "center",
            headerLeftContainerStyle: {
              justifyContent: "flex-end",
            },
-        })}
+          })}
       />
 
       <Stack.Screen name="EmailLogin" options={{ headerShown: false }}>
@@ -187,22 +250,3 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
 };
 
 export default Navigations;
-
-// options={{
-//           headerTitle: "My Super Stars",
-//           headerStyle: {
-//             backgroundColor: appColor.kgrayDark2,
-//             height: 130,
-//           },
-//           headerTitleStyle: {
-//             color: appColor.kTextColor,
-//             fontFamily: "Outfit-Regular",
-//             fontSize: 20,
-//             marginBottom: -40,
-//           },
-//           headerTintColor: "white",
-//           headerTitleAlign: "center",
-//           headerLeftContainerStyle: {
-//             justifyContent: "flex-end",
-//           },
-//         }}

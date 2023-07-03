@@ -30,9 +30,9 @@ import Description2 from "../../../assets/images/svg/Description2";
 import TowneSquareLogo from "../../../assets/images/svg/TownesquareLogo";
 const size = new sizes(height, width);
 
-import * as Linking from "expo-linking";
-import { useAppDispatch } from "../../controller/hooks";
-import { updateDidToken } from "../../controller/UserController";
+import * as Linking from 'expo-linking';
+import { useAppDispatch } from '../../controller/hooks';
+import { updateAccountInfo, updateDidToken } from '../../controller/UserController';
 
 const FirstScreen = ({ magic }: FirstScreenProps) => {
   const navigation = useNavigation();
@@ -55,7 +55,11 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
     });
     console.log(JSON.stringify(token));
     dispatch(updateDidToken(token));
-  };
+
+    const accountInfo = await magic.aptos.getAccountInfo();
+    console.log(accountInfo);
+    dispatch(updateAccountInfo(accountInfo));
+  }
 
   const loginDiscord = async () => {
     const token = await magic.oauth.loginWithPopup({
@@ -64,7 +68,11 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
     });
     console.log(token);
     dispatch(updateDidToken(token));
-  };
+
+    const accountInfo = await magic.aptos.getAccountInfo();
+    console.log(accountInfo);
+    dispatch(updateAccountInfo(accountInfo));
+  }
 
   return (
     <>

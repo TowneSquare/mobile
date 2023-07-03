@@ -8,11 +8,14 @@ import DrawerNavigation from "./src/navigations/DrawerNavigation";
 import { Magic } from "@magic-sdk/react-native-expo";
 import { API_KEY } from "./config/env";
 import { OAuthExtension } from "@magic-ext/react-native-expo-oauth";
+import { AptosExtension } from "@magic-ext/aptos";
+import { APTOS_NODE_URL } from "./constants";
 
-import { LinkingOptions } from "@react-navigation/native";
-import * as Linking from "expo-linking";
+import { LinkingOptions } from '@react-navigation/native';
+import * as Linking from 'expo-linking';
 
-import { RootStackParamList } from "./src/navigations/NavigationTypes";
+import { RootStackParamList } from './src/navigations/NavigationTypes';
+
 
 const linking: LinkingOptions<RootStackParamList> = {
   prefixes: [Linking.createURL("/")],
@@ -27,7 +30,12 @@ const linking: LinkingOptions<RootStackParamList> = {
 
 export default function App() {
   const magic = new Magic(API_KEY, {
-    extensions: [new OAuthExtension()],
+    extensions: [
+      new OAuthExtension(),
+      new AptosExtension({
+        nodeUrl: APTOS_NODE_URL,
+      }),
+    ]
   });
   const magicProps = {
     magic,

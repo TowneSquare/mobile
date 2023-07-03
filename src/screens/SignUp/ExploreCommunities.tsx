@@ -8,21 +8,23 @@ import {
   Pressable,
   ImageSourcePropType,
   ScrollView,
-} from "react-native";
-import React, { ReactNode, useState, useEffect } from "react";
-import { appColor, fonts, images } from "../../constants";
-import { StatusBar } from "expo-status-bar";
-import Community from "../../../assets/images/svg/Community";
-import { useFonts } from "expo-font";
-import { SafeAreaView } from "react-native-safe-area-context";
-const { height, width } = Dimensions.get("window");
-import { sizes } from "../../utils";
-import Verified from "../../../assets/images/svg/Verified";
-import ContinueButton from "../../components/SignUp/ContinueButton";
-import BackButton from "../../components/SignUp/BackButton";
-import ProfileSetUpHeader from "../../components/SignUp/ProfileSetUpHeader";
-import PolygonImage from "../../../assets/images/svg/PolygonImage";
-import Checked from "../../../assets/images/svg/Checked";
+} from 'react-native';
+import React, { ReactNode, useState, useEffect } from 'react';
+import { appColor, fonts, images } from '../../constants';
+import { StatusBar } from 'expo-status-bar';
+import Community from '../../../assets/images/svg/Community';
+import { useFonts } from 'expo-font';
+import { SafeAreaView } from 'react-native-safe-area-context';
+const { height, width } = Dimensions.get('window');
+import { sizes } from '../../utils';
+import Verified from '../../../assets/images/svg/Verified';
+import ContinueButton from '../../components/SignUp/ContinueButton';
+import BackButton from '../../components/SignUp/BackButton';
+
+import PolygonImage from '../../../assets/images/svg/PolygonImage';
+import Checked from '../../../assets/images/svg/Checked';
+import ScrollableProfileSetUpHeader from '../../components/SignUp/ScrollableProfileSetUpHeader';
+import ScrollableHeaderContent from '../../components/SignUp/ScrollableHeaderContent';
 const size = new sizes(height, width);
 interface Communities {
   id: number;
@@ -90,135 +92,146 @@ const ExploreCommunities = () => {
       }}
     >
       <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
-      <ProfileSetUpHeader
-        SvgImage={<Community />}
+
+      <ScrollableProfileSetUpHeader
         stepDescription="Next Step: Choose PFP"
-        title="Explore Communities"
-        sub_title="Here are some communities you might be interested in"
         steps={5}
-        subTitleWidth={304}
       />
       <View
         style={{
-          width: size.getWidthSize(328),
-          marginTop: size.getHeightSize(32),
-          alignSelf: "center",
           flex: 1,
         }}
       >
-        <View
-          style={{
-            width: size.getWidthSize(328),
-            flexDirection: "row",
-            justifyContent: "space-between",
-            gap: size.getHeightSize(8),
-            height: size.getHeightSize(44),
-            paddingHorizontal: size.getWidthSize(8),
-          }}
-        >
-          <Text
-            style={{
-              fontSize: size.fontSize(18),
-              fontFamily: "Outfit-Regular",
-              textAlign: "center",
-              lineHeight: size.getHeightSize(23),
-              color: appColor.kTextColor,
-              fontStyle: "normal",
-            }}
-          >
-            Suggested Communities
-          </Text>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollableHeaderContent
+            SvgImage={<Community />}
+            title="Explore Communities"
+            sub_title="Here are some communities you might be interested in"
+            subTitleWidth={size.getWidthSize(304)}
+          />
           <View
             style={{
-              width: size.getWidthSize(65),
+              width: size.getWidthSize(328),
+              marginTop: size.getHeightSize(32),
+              alignSelf: 'center',
+              flex: 1,
             }}
           >
-            <Text
-              onPress={() => setCommunities(Communities)}
+            <View
               style={{
-                fontSize: size.fontSize(16),
-                fontFamily: "Outfit-SemiBold",
-                textAlign: "right",
-                color: appColor.kSecondaryButtonColor,
-                lineHeight: size.getHeightSize(21),
+                width: size.getWidthSize(328),
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+
+                paddingVertical: size.getHeightSize(10.5),
+                paddingHorizontal: size.getWidthSize(8),
+                alignItems: 'center',
               }}
             >
-              Join all
-            </Text>
-          </View>
-        </View>
-
-        {/* ScrollView */}
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {Communities.map((Community) => (
+              <Text
+                style={{
+                  fontSize: size.fontSize(18),
+                  fontFamily: 'Outfit-Regular',
+                  textAlign: 'center',
+                  lineHeight: size.getHeightSize(23),
+                  color: appColor.kTextColor,
+                  fontStyle: 'normal',
+                }}
+              >
+                Suggested Communities
+              </Text>
               <View
                 style={{
-                  flexDirection: "row",
-                  width: size.getWidthSize(328),
-                  // height: size.getHeightSize(58),
-                  borderRadius: 40,
-                  paddingVertical: size.getHeightSize(8),
-                  paddingHorizontal: size.getWidthSize(8),
-                  alignItems: "center",
-                  // justifyContent: 'center',
-                  marginBottom: size.getHeightSize(8),
+                  width: size.getWidthSize(65),
+                  marginRight: size.getWidthSize(8),
                 }}
-                key={Community.id}
               >
-                {Community.image}
-                <View
+                <Text
+                  onPress={() => setCommunities(Communities)}
                   style={{
-                    flex: 1,
-                    marginLeft: size.getWidthSize(8),
+                    fontSize: size.fontSize(16),
+                    fontFamily: 'Outfit-SemiBold',
+                    textAlign: 'right',
+                    color: appColor.kSecondaryButtonColor,
+                    lineHeight: size.getHeightSize(21),
                   }}
                 >
+                  Join all
+                </Text>
+              </View>
+            </View>
+
+            {/* ScrollView */}
+            <View
+              style={{
+                flex: 1,
+              }}
+            >
+              {Communities.map((Community) => (
+                <View
+                  key={Community.id}
+                  style={{
+                    flexDirection: 'row',
+                    width: size.getWidthSize(328),
+                    // height: size.getHeightSize(58),
+                    borderRadius: 40,
+                    paddingVertical: size.getHeightSize(8),
+                    paddingHorizontal: size.getWidthSize(8),
+                    alignItems: 'center',
+                    // justifyContent: 'center',
+                    marginBottom: size.getHeightSize(8),
+                  }}
+                >
+                  {Community.image}
                   <View
                     style={{
-                      flexDirection: "row",
-                      gap: size.getWidthSize(4.56),
-                      width: size.getWidthSize(153),
+                      flex: 1,
+                      marginLeft: size.getWidthSize(8),
                     }}
                   >
-                    <Text
-                      numberOfLines={1}
-                      ellipsizeMode="tail"
-                      style={styles.username}
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        gap: size.getWidthSize(4.56),
+                        width: size.getWidthSize(153),
+                      }}
                     >
-                      {Community.name}
-                    </Text>
-                    <Verified />
-                  </View>
+                      <Text
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                        style={styles.username}
+                      >
+                        {Community.name}
+                      </Text>
+                      <Verified />
+                    </View>
 
-                  {Community.message && (
-                    <Text style={styles.message}>{Community.message}</Text>
+                    {Community.message && (
+                      <Text style={styles.message}>{Community.message}</Text>
+                    )}
+                  </View>
+                  {communities.some(
+                    (myCommuinty) => myCommuinty.name === Community.name
+                  ) ? (
+                    <Pressable
+                      onPress={() => removeCommunity(Community)}
+                      style={styles.myCommunityButton}
+                    >
+                      <Text style={styles.buttonText}>Joined</Text>
+                    </Pressable>
+                  ) : (
+                    <Pressable
+                      onPress={() => addCommunity(Community)}
+                      style={styles.button}
+                    >
+                      <Text style={styles.buttonText}>Join</Text>
+                    </Pressable>
                   )}
                 </View>
-                {communities.some(
-                  (myCommuinty) => myCommuinty.name === Community.name
-                ) ? (
-                  <Pressable
-                    onPress={() => removeCommunity(Community)}
-                    style={styles.myCommunityButton}
-                  >
-                    <Text style={styles.buttonText}>Joined</Text>
-                  </Pressable>
-                ) : (
-                  <Pressable
-                    onPress={() => addCommunity(Community)}
-                    style={styles.button}
-                  >
-                    <Text style={styles.buttonText}>Join</Text>
-                  </Pressable>
-                )}
-              </View>
-            ))}
-          </ScrollView>
-        </View>
+              ))}
+            </View>
+          </View>
+        </ScrollView>
       </View>
 
       <View
@@ -228,7 +241,7 @@ const ExploreCommunities = () => {
         }}
       >
         <ContinueButton
-          disabled={disableOnPress}
+          disabled={false}
           navigateTo="ChooseProfilePics"
           marginTop={8}
         />

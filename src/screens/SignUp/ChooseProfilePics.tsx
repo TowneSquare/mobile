@@ -30,11 +30,17 @@ import ChooseNFT from "../../components/SignUp/ChooseNFT";
 import { ChooseProfilePicsProps } from "../../navigations/NavigationTypes";
 import tinycolor from "tinycolor2";
 const size = new sizes(height, width);
-const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
+
+export default function ChooseProfilePics({
+  navigation,
+}: ChooseProfilePicsProps) {
+  // const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
   const dispatch = useAppDispatch();
   const profilePics = useAppSelector(
     (state) => state.USER.details.profileImage
   );
+
+  console.log(profilePics, 'hhh');
 
   const uploadImageModal = useAppSelector(
     (state) => state.bottomSheetController.uploadImageModalOpen
@@ -102,7 +108,13 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
       <View>
         {profilePics ? (
           <>
-            <View style={styles.container}>
+            <Pressable
+              onPress={() => {
+                dispatch(updateUploadModalRenderCount(1));
+                dispatch(updateUploadImageModalOpen(true));
+              }}
+              style={styles.container}
+            >
               <Pressable
                 style={styles.imageContainer}
                 onPress={() => {
@@ -113,10 +125,10 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
                 <Image
                   style={styles.image}
                   source={{ uri: profilePics }}
-                  resizeMode="contain"
+                  resizeMode="cover"
                 />
               </Pressable>
-            </View>
+            </Pressable>
 
             <Text
               style={{
@@ -213,9 +225,7 @@ const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
       <SelectedCollection />
     </SafeAreaView>
   );
-};
-
-export default ChooseProfilePics;
+}
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",

@@ -71,6 +71,8 @@ const UploadImageModal = () => {
     }
   }, [isVisible]);
 
+  
+
   const animatedIndex = useSharedValue(0);
   const contentStyle = useAnimatedStyle(() => ({
     transform: [
@@ -257,6 +259,7 @@ const UploadImageModal = () => {
 };
 
 export default UploadImageModal;
+
 const styles = StyleSheet.create({
   container: {
     width: size.getWidthSize(328),

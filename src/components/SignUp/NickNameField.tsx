@@ -30,7 +30,7 @@ const NickNameField = () => {
     >
       <TextInput
         cursorColor={appColor.klightPurple}
-        placeholder="Nickname"
+        placeholder="Display name"
         placeholderTextColor={appColor.kgrayTextColor}
         onChangeText={(text) => dispatch(updateNickname(text))}
         style={{

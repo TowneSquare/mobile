@@ -21,7 +21,6 @@ import Retweeted from "../../../assets/images/svg/Retweeted";
 import BookMarkedIcon from "../../../assets/images/svg/BookMarkedIcon";
 import Animated, {
   Extrapolate,
-  Extrapolation,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
@@ -33,8 +32,18 @@ interface Props {
   noOfComments: string;
   noOfRetweet: string;
   noOfLikes: string;
+  paddingHorizontal?: number;
+  marginTop?: number;
+  paddingTop?: number;
 }
-const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
+const PostActions = ({
+  noOfComments,
+  noOfLikes,
+  noOfRetweet,
+  paddingHorizontal,
+  marginTop,
+  paddingTop,
+}: Props) => {
   const [changeLikeTextColor, setlikesTextColor] = useState(false);
   const [changeRetweetTextColor, setRetweetTextColor] = useState(false);
   const handleLike = () => {
@@ -121,9 +130,15 @@ const PostActions = ({ noOfComments, noOfLikes, noOfRetweet }: Props) => {
     <View
       style={{
         gap: size.getWidthSize(20),
-        flexDirection: "row",
-        marginTop: size.getHeightSize(9),
+        flexDirection: 'row',
+        marginTop: marginTop
+          ? size.getHeightSize(marginTop)
+          : size.getHeightSize(9),
         marginBottom: size.getHeightSize(16),
+        paddingHorizontal: paddingHorizontal
+          ? size.getWidthSize(paddingHorizontal)
+          : 0,
+        paddingTop: paddingTop ? size.getHeightSize(paddingTop) : 0,
       }}
     >
       <View

@@ -34,7 +34,7 @@ interface UserState {
     usernameErrorMessage: string;
   };
   didToken: string;
-  editProfile: boolean;
+  accountInfo: any;  editProfile: boolean;
   NFTCollections: NftCollection[];
 }
 
@@ -756,6 +756,7 @@ const initialState: UserState = {
       id: "11",
     },
   ],
+  accountInfo: undefined
 };
 
 
@@ -869,6 +870,9 @@ export const USER = createSlice({
     newArray[0].collections.find(c => c.id === action.payload.collectionId)!.isSelected= action.payload.isSelected
     state.NFTCollections = newArray
     
+    },
+    updateAccountInfo: (state, action: PayloadAction<any>) => {
+      state.accountInfo = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -889,6 +893,7 @@ export const {
   updateDidToken,
   updateProfileImage,
   updateEditProfile,
-  updateCollectionIsSelected
+  updateCollectionIsSelected,
+  updateAccountInfo
 } = USER.actions;
 export default USER.reducer;

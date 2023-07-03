@@ -28,6 +28,19 @@ export type RootStackParamList = {
   EmailLogin: undefined;
   EditProfile: undefined;
   SetNFTs: undefined;
+   ViewImageScreen: undefined;
+  VideoPlayer: undefined;
+  SinglePost: undefined;
+  Notifications: undefined;
+  CreatePost: { showToast?: boolean };
+  NftCollectionScreen: undefined;
+  SelectedCollectionScreen: undefined;
+};
+
+type CreatePostParameter = {
+  [CreatePost: string]: {
+    showToast: boolean;
+  };
 };
 
 export type FirstScreenProps = {
@@ -95,4 +108,42 @@ export type EditProfileProps = {
 export type SetNFTsProps = {
   navigation: NavigationProp<RootStackParamList, "SetNFTs">;
   route: RouteProp<ParamListBase, "SetNFTs">;
+};
+
+export type SinglePostProps = {
+  navigation: NavigationProp<RootStackParamList, 'SinglePost'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'SinglePost'>;
+};
+
+export type ViewImageScreenProps = {
+  navigation: NavigationProp<RootStackParamList, 'ViewImageScreen'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'VideoPlayer'>;
+};
+export type VideoPlayerProps = {
+  navigation: NavigationProp<RootStackParamList, 'VideoPlayer'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'VideoPlayer'>;
+};
+
+export type NotificationsProps = {
+  navigation: NavigationProp<RootStackParamList, 'Notifications'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'Notifications'>;
+};
+export type CreatePostProps = {
+  navigation: NavigationProp<RootStackParamList, 'CreatePost'>;
+  magic: any;
+  route: RouteProp<CreatePostParameter, 'CreatePost'>;
+};
+export type NftCollectionScreenProps = {
+  navigation: NavigationProp<RootStackParamList, 'NftCollectionScreen'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'NftCollectionScreen'>;
+};
+export type SelectedCollectionScreenProps = {
+  navigation: NavigationProp<RootStackParamList, 'SelectedCollectionScreen'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'SelectedCollectionScreen'>;
 };
