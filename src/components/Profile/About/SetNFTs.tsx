@@ -5,25 +5,25 @@ import {
   TextInput,
   View,
   StyleSheet,
-  Platform,
   Dimensions,
   Pressable,
   Image,
   FlatList,
   ScrollView,
 } from "react-native";
-import { appColor } from "../../../constants";
+import { appColor, images } from "../../../constants";
 import SearchIcon from "../../../../assets/images/svg/SearchIcon";
 import BottomSheet, {
-  BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
 import { sizes } from "../../../utils";
-import { useAppSelector } from "../../../controller/hooks";
+import { useAppSelector, useAppDispatch } from "../../../controller/hooks";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 import Collection from "./collection";
 import { NftCollection, collection } from "../../../controller/UserController";
 import { useNavigation } from "@react-navigation/native";
+import NftCollections from "../../createPost/NftCollections";
+import { updateSelectedImage } from "../../../controller/UserController";
 
 const SetNFT = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -34,6 +34,8 @@ const SetNFT = () => {
   const [selectedId, setSelectedId] = useState<number>()
   const [collection, setCollection] = useState<collection[]>()
   const NFTCollections = useAppSelector((state) => state.USER.NFTCollections);
+  const selectedimage = useAppSelector((state) => state.USER.selectedCollection);
+   const dispatch = useAppDispatch();
   const {navigate,setOptions} = useNavigation()
   const CustomHandler = () => {
     return (
@@ -47,32 +49,11 @@ const SetNFT = () => {
     );
   };
 
-  const BottomSheetData = [
-    {
-      id: 1,
-      imageSrc: "",
-    },
-    {
-      id: 2,
-      imageSrc: "",
-    },
-    {
-      id: 3,
-      imageSrc: "",
-    },
-    {
-      id: 4,
-      imageSrc: "",
-    },
-    {
-      id: 5,
-      imageSrc: "",
-    },
-    {
-      id: 6,
-      imageSrc: "",
-    },
-  ];
+  
+
+  
+
+
 
   const CollectionImage:FC<{
     item: NftCollection
@@ -113,16 +94,6 @@ const SetNFT = () => {
 
   const DisplayNameBottomSheet = () => {
     return (
-      // <BottomSheet
-      //   ref={bottomSheetRef}
-      //   snapPoints={[Platform.OS === "ios" ? "33%" : "33%"]}
-      //   index={0}
-      //   backgroundStyle={{
-      //     backgroundColor: appColor.kgrayDark2,
-      //   }}
-      //   handleComponent={CustomHandler}
-      //   enableHandlePanningGesture={false}
-      //>
       <View style={{
         backgroundColor: appColor.kgrayDark2,
         height:"35%"
@@ -147,7 +118,7 @@ const SetNFT = () => {
               }}
             >
               {"  "}
-              {`${noSelected}/6`}
+              {`${selectedimage.length}/6`}
             </Text>
           </Text>
         </View>
@@ -157,9 +128,8 @@ const SetNFT = () => {
             margin: 10,
           }}
         >
-          {BottomSheetData.map((data) => (
-            <Pressable
-              key={data.id}
+          {selectedimage.map((data) => (
+            data == undefined ? (<Pressable
               style={{
                 borderWidth: 0.5,
                 width: 70,
@@ -169,7 +139,31 @@ const SetNFT = () => {
                 borderRadius: 10,
                 marginRight: 10,
               }}
-            ></Pressable>
+            ></Pressable>):(<Pressable style={{
+              position:"relative"
+            }}
+            onPress={() => {
+             dispatch( updateSelectedImage({imageSrc:data.image}))
+            }}
+            >
+             <View style={{
+                position: "relative"
+             }}>
+               <Image  key={data.id} source={data.image} style={{
+              width:70,
+              height:70,
+              marginHorizontal:5,
+              borderRadius:10
+            }}/>
+             </View>
+            <View style={{
+              position:"absolute",
+              left:45,
+              top:5
+            }}>
+              <Image source={images.Remove}/>
+            </View>
+            </Pressable>)
           ))}
         </ScrollView>
 
@@ -234,7 +228,7 @@ const SetNFT = () => {
         />
       </View>
 
-      {NFTCollections && <FlatList
+       <FlatList
         key={numColumns}
         data={NFTCollections}
         renderItem={({ item }) => <CollectionImage item={item} />}
@@ -245,13 +239,12 @@ const SetNFT = () => {
         }}
         numColumns={numColumns}
        extraData={NFTCollections}
-      />}
+      />
          </>
         ):(
-          <Collection name={collectionName} collectionId={selectedId} collectionData={collection}/>
+          <Collection name={collectionName} collectionId={selectedId}/>
         )
       }
-      
       <DisplayNameBottomSheet />
     </SafeAreaView>
   );

@@ -1,7 +1,11 @@
 
+
+
+import { store } from './../store';
+
 import { images } from "./../../constants/images";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { ImageSourcePropType } from "react-native";
+import { ImageSourcePropType, ImageURISource } from "react-native";
 import { communities, friends } from "./models";
 import { bottomSheetSlice } from "../BottomSheetController";
 import axios from "axios";
@@ -11,6 +15,13 @@ export interface collection {
   image: ImageSourcePropType;
   id: number;
   isSelected:boolean;
+}
+
+export interface selectedCollection {
+  image: ImageSourcePropType;
+  collectionId:number
+  itemId:number
+  id: number;
 }
 export interface NftCollection {
   Collectionimage?: any;
@@ -37,6 +48,7 @@ interface UserState {
   didToken: string;
   accountInfo: any;  editProfile: boolean;
   NFTCollections: NftCollection[];
+  selectedCollection:selectedCollection[];
 }
 
 interface signUpRequest {
@@ -757,7 +769,8 @@ const initialState: UserState = {
       id: 11,
     },
   ],
-  accountInfo: undefined
+  accountInfo: undefined,
+  selectedCollection:[]
 };
 
 
@@ -864,11 +877,34 @@ export const USER = createSlice({
     updateEditProfile: (state, action: PayloadAction<boolean>) => {
       state.editProfile = action.payload;
     },
-    updateCollectionIsSelected:(state, action: PayloadAction<{collectionId: number, isSelected:boolean}>) => {
-    const newArray = [...state.NFTCollections]
-    newArray[0].collections.find(c => c.id === action.payload.collectionId)!.isSelected= action.payload.isSelected
-    state.NFTCollections = newArray
-    
+    updateCollectionIsSelected:(state, action: PayloadAction<{collectionId: number, itemId:number ,isSelected:boolean}>) => {
+      const newArray = [...state.NFTCollections]
+      newArray[action.payload.collectionId-1].collections.find(c => c.id === action.payload.itemId)!.isSelected = action.payload.isSelected
+      state.NFTCollections = newArray
+      if(action.payload.isSelected == true){
+        state.selectedCollection = [
+        ...state.selectedCollection,
+        {
+          id: state.selectedCollection.length++,
+          collectionId:action.payload.collectionId-1,
+          itemId:action.payload.itemId,
+          image:newArray[action.payload.collectionId-1].collections.find(c => c.id === action.payload.itemId).image
+        }
+      ]
+      }
+      if(action.payload.isSelected == false){
+       const filtered = state.selectedCollection.filter(sel => sel.image !== newArray[action.payload.collectionId-1].collections.find(c => c.id === action.payload.itemId).image)
+      state.selectedCollection = filtered
+        
+      }
+    },
+    updateSelectedImage:(state, action:PayloadAction<{imageSrc:ImageSourcePropType}>) => {
+      const filtered = state.selectedCollection.filter(sel => sel.image != action.payload.imageSrc)
+      const filter = state.selectedCollection.find(sel => sel.image == action.payload.imageSrc);
+      const newArray = [...state.NFTCollections]
+      newArray[filter.collectionId].collections.find(c => c.id === filter.itemId)!.isSelected = false
+      state.NFTCollections = newArray
+      state.selectedCollection = filtered
     },
     updateAccountInfo: (state, action: PayloadAction<any>) => {
       state.accountInfo = action.payload;
@@ -893,6 +929,7 @@ export const {
   updateProfileImage,
   updateEditProfile,
   updateCollectionIsSelected,
-  updateAccountInfo
+  updateAccountInfo,
+  updateSelectedImage
 } = USER.actions;
 export default USER.reducer;
