@@ -19,6 +19,7 @@ import { useAppSelector } from "../../../controller/hooks";
 import { useNavigation } from "@react-navigation/native";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { Button } from "react-native-elements";
+import Back from "../../../../assets/images/svg/Back";
 
 const Collection: FC<{
   name: string;
@@ -146,7 +147,7 @@ const Collection: FC<{
                 handle();
               }}
             >
-              <Image source={images.ImagesSquare} />
+              <Back />
             </Pressable>
             <Text
               style={{
