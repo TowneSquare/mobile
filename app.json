@@ -32,7 +32,7 @@
       [
         "expo-image-picker", 
         {
-        "photoPermission": "Let TowneSquare access your photo"
+        "photoPermission": "This app needs permission to access your photos."
         }
       ]
     ]
