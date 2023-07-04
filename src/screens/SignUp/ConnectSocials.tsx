@@ -6,29 +6,29 @@ import {
   Dimensions,
   StyleSheet,
   Pressable,
-} from 'react-native';
-import React, { useState } from 'react';
-import { appColor, fonts, images } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import { useFonts } from 'expo-font';
-import { SafeAreaView } from 'react-native-safe-area-context';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../../utils';
-import ContinueButton from '../../components/SignUp/ContinueButton';
-import BackButton from '../../components/SignUp/BackButton';
-import Link from '../../../assets/images/svg/Link';
-import Checked from '../../../assets/images/svg/Checked';
-import DiscordBG from '../../../assets/images/svg/DiscordBG';
-import TwitterBG from '../../../assets/images/svg/TwitterBg';
-import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
+} from "react-native";
+import React, { useState } from "react";
+import { appColor, fonts, images } from "../../constants";
+import { StatusBar } from "expo-status-bar";
+import { useFonts } from "expo-font";
+import { SafeAreaView } from "react-native-safe-area-context";
+const { height, width } = Dimensions.get("window");
+import { sizes } from "../../utils";
+import ContinueButton from "../../components/SignUp/ContinueButton";
+import BackButton from "../../components/SignUp/BackButton";
+import Link from "../../../assets/images/svg/Link";
+import Checked from "../../../assets/images/svg/Checked";
+import DiscordBG from "../../../assets/images/svg/DiscordBG";
+import TwitterBG from "../../../assets/images/svg/TwitterBg";
+import ProfileSetUpHeader from "../../components/SignUp/ProfileSetUpHeader";
 const size = new sizes(height, width);
 const ConnectSocials = () => {
   const [isTwitterConected, setTwitterConnected] = useState(false);
   const [isDiscordConnected, setDiscordConnected] = useState(false);
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
@@ -64,15 +64,15 @@ const ConnectSocials = () => {
         style={{
           // height: size.getHeightSize(343),
           width: size.getWidthSize(328),
-          alignSelf: 'center',
-          justifyContent: 'center',
+          alignSelf: "center",
+          justifyContent: "center",
           gap: size.getHeightSize(16),
         }}
       >
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
+            flexDirection: "row",
+            alignItems: "center",
           }}
         >
           <TwitterBG />
@@ -93,8 +93,8 @@ const ConnectSocials = () => {
         </View>
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
+            flexDirection: "row",
+            alignItems: "center",
           }}
         >
           <DiscordBG />
@@ -133,17 +133,17 @@ export default ConnectSocials;
 const styles = StyleSheet.create({
   socialText: {
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     paddingLeft: size.getWidthSize(16),
     color: appColor.kTextColor,
     flex: 1,
     lineHeight: size.getHeightSize(16),
-    fontStyle: 'normal',
+    fontStyle: "normal",
   },
   button: {
     backgroundColor: appColor.kSecondaryButtonColor,
     borderRadius: 40,
-    justifyContent: 'center',
+    justifyContent: "center",
     height: size.getHeightSize(38),
     // width: size.getWidthSize(100),
     paddingHorizontal: size.getWidthSize(16),
@@ -151,26 +151,26 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-Medium',
-    textAlign: 'center',
+    fontFamily: "Outfit-Medium",
+    textAlign: "center",
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(18),
   },
   isConnected: {
     paddingVertical: size.getHeightSize(10),
-    justifyContent: 'center',
-    flexDirection: 'row',
+    justifyContent: "center",
+    flexDirection: "row",
     width: size.getWidthSize(113),
     height: size.getHeightSize(38),
     gap: size.getWidthSize(8),
-    alignItems: 'center',
+    alignItems: "center",
   },
   isConnectedText: {
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-SemiBold',
-    textAlign: 'center',
+    fontFamily: "Outfit-SemiBold",
+    textAlign: "center",
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(18),
-    fontStyle: 'normal',
+    fontStyle: "normal",
   },
 });

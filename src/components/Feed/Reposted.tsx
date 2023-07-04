@@ -1,18 +1,18 @@
-import { View, Text, Dimensions, Image, StyleSheet } from 'react-native';
-import React from 'react';
-import { sizes } from '../../utils';
-import { appColor, fonts, images } from '../../constants';
-const { height, width } = Dimensions.get('window');
-import AvatarFeed from '../../../assets/images/svg/AvatarFeed';
-import Queen from '../../../assets/images/svg/Queen';
-import APTMonkey from '../../../assets/images/svg/APTMonkey';
-import APT from '../../../assets//images/svg/APT';
-import Feather from '@expo/vector-icons/Feather';
-import PostHeader from './PostHeader';
-import PostActions from './PostActions';
-import { feedStyle } from './FeedsStyles';
-import { useFonts } from 'expo-font';
-import RepostedHeader from './RepostedHeader';
+import { View, Text, Dimensions, Image, StyleSheet } from "react-native";
+import React from "react";
+import { sizes } from "../../utils";
+import { appColor, fonts, images } from "../../constants";
+const { height, width } = Dimensions.get("window");
+import AvatarFeed from "../../../assets/images/svg/AvatarFeed";
+import Queen from "../../../assets/images/svg/Queen";
+import APTMonkey from "../../../assets/images/svg/APTMonkey";
+import APT from "../../../assets/images/svg/APT";
+import Feather from "@expo/vector-icons/Feather";
+import PostHeader from "./PostHeader";
+import PostActions from "./PostActions";
+import { feedStyle } from "./FeedsStyles";
+import { useFonts } from "expo-font";
+import RepostedHeader from "./RepostedHeader";
 import {
   UserPost,
   FeedContent,
@@ -26,17 +26,17 @@ import {
   NFT_FOR_SALE,
   Repost,
   ATTACHED_NFT,
-} from '../../models';
-import { Avatar } from 'react-native-elements';
+} from "../../models";
+import { Avatar } from "react-native-elements";
 const size = new sizes(height, width);
 interface Props {
   data: UserPost;
 }
 const Reposted = ({ data }: { data: UserPost }) => {
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -46,7 +46,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       <>
         <View
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             marginHorizontal: size.getWidthSize(12),
             marginTop: size.getHeightSize(16),
             marginBottom: size.getHeightSize(8),
@@ -60,10 +60,10 @@ const Reposted = ({ data }: { data: UserPost }) => {
           />
           <View
             style={{
-              flexDirection: 'row',
+              flexDirection: "row",
               gap: size.getWidthSize(4),
               width: size.getWidthSize(214),
-              alignItems: 'center',
+              alignItems: "center",
               flex: 1,
             }}
           >
@@ -73,7 +73,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
               style={{
                 fontSize: size.fontSize(16),
                 color: appColor.kTextColor,
-                fontFamily: 'Outfit-Medium',
+                fontFamily: "Outfit-Medium",
                 lineHeight: size.getHeightSize(21),
                 maxWidth: size.getWidthSize(74),
               }}
@@ -88,7 +88,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
                 color: appColor.grayLight,
                 fontSize: size.fontSize(14),
                 lineHeight: size.getHeightSize(18),
-                fontFamily: 'Outfit-Regular',
+                fontFamily: "Outfit-Regular",
                 maxWidth: size.getWidthSize(67),
               }}
             >
@@ -99,7 +99,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
                 color: appColor.grayLight,
                 fontSize: size.fontSize(14),
                 lineHeight: size.getHeightSize(18),
-                fontFamily: 'Outfit-Bold',
+                fontFamily: "Outfit-Bold",
               }}
             >
               •
@@ -109,7 +109,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
                 color: appColor.grayLight,
                 fontSize: size.fontSize(14),
                 lineHeight: size.getHeightSize(18),
-                fontFamily: 'Outfit-Regular',
+                fontFamily: "Outfit-Regular",
               }}
             >
               {data.timepost}
@@ -484,7 +484,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
                 <Text style={[styles.message, repostStyles.repostText]}>
                   {swapContent.message}
                   <Text style={styles.swapTextTag}>
-                    {' '}
+                    {" "}
                     ${swapContent.messageTag}
                   </Text>
                 </Text>
@@ -498,7 +498,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
                       ${swapContent.price}
                     </Text>
                     <Text style={styles.priceFeed}>
-                      Price feed{' '}
+                      Price feed{" "}
                       <Text style={styles.priceFeedType}>Liquidswap</Text>
                     </Text>
                   </View>
@@ -536,7 +536,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
                 <Text style={[styles.message, repostStyles.repostText]}>
                   {floorPriceContent.message}
                   <Text style={styles.swapTextTag}>
-                    {' '}
+                    {" "}
                     ${floorPriceContent.messageTag}
                   </Text>
                 </Text>
@@ -549,7 +549,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
                       </Text>
                     </View>
                     <Text style={styles.floorPrice}>
-                      Floor price{' '}
+                      Floor price{" "}
                       <Text style={styles.floorAmount}>
                         {floorPriceContent.amount} APT
                       </Text>
@@ -575,21 +575,21 @@ export default Reposted;
 const styles = StyleSheet.create(feedStyle);
 const repostStyles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(6),
-    alignItems: 'center',
+    alignItems: "center",
   },
   postedIn: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.grayLight,
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
   },
   communityName: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.primaryLight,
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
   },
   repostContainer: {
     borderWidth: size.getWidthSize(0.5),
@@ -608,12 +608,12 @@ const repostStyles = StyleSheet.create({
   },
   swapContainer: {
     backgroundColor: appColor.kgrayDark2,
-    flexDirection: 'row',
+    flexDirection: "row",
     borderTopWidth: 1,
     borderColor: appColor.kGrayLight3,
     borderRadius: 8,
     marginTop: size.getHeightSize(8),
-    alignItems: 'center',
+    alignItems: "center",
     paddingHorizontal: size.getWidthSize(16),
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,

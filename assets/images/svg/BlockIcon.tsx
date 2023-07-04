@@ -1,13 +1,7 @@
-import * as React from "react"
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
+import * as React from "react";
+import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg";
 const BlockIcon = (props: SvgProps) => (
-  <Svg
-  
-    width={60}
-    height={60}
-    fill="none"
-    {...props}
-  >
+  <Svg width={60} height={60} fill="none" {...props}>
     <G fill="#fff" clipPath="url(#a)">
       <Path
         d="M30 52.5c12.426 0 22.5-10.074 22.5-22.5S42.426 7.5 30 7.5 7.5 17.574 7.5 30 17.574 52.5 30 52.5Z"
@@ -30,5 +24,5 @@ const BlockIcon = (props: SvgProps) => (
       </ClipPath>
     </Defs>
   </Svg>
-)
-export default BlockIcon
+);
+export default BlockIcon;

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import * as React from 'react';
+import * as React from "react";
 import Svg, {
   SvgProps,
   G,
@@ -8,7 +8,7 @@ import Svg, {
   LinearGradient,
   Stop,
   ClipPath,
-} from 'react-native-svg';
+} from "react-native-svg";
 const Background3 = (props: SvgProps) => (
   <Svg width={360} height={796} fill="none" {...props}>
     <G clipPath="url(#a)">
@@ -18,7 +18,7 @@ const Background3 = (props: SvgProps) => (
         d="M268.377 29.314c64.483-67.696 10.023-144.499-46.953-152.476L-245.76-199v945.985c73.038-67.589 228.505-219.213 266.068-284.993 46.954-82.225-44.605-177.222-46.953-269.825-2.348-92.603 214.419-78.233 295.022-162.853Z"
         opacity={0.3}
         style={{
-          mixBlendMode: 'lighten',
+          mixBlendMode: "lighten",
         }}
       />
       <Path
@@ -26,7 +26,7 @@ const Background3 = (props: SvgProps) => (
         d="M62.78 762.765c-64.482 67.696-10.023 144.499 46.953 152.476l467.184 75.838V45.094c-73.038 67.589-228.505 219.213-266.068 284.993-46.953 82.225 44.606 177.222 46.953 269.825 2.348 92.603-214.419 78.234-295.022 162.853Z"
         opacity={0.2}
         style={{
-          mixBlendMode: 'lighten',
+          mixBlendMode: "lighten",
         }}
       />
       <Path
@@ -35,7 +35,7 @@ const Background3 = (props: SvgProps) => (
         d="M56.01 696.851c-64.373 73.869-10.005 157.676 46.874 166.38l466.396 82.754V-86.266c-72.915 73.753-228.12 239.204-265.619 310.982-46.874 89.723 44.53 193.384 46.874 294.431 2.344 101.048-214.058 85.368-294.525 177.704Z"
         opacity={0.2}
         style={{
-          mixBlendMode: 'lighten',
+          mixBlendMode: "lighten",
         }}
       />
     </G>

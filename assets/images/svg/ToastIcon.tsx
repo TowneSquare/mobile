@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from 'react-native-svg';
+import * as React from "react";
+import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg";
 const ToastIcon = (props: SvgProps) => (
   <Svg width={18} height={18} fill="none" {...props}>
     <G clipPath="url(#a)">

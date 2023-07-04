@@ -1,19 +1,41 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { ImageSourcePropType } from 'react-native';
-import { communities, friends } from './models';
-import { bottomSheetSlice } from '../BottomSheetController';
-import axios from 'axios';
+import { store } from "./../store";
+
+import { images } from "./../../constants/images";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { ImageSourcePropType, ImageURISource } from "react-native";
+import { communities, friends } from "./models";
+import { bottomSheetSlice } from "../BottomSheetController";
+import axios from "axios";
+
+export interface collection {
+  image: ImageSourcePropType;
+  id: number;
+  isSelected: boolean;
+}
+
+export interface selectedCollection {
+  image: ImageSourcePropType;
+  collectionId: number;
+  itemId: number;
+  id: number;
+}
+export interface NftCollection {
+  Collectionimage?: any;
+  collections: collection[];
+  Name: string;
+  id: number;
+}
 interface UserState {
   details: {
-    userId:string
+    userId: string;
     TypeOfWallet: string;
     Nickname: string;
     username: string;
-    email:string
+    email: string;
     followedFriends: friends[];
     joinedCommunities: communities[];
-    profileImage:any
-  },
+    profileImage: any;
+  };
   errors: {
     nicknameError: boolean;
     usernameError: boolean;
@@ -21,71 +43,769 @@ interface UserState {
   };
   didToken: string;
   accountInfo: any;
+  editProfile: boolean;
+  NFTCollections: NftCollection[];
+  selectedCollection: selectedCollection[];
 }
 
-interface signUpRequest{
-  aptosWallet:string
-  nickname:string
-  username:string
-  email:string
+interface signUpRequest {
+  aptosWallet: string;
+  nickname: string;
+  username: string;
+  email: string;
 }
 
-interface followRequest{
-  fromUserId: string,
-  toUserIds: string[]
+interface followRequest {
+  fromUserId: string;
+  toUserIds: string[];
 }
 const initialState: UserState = {
   details: {
-    userId:"",
-    TypeOfWallet: '',
-    Nickname: '',
-    username: '',
-    email:"",
+    userId: "",
+    TypeOfWallet: "",
+    Nickname: "",
+    username: "",
+    email: "",
     followedFriends: [],
     joinedCommunities: [],
-    profileImage:undefined
+    profileImage: undefined,
   },
   errors: {
     nicknameError: false,
     usernameError: false,
-    usernameErrorMessage: '',
+    usernameErrorMessage: "",
   },
   didToken: "",
-  accountInfo: undefined
+  editProfile: false,
+  NFTCollections: [
+    {
+      Collectionimage: images.NftCollection1,
+      collections: [
+        {
+          image: images.pinnedNFT,
+          id: 1,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 2,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 3,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 4,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 5,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 6,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 7,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 8,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 9,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 10,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 11,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 12,
+          isSelected: false,
+        },
+      ],
+      Name: "Aptomingos",
+      id: 1,
+    },
+    {
+      Collectionimage: images.NftCollection2,
+      collections: [
+        {
+          image: images.pinnedNFT,
+          id: 1,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 2,
+          isSelected: false,
+        },
+      ],
+      Name: "Aptomingos",
+      id: 2,
+    },
+    {
+      Collectionimage: images.NftCollection1,
+      collections: [
+        {
+          image: images.pinnedNFT,
+          id: 1,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 2,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 3,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 4,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 5,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 6,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 7,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 8,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 9,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 10,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 11,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 12,
+          isSelected: false,
+        },
+      ],
+      Name: "Aptos Monkey lorem Ipsumdalr",
+      id: 3,
+    },
+    {
+      Collectionimage: images.NftCollection2,
+      collections: [
+        {
+          image: images.pinnedNFT,
+          id: 1,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 2,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 3,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 4,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 5,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 6,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 7,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 8,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 9,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 10,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 11,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 12,
+          isSelected: false,
+        },
+      ],
+      Name: "Aptomingos",
+      id: 4,
+    },
+    {
+      Collectionimage: images.NftCollection1,
+      collections: [
+        {
+          image: images.pinnedNFT,
+          id: 1,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 2,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 3,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 4,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 5,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 6,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 7,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 8,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 9,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 10,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 11,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 12,
+          isSelected: false,
+        },
+      ],
+      Name: "Aptos Monkey lorem Ipsumdalr",
+      id: 5,
+    },
+    {
+      Collectionimage: images.NftCollection2,
+      collections: [
+        {
+          image: images.pinnedNFT,
+          id: 1,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 2,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 3,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 4,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 5,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 6,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 7,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 8,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 9,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 10,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 11,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 12,
+          isSelected: false,
+        },
+      ],
+      Name: "Aptomingos",
+      id: 6,
+    },
+    {
+      Collectionimage: images.NftCollection1,
+      collections: [
+        {
+          image: images.pinnedNFT,
+          id: 1,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 2,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 3,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 4,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 5,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 6,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 7,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 8,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 9,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 10,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 11,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 12,
+          isSelected: false,
+        },
+      ],
+      Name: "Aptos Monkey lorem Ipsumdalr",
+      id: 7,
+    },
+    {
+      Collectionimage: images.NftCollection2,
+      collections: [
+        {
+          image: images.pinnedNFT,
+          id: 1,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 2,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 3,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 4,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 5,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 6,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 7,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 8,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 9,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 10,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 11,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 12,
+          isSelected: false,
+        },
+      ],
+      Name: "Aptomingos",
+      id: 8,
+    },
+    {
+      Collectionimage: images.NftCollection2,
+      collections: [
+        {
+          image: images.pinnedNFT,
+          id: 1,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 2,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 3,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 4,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 5,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 6,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 7,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 8,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 9,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 10,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 11,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 12,
+          isSelected: false,
+        },
+      ],
+      Name: "Aptomingos",
+      id: 9,
+    },
+    {
+      Collectionimage: images.NftCollection1,
+      collections: [
+        {
+          image: images.pinnedNFT,
+          id: 1,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 2,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 3,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 4,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 5,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 6,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 7,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 8,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 9,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 10,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 11,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 12,
+          isSelected: false,
+        },
+      ],
+      Name: "Aptos Monkey lorem Ipsumdalr",
+      id: 10,
+    },
+    {
+      Collectionimage: images.NftCollection2,
+      collections: [
+        {
+          image: images.pinnedNFT,
+          id: 1,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 2,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 3,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 4,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 5,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 6,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 7,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 8,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 9,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 10,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 11,
+          isSelected: false,
+        },
+        {
+          image: images.pinnedNFT_1,
+          id: 12,
+          isSelected: false,
+        },
+      ],
+      Name: "Aptomingos",
+      id: 11,
+    },
+  ],
+  accountInfo: undefined,
+  selectedCollection: [],
 };
 
-
-export const signUp = createAsyncThunk("User/signUp", async(signupRequest:signUpRequest, thunkAPI) => {
-  const {aptosWallet, nickname, username, email} = signupRequest;
- try {
-   const res = await axios.post(`${process.env.BASE_URL}`,{
-    aptosWallet,
-    nickname,
-    username,
-    email
-  });
-  return res.data
- } catch (error) {
-  return thunkAPI.rejectWithValue(error)
- }
-})
-
-export const follow = createAsyncThunk("User/follow",async (followRequest: followRequest, thunkAPI) => {
-  const {fromUserId,toUserIds} = followRequest;
-  try {
-    const res = await axios.post(`${process.env.BASE_URL}/follow-friends`, {
-      fromUserId: fromUserId,
-      toUserIds: toUserIds
-    });
-    return res.data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error)
+export const signUp = createAsyncThunk(
+  "User/signUp",
+  async (signupRequest: signUpRequest, thunkAPI) => {
+    const { aptosWallet, nickname, username, email } = signupRequest;
+    try {
+      const res = await axios.post(`${process.env.BASE_URL}`, {
+        aptosWallet,
+        nickname,
+        username,
+        email,
+      });
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
   }
-})
+);
 
+export const follow = createAsyncThunk(
+  "User/follow",
+  async (followRequest: followRequest, thunkAPI) => {
+    const { fromUserId, toUserIds } = followRequest;
+    try {
+      const res = await axios.post(`${process.env.BASE_URL}/follow-friends`, {
+        fromUserId: fromUserId,
+        toUserIds: toUserIds,
+      });
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const USER = createSlice({
-  name: 'User',
+  name: "User",
   initialState,
   reducers: {
     updateTypeOfWallet: (state, action: PayloadAction<string>) => {
@@ -109,17 +829,17 @@ export const USER = createSlice({
         state.errors.usernameError = true;
         state.details.username = action.payload;
         state.errors.usernameErrorMessage =
-          'Use only alphanumeric characters and letters';
+          "Use only alphanumeric characters and letters";
       } else if (action.payload.length < 4) {
         state.errors.usernameError = true;
         state.details.username = action.payload;
         state.errors.usernameErrorMessage =
-          'Username must be longer than 4 characters';
+          "Username must be longer than 4 characters";
       } else if (state.details.username.length >= 15) {
         state.errors.usernameError = true;
         state.details.username = action.payload;
         state.errors.usernameErrorMessage =
-          'Username can be max. 15 characters long';
+          "Username can be max. 15 characters long";
       } else {
         state.details.username = action.payload;
         state.errors.usernameError = false;
@@ -143,23 +863,79 @@ export const USER = createSlice({
     updateUsernameError: (state, action) => {
       state.errors.usernameError = action.payload;
     },
-    updateProfileImage: (state, action:PayloadAction<string>) => {
-      state.details.profileImage = action.payload
+    updateProfileImage: (state, action: PayloadAction<string>) => {
+      state.details.profileImage = action.payload;
     },
     updateDidToken: (state, action: PayloadAction<string>) => {
       state.didToken = action.payload;
     },
+    updateEditProfile: (state, action: PayloadAction<boolean>) => {
+      state.editProfile = action.payload;
+    },
+    updateCollectionIsSelected: (
+      state,
+      action: PayloadAction<{
+        collectionId: number;
+        itemId: number;
+        isSelected: boolean;
+      }>
+    ) => {
+      const newArray = [...state.NFTCollections];
+      newArray[action.payload.collectionId - 1].collections.find(
+        (c) => c.id === action.payload.itemId
+      )!.isSelected = action.payload.isSelected;
+      state.NFTCollections = newArray;
+      if (action.payload.isSelected == true) {
+        state.selectedCollection = [
+          ...state.selectedCollection,
+          {
+            id: state.selectedCollection.length++,
+            collectionId: action.payload.collectionId - 1,
+            itemId: action.payload.itemId,
+            image: newArray[action.payload.collectionId - 1].collections.find(
+              (c) => c.id === action.payload.itemId
+            ).image,
+          },
+        ];
+      }
+      if (action.payload.isSelected == false) {
+        const filtered = state.selectedCollection.filter(
+          (sel) =>
+            sel.image !==
+            newArray[action.payload.collectionId - 1].collections.find(
+              (c) => c.id === action.payload.itemId
+            ).image
+        );
+        state.selectedCollection = filtered;
+      }
+    },
+    updateSelectedImage: (
+      state,
+      action: PayloadAction<{ imageSrc: ImageSourcePropType }>
+    ) => {
+      const filtered = state.selectedCollection.filter(
+        (sel) => sel.image != action.payload.imageSrc
+      );
+      const filter = state.selectedCollection.find(
+        (sel) => sel.image == action.payload.imageSrc
+      );
+      const newArray = [...state.NFTCollections];
+      newArray[filter?.collectionId].collections.find(
+        (c) => c.id === filter.itemId
+      )!.isSelected = false;
+      state.NFTCollections = newArray;
+      state.selectedCollection = filtered;
+    },
     updateAccountInfo: (state, action: PayloadAction<any>) => {
       state.accountInfo = action.payload;
-    }
+    },
   },
-  extraReducers: builder => {
-    builder
-      .addCase(signUp.fulfilled, (state, action) => {
-        const userId = action.payload;
-        state.details.userId = userId
-      })
-  }
+  extraReducers: (builder) => {
+    builder.addCase(signUp.fulfilled, (state, action) => {
+      const userId = action.payload;
+      state.details.userId = userId;
+    });
+  },
 });
 export const {
   updateTypeOfWallet,
@@ -171,6 +947,9 @@ export const {
   updateUsernameError,
   updateDidToken,
   updateProfileImage,
-  updateAccountInfo
+  updateEditProfile,
+  updateCollectionIsSelected,
+  updateAccountInfo,
+  updateSelectedImage,
 } = USER.actions;
 export default USER.reducer;

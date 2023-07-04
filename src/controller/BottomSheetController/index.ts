@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { ImageSourcePropType } from 'react-native';
-import { images } from '../../constants';
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { ImageSourcePropType } from "react-native";
+import { images } from "../../constants";
 interface NftCollection {
   image?: any;
   Name?: string;
@@ -33,55 +33,54 @@ const initialState: initialStateProps = {
   selectedRender: 0,
   profilePics: {
     image: undefined,
-    name: '',
+    name: "",
     id: 0,
   },
-
   listOfNftCollections: [
     {
       image: images.NftCollection1,
-      Name: 'Aptos Monkey lorem Ipsumdalr',
+      Name: "Aptos Monkey lorem Ipsumdalr",
       id: 1,
     },
     {
       image: images.NftCollection2,
-      Name: 'Aptomingos',
+      Name: "Aptomingos",
       id: 2,
     },
     {
       image: images.NftCollection1,
-      Name: 'Aptos Monkey lorem Ipsumdalr',
+      Name: "Aptos Monkey lorem Ipsumdalr",
       id: 3,
     },
     {
       image: images.NftCollection2,
-      Name: 'Aptomingos',
+      Name: "Aptomingos",
       id: 4,
     },
     {
       image: images.NftCollection1,
-      Name: 'Aptos Monkey lorem Ipsumdalr',
+      Name: "Aptos Monkey lorem Ipsumdalr",
       id: 5,
     },
     {
       image: images.NftCollection2,
-      Name: 'Aptomingos',
+      Name: "Aptomingos",
       id: 6,
     },
     {
       image: images.NftCollection1,
-      Name: 'Aptos Monkey lorem Ipsumdalr',
+      Name: "Aptos Monkey lorem Ipsumdalr",
       id: 7,
     },
     {
       image: images.NftCollection2,
-      Name: 'Aptomingos',
+      Name: "Aptomingos",
       id: 8,
     },
   ],
 };
 export const bottomSheetSlice = createSlice({
-  name: 'BottomSheet',
+  name: "BottomSheet",
   initialState,
   reducers: {
     updateBottomSheet: (state, action: PayloadAction<boolean>) => {

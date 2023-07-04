@@ -5,17 +5,17 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-} from 'react-native';
-import { Avatar } from 'react-native-elements';
-import React, { useState, useContext } from 'react';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
-import { sizes } from '../../utils';
-import { updatePostNft } from '../../controller/createPost';
-import { useAppDispatch } from '../../controller/hooks';
+} from "react-native";
+import { Avatar } from "react-native-elements";
+import React, { useState, useContext } from "react";
+const { height, width } = Dimensions.get("window");
+import { useFonts } from "expo-font";
+import { appColor, fonts, images } from "../../constants";
+import { sizes } from "../../utils";
+import { updatePostNft } from "../../controller/createPost";
+import { useAppDispatch } from "../../controller/hooks";
 const size = new sizes(height, width);
-import RemoveAttachment from '../../../assets/images/svg/RemoveAttachment';
+import RemoveAttachment from "../../../assets/images/svg/RemoveAttachment";
 const AttachedNftContainer = () => {
   const dispatch = useAppDispatch();
   return (
@@ -23,7 +23,7 @@ const AttachedNftContainer = () => {
       <View style={styles.imageContainer}>
         <Image
           source={images.NftCollection}
-          style={{ height: '100%', width: '100%', borderRadius: 8 }}
+          style={{ height: "100%", width: "100%", borderRadius: 8 }}
         />
       </View>
       <View style={styles.descriptionContainer}>
@@ -41,7 +41,7 @@ const AttachedNftContainer = () => {
         onPress={() => dispatch(updatePostNft(null))}
         activeOpacity={0.2}
         style={{
-          position: 'absolute',
+          position: "absolute",
           right: size.getWidthSize(0),
           top: size.getHeightSize(8),
         }}
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   container: {
     height: size.getHeightSize(322),
     width: size.getWidthSize(280),
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     marginLeft: size.getWidthSize(64),
   },
   imageContainer: {
@@ -69,21 +69,21 @@ const styles = StyleSheet.create({
     marginTop: size.getHeightSize(8),
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(4),
-    alignItems: 'center',
+    alignItems: "center",
   },
   name: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
   },
   id: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: 'Outfit-Medium',
+    fontFamily: "Outfit-Medium",
     marginTop: size.getHeightSize(8),
     marginBottom: size.getHeightSize(8),
   },

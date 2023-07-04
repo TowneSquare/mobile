@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Svg, { SvgProps, G, Path, Defs } from 'react-native-svg';
+import * as React from "react";
+import Svg, { SvgProps, G, Path, Defs } from "react-native-svg";
 /* SVGR has dropped some elements not supported by react-native-svg: filter */
 const Description = (props: SvgProps) => (
   <Svg width={346} height={70} fill="none" {...props}>

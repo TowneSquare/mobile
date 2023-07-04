@@ -6,21 +6,21 @@ import {
   Image,
   FlatList,
   Pressable,
-} from 'react-native';
-import React, { useState } from 'react';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import { sizes } from '../../utils';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import { batch } from 'react-redux';
+} from "react-native";
+import React, { useState } from "react";
+const { height, width } = Dimensions.get("window");
+import { useFonts } from "expo-font";
+import { appColor, fonts, images } from "../../constants";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { sizes } from "../../utils";
+import { useAppSelector, useAppDispatch } from "../../controller/hooks";
+import { batch } from "react-redux";
 import {
   updateSelectedAtMention,
   updateShowAtContainer,
-} from '../../controller/createPost';
+} from "../../controller/createPost";
 const size = new sizes(height, width);
 interface dataProp {
   name: string;
@@ -33,10 +33,10 @@ const AtMention = () => {
     (state) => state.CreatePostController.filteredAtMentions
   );
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
@@ -51,11 +51,11 @@ const AtMention = () => {
           });
         }}
         style={{
-          flexDirection: 'row',
-          width: '100%',
+          flexDirection: "row",
+          width: "100%",
           paddingHorizontal: size.getWidthSize(16),
           gap: size.getWidthSize(8),
-          alignItems: 'center',
+          alignItems: "center",
           marginVertical: size.getHeightSize(8),
           paddingVertical: size.getHeightSize(4),
         }}
@@ -93,14 +93,14 @@ const styles = StyleSheet.create({
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: 'Outfit-Medium',
+    fontFamily: "Outfit-Medium",
   },
   description: {
     color: appColor.grayLight,
     fontSize: size.fontSize(11),
     lineHeight: size.getHeightSize(14),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     letterSpacing: 0.04,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
 });

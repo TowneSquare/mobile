@@ -1,14 +1,14 @@
-import { View, Dimensions } from 'react-native';
-import React, { useRef, useEffect } from 'react';
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
-import { sizes } from '../../utils';
-import SearchField from './SearchField';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import CustomHandler from '../Feed/CustomHandler';
-import { updateGifBottomSheet } from '../../controller/createPost';
-const { height, width } = Dimensions.get('window');
+import { View, Dimensions } from "react-native";
+import React, { useRef, useEffect } from "react";
+import { useFonts } from "expo-font";
+import { appColor, fonts, images } from "../../constants";
+import { sizes } from "../../utils";
+import SearchField from "./SearchField";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { useAppSelector, useAppDispatch } from "../../controller/hooks";
+import CustomHandler from "../Feed/CustomHandler";
+import { updateGifBottomSheet } from "../../controller/createPost";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 
 const GifBottomSheet = () => {
@@ -23,10 +23,10 @@ const GifBottomSheet = () => {
     }
   }, [showSheet]);
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
   });
   const closeModal = () => {
     dispatch(updateGifBottomSheet(false));
@@ -35,7 +35,7 @@ const GifBottomSheet = () => {
   return (
     <BottomSheet
       onClose={closeModal}
-      snapPoints={['80']}
+      snapPoints={["80"]}
       index={showSheet ? 0 : -1}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,

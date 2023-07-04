@@ -2323,12 +2323,12 @@
   resolved "https://registry.npmjs.org/@react-native/polyfills/-/polyfills-2.0.0.tgz"
   integrity sha512-K0aGNn1TjalKj+65D7ycc1//H9roAQ51GJVk5ZJQFb2teECGmzd86bYDC0aYdbRf7gtovescq4Zt6FR0tgXiHQ==
 
-"@react-navigation/bottom-tabs@^6.5.7":
-  version "6.5.7"
-  resolved "https://registry.npmjs.org/@react-navigation/bottom-tabs/-/bottom-tabs-6.5.7.tgz"
-  integrity sha512-9oZYyRu2z7+1pr2dX5V54rHFPmlj4ztwQxFe85zwpnGcPtGIsXj7VCIdlHnjRHJBBFCszvJGQpYY6/G2+DfD+A==
+"@react-navigation/bottom-tabs@^6.5.8":
+  version "6.5.8"
+  resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-6.5.8.tgz#9536c6e45154abc183c363d07c94991e10b14856"
+  integrity sha512-0aa/jXea+LyBgR5NoRNWGKw0aFhjHwCkusigMRXIrCA4kINauDcAO0w0iFbZeKfaTCVAix5kK5UxDJJ2aJpevg==
   dependencies:
-    "@react-navigation/elements" "^1.3.17"
+    "@react-navigation/elements" "^1.3.18"
     color "^4.2.3"
     warn-once "^0.1.0"
 
@@ -2357,6 +2357,19 @@
   version "1.3.17"
   resolved "https://registry.npmjs.org/@react-navigation/elements/-/elements-1.3.17.tgz"
   integrity sha512-sui8AzHm6TxeEvWT/NEXlz3egYvCUog4tlXA4Xlb2Vxvy3purVXDq/XsM56lJl344U5Aj/jDzkVanOTMWyk4UA==
+
+"@react-navigation/elements@^1.3.18":
+  version "1.3.18"
+  resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-1.3.18.tgz#d8364b40276f3efb9c229c39da3b8b465f18f0a2"
+  integrity sha512-/0hwnJkrr415yP0Hf4PjUKgGyfshrvNUKFXN85Mrt1gY49hy9IwxZgrrxlh0THXkPeq8q4VWw44eHDfAcQf20Q==
+
+"@react-navigation/material-top-tabs@^6.6.3":
+  version "6.6.3"
+  resolved "https://registry.yarnpkg.com/@react-navigation/material-top-tabs/-/material-top-tabs-6.6.3.tgz#a8c651d322efea4483ac6cae08c4f3ba9141cf87"
+  integrity sha512-7rbBUUvVSKD8jV/a7iV2BTSQ83G7W8grGSwBNojdeXdeZpsUa+wmmKnPtBFhdPv7DDQp7nzAYRx6RCOPtjZSCw==
+  dependencies:
+    color "^4.2.3"
+    warn-once "^0.1.0"
 
 "@react-navigation/native@^6.1.6":
   version "6.1.6"
@@ -4313,6 +4326,11 @@ deprecated-react-native-prop-types@^3.0.1:
     invariant "*"
     prop-types "*"
 
+dequal@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/dequal/-/dequal-1.0.0.tgz#41c6065e70de738541c82cdbedea5292277a017e"
+  integrity sha512-/Nd1EQbQbI9UbSHrMiKZjFLrXSnU328iQdZKPQf78XQI6C+gutkFUeoHpG5J08Ioa6HeRbRNFpSIclh1xyG0mw==
+
 destroy@1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/destroy/-/destroy-1.2.0.tgz"
@@ -4773,7 +4791,7 @@ expo-image-loader@~4.1.0:
   resolved "https://registry.yarnpkg.com/expo-image-loader/-/expo-image-loader-4.1.1.tgz#efadbb17de1861106864820194900f336dd641b6"
   integrity sha512-ciEHVokU0f6w0eTxdRxLCio6tskMsjxWIoV92+/ZD37qePUJYMfEphPhu1sruyvMBNR8/j5iyOvPFVGTfO8oxA==
 
-expo-image-picker@^14.1.1:
+expo-image-picker@~14.1.1:
   version "14.1.1"
   resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-14.1.1.tgz#181f1348ba6a43df7b87cee4a601d45c79b7c2d7"
   integrity sha512-SvWtnkLW7jp5Ntvk3lVcRQmhFYja8psmiR7O6P/+7S6f4llt3vaFwb4I3+pUXqJxxpi7BHc2+95qOLf0SFOIag==
@@ -7934,6 +7952,11 @@ prepend-http@^2.0.0:
   resolved "https://registry.npmjs.org/prepend-http/-/prepend-http-2.0.0.tgz"
   integrity sha512-ravE6m9Atw9Z/jjttRUZ+clIXogdghyZAuWJ3qEzjT+jI/dL1ifAqhZeC5VHzQp1MSt1+jxKkFNemj/iO7tVUA==
 
+prettier@^2.8.8:
+  version "2.8.8"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.8.tgz#e8c5d7e98a4305ffe3de2e1fc4aca1a71c28b1da"
+  integrity sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==
+
 pretty-bytes@5.6.0:
   version "5.6.0"
   resolved "https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-5.6.0.tgz"
@@ -8173,6 +8196,13 @@ react-native-codegen@^0.71.5:
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
 
+react-native-collapsible-tab-view@^6.1.4:
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/react-native-collapsible-tab-view/-/react-native-collapsible-tab-view-6.1.4.tgz#011c8abab29d9229a22caa287395f0081fae644e"
+  integrity sha512-eGGAdze91WgXOrd+8wPsd18YxdrQvp8WlR4bv7GjgGwkzM72Ka7esz3GhHeDb6F6MxDYAvwfgm2Q4kDLvxaRTw==
+  dependencies:
+    use-deep-compare "^1.1.0"
+
 react-native-elements@^3.4.3:
   version "3.4.3"
   resolved "https://registry.npmjs.org/react-native-elements/-/react-native-elements-3.4.3.tgz"
@@ -8224,10 +8254,10 @@ react-native-modal@^13.0.1:
     prop-types "^15.6.2"
     react-native-animatable "1.3.3"
 
-react-native-pager-view@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-6.2.0.tgz"
-  integrity sha512-pf9OnL/Tkr+5s4Gjmsn7xh91PtJLDa6qxYa/bmtUhd/+s4cQdWQ8DIFoOFghwZIHHHwVdWtoXkp6HtpjN+r20g==
+react-native-pager-view@6.1.2:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-6.1.2.tgz#3522079b9a9d6634ca5e8d153bc0b4d660254552"
+  integrity sha512-qs2KSFc+7N7B+UZ6SG2sTvCkppagm5fVyRclv1KFKc7lDtrhXLzN59tXJw575LDP/dRJoXsNwqUAhZJdws6ABQ==
 
 react-native-qrcode-svg@^6.2.0:
   version "6.2.0"
@@ -8288,6 +8318,13 @@ react-native-svg@13.4.0:
   dependencies:
     css-select "^5.1.0"
     css-tree "^1.1.3"
+
+react-native-tab-view@^3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-3.5.2.tgz#2789b8af6148b16835869566bf13dc3b0e6c1b46"
+  integrity sha512-nE5WqjbeEPsWQx4mtz81QGVvgHRhujTNIIZiMCx3Bj6CBFDafbk7XZp9ocmtzXUQaZ4bhtVS43R4FIiR4LboJw==
+  dependencies:
+    use-latest-callback "^0.1.5"
 
 react-native-toast-message@^2.1.6:
   version "2.1.6"
@@ -9765,6 +9802,13 @@ url@^0.11.0:
   dependencies:
     punycode "^1.4.1"
     qs "^6.11.0"
+
+use-deep-compare@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/use-deep-compare/-/use-deep-compare-1.1.0.tgz#85580dde751f68400bf6ef7e043c7f986595cef8"
+  integrity sha512-6yY3zmKNCJ1jjIivfZMZMReZjr8e6iC6Uqtp701jvWJ6ejC/usXD+JjmslZDPJQgX8P4B1Oi5XSLHkOLeYSJsA==
+  dependencies:
+    dequal "1.0.0"
 
 use-latest-callback@^0.1.5:
   version "0.1.6"

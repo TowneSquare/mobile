@@ -1,14 +1,14 @@
 export enum FeedContent {
-  MESSAGE_ONLY = 'message only',
-  MESSAGE_IMAGE = 'messageImage',
-  GIF = 'gif',
-  VIDEO = 'video',
-  message_EXTERNAL_LINK = 'message-external-link',
-  NFT_FOR_SALE = 'nft-for-sale',
-  ATTACHED_NFT = 'attached-nft',
-  SWAP_OPTION_INCLUDED = 'swap-option-included',
-  FLOOR_PRICE_INCLUDED = 'floor-price',
-  REPOST = 'repost',
+  MESSAGE_ONLY = "message only",
+  MESSAGE_IMAGE = "messageImage",
+  GIF = "gif",
+  VIDEO = "video",
+  message_EXTERNAL_LINK = "message-external-link",
+  NFT_FOR_SALE = "nft-for-sale",
+  ATTACHED_NFT = "attached-nft",
+  SWAP_OPTION_INCLUDED = "swap-option-included",
+  FLOOR_PRICE_INCLUDED = "floor-price",
+  REPOST = "repost",
 }
 export interface Message_Only {
   message: string;

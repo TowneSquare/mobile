@@ -1,8 +1,8 @@
-import { View, Text, Dimensions } from 'react-native';
-import React from 'react';
-import { appColor } from '../../constants';
-import { sizes } from '../../utils';
-const { height, width } = Dimensions.get('window');
+import { View, Text, Dimensions } from "react-native";
+import React from "react";
+import { appColor } from "../../constants";
+import { sizes } from "../../utils";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const Handler = () => {
   return (
@@ -12,7 +12,7 @@ const Handler = () => {
         width: size.getWidthSize(114),
         backgroundColor: appColor.kGrayscale,
         borderRadius: 8,
-        alignSelf: 'center',
+        alignSelf: "center",
         marginTop: size.getHeightSize(16),
       }}
     />

@@ -5,18 +5,18 @@ import {
   Image,
   StyleSheet,
   Pressable,
-} from 'react-native';
-import React, { useState } from 'react';
-import { sizes } from '../../utils';
-import { appColor, fonts, images } from '../../constants';
-import ProfilePicture from '../Feed/ProfilePicture';
-import { useFonts } from 'expo-font';
-import PostHeader from '../Feed/PostHeader';
-import AddComment from '../../../assets/images/svg/addComment';
-import LikePost from '../../../assets/images/svg/LikePost';
-import LikedIcon from '../../../assets/images/svg/LikedIcon';
-const { height, width } = Dimensions.get('window');
-import SinglePostCommentHeader from './SinglePostCommentHeader';
+} from "react-native";
+import React, { useState } from "react";
+import { sizes } from "../../utils";
+import { appColor, fonts, images } from "../../constants";
+import ProfilePicture from "../Feed/ProfilePicture";
+import { useFonts } from "expo-font";
+import PostHeader from "../Feed/PostHeader";
+import AddComment from "../../../assets/images/svg/addComment";
+import LikePost from "../../../assets/images/svg/LikePost";
+import LikedIcon from "../../../assets/images/svg/LikedIcon";
+const { height, width } = Dimensions.get("window");
+import SinglePostCommentHeader from "./SinglePostCommentHeader";
 const size = new sizes(height, width);
 import Animated, {
   Extrapolate,
@@ -25,7 +25,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 
 interface Props {
   handleCommentButton: () => void;
@@ -43,9 +43,9 @@ const Comments = ({ handleCommentButton, myPost }: Props) => {
     } else setLikes([...likes, postId]);
   };
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -81,10 +81,10 @@ const Comments = ({ handleCommentButton, myPost }: Props) => {
               <Text style={styles.reactionText}>3</Text>
             </View>
             <View style={styles.reactionContent}>
-              {likes.includes('1') ? (
-                <LikedIcon onPress={() => handleLike('1')} />
+              {likes.includes("1") ? (
+                <LikedIcon onPress={() => handleLike("1")} />
               ) : (
-                <LikePost onPress={() => handleLike('1')} />
+                <LikePost onPress={() => handleLike("1")} />
               )}
               <Text style={styles.reactionText}>4</Text>
             </View>
@@ -107,10 +107,10 @@ const Comments = ({ handleCommentButton, myPost }: Props) => {
             </Text>
 
             <View style={styles.reactionContent}>
-              {likes.includes('2') ? (
-                <LikedIcon onPress={() => handleLike('2')} />
+              {likes.includes("2") ? (
+                <LikedIcon onPress={() => handleLike("2")} />
               ) : (
-                <LikePost onPress={() => handleLike('2')} />
+                <LikePost onPress={() => handleLike("2")} />
               )}
               <Text style={styles.reactionText}>4</Text>
             </View>
@@ -132,10 +132,10 @@ const Comments = ({ handleCommentButton, myPost }: Props) => {
               This is a comment, a nice one
             </Text>
             <View style={styles.reactionContent}>
-              {likes.includes('3') ? (
-                <LikedIcon onPress={() => handleLike('3')} />
+              {likes.includes("3") ? (
+                <LikedIcon onPress={() => handleLike("3")} />
               ) : (
-                <LikePost onPress={() => handleLike('3')} />
+                <LikePost onPress={() => handleLike("3")} />
               )}
               <Text style={styles.reactionText}>4</Text>
             </View>
@@ -149,9 +149,9 @@ const Comments = ({ handleCommentButton, myPost }: Props) => {
 export default Comments;
 const styles = StyleSheet.create({
   commentContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(8),
-    width: '100%',
+    width: "100%",
     marginTop: size.getHeightSize(8),
     paddingHorizontal: size.getWidthSize(16),
     borderBottomWidth: 1,
@@ -160,36 +160,36 @@ const styles = StyleSheet.create({
   },
   comment: {
     marginBottom: size.getHeightSize(4),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
     maxWidth: size.getWidthSize(288),
   },
   reactionContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(12),
   },
   reactionContent: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(4),
-    alignItems: 'center',
+    alignItems: "center",
   },
   reactionText: {
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.grayLight,
     fontSize: size.fontSize(13),
     lineHeight: size.getHeightSize(16),
   },
   repliedCommentContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(8),
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
     marginTop: size.getHeightSize(8),
   },
   readMore: {
     marginBottom: size.getHeightSize(9),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     color: appColor.primaryLight,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),

@@ -1,11 +1,11 @@
-import { View, Text, Dimensions, TextInput } from 'react-native';
-import React, { useState } from 'react';
-import { sizes } from '../../utils';
-import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import Info from '../../../assets/images/svg/Info';
-import { updateUsername } from '../../controller/UserController';
+import { View, Text, Dimensions, TextInput } from "react-native";
+import React, { useState } from "react";
+import { sizes } from "../../utils";
+import { useFonts } from "expo-font";
+import { appColor, fonts } from "../../constants";
+import { useAppSelector, useAppDispatch } from "../../controller/hooks";
+import Info from "../../../assets/images/svg/Info";
+import { updateUsername } from "../../controller/UserController";
 const UsernameField = () => {
   const dispatch = useAppDispatch();
   const userNameError = useAppSelector(
@@ -14,11 +14,11 @@ const UsernameField = () => {
   const ErrorMessage = useAppSelector(
     (state) => state.USER.errors.usernameErrorMessage
   );
-  const { height, width } = Dimensions.get('window');
+  const { height, width } = Dimensions.get("window");
   const size = new sizes(height, width);
   let [isLoaded] = useFonts({
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -26,9 +26,9 @@ const UsernameField = () => {
   return (
     <View
       style={{
-        alignSelf: 'center',
+        alignSelf: "center",
         width: size.getWidthSize(328),
-        alignItems: 'center',
+        alignItems: "center",
       }}
     >
       <TextInput
@@ -47,7 +47,7 @@ const UsernameField = () => {
           paddingHorizontal: size.getWidthSize(16),
           paddingVertical: size.getHeightSize(8),
           fontSize: size.fontSize(16),
-          fontFamily: 'Outfit-Regular',
+          fontFamily: "Outfit-Regular",
           color: appColor.kTextColor,
           backgroundColor: appColor.kGrayscaleDart,
           marginHorizontal: size.getWidthSize(16),
@@ -56,7 +56,7 @@ const UsernameField = () => {
       {userNameError && (
         <View
           style={{
-            alignSelf: 'flex-start',
+            alignSelf: "flex-start",
           }}
         >
           <Text
@@ -66,7 +66,7 @@ const UsernameField = () => {
               fontSize: size.fontSize(16),
               lineHeight: size.getHeightSize(21),
               marginLeft: size.getWidthSize(16),
-              fontFamily: 'Outfit-Regular',
+              fontFamily: "Outfit-Regular",
             }}
           >
             {ErrorMessage}
@@ -80,9 +80,9 @@ const UsernameField = () => {
           paddingRight: size.getWidthSize(16),
           // height: size.getHeightSize(95),
           width: size.getWidthSize(328),
-          backgroundColor: 'transparent',
-          alignSelf: 'center',
-          flexDirection: 'row',
+          backgroundColor: "transparent",
+          alignSelf: "center",
+          flexDirection: "row",
           borderRadius: 8,
           marginTop: size.getHeightSize(8),
           marginHorizontal: size.getWidthSize(16),
@@ -99,10 +99,10 @@ const UsernameField = () => {
             style={{
               fontSize: size.fontSize(16),
               color: appColor.grayLight,
-              textAlign: 'left',
+              textAlign: "left",
               marginLeft: size.getWidthSize(6),
               lineHeight: 21,
-              fontFamily: 'Outfit-Regular',
+              fontFamily: "Outfit-Regular",
             }}
           >
             A Username is unique to you, and it is how the community can

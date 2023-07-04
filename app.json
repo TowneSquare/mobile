@@ -30,9 +30,9 @@
     },
     "plugins": [
       [
-        "expo-image-picker",
+        "expo-image-picker", 
         {
-          "photosPermission": "The app accesses your photos"
+        "photoPermission": "This app needs permission to access your photos."
         }
       ]
     ]

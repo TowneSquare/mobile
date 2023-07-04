@@ -5,12 +5,12 @@ import {
   ImageSourcePropType,
   Image,
   Dimensions,
-} from 'react-native';
-import React, { ReactNode, useState, useEffect } from 'react';
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
-import { sizes } from '../../utils';
-const { height, width } = Dimensions.get('window');
+} from "react-native";
+import React, { ReactNode, useState, useEffect } from "react";
+import { useFonts } from "expo-font";
+import { appColor, fonts, images } from "../../constants";
+import { sizes } from "../../utils";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 interface Props {
   steps: number;
@@ -35,9 +35,9 @@ const ScrollableProfileSetUpHeader = ({
   iconMarginTop,
 }: Props) => {
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -46,7 +46,7 @@ const ScrollableProfileSetUpHeader = ({
     <>
       <View
         style={{
-          alignSelf: 'center',
+          alignSelf: "center",
           marginTop: size.getHeightSize(38),
         }}
       >
@@ -55,7 +55,7 @@ const ScrollableProfileSetUpHeader = ({
             color: addOpacity
               ? appColor.kWhiteColorWithOpacity
               : appColor.kTextColor,
-            fontFamily: 'Outfit-Regular',
+            fontFamily: "Outfit-Regular",
             fontSize: size.fontSize(14),
             lineHeight: size.getHeightSize(18),
             width: size.getWidthSize(257),
@@ -67,7 +67,7 @@ const ScrollableProfileSetUpHeader = ({
           style={{
             marginTop: size.getHeightSize(8),
             width: size.getWidthSize(306),
-            flexDirection: 'row',
+            flexDirection: "row",
           }}
         >
           <View
@@ -147,7 +147,7 @@ const ScrollableProfileSetUpHeader = ({
       <View
         style={{
           marginTop: iconMarginTop ? iconMarginTop : size.getHeightSize(32),
-          alignSelf: 'center',
+          alignSelf: "center",
         }}
       >
         {SvgImage}

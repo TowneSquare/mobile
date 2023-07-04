@@ -7,13 +7,13 @@ import {
   Dimensions,
   Pressable,
   TextInput,
-} from 'react-native';
-import React, { useRef, useEffect } from 'react';
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
-import { sizes } from '../../utils';
-import { Octicons, Ionicons } from '@expo/vector-icons';
-const { height, width } = Dimensions.get('window');
+} from "react-native";
+import React, { useRef, useEffect } from "react";
+import { useFonts } from "expo-font";
+import { appColor, fonts, images } from "../../constants";
+import { sizes } from "../../utils";
+import { Octicons, Ionicons } from "@expo/vector-icons";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 interface Props {
   placeholder: string;
@@ -52,19 +52,19 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     borderWidth: 1,
     width: size.getWidthSize(328),
-    alignSelf: 'center',
+    alignSelf: "center",
     borderColor: appColor.kGrayscale,
     marginTop: size.getHeightSize(24),
     paddingHorizontal: size.getWidthSize(16),
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: size.getWidthSize(8),
     backgroundColor: appColor.kGrayscaleDart,
   },
   textInput: {
     lineHeight: size.getHeightSize(24),
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.kTextColor,
     flex: 1,
     paddingVertical: size.getHeightSize(12),

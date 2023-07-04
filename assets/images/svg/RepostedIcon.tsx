@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Svg, { SvgProps, Path } from 'react-native-svg';
+import * as React from "react";
+import Svg, { SvgProps, Path } from "react-native-svg";
 const RepostedIcon = (props: SvgProps) => (
   <Svg width={12} height={13} fill="none" {...props}>
     <Path

@@ -1,13 +1,7 @@
-import * as React from "react"
-import Svg, { SvgProps, Path } from "react-native-svg"
+import * as React from "react";
+import Svg, { SvgProps, Path } from "react-native-svg";
 const LikedIcon = (props: SvgProps) => (
-  <Svg
-  
-    width={24}
-    height={24}
-    fill="none"
-    {...props}
-  >
+  <Svg width={24} height={24} fill="none" {...props}>
     <Path
       fill="#9264F8"
       fillRule="evenodd"
@@ -15,5 +9,5 @@ const LikedIcon = (props: SvgProps) => (
       clipRule="evenodd"
     />
   </Svg>
-)
-export default LikedIcon
+);
+export default LikedIcon;

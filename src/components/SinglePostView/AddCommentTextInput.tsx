@@ -1,11 +1,11 @@
-import { View, Text, Dimensions, ScrollView, TextInput } from 'react-native';
-import React, { useState, useEffect, useRef } from 'react';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
-import SendButton from '../../../assets/images/svg/SendButton';
-import SendButtonActive from '../../../assets/images/svg/SendButtonActive';
-import { sizes } from '../../utils';
+import { View, Text, Dimensions, ScrollView, TextInput } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+const { height, width } = Dimensions.get("window");
+import { useFonts } from "expo-font";
+import { appColor, fonts } from "../../constants";
+import SendButton from "../../../assets/images/svg/SendButton";
+import SendButtonActive from "../../../assets/images/svg/SendButtonActive";
+import { sizes } from "../../utils";
 const size = new sizes(height, width);
 interface Props {
   textRef: any;
@@ -19,7 +19,7 @@ const AddCommentTextInput = ({
 }: Props) => {
   const [height, setHeight] = useState(0);
   const [borderRadius, setBorderRadius] = useState(40);
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   useEffect(() => {
     if (height > size.getHeightSize(73)) {
@@ -30,9 +30,9 @@ const AddCommentTextInput = ({
     }
   }, [height]);
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -51,7 +51,7 @@ const AddCommentTextInput = ({
         {showReplyingTo && (
           <View
             style={{
-              flexDirection: 'row',
+              flexDirection: "row",
               backgroundColor: appColor.kgrayDark2,
               paddingHorizontal: size.getWidthSize(16),
               paddingTop: size.getHeightSize(8),
@@ -60,7 +60,7 @@ const AddCommentTextInput = ({
           >
             <Text
               style={{
-                fontFamily: 'Outfit-Regular',
+                fontFamily: "Outfit-Regular",
                 color: appColor.kGrayscale,
                 fontSize: size.fontSize(14),
                 lineHeight: size.getHeightSize(18),
@@ -70,7 +70,7 @@ const AddCommentTextInput = ({
             </Text>
             <Text
               style={{
-                fontFamily: 'Outfit-SemiBold',
+                fontFamily: "Outfit-SemiBold",
                 color: appColor.kTextColor,
                 fontSize: size.fontSize(14),
                 lineHeight: size.getHeightSize(18),
@@ -86,14 +86,14 @@ const AddCommentTextInput = ({
             backgroundColor: appColor.kgrayDark2,
             paddingVertical: size.getHeightSize(8),
             paddingHorizontal: size.getWidthSize(16),
-            flexDirection: 'row',
+            flexDirection: "row",
             gap: size.getWidthSize(16),
-            alignItems: 'center',
+            alignItems: "center",
           }}
         >
           <TextInput
             ref={textRef}
-            placeholder={showReplyingTo ? 'Write a reply' : 'Write a comment'}
+            placeholder={showReplyingTo ? "Write a reply" : "Write a comment"}
             placeholderTextColor={appColor.kgrayTextColor}
             cursorColor={appColor.klightPurple}
             multiline
@@ -108,7 +108,7 @@ const AddCommentTextInput = ({
               borderRadius: borderRadius,
               fontSize: size.fontSize(16),
               lineHeight: size.getHeightSize(24),
-              fontFamily: 'Outfit-Regular',
+              fontFamily: "Outfit-Regular",
               paddingHorizontal: size.getWidthSize(16),
               paddingTop: size.getHeightSize(8),
               paddingBottom: size.getHeightSize(8),
@@ -128,7 +128,7 @@ const AddCommentTextInput = ({
           >
             <Text
               style={{
-                fontFamily: 'Outfit-Regular',
+                fontFamily: "Outfit-Regular",
                 color: appColor.kErrorText,
                 fontSize: size.fontSize(14),
                 lineHeight: size.getHeightSize(18),

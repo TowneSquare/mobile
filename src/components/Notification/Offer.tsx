@@ -1,8 +1,8 @@
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
-import React from 'react';
-import { appColor, images } from '../../constants';
-import { sizes } from '../../utils';
-const { height, width } = Dimensions.get('window');
+import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
+import React from "react";
+import { appColor, images } from "../../constants";
+import { sizes } from "../../utils";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const Offer = () => {
   return (
@@ -46,47 +46,47 @@ const styles = StyleSheet.create({
     width: size.getWidthSize(254),
   },
   imageStyle: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
   },
   nftcollectionContainer: {
     backgroundColor: appColor.kBlackWithOpacity,
     paddingHorizontal: size.getWidthSize(16),
-    width: '100%',
-    position: 'absolute',
+    width: "100%",
+    position: "absolute",
     bottom: size.getHeightSize(68),
   },
   collectionInfo: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(4),
     marginTop: size.getHeightSize(8),
-    alignItems: 'center',
+    alignItems: "center",
   },
   collectionName: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
   },
   collectionId: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: 'Outfit-Medium',
+    fontFamily: "Outfit-Medium",
     marginTop: size.getHeightSize(8),
     marginBottom: size.getHeightSize(8),
   },
   collectionPriceContainer: {
     gap: size.getHeightSize(2),
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     marginVertical: size.getHeightSize(8),
   },
   price: {
     fontSize: size.fontSize(13),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.grayLight,
     lineHeight: size.getHeightSize(16),
   },
@@ -99,14 +99,14 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     paddingHorizontal: size.getWidthSize(16),
-    width: '100%',
+    width: "100%",
     marginBottom: size.getHeightSize(8),
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   amount: {
     fontSize: size.fontSize(20),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(24),
     letterSpacing: 0.04,
@@ -115,15 +115,15 @@ const styles = StyleSheet.create({
   button: {
     paddingHorizontal: size.getWidthSize(16),
     backgroundColor: appColor.kSecondaryButtonColor,
-    justifyContent: 'center',
+    justifyContent: "center",
     borderRadius: 40,
     width: size.getWidthSize(94),
     paddingVertical: size.getHeightSize(7),
   },
   buttonText: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-Medium',
+    fontFamily: "Outfit-Medium",
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(20),
     letterSpacing: 0.02,

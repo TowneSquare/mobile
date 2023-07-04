@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Svg, { SvgProps, Path } from 'react-native-svg';
+import * as React from "react";
+import Svg, { SvgProps, Path } from "react-native-svg";
 const Bell = (props: SvgProps) => (
   <Svg width={20} height={21} fill="none" {...props}>
     <Path fill="#B882FF" d="M16 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />

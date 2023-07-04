@@ -1,18 +1,15 @@
-import { View, Text, Dimensions, Pressable } from 'react-native';
-import React from 'react';
-import { sizes } from '../../utils';
-import { appColor, fonts } from '../../constants';
-import { useFonts } from 'expo-font';
-import Queen from '../../../assets/images/svg/Queen';
-const { height, width } = Dimensions.get('window');
-import { useAppDispatch } from '../../controller/hooks';
-
-import {
-  updtaeReportingModal,
-  updateMyPostPanel,
-} from '../../controller/FeedsController';
-import Feather from '@expo/vector-icons/Feather';
-import Entypo from '@expo/vector-icons/Entypo';
+import { View, Text, Dimensions, Image, Pressable } from "react-native";
+import React from "react";
+import { sizes } from "../../utils";
+import { appColor, fonts, images } from "../../constants";
+import { useFonts } from "expo-font";
+import Queen from "../../../assets/images/svg/Queen";
+const { height, width } = Dimensions.get("window");
+import { useAppDispatch } from "../../controller/hooks";
+import Feather from "@expo/vector-icons/Feather";
+import Entypo from "@expo/vector-icons/Entypo";
+import { updateMyPostPanel } from "../../controller/FeedsController";
+import { updateReportingModal } from "../../controller/FeedsController";
 const size = new sizes(height, width);
 interface Props {
   username: string;
@@ -32,29 +29,29 @@ const PostHeader = ({
 }: Props) => {
   const dispatch = useAppDispatch();
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
   }
   const showModal = () => {
-    dispatch(myPost ? updateMyPostPanel(true) : updtaeReportingModal(true));
+    dispatch(myPost ? updateMyPostPanel(true) : updateReportingModal(true));
   };
   return (
     <View
       style={{
-        flexDirection: 'row',
+        flexDirection: "row",
       }}
     >
       <Pressable
         onPress={onPress}
         style={{
-          flexDirection: 'row',
+          flexDirection: "row",
           gap: size.getWidthSize(4),
           width: size.getWidthSize(214),
-          alignItems: 'center',
+          alignItems: "center",
         }}
       >
         <Text
@@ -63,12 +60,12 @@ const PostHeader = ({
           style={{
             fontSize: size.fontSize(16),
             color: appColor.kTextColor,
-            fontFamily: 'Outfit-Medium',
+            fontFamily: "Outfit-Medium",
             lineHeight: size.getHeightSize(21),
             maxWidth: size.getWidthSize(123),
           }}
         >
-          {myPost ? 'MyAccountName' : username}
+          {myPost ? "MyAccountName" : username}
         </Text>
         <Queen />
         <Text
@@ -78,20 +75,20 @@ const PostHeader = ({
             color: appColor.grayLight,
             fontSize: size.fontSize(14),
             lineHeight: size.getHeightSize(18),
-            fontFamily: 'Outfit-Regular',
+            fontFamily: "Outfit-Regular",
             maxWidth: maxWidth
               ? size.getWidthSize(maxWidth)
               : size.getWidthSize(67),
           }}
         >
-          @{myPost ? 'myaccountName' : nickname}
+          @{myPost ? "myaccountName" : nickname}
         </Text>
         <Text
           style={{
             color: appColor.grayLight,
             fontSize: size.fontSize(14),
             lineHeight: size.getHeightSize(18),
-            fontFamily: 'Outfit-Bold',
+            fontFamily: "Outfit-Bold",
           }}
         >
           •
@@ -101,7 +98,7 @@ const PostHeader = ({
             color: appColor.grayLight,
             fontSize: size.fontSize(14),
             lineHeight: size.getHeightSize(18),
-            fontFamily: 'Outfit-Regular',
+            fontFamily: "Outfit-Regular",
           }}
         >
           {timepost}
@@ -109,8 +106,8 @@ const PostHeader = ({
       </Pressable>
       <View
         style={{
-          alignSelf: 'flex-start',
-          marginLeft: 'auto',
+          alignSelf: "flex-start",
+          marginLeft: "auto",
         }}
       >
         <Feather

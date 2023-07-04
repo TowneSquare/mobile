@@ -1,12 +1,7 @@
-import * as React from 'react';
-import Svg, { SvgProps, Path } from 'react-native-svg';
+import * as React from "react";
+import Svg, { SvgProps, Path } from "react-native-svg";
 const MicrophoneSvg = (props: SvgProps) => (
-  <Svg
-    width={16}
-    height={20}
-    fill="none"
-    {...props}
-  >
+  <Svg width={16} height={20} fill="none" {...props}>
     <Path
       fill="#666"
       fillRule="evenodd"

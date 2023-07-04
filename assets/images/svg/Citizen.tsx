@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import Svg, {
   SvgProps,
   G,
@@ -7,15 +7,9 @@ import Svg, {
   LinearGradient,
   Stop,
   ClipPath,
-} from "react-native-svg"
+} from "react-native-svg";
 const Citizen = (props: SvgProps) => (
-  <Svg
-   
-    width={18}
-    height={18}
-    fill="none"
-    {...props}
-  >
+  <Svg width={18} height={18} fill="none" {...props}>
     <G strokeLinecap="round" strokeLinejoin="round" clipPath="url(#a)">
       <Path
         fill="url(#b)"
@@ -49,5 +43,5 @@ const Citizen = (props: SvgProps) => (
       </ClipPath>
     </Defs>
   </Svg>
-)
-export default Citizen
+);
+export default Citizen;

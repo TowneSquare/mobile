@@ -1,13 +1,7 @@
-import * as React from "react"
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
+import * as React from "react";
+import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg";
 const VideoPlayerSvg = (props: SvgProps) => (
-  <Svg
-
-    width={358}
-    height={56}
-    fill="none"
-    {...props}
-  >
+  <Svg width={358} height={56} fill="none" {...props}>
     <G clipPath="url(#a)">
       <Path
         fill="#fff"
@@ -40,5 +34,5 @@ const VideoPlayerSvg = (props: SvgProps) => (
       </ClipPath>
     </Defs>
   </Svg>
-)
-export default VideoPlayerSvg
+);
+export default VideoPlayerSvg;

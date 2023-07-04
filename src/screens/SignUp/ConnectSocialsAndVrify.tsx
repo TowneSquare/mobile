@@ -6,28 +6,28 @@ import {
   Dimensions,
   StyleSheet,
   Pressable,
-} from 'react-native';
-import React, { useState } from 'react';
-import { appColor, fonts, images } from '../../constants';
-import Robot from '../../../assets/images/svg/Robot';
-import { StatusBar } from 'expo-status-bar';
-import { useFonts } from 'expo-font';
-import { SafeAreaView } from 'react-native-safe-area-context';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../../utils';
-import UserFriends from '../../../assets/images/svg/UserFriends';
-import SealChecks from '../../../assets/images/svg/SealChecks';
-import Clap from '../../../assets/images/svg/Clap';
-import ContinueButton from '../../components/SignUp/ContinueButton';
-import BackButton from '../../components/SignUp/BackButton';
-import Link from '../../../assets/images/svg/Link';
-import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
+} from "react-native";
+import React, { useState } from "react";
+import { appColor, fonts, images } from "../../constants";
+import Robot from "../../../assets/images/svg/Robot";
+import { StatusBar } from "expo-status-bar";
+import { useFonts } from "expo-font";
+import { SafeAreaView } from "react-native-safe-area-context";
+const { height, width } = Dimensions.get("window");
+import { sizes } from "../../utils";
+import UserFriends from "../../../assets/images/svg/UserFriends";
+import SealChecks from "../../../assets/images/svg/SealChecks";
+import Clap from "../../../assets/images/svg/Clap";
+import ContinueButton from "../../components/SignUp/ContinueButton";
+import BackButton from "../../components/SignUp/BackButton";
+import Link from "../../../assets/images/svg/Link";
+import ProfileSetUpHeader from "../../components/SignUp/ProfileSetUpHeader";
 const size = new sizes(height, width);
 const ConnectSocialsAndVrify = () => {
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
@@ -53,9 +53,9 @@ const ConnectSocialsAndVrify = () => {
       <View
         style={{
           width: size.getWidthSize(328),
-          alignSelf: 'center',
+          alignSelf: "center",
           height: size.getHeightSize(224),
-          alignItems: 'center',
+          alignItems: "center",
         }}
       >
         <View style={[styles.row]}>
@@ -94,11 +94,11 @@ const ConnectSocialsAndVrify = () => {
 export default ConnectSocialsAndVrify;
 const styles = StyleSheet.create({
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     height: size.getHeightSize(56),
     width: size.getWidthSize(339),
-    alignSelf: 'center',
+    alignSelf: "center",
     paddingHorizontal: size.getWidthSize(12),
     paddingVertical: size.getHeightSize(12),
     gap: size.getWidthSize(8),
@@ -106,8 +106,8 @@ const styles = StyleSheet.create({
   description: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-SemiBold',
-    textAlign: 'center',
+    fontFamily: "Outfit-SemiBold",
+    textAlign: "center",
     lineHeight: size.getHeightSize(21),
   },
 });

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from 'react-native-svg';
+import * as React from "react";
+import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg";
 const Camera = (props: SvgProps) => (
   <Svg width={25} height={24} fill="none" {...props}>
     <G fill="#fff" fillRule="evenodd" clipPath="url(#a)" clipRule="evenodd">

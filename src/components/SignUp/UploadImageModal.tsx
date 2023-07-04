@@ -6,39 +6,47 @@ import {
   ScrollView,
   Image,
   Pressable,
-} from 'react-native';
-import React, { useMemo, useRef, useState, useEffect } from 'react';
-import { MaterialIcons } from '@expo/vector-icons';
-import * as Animatable from 'react-native-animatable';
-import Photo from '../../../assets/images/svg/Photo';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import Handler from './Handler';
+  Alert,
+} from "react-native";
+import React, { useMemo, useRef, useState, useEffect } from "react";
+import { MaterialIcons } from "@expo/vector-icons";
+import * as Animatable from "react-native-animatable";
+import Photo from "../../../assets/images/svg/Photo";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import Handler from "./Handler";
 import Animated, {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 import {
   updateUploadImageModalOpen,
   updateUploadModalRenderCount,
   updateNftOpen,
   updateNftRender,
-} from '../../controller/BottomSheetController';
-import Cat from '../../../assets/images/svg/Cat';
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
-import { sizes } from '../../utils';
-import Customhandler from './Customhandler';
-import Camera from '../../../assets/images/svg/Camera';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-import * as ImagePicker from 'expo-image-picker';
-import { updateProfileImage } from '../../controller/UserController';
-const { height, width } = Dimensions.get('window');
+} from "../../controller/BottomSheetController";
+import Cat from "../../../assets/images/svg/Cat";
+import { useFonts } from "expo-font";
+import { appColor, fonts, images } from "../../constants";
+import { sizes } from "../../utils";
+import Camera from "../../../assets/images/svg/Camera";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import {
+  launchImageLibraryAsync,
+  MediaTypeOptions,
+  launchCameraAsync,
+  useCameraPermissions,
+  PermissionStatus,
+} from "expo-image-picker";
+import { updateProfileImage } from "../../controller/UserController";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
+
 const UploadImageModal = () => {
-  const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
-  const [image, setImage] = useState('');
+  const [bottomSheetOpen, setBottomSheetOpen] = useState<boolean>(false);
+  const [cameraPermissionInformation, requestPermission] =
+    useCameraPermissions();
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const isVisible = useAppSelector(
@@ -63,34 +71,6 @@ const UploadImageModal = () => {
     }
   }, [isVisible]);
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    console.log(result);
-    if (!result.canceled) {
-      dispatch(updateProfileImage(result.assets[0].uri));
-      setImage(result.assets[0].uri);
-      dispatch(updateUploadImageModalOpen(false));
-    }
-  };
-
-  const takePhoto = async () => {
-    let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-    });
-
-    if (!result.canceled) {
-      dispatch(updateProfileImage(result.assets[0].uri));
-      dispatch(updateUploadImageModalOpen(false));
-    }
-  };
-
   const animatedIndex = useSharedValue(0);
   const contentStyle = useAnimatedStyle(() => ({
     transform: [
@@ -112,13 +92,60 @@ const UploadImageModal = () => {
   }));
 
   let [isLoaded] = useFonts({
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
   });
   if (!isLoaded) {
     return null;
   }
+
+  async function verifyPermission() {
+    if (cameraPermissionInformation?.status === PermissionStatus.UNDETERMINED) {
+      const permissionResponse = await requestPermission();
+
+      return permissionResponse.granted;
+    }
+    if (cameraPermissionInformation?.status === PermissionStatus.DENIED) {
+      Alert.alert(
+        "Insufficient permission!",
+        "You need to grant camera access to use this app"
+      );
+      return false;
+    }
+    return true;
+  }
+  const pickImage = async () => {
+    const hasPermission = await verifyPermission();
+    if (!hasPermission) {
+      return;
+    }
+
+    let result = await launchImageLibraryAsync({
+      mediaTypes: MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (result.assets != null) {
+      dispatch(updateProfileImage(result?.assets[0].uri));
+      dispatch(updateUploadImageModalOpen(false));
+    }
+  };
+
+  const takePhoto = async () => {
+    let result = await launchCameraAsync({
+      mediaTypes: MediaTypeOptions.Images,
+      allowsEditing: true,
+    });
+
+    if (result.assets != null) {
+      dispatch(updateProfileImage(result.assets[0].uri));
+      dispatch(updateUploadImageModalOpen(false));
+    }
+  };
+
   return (
     <BottomSheet
       onClose={() => {
@@ -128,26 +155,26 @@ const UploadImageModal = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={['35']}
+      snapPoints={["35"]}
       handleComponent={Handler}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
       }}
     >
       <Animatable.View
-        animation={'fadeInUp'}
+        animation={"fadeInUp"}
         delay={500}
-        easing={'ease-in-out'}
+        easing={"ease-in-out"}
         duration={400}
         style={contentStyle}
       >
         <View
           style={{
             height: size.getHeightSize(160),
-            justifyContent: 'space-between',
+            justifyContent: "space-between",
             marginTop: size.getHeightSize(32),
             width: size.getWidthSize(328),
-            alignSelf: 'center',
+            alignSelf: "center",
           }}
         >
           <Pressable
@@ -162,7 +189,7 @@ const UploadImageModal = () => {
               styles.container,
               {
                 backgroundColor:
-                  collectionLength === 0 ? '#66666660' : appColor.kGrayLight3,
+                  collectionLength === 0 ? "#66666660" : appColor.kGrayLight3,
               },
             ]}
           >
@@ -181,6 +208,7 @@ const UploadImageModal = () => {
               <Photo />
               <Text style={styles.Text}>Existing photo</Text>
             </Pressable>
+
             <MaterialIcons
               name="keyboard-arrow-right"
               color={appColor.kWhiteColor}
@@ -203,16 +231,16 @@ const UploadImageModal = () => {
           style={{
             height: size.getHeightSize(44),
             marginTop: size.getHeightSize(16),
-            justifyContent: 'center',
+            justifyContent: "center",
           }}
         >
           <Text
             style={{
               color: appColor.kTextColor,
               fontSize: size.fontSize(18),
-              fontFamily: 'Outfit-Medium',
+              fontFamily: "Outfit-Medium",
               lineHeight: size.getHeightSize(23),
-              textAlign: 'center',
+              textAlign: "center",
               letterSpacing: 0.02,
             }}
             onPress={() => {
@@ -235,23 +263,23 @@ const styles = StyleSheet.create({
     width: size.getWidthSize(328),
     height: size.getHeightSize(48),
     backgroundColor: appColor.kGrayLight3,
-    flexDirection: 'row',
-    alignSelf: 'center',
+    flexDirection: "row",
+    alignSelf: "center",
     borderRadius: 40,
     paddingVertical: size.getHeightSize(8),
     paddingHorizontal: size.getWidthSize(16),
-    alignItems: 'center',
+    alignItems: "center",
   },
   innerStyle: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     flex: 1,
   },
 
   Text: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     lineHeight: size.getHeightSize(21),
     marginLeft: size.getWidthSize(8),
   },

@@ -6,7 +6,7 @@ export function SearchFuntion<T extends Tags>(
   searchWord: string
 ): T[] {
   const newData = tags.filter((item: T) => {
-    const tagDetails = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+    const tagDetails = item.name ? item.name.toUpperCase() : "".toUpperCase();
     const search = searchWord.toUpperCase();
     return tagDetails.includes(search);
   });
@@ -16,7 +16,7 @@ export function ExtractTags(sentence: string): string[] {
   const tags: string[] = [];
   const words = sentence.split(/\s+/);
   words.forEach((word) => {
-    if (word.startsWith('#') || word.startsWith('@') || word.startsWith('$')) {
+    if (word.startsWith("#") || word.startsWith("@") || word.startsWith("$")) {
       tags.push(word);
     }
   });

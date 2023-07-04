@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import Svg, {
   SvgProps,
   Circle,
@@ -6,15 +6,9 @@ import Svg, {
   Defs,
   LinearGradient,
   Stop,
-} from "react-native-svg"
+} from "react-native-svg";
 const Checked = (props: SvgProps) => (
-  <Svg
-
-    width={20}
-    height={21}
-    fill="none"
-    {...props}
-  >
+  <Svg width={20} height={21} fill="none" {...props}>
     <Circle
       cx={10}
       cy={10.5}
@@ -46,5 +40,5 @@ const Checked = (props: SvgProps) => (
       </LinearGradient>
     </Defs>
   </Svg>
-)
-export default Checked
+);
+export default Checked;
