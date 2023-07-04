@@ -20,6 +20,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { UserPosts } from "../../Feed/DuumyData";
 import ForYou from "../../Feed/ForYou";
 import { useNavigation } from "@react-navigation/native";
+import { useAppSelector } from "../../../controller/hooks";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -34,6 +35,12 @@ const About = () => {
   });
 
   const { navigate } = useNavigation();
+  const selectedimage = useAppSelector(
+    (state) => state.USER.selectedCollection
+  );
+  const profilePics = useAppSelector(
+    (state) => state.USER.details.profileImage
+  );
 
   const [view, setView] = useState<number>(2);
 
@@ -45,25 +52,6 @@ const About = () => {
   const FOLLOWERS = "28,872";
   const POST = "189";
   const COMMUNITIES = "22";
-
-  const NFTs = [
-    {
-      id: 1,
-      source: images.pinnedNFT,
-    },
-    {
-      id: 2,
-      source: images.pinnedNFT_1,
-    },
-    {
-      id: 3,
-      source: images.pinnedNFT,
-    },
-    {
-      id: 4,
-      source: images.pinnedNFT_1,
-    },
-  ];
 
   const onlyUserPost = UserPosts.filter(
     (userPost) => userPost.nickname == NICKNAME
@@ -82,11 +70,9 @@ const About = () => {
   };
 
   const Media = () => {
-    return (
-      <View>
-        <Text>Media</Text>
-      </View>
-    );
+    return onlyUserPost.map((userpost) => (
+      <ForYou key={userpost.id} data={userpost} />
+    ));
   };
 
   const POST_MEDIA_REPLIES = () => {
@@ -132,8 +118,16 @@ const About = () => {
           </View>
         </View>
         <View style={{ marginTop: 15, flexDirection: "row" }}>
-          <View>
-            <Image style={{ borderRadius: 50 }} source={images.pfp_avatar} />
+          <View style={styles.imageContainer}>
+            {profilePics ? (
+              <Image
+                style={styles.image}
+                source={{ uri: profilePics }}
+                resizeMode="contain"
+              />
+            ) : (
+              <Image style={{ borderRadius: 50 }} source={images.pfp_avatar} />
+            )}
           </View>
           <View style={{ justifyContent: "center", marginLeft: 15 }}>
             <Text
@@ -208,70 +202,114 @@ const About = () => {
         </View>
       </View>
       <View>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={styles.aboutHeader}>My Super Stars </Text>
-            <Info />
-          </View>
-          {/* <Text style={{color: appColor.kSecondaryButtonColor, fontFamily:"Outfit-Bold", fontSize: size.fontSize(16)}}>
-                    Edit
-                </Text> */}
-        </View>
-        {/* <ScrollView horizontal> */}
         <View
           style={{
             flexDirection: "row",
-            padding: 15,
-            marginVertical: 15,
             justifyContent: "space-between",
-            borderStyle: "dashed",
-            borderColor: appColor.kTextSubtitleClor,
-            borderWidth: 1,
-            borderRadius: 30,
+            alignItems: "center",
           }}
         >
-          <View style={{}}>
-            <Text
-              style={{
-                color: appColor.kTextSubtitleClor,
-                fontFamily: "Outfit-Regular",
-                fontSize: size.fontSize(13),
-              }}
-            >
-              When you set you preferred
-            </Text>
-            <Text
-              style={{
-                color: appColor.kTextSubtitleClor,
-                fontFamily: "Outfit-Regular",
-                fontSize: size.fontSize(13),
-              }}
-            >
-              NFTs, they will show here
-            </Text>
-          </View>
-          <Pressable
+          <View
             style={{
-              backgroundColor: appColor.kWhiteColor,
-              borderRadius: 30,
-              paddingHorizontal: 25,
-              justifyContent: "center",
-            }}
-            onPress={() => {
-              navigate("SetNFTs");
+              flexDirection: "row",
             }}
           >
-            <Text
-              style={{
-                textAlign: "center",
-                fontFamily: "Outfit-Bold",
+            <Text style={styles.aboutHeader}>My Super Stars </Text>
+            <Info />
+          </View>
+
+          {selectedimage.length > 0 ? (
+            <Pressable
+              onPress={() => {
+                navigate("SetNFTs");
               }}
             >
-              Set NFTs
-            </Text>
-          </Pressable>
+              <Text
+                style={{
+                  color: appColor.kSecondaryButtonColor,
+                  fontFamily: "Outfit-Bold",
+                  fontSize: size.fontSize(16),
+                }}
+              >
+                Edit
+              </Text>
+            </Pressable>
+          ) : (
+            <></>
+          )}
         </View>
-        {/* </ScrollView> */}
+        {selectedimage.length > 0 ? (
+          <>
+            <ScrollView horizontal={true}>
+              {selectedimage.map((item) => (
+                <Image
+                  style={{
+                    margin: 5,
+                    width: 120,
+                    height: size.getHeightSize(130),
+                    borderRadius: 15,
+                  }}
+                  key={item.id}
+                  source={item.image}
+                />
+              ))}
+            </ScrollView>
+          </>
+        ) : (
+          <View
+            style={{
+              flexDirection: "row",
+              padding: 15,
+              marginVertical: 15,
+              justifyContent: "space-between",
+              borderStyle: "dashed",
+              borderColor: appColor.kTextSubtitleClor,
+              borderWidth: 1,
+              borderRadius: 30,
+            }}
+          >
+            <View style={{}}>
+              <Text
+                style={{
+                  color: appColor.kTextSubtitleClor,
+                  fontFamily: "Outfit-Regular",
+                  fontSize: size.fontSize(13),
+                }}
+              >
+                When you set you preferred
+              </Text>
+              <Text
+                style={{
+                  color: appColor.kTextSubtitleClor,
+                  fontFamily: "Outfit-Regular",
+                  fontSize: size.fontSize(13),
+                }}
+              >
+                NFTs, they will show here
+              </Text>
+            </View>
+            <Pressable
+              style={{
+                backgroundColor: appColor.kWhiteColor,
+                borderRadius: 30,
+                paddingHorizontal: 25,
+                justifyContent: "center",
+              }}
+              onPress={() => {
+                navigate("SetNFTs");
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontFamily: "Outfit-Bold",
+                }}
+              >
+                Set NFTs
+              </Text>
+            </Pressable>
+          </View>
+        )}
       </View>
 
       <View
@@ -401,6 +439,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: size.getWidthSize(4),
     borderRadius: 40,
+  },
+  imageContainer: {
+    height: size.getHeightAndWidth(140),
+    width: size.getHeightAndWidth(140),
+    borderRadius: 200,
+    overflow: "hidden",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 50,
   },
 });
 

@@ -19,11 +19,12 @@ import { useAppSelector } from "../../../controller/hooks";
 import { useNavigation } from "@react-navigation/native";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { Button } from "react-native-elements";
+import Back from "../../../../assets/images/svg/Back";
 
 const Collection: FC<{
   name: string;
   collectionId: number;
-  handle: () => void
+  handle: () => void;
 }> = ({ name, collectionId, handle }) => {
   const [numColumns, setnumColumns] = useState(3);
   const dispatch = useAppDispatch();
@@ -31,6 +32,8 @@ const Collection: FC<{
   const COLLECTION_DATA = NFTCollections.find(
     (c) => c.id == collectionId
   ).collections;
+  const navigation = useNavigation();
+
   const CollectionImage: FC<{
     item: collection;
   }> = ({ item }) => {
@@ -52,8 +55,6 @@ const Collection: FC<{
         })
       );
     };
-    const navigation = useNavigation();
-
 
     return (
       <View
@@ -69,11 +70,11 @@ const Collection: FC<{
           }}
           onPress={() => {
             handle_select();
-            
           }}
         >
           <View>
             <Image
+              key={item.id}
               source={item.image}
               style={{
                 width: size.getWidthSize(100),
@@ -131,6 +132,42 @@ const Collection: FC<{
         renderItem={({ item }) => <CollectionImage item={item} />}
         keyExtractor={(item) => item.id.toString()}
         numColumns={COLLECTION_DATA.length < 3 ? 2 : 3}
+        ListHeaderComponent={() => (
+          <SafeAreaView
+            style={{
+              flex: 1,
+              marginTop: "25%",
+              flexDirection: "row",
+              justifyContent: "space-around",
+            }}
+          >
+            <Pressable
+              onPress={() => {
+                navigation.setOptions({ headerShown: false });
+                handle();
+              }}
+            >
+              <Back />
+            </Pressable>
+            <Text
+              style={{
+                color: "white",
+                fontFamily: "Outfit-Bold",
+                fontSize: size.fontSize(25),
+              }}
+            >
+              {name}
+            </Text>
+            <Text> </Text>
+          </SafeAreaView>
+        )}
+        ListHeaderComponentStyle={{
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          backgroundColor: appColor.kgrayDark2,
+        }}
+        style={{}}
       />
     </>
   );
