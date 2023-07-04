@@ -69,7 +69,7 @@ const Wallets = () => {
           size={size.fontSize(25)}
         />
       </Pressable> */}
-      <LetGoButton navigateTo="DrawerNavigation" />
+      
       <Pressable
         onPress={() => {
           dispatch(updateRenderCount(1));
