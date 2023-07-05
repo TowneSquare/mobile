@@ -18,8 +18,9 @@ const size = new sizes(height, width);
 interface Props {
   placeholder: string;
   marginTop?: number;
+  width?: number;
 }
-const SearchField = ({ placeholder, marginTop }: Props) => {
+const SearchField = ({ placeholder, marginTop, width }: Props) => {
   return (
     <View
       style={[
@@ -28,6 +29,7 @@ const SearchField = ({ placeholder, marginTop }: Props) => {
           marginTop: marginTop
             ? size.getHeightSize(marginTop)
             : size.getHeightSize(24),
+          width: width ? size.getWidthSize(width) : size.getWidthSize(328),
         },
       ]}
     >
@@ -40,7 +42,12 @@ const SearchField = ({ placeholder, marginTop }: Props) => {
         cursorColor={appColor.primaryLight}
         placeholder={placeholder}
         placeholderTextColor={appColor.kGrayLight3}
-        style={styles.textInput}
+        style={[
+          styles.textInput,
+          {
+            width: width ? size.getWidthSize(width) : size.getWidthSize(328),
+          },
+        ]}
       />
     </View>
   );

@@ -140,9 +140,7 @@ const FieldInput = () => {
     dispatch(updateInputText(text_input));
   };
   if (!value.includes('$')) {
-    batch(() => {
-      dispatch(updateShowAptosSwap(null));
-    });
+    dispatch(updateShowAptosSwap(null));
   }
   return (
     <View>

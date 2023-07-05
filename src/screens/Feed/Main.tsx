@@ -29,25 +29,24 @@ import { UserPosts, CommunityPost } from '../../components/Feed/DuumyData';
 import { useNavigation } from '@react-navigation/native';
 const size = new sizes(height, width);
 import { DrawerActions } from '@react-navigation/native';
+import CustomToast from '../../components/createPost/CustomToast';
 import ReceiveTokenModal from '../../components/Feed/ReceiveTokenModal';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import {
-  updateReceiveModalState,
-  updtaeReportingModal,
-  updateReportPostModal,
-  updateReportUserModal,
-  updateBlockUserModal,
-} from '../../controller/FeedsController';
+import { updateReceiveModalState } from '../../controller/FeedsController';
+import { updateShouldShowPublishToast } from '../../controller/createPost';
 import ToastHook from '../../hooks/Feeds/ToastHook';
 import ReportPostModal from '../../components/Feed/ReportPostModal';
 import ReportUserModal from '../../components/Feed/ReportUserModal';
 import BlockUserModal from '../../components/Feed/BlockUserModal';
+
 import Toast from 'react-native-toast-message';
+import { batch } from 'react-redux';
+type Views = 'For You' | 'Community';
 const Main = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
-  const [view, setSwitchView] = useState(true);
+  const [view, setSwitchView] = useState<Views>('For You');
   const { showBlockToast, showReportUserToast, showReportPostToast } =
     ToastHook();
   const modals = useAppSelector((state) => ({
@@ -58,9 +57,12 @@ const Main = () => {
     myPostModal: state.FeedsSliceController.MyPostPanel,
     deletePost: state.FeedsSliceController.DeleteMyPostPanel,
   }));
+  const showPublishToast = useAppSelector(
+    (state) => state.CreatePostController.shouldShowPublishToast
+  );
   const isAnyModalOpen = Object.values(modals).some((value) => value === true);
-  const handleView = () => {
-    setSwitchView((previous) => !previous);
+  const handleView = (view: Views) => {
+    setSwitchView(view);
   };
 
   let [isLoaded] = useFonts({
@@ -96,6 +98,9 @@ const Main = () => {
             name="search"
             color={appColor.kWhiteColor}
             size={size.fontSize(24)}
+            onPress={() => {
+              navigation.navigate('SearchScreen' as any);
+            }}
           />
           <NotificationBell />
           <BarCode onPress={openModal} />
@@ -107,18 +112,26 @@ const Main = () => {
           }}
         >
           <Pressable
-            onPress={handleView}
-            style={view ? styles.focusedTab : styles.tab}
+            onPress={() => handleView('For You')}
+            style={view === 'For You' ? styles.focusedTab : styles.tab}
           >
-            <Text style={view ? styles.focusedtabText : styles.tabText}>
+            <Text
+              style={
+                view === 'For You' ? styles.focusedtabText : styles.tabText
+              }
+            >
               For you
             </Text>
           </Pressable>
           <Pressable
-            onPress={handleView}
-            style={!view ? styles.focusedTab : styles.tab}
+            onPress={() => handleView('Community')}
+            style={view === 'Community' ? styles.focusedTab : styles.tab}
           >
-            <Text style={!view ? styles.focusedtabText : styles.tabText}>
+            <Text
+              style={
+                view === 'Community' ? styles.focusedtabText : styles.tabText
+              }
+            >
               Community
             </Text>
           </Pressable>
@@ -129,7 +142,7 @@ const Main = () => {
           flex: 1,
         }}
       >
-        {view ? (
+        {view === 'For You' ? (
           <FlatList
             data={UserPosts}
             renderItem={({ item }) => <ForYou data={item} />}
@@ -144,7 +157,9 @@ const Main = () => {
         )}
       </View>
       <Pressable
-        onPress={() => navigation.navigate('CreatePost' as never)}
+        onPress={() =>
+          navigation.navigate('CreatePost' as any, { showToast: false })
+        }
         style={styles.FAB}
       >
         <AntDesign name="plus" size={25} color={appColor.kTextColor} />
@@ -156,6 +171,17 @@ const Main = () => {
       <BlockUserModal block={showBlockToast} />
       <Toast config={toastConfig} />
       <ReceiveTokenModal closeModal={closeModal} />
+      {showPublishToast && (
+        <CustomToast
+          marginVertical={24}
+          position="top"
+          text="Post is published successfully"
+          functions={[
+            () => dispatch(updateShouldShowPublishToast(false)),
+            // () => dispatch(updateShowPriceModal(true)),
+          ]}
+        />
+      )}
     </SafeAreaView>
   );
 };

@@ -1,7 +1,12 @@
 import { useDispatch } from 'react-redux';
-import { updateBlockUserModal } from '../../controller/FeedsController';
+import {
+  updateBlockUserModal,
+  updateReportUserModal,
+  updateReportPostModal,
+} from '../../controller/FeedsController';
 import { batch } from 'react-redux';
 import Toast from 'react-native-toast-message';
+
 import {
   updateShowPriceModal,
   updateAttachNftCountDown,
@@ -22,7 +27,7 @@ const ToastHook = () => {
       type: 'success',
       text2: 'JohnFlock is reported successfully',
       onHide: () => {
-        dispatch(updateBlockUserModal(false));
+        dispatch(updateReportUserModal(false));
       },
     });
   };
@@ -31,47 +36,23 @@ const ToastHook = () => {
       type: 'success',
       text2: 'Post is reported successfully',
       onHide: () => {
-        dispatch(updateBlockUserModal(false));
+        dispatch(updateReportPostModal(false));
       },
     });
   };
-  const showNftAttachmentToast = () => {
+  const showPublishToast = () => {
     Toast.show({
-      visibilityTime: 8,
-      position: 'bottom',
       type: 'success',
-      text2:
-        'Remove the attached NFT in order to add images, videos, GIFs or other NFTs.',
+      text2: 'Post is reported successfully',
       onHide: () => {
-        batch(() => {
-          dispatch(updateAttachNftCountDown(0));
-          dispatch(updateShowPriceModal(true));
-        });
-      },
-      onShow: () => {
-        const countdownDuration = 8;
-        const interval = 100;
-        let startTime = Date.now();
-
-        const countdownInterval = setInterval(() => {
-          const elapsedTime = Date.now() - startTime;
-          const progress = elapsedTime / (countdownDuration * 1000);
-
-          if (progress >= 1) {
-            clearInterval(countdownInterval);
-          } else {
-            dispatch(updateAttachNftCountDown(progress));
-          }
-        }, interval);
+        dispatch(updateReportPostModal(false));
       },
     });
   };
-
   return {
     showBlockToast,
     showReportUserToast,
     showReportPostToast,
-    showNftAttachmentToast,
   };
 };
 

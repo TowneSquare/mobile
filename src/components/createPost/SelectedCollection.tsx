@@ -16,13 +16,15 @@ import { useNavigation } from '@react-navigation/native';
 import { SelectedCollectionContext } from './SelectedCollectionContext';
 import { sizes } from '../../utils';
 const size = new sizes(height, width);
-import { useAppSelector } from '../../controller/hooks';
+
+import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 interface SelectedNftCollection {
   image?: any;
   Name?: string;
   id?: number;
 }
 const SelectedCollection = () => {
+  const dispatch = useAppDispatch();
   const { isModalVisible, handleModalState } = useContext(
     SelectedCollectionContext
   );
@@ -156,7 +158,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: size.getHeightSize(18),
     paddingBottom: size.getHeightSize(10),
-   
   },
 
   collectionNameContainer: {

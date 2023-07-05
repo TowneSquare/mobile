@@ -53,7 +53,8 @@ interface Post {
   NFTBottomSheet: boolean;
   posts: Partial<CreatePost>;
   priceModal: boolean;
-  attachNftCountDown: number;
+  startToastCountdown: boolean;
+  shouldShowPublishToast: boolean;
 }
 const initialState: Post = {
   data: atMentionData,
@@ -85,7 +86,8 @@ const initialState: Post = {
     nft: null,
   },
   priceModal: false,
-  attachNftCountDown: 0,
+  startToastCountdown: false,
+  shouldShowPublishToast: false,
 };
 
 export const fieldHandlerSlice = createSlice({
@@ -97,7 +99,7 @@ export const fieldHandlerSlice = createSlice({
     },
     updateShowAptosSwap: (
       state,
-      action: PayloadAction<'Aptos' | 'Aptos Monkeys'>
+      action: PayloadAction<'Aptos' | 'Aptos Monkeys' | null>
     ) => {
       state.posts.community = action.payload;
     },
@@ -242,8 +244,22 @@ export const fieldHandlerSlice = createSlice({
     ) => {
       state.posts.nft = action.payload;
     },
-    updateAttachNftCountDown: (state, action: PayloadAction<number>) => {
-      state.attachNftCountDown = action.payload;
+    updateAttachNftCountDown: (state, action: PayloadAction<boolean>) => {
+      state.startToastCountdown = action.payload;
+    },
+
+    updateAptPrice: (state, action: PayloadAction<number>) => {
+      state.posts.nft.price = action.payload;
+    },
+    updateShouldShowPublishToast: (state, action: PayloadAction<boolean>) => {
+      state.shouldShowPublishToast = action.payload;
+      state.posts = {
+        message: '',
+        media: null,
+        tags: [],
+        community: null,
+        nft: null,
+      };
     },
   },
 });
@@ -269,5 +285,7 @@ export const {
   updateShowPriceModal,
   updatePostNft,
   updateAttachNftCountDown,
+  updateAptPrice,
+  updateShouldShowPublishToast,
 } = fieldHandlerSlice.actions;
 export default fieldHandlerSlice.reducer;

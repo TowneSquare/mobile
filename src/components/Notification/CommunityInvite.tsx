@@ -4,6 +4,7 @@ import { appColor, images, fonts } from '../../constants';
 import { sizes } from '../../utils';
 import ImageStack from './ImageStack';
 import HexagonImage from './HexagonImage';
+import JoinButton from '../../shared/Feed/JoinButton';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
 const size = new sizes(height, width);
@@ -36,9 +37,7 @@ const CommunityInvite = () => {
       <View style={styles.groupInfoContainer}>
         <View style={styles.groupDescription}>
           <Text style={styles.groupName}>Aptomingos from Space</Text>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Join</Text>
-          </View>
+          <JoinButton joined={false} />
         </View>
         <Text numberOfLines={2} ellipsizeMode="tail" style={styles.groupText}>
           1212 flamingos on the
@@ -75,6 +74,7 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: '100%',
     height: '100%',
+    borderRadius: 8,
   },
   groupDescription: {
     flexDirection: 'row',

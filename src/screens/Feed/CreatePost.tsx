@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   KeyboardAvoidingView,
+  Pressable,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 const { height, width } = Dimensions.get('window');
@@ -16,9 +17,9 @@ import HashTags from '../../components/createPost/HashTags';
 import { sizes } from '../../utils';
 import ToastIcon from '../../../assets/images/svg/ToastIcon';
 import AtMention from '../../components/createPost/AtMention';
-import { useNavigation } from '@react-navigation/native';
+
 import FieldInput from '../../components/createPost/FieldInput';
-import { useAppSelector } from '../../controller/hooks';
+import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import PostAttachment from '../../components/createPost/PostAttachment';
 import AttachedNftContainer from '../../components/createPost/AttachedNftContainer';
 const size = new sizes(height, width);
@@ -29,11 +30,18 @@ import Media from '../../components/createPost/Media';
 import GifBottomSheet from '../../components/createPost/GifBottomSheet';
 import OfferSaleSheet from '../../components/createPost/OfferSaleSheet';
 import { Avatar } from 'react-native-elements';
+import { useNavigation, StackActions } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { LinearProgress } from 'react-native-elements';
 import { CreatePostProps } from '../../navigations/NavigationTypes';
-const CreatePost = ({ route }: CreatePostProps) => {
-  const { showToast } = route.params;
+import {
+  updateShowPriceModal,
+  updateAttachNftCountDown,
+  updateShouldShowPublishToast,
+} from '../../controller/createPost';
+import ToastHook from '../../hooks/Feeds/ToastHook';
+import CustomToast from '../../components/createPost/CustomToast';
+const CreatePost = () => {
   const {
     showAtMentions,
     showHashTags,
@@ -42,7 +50,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
     media,
     nft,
     post,
-    interval,
+    startToastCountdown,
   } = useAppSelector((state) => ({
     showAtMentions: state.CreatePostController.showAtMentionContainer,
     showHashTags: state.CreatePostController.showHashTags,
@@ -54,9 +62,10 @@ const CreatePost = ({ route }: CreatePostProps) => {
     community: state.CreatePostController.posts.community,
     nft: state.CreatePostController.posts.nft,
     post: state.CreatePostController.posts,
-    interval: state.CreatePostController.attachNftCountDown,
+    startToastCountdown: state.CreatePostController.startToastCountdown,
   }));
-  // console.log(interval)
+  const dispatch = useAppDispatch();
+
   const shouldShowAptosPanel = showAPTPanel;
   const shouldShowAtMention = showAtMentions;
   const shouldShowHashTags = showHashTags;
@@ -65,6 +74,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
   const shouldShowPostAttachment =
     !showAPTPanel && !showAtMentions && !showHashTags;
   const navigation = useNavigation();
+
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -74,25 +84,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
   if (!isLoaded) {
     return null;
   }
-  const toastConfig = {
-    success: ({ text1, text2, ...rest }: any) => {
-      return (
-        <View style={styles.toastContainer}>
-          <View style={styles.toastRow}>
-            <ToastIcon />
-            <Text style={styles.toastText}>{text2}</Text>
-          </View>
 
-          <LinearProgress
-            color="white"
-            trackColor={appColor.kgrayDark2}
-            value={interval}
-            variant="determinate"
-          />
-        </View>
-      );
-    },
-  };
   return (
     <SafeAreaView
       style={{
@@ -104,9 +96,15 @@ const CreatePost = ({ route }: CreatePostProps) => {
         <Text onPress={navigation.goBack} style={styles.cancel}>
           Cancel
         </Text>
-        <View style={styles.publishButton}>
+        <Pressable
+          onPress={() => {
+            navigation.dispatch(StackActions.pop(1));
+            dispatch(updateShouldShowPublishToast(true));
+          }}
+          style={styles.publishButton}
+        >
           <Text style={styles.publishText}>Publish</Text>
-        </View>
+        </Pressable>
       </View>
       <View style={styles.fieldInputContainer}>
         <Avatar
@@ -141,9 +139,19 @@ const CreatePost = ({ route }: CreatePostProps) => {
           <HashTags />
         </View>
       )}
+      {startToastCountdown && (
+        <CustomToast
+          alignItems="flex-start"
+          position="bottom"
+          text="Remove the attached NFT in order to add images, videos, GIFs or other NFTs."
+          functions={[
+            () => dispatch(updateAttachNftCountDown(false)),
+            () => dispatch(updateShowPriceModal(true)),
+          ]}
+        />
+      )}
       <OfferSaleSheet />
       <GifBottomSheet />
-      <Toast config={toastConfig} />
     </SafeAreaView>
   );
 };

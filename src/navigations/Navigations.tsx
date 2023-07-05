@@ -23,8 +23,9 @@ import Notifications from '../screens/Feed/Notifications';
 import ViewImageScreen from '../screens/Feed/ViewImageScreen';
 import VideoPlayer from '../screens/Feed/VideoPlayer';
 import SinglePost from '../screens/Feed/SinglePost';
-
+import SearchScreen from '../screens/SearchPost/SearchScreen';
 import CreatePost from '../screens/Feed/CreatePost';
+import SearchPostTab from './SearchPostTabBar';
 import NftCollectionScreen from '../screens/Feed/NftCollectionScreen';
 import SelectedCollectionScreen from '../screens/Feed/SelectedCollectionScreen';
 const Navigations = ({ magicProps }: { magicProps: any }) => {
@@ -139,7 +140,7 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-     
+
       <Stack.Screen
         name="ViewImageScreen"
         component={ViewImageScreen}
@@ -186,6 +187,20 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
       <Stack.Screen
         name="NftCollectionScreen"
         component={NftCollectionScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SearchScreen"
+        component={SearchScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SearchPostTab"
+        component={SearchPostTab}
         options={{
           headerShown: false,
         }}

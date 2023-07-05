@@ -8,11 +8,11 @@ import {
 } from 'react-native';
 import React, { useContext } from 'react';
 const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
+
 import Offer from '../../../assets/images/svg/Offer';
 import Clip from '../../../assets/images/svg/Clip';
 import { appColor, fonts, images } from '../../constants';
-import ToastHook from '../../hooks/Feeds/ToastHook';
+
 import { sizes } from '../../utils';
 import { batch } from 'react-redux';
 const size = new sizes(height, width);
@@ -21,7 +21,10 @@ import { useNavigation, StackActions } from '@react-navigation/native';
 
 import Modal from 'react-native-modal';
 import { useAppDispatch } from '../../controller/hooks';
-import { updatePostNft } from '../../controller/createPost';
+import {
+  updatePostNft,
+  updateAttachNftCountDown,
+} from '../../controller/createPost';
 interface Props {
   isVisible: boolean;
 }
@@ -30,19 +33,22 @@ const AttachNftModal = () => {
   const { isModalVisible, handleModalState } = useContext(
     SelectedCollectionContext
   );
+
   const navigation = useNavigation();
-  const { showNftAttachmentToast } = ToastHook();
+
   const handlePress = async () => {
-    dispatch(
-      updatePostNft({
-        name: 'Aptomingos',
-        id: 'Aptomingos #9280',
-      })
-    );
-  
-    handleModalState();
+    handleModalState;
+    batch(() => {
+      dispatch(
+        updatePostNft({
+          name: 'Aptomingos',
+          id: 'Aptomingos #9280',
+        })
+      );
+    });
+
     navigation.dispatch(StackActions.pop(2));
-   
+    dispatch(updateAttachNftCountDown(true));
   };
   return (
     <Modal
