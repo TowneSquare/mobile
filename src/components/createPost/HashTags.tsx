@@ -6,18 +6,18 @@ import {
   Image,
   FlatList,
   Pressable,
-} from "react-native";
-import React, { useState } from "react";
-const { height, width } = Dimensions.get("window");
+} from 'react-native';
+import React, { useState } from 'react';
+const { height, width } = Dimensions.get('window');
 import {
   updateSelectedHashMention,
   updateShowHashTags,
-} from "../../controller/createPost";
-import { useFonts } from "expo-font";
-import { appColor, fonts, images } from "../../constants";
-import { sizes } from "../../utils";
-import { batch } from "react-redux";
-import { useAppSelector, useAppDispatch } from "../../controller/hooks";
+} from '../../controller/createPost';
+import { useFonts } from 'expo-font';
+import { appColor, fonts, images } from '../../constants';
+import { sizes } from '../../utils';
+import { batch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 const size = new sizes(height, width);
 interface TagData {
   name: string;
@@ -29,10 +29,10 @@ const HashTags = () => {
     (state) => state.CreatePostController.filteredHashTagData
   );
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
-    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
@@ -48,12 +48,12 @@ const HashTags = () => {
       <Pressable
         onPress={() => handlePress(dat.name)}
         style={{
-          flexDirection: "row",
-          width: "100%",
+          flexDirection: 'row',
+          width: '100%',
           paddingHorizontal: size.getWidthSize(16),
           gap: size.getWidthSize(8),
-          alignItems: "center",
-          justifyContent: "space-between",
+          alignItems: 'center',
+          justifyContent: 'space-between',
           paddingVertical: size.getHeightSize(16),
         }}
       >
@@ -77,12 +77,12 @@ const styles = StyleSheet.create({
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: "Outfit-Medium",
+    fontFamily: 'Outfit-Medium',
   },
   post: {
     color: appColor.kGrayscale,
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
   },
 });

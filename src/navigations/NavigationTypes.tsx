@@ -37,6 +37,8 @@ export type RootStackParamList = {
   SelectedCollectionScreen: undefined;
   Collection: undefined;
   Profile;
+  SearchScreen: undefined;
+  SearchPostTab: undefined;
 };
 
 type CreatePostParameter = {
@@ -148,4 +150,14 @@ export type SelectedCollectionScreenProps = {
   navigation: NavigationProp<RootStackParamList, "SelectedCollectionScreen">;
   magic: any;
   route: RouteProp<ParamListBase, "SelectedCollectionScreen">;
+};
+export type SearchScreenProps = {
+  navigation: NavigationProp<RootStackParamList, "SearchScreen">;
+  magic: any;
+  route: RouteProp<ParamListBase, "SearchScreen">;
+};
+export type SearchPostTabProps = {
+  navigation: NavigationProp<RootStackParamList, "SearchPostTab">;
+  magic: any;
+  route: RouteProp<ParamListBase, "SearchPostTab">;
 };

@@ -4,14 +4,13 @@ import {
   Dimensions,
   StyleSheet,
   TextInput,
-  TextInputKeyPressEventData,
-  TextInputChangeEventData,
-} from "react-native";
-import { batch } from "react-redux";
-import React, { useState, useRef, useEffect } from "react";
-const { height, width } = Dimensions.get("window");
-import { useFonts } from "expo-font";
-import { appColor, fonts, images } from "../../constants";
+  ScrollView,
+} from 'react-native';
+import { batch } from 'react-redux';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+const { height, width } = Dimensions.get('window');
+import { useFonts } from 'expo-font';
+import { appColor, fonts, images } from '../../constants';
 import {
   updateFilteredData,
   updateShowAtContainer,
@@ -23,49 +22,59 @@ import {
   updateShowAptosPanel,
   updateShowAptosSwap,
   updateFilteredAptTags,
-} from "../../controller/createPost";
-import { useAppDispatch, useAppSelector } from "../../controller/hooks";
-import { sizes } from "../../utils";
+} from '../../controller/createPost';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { sizes } from '../../utils';
 const size = new sizes(height, width);
 const FieldInput = () => {
   const textInputRef = useRef(null);
   const dispatch = useAppDispatch();
   const value = useAppSelector((state) => state.CreatePostController.inputText);
   const [formatedContent, setFormartedContent] = useState([]);
-  const [cursorPostion, setCursorPosition] = useState("");
+  const [cursorPostion, setCursorPosition] = useState('');
 
   useEffect(() => {
     batch(() => {
       dispatch(updateShowAtContainer(false));
       dispatch(updateShowHashTags(false));
-      dispatch(updateInputText(""));
+      dispatch(updateInputText(''));
       dispatch(updateShowAptosPanel(false));
       dispatch(updateShowAptosSwap(null));
     });
   }, []);
   useEffect(() => {
-    const formattedText = [];
-    const splitWords = value.split(/\s+/);
-    const contentLength = splitWords.length;
-    let format = /[ !#@$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n]/;
-    splitWords.forEach((word, index) => {
-      if (
-        (word.startsWith("@") && !format.test(word.substring(1))) ||
-        (word.startsWith("#") && !format.test(word.substring(1))) ||
-        (word.startsWith("$") && !format.test(word.substring(1)))
-      ) {
-        const mention = (
-          <Text key={index} style={styles.mention}>
-            {word}
-          </Text>
-        );
-        if (index !== contentLength - 1) formattedText.push(mention, " ");
-        else formattedText.push(mention);
+    const formattedText = value.split('\n').map((line, index) => {
+      const words = line.split(/\s/);
+      const formattedLine = words.map((word, wordIndex) => {
+        if (
+          (word.startsWith('@') &&
+            !/[ !#@$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n]/.test(
+              word.substring(1)
+            )) ||
+          (word.startsWith('#') &&
+            !/[ !#@$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n]/.test(
+              word.substring(1)
+            )) ||
+          (word.startsWith('$') &&
+            !/[ !#@$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n]/.test(word.substring(1)))
+        ) {
+          return (
+            <Text key={wordIndex} style={styles.mention}>
+              {word + (wordIndex !== words.length - 1 ? ' ' : '')}
+            </Text>
+          );
+        } else {
+          return word + (wordIndex !== words.length - 1 ? ' ' : '');
+        }
+      });
+
+      if (index === value.split('\n').length - 1) {
+        return formattedLine;
       } else {
-        if (index !== contentLength - 1) return formattedText.push(word, " ");
-        else return formattedText.push(word);
+        return [...formattedLine, '\n'];
       }
     });
+
     setFormartedContent(formattedText);
   }, [value]);
 
@@ -75,33 +84,36 @@ const FieldInput = () => {
   };
 
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
-    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
   }
-  const handleKey = (event: any) => {
-    // if (event.nativeEvent.key === ' ') {
-    //   dispatch(updateShowAtContainer(false));
-    //   dispatch(updateShowHashTags(false));
-    // }
+
+  const handleKeyPress = (event: any) => {
+    if (event.nativeEvent.key === 'Enter') {
+      handleText(value + '\n');
+      event.preventDefault();
+    }
   };
   const handleText = (text_input: string) => {
     const cursorIndex = Number(cursorPostion);
-    const words = text_input.split(/\s+/);
-    let currentWord = "";
+    const words = text_input.split(/\s/);
+
+    let currentWord = '';
     for (let i = 0; i < words.length; i++) {
       const word = words[i];
       if (cursorIndex < currentWord.length + word.length) {
         currentWord = word;
         break;
       }
-      currentWord += word + " ";
+      currentWord += word + ' ';
     }
-    if (currentWord.startsWith("@")) {
+    // console.log('This is current word:', currentWord);
+    if (currentWord.startsWith('@')) {
       batch(() => {
         dispatch(updateCurrentWord(currentWord.trim()));
         dispatch(updateFilteredData(currentWord.trim()));
@@ -109,27 +121,27 @@ const FieldInput = () => {
       });
     }
 
-    if (!currentWord.trim().startsWith("@")) {
+    if (!currentWord.trim().startsWith('@')) {
       dispatch(updateShowAtContainer(false));
     }
 
-    if (currentWord.startsWith("#")) {
+    if (currentWord.startsWith('#')) {
       batch(() => {
         dispatch(updateCurrentWord(currentWord.trim()));
         dispatch(updateFilteredHashData(currentWord.trim()));
         dispatch(updateShowHashTags(true));
       });
-    } else if (!currentWord.startsWith("#")) {
+    } else if (!currentWord.startsWith('#')) {
       dispatch(updateShowHashTags(false));
     }
 
-    if (currentWord.startsWith("$")) {
+    if (currentWord.startsWith('$')) {
       batch(() => {
         dispatch(updateCurrentWord(currentWord.trim()));
         dispatch(updateShowAptosPanel(true));
         dispatch(updateFilteredAptTags(currentWord.trim()));
       });
-    } else if (!currentWord.startsWith("$")) {
+    } else if (!currentWord.startsWith('$')) {
       dispatch(updateShowAptosPanel(false));
     } else {
       batch(() => {
@@ -139,35 +151,45 @@ const FieldInput = () => {
     }
     dispatch(updateInputText(text_input));
   };
-  if (!value.includes("$")) {
-    batch(() => {
-      dispatch(updateShowAptosSwap(null));
-    });
+  if (!value.includes('$')) {
+    dispatch(updateShowAptosSwap(null));
   }
+  const handleContentSizeChange = (event: any) => {
+    const contentHeight = event.nativeEvent.contentSize.height;
+    textInputRef.current.setNativeProps({
+      height: contentHeight,
+    });
+  };
+
   return (
     <View>
-      <TextInput
-        ref={textInputRef}
-        placeholder="Start typing..."
-        placeholderTextColor={appColor.grayLight}
-        cursorColor={appColor.primaryLight}
-        onChangeText={handleText}
-        onKeyPress={handleKey}
-        onSelectionChange={handleCursorPositionChange}
-        multiline
-        style={{
-          fontSize: size.fontSize(16),
-          lineHeight: size.getHeightSize(21),
-          fontFamily: "Outfit-Regular",
-          color: appColor.kTextColor,
-          width: size.getWidthSize(280),
-          // maxHeight: size.getHeightSize(105),
-          marginTop: size.getHeightSize(8),
-          minHeight: size.getHeightSize(32),
-        }}
-      >
-        <Text>{formatedContent}</Text>
-      </TextInput>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <TextInput
+          ref={textInputRef}
+          placeholder="Start typing..."
+          placeholderTextColor={appColor.grayLight}
+          cursorColor={appColor.primaryLight}
+          onChangeText={handleText}
+          scrollEnabled={false}
+          onSelectionChange={handleCursorPositionChange}
+          textAlignVertical="top"
+          multiline
+          onContentSizeChange={handleContentSizeChange}
+          // onKeyPress={handleKeyPress}
+          style={{
+            fontSize: size.fontSize(16),
+            lineHeight: size.getHeightSize(21),
+            fontFamily: 'Outfit-Regular',
+            color: appColor.kTextColor,
+            width: size.getWidthSize(280),
+            maxHeight: size.getHeightSize(105),
+            marginTop: size.getHeightSize(8),
+            minHeight: size.getHeightSize(38),
+          }}
+        >
+          <Text>{formatedContent}</Text>
+        </TextInput>
+      </ScrollView>
     </View>
   );
 };
@@ -178,6 +200,6 @@ const styles = StyleSheet.create({
     color: appColor.primaryLight,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: "Outfit-SemiBold",
+    fontFamily: 'Outfit-SemiBold',
   },
 });

@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet, Dimensions } from "react-native";
-import React from "react";
-import { LinearProgress } from "react-native-elements";
-import { appColor, fonts, images } from "../../constants";
-import { sizes } from "../../utils";
-import { useFonts } from "expo-font";
-const { height, width } = Dimensions.get("window");
-import ToastIcon from "../../../assets/images/svg/ToastIcon";
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import React from 'react';
+import { LinearProgress } from 'react-native-elements';
+import { appColor, fonts, images } from '../../constants';
+import { sizes } from '../../utils';
+import { useFonts } from 'expo-font';
+const { height, width } = Dimensions.get('window');
+import ToastIcon from '../../../assets/images/svg/ToastIcon';
 const size = new sizes(height, width);
 export const toastConfig = {
   success: ({ text1, text2, ...rest }: any) => (
@@ -27,13 +27,13 @@ export const toastConfig = {
     >
       <View
         style={{
-          alignItems: "flex-start",
-          flexDirection: "row",
+          alignItems: 'flex-start',
+          flexDirection: 'row',
           marginHorizontal: size.getWidthSize(16),
           gap: size.getWidthSize(4),
           marginVertical: size.getHeightSize(16),
           width: size.getWidthSize(286),
-          alignSelf: "center",
+          alignSelf:"center"
         }}
       >
         <ToastIcon />
@@ -57,17 +57,17 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     width: size.getWidthSize(340),
     marginTop: size.getHeightSize(35),
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: size.getWidthSize(4),
     borderWidth: size.getWidthSize(1),
     paddingVertical: size.getHeightSize(24),
     borderColor: appColor.kGrayLight3,
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
   },
   toastText: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     lineHeight: size.getHeightSize(18),
   },
 });

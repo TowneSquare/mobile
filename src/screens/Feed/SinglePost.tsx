@@ -5,31 +5,31 @@ import {
   ScrollView,
   TextInput,
   StyleSheet,
-} from "react-native";
-import React, { useState, useEffect, useRef } from "react";
-const { height, width } = Dimensions.get("window");
-import { useFonts } from "expo-font";
-import { appColor, fonts } from "../../constants";
-import { StatusBar } from "expo-status-bar";
-import { SafeAreaView } from "react-native-safe-area-context";
-import ReportPostModal from "../../components/Feed/ReportPostModal";
-import ReportUserModal from "../../components/Feed/ReportUserModal";
-import BlockUserModal from "../../components/Feed/BlockUserModal";
-import ReportPanel from "../../components/Feed/ReportPanel";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import Comments from "../../components/SinglePostView/Comments";
-import AddCommentTextInput from "../../components/SinglePostView/AddCommentTextInput";
-import { sizes } from "../../utils";
-import MyPostPanel from "../../shared/Feed/MyPostPanel";
-import { toastConfig } from "../../components/Feed/ShowToast";
-import ToastHook from "../../hooks/Feeds/ToastHook";
-import DeleteMyPostPanel from "../../shared/Feed/DeleteMyPostPanel";
+} from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+const { height, width } = Dimensions.get('window');
+import { useFonts } from 'expo-font';
+import { appColor, fonts } from '../../constants';
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import ReportPostModal from '../../components/Feed/ReportPostModal';
+import ReportUserModal from '../../components/Feed/ReportUserModal';
+import BlockUserModal from '../../components/Feed/BlockUserModal';
+import ReportPanel from '../../components/Feed/ReportPanel';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Comments from '../../components/SinglePostView/Comments';
+import AddCommentTextInput from '../../components/SinglePostView/AddCommentTextInput';
+import { sizes } from '../../utils';
+import MyPostPanel from '../../shared/Feed/MyPostPanel';
+import { toastConfig } from '../../components/Feed/ShowToast';
+import ToastHook from '../../hooks/Feeds/ToastHook';
+import DeleteMyPostPanel from '../../shared/Feed/DeleteMyPostPanel';
 const size = new sizes(height, width);
-import Toast from "react-native-toast-message";
-import { useNavigation } from "@react-navigation/native";
+import Toast from 'react-native-toast-message';
+import { useNavigation } from '@react-navigation/native';
 
-import SinglePostContent from "../../components/SinglePostView/SinglePostContent";
-import { useAppSelector } from "../../controller/hooks";
+import SinglePostContent from '../../components/SinglePostView/SinglePostContent';
+import { useAppSelector } from '../../controller/hooks';
 
 const SinglePost = () => {
   const scrollViewRef = useRef<ScrollView>(null);
@@ -47,28 +47,28 @@ const SinglePost = () => {
     deletePost: state.FeedsSliceController.DeleteMyPostPanel,
   }));
   const data = {
-    id: "6",
-    pfp: "",
-    username: "Username",
-    nickname: "username",
-    timepost: "5min",
-    comments: "99k",
-    retweet: "99k",
-    like: "99k",
-    type: "message-external-link",
+    id: '6',
+    pfp: '',
+    username: 'Username',
+    nickname: 'username',
+    timepost: '5min',
+    comments: '99k',
+    retweet: '99k',
+    like: '99k',
+    type: 'message-external-link',
     content: {
-      message: "Just joined TowneSquare, a new web3 social platform",
-      link: "https://aptos.com/121907/building-aptos-theres-new-web3-accelerator",
-      linkDescription: "Aptos Autumn is Here",
-      url: "www.aptos.com",
+      message: 'Just joined TowneSquare, a new web3 social platform',
+      link: 'https://aptos.com/121907/building-aptos-theres-new-web3-accelerator',
+      linkDescription: 'Aptos Autumn is Here',
+      url: 'www.aptos.com',
       linkSubTitle:
-        "Membership eaWe welcome everyone to participate in this movemen aime...",
+        'Membership eaWe welcome everyone to participate in this movemen aime...',
     },
   };
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -134,8 +134,8 @@ const SinglePost = () => {
 export default SinglePost;
 const styles = StyleSheet.create({
   header: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingLeft: size.getWidthSize(16),
     height: size.getHeightSize(48),
     backgroundColor: appColor.kgrayDark2,
@@ -144,8 +144,8 @@ const styles = StyleSheet.create({
     color: appColor.kTextColor,
     fontSize: size.fontSize(20),
     lineHeight: size.getHeightSize(24),
-    fontFamily: "Outfit-Regular",
-    textAlign: "center",
+    fontFamily: 'Outfit-Regular',
+    textAlign: 'center',
     width: size.getWidthSize(264),
   },
   scrollView: {
@@ -153,6 +153,6 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.7)",
+    backgroundColor: 'rgba(0,0,0,0.7)',
   },
 });

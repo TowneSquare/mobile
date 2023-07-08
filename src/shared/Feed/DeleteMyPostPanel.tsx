@@ -6,21 +6,21 @@ import {
   Image,
   Dimensions,
   Pressable,
-} from "react-native";
-import React, { useRef, useEffect } from "react";
-import { useFonts } from "expo-font";
-import { appColor, fonts, images } from "../../constants";
-import { sizes } from "../../utils";
-import CustomHandler from "../../components/Feed/CustomHandler";
+} from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { useFonts } from 'expo-font';
+import { appColor, fonts, images } from '../../constants';
+import { sizes } from '../../utils';
+import CustomHandler from '../../components/Feed/CustomHandler';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetScrollView,
-} from "@gorhom/bottom-sheet";
-const { height, width } = Dimensions.get("window");
+} from '@gorhom/bottom-sheet';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import Thrash from "../../../assets/images/svg/Thrash";
-import { useAppDispatch, useAppSelector } from "../../controller/hooks";
-import { updateDeletePostPanel } from "../../controller/FeedsController";
+import Thrash from '../../../assets/images/svg/Thrash';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { updateDeletePostPanel } from '../../controller/FeedsController';
 const DeleteMyPostPanel = () => {
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -33,10 +33,10 @@ const DeleteMyPostPanel = () => {
     }
   }, [deleteModal]);
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
-    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
   const closeModal = () => {
     dispatch(updateDeletePostPanel(false));
@@ -49,7 +49,7 @@ const DeleteMyPostPanel = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={deleteModal ? 0 : -1}
-      snapPoints={[Platform.OS === "ios" ? "40" : "40"]}
+      snapPoints={[Platform.OS === 'ios' ? '40' : '40']}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
       }}
@@ -61,7 +61,7 @@ const DeleteMyPostPanel = () => {
       >
         <Thrash
           style={{
-            alignSelf: "center",
+            alignSelf: 'center',
             marginTop: size.getHeightSize(24),
           }}
         />
@@ -71,8 +71,8 @@ const DeleteMyPostPanel = () => {
             lineHeight: size.getHeightSize(24),
             color: appColor.kTextColor,
             letterSpacing: size.getWidthSize(0.04),
-            fontFamily: "Outfit-SemiBold",
-            textAlign: "center",
+            fontFamily: 'Outfit-SemiBold',
+            textAlign: 'center',
             marginTop: size.getHeightSize(8),
             marginHorizontal: size.getWidthSize(16),
           }}
@@ -95,8 +95,8 @@ const DeleteMyPostPanel = () => {
               lineHeight: size.getHeightSize(23),
               color: appColor.kTextColor,
               letterSpacing: size.getWidthSize(0.02),
-              fontFamily: "Outfit-Medium",
-              textAlign: "center",
+              fontFamily: 'Outfit-Medium',
+              textAlign: 'center',
               paddingVertical: size.getHeightSize(12.5),
             }}
           >
@@ -111,8 +111,8 @@ const DeleteMyPostPanel = () => {
             lineHeight: size.getHeightSize(23),
             color: appColor.kTextColor,
             letterSpacing: size.getWidthSize(0.02),
-            fontFamily: "Outfit-Medium",
-            textAlign: "center",
+            fontFamily: 'Outfit-Medium',
+            textAlign: 'center',
             marginBottom: size.getHeightSize(46),
             marginTop: size.getHeightSize(12.5),
           }}

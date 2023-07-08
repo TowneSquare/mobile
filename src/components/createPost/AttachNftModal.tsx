@@ -5,23 +5,26 @@ import {
   StyleSheet,
   Image,
   Pressable,
-} from "react-native";
-import React, { useContext } from "react";
-const { height, width } = Dimensions.get("window");
-import { useFonts } from "expo-font";
-import Offer from "../../../assets/images/svg/Offer";
-import Clip from "../../../assets/images/svg/Clip";
-import { appColor, fonts, images } from "../../constants";
-import ToastHook from "../../hooks/Feeds/ToastHook";
-import { sizes } from "../../utils";
-import { batch } from "react-redux";
-const size = new sizes(height, width);
-import { SelectedCollectionContext } from "./SelectedCollectionContext";
-import { useNavigation, StackActions } from "@react-navigation/native";
+} from 'react-native';
+import React, { useContext } from 'react';
+const { height, width } = Dimensions.get('window');
 
-import Modal from "react-native-modal";
-import { useAppDispatch } from "../../controller/hooks";
-import { updatePostNft } from "../../controller/createPost";
+import Offer from '../../../assets/images/svg/Offer';
+import Clip from '../../../assets/images/svg/Clip';
+import { appColor, fonts, images } from '../../constants';
+
+import { sizes } from '../../utils';
+import { batch } from 'react-redux';
+const size = new sizes(height, width);
+import { SelectedCollectionContext } from './SelectedCollectionContext';
+import { useNavigation, StackActions } from '@react-navigation/native';
+
+import Modal from 'react-native-modal';
+import { useAppDispatch } from '../../controller/hooks';
+import {
+  updatePostNft,
+  updateAttachNftCountDown,
+} from '../../controller/createPost';
 interface Props {
   isVisible: boolean;
 }
@@ -30,23 +33,27 @@ const AttachNftModal = () => {
   const { isModalVisible, handleModalState } = useContext(
     SelectedCollectionContext
   );
-  const navigation = useNavigation();
-  const { showNftAttachmentToast } = ToastHook();
-  const handlePress = async () => {
-    dispatch(
-      updatePostNft({
-        name: "Aptomingos",
-        id: "Aptomingos #9280",
-      })
-    );
 
-    handleModalState();
+  const navigation = useNavigation();
+
+  const handlePress = async () => {
+    handleModalState;
+    batch(() => {
+      dispatch(
+        updatePostNft({
+          name: 'Aptomingos',
+          id: 'Aptomingos #9280',
+        })
+      );
+    });
+
     navigation.dispatch(StackActions.pop(2));
+    dispatch(updateAttachNftCountDown(true));
   };
   return (
     <Modal
       backdropOpacity={0.1}
-      style={{ margin: 0, backgroundColor: "#000000", opacity: 0.8 }}
+      style={{ margin: 0, backgroundColor: '#000000', opacity: 0.8 }}
       isVisible={isModalVisible}
       statusBarTranslucent
     >
@@ -57,7 +64,7 @@ const AttachNftModal = () => {
       >
         <View
           style={{
-            backgroundColor: "#000000",
+            backgroundColor: '#000000',
             opacity: 0.9,
           }}
         >
@@ -82,8 +89,8 @@ const AttachNftModal = () => {
             navigation.dispatch(StackActions.pop(2));
             dispatch(
               updatePostNft({
-                name: "Aptomingos",
-                id: "Aptomingos #9280",
+                name: 'Aptomingos',
+                id: 'Aptomingos #9280',
               })
             );
           }}
@@ -100,7 +107,7 @@ const AttachNftModal = () => {
           style={{
             width: size.getWidthSize(310),
 
-            alignSelf: "center",
+            alignSelf: 'center',
             paddingVertical: size.getHeightSize(12.5),
             marginTop: size.getHeightSize(32),
           }}
@@ -117,62 +124,62 @@ const AttachNftModal = () => {
 export default AttachNftModal;
 const styles = StyleSheet.create({
   AttachButton: {
-    flexDirection: "row",
+    flexDirection: 'row',
     backgroundColor: appColor.kWhiteColor,
-    justifyContent: "center",
+    justifyContent: 'center',
     paddingVertical: size.getHeightSize(12),
     width: size.getWidthSize(310),
-    alignSelf: "center",
+    alignSelf: 'center',
     borderRadius: 40,
     gap: size.getWidthSize(8),
-    alignItems: "center",
+    alignItems: 'center',
   },
   AttachText: {
     color: appColor.kGrayscaleDart,
     fontSize: size.fontSize(18),
     lineHeight: size.getHeightSize(23),
     letterSpacing: 0.02,
-    fontFamily: "Outfit-SemiBold",
-    textAlign: "center",
+    fontFamily: 'Outfit-SemiBold',
+    textAlign: 'center',
   },
   OfferText: {
     color: appColor.kWhiteColor,
     fontSize: size.fontSize(18),
     lineHeight: size.getHeightSize(23),
     letterSpacing: 0.02,
-    fontFamily: "Outfit-SemiBold",
-    textAlign: "center",
+    fontFamily: 'Outfit-SemiBold',
+    textAlign: 'center',
   },
   offerButton: {
-    flexDirection: "row",
+    flexDirection: 'row',
     backgroundColor: appColor.kSecondaryButtonColor,
-    justifyContent: "center",
+    justifyContent: 'center',
     paddingVertical: size.getHeightSize(12),
     width: size.getWidthSize(310),
-    alignSelf: "center",
+    alignSelf: 'center',
     borderRadius: 40,
     marginTop: size.getHeightSize(16),
     gap: size.getWidthSize(8),
-    alignItems: "center",
+    alignItems: 'center',
   },
   name: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(20),
     lineHeight: size.getHeightSize(24),
     letterSpacing: 0.04,
-    fontFamily: "Outfit-Bold",
-    textAlign: "center",
+    fontFamily: 'Outfit-Bold',
+    textAlign: 'center',
     marginTop: size.getHeightSize(16),
   },
   imageContainer: {
     marginTop: size.getHeightSize(120),
     height: size.getHeightSize(325),
     width: size.getWidthSize(304),
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   image: {
-    height: "100%",
-    width: "100%",
+    height: '100%',
+    width: '100%',
     borderRadius: 10,
   },
   back: {
@@ -180,7 +187,7 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(18),
     lineHeight: size.getHeightSize(23),
     letterSpacing: 0.02,
-    fontFamily: "Outfit-SemiBold",
-    textAlign: "center",
+    fontFamily: 'Outfit-SemiBold',
+    textAlign: 'center',
   },
 });

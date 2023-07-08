@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 interface FeedController {
   ReceiveModalState: boolean;
   ReportingModal: boolean;
@@ -18,13 +18,13 @@ const initialState: FeedController = {
   DeleteMyPostPanel: false,
 };
 export const FeedsSlice = createSlice({
-  name: "FeedsController",
+  name: 'FeedsController',
   initialState,
   reducers: {
     updateReceiveModalState: (state, action: PayloadAction<boolean>) => {
       state.ReceiveModalState = action.payload;
     },
-    updateReportingModal: (state, action: PayloadAction<boolean>) => {
+    updtaeReportingModal: (state, action: PayloadAction<boolean>) => {
       state.ReportingModal = action.payload;
     },
     updateReportPostModal: (state, action: PayloadAction<boolean>) => {
@@ -42,15 +42,24 @@ export const FeedsSlice = createSlice({
     updateDeletePostPanel: (state, action: PayloadAction<boolean>) => {
       state.DeleteMyPostPanel = action.payload;
     },
+    resetModals: (state) => {
+      state.ReceiveModalState = false;
+      state.ReportingModal = false;
+      state.ReportUserModal = false;
+      state.BlockUserModal = false;
+      state.MyPostPanel = false;
+      state.DeleteMyPostPanel = false;
+    },
   },
 });
 export const {
   updateReceiveModalState,
-  updateReportingModal,
+  updtaeReportingModal,
   updateReportPostModal,
   updateReportUserModal,
   updateBlockUserModal,
   updateMyPostPanel,
   updateDeletePostPanel,
+  resetModals
 } = FeedsSlice.actions;
 export default FeedsSlice.reducer;

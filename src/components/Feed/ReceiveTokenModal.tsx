@@ -5,27 +5,27 @@ import {
   Platform,
   Image,
   Dimensions,
-} from "react-native";
-import React, { useState, useRef, useContext, useEffect } from "react";
+} from 'react-native';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import Animated, {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
-} from "react-native-reanimated";
-import ShareIcon from "../../../assets/images/svg/ShareIcon";
-import CopyIcon from "../../../assets/images/svg/CopyIcon";
-import { useFonts } from "expo-font";
-import { appColor, fonts, images } from "../../constants";
-import { sizes } from "../../utils";
-import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import * as Animatable from "react-native-animatable";
-const { height, width } = Dimensions.get("window");
+} from 'react-native-reanimated';
+import ShareIcon from '../../../assets/images/svg/ShareIcon';
+import CopyIcon from '../../../assets/images/svg/CopyIcon';
+import { useFonts } from 'expo-font';
+import { appColor, fonts, images } from '../../constants';
+import { sizes } from '../../utils';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import * as Animatable from 'react-native-animatable';
+const { height, width } = Dimensions.get('window');
 
-import { useAppSelector } from "../../controller/hooks";
-import CustomHandler from "./CustomHandler";
-import ReceiveBarCode from "../../../assets/images/svg/ReceiveBarCode";
-import QRCode from "react-native-qrcode-svg";
+import { useAppSelector } from '../../controller/hooks';
+import CustomHandler from './CustomHandler';
+import ReceiveBarCode from '../../../assets/images/svg/ReceiveBarCode';
+import QRCode from 'react-native-qrcode-svg';
 interface Props {
   closeModal: () => void;
 }
@@ -37,12 +37,16 @@ const ReceiveTokenModal = ({ closeModal }: Props) => {
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const animatedIndex = useSharedValue(0);
-
+  useEffect(() => {
+    if (ReceiveModalVisibility === false) {
+      bottomSheetRef.current?.close();
+    }
+  }, [ReceiveModalVisibility]);
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
-    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
   const contentStyle = useAnimatedStyle(() => ({
     transform: [
@@ -69,15 +73,15 @@ const ReceiveTokenModal = ({ closeModal }: Props) => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={ReceiveModalVisibility ? 0 : -1}
-      snapPoints={[Platform.OS === "ios" ? "81.2%" : "81.2%"]}
+      snapPoints={[Platform.OS === 'ios' ? '81.2%' : '81.2%']}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
       }}
     >
       <Animatable.View
-        animation={"fadeInUp"}
+        animation={'fadeInUp'}
         delay={500}
-        easing={"ease-in-out"}
+        easing={'ease-in-out'}
         duration={400}
         style={{
           flex: 1,
@@ -85,7 +89,7 @@ const ReceiveTokenModal = ({ closeModal }: Props) => {
       >
         <ReceiveBarCode
           style={{
-            alignSelf: "center",
+            alignSelf: 'center',
             marginTop: size.getHeightSize(24),
           }}
         />
@@ -93,7 +97,7 @@ const ReceiveTokenModal = ({ closeModal }: Props) => {
         <View style={styles.QRCodeContainer}>
           <QRCode
             size={size.getHeightSize(160)}
-            value={"AEEWppRWXMtvDysp9RzSWUMqpNB2isq3gviAMqcJkcjC"}
+            value={'AEEWppRWXMtvDysp9RzSWUMqpNB2isq3gviAMqcJkcjC'}
           />
         </View>
         <View
@@ -134,11 +138,11 @@ const ReceiveTokenModal = ({ closeModal }: Props) => {
 export default ReceiveTokenModal;
 const styles = StyleSheet.create({
   ReceiveToken: {
-    textAlign: "center",
+    textAlign: 'center',
     color: appColor.kTextColor,
     fontSize: size.fontSize(20),
     lineHeight: size.getHeightSize(24),
-    fontFamily: "Outfit-SemiBold",
+    fontFamily: 'Outfit-SemiBold',
     letterSpacing: 0.04,
     marginTop: size.getHeightSize(8),
   },
@@ -146,23 +150,23 @@ const styles = StyleSheet.create({
     marginTop: size.getHeightSize(32),
     height: size.getHeightSize(182),
     width: size.getWidthSize(181.52),
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
-    alignSelf: "center",
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
     borderRadius: 10,
   },
   myAddress: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
   },
   address: {
     color: appColor.primaryLight,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: "Outfit-SemiBold",
+    fontFamily: 'Outfit-SemiBold',
 
     marginTop: size.getHeightSize(4),
   },
@@ -170,7 +174,7 @@ const styles = StyleSheet.create({
     color: appColor.grayLight,
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
 
     marginTop: size.getHeightSize(16),
   },
@@ -178,9 +182,9 @@ const styles = StyleSheet.create({
     backgroundColor: appColor.kSecondaryButtonColor,
     marginHorizontal: size.getWidthSize(16),
     gap: size.getWidthSize(8),
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 40,
     paddingVertical: size.getHeightSize(12.5),
   },
@@ -188,16 +192,16 @@ const styles = StyleSheet.create({
     color: appColor.kTextColor,
     fontSize: size.fontSize(18),
     lineHeight: size.getHeightSize(23),
-    fontFamily: "Outfit-Medium",
+    fontFamily: 'Outfit-Medium',
     letterSpacing: 0.02,
   },
   shareButton: {
     backgroundColor: appColor.kWhiteColor,
     marginHorizontal: size.getWidthSize(16),
     gap: size.getWidthSize(8),
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 40,
     paddingVertical: size.getHeightSize(12.5),
     marginTop: size.getHeightSize(8),
@@ -206,7 +210,7 @@ const styles = StyleSheet.create({
     color: appColor.kGrayscaleDart,
     fontSize: size.fontSize(18),
     lineHeight: size.getHeightSize(23),
-    fontFamily: "Outfit-Medium",
+    fontFamily: 'Outfit-Medium',
     letterSpacing: 0.02,
   },
 });
