@@ -6,24 +6,24 @@ import {
   Image,
   Dimensions,
   Pressable,
-} from "react-native";
-import React, { useRef } from "react";
-import { useFonts } from "expo-font";
-import { appColor, fonts, images } from "../../constants";
-import { sizes } from "../../utils";
-import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import CustomHandler from "./CustomHandler";
-import { useAppDispatch, useAppSelector } from "../../controller/hooks";
-import Flag from "../../../assets/images/svg/Flag";
-import Block from "../../../assets/images/svg/Block";
-import * as Animatable from "react-native-animatable";
+} from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { useFonts } from 'expo-font';
+import { appColor, fonts, images } from '../../constants';
+import { sizes } from '../../utils';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import CustomHandler from './CustomHandler';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import Flag from '../../../assets/images/svg/Flag';
+import Block from '../../../assets/images/svg/Block';
+import * as Animatable from 'react-native-animatable';
 import {
-  updateReportingModal,
+  updtaeReportingModal,
   updateReportPostModal,
   updateReportUserModal,
   updateBlockUserModal,
-} from "../../controller/FeedsController";
-const { height, width } = Dimensions.get("window");
+} from '../../controller/FeedsController';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const ReportPanel = () => {
   const dispatch = useAppDispatch();
@@ -31,15 +31,20 @@ const ReportPanel = () => {
     (state) => state.FeedsSliceController.ReportingModal
   );
   const bottomSheetRef = useRef<BottomSheet>(null);
+  useEffect(() => {
+    if (reportModal === false) {
+      bottomSheetRef.current?.close();
+    }
+  }, [reportModal]);
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
-    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
   const closeModal = () => {
     bottomSheetRef.current?.close();
-    dispatch(updateReportingModal(false));
+    dispatch(updtaeReportingModal(false));
   };
 
   return (
@@ -49,7 +54,7 @@ const ReportPanel = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={reportModal ? 0 : -1}
-      snapPoints={[Platform.OS === "ios" ? "30%" : "30%"]}
+      snapPoints={[Platform.OS === 'ios' ? '30%' : '30%']}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
       }}
@@ -92,16 +97,16 @@ export default ReportPanel;
 const styles = StyleSheet.create({
   container: {
     marginTop: size.heightSize(36),
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: size.getWidthSize(8),
     paddingLeft: size.getWidthSize(16),
-    alignItems: "center",
+    alignItems: 'center',
   },
   text: {
     fontSize: size.fontSize(18),
     lineHeight: size.getHeightSize(23),
     color: appColor.kTextColor,
     letterSpacing: size.getWidthSize(0.02),
-    fontFamily: "Outfit-Medium",
+    fontFamily: 'Outfit-Medium',
   },
 });

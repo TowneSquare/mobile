@@ -1,15 +1,15 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from "react-native";
-import React from "react";
-import SearchField from "../../components/createPost/SearchField";
-const { height, width } = Dimensions.get("window");
-import { useFonts } from "expo-font";
-import { appColor, fonts, images } from "../../constants";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { sizes } from "../../utils";
-import { useNavigation } from "@react-navigation/native";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import { useAppSelector } from "../../controller/hooks";
-import NftCollections from "../../components/createPost/NftCollections";
+import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
+import React from 'react';
+import SearchField from '../../components/createPost/SearchField';
+const { height, width } = Dimensions.get('window');
+import { useFonts } from 'expo-font';
+import { appColor, fonts, images } from '../../constants';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { sizes } from '../../utils';
+import { useNavigation } from '@react-navigation/native';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { useAppSelector } from '../../controller/hooks';
+import NftCollections from '../../components/createPost/NftCollections';
 const size = new sizes(height, width);
 const NftCollectionScreen = () => {
   const navigation = useNavigation();
@@ -38,8 +38,8 @@ const NftCollectionScreen = () => {
 export default NftCollectionScreen;
 const styles = StyleSheet.create({
   header: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: size.getWidthSize(16),
     height: size.getHeightSize(56),
     backgroundColor: appColor.kgrayDark2,
@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(20),
     lineHeight: size.getHeightSize(24),
     letterSpacing: 0.02,
-    fontFamily: "Outfit-Regular",
-    textAlign: "center",
+    fontFamily: 'Outfit-Regular',
+    textAlign: 'center',
     width: size.getWidthSize(264),
   },
   collectionContainer: {

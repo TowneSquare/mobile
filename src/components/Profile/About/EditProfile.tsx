@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from "react";
+import React, { useRef, useState, useCallback } from 'react';
 import {
   SafeAreaView,
   Pressable,
@@ -10,21 +10,21 @@ import {
   TextInput,
   ScrollView,
   Platform,
-} from "react-native";
-import { useAppDispatch, useAppSelector } from "../../../controller/hooks";
+} from 'react-native';
+import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
 import {
   updateUploadModalRenderCount,
   updateUploadImageModalOpen,
-} from "../../../controller/BottomSheetController";
-import { sizes } from "../../../utils";
-import { EditProfileProps } from "../../../navigations/NavigationTypes";
-import { appColor } from "../../../constants";
-import { Entypo } from "@expo/vector-icons";
-import Info from "../../../../assets/images/svg/Info";
-import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
-import CustomHandler from "../../Feed/CustomHandler";
+} from '../../../controller/BottomSheetController';
+import { sizes } from '../../../utils';
+import { EditProfileProps } from '../../../navigations/NavigationTypes';
+import { appColor } from '../../../constants';
+import { Entypo } from '@expo/vector-icons';
+import Info from '../../../../assets/images/svg/Info';
+import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
+import CustomHandler from '../../Feed/CustomHandler';
 
-const { height, width } = Dimensions.get("window");
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const EditProfile = ({ navigation }: EditProfileProps) => {
   const dispatch = useAppDispatch();
@@ -56,7 +56,7 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
     (props: any) => (
       <BottomSheetBackdrop
         {...props}
-        pressBehavior={"close"}
+        pressBehavior={'close'}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
         opacity={0.5}
@@ -70,7 +70,7 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
         onClose={onCloseDisplayBottomSheet}
         ref={bottomSheetRef}
         enablePanDownToClose={true}
-        snapPoints={[Platform.OS === "ios" ? "25%" : "25%"]}
+        snapPoints={[Platform.OS === 'ios' ? '25%' : '25%']}
         index={showDisplayBottomSheet ? 0 : -1}
         handleComponent={CustomHandler}
         backdropComponent={renderBackdrop}
@@ -82,8 +82,8 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
           <Text
             style={{
               color: appColor.kTextColor,
-              fontFamily: "Outfit-Bold",
-              textAlign: "center",
+              fontFamily: 'Outfit-Bold',
+              textAlign: 'center',
               marginTop: 20,
               fontSize: size.fontSize(19),
             }}
@@ -93,8 +93,8 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
           <Text
             style={{
               color: appColor.kTextColor,
-              fontFamily: "Outfit-Regular",
-              textAlign: "left",
+              fontFamily: 'Outfit-Regular',
+              textAlign: 'left',
               fontSize: size.fontSize(17),
               marginHorizontal: 20,
             }}
@@ -112,7 +112,7 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
         onClose={onCloseUsernameBottomSheet}
         ref={bottomSheetRef}
         enablePanDownToClose={true}
-        snapPoints={[Platform.OS === "ios" ? "25%" : "25%"]}
+        snapPoints={[Platform.OS === 'ios' ? '25%' : '25%']}
         index={showUsernameBottomSheet ? 0 : -1}
         handleComponent={CustomHandler}
         backdropComponent={renderBackdrop}
@@ -124,8 +124,8 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
           <Text
             style={{
               color: appColor.kTextColor,
-              fontFamily: "Outfit-Bold",
-              textAlign: "center",
+              fontFamily: 'Outfit-Bold',
+              textAlign: 'center',
               marginTop: 20,
               fontSize: size.fontSize(19),
             }}
@@ -135,8 +135,8 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
           <Text
             style={{
               color: appColor.kTextColor,
-              fontFamily: "Outfit-Regular",
-              textAlign: "left",
+              fontFamily: 'Outfit-Regular',
+              textAlign: 'left',
               fontSize: size.fontSize(17),
               marginHorizontal: 20,
             }}
@@ -177,19 +177,19 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
               style={{
                 height: size.getHeightAndWidth(140),
                 width: size.getHeightAndWidth(140),
-                alignItems: "center",
+                alignItems: 'center',
                 backgroundColor:
                   uploadImageModal || NftModal || selectedCollectionModal
                     ? appColor.kGrayscaleWithOPacity
                     : appColor.kGrayLight3,
-                alignSelf: "center",
+                alignSelf: 'center',
                 borderRadius: 200,
                 borderWidth: 3,
                 borderColor:
                   uploadImageModal || NftModal || selectedCollectionModal
                     ? appColor.kWhiteColorWithOpacity
                     : appColor.kWhiteColor,
-                justifyContent: "center",
+                justifyContent: 'center',
               }}
             >
               <Entypo
@@ -208,8 +208,8 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
           <Text
             style={{
               color: appColor.kSecondaryButtonColor,
-              fontFamily: "Outfit-Bold",
-              textAlign: "center",
+              fontFamily: 'Outfit-Bold',
+              textAlign: 'center',
               fontSize: size.fontSize(16),
             }}
           >
@@ -217,11 +217,11 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
           </Text>
         </View>
         <View style={{ marginTop: 15 }}>
-          <View style={{ flexDirection: "row", marginLeft: 15 }}>
+          <View style={{ flexDirection: 'row', marginLeft: 15 }}>
             <Text
               style={{
                 color: appColor.kTextColor,
-                fontFamily: "Outfit-Regular",
+                fontFamily: 'Outfit-Regular',
                 fontSize: size.fontSize(17),
                 marginRight: 10,
               }}
@@ -236,14 +236,14 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
               <Info />
             </Pressable>
           </View>
-          <TextInput style={styles.input} cursorColor={"white"} />
+          <TextInput style={styles.input} cursorColor={'white'} />
         </View>
         <View style={{ marginTop: 15 }}>
-          <View style={{ flexDirection: "row", marginLeft: 15 }}>
+          <View style={{ flexDirection: 'row', marginLeft: 15 }}>
             <Text
               style={{
                 color: appColor.kTextColor,
-                fontFamily: "Outfit-Regular",
+                fontFamily: 'Outfit-Regular',
                 fontSize: size.fontSize(17),
                 marginRight: 10,
               }}
@@ -258,14 +258,14 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
               <Info />
             </Pressable>
           </View>
-          <TextInput style={styles.input} cursorColor={"white"} />
+          <TextInput style={styles.input} cursorColor={'white'} />
         </View>
         <View style={{ marginTop: 15 }}>
-          <View style={{ flexDirection: "row", marginLeft: 15 }}>
+          <View style={{ flexDirection: 'row', marginLeft: 15 }}>
             <Text
               style={{
                 color: appColor.kTextColor,
-                fontFamily: "Outfit-Regular",
+                fontFamily: 'Outfit-Regular',
                 fontSize: size.fontSize(17),
                 marginRight: 10,
               }}
@@ -280,7 +280,7 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
             maxLength={100}
             textAlignVertical="top"
             style={styles.multilineInput}
-            cursorColor={"white"}
+            cursorColor={'white'}
           />
         </View>
 
@@ -289,8 +289,8 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
             <Text
               style={{
                 color: appColor.kTextColor,
-                fontFamily: "Outfit-Bold",
-                textAlign: "center",
+                fontFamily: 'Outfit-Bold',
+                textAlign: 'center',
               }}
             >
               Save
@@ -309,39 +309,39 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 25,
     marginBottom: 25,
-    alignItems: "center",
-    justifyContent: "center",
-    alignSelf: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   imageContainer: {
     height: size.getHeightAndWidth(140),
     width: size.getHeightAndWidth(140),
     borderRadius: 200,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   image: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
     borderRadius: 50,
   },
   input: {
     height: 40,
     margin: 12,
     borderWidth: 1,
-    borderColor: "white",
+    borderColor: 'white',
     padding: 10,
     borderRadius: 40,
-    color: "white",
-    fontFamily: "Outfit-Bold",
+    color: 'white',
+    fontFamily: 'Outfit-Bold',
   },
   multilineInput: {
     margin: 10,
     borderWidth: 1,
-    borderColor: "white",
+    borderColor: 'white',
     padding: 10,
     borderRadius: 25,
-    color: "white",
-    fontFamily: "Outfit-Regular",
+    color: 'white',
+    fontFamily: 'Outfit-Regular',
   },
   btn: {
     padding: 15,

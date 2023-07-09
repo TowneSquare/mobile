@@ -7,15 +7,15 @@ import {
   Dimensions,
   FlatList,
   StyleSheet,
-} from "react-native";
-import React from "react";
-import { useFonts } from "expo-font";
-import { images, fonts, appColor } from "../../constants";
-const { height, width } = Dimensions.get("window");
-import { useNavigation } from "@react-navigation/native";
-import { sizes } from "../../utils";
+} from 'react-native';
+import React from 'react';
+import { useFonts } from 'expo-font';
+import { images, fonts, appColor } from '../../constants';
+const { height, width } = Dimensions.get('window');
+import { useNavigation } from '@react-navigation/native';
+import { sizes } from '../../utils';
 const size = new sizes(height, width);
-import { useAppSelector } from "../../controller/hooks";
+import { useAppSelector } from '../../controller/hooks';
 interface NftCollection {
   image?: any;
   Name?: string;
@@ -27,8 +27,8 @@ const NftCollections = () => {
     (state) => state.bottomSheetController.listOfNftCollections
   );
   let [isLoaded] = useFonts({
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
   });
   if (!isLoaded) {
     return null;
@@ -39,7 +39,7 @@ const NftCollections = () => {
         key={collection.id}
         style={styles.collection}
         onPress={() => {
-          navigation.navigate("SelectedCollectionScreen" as never);
+          navigation.navigate('SelectedCollectionScreen' as never);
         }}
       >
         {
@@ -76,42 +76,42 @@ const NftCollections = () => {
 export default NftCollections;
 const styles = StyleSheet.create({
   columnWrapper: {
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   contentContainer: {
     paddingHorizontal: size.getWidthSize(16),
 
     width: size.getWidthSize(328),
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   collectionIdText: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     lineHeight: size.getHeightSize(18),
   },
   collectionIdContainer: {
     height: size.getHeightSize(25),
     width: size.getHeightSize(26),
-    position: "absolute",
+    position: 'absolute',
     backgroundColor: appColor.kSecondaryButtonColor,
     right: size.getWidthSize(8),
     top: size.getHeightSize(10),
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 100,
     bottom: size.getHeightSize(104),
   },
   collectionNameContainer: {
     width: size.getWidthSize(124),
-    position: "absolute",
-    backgroundColor: "#121212",
+    position: 'absolute',
+    backgroundColor: '#121212',
     bottom: size.getHeightSize(8),
-    justifyContent: "center",
+    justifyContent: 'center',
     borderRadius: 8,
     paddingVertical: size.getHeightSize(8),
     paddingHorizontal: size.getWidthSize(10),
-    alignSelf: "center",
+    alignSelf: 'center',
     zIndex: 0,
     opacity: 0.9,
     marginHorizontal: size.getWidthSize(8),
@@ -119,12 +119,12 @@ const styles = StyleSheet.create({
   collectionName: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
-    fontFamily: "Outfit-Regular",
-    textAlign: "left",
+    fontFamily: 'Outfit-Regular',
+    textAlign: 'left',
   },
   collection: {
     marginBottom: size.getHeightSize(16),
-    overflow: "hidden",
+    overflow: 'hidden',
     width: size.getWidthSize(140),
     height: size.getHeightSize(140),
     borderRadius: 20,

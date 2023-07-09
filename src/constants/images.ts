@@ -110,5 +110,7 @@ const appImages = {
   createPost3: require("../../assets/images/png/createPost3.png"),
   NftCollection: require("../../assets/images/png/NFTcollection.png"),
   Remove: require("../../assets/images/png/Remove.png"),
+  community: require("../../assets/images/png/communities.png"),
+  hexagon: require("../../assets/images/png/hexagon.png"),
 };
 export const images = appImages;

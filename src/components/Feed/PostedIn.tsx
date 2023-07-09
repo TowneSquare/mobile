@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, Dimensions } from "react-native";
-import React from "react";
-import APTMonkey from "../../../assets/images/svg/APTMonkey";
-import { appColor } from "../../constants";
-const { height, width } = Dimensions.get("window");
-import { sizes } from "../../utils";
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import React from 'react';
+import APTMonkey from '../../../assets/images/svg/APTMonkey';
+import { appColor } from '../../constants';
+const { height, width } = Dimensions.get('window');
+import { sizes } from '../../utils';
 const size = new sizes(height, width);
 interface Props {
   communityName: string;
@@ -21,9 +21,9 @@ const PostedIn = ({ communityName }: Props) => {
 export default PostedIn;
 const communityStyles = StyleSheet.create({
   container: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: size.getWidthSize(6),
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: size.getHeightSize(4),
     marginTop: size.getHeightSize(3),
   },
@@ -31,12 +31,12 @@ const communityStyles = StyleSheet.create({
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.grayLight,
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
   },
   communityName: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.primaryLight,
-    fontFamily: "Outfit-SemiBold",
+    fontFamily: 'Outfit-SemiBold',
   },
 });

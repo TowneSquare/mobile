@@ -31,6 +31,8 @@ import CreatePost from "../screens/Feed/CreatePost";
 import NftCollectionScreen from "../screens/Feed/NftCollectionScreen";
 import SelectedCollectionScreen from "../screens/Feed/SelectedCollectionScreen";
 import Collection from "../components/Profile/About/collection";
+import SearchScreen from "../screens/SearchPost/SearchScreen";
+import SearchPostTab from "./SearchPostTabBar";
 
 const Navigations = ({ magicProps }: { magicProps: any }) => {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -241,6 +243,20 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
         })}
       />
 
+      <Stack.Screen
+        name="SearchScreen"
+        component={SearchScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SearchPostTab"
+        component={SearchPostTab}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen name="EmailLogin" options={{ headerShown: false }}>
         {() => <EmailLogin {...magicProps} />}
       </Stack.Screen>

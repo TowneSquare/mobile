@@ -1,9 +1,9 @@
-import { View, Text, Dimensions, StyleSheet } from "react-native";
-import { Avatar } from "react-native-elements";
-import React from "react";
-const { height, width } = Dimensions.get("window");
-import { sizes } from "../../utils";
-import { images, fonts } from "../../constants";
+import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { Avatar } from 'react-native-elements';
+import React from 'react';
+const { height, width } = Dimensions.get('window');
+import { sizes } from '../../utils';
+import { images, fonts } from '../../constants';
 const size = new sizes(height, width);
 interface Props {
   PFPsize?: number;
