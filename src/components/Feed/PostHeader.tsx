@@ -8,7 +8,7 @@ const { height, width } = Dimensions.get('window');
 import { useAppDispatch } from '../../controller/hooks';
 
 import {
-  updtaeReportingModal,
+  updateReportingModal,
   updateMyPostPanel,
 } from '../../controller/FeedsController';
 import Feather from '@expo/vector-icons/Feather';
@@ -40,7 +40,7 @@ const PostHeader = ({
     return null;
   }
   const showModal = () => {
-    dispatch(myPost ? updateMyPostPanel(true) : updtaeReportingModal(true));
+    dispatch(myPost ? updateMyPostPanel(true) : updateReportingModal(true));
   };
   return (
     <View
