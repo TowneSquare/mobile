@@ -116,10 +116,9 @@ const SearchScreen = ({ navigation }: SearchScreenProps) => {
 export default SearchScreen;
 const styles = StyleSheet.create({
   Header: {
-    height: size.heightSize(140),
     width: '100%',
     backgroundColor: appColor.kgrayDark2,
-    paddingTop: size.getHeightSize(65) - Constants.statusBarHeight,
+    paddingVertical: size.getHeightSize(16),
   },
   searchfield: {
     flexDirection: 'row',

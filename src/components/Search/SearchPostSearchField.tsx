@@ -20,12 +20,13 @@ import {
 const SearchPostSearchField = () => {
   const dispatch = useAppDispatch();
   const textInputRef = useRef(null);
-
+  const [text, setText] = useState('');
   useEffect(() => {
     dispatch(resetSearch());
     textInputRef.current.focus();
   }, []);
   const handleTextChange = (text: string) => {
+    setText(text);
     batch(() => {
       dispatch(updateFilteredProfilSearcheData(text));
       dispatch(updateFilteredCommunitySearchData(text));
@@ -50,7 +51,11 @@ const SearchPostSearchField = () => {
         placeholderTextColor={appColor.kGrayLight3}
         style={[styles.textInput]}
       />
-      <DelIcon onPress={() => dispatch(updateSearchFocus('default'))} />
+      {text ? (
+        <DelIcon onPress={() => dispatch(updateSearchFocus('default'))} />
+      ) : (
+        <View />
+      )}
     </View>
   );
 };

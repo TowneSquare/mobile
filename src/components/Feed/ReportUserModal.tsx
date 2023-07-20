@@ -50,7 +50,7 @@ const ReportUserModal = ({ reportUser }: Props) => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={reportUserModal ? 0 : -1}
-      snapPoints={[Platform.OS === 'ios' ? '40' : '40']}
+      snapPoints={[Platform.OS === 'ios' ? '36%' : '36%']}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
       }}

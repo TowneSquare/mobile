@@ -26,16 +26,16 @@ interface Props {
   noOfRetweet: string;
   noOfLikes: string;
   paddingHorizontal?: number;
-  marginTop?: number;
-  paddingTop?: number;
+  marginBottom?: boolean;
+  marginTop?: boolean;
 }
 const PostActions = ({
   noOfComments,
   noOfLikes,
   noOfRetweet,
   paddingHorizontal,
+  marginBottom,
   marginTop,
-  paddingTop,
 }: Props) => {
   const [changeLikeTextColor, setlikesTextColor] = useState(false);
   const [changeRetweetTextColor, setRetweetTextColor] = useState(false);
@@ -124,14 +124,13 @@ const PostActions = ({
       style={{
         gap: size.getWidthSize(20),
         flexDirection: 'row',
-        marginTop: marginTop
-          ? size.getHeightSize(marginTop)
-          : size.getHeightSize(9),
-        marginBottom: size.getHeightSize(16),
+        paddingVertical: size.getHeightSize(8),
         paddingHorizontal: paddingHorizontal
           ? size.getWidthSize(paddingHorizontal)
           : 0,
-        paddingTop: paddingTop ? size.getHeightSize(paddingTop) : 0,
+
+        marginBottom: marginBottom ? size.getHeightSize(8) : 0,
+        marginTop: marginTop ? size.getHeightSize(8) : 0,
       }}
     >
       <View

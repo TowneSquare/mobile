@@ -190,7 +190,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
                 <View style={[styles.mediaContainer, { marginBottom: 0 }]}>
                   <Image
                     source={images.feedImage1}
-                    style={[styles.imageStyle, { borderRadius: 0 }]}
+                    style={[repostStyles.repostImage]}
                     resizeMode="cover"
                   />
                 </View>
@@ -224,8 +224,8 @@ const Reposted = ({ data }: { data: UserPost }) => {
                 <View style={[styles.mediaContainer, { marginBottom: 0 }]}>
                   <Image
                     source={images.feedImage2}
-                    style={[styles.imageStyle, { borderRadius: 0 }]}
-                    resizeMode="stretch"
+                    style={[repostStyles.repostImage]}
+                    resizeMode="cover"
                   />
                 </View>
               </View>
@@ -262,8 +262,8 @@ const Reposted = ({ data }: { data: UserPost }) => {
                 >
                   <Image
                     source={images.feedImage3}
-                    style={[styles.imageStyle, { borderRadius: 0 }]}
-                    resizeMode="stretch"
+                    style={[repostStyles.repostImage]}
+                    resizeMode="cover"
                   />
                 </View>
               </View>
@@ -360,13 +360,12 @@ const Reposted = ({ data }: { data: UserPost }) => {
                     styles.mediaContainer,
                     {
                       marginBottom: size.getHeightSize(0),
-                      height: size.getHeightSize(275),
                     },
                   ]}
                 >
                   <Image
                     source={images.feedImage5}
-                    style={[styles.imageStyle, { borderRadius: 0 }]}
+                    style={[repostStyles.repostImage]}
                     resizeMode="cover"
                   />
                 </View>
@@ -426,8 +425,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
                   style={[
                     styles.mediaContainer,
                     {
-                      marginBottom: size.getHeightSize(0),
-                      height: size.getHeightSize(275),
+                      marginBottom: size.getHeightSize(8),
                     },
                   ]}
                 >
@@ -617,5 +615,11 @@ const repostStyles = StyleSheet.create({
     paddingHorizontal: size.getWidthSize(16),
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
+  },
+  repostImage: {
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+    width: '100%',
+    maxHeight: size.getHeightSize(400),
   },
 });
