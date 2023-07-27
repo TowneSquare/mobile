@@ -4,7 +4,8 @@ import {
   Dimensions,
   StyleSheet,
   Image,
-  FlatList,
+  TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import React from 'react';
 const { height, width } = Dimensions.get('window');
@@ -22,7 +23,7 @@ import {
   updateGifBottomSheet,
   updateNftBottomSheet,
 } from '../../controller/createPost';
-import PostCameraBlur from '../../../assets/images/svg/PostCameraBlur';
+
 const size = new sizes(height, width);
 const PostAttachment = () => {
   const dispatch = useAppDispatch();
@@ -30,7 +31,7 @@ const PostAttachment = () => {
     mediaValue: state.CreatePostController.posts.media,
     attachedNft: state.CreatePostController.posts.nft,
   }));
-  const disable = mediaValue || attachedNft;
+  const disable =mediaValue&& mediaValue.length > 1 || attachedNft !== null;
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -46,45 +47,72 @@ const PostAttachment = () => {
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        gap: size.getWidthSize(16),
-        paddingVertical: size.getHeightSize(10),
-        paddingHorizontal: size.getWidthSize(16),
+        paddingVertical: size.getHeightSize(4),
+        paddingHorizontal: size.getWidthSize(8),
         width: '100%',
         backgroundColor: appColor.kgrayDark2,
       }}
     >
-      <PostCamera
-        style={{
-          opacity: disable ? 0.7 : 1,
-        }}
+      <Pressable
         onPress={() => {
-          dispatch(updateMedia(images.feedImage2));
+          dispatch(
+            updateMedia(Image.resolveAssetSource(images.feedImage2).uri)
+          );
         }}
         disabled={disable}
-      />
-      <PostImage
-        style={{
-          opacity: disable ? 0.7 : 1,
-        }}
+        style={styles.iconContainer}
+      >
+        <PostCamera
+          style={{
+            opacity: disable ? 0.7 : 1,
+          }}
+        />
+      </Pressable>
+      <Pressable
+        style={styles.iconContainer}
         disabled={disable}
-        onPress={() => dispatch(updateMedia(images.feedImage1))}
-      />
-      <PostGif
-        style={{
-          opacity: disable ? 0.7 : 1,
-        }}
+        onPress={() =>
+          dispatch(updateMedia(Image.resolveAssetSource(images.feedImage1).uri))
+        }
+      >
+        <PostImage
+          style={{
+            opacity: disable ? 0.7 : 1,
+          }}
+        />
+      </Pressable>
+      <Pressable
+        style={styles.iconContainer}
         disabled={disable}
         onPress={() => dispatch(updateGifBottomSheet(true))}
-      />
-      <PostNft
-        style={{
-          opacity: disable ? 0.7 : 1,
-        }}
+      >
+        <PostGif
+          style={{
+            opacity: disable ? 0.7 : 1,
+          }}
+        />
+      </Pressable>
+      <Pressable
+        style={styles.iconContainer}
         disabled={disable}
         onPress={() => navigation.navigate('NftCollectionScreen' as never)}
-      />
+      >
+        <PostNft
+          style={{
+            opacity: disable ? 0.7 : 1,
+          }}
+        />
+      </Pressable>
     </View>
   );
 };
 
 export default PostAttachment;
+const styles = StyleSheet.create({
+  iconContainer: {
+    width: size.getWidthSize(40),
+    height: size.getWidthSize(40),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

@@ -7,11 +7,11 @@ import {
   Dimensions,
   Pressable,
 } from 'react-native';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
 import { sizes } from '../../utils';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import CustomHandler from './CustomHandler';
 import ReportFlag from '../../../assets/images/svg/ReportFlag';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
@@ -33,6 +33,18 @@ const BlockUserModal = ({ block }: Props) => {
       bottomSheetRef.current?.close();
     }
   }, [blockModal]);
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        pressBehavior={'close'}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        opacity={0.5}
+      />
+    ),
+    []
+  );
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -50,7 +62,8 @@ const BlockUserModal = ({ block }: Props) => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={blockModal ? 0 : -1}
-      snapPoints={[Platform.OS === 'ios' ? '40' : '40']}
+      backdropComponent={renderBackdrop}
+      snapPoints={[Platform.OS === 'ios' ? '36%' : '36%']}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
       }}
@@ -95,7 +108,10 @@ const BlockUserModal = ({ block }: Props) => {
           mention each other
         </Text>
         <Pressable
-          onPress={block}
+          onPress={() => {
+            dispatch(updateBlockUserModal(false));
+            block();
+          }}
           style={{
             backgroundColor: appColor.kErrorText,
             marginHorizontal: size.getWidthSize(16),
@@ -127,8 +143,8 @@ const BlockUserModal = ({ block }: Props) => {
             letterSpacing: size.getWidthSize(0.02),
             fontFamily: 'Outfit-Medium',
             textAlign: 'center',
-            marginBottom: size.getHeightSize(46),
-            marginTop: size.getHeightSize(12.5),
+            marginBottom: size.getHeightSize(32),
+            marginTop: size.getHeightSize(12),
           }}
         >
           Cancel

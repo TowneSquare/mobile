@@ -8,7 +8,7 @@ export const feedStyle = StyleSheet.create({
     width: '100%',
     paddingHorizontal: size.getWidthSize(16),
     flexDirection: 'row',
-    paddingTop: size.getHeightSize(9.5),
+    paddingTop: size.getHeightSize(8),
     borderBottomWidth: 1,
     borderBottomColor: appColor.kgrayDark2,
   },
@@ -24,21 +24,19 @@ export const feedStyle = StyleSheet.create({
   },
   mediaContainer: {
     marginVertical: size.getHeightSize(8),
-    // flex: 1,
-    height: size.getHeightSize(218),
+    maxHeight: size.getHeightSize(400),
   },
   imageStyle: {
-    width: '100%',
-    height: '100%',
     borderRadius: 8,
+    width: '100%',
+    maxHeight: size.getHeightSize(400),
   },
   linkDescriptionContainer: {
     backgroundColor: appColor.grayDark,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     paddingHorizontal: size.getWidthSize(16),
-    width: '100%',
-    marginBottom: size.getHeightSize(8),
+    marginBottom: size.getHeightSize(0),
   },
   linkTitle: {
     fontSize: size.fontSize(14),
@@ -73,8 +71,6 @@ export const feedStyle = StyleSheet.create({
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     paddingHorizontal: size.getWidthSize(16),
-    width: '100%',
-    marginBottom: size.getHeightSize(8),
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -103,7 +99,6 @@ export const feedStyle = StyleSheet.create({
     backgroundColor: appColor.kSecondaryButtonColor,
     justifyContent: 'center',
     borderRadius: 40,
-    width: size.getWidthSize(94),
     paddingVertical: size.getHeightSize(7),
   },
   buttonText: {
@@ -119,13 +114,15 @@ export const feedStyle = StyleSheet.create({
     paddingHorizontal: size.getWidthSize(16),
     width: '100%',
     position: 'absolute',
-    bottom: size.getHeightSize(115),
+    bottom: 0,
+    paddingVertical: size.getHeightSize(8),
+    marginBottom:size.getHeightSize(0)
+    
   },
 
   collectionInfo: {
     flexDirection: 'row',
     gap: size.getWidthSize(4),
-    marginTop: size.getHeightSize(8),
     alignItems: 'center',
   },
   collectionName: {
@@ -140,7 +137,6 @@ export const feedStyle = StyleSheet.create({
     lineHeight: size.getHeightSize(21),
     fontFamily: 'Outfit-Medium',
     marginTop: size.getHeightSize(8),
-    marginBottom: size.getHeightSize(8),
   },
   attachedNftContainer: {
     backgroundColor: appColor.kBlackWithOpacity,
@@ -162,7 +158,7 @@ export const feedStyle = StyleSheet.create({
     borderWidth: 1,
     borderColor: appColor.kGrayLight3,
     borderRadius: 8,
-    marginVertical: size.getHeightSize(8),
+    marginTop: size.getHeightSize(8),
     alignItems: 'center',
     paddingHorizontal: size.getWidthSize(16),
   },
@@ -219,9 +215,6 @@ export const feedStyle = StyleSheet.create({
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(21),
     marginVertical: size.getHeightSize(2),
-    
   },
-  buttons:{
-
-  }
+  buttons: {},
 });

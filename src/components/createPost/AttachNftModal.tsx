@@ -12,12 +12,13 @@ const { height, width } = Dimensions.get('window');
 import Offer from '../../../assets/images/svg/Offer';
 import Clip from '../../../assets/images/svg/Clip';
 import { appColor, fonts, images } from '../../constants';
-
+import OfferSaleSheet from './OfferSaleSheet';
 import { sizes } from '../../utils';
 import { batch } from 'react-redux';
 const size = new sizes(height, width);
 import { SelectedCollectionContext } from './SelectedCollectionContext';
 import { useNavigation, StackActions } from '@react-navigation/native';
+import { updateShowPriceModal } from '../../controller/createPost';
 
 import Modal from 'react-native-modal';
 import { useAppDispatch } from '../../controller/hooks';
@@ -37,87 +38,92 @@ const AttachNftModal = () => {
   const navigation = useNavigation();
 
   const handlePress = async () => {
-    handleModalState;
+    dispatch(updateShowPriceModal(true));
+    // handleModalState;
     batch(() => {
-      dispatch(
-        updatePostNft({
-          name: 'Aptomingos',
-          id: 'Aptomingos #9280',
-        })
-      );
+      // dispatch(
+      //   updatePostNft({
+      //     name: 'Aptomingos',
+      //     id: 'Aptomingos #9280',
+      //   })
+      // );
     });
 
     navigation.dispatch(StackActions.pop(2));
-    dispatch(updateAttachNftCountDown(true));
+    // dispatch(updateAttachNftCountDown(true));
   };
   return (
-    <Modal
-      backdropOpacity={0.1}
-      style={{ margin: 0, backgroundColor: '#000000', opacity: 0.8 }}
-      isVisible={isModalVisible}
-      statusBarTranslucent
-    >
-      <View
-        style={{
-          flex: 1,
-        }}
+    <>
+      <Modal
+        backdropOpacity={0.1}
+        style={{ margin: 0, backgroundColor: '#000000', opacity: 0.8 }}
+        isVisible={isModalVisible}
+        statusBarTranslucent
       >
         <View
           style={{
-            backgroundColor: '#000000',
-            opacity: 0.9,
+            flex: 1,
           }}
         >
-          <View style={styles.imageContainer}>
-            <Image
-              style={styles.image}
-              source={images.NftCollection}
-              resizeMode="cover"
-            />
+          <View
+            style={{
+              backgroundColor: '#000000',
+              opacity: 0.9,
+            }}
+          >
+            <View style={styles.imageContainer}>
+              <Image
+                style={styles.image}
+                source={images.NftCollection}
+                resizeMode="cover"
+              />
+            </View>
+          </View>
+
+          <Text style={styles.name}>Aptomingos #9022</Text>
+          <View
+            style={{
+              height: size.getHeightSize(110.5),
+            }}
+          />
+          <Pressable
+            onPress={() => {
+              handleModalState();
+              navigation.dispatch(StackActions.pop(2));
+              dispatch(
+                updatePostNft({
+                  name: 'Aptomingos',
+                  id: 'Aptomingos #9280',
+                })
+              );
+            }}
+            style={styles.AttachButton}
+          >
+            <Clip />
+            <Text style={styles.AttachText}>Attach to post</Text>
+          </Pressable>
+          <Pressable onPress={handlePress} style={styles.offerButton}>
+            <Offer />
+            <Text style={styles.OfferText}>Attach & offer for sale</Text>
+          </Pressable>
+          <View
+            style={{
+              width: size.getWidthSize(310),
+
+              alignSelf: 'center',
+              paddingVertical: size.getHeightSize(12.5),
+              marginTop: size.getHeightSize(32),
+            }}
+          >
+            <Text onPress={handleModalState} style={styles.back}>
+              Back
+            </Text>
           </View>
         </View>
-
-        <Text style={styles.name}>Aptomingos #9022</Text>
-        <View
-          style={{
-            height: size.getHeightSize(110.5),
-          }}
-        />
-        <Pressable
-          onPress={() => {
-            handleModalState();
-            navigation.dispatch(StackActions.pop(2));
-            dispatch(
-              updatePostNft({
-                name: 'Aptomingos',
-                id: 'Aptomingos #9280',
-              })
-            );
-          }}
-          style={styles.AttachButton}
-        >
-          <Clip />
-          <Text style={styles.AttachText}>Attach to post</Text>
-        </Pressable>
-        <Pressable onPress={handlePress} style={styles.offerButton}>
-          <Offer />
-          <Text style={styles.OfferText}>Attach & offer for sale</Text>
-        </Pressable>
-        <View
-          style={{
-            width: size.getWidthSize(310),
-
-            alignSelf: 'center',
-            paddingVertical: size.getHeightSize(12.5),
-            marginTop: size.getHeightSize(32),
-          }}
-        >
-          <Text onPress={handleModalState} style={styles.back}>
-            Back
-          </Text>
-        </View>
-      </View>
-    </Modal>
+        {/* <OfferSaleSheet /> */}
+      </Modal>
+     
+    </>
   );
 };
 

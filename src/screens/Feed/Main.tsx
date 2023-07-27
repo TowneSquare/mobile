@@ -42,7 +42,7 @@ import BlockUserModal from '../../components/Feed/BlockUserModal';
 import { resetModals } from '../../controller/FeedsController';
 import Toast from 'react-native-toast-message';
 import { batch } from 'react-redux';
-type Views = 'For You' | 'Community';
+
 const Main = () => {
   useEffect(() => {
     dispatch(resetModals());
@@ -50,7 +50,6 @@ const Main = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
-  const [view, setSwitchView] = useState<Views>('For You');
   const { showBlockToast, showReportUserToast, showReportPostToast } =
     ToastHook();
   const modals = useAppSelector((state) => ({
@@ -65,9 +64,6 @@ const Main = () => {
     (state) => state.CreatePostController.shouldShowPublishToast
   );
   const isAnyModalOpen = Object.values(modals).some((value) => value === true);
-  const handleView = (view: Views) => {
-    setSwitchView(view);
-  };
 
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -120,7 +116,7 @@ const Main = () => {
       >
         <AntDesign name="plus" size={25} color={appColor.kTextColor} />
       </Pressable>
-      {isAnyModalOpen && <View style={styles.overlay} />}
+      {/* {isAnyModalOpen && <View style={styles.overlay} />} */}
       <ReportUserModal reportUser={showReportUserToast} />
       <ReportPanel />
       <ReportPostModal reportPost={showReportPostToast} />
@@ -142,10 +138,10 @@ const Main = () => {
 export default Main;
 const styles = StyleSheet.create({
   Header: {
-    height: size.heightSize(86),
+    height: size.heightSize(64),
     width: '100%',
     backgroundColor: appColor.kgrayDark2,
-    paddingTop: size.getHeightSize(32),
+    justifyContent: 'center',
   },
   Navigation: {
     flexDirection: 'row',
@@ -172,6 +168,11 @@ const styles = StyleSheet.create({
     right: size.getWidthSize(18),
     justifyContent: 'center',
     alignItems: 'center',
+
+    elevation: 9,
+    shadowColor: '#000000',
+    shadowOffset: { height: 2, width: 0 },
+    shadowOpacity: 0.25,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

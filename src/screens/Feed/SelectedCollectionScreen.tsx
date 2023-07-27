@@ -2,6 +2,7 @@ import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
 import React, { useState, createRef, createContext, useContext } from 'react';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
+import OfferSaleSheet from '../../components/createPost/OfferSaleSheet';
 import AttachNftModal from '../../components/createPost/AttachNftModal';
 import { appColor, fonts, images } from '../../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -35,12 +36,11 @@ const SelectedCollectionScreen = () => {
         style={{
           flex: 1,
           backgroundColor: appColor.feedBackground,
-          
         }}
       >
         <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
         <SelectedCollectionProvider>
-          <AttachNftModal  />
+          <AttachNftModal />
           <View style={styles.header}>
             <Pressable onPress={navigation.goBack}>
               <AntDesign
@@ -55,6 +55,7 @@ const SelectedCollectionScreen = () => {
 
           <SelectedCollection />
           <Overlay />
+         
         </SelectedCollectionProvider>
       </SafeAreaView>
     </>

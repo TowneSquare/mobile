@@ -21,7 +21,8 @@ import { UserPosts } from '../../Feed/DuumyData';
 import ForYou from '../../Feed/ForYou';
 import { useNavigation } from '@react-navigation/native';
 import { useAppSelector } from '../../../controller/hooks';
-
+import EditProfileModal from './EditProfileModal';
+import ProfileCard from './ProfileCard';
 const Tab = createMaterialTopTabNavigator();
 
 const { height, width } = Dimensions.get('window');
@@ -94,99 +95,17 @@ const About = () => {
         paddingHorizontal: 15,
       }}
     >
-      <View style={[styles.view1, styles.shadowProp]}>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
-          >
-            <Image source={images.black_logo} />
-            <Text style={styles.text}>TowneSquare</Text>
-          </View>
-          <View style={{ flexDirection: 'row' }}>
-            <Image source={images.purple_badge} />
-            <Image source={images.green_badge} />
-            <Image source={images.blue_badge} />
-          </View>
-        </View>
-        <View style={{ marginTop: 15, flexDirection: 'row' }}>
-          <View style={styles.imageContainer}>
-            {profilePics ? (
-              <Image
-                style={styles.image}
-                source={{ uri: profilePics }}
-                resizeMode="contain"
-              />
-            ) : (
-              <Image style={{ borderRadius: 50 }} source={images.pfp_avatar} />
-            )}
-          </View>
-          <View style={{ justifyContent: 'center', marginLeft: 15 }}>
-            <Text
-              style={{
-                color: appColor.kTextColor,
-                fontFamily: 'Outfit-Bold',
-                fontSize: size.fontSize(18),
-              }}
-            >
-              {NAME}
-            </Text>
-            <Text
-              style={{
-                color: appColor.kGrayscale,
-                fontSize: size.fontSize(16),
-                fontFamily: 'Outfit-SemiBold',
-              }}
-            >
-              @{NICKNAME}
-            </Text>
-            <Text
-              style={{
-                color: appColor.kSecondaryButtonColor,
-                fontFamily: 'Outfit-Bold',
-                fontSize: size.fontSize(16),
-              }}
-            >
-              {APTOS_DOMAIN_NAME}
-            </Text>
-          </View>
-        </View>
-        <View style={{ marginTop: 25, alignItems: 'flex-end' }}>
-          <Text
-            style={{
-              fontFamily: 'Outfit-SemiBold',
-              color: appColor.kTextColor,
-              fontSize: size.fontSize(14),
-            }}
-          >{`REGISTERED SINCE ${DATE}`}</Text>
-        </View>
-      </View>
-      <View style={styles.view2}>
-        <View style={styles.view2Box}>
-          <Text style={styles.view2TextUp}>{FOLLOWING}</Text>
-          <Text style={styles.view2TextDown}>Following</Text>
-        </View>
-        <View style={styles.view2Box}>
-          <Text style={styles.view2TextUp}>{FOLLOWERS}</Text>
-          <Text style={styles.view2TextDown}>Followers</Text>
-        </View>
-        <View style={styles.view2Box}>
-          <Text style={styles.view2TextUp}>{POST}</Text>
-          <Text style={styles.view2TextDown}>Post</Text>
-        </View>
-        <View style={styles.view2Box}>
-          <Text style={styles.view2TextUp}>{COMMUNITIES}</Text>
-          <Text style={styles.view2TextDown}>Communities</Text>
-        </View>
-      </View>
+      <ProfileCard
+        NAME={NAME}
+        NICKNAME={NICKNAME}
+        APTOS_DOMAIN_NAME={APTOS_DOMAIN_NAME}
+        DATE={DATE}
+        COMMUNITIES={COMMUNITIES}
+        FOLLOWERS={FOLLOWERS}
+        FOLLOWING={FOLLOWING}
+        POST={POST}
+      />
+
       <View style={styles.aboutDiv}>
         <Text style={styles.aboutHeader}>About</Text>
         <View>

@@ -7,18 +7,18 @@ import {
   Dimensions,
   Pressable,
 } from 'react-native';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
 import { sizes } from '../../utils';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import CustomHandler from './CustomHandler';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import Flag from '../../../assets/images/svg/Flag';
 import Block from '../../../assets/images/svg/Block';
 import * as Animatable from 'react-native-animatable';
 import {
-  updateReportingModal,
+  updtaeReportingModal,
   updateReportPostModal,
   updateReportUserModal,
   updateBlockUserModal,
@@ -44,9 +44,20 @@ const ReportPanel = () => {
   });
   const closeModal = () => {
     bottomSheetRef.current?.close();
-    dispatch(updateReportingModal(false));
+    dispatch(updtaeReportingModal(false));
   };
-
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        pressBehavior={'close'}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        opacity={0.5}
+      />
+    ),
+    []
+  );
   return (
     <BottomSheet
       onClose={closeModal}
@@ -54,7 +65,8 @@ const ReportPanel = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={reportModal ? 0 : -1}
-      snapPoints={[Platform.OS === 'ios' ? '30%' : '30%']}
+      snapPoints={[Platform.OS === 'ios' ? '28%' : '28%']}
+      backdropComponent={renderBackdrop}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
       }}

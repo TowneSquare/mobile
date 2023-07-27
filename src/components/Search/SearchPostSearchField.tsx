@@ -19,23 +19,30 @@ import {
 
 const SearchPostSearchField = () => {
   const dispatch = useAppDispatch();
-  const textInputRef = useRef(null);
-
+  const textInputRef = useRef<TextInput>(null);
+  const [text, setText] = useState('');
   useEffect(() => {
     dispatch(resetSearch());
-    textInputRef.current.focus();
+    setTimeout(() => {
+      showKeyboard();
+    }, 100);
   }, []);
   const handleTextChange = (text: string) => {
+    setText(text);
     batch(() => {
       dispatch(updateFilteredProfilSearcheData(text));
       dispatch(updateFilteredCommunitySearchData(text));
       dispatch(updateFilteredData(text));
     });
   };
+  const showKeyboard = () => {
+    textInputRef.current.focus();
+    
+  };
   return (
     <View style={[styles.container]}>
       <Octicons
-        name="search"
+        name="search"k
         size={size.fontSize(20)}
         color={appColor.kWhiteColor}
       />
@@ -50,12 +57,16 @@ const SearchPostSearchField = () => {
         placeholderTextColor={appColor.kGrayLight3}
         style={[styles.textInput]}
       />
-      <DelIcon onPress={() => dispatch(updateSearchFocus('default'))} />
+      {text ? (
+        <DelIcon onPress={() => dispatch(updateSearchFocus('default'))} />
+      ) : (
+        <View />
+      )}
     </View>
   );
 };
 
-export default memo(SearchPostSearchField);
+export default SearchPostSearchField;
 const styles = StyleSheet.create({
   container: {
     borderRadius: 40,

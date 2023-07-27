@@ -61,7 +61,8 @@ const MainTab = () => {
                     ? 'transparent'
                     : appColor.kSecondaryButtonColor,
                   borderRadius: 20,
-                  width: size.getWidthSize(176),
+                  marginTop: size.getHeightSize(4),
+                  flex: 1,
                 }}
                 key={route.key}
                 onPress={() => {
@@ -111,13 +112,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 40,
     paddingHorizontal: size.getWidthSize(16),
+   
   },
   labelContainer: {
     flexDirection: 'row',
     backgroundColor: appColor.kgrayDark2,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
-    justifyContent: 'space-around',
     paddingBottom: size.getHeightSize(4),
   },
 });

@@ -60,7 +60,9 @@ const AttachedNftContainer = () => {
         style={{
           position: 'absolute',
           right: size.getWidthSize(0),
-          top: size.getHeightSize(8),
+          top: size.getHeightSize(0),
+          paddingTop: size.getHeightSize(8),
+          paddingRight: size.getWidthSize(8),
         }}
       >
         <RemoveAttachment />

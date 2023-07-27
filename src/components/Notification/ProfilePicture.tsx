@@ -1,16 +1,16 @@
-import { View, Text, Dimensions, StyleSheet, Image } from "react-native";
-import React from "react";
-const { height, width } = Dimensions.get("window");
-import { useFonts } from "expo-font";
-import { appColor, fonts, images } from "../../constants";
-import { sizes } from "../../utils";
-import LikeNotificationLogo from "../../../assets/images/svg/LikeNotificationLogo";
-import OfferNotificationLogo from "../../../assets/images/svg/OfferNotificationLogo";
-import CommunityNotificationLogo from "../../../assets/images/svg/CommunityNotificationLogo";
-import FollowNotificationlogo from "../../../assets/images/svg/FollowNotificationlogo";
-import RepliedNotificationLogo from "../../../assets/images/svg/RepliedNotificationLogo";
-import MentionNotificationLogo from "../../../assets/images/svg/MentionNotificationLogo";
-import RepostNotificationLogo from "../../../assets/images/svg/RepostNotificationLogo";
+import { View, Text, Dimensions, StyleSheet, Image } from 'react-native';
+import React from 'react';
+const { height, width } = Dimensions.get('window');
+import { useFonts } from 'expo-font';
+import { appColor, fonts, images } from '../../constants';
+import { sizes } from '../../utils';
+import LikeNotificationLogo from '../../../assets/images/svg/LikeNotificationLogo';
+import OfferNotificationLogo from '../../../assets/images/svg/OfferNotificationLogo';
+import CommunityNotificationLogo from '../../../assets/images/svg/CommunityNotificationLogo';
+import FollowNotificationlogo from '../../../assets/images/svg/FollowNotificationlogo';
+import RepliedNotificationLogo from '../../../assets/images/svg/RepliedNotificationLogo';
+import MentionNotificationLogo from '../../../assets/images/svg/MentionNotificationLogo';
+import RepostNotificationLogo from '../../../assets/images/svg/RepostNotificationLogo';
 interface Props {
   type: string;
 }
@@ -18,19 +18,19 @@ const size = new sizes(height, width);
 const ProfilePicture = ({ type }: Props) => {
   const Icon = () => {
     switch (type) {
-      case "follow":
+      case 'follow':
         return <FollowNotificationlogo style={styles.icon} />;
-      case "like":
+      case 'like':
         return <LikeNotificationLogo style={styles.icon} />;
-      case "replied":
+      case 'replied':
         return <RepliedNotificationLogo style={styles.icon} />;
-      case "mention":
+      case 'mention':
         return <MentionNotificationLogo style={styles.icon} />;
-      case "repost":
+      case 'repost':
         return <RepostNotificationLogo style={styles.icon} />;
-      case "offer":
+      case 'offer':
         return <OfferNotificationLogo style={styles.icon} />;
-      case "invite":
+      case 'invite':
         return <CommunityNotificationLogo style={styles.icon} />;
     }
   };
@@ -38,7 +38,9 @@ const ProfilePicture = ({ type }: Props) => {
   return (
     <View style={styles.profilePics}>
       <Image source={images.profileImage} />
-      <Icon />
+      <View style={{}}>
+        <Icon />
+      </View>
     </View>
   );
 };
@@ -52,8 +54,8 @@ const styles = StyleSheet.create({
     marginRight: size.getWidthSize(8),
   },
   icon: {
-    position: "absolute",
-    bottom: size.getWidthSize(-3),
-    right: size.getWidthSize(-10),
+    position: 'absolute',
+    bottom: size.getWidthSize(0),
+    marginLeft: size.getWidthSize(25),
   },
 });

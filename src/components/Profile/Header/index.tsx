@@ -1,12 +1,25 @@
-import React from "react";
-import { StyleSheet, View, Text, Pressable, Image } from "react-native";
-import { TabBarProps } from "react-native-collapsible-tab-view";
-import { appColor, fonts } from "../../../constants";
-import { useFonts } from "expo-font";
-import { images } from "../../../constants";
-import { useAppDispatch, useAppSelector } from "../../../controller/hooks";
-import { updateEditProfile } from "../../../controller/UserController";
-
+import React from 'react';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  Image,
+  Dimensions,
+} from 'react-native';
+import { TabBarProps } from 'react-native-collapsible-tab-view';
+import { appColor, fonts } from '../../../constants';
+import { useFonts } from 'expo-font';
+import { images } from '../../../constants';
+import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
+import { updateEditProfile } from '../../../controller/UserController';
+import { sizes } from '../../../utils';
+import { SafeAreaView } from 'react-native-safe-area-context';
+const { height, width } = Dimensions.get('window');
+import { Ionicons } from '@expo/vector-icons';
+import Threelines from '../../../../assets/images/svg/Threelines';
+import MoreIcons from '../../../../assets/images/svg/MoreIcons';
+const size = new sizes(height, width);
 type Props = {
   title: string;
   description?: string;
@@ -15,11 +28,11 @@ type Props = {
 
 export const HEADER_HEIGHT = 130;
 
-export const Header = ({ title, height }: TabBarProps & Props) => {
+export const Header = ({ title, height }:  Props) => {
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   const dispatch = useAppDispatch();
 
@@ -28,56 +41,59 @@ export const Header = ({ title, height }: TabBarProps & Props) => {
   };
 
   return (
-    <View style={[styles.root, { height }]}>
-      <Text>{""}</Text>
+    <View style={[styles.root, { height: size.getHeightSize(64) }]}>
+      <Threelines />
       <Text style={styles.title}>{title}</Text>
       <Pressable onPress={showEditProfile}>
-        <Image source={images.More} />
+        <MoreIcons />
       </Pressable>
     </View>
   );
 };
 
-function buildHeader<T extends TabBarProps<any>>(
-  title: string,
-  height: number,
-  description?: string
-) {
-  const NewHeader = (props: T) => {
-    return (
-      <Header
-        title={title}
-        height={height}
-        description={description}
-        {...props}
-      />
-    );
-  };
+// function buildHeader<T extends TabBarProps<any>>(
+//   title: string,
+//   height: number,
+//   description?: string
+// ) {
+//   const NewHeader = (props: T) => {
+//     return (
+//       <SafeAreaView>
+//         <Header
+//           title={title}
+//           height={height}
+//           description={description}
+//           {...props}
+//         />
+//       </SafeAreaView>
+//     );
+//   };
 
-  return NewHeader;
-}
+//   return NewHeader;
+// }
 
-export { buildHeader };
+// export { buildHeader };
 
 const styles = StyleSheet.create({
   root: {
     backgroundColor: appColor.kgrayDark2,
-    justifyContent: "space-between",
-    alignItems: "flex-end",
-    padding: 16,
-    flexDirection: "row",
+    justifyContent: 'space-between',
+
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: size.getWidthSize(16),
   },
   title: {
-    color: "white",
+    color: 'white',
     fontSize: 20,
-    textAlign: "center",
-    alignItems: "center",
-    fontFamily: "Outfit-Regular",
+    textAlign: 'center',
+    alignItems: 'center',
+    fontFamily: 'Outfit-Regular',
   },
   description: {
-    color: "white",
+    color: 'white',
     fontSize: 16,
-    textAlign: "center",
+    textAlign: 'center',
   },
 });
 

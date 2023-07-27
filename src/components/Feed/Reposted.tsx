@@ -13,6 +13,7 @@ import PostActions from './PostActions';
 import { feedStyle } from './FeedsStyles';
 import { useFonts } from 'expo-font';
 import RepostedHeader from './RepostedHeader';
+import ProfilePicture from './ProfilePicture';
 import {
   UserPost,
   FeedContent,
@@ -128,7 +129,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -167,7 +168,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -190,7 +191,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
                 <View style={[styles.mediaContainer, { marginBottom: 0 }]}>
                   <Image
                     source={images.feedImage1}
-                    style={[styles.imageStyle, { borderRadius: 0 }]}
+                    style={[repostStyles.repostImage]}
                     resizeMode="cover"
                   />
                 </View>
@@ -211,7 +212,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -224,8 +225,8 @@ const Reposted = ({ data }: { data: UserPost }) => {
                 <View style={[styles.mediaContainer, { marginBottom: 0 }]}>
                   <Image
                     source={images.feedImage2}
-                    style={[styles.imageStyle, { borderRadius: 0 }]}
-                    resizeMode="stretch"
+                    style={[repostStyles.repostImage]}
+                    resizeMode="cover"
                   />
                 </View>
               </View>
@@ -244,7 +245,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -262,8 +263,8 @@ const Reposted = ({ data }: { data: UserPost }) => {
                 >
                   <Image
                     source={images.feedImage3}
-                    style={[styles.imageStyle, { borderRadius: 0 }]}
-                    resizeMode="stretch"
+                    style={[repostStyles.repostImage]}
+                    resizeMode="cover"
                   />
                 </View>
               </View>
@@ -283,7 +284,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -342,7 +343,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -360,33 +361,28 @@ const Reposted = ({ data }: { data: UserPost }) => {
                     styles.mediaContainer,
                     {
                       marginBottom: size.getHeightSize(0),
-                      height: size.getHeightSize(275),
                     },
                   ]}
                 >
                   <Image
                     source={images.feedImage5}
-                    style={[styles.imageStyle, { borderRadius: 0 }]}
+                    style={[repostStyles.repostImage]}
                     resizeMode="cover"
                   />
-                </View>
-                <View
-                  style={[
-                    styles.nftcollectionContainer,
-                    { bottom: size.getHeightSize(60) },
-                  ]}
-                >
-                  <View style={styles.collectionInfo}>
-                    <Image source={images.collectionImage} />
-                    <Text style={styles.collectionName}>
-                      {nftContent.collectionName}
+                  <View style={[styles.nftcollectionContainer]}>
+                    <View style={styles.collectionInfo}>
+                      <Image source={images.collectionImage} />
+                      <Text style={styles.collectionName}>
+                        {nftContent.collectionName}
+                      </Text>
+                    </View>
+
+                    <Text style={styles.collectionId}>
+                      {nftContent.collectionName} {nftContent.collectionId}
                     </Text>
                   </View>
-
-                  <Text style={styles.collectionId}>
-                    {nftContent.collectionName} {nftContent.collectionId}
-                  </Text>
                 </View>
+
                 <View style={[styles.nftCollection, { marginBottom: 0 }]}>
                   <View style={styles.collectionPriceContainer}>
                     <Text style={styles.price}>Price</Text>
@@ -412,7 +408,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -426,8 +422,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
                   style={[
                     styles.mediaContainer,
                     {
-                      marginBottom: size.getHeightSize(0),
-                      height: size.getHeightSize(275),
+                      marginBottom: size.getHeightSize(8),
                     },
                   ]}
                 >
@@ -471,7 +466,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -523,7 +518,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -617,5 +612,11 @@ const repostStyles = StyleSheet.create({
     paddingHorizontal: size.getWidthSize(16),
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
+  },
+  repostImage: {
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+    width: '100%',
+    maxHeight: size.getHeightSize(400),
   },
 });
