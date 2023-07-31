@@ -50,7 +50,7 @@ const BlockUserModal = ({ block }: Props) => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={blockModal ? 0 : -1}
-      snapPoints={[Platform.OS === 'ios' ? '40' : '40']}
+      snapPoints={[Platform.OS === 'ios' ? '36%' : '36%']}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
       }}
@@ -127,8 +127,8 @@ const BlockUserModal = ({ block }: Props) => {
             letterSpacing: size.getWidthSize(0.02),
             fontFamily: 'Outfit-Medium',
             textAlign: 'center',
-            marginBottom: size.getHeightSize(46),
-            marginTop: size.getHeightSize(12.5),
+            marginBottom: size.getHeightSize(32),
+            marginTop: size.getHeightSize(12),
           }}
         >
           Cancel

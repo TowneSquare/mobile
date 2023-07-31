@@ -70,6 +70,7 @@ const SearchPostTab = () => {
                     ? 'transparent'
                     : appColor.kSecondaryButtonColor,
                   borderRadius: 20,
+                  marginTop: size.getHeightSize(4),
                 }}
                 key={route.key}
                 onPress={() => {

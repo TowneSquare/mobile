@@ -142,10 +142,10 @@ const Main = () => {
 export default Main;
 const styles = StyleSheet.create({
   Header: {
-    height: size.heightSize(86),
+    height: size.heightSize(64),
     width: '100%',
     backgroundColor: appColor.kgrayDark2,
-    paddingTop: size.getHeightSize(32),
+    paddingVertical: size.getHeightSize(16),
   },
   Navigation: {
     flexDirection: 'row',
@@ -172,6 +172,12 @@ const styles = StyleSheet.create({
     right: size.getWidthSize(18),
     justifyContent: 'center',
     alignItems: 'center',
+
+    elevation: 9,
+    shadowColor: '#000000',
+    shadowOffset:{height:2, width:0},
+    shadowOpacity: 0.25,
+ 
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

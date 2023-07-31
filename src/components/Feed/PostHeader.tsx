@@ -8,7 +8,7 @@ const { height, width } = Dimensions.get('window');
 import { useAppDispatch } from '../../controller/hooks';
 
 import {
-  updateReportingModal,
+  updtaeReportingModal,
   updateMyPostPanel,
 } from '../../controller/FeedsController';
 import Feather from '@expo/vector-icons/Feather';
@@ -40,7 +40,14 @@ const PostHeader = ({
     return null;
   }
   const showModal = () => {
-    dispatch(myPost ? updateMyPostPanel(true) : updateReportingModal(true));
+    dispatch(myPost ? updateMyPostPanel(true) : updtaeReportingModal(true));
+  };
+
+  const truncateText = (text: string, maxLength: number) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + '...';
+    }
+    return text;
   };
   return (
     <View
@@ -53,8 +60,9 @@ const PostHeader = ({
         style={{
           flexDirection: 'row',
           gap: size.getWidthSize(4),
-          width: size.getWidthSize(214),
+          // maxWidth: size.getWidthSize(270),
           alignItems: 'center',
+          flex: 1,
         }}
       >
         <Text
@@ -65,52 +73,73 @@ const PostHeader = ({
             color: appColor.kTextColor,
             fontFamily: 'Outfit-Medium',
             lineHeight: size.getHeightSize(21),
-            maxWidth: size.getWidthSize(123),
           }}
         >
-          {myPost ? 'MyAccountName' : username}
+          {truncateText(myPost ? 'MyAccountName' : username, 15)}
         </Text>
+
         <Queen />
-        <Text
-          numberOfLines={1}
-          ellipsizeMode="tail"
+        <View
           style={{
-            color: appColor.grayLight,
-            fontSize: size.fontSize(14),
-            lineHeight: size.getHeightSize(18),
-            fontFamily: 'Outfit-Regular',
-            maxWidth: maxWidth
-              ? size.getWidthSize(maxWidth)
-              : size.getWidthSize(67),
+            flexDirection: 'row',
+            flex: 0,
           }}
         >
-          @{myPost ? 'myaccountName' : nickname}
-        </Text>
-        <Text
-          style={{
-            color: appColor.grayLight,
-            fontSize: size.fontSize(14),
-            lineHeight: size.getHeightSize(18),
-            fontFamily: 'Outfit-Bold',
-          }}
-        >
-          •
-        </Text>
-        <Text
-          style={{
-            color: appColor.grayLight,
-            fontSize: size.fontSize(14),
-            lineHeight: size.getHeightSize(18),
-            fontFamily: 'Outfit-Regular',
-          }}
-        >
-          {timepost}
-        </Text>
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            style={{
+              color: appColor.grayLight,
+              fontSize: size.fontSize(14),
+              lineHeight: size.getHeightSize(18),
+              fontFamily: 'Outfit-Regular',
+              maxWidth: size.getWidthSize(
+                timepost.length === 3
+                  ? 152
+                  : timepost.length > 3 && timepost.length < 4
+                  ? 133
+                  : timepost.length > 4
+                  ? 129
+                  : 157
+              ),
+            }}
+          >
+            @{myPost ? 'myaccountName' : nickname}
+          </Text>
+        </View>
+        <View style={{}}>
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            style={{
+              color: appColor.grayLight,
+              fontSize: size.fontSize(14),
+              lineHeight: size.getHeightSize(18),
+              fontFamily: 'Outfit-Bold',
+            }}
+          >
+            •{' '}
+            <Text
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={{
+                color: appColor.grayLight,
+                fontSize: size.fontSize(14),
+                lineHeight: size.getHeightSize(18),
+                fontFamily: 'Outfit-Regular',
+              }}
+            >
+              {timepost}
+            </Text>
+          </Text>
+        </View>
       </Pressable>
       <View
         style={{
           alignSelf: 'flex-start',
-          marginLeft: 'auto',
+          // marginLeft: 'auto',
+          flex: 0,
+          flexDirection: 'row',
         }}
       >
         <Feather

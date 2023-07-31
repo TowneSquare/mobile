@@ -18,7 +18,7 @@ import Flag from '../../../assets/images/svg/Flag';
 import Block from '../../../assets/images/svg/Block';
 import * as Animatable from 'react-native-animatable';
 import {
-  updateReportingModal,
+  updtaeReportingModal,
   updateReportPostModal,
   updateReportUserModal,
   updateBlockUserModal,
@@ -44,7 +44,7 @@ const ReportPanel = () => {
   });
   const closeModal = () => {
     bottomSheetRef.current?.close();
-    dispatch(updateReportingModal(false));
+    dispatch(updtaeReportingModal(false));
   };
 
   return (
@@ -54,7 +54,7 @@ const ReportPanel = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={reportModal ? 0 : -1}
-      snapPoints={[Platform.OS === 'ios' ? '30%' : '30%']}
+      snapPoints={[Platform.OS === 'ios' ? '28%' : '28%']}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
       }}

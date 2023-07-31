@@ -5,28 +5,28 @@ import {
   Image,
   StyleSheet,
   Pressable,
-} from "react-native";
-import React, { memo } from "react";
-import { sizes } from "../../utils";
-import { appColor, fonts, images } from "../../constants";
-import { useFonts } from "expo-font";
-const { height, width } = Dimensions.get("window");
-import FeedLink from "../../../assets/images/svg/FeedLink";
-import Reposted from "../Feed/Reposted";
-import APT from "../../../assets/images/svg/APT";
-import ProfilePicture from "../Feed/ProfilePicture";
-import SinglePostHeader from "./SinglePostHeader";
-import { singlePostStyles } from "./SinglePostsStyles";
-import { useNavigation } from "@react-navigation/native";
+} from 'react-native';
+import React, { memo } from 'react';
+import { sizes } from '../../utils';
+import { appColor, fonts, images } from '../../constants';
+import { useFonts } from 'expo-font';
+const { height, width } = Dimensions.get('window');
+import FeedLink from '../../../assets/images/svg/FeedLink';
+import Reposted from '../Feed/Reposted';
+import APT from '../../../assets/images/svg/APT';
+import ProfilePicture from '../Feed/ProfilePicture';
+import SinglePostHeader from './SinglePostHeader';
+import { singlePostStyles } from './SinglePostsStyles';
+import { useNavigation } from '@react-navigation/native';
 import {
   UserPost,
   FeedContent,
   SWAP_OPTION_INCLUDED,
   FLOOR_PRICE_INCLUDED,
-} from "../../models";
+} from '../../models';
 const size = new sizes(height, width);
 
-import PostHeader from "../Feed/PostHeader";
+import PostHeader from '../Feed/PostHeader';
 import {
   Message_Only,
   Message_Image,
@@ -34,16 +34,16 @@ import {
   Message_External_Link,
   VIDEO,
   NFT_FOR_SALE,
-} from "../../models";
-import PostActions from "../Feed/PostActions";
-import APTMonkey from "../../../assets/images/svg/APTMonkey";
-import { feedStyle } from "../Feed/FeedsStyles";
-import ShowThread from "../Feed/ShowThread";
+} from '../../models';
+import PostActions from '../Feed/PostActions';
+import APTMonkey from '../../../assets/images/svg/APTMonkey';
+import { feedStyle } from '../Feed/FeedsStyles';
+import ShowThread from '../Feed/ShowThread';
 const SinglePostContent = ({ data }: { data: UserPost }) => {
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -91,7 +91,14 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
 
               <Text style={styles.message}>{userPost.content.message}</Text>
 
-              <View style={[styles.mediaContainer]}>
+              <View
+                style={[
+                  styles.mediaContainer,
+                  {
+                    marginBottom: size.getHeightSize(0),
+                  },
+                ]}
+              >
                 <Image
                   source={images.feedImage1}
                   style={styles.imageStyle}
@@ -99,7 +106,6 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
                 />
               </View>
               <PostActions
-                paddingTop={8}
                 noOfComments={userPost.comments}
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
@@ -122,15 +128,21 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
                 timepost={userPost.timepost}
               />
 
-              <View style={[styles.mediaContainer]}>
+              <View
+                style={[
+                  styles.mediaContainer,
+                  {
+                    marginBottom: size.getHeightSize(0),
+                  },
+                ]}
+              >
                 <Image
                   source={images.feedImage2}
                   style={styles.imageStyle}
-                  resizeMode="stretch"
+                  resizeMode="cover"
                 />
               </View>
               <PostActions
-                paddingTop={8}
                 noOfComments={userPost.comments}
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
@@ -152,15 +164,21 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
                 timepost={userPost.timepost}
               />
 
-              <View style={styles.mediaContainer}>
+              <View
+                style={[
+                  styles.mediaContainer,
+                  {
+                    marginBottom: size.getHeightSize(0),
+                  },
+                ]}
+              >
                 <Image
                   source={images.feedImage3}
                   style={styles.imageStyle}
-                  resizeMode="stretch"
+                  resizeMode="cover"
                 />
               </View>
               <PostActions
-                paddingTop={8}
                 noOfComments={userPost.comments}
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
@@ -196,10 +214,12 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
                     styles.imageStyle,
                     { borderBottomRightRadius: 0, borderBottomLeftRadius: 0 },
                   ]}
-                  resizeMode="stretch"
+                  resizeMode="cover"
                 />
               </View>
-              <View style={styles.linkDescriptionContainer}>
+              <View
+                style={[styles.linkDescriptionContainer, { marginBottom: 0 }]}
+              >
                 <Text style={styles.linkTitle}>
                   {linkContent.linkDescription}
                 </Text>
@@ -233,7 +253,7 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
               <Text style={styles.message}>{nftContent.message}</Text>
               <View style={[styles.mediaContainer]}>
                 <Image
-                  source={images.feedImage5}
+                  source={images.test}
                   style={[
                     styles.imageStyle,
                     { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 },
@@ -253,7 +273,7 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
                   {nftContent.collectionName} {nftContent.collectionId}
                 </Text>
               </View>
-              <View style={styles.nftCollection}>
+              <View style={[styles.nftCollection, { marginBottom: 0 }]}>
                 <View style={styles.collectionPriceContainer}>
                   <Text style={styles.price}>Price</Text>
                   <Text style={styles.amount}>{nftContent.price} APT</Text>
@@ -288,7 +308,6 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
                   styles.mediaContainer,
                   {
                     marginBottom: size.getHeightSize(0),
-                    height: size.getHeightSize(275),
                   },
                 ]}
               >
@@ -298,7 +317,7 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
                     styles.imageStyle,
                     { borderBottomRightRadius: 0, borderBottomLeftRadius: 0 },
                   ]}
-                  resizeMode="stretch"
+                  resizeMode="cover"
                 />
               </View>
               <View style={styles.attachedNftContainer}>
@@ -339,11 +358,11 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
               <Text style={styles.message}>
                 {swapContent.message}
                 <Text style={styles.swapTextTag}>
-                  {" "}
+                  {' '}
                   ${swapContent.messageTag}
                 </Text>
               </Text>
-              <View style={styles.SwapContainer}>
+              <View style={[styles.SwapContainer, { marginBottom: 0 }]}>
                 <View style={styles.swapDescription}>
                   <View style={styles.swapImageContainer}>
                     <APT />
@@ -351,7 +370,7 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
                   </View>
                   <Text style={styles.swapPriceTag}>${swapContent.price}</Text>
                   <Text style={styles.priceFeed}>
-                    Price feed{" "}
+                    Price feed{' '}
                     <Text style={styles.priceFeedType}>Liquidswap</Text>
                   </Text>
                 </View>
@@ -384,11 +403,11 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
               <Text style={styles.message}>
                 {floorPriceContent.message}
                 <Text style={styles.swapTextTag}>
-                  {" "}
+                  {' '}
                   ${floorPriceContent.messageTag}
                 </Text>
               </Text>
-              <View style={styles.SwapContainer}>
+              <View style={[styles.SwapContainer, { marginBottom: 0 }]}>
                 <View style={styles.swapDescription}>
                   <View style={styles.swapImageContainer}>
                     <APTMonkey />
@@ -397,7 +416,7 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
                     </Text>
                   </View>
                   <Text style={styles.floorPrice}>
-                    Floor price{" "}
+                    Floor price{' '}
                     <Text style={styles.floorAmount}>
                       {floorPriceContent.amount} APT
                     </Text>

@@ -62,6 +62,7 @@ const MainTab = () => {
                     : appColor.kSecondaryButtonColor,
                   borderRadius: 20,
                   width: size.getWidthSize(176),
+                  marginTop: size.getHeightSize(4),
                 }}
                 key={route.key}
                 onPress={() => {
