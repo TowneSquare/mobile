@@ -17,7 +17,7 @@ import HashTags from '../../components/createPost/HashTags';
 import { sizes } from '../../utils';
 
 import AtMention from '../../components/createPost/AtMention';
-import Constants from 'expo-constants';
+
 import FieldInput from '../../components/createPost/FieldInput';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import PostAttachment from '../../components/createPost/PostAttachment';
@@ -37,7 +37,6 @@ import {
   updateShouldShowPublishToast,
 } from '../../controller/createPost';
 import CustomToast from '../../components/createPost/CustomToast';
-import { ScrollView } from 'react-native-gesture-handler';
 const CreatePost = () => {
   const {
     showAtMentions,
@@ -89,7 +88,6 @@ const CreatePost = () => {
         backgroundColor: appColor.feedBackground,
       }}
     >
-      {/* <FieldInput /> */}
       <View style={styles.header}>
         <Text onPress={navigation.goBack} style={styles.cancel}>
           Cancel
@@ -104,58 +102,52 @@ const CreatePost = () => {
           <Text style={styles.publishText}>Publish</Text>
         </Pressable>
       </View>
+      <View style={styles.fieldInputContainer}>
+        <Avatar
+          rounded
+          source={images.createPostPfp}
+          size={size.getHeightSize(40)}
+        />
+        <FieldInput />
+      </View>
 
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View style={styles.fieldInputContainer}>
-          <Avatar
-            rounded
-            source={images.createPostPfp}
-            size={size.getHeightSize(40)}
-          />
-          <FieldInput />
+      {nft && <AttachedNftContainer />}
+      {media && <Media />}
+      {shouldShowSwapApt && <SwapPost />}
+      {shouldShowAptMonkey && <FloorPricePost />}
+      <View style={{ flex: 1 }} />
+      {shouldShowAptosPanel && (
+        <View style={styles.tagConatiners}>
+          <AptosPanel />
         </View>
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          {nft && <AttachedNftContainer />}
-          {media && <Media />}
-          {shouldShowSwapApt && <SwapPost />}
-          {shouldShowAptMonkey && <FloorPricePost />}
-          <View style={{ flex: 1 }} />
+      )}
+      {shouldShowAtMention && (
+        <View style={styles.tagConatiners}>
+          <AtMention />
         </View>
-      </ScrollView>
-      <KeyboardAvoidingView>
-        {shouldShowAptosPanel && (
-          <View style={styles.tagConatiners}>
-            <AptosPanel />
-          </View>
-        )}
-        {shouldShowAtMention && (
-          <View style={styles.tagConatiners}>
-            <AtMention />
-          </View>
-        )}
-        {shouldShowPostAttachment && <PostAttachment />}
-        {shouldShowHashTags && (
-          <View style={styles.tagConatiners}>
-            <HashTags />
-          </View>
-        )}
-        {startToastCountdown && (
-          <CustomToast
-            alignItems="flex-start"
-            position="bottom"
-            text="Remove the attached NFT in order to add images, videos, GIFs or other NFTs."
-            functions={[
-              () => dispatch(updateAttachNftCountDown(false)),
-              // () => dispatch(updateShowPriceModal(true)),
-            ]}
-          />
-        )}
-      </KeyboardAvoidingView>
-
+      )}
+      {shouldShowPostAttachment && (
+        <View>
+          <PostAttachment />
+        </View>
+      )}
+      {shouldShowHashTags && (
+        <View style={styles.tagConatiners}>
+          <HashTags />
+        </View>
+      )}
+      {startToastCountdown && (
+        <CustomToast
+          alignItems="flex-start"
+          position="bottom"
+          text="Remove the attached NFT in order to add images, videos, GIFs or other NFTs."
+          functions={[
+            () => dispatch(updateAttachNftCountDown(false)),
+            () => dispatch(updateShowPriceModal(true)),
+          ]}
+        />
+      )}
+      <OfferSaleSheet />
       <GifBottomSheet />
     </SafeAreaView>
   );
@@ -167,13 +159,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: size.getWidthSize(16),
-    height: size.getHeightSize(64),
+    height: size.getHeightSize(56),
     backgroundColor: appColor.kgrayDark2,
     justifyContent: 'space-between',
     paddingVertical: size.getHeightSize(12),
   },
   cancel: {
-    color: appColor.kSecondaryButtonColor,
+    color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(20),
     fontFamily: 'Outfit-Medium',
@@ -201,7 +193,7 @@ const styles = StyleSheet.create({
     gap: size.getWidthSize(8),
     marginHorizontal: size.getWidthSize(16),
     marginTop: size.getHeightSize(8),
-    alignItems: 'flex-start',
+    alignItems:"flex-start"
   },
   tagConatiners: {
     maxHeight: size.getHeightSize(260),
@@ -232,8 +224,5 @@ const styles = StyleSheet.create({
     marginVertical: size.getHeightSize(16),
     width: size.getWidthSize(286),
     alignSelf: 'center',
-  },
-  absolutePosition: {
-    width: '100%',
   },
 });

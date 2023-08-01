@@ -15,7 +15,6 @@ const size = new sizes(height, width);
 import { appColor, fonts, images } from '../../constants';
 import { useAppSelector } from '../../controller/hooks';
 import { FlashList } from '@shopify/flash-list';
-import PostNotFound from '../../../assets/images/svg/PostNotFound';
 const Posts = () => {
   const isSearchFocuesd = useAppSelector(
     (state) => state.SearchPostController.searchFocus
@@ -45,7 +44,7 @@ const Posts = () => {
           <Text style={styles.label}>
             We didn't find any posts matching your search terms
           </Text>
-        </View>
+        </View>r
       </> */}
     </View>
   );

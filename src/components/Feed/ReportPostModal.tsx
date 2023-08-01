@@ -7,11 +7,11 @@ import {
   Dimensions,
   Pressable,
 } from 'react-native';
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
 import { sizes } from '../../utils';
-import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import CustomHandler from './CustomHandler';
 import ReportFlag from '../../../assets/images/svg/ReportFlag';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
@@ -41,18 +41,6 @@ const ReportPostModal = ({ reportPost }: Props) => {
   const closeModal = () => {
     dispatch(updateReportPostModal(false));
   };
-  const renderBackdrop = useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        pressBehavior={'close'}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        opacity={0.5}
-      />
-    ),
-    []
-  );
   return (
     <BottomSheet
       onClose={closeModal}
@@ -60,7 +48,6 @@ const ReportPostModal = ({ reportPost }: Props) => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={reportPostModal ? 0 : -1}
-      backdropComponent={renderBackdrop}
       snapPoints={[Platform.OS === 'ios' ? '40' : '40']}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
@@ -93,10 +80,7 @@ const ReportPostModal = ({ reportPost }: Props) => {
         </Text>
         <View style={{ flex: 1 }} />
         <Pressable
-          onPress={() => {
-            reportPost();
-            dispatch(updateReportPostModal(false));
-          }}
+          onPress={reportPost}
           style={{
             backgroundColor: appColor.kSecondaryButtonColor,
             marginHorizontal: size.getWidthSize(16),

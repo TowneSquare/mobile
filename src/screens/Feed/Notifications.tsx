@@ -1,6 +1,5 @@
 import { View, Text, Dimensions, StyleSheet, FlatList } from 'react-native';
 import React from 'react';
-import Constants from 'expo-constants';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../../constants';
@@ -92,7 +91,6 @@ const Notifications = () => {
     },
   ];
   const navigation = useNavigation();
-
   return (
     <SafeAreaView
       style={{
@@ -107,17 +105,9 @@ const Notifications = () => {
           color={appColor.kWhiteColor}
           size={size.fontSize(24)}
           onPress={navigation.goBack}
-          style={{
-            paddingLeft: size.getHeightSize(16),
-            flex: 1,
-          }}
         />
         <Text style={styles.headerText}>Notifications</Text>
-        <View
-          style={{
-            flex: 1,
-          }}
-        />
+        <View />
       </View>
       <FlatList
         data={data}
@@ -132,10 +122,9 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: size.getHeightSize(64),
+    paddingLeft: size.getWidthSize(16),
+    height: size.getHeightSize(48),
     backgroundColor: appColor.kgrayDark2,
-
-    width: '100%',
   },
   headerText: {
     color: appColor.kTextColor,
@@ -143,5 +132,6 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(24),
     fontFamily: 'Outfit-Regular',
     textAlign: 'center',
+    width: size.getWidthSize(264),
   },
 });

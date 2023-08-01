@@ -30,8 +30,8 @@ const NotificationBell = () => {
           paddingHorizontal: size.getWidthSize(2),
           paddingVertical: size.getHeightSize(1.5),
           justifyContent: 'center',
-          left: size.getWidthSize(8),
-          top: size.getHeightSize(0),
+          right: size.getWidthSize(-5),
+          top: size.getHeightSize(-1.5),
         }}
       >
         <Text
@@ -39,6 +39,7 @@ const NotificationBell = () => {
             fontSize: size.fontSize(11),
             lineHeight: size.getHeightSize(14),
             fontFamily: 'Outfit-Medium',
+
             color: appColor.kTextColor,
             textAlign: 'center',
           }}

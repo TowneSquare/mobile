@@ -5,22 +5,20 @@ import {
   TouchableOpacity,
   Pressable,
   Dimensions,
-} from 'react-native';
-import React, { useState } from 'react';
-import { useFonts } from 'expo-font';
-import { images, fonts, appColor } from '../../constants';
-const { height, width } = Dimensions.get('window');
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+} from "react-native";
+import React, { useState } from "react";
+import { useFonts } from "expo-font";
+import { images, fonts, appColor } from "../../constants";
+const { height, width } = Dimensions.get("window");
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
 import {
   updateSelectedCollection,
   updateSelectedRender,
   updateNftRender,
   updateNftOpen,
   updateProfilePics,
-} from '../../controller/BottomSheetController';
-import { updateProfileImage } from '../../controller/UserController';
-import { sizes } from '../../utils';
-import { batch } from 'react-redux';
+} from "../../controller/BottomSheetController";
+import { sizes } from "../../utils";
 const size = new sizes(height, width);
 const ProfilePicsCollection = () => {
   const profilePicture = useAppSelector(
@@ -30,47 +28,47 @@ const ProfilePicsCollection = () => {
   const profilePics = [
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: "#928098098",
       id: 1,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: "#928098098",
       id: 2,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: "#928098098",
       id: 3,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: "#928098098",
       id: 5,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: "#928098098",
       id: 6,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: "#928098098",
       id: 7,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: "#928098098",
       id: 8,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: "#928098098",
       id: 9,
     },
   ];
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
   });
   if (!isLoaded) {
     return null;
@@ -79,11 +77,11 @@ const ProfilePicsCollection = () => {
     <View
       style={{
         flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
+        flexDirection: "row",
+        flexWrap: "wrap",
         width: size.getWidthSize(328),
-        justifyContent: 'space-between',
-        alignSelf: 'center',
+        justifyContent: "space-between",
+        alignSelf: "center",
         paddingHorizontal: size.getWidthSize(16),
       }}
     >
@@ -95,20 +93,15 @@ const ProfilePicsCollection = () => {
               profilePicture.id && profile.id === profilePicture.id ? 8 : 0,
             borderRadius: 20,
             borderColor:
-              typeof profilePicture === 'undefined'
-                ? 'undefined'
+              typeof profilePicture === "undefined"
+                ? "undefined"
                 : appColor.kSecondaryButtonColor,
-            overflow: 'hidden',
+            overflow: "hidden",
             width: size.getWidthSize(140),
             height: size.getHeightSize(140),
           }}
           onPress={() => {
-            batch(() => {
-              dispatch(updateProfilePics(profile));
-              dispatch(
-                updateProfileImage(Image.resolveAssetSource(profile.image).uri)
-              );
-            });
+            dispatch(updateProfilePics(profile));
           }}
           key={profile.id}
         >
@@ -123,8 +116,8 @@ const ProfilePicsCollection = () => {
           <View
             style={{
               width: size.getWidthSize(124),
-              position: 'absolute',
-              backgroundColor: '#121212',
+              position: "absolute",
+              backgroundColor: "#121212",
               bottom:
                 profilePicture.id && profile.id === profilePicture.id
                   ? size.getHeightSize(0)
@@ -134,7 +127,7 @@ const ProfilePicsCollection = () => {
                   ? size.getWidthSize(0)
                   : size.getWidthSize(8),
               right: 0,
-              justifyContent: 'center',
+              justifyContent: "center",
               borderRadius: 8,
               paddingVertical: size.getHeightSize(8),
               paddingHorizontal: size.getWidthSize(10),
@@ -145,7 +138,7 @@ const ProfilePicsCollection = () => {
               style={{
                 color: appColor.kTextColor,
                 fontSize: size.fontSize(16),
-                fontFamily: 'Outfit-Regular',
+                fontFamily: "Outfit-Regular",
                 lineHeight: size.getHeightSize(18),
               }}
             >

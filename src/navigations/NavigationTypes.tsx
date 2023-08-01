@@ -2,8 +2,8 @@ import {
   NavigationProp,
   ParamListBase,
   RouteProp,
-} from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+} from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 declare global {
   namespace ReactNavigation {
@@ -46,124 +46,118 @@ type CreatePostParameter = {
     showToast: boolean;
   };
 };
-type SinglePostParameter = {
-  [SinglePost: string]: {
-    username: string;
-    nickname: string;
-  };
-};
 
 export type FirstScreenProps = {
-  navigation: NavigationProp<RootStackParamList, 'FirstScreen'>;
+  navigation: NavigationProp<RootStackParamList, "FirstScreen">;
   magic: any;
-  route: RouteProp<ParamListBase, 'FirstScreen'>;
+  route: RouteProp<ParamListBase, "FirstScreen">;
 };
 export type ChooseProfileProps = {
-  navigation: NavigationProp<RootStackParamList, 'ChooseProfile'>;
-  route: RouteProp<ParamListBase, 'ChooseProfile'>;
+  navigation: NavigationProp<RootStackParamList, "ChooseProfile">;
+  route: RouteProp<ParamListBase, "ChooseProfile">;
 };
 export type ChooseUsernameProps = {
-  navigation: NavigationProp<RootStackParamList, 'ChooseUsername'>;
-  route: RouteProp<ParamListBase, 'ChooseUsername'>;
+  navigation: NavigationProp<RootStackParamList, "ChooseUsername">;
+  route: RouteProp<ParamListBase, "ChooseUsername">;
 };
 export type ConnectSocialsAndVrifyProps = {
-  navigation: NavigationProp<RootStackParamList, 'ConnectSocialsAndVrify'>;
-  route: RouteProp<ParamListBase, 'ConnectSocialsAndVrify'>;
+  navigation: NavigationProp<RootStackParamList, "ConnectSocialsAndVrify">;
+  route: RouteProp<ParamListBase, "ConnectSocialsAndVrify">;
 };
 export type ConnectSocialsProps = {
-  navigation: NavigationProp<RootStackParamList, 'ConnectSocials'>;
-  route: RouteProp<ParamListBase, 'ConnectSocials'>;
+  navigation: NavigationProp<RootStackParamList, "ConnectSocials">;
+  route: RouteProp<ParamListBase, "ConnectSocials">;
 };
 export type FinundefineddFriendsProps = {
-  navigation: NavigationProp<RootStackParamList, 'FindFriends'>;
-  route: RouteProp<ParamListBase, 'FindFriends'>;
+  navigation: NavigationProp<RootStackParamList, "FindFriends">;
+  route: RouteProp<ParamListBase, "FindFriends">;
 };
 export type ExploreCommunitiesProps = {
-  navigation: NavigationProp<RootStackParamList, 'ExploreCommunities'>;
-  route: RouteProp<ParamListBase, 'ExploreCommunities'>;
+  navigation: NavigationProp<RootStackParamList, "ExploreCommunities">;
+  route: RouteProp<ParamListBase, "ExploreCommunities">;
 };
 export type CongratulationsProps = {
-  navigation: NavigationProp<RootStackParamList, 'Congratulations'>;
-  route: RouteProp<ParamListBase, 'Congratulations'>;
+  navigation: NavigationProp<RootStackParamList, "Congratulations">;
+  route: RouteProp<ParamListBase, "Congratulations">;
 };
 export type ChooseProfilePicsProps = {
-  navigation: NavigationProp<RootStackParamList, 'ChooseProfilePics'>;
-  route: RouteProp<ParamListBase, 'ChooseProfilePics'>;
+  navigation: NavigationProp<RootStackParamList, "ChooseProfilePics">;
+  route: RouteProp<ParamListBase, "ChooseProfilePics">;
 };
 export type PageViewProps = {
-  navigation: NavigationProp<RootStackParamList, 'PageView'>;
-  route: RouteProp<ParamListBase, 'PageView'>;
+  navigation: NavigationProp<RootStackParamList, "PageView">;
+  route: RouteProp<ParamListBase, "PageView">;
 };
 export type ChooseUsernameSlideProps = {
-  navigation: NavigationProp<RootStackParamList, 'ChooseUsernameSlide'>;
-  route: RouteProp<ParamListBase, 'ChooseUsernameSlide'>;
+  navigation: NavigationProp<RootStackParamList, "ChooseUsernameSlide">;
+  route: RouteProp<ParamListBase, "ChooseUsernameSlide">;
 };
 export type BottomTabNavigationProps = {
-  navigation: NavigationProp<RootStackParamList, 'BottomTabNavigation'>;
-  route: RouteProp<ParamListBase, 'BottomTabNavigation'>;
+  navigation: NavigationProp<RootStackParamList, "BottomTabNavigation">;
+  route: RouteProp<ParamListBase, "BottomTabNavigation">;
 };
 export type DrawerNavigationProps = {
-  navigation: NavigationProp<RootStackParamList, 'DrawerNavigation'>;
-  route: RouteProp<ParamListBase, 'DrawerNavigation'>;
+  navigation: NavigationProp<RootStackParamList, "DrawerNavigation">;
+  route: RouteProp<ParamListBase, "DrawerNavigation">;
 };
 export type EmailLoginProps = {
-  navigation: NavigationProp<RootStackParamList, 'EmailLogin'>;
+  navigation: NavigationProp<RootStackParamList, "EmailLogin">;
   magic: any;
-  route: RouteProp<ParamListBase, 'EmailLogin'>;
+  route: RouteProp<ParamListBase, "EmailLogin">;
 };
 export type EditProfileProps = {
-  navigation: NavigationProp<RootStackParamList, 'EditProfile'>;
-  route: RouteProp<ParamListBase, 'EditProfile'>;
+  navigation: NavigationProp<RootStackParamList, "EditProfile">;
+  route: RouteProp<ParamListBase, "EditProfile">;
 };
 export type SetNFTsProps = {
-  navigation: NavigationProp<RootStackParamList, 'SetNFTs'>;
-  route: RouteProp<ParamListBase, 'SetNFTs'>;
+  navigation: NavigationProp<RootStackParamList, "SetNFTs">;
+  route: RouteProp<ParamListBase, "SetNFTs">;
 };
 
 export type SinglePostProps = {
-  navigation: NavigationProp<RootStackParamList, 'SinglePost'>;
+  navigation: NavigationProp<RootStackParamList, "SinglePost">;
   magic: any;
-  route: RouteProp<SinglePostParameter, 'SinglePost'>;
+  route: RouteProp<ParamListBase, "SinglePost">;
 };
 
 export type ViewImageScreenProps = {
-  navigation: NavigationProp<RootStackParamList, 'ViewImageScreen'>;
+  navigation: NavigationProp<RootStackParamList, "ViewImageScreen">;
   magic: any;
-  route: RouteProp<ParamListBase, 'VideoPlayer'>;
+  route: RouteProp<ParamListBase, "VideoPlayer">;
 };
 export type VideoPlayerProps = {
-  navigation: NavigationProp<RootStackParamList, 'VideoPlayer'>;
+  navigation: NavigationProp<RootStackParamList, "VideoPlayer">;
   magic: any;
-  route: RouteProp<ParamListBase, 'VideoPlayer'>;
+  route: RouteProp<ParamListBase, "VideoPlayer">;
 };
 
 export type NotificationsProps = {
-  navigation: NavigationProp<RootStackParamList, 'Notifications'>;
+  navigation: NavigationProp<RootStackParamList, "Notifications">;
   magic: any;
-  route: RouteProp<ParamListBase, 'Notifications'>;
+  route: RouteProp<ParamListBase, "Notifications">;
 };
 export type CreatePostProps = {
-  navigation: NavigationProp<RootStackParamList, 'CreatePost'>;
+  navigation: NavigationProp<RootStackParamList, "CreatePost">;
   magic: any;
-  route: RouteProp<CreatePostParameter, 'CreatePost'>;
+  route: RouteProp<CreatePostParameter, "CreatePost">;
 };
 export type NftCollectionScreenProps = {
-  navigation: NavigationProp<RootStackParamList, 'NftCollectionScreen'>;
+  navigation: NavigationProp<RootStackParamList, "NftCollectionScreen">;
   magic: any;
-  route: RouteProp<ParamListBase, 'NftCollectionScreen'>;
+  route: RouteProp<ParamListBase, "NftCollectionScreen">;
 };
 export type SelectedCollectionScreenProps = {
-  navigation: NavigationProp<RootStackParamList, 'SelectedCollectionScreen'>;
+  navigation: NavigationProp<RootStackParamList, "SelectedCollectionScreen">;
   magic: any;
-  route: RouteProp<ParamListBase, 'SelectedCollectionScreen'>;
+  route: RouteProp<ParamListBase, "SelectedCollectionScreen">;
 };
 export type SearchScreenProps = {
-  navigation: NavigationProp<RootStackParamList, 'SearchScreen'>;
+  navigation: NavigationProp<RootStackParamList, "SearchScreen">;
   magic: any;
-  route: RouteProp<ParamListBase, 'SearchScreen'>;
+  route: RouteProp<ParamListBase, "SearchScreen">;
 };
 export type SearchPostTabProps = {
-  navigation: NavigationProp<RootStackParamList, 'SearchPostTab'>;
+  navigation: NavigationProp<RootStackParamList, "SearchPostTab">;
   magic: any;
-  route: RouteProp<ParamListBase, 'SearchPostTab'>;
+  route: RouteProp<ParamListBase, "SearchPostTab">;
 };

@@ -7,21 +7,10 @@ import { sizes } from '../../utils';
 const size = new sizes(height, width);
 interface Props {
   communityName: string;
-  marginBottom?: number;
 }
-const PostedIn = ({ communityName, marginBottom }: Props) => {
+const PostedIn = ({ communityName }: Props) => {
   return (
-    <View
-      style={[
-        communityStyles.container,
-        {
-          marginBottom:
-            marginBottom === 0
-              ? size.getHeightSize(marginBottom)
-              : size.getHeightSize(4),
-        },
-      ]}
-    >
+    <View style={communityStyles.container}>
       <Text style={communityStyles.postedIn}>posted in</Text>
       <APTMonkey />
       <Text style={communityStyles.communityName}>{communityName}</Text>
@@ -35,7 +24,8 @@ const communityStyles = StyleSheet.create({
     flexDirection: 'row',
     gap: size.getWidthSize(6),
     alignItems: 'center',
-    marginTop: size.getHeightSize(4),
+    marginBottom: size.getHeightSize(4),
+    marginTop: size.getHeightSize(3),
   },
   postedIn: {
     fontSize: size.fontSize(14),

@@ -9,7 +9,7 @@ interface CreatePost {
   message: string;
   tags: string[];
   community: 'Aptos' | 'Aptos Monkeys' | null;
-  media: string;
+  media: any;
   nft: {
     name: string;
     id: string;
@@ -80,7 +80,7 @@ const initialState: Post = {
   NFTBottomSheet: false,
   posts: {
     message: '',
-    media: '',
+    media: null,
     tags: [],
     community: null,
     nft: null,
@@ -223,7 +223,7 @@ export const fieldHandlerSlice = createSlice({
     updateShowHashTags: (state, action: PayloadAction<boolean>) => {
       state.showHashTags = action.payload;
     },
-    updateMedia: (state, action: PayloadAction<string>) => {
+    updateMedia: (state, action: PayloadAction<boolean>) => {
       state.posts.media = action.payload;
     },
     updateGifBottomSheet: (state, action: PayloadAction<boolean>) => {

@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     backgroundColor: appColor.kSecondaryButtonColor,
     justifyContent: 'center',
     borderRadius: 40,
+    width: size.getWidthSize(63),
     paddingVertical: size.getHeightSize(4),
     minHeight: size.getHeightSize(34),
   },

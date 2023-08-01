@@ -27,12 +27,11 @@ import DeleteMyPostPanel from '../../shared/Feed/DeleteMyPostPanel';
 const size = new sizes(height, width);
 import Toast from 'react-native-toast-message';
 import { useNavigation } from '@react-navigation/native';
-import { SinglePostProps } from '../../navigations/NavigationTypes';
+
 import SinglePostContent from '../../components/SinglePostView/SinglePostContent';
 import { useAppSelector } from '../../controller/hooks';
 
-const SinglePost = ({ route }: SinglePostProps) => {
-  const props = route.params;
+const SinglePost = () => {
   const scrollViewRef = useRef<ScrollView>(null);
   const textInputRef = useRef<TextInput>(null);
   const [replyingTo, setReplyingTo] = useState(false);
@@ -48,20 +47,22 @@ const SinglePost = ({ route }: SinglePostProps) => {
     deletePost: state.FeedsSliceController.DeleteMyPostPanel,
   }));
   const data = {
-    id: '10',
+    id: '6',
     pfp: '',
-    username: props.username,
-    nickname: props.nickname,
-    timepost: '13h',
+    username: 'Username',
+    nickname: 'username',
+    timepost: '5min',
     comments: '99k',
     retweet: '99k',
     like: '99k',
-    type: 'floor-price',
+    type: 'message-external-link',
     content: {
-      message: 'Just joined TowneSquare, a new web3 social platform!',
-      messageTag: 'AptosMonkeys',
-      collectionName: 'Aptos Monkeys',
-      amount: 14,
+      message: 'Just joined TowneSquare, a new web3 social platform',
+      link: 'https://aptos.com/121907/building-aptos-theres-new-web3-accelerator',
+      linkDescription: 'Aptos Autumn is Here',
+      url: 'www.aptos.com',
+      linkSubTitle:
+        'Membership eaWe welcome everyone to participate in this movemen aime...',
     },
   };
   let [isLoaded] = useFonts({
@@ -117,7 +118,7 @@ const SinglePost = ({ route }: SinglePostProps) => {
         handleBlur={handleBlur}
         textRef={textInputRef}
       />
-      {/* {isAnyModalOpen && <View style={styles.overlay} />} */}
+      {isAnyModalOpen && <View style={styles.overlay} />}
 
       <Toast config={toastConfig} />
       <ReportUserModal reportUser={showReportUserToast} />
@@ -135,10 +136,9 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: size.getWidthSize(16),
-    paddingVertical: size.getHeightSize(20),
+    paddingLeft: size.getWidthSize(16),
+    height: size.getHeightSize(48),
     backgroundColor: appColor.kgrayDark2,
-    justifyContent:"space-between"
   },
   headerText: {
     color: appColor.kTextColor,
@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(24),
     fontFamily: 'Outfit-Regular',
     textAlign: 'center',
+    width: size.getWidthSize(264),
   },
   scrollView: {
     paddingBottom: size.getHeightSize(32),

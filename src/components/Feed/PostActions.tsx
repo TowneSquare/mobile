@@ -12,7 +12,6 @@ import ShareFeed from '../../../assets/images/svg/ShareFeed';
 import LikedIcon from '../../../assets/images/svg/LikedIcon';
 import Retweeted from '../../../assets/images/svg/Retweeted';
 import BookMarkedIcon from '../../../assets/images/svg/BookMarkedIcon';
-import CommentIcon from '../../../assets/images/svg/CommentIcon';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -27,16 +26,16 @@ interface Props {
   noOfRetweet: string;
   noOfLikes: string;
   paddingHorizontal?: number;
-  marginBottom?: boolean;
-  marginTop?: boolean;
+  marginTop?: number;
+  paddingTop?: number;
 }
 const PostActions = ({
   noOfComments,
   noOfLikes,
   noOfRetweet,
   paddingHorizontal,
-  marginBottom,
   marginTop,
+  paddingTop,
 }: Props) => {
   const [changeLikeTextColor, setlikesTextColor] = useState(false);
   const [changeRetweetTextColor, setRetweetTextColor] = useState(false);
@@ -125,13 +124,14 @@ const PostActions = ({
       style={{
         gap: size.getWidthSize(20),
         flexDirection: 'row',
-        paddingVertical: size.getHeightSize(8),
+        marginTop: marginTop
+          ? size.getHeightSize(marginTop)
+          : size.getHeightSize(9),
+        marginBottom: size.getHeightSize(16),
         paddingHorizontal: paddingHorizontal
           ? size.getWidthSize(paddingHorizontal)
           : 0,
-
-        marginBottom: marginBottom ? size.getHeightSize(8) : 0,
-        marginTop: marginTop ? size.getHeightSize(8) : 0,
+        paddingTop: paddingTop ? size.getHeightSize(paddingTop) : 0,
       }}
     >
       <View
@@ -141,7 +141,11 @@ const PostActions = ({
           gap: size.getWidthSize(2),
         }}
       >
-        <CommentIcon />
+        <EvilIcons
+          name="comment"
+          size={size.fontSize(26)}
+          color={appColor.grayLight}
+        />
         <Text
           style={{
             fontSize: size.fontSize(13),

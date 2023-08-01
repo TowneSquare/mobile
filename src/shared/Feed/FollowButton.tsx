@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     paddingVertical: size.getHeightSize(4),
     backgroundColor: appColor.kSecondaryButtonColor,
     borderRadius: 40,
+    width: size.getWidthSize(81),
     justifyContent: 'center',
     minHeight: size.getHeightSize(34),
   },
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     paddingVertical: size.getHeightSize(4),
     backgroundColor: appColor.kGrayLight3,
     borderRadius: 40,
-    
+    width: size.getWidthSize(103),
     justifyContent: 'center',
     minHeight: size.getHeightSize(34),
   },

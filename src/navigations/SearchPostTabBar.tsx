@@ -70,9 +70,6 @@ const SearchPostTab = () => {
                     ? 'transparent'
                     : appColor.kSecondaryButtonColor,
                   borderRadius: 20,
-                  marginTop: size.getHeightSize(4),
-                  justifyContent: 'center',
-                  flex: 1,
                 }}
                 key={route.key}
                 onPress={() => {
@@ -112,6 +109,7 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(20),
     fontFamily: 'Outfit-SemiBold',
+    justifyContent: 'center',
   },
   tabText: {
     color: appColor.kTextColor,
@@ -119,18 +117,20 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     fontFamily: 'Outfit-Regular',
+    overflow: 'hidden',
   },
   focused: {
     paddingVertical: size.getHeightSize(8),
     justifyContent: 'center',
     borderRadius: 40,
+    paddingHorizontal: size.getWidthSize(16),
   },
   labelContainer: {
     flexDirection: 'row',
+    backgroundColor: appColor.kgrayDark2,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
+    justifyContent: 'space-around',
     paddingBottom: size.getHeightSize(4),
-    paddingHorizontal: size.getWidthSize(4),
-    backgroundColor: appColor.kgrayDark2,
   },
 });

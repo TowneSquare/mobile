@@ -7,11 +7,11 @@ import {
   Dimensions,
   Pressable,
 } from 'react-native';
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
 import { sizes } from '../../utils';
-import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import CustomHandler from './CustomHandler';
 import ReportFlag from '../../../assets/images/svg/ReportFlag';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
@@ -32,18 +32,6 @@ const ReportUserModal = ({ reportUser }: Props) => {
     }
   }, [reportUserModal]);
   const dispatch = useAppDispatch();
-  const renderBackdrop = useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        pressBehavior={'close'}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        opacity={0.5}
-      />
-    ),
-    []
-  );
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -62,8 +50,7 @@ const ReportUserModal = ({ reportUser }: Props) => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={reportUserModal ? 0 : -1}
-      snapPoints={[Platform.OS === 'ios' ? '36%' : '36%']}
-      backdropComponent={renderBackdrop}
+      snapPoints={[Platform.OS === 'ios' ? '40' : '40']}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
       }}
@@ -95,10 +82,7 @@ const ReportUserModal = ({ reportUser }: Props) => {
         </Text>
         <View style={{ flex: 1 }} />
         <Pressable
-          onPress={() => {
-            reportUser();
-            dispatch(updateReportUserModal(false));
-          }}
+          onPress={reportUser}
           style={{
             backgroundColor: appColor.kSecondaryButtonColor,
             marginHorizontal: size.getWidthSize(16),

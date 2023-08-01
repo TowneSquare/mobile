@@ -1,24 +1,18 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  Pressable,
-  LayoutChangeEvent,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { View, Text, Dimensions, Pressable } from 'react-native';
+import React from 'react';
 import { sizes } from '../../utils';
 import { appColor, fonts } from '../../constants';
 import { useFonts } from 'expo-font';
 import Queen from '../../../assets/images/svg/Queen';
 const { height, width } = Dimensions.get('window');
 import { useAppDispatch } from '../../controller/hooks';
+
 import {
   updtaeReportingModal,
   updateMyPostPanel,
 } from '../../controller/FeedsController';
 import Feather from '@expo/vector-icons/Feather';
 import Entypo from '@expo/vector-icons/Entypo';
-import IntrinsicWidth from '../../shared/Feed/IntrinsicWidth';
 const size = new sizes(height, width);
 interface Props {
   username: string;
@@ -48,14 +42,6 @@ const PostHeader = ({
   const showModal = () => {
     dispatch(myPost ? updateMyPostPanel(true) : updtaeReportingModal(true));
   };
-
-  const truncateText = (text: string, maxLength: number) => {
-    if (text.length > maxLength) {
-      return text.substring(0, maxLength) + '...';
-    }
-    return text;
-  };
-
   return (
     <View
       style={{
@@ -67,9 +53,8 @@ const PostHeader = ({
         style={{
           flexDirection: 'row',
           gap: size.getWidthSize(4),
-          // maxWidth: size.getWidthSize(270),
+          width: size.getWidthSize(214),
           alignItems: 'center',
-          flex: 1,
         }}
       >
         <Text
@@ -80,63 +65,52 @@ const PostHeader = ({
             color: appColor.kTextColor,
             fontFamily: 'Outfit-Medium',
             lineHeight: size.getHeightSize(21),
+            maxWidth: size.getWidthSize(123),
           }}
         >
-          {truncateText(myPost ? 'MyAccountName' : username, 15)}
+          {myPost ? 'MyAccountName' : username}
         </Text>
-
         <Queen />
-        <View
+        <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
           style={{
-            flexDirection: 'row',
+            color: appColor.grayLight,
+            fontSize: size.fontSize(14),
+            lineHeight: size.getHeightSize(18),
+            fontFamily: 'Outfit-Regular',
+            maxWidth: maxWidth
+              ? size.getWidthSize(maxWidth)
+              : size.getWidthSize(67),
           }}
         >
-          <Text
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            style={{
-              color: appColor.grayLight,
-              fontSize: size.fontSize(14),
-              lineHeight: size.getHeightSize(18),
-              fontFamily: 'Outfit-Regular',
-            }}
-          >
-            @{myPost ? 'myaccountName' : nickname}
-          </Text>
-        </View>
-        <View style={{}}>
-          <Text
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            style={{
-              color: appColor.grayLight,
-              fontSize: size.fontSize(14),
-              lineHeight: size.getHeightSize(18),
-              fontFamily: 'Outfit-Bold',
-            }}
-          >
-            •{' '}
-            <Text
-              numberOfLines={1}
-              ellipsizeMode="tail"
-              style={{
-                color: appColor.grayLight,
-                fontSize: size.fontSize(14),
-                lineHeight: size.getHeightSize(18),
-                fontFamily: 'Outfit-Regular',
-              }}
-            >
-              {timepost}
-            </Text>
-          </Text>
-        </View>
+          @{myPost ? 'myaccountName' : nickname}
+        </Text>
+        <Text
+          style={{
+            color: appColor.grayLight,
+            fontSize: size.fontSize(14),
+            lineHeight: size.getHeightSize(18),
+            fontFamily: 'Outfit-Bold',
+          }}
+        >
+          •
+        </Text>
+        <Text
+          style={{
+            color: appColor.grayLight,
+            fontSize: size.fontSize(14),
+            lineHeight: size.getHeightSize(18),
+            fontFamily: 'Outfit-Regular',
+          }}
+        >
+          {timepost}
+        </Text>
       </Pressable>
       <View
         style={{
           alignSelf: 'flex-start',
-          // marginLeft: 'auto',
-          flex: 0,
-          flexDirection: 'row',
+          marginLeft: 'auto',
         }}
       >
         <Feather

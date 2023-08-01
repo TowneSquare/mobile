@@ -35,10 +35,6 @@ import PostActions from './PostActions';
 import APTMonkey from '../../../assets/images/svg/APTMonkey';
 import { feedStyle } from './FeedsStyles';
 import ShowThread from './ShowThread';
-interface NavigationParameter {
-  username: string;
-  nickname: string;
-}
 const ForYou = memo(({ data }: { data: UserPost }) => {
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
@@ -50,13 +46,8 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
     return null;
   }
   const handleNavigation = () => {
-    const params: NavigationParameter = {
-      username: data.username,
-      nickname: data.nickname,
-    };
-    navigation.navigate('SinglePost' as any, params);
+    navigation.navigate('SinglePost');
   };
-
   let content;
   const type_of_post = data.type;
   const userPost = data;
@@ -83,7 +74,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
-              {/* <ShowThread /> */}
+              <ShowThread />
             </View>
           </View>
         </>
@@ -109,10 +100,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
 
               <Pressable
                 onPress={() => navigation.navigate('ViewImageScreen' as never)}
-                style={[
-                  styles.mediaContainer,
-                  { marginBottom: size.getHeightSize(0) },
-                ]}
+                style={styles.mediaContainer}
               >
                 <Image
                   source={images.feedImage1}
@@ -125,7 +113,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
-              {/* <ShowThread /> */}
+              <ShowThread />
             </View>
           </View>
         </>
@@ -146,16 +134,11 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 timepost={userPost.timepost}
               />
 
-              <View
-                style={[
-                  styles.mediaContainer,
-                  { marginBottom: size.getHeightSize(0) },
-                ]}
-              >
+              <View style={styles.mediaContainer}>
                 <Image
                   source={images.feedImage2}
                   style={styles.imageStyle}
-                  resizeMode="cover"
+                  resizeMode="stretch"
                 />
               </View>
               <PostActions
@@ -163,7 +146,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
-              {/* <ShowThread /> */}
+              <ShowThread />
             </View>
           </View>
         </>
@@ -185,15 +168,12 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
 
               <Pressable
                 onPress={() => navigation.navigate('VideoPlayer' as never)}
-                style={[
-                  styles.mediaContainer,
-                  { marginBottom: size.getHeightSize(0) },
-                ]}
+                style={styles.mediaContainer}
               >
                 <Image
                   source={images.feedImage3}
                   style={styles.imageStyle}
-                  resizeMode="cover"
+                  resizeMode="stretch"
                 />
               </Pressable>
               <PostActions
@@ -201,7 +181,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
-              {/* <ShowThread /> */}
+              <ShowThread />
             </View>
           </View>
         </>
@@ -234,13 +214,9 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                   source={images.feedImageLink}
                   style={[
                     styles.imageStyle,
-                    {
-                      borderBottomLeftRadius: 0,
-                      borderBottomRightRadius: 0,
-                      width: '100%',
-                    },
+                    { borderBottomRightRadius: 0, borderBottomLeftRadius: 0 },
                   ]}
-                  resizeMode="cover"
+                  resizeMode="stretch"
                 />
               </View>
               <View style={styles.linkDescriptionContainer}>
@@ -257,7 +233,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
-              {/* <ShowThread /> */}
+              <ShowThread />
             </View>
           </View>
         </>
@@ -284,6 +260,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                   styles.mediaContainer,
                   {
                     marginBottom: size.getHeightSize(0),
+                    height: size.getHeightSize(275),
                   },
                 ]}
               >
@@ -295,20 +272,19 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                   ]}
                   resizeMode="cover"
                 />
-                <View style={[styles.nftcollectionContainer, {}]}>
-                  <View style={styles.collectionInfo}>
-                    <Image source={images.collectionImage} />
-                    <Text style={styles.collectionName}>
-                      {nftContent.collectionName}
-                    </Text>
-                  </View>
-
-                  <Text style={styles.collectionId}>
-                    {nftContent.collectionName} {nftContent.collectionId}
+              </View>
+              <View style={styles.nftcollectionContainer}>
+                <View style={styles.collectionInfo}>
+                  <Image source={images.collectionImage} />
+                  <Text style={styles.collectionName}>
+                    {nftContent.collectionName}
                   </Text>
                 </View>
-              </View>
 
+                <Text style={styles.collectionId}>
+                  {nftContent.collectionName} {nftContent.collectionId}
+                </Text>
+              </View>
               <View style={styles.nftCollection}>
                 <View style={styles.collectionPriceContainer}>
                   <Text style={styles.price}>Price</Text>
@@ -345,14 +321,18 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 style={[
                   styles.mediaContainer,
                   {
-                    marginBottom: size.getHeightSize(8),
+                    marginBottom: size.getHeightSize(0),
+                    height: size.getHeightSize(275),
                   },
                 ]}
               >
                 <Image
                   source={images.feedImage5}
-                  style={[styles.imageStyle]}
-                  resizeMode="cover"
+                  style={[
+                    styles.imageStyle,
+                    { borderBottomRightRadius: 0, borderBottomLeftRadius: 0 },
+                  ]}
+                  resizeMode="stretch"
                 />
               </View>
               <View style={styles.attachedNftContainer}>
@@ -370,12 +350,11 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
               </View>
 
               <PostActions
-                marginTop
                 noOfComments={userPost.comments}
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
-              {/* <ShowThread /> */}
+              <ShowThread />
             </View>
           </View>
         </>
@@ -422,7 +401,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
-              {/* <ShowThread /> */}
+              <ShowThread />
             </View>
           </View>
         </>
@@ -468,7 +447,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 noOfLikes={userPost.like}
                 noOfRetweet={userPost.retweet}
               />
-              {/* <ShowThread /> */}
+              <ShowThread />
             </View>
           </View>
         </>

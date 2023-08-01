@@ -69,7 +69,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
                 timepost={userPost.timepost}
               />
               <PostedIn communityName={userPost.postedin} />
-              <Text style={[styles.message]}>{userPost.content.message}</Text>
+              <Text style={styles.message}>{userPost.content.message}</Text>
 
               <PostActions
                 noOfComments={userPost.comments}
@@ -95,19 +95,10 @@ const Community: React.FC<Props> = memo(({ data }) => {
                 timepost={userPost.timepost}
               />
               <PostedIn communityName={userPost.postedin} />
-              <Text
-                style={[styles.message, { marginTop: size.getHeightSize(4) }]}
-              >
-                {userPost.content.message}
-              </Text>
+              <Text style={styles.message}>{userPost.content.message}</Text>
               <Pressable
                 onPress={() => navigation.navigate('ViewImageScreen' as never)}
-                style={[
-                  styles.mediaContainer,
-                  {
-                    marginBottom: size.getHeightSize(0),
-                  },
-                ]}
+                style={styles.mediaContainer}
               >
                 <Image
                   source={images.feedImage1}
@@ -138,19 +129,12 @@ const Community: React.FC<Props> = memo(({ data }) => {
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
               />
-              <PostedIn communityName={userPost.postedin} marginBottom={0} />
-              <View
-                style={[
-                  styles.mediaContainer,
-                  {
-                    marginBottom: size.getHeightSize(0),
-                  },
-                ]}
-              >
+              <PostedIn communityName={userPost.postedin} />
+              <View style={styles.mediaContainer}>
                 <Image
                   source={images.feedImage2}
                   style={styles.imageStyle}
-                  resizeMode="cover"
+                  resizeMode="stretch"
                 />
               </View>
               <PostActions
@@ -175,20 +159,15 @@ const Community: React.FC<Props> = memo(({ data }) => {
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
               />
-              <PostedIn communityName={userPost.postedin} marginBottom={0} />
+              <PostedIn communityName={userPost.postedin} />
               <Pressable
                 onPress={() => navigation.navigate('VideoPlayer' as never)}
-                style={[
-                  styles.mediaContainer,
-                  {
-                    marginBottom: size.getHeightSize(0),
-                  },
-                ]}
+                style={styles.mediaContainer}
               >
                 <Image
                   source={images.feedImage3}
                   style={styles.imageStyle}
-                  resizeMode="cover"
+                  resizeMode="stretch"
                 />
               </Pressable>
               <PostActions
@@ -214,8 +193,8 @@ const Community: React.FC<Props> = memo(({ data }) => {
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
               />
-              <PostedIn communityName={userPost.postedin} marginBottom={0} />
-              <Text style={[styles.message]}>{linkContent.message}</Text>
+              <PostedIn communityName={userPost.postedin} />
+              <Text style={styles.message}>{linkContent.message}</Text>
               <Text style={styles.link}>{linkContent.link}</Text>
               <View
                 style={[
@@ -229,7 +208,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
                     styles.imageStyle,
                     { borderBottomRightRadius: 0, borderBottomLeftRadius: 0 },
                   ]}
-                  resizeMode="cover"
+                  resizeMode="stretch"
                 />
               </View>
               <View style={styles.linkDescriptionContainer}>
@@ -264,13 +243,14 @@ const Community: React.FC<Props> = memo(({ data }) => {
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
               />
-              <PostedIn communityName={userPost.postedin} marginBottom={0} />
+              <PostedIn communityName={userPost.postedin} />
               <Text style={styles.message}>{nftContent.message}</Text>
               <View
                 style={[
                   styles.mediaContainer,
                   {
                     marginBottom: size.getHeightSize(0),
+                    height: size.getHeightSize(275),
                   },
                 ]}
               >
@@ -326,12 +306,13 @@ const Community: React.FC<Props> = memo(({ data }) => {
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
               />
-              <PostedIn communityName={userPost.postedin} marginBottom={0} />
+              <PostedIn communityName={userPost.postedin} />
               <View
                 style={[
                   styles.mediaContainer,
                   {
-                    marginBottom: size.getHeightSize(8),
+                    marginBottom: size.getHeightSize(0),
+                    height: size.getHeightSize(275),
                   },
                 ]}
               >
@@ -341,15 +322,10 @@ const Community: React.FC<Props> = memo(({ data }) => {
                     styles.imageStyle,
                     { borderBottomRightRadius: 0, borderBottomLeftRadius: 0 },
                   ]}
-                  resizeMode="cover"
+                  resizeMode="stretch"
                 />
               </View>
-              <View
-                style={[
-                  styles.attachedNftContainer,
-                  { marginBottom: size.getHeightSize(8) },
-                ]}
-              >
+              <View style={styles.attachedNftContainer}>
                 <View style={styles.collectionInfo}>
                   <Image source={images.collectionImage} />
                   <Text style={styles.collectionName}>
@@ -385,7 +361,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
               />
-              <PostedIn communityName={userPost.postedin} marginBottom={0} />
+              <PostedIn communityName={userPost.postedin} />
               <Text style={styles.message}>
                 {swapContent.message}
                 <Text style={styles.swapTextTag}>
@@ -432,7 +408,7 @@ const Community: React.FC<Props> = memo(({ data }) => {
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
               />
-              <PostedIn communityName={userPost.postedin} marginBottom={0} />
+              <PostedIn communityName={userPost.postedin} />
               <Text style={styles.message}>
                 {floorPriceContent.message}
                 <Text style={styles.swapTextTag}>

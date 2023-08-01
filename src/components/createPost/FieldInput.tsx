@@ -152,38 +152,45 @@ const FieldInput = () => {
     dispatch(updateInputText(text_input));
   };
   if (!value.includes('$')) {
-    batch(() => {
-      dispatch(updateShowAptosSwap(null));
-    });
+    dispatch(updateShowAptosSwap(null));
   }
+  const handleContentSizeChange = (event: any) => {
+    const contentHeight = event.nativeEvent.contentSize.height;
+    textInputRef.current.setNativeProps({
+      height: contentHeight,
+    });
+  };
 
   return (
-    <TextInput
-      // ref={textInputRef}
-
-      caretHidden={false}
-      placeholder="Start typing..."
-      placeholderTextColor={appColor.grayLight}
-      cursorColor={appColor.primaryLight}
-      onChangeText={handleText}
-      scrollEnabled={false}
-      onSelectionChange={handleCursorPositionChange}
-      textAlignVertical="top"
-      multiline
-      selectionColor={appColor.primaryLight}
-      style={{
-        fontSize: size.fontSize(16),
-        lineHeight: size.getHeightSize(21),
-        fontFamily: 'Outfit-Regular',
-        color: appColor.kTextColor,
-        width: size.getWidthSize(280),
-
-        marginTop: size.getHeightSize(8),
-        minHeight: size.getHeightSize(38),
-      }}
-    >
-      <Text>{formatedContent}</Text>
-    </TextInput>
+    <View>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <TextInput
+          ref={textInputRef}
+          placeholder="Start typing..."
+          placeholderTextColor={appColor.grayLight}
+          cursorColor={appColor.primaryLight}
+          onChangeText={handleText}
+          scrollEnabled={false}
+          onSelectionChange={handleCursorPositionChange}
+          textAlignVertical="top"
+          multiline
+          onContentSizeChange={handleContentSizeChange}
+          // onKeyPress={handleKeyPress}
+          style={{
+            fontSize: size.fontSize(16),
+            lineHeight: size.getHeightSize(21),
+            fontFamily: 'Outfit-Regular',
+            color: appColor.kTextColor,
+            width: size.getWidthSize(280),
+            maxHeight: size.getHeightSize(105),
+            marginTop: size.getHeightSize(8),
+            minHeight: size.getHeightSize(38),
+          }}
+        >
+          <Text>{formatedContent}</Text>
+        </TextInput>
+      </ScrollView>
+    </View>
   );
 };
 
