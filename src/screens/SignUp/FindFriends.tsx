@@ -201,12 +201,10 @@ const FindFriends = () => {
                 style={{
                   flexDirection: "row",
                   width: size.getWidthSize(328),
-                  height: size.getHeightSize(56),
                   borderRadius: 40,
                   paddingVertical: size.getHeightSize(8),
                   paddingHorizontal: size.getWidthSize(8),
                   alignItems: "center",
-                  justifyContent: "center",
                   marginBottom: size.getHeightSize(8),
                 }}
               >

@@ -54,7 +54,7 @@ const ReportPanel = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={reportModal ? 0 : -1}
-      snapPoints={[Platform.OS === 'ios' ? '30%' : '30%']}
+      snapPoints={[Platform.OS === 'ios' ? '28%' : '28%']}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
       }}

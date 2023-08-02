@@ -17,7 +17,7 @@ import HashTags from '../../components/createPost/HashTags';
 import { sizes } from '../../utils';
 
 import AtMention from '../../components/createPost/AtMention';
-
+import Constants from 'expo-constants';
 import FieldInput from '../../components/createPost/FieldInput';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import PostAttachment from '../../components/createPost/PostAttachment';
@@ -159,13 +159,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: size.getWidthSize(16),
-    height: size.getHeightSize(56),
+    height: size.getHeightSize(64),
     backgroundColor: appColor.kgrayDark2,
     justifyContent: 'space-between',
     paddingVertical: size.getHeightSize(12),
   },
   cancel: {
-    color: appColor.kTextColor,
+    color: appColor.kSecondaryButtonColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(20),
     fontFamily: 'Outfit-Medium',

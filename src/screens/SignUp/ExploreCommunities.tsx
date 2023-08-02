@@ -172,13 +172,11 @@ const ExploreCommunities = () => {
                   key={Community.id}
                   style={{
                     flexDirection: "row",
-                    width: size.getWidthSize(328),
-                    // height: size.getHeightSize(58),
+                    width: size.getWidthSize(328), 
                     borderRadius: 40,
                     paddingVertical: size.getHeightSize(8),
                     paddingHorizontal: size.getWidthSize(8),
                     alignItems: "center",
-                    // justifyContent: 'center',
                     marginBottom: size.getHeightSize(8),
                   }}
                 >

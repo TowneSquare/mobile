@@ -13,6 +13,7 @@ import { appColor, fonts, images } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { sizes } from '../../utils';
+import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/native';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
@@ -36,14 +37,13 @@ const ViewImageScreen = () => {
       }}
     >
       <StatusBar style="light" backgroundColor={appColor.feedBackground} />
-      <View
-        style={{
-          height: size.heightSize(70.25),
-        }}
-      />
       <Pressable
         style={{
-          paddingLeft: size.getWidthSize(18.75),
+          height: size.getHeightSize(102 - Constants.statusBarHeight),
+          alignItems: 'flex-start',
+          paddingBottom: size.getHeightSize(12),
+          justifyContent: 'flex-end',
+          paddingHorizontal: size.getWidthSize(16),
         }}
         onPress={navigation.goBack}
       >
@@ -53,11 +53,7 @@ const ViewImageScreen = () => {
           size={size.fontSize(22)}
         />
       </Pressable>
-      <View
-        style={{
-          height: size.heightSize(121.25),
-        }}
-      />
+      <View style={{ flex: 1 }} />
       <View
         style={{
           justifyContent: 'center',
@@ -68,16 +64,12 @@ const ViewImageScreen = () => {
           source={images.feedImage1}
           resizeMode="cover"
           style={{
-            width: size.widthSize(360),
+            width: '100%',
             height: size.heightSize(347),
           }}
         />
       </View>
-      <View
-        style={{
-          flex: 1,
-        }}
-      />
+      <View style={{ flex: 1 }} />
       <View
         style={{
           marginBottom: size.getHeightSize(31),
