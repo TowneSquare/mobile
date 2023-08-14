@@ -91,6 +91,7 @@ const SetNFT = () => {
   };
 
   const disabled = selectedimage.length > 0;
+  console.log(disabled);
 
   const DisplayNameBottomSheet = () => {
     return (
@@ -212,7 +213,7 @@ const SetNFT = () => {
             </Text>
           </Pressable>
           <Pressable
-            disabled={disabled}
+            disabled={!disabled}
             onPress={() => {
               navigate("Profile");
             }}
