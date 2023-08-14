@@ -18,7 +18,7 @@ const size = new sizes(height, width);
 interface Props {
   placeholder: string;
   marginTop?: number;
-  width?: number;
+  width?: string;
 }
 const SearchField = ({ placeholder, marginTop, width }: Props) => {
   return (
@@ -29,7 +29,7 @@ const SearchField = ({ placeholder, marginTop, width }: Props) => {
           marginTop: marginTop
             ? size.getHeightSize(marginTop)
             : size.getHeightSize(24),
-          width: width ? size.getWidthSize(width) : size.getWidthSize(328),
+          width: width ? width : size.getWidthSize(328),
         },
       ]}
     >
@@ -45,7 +45,7 @@ const SearchField = ({ placeholder, marginTop, width }: Props) => {
         style={[
           styles.textInput,
           {
-            width: width ? size.getWidthSize(width) : size.getWidthSize(328),
+            width: width ? width : size.getWidthSize(328),
           },
         ]}
       />

@@ -2,6 +2,7 @@ import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
 import React, { useState, createRef, createContext, useContext } from 'react';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
+import OfferSaleSheet from '../../components/createPost/OfferSaleSheet';
 import AttachNftModal from '../../components/createPost/AttachNftModal';
 import { appColor, fonts, images } from '../../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,13 +13,13 @@ const size = new sizes(height, width);
 import Overlay from '../../components/createPost/Overlay';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { SelectedCollectionProvider } from '../../components/createPost/SelectedCollectionContext';
-import { SelectedCollectionContext } from '../../components/createPost/SelectedCollectionContext';
+import { SelectedCollectionProvider } from '../../context/SelectedCollectionContext';
+import { SelectedCollectionContext } from '../../context/SelectedCollectionContext';
 const SelectedCollectionScreen = () => {
   const { isModalVisible, handleModalState } = useContext(
     SelectedCollectionContext
   );
-
+  console.log(isModalVisible);
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -35,13 +36,14 @@ const SelectedCollectionScreen = () => {
         style={{
           flex: 1,
           backgroundColor: appColor.feedBackground,
-          
         }}
       >
-        <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
         <SelectedCollectionProvider>
-          <AttachNftModal  />
-          <View style={styles.header}>
+          <StatusBar
+            style="light"
+            backgroundColor={appColor.signUpBackground}
+          />
+          <View style={[styles.header, { opacity: isModalVisible ? 0.8 : 1 }]}>
             <Pressable onPress={navigation.goBack}>
               <AntDesign
                 name="arrowleft"
@@ -49,12 +51,13 @@ const SelectedCollectionScreen = () => {
                 size={24}
               />
             </Pressable>
-            <Text style={styles.text}>Aptomingos</Text>
+            <Text style={[styles.text, {}]}>Aptomingos</Text>
             <View />
           </View>
 
           <SelectedCollection />
           <Overlay />
+          {<AttachNftModal />}
         </SelectedCollectionProvider>
       </SafeAreaView>
     </>

@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  Image,
-  FlatList,
-} from 'react-native';
+import { View, Dimensions, StyleSheet, Image, Pressable } from 'react-native';
 import React from 'react';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
@@ -20,9 +13,10 @@ import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import {
   updateMedia,
   updateGifBottomSheet,
-  updateNftBottomSheet,
+  updateShowCustomToast,
+  updateToastToShow,
 } from '../../controller/createPost';
-import PostCameraBlur from '../../../assets/images/svg/PostCameraBlur';
+
 const size = new sizes(height, width);
 const PostAttachment = () => {
   const dispatch = useAppDispatch();
@@ -30,7 +24,8 @@ const PostAttachment = () => {
     mediaValue: state.CreatePostController.posts.media,
     attachedNft: state.CreatePostController.posts.nft,
   }));
-  const disable = mediaValue || attachedNft;
+  const disabled =
+    (mediaValue && mediaValue.length > 1) || attachedNft !== null;
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -46,45 +41,86 @@ const PostAttachment = () => {
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        gap: size.getWidthSize(16),
-        paddingVertical: size.getHeightSize(10),
-        paddingHorizontal: size.getWidthSize(16),
+        paddingVertical: size.getHeightSize(4),
+        paddingHorizontal: size.getWidthSize(8),
         width: '100%',
         backgroundColor: appColor.kgrayDark2,
       }}
     >
-      <PostCamera
-        style={{
-          opacity: disable ? 0.7 : 1,
-        }}
+      <Pressable
         onPress={() => {
-          dispatch(updateMedia(images.feedImage2));
+          disabled && dispatch(updateToastToShow('mediaDisabled'));
+          dispatch(
+            disabled
+              ? updateShowCustomToast(true)
+              : updateMedia(Image.resolveAssetSource(images.feedImage2).uri)
+          );
         }}
-        disabled={disable}
-      />
-      <PostImage
-        style={{
-          opacity: disable ? 0.7 : 1,
+        style={styles.iconContainer}
+      >
+        <PostCamera
+          style={{
+            opacity: disabled ? 0.7 : 1,
+          }}
+        />
+      </Pressable>
+      <Pressable
+        style={styles.iconContainer}
+        onPress={() => {
+          disabled && dispatch(updateToastToShow('mediaDisabled'));
+          dispatch(
+            disabled
+              ? updateShowCustomToast(true)
+              : updateMedia(Image.resolveAssetSource(images.feedImage1).uri)
+          );
         }}
-        disabled={disable}
-        onPress={() => dispatch(updateMedia(images.feedImage1))}
-      />
-      <PostGif
-        style={{
-          opacity: disable ? 0.7 : 1,
+      >
+        <PostImage
+          style={{
+            opacity: disabled ? 0.7 : 1,
+          }}
+        />
+      </Pressable>
+      <Pressable
+        style={styles.iconContainer}
+        onPress={() => {
+          disabled && dispatch(updateToastToShow('mediaDisabled'));
+          dispatch(
+            disabled ? updateShowCustomToast(true) : updateGifBottomSheet(true)
+          );
         }}
-        disabled={disable}
-        onPress={() => dispatch(updateGifBottomSheet(true))}
-      />
-      <PostNft
-        style={{
-          opacity: disable ? 0.7 : 1,
+      >
+        <PostGif
+          style={{
+            opacity: disabled ? 0.7 : 1,
+          }}
+        />
+      </Pressable>
+      <Pressable
+        style={styles.iconContainer}
+        onPress={() => {
+          if (disabled === true) {
+            dispatch(updateShowCustomToast(true));
+            dispatch(updateToastToShow('mediaDisabled'));
+          } else navigation.navigate('NftCollectionScreen' as never);
         }}
-        disabled={disable}
-        onPress={() => navigation.navigate('NftCollectionScreen' as never)}
-      />
+      >
+        <PostNft
+          style={{
+            opacity: disabled ? 0.7 : 1,
+          }}
+        />
+      </Pressable>
     </View>
   );
 };
 
 export default PostAttachment;
+const styles = StyleSheet.create({
+  iconContainer: {
+    width: size.getWidthSize(40),
+    height: size.getWidthSize(40),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

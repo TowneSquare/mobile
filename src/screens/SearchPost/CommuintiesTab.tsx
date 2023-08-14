@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet, View, ScrollView, Text } from 'react-native';
 import React from 'react';
-import Communities from '../../components/Search/Communities';
+import Communities from '../../shared/Feed/Communities';
 
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';

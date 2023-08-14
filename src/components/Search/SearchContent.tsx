@@ -8,6 +8,7 @@ import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 const { height, width } = Dimensions.get('window');
 import { updateSearchFocus } from '../../controller/SearchPost';
 import UserDisplay from '../../shared/Feed/UserDisplay';
+import RecentSearch from './RecentSearch';
 const size = new sizes(height, width);
 
 const SearchContent = () => {
@@ -31,14 +32,15 @@ const SearchContent = () => {
     );
   };
   return (
-    <ScrollView>
+    <ScrollView keyboardShouldPersistTaps="always">
       {!searchWord && (
+        // <RecentSearch />
         <>
           <View style={styles.marginTop} />
           <View style={styles.searchDescription}>
             <SearchPost />
             <Text style={styles.descriptionText}>
-              Search or Users, Communities or posts.
+              Search for Users, Communities or posts.
             </Text>
           </View>
         </>

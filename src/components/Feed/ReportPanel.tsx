@@ -1,22 +1,18 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-  Image,
-  Dimensions,
-  Pressable,
-} from 'react-native';
-import React, { useRef, useEffect } from 'react';
+import { View, Text, StyleSheet, Dimensions, Pressable } from 'react-native';
+import React, { useRef, useEffect, useCallback, useMemo } from 'react';
 import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetView,
+  useBottomSheetDynamicSnapPoints,
+} from '@gorhom/bottom-sheet';
 import CustomHandler from './CustomHandler';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import Flag from '../../../assets/images/svg/Flag';
 import Block from '../../../assets/images/svg/Block';
-import * as Animatable from 'react-native-animatable';
+
 import {
   updtaeReportingModal,
   updateReportPostModal,
@@ -31,11 +27,32 @@ const ReportPanel = () => {
     (state) => state.FeedsSliceController.ReportingModal
   );
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
   useEffect(() => {
     if (reportModal === false) {
       bottomSheetRef.current?.close();
+    } else {
+      bottomSheetRef.current?.expand();
     }
   }, [reportModal]);
+  const {
+    animatedHandleHeight,
+    animatedSnapPoints,
+    animatedContentHeight,
+    handleContentLayout,
+  } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        pressBehavior={'close'}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        opacity={0.5}
+      />
+    ),
+    []
+  );
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -48,48 +65,60 @@ const ReportPanel = () => {
   };
 
   return (
-    <BottomSheet
-      onClose={closeModal}
-      handleComponent={CustomHandler}
-      ref={bottomSheetRef}
-      enablePanDownToClose={true}
-      index={reportModal ? 0 : -1}
-      snapPoints={[Platform.OS === 'ios' ? '28%' : '28%']}
-      backgroundStyle={{
-        backgroundColor: appColor.kgrayDark2,
-      }}
-    >
-      <Pressable
-        onPress={() => {
-          closeModal();
-          dispatch(updateReportPostModal(true));
-        }}
-        style={styles.container}
-      >
-        <Flag />
-        <Text style={styles.text}>Report Post</Text>
-      </Pressable>
-      <Pressable
-        onPress={() => {
-          closeModal();
-          dispatch(updateReportUserModal(true));
-        }}
-        style={styles.container}
-      >
-        <Flag />
-        <Text style={styles.text}>Report User</Text>
-      </Pressable>
-      <Pressable
-        onPress={() => {
-          closeModal();
-          dispatch(updateBlockUserModal(true));
-        }}
-        style={styles.container}
-      >
-        <Block />
-        <Text style={styles.text}>Block user</Text>
-      </Pressable>
-    </BottomSheet>
+    <>
+      {!reportModal ? (
+        <></>
+      ) : (
+        <BottomSheet
+          onClose={closeModal}
+          ref={bottomSheetRef}
+          snapPoints={animatedSnapPoints}
+          handleHeight={animatedHandleHeight}
+          contentHeight={animatedContentHeight}
+          enablePanDownToClose={true}
+          animateOnMount={true}
+          backgroundStyle={{
+            backgroundColor: appColor.kgrayDark2,
+          }}
+          handleComponent={CustomHandler}
+          backdropComponent={renderBackdrop}
+        >
+          <BottomSheetView onLayout={handleContentLayout}>
+            <Pressable
+              onPress={() => {
+                closeModal();
+                dispatch(updateReportPostModal(true));
+              }}
+              style={styles.container}
+            >
+              <Flag />
+              <Text style={styles.text}>Report Post</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                closeModal();
+                dispatch(updateReportUserModal(true));
+              }}
+              style={styles.container}
+            >
+              <Flag />
+              <Text style={styles.text}>Report User</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                closeModal();
+                dispatch(updateBlockUserModal(true));
+              }}
+              style={styles.container}
+            >
+              <Block />
+              <Text style={styles.text}>Block user</Text>
+            </Pressable>
+            <View style={{ height: size.getHeightSize(44) }} />
+          </BottomSheetView>
+        </BottomSheet>
+      )}
+    </>
   );
 };
 

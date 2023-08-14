@@ -12,6 +12,7 @@ import ShareFeed from '../../../assets/images/svg/ShareFeed';
 import LikedIcon from '../../../assets/images/svg/LikedIcon';
 import Retweeted from '../../../assets/images/svg/Retweeted';
 import BookMarkedIcon from '../../../assets/images/svg/BookMarkedIcon';
+import CommentIcon from '../../../assets/images/svg/CommentIcon';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -140,11 +141,7 @@ const PostActions = ({
           gap: size.getWidthSize(2),
         }}
       >
-        <EvilIcons
-          name="comment"
-          size={size.fontSize(26)}
-          color={appColor.grayLight}
-        />
+        <CommentIcon />
         <Text
           style={{
             fontSize: size.fontSize(13),

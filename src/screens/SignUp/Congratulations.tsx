@@ -83,7 +83,6 @@ const Congratulations = () => {
               You made it!
             </Text>
           </View>
-
           <LetGoButton navigateTo="DrawerNavigation" />
         </View>
       </ImageBackground>

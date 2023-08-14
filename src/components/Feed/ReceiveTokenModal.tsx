@@ -6,7 +6,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import React, { useState, useRef, useContext, useEffect } from 'react';
+import React, { useCallback, useRef, useContext, useEffect } from 'react';
 import Animated, {
   Extrapolation,
   interpolate,
@@ -18,10 +18,13 @@ import CopyIcon from '../../../assets/images/svg/CopyIcon';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
 import { sizes } from '../../utils';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetScrollView,
+} from '@gorhom/bottom-sheet';
 import * as Animatable from 'react-native-animatable';
 const { height, width } = Dimensions.get('window');
-
+import ModalBackDrop from '../../shared/Feed/ModalBackDrop';
 import { useAppSelector } from '../../controller/hooks';
 import CustomHandler from './CustomHandler';
 import ReceiveBarCode from '../../../assets/images/svg/ReceiveBarCode';
@@ -66,12 +69,25 @@ const ReceiveTokenModal = ({ closeModal }: Props) => {
       Extrapolation.CLAMP
     ),
   }));
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        pressBehavior={'close'}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        opacity={0.5}
+      />
+    ),
+    []
+  );
   return (
     <BottomSheet
       onClose={closeModal}
       handleComponent={CustomHandler}
       ref={bottomSheetRef}
       enablePanDownToClose={true}
+      backdropComponent={renderBackdrop}
       index={ReceiveModalVisibility ? 0 : -1}
       snapPoints={[Platform.OS === 'ios' ? '81.2%' : '81.2%']}
       backgroundStyle={{

@@ -25,28 +25,29 @@ import { toastConfig } from '../../components/Feed/ShowToast';
 import ToastHook from '../../hooks/Feeds/ToastHook';
 import DeleteMyPostPanel from '../../shared/Feed/DeleteMyPostPanel';
 const size = new sizes(height, width);
+import {
+  updateShowCustomToast,
+  updateToastToShow,
+} from '../../controller/createPost';
 import Toast from 'react-native-toast-message';
 import { useNavigation } from '@react-navigation/native';
 import { SinglePostProps } from '../../navigations/NavigationTypes';
 import SinglePostContent from '../../components/SinglePostView/SinglePostContent';
-import { useAppSelector } from '../../controller/hooks';
-
+import { useAppSelector, useAppDispatch } from '../../controller/hooks';
+import CustomToast from '../../shared/Feed/CustomToast';
+type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 const SinglePost = ({ route }: SinglePostProps) => {
   const props = route.params;
   const scrollViewRef = useRef<ScrollView>(null);
   const textInputRef = useRef<TextInput>(null);
   const [replyingTo, setReplyingTo] = useState(false);
-  const { showBlockToast, showReportUserToast, showReportPostToast } =
-    ToastHook();
+
+  const dispatch = useAppDispatch();
   const navigation = useNavigation();
-  const modals = useAppSelector((state) => ({
-    reportPostModal: state.FeedsSliceController.ReportPostModal,
-    reportPanel: state.FeedsSliceController.ReportingModal,
-    reportUser: state.FeedsSliceController.ReportUserModal,
-    blockUser: state.FeedsSliceController.BlockUserModal,
-    myPostModal: state.FeedsSliceController.MyPostPanel,
-    deletePost: state.FeedsSliceController.DeleteMyPostPanel,
-  }));
+  const toastType = useAppSelector(
+    (state) => state.CreatePostController.toastType
+  );
+  const [toastToShow, setToastToShow] = useState<ToastType>('none');
   const data = {
     id: '10',
     pfp: '',
@@ -73,7 +74,6 @@ const SinglePost = ({ route }: SinglePostProps) => {
     return null;
   }
 
-  const isAnyModalOpen = Object.values(modals).some((value) => value === true);
   const handleCommentPress = () => {
     textInputRef.current?.focus();
     setReplyingTo(true);
@@ -87,6 +87,10 @@ const SinglePost = ({ route }: SinglePostProps) => {
   const handleBlur = () => {
     setReplyingTo(false);
     textInputRef.current?.clear();
+  };
+  const handleToast = (type: ToastType) => {
+    setToastToShow(type);
+    dispatch(updateShowCustomToast(true));
   };
   return (
     <SafeAreaView
@@ -117,15 +121,37 @@ const SinglePost = ({ route }: SinglePostProps) => {
         handleBlur={handleBlur}
         textRef={textInputRef}
       />
-      {isAnyModalOpen && <View style={styles.overlay} />}
+      {/* {isAnyModalOpen && <View style={styles.overlay} />} */}
 
       <Toast config={toastConfig} />
-      <ReportUserModal reportUser={showReportUserToast} />
-      <ReportPanel />
+
       <MyPostPanel />
-      <ReportPostModal reportPost={showReportPostToast} />
-      <BlockUserModal block={showBlockToast} />
+      <ReportUserModal handleToastView={() => handleToast('reportUser')} />
+      <ReportPanel />
+      <ReportPostModal handleToastView={() => handleToast('reportPost')} />
+      <BlockUserModal handleToastView={() => handleToast('blockUser')} />
       <DeleteMyPostPanel />
+      {toastToShow !== 'none' && (
+        <CustomToast
+          type="sucess"
+          marginVertical={24}
+          position="top"
+          text={
+            toastToShow === 'reportUser'
+              ? 'JohnFlock is reported successfully'
+              : toastToShow === 'blockUser'
+              ? 'You have blocked JohnFlock'
+              : toastToShow === 'reportPost'
+              ? 'Post is reported successfully'
+              : null
+          }
+          functions={[
+            () => {
+              setToastToShow('none'), dispatch(updateShowCustomToast(false));
+            },
+          ]}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -138,7 +164,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: size.getWidthSize(16),
     paddingVertical: size.getHeightSize(20),
     backgroundColor: appColor.kgrayDark2,
-    justifyContent:"space-between"
+    justifyContent: 'space-between',
   },
   headerText: {
     color: appColor.kTextColor,

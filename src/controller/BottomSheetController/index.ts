@@ -22,6 +22,8 @@ interface initialStateProps {
     id: number;
   };
   listOfNftCollections: NftCollection[];
+  superStarBottomSheet: boolean;
+  verificationModal: boolean;
 }
 const initialState: initialStateProps = {
   isBottomSheetOpen: false,
@@ -49,7 +51,7 @@ const initialState: initialStateProps = {
       id: 2,
     },
     {
-      image: images.NftCollection1,
+      image: images.superStar2,
       Name: 'Aptos Monkey lorem Ipsumdalr',
       id: 3,
     },
@@ -59,7 +61,7 @@ const initialState: initialStateProps = {
       id: 4,
     },
     {
-      image: images.NftCollection1,
+      image: images.superStar1,
       Name: 'Aptos Monkey lorem Ipsumdalr',
       id: 5,
     },
@@ -79,7 +81,10 @@ const initialState: initialStateProps = {
       id: 8,
     },
   ],
+  superStarBottomSheet: false,
+  verificationModal: false,
 };
+
 export const bottomSheetSlice = createSlice({
   name: 'BottomSheet',
   initialState,
@@ -111,6 +116,12 @@ export const bottomSheetSlice = createSlice({
     updateProfilePics: (state, action: PayloadAction<any>) => {
       state.profilePics = action.payload;
     },
+    updateSuperStarBottomSheet: (state, action: PayloadAction<boolean>) => {
+      state.superStarBottomSheet = action.payload;
+    },
+    updateVerificationModal: (state, action: PayloadAction<boolean>) => {
+      state.verificationModal = action.payload;
+    },
     // updateNotFoundModal: (state, action: PayloadAction<boolean>) => {
     //   state.notFoundModal = action.payload;
     // },
@@ -126,6 +137,8 @@ export const {
   updateSelectedCollection,
   updateSelectedRender,
   updateProfilePics,
+  updateSuperStarBottomSheet,
+  updateVerificationModal,
 } = bottomSheetSlice.actions;
 
 export default bottomSheetSlice.reducer;

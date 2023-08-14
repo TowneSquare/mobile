@@ -18,7 +18,7 @@ const ToastHook = () => {
       type: 'success',
       text2: 'You have blocked JohnFlock',
       onHide: () => {
-        dispatch(updateBlockUserModal(false));
+        
       },
     });
   };
@@ -27,7 +27,7 @@ const ToastHook = () => {
       type: 'success',
       text2: 'JohnFlock is reported successfully',
       onHide: () => {
-        dispatch(updateReportUserModal(false));
+      
       },
     });
   };
@@ -36,7 +36,7 @@ const ToastHook = () => {
       type: 'success',
       text2: 'Post is reported successfully',
       onHide: () => {
-        dispatch(updateReportPostModal(false));
+       
       },
     });
   };

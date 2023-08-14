@@ -33,10 +33,12 @@ import { Avatar } from 'react-native-elements';
 import { useNavigation, StackActions } from '@react-navigation/native';
 import {
   updateShowPriceModal,
-  updateAttachNftCountDown,
-  updateShouldShowPublishToast,
+  updateShowCustomToast,
+  updateToastToShow,
+  clearPostData,
 } from '../../controller/createPost';
-import CustomToast from '../../components/createPost/CustomToast';
+import CustomToast from '../../shared/Feed/CustomToast';
+import { ScrollView } from 'react-native-gesture-handler';
 const CreatePost = () => {
   const {
     showAtMentions,
@@ -45,8 +47,7 @@ const CreatePost = () => {
     showApt,
     media,
     nft,
-    post,
-    startToastCountdown,
+    toastToshow,
   } = useAppSelector((state) => ({
     showAtMentions: state.CreatePostController.showAtMentionContainer,
     showHashTags: state.CreatePostController.showHashTags,
@@ -59,6 +60,7 @@ const CreatePost = () => {
     nft: state.CreatePostController.posts.nft,
     post: state.CreatePostController.posts,
     startToastCountdown: state.CreatePostController.startToastCountdown,
+    toastToshow: state.CreatePostController.toastType,
   }));
   const dispatch = useAppDispatch();
 
@@ -88,6 +90,7 @@ const CreatePost = () => {
         backgroundColor: appColor.feedBackground,
       }}
     >
+      {/* <FieldInput /> */}
       <View style={styles.header}>
         <Text onPress={navigation.goBack} style={styles.cancel}>
           Cancel
@@ -95,59 +98,69 @@ const CreatePost = () => {
         <Pressable
           onPress={() => {
             navigation.dispatch(StackActions.pop(1));
-            dispatch(updateShouldShowPublishToast(true));
+            dispatch(updateToastToShow('publish'));
+            dispatch(clearPostData());
+            dispatch(updateShowCustomToast(true));
           }}
           style={styles.publishButton}
         >
           <Text style={styles.publishText}>Publish</Text>
         </Pressable>
       </View>
-      <View style={styles.fieldInputContainer}>
-        <Avatar
-          rounded
-          source={images.createPostPfp}
-          size={size.getHeightSize(40)}
-        />
-        <FieldInput />
-      </View>
 
-      {nft && <AttachedNftContainer />}
-      {media && <Media />}
-      {shouldShowSwapApt && <SwapPost />}
-      {shouldShowAptMonkey && <FloorPricePost />}
-      <View style={{ flex: 1 }} />
-      {shouldShowAptosPanel && (
-        <View style={styles.tagConatiners}>
-          <AptosPanel />
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={styles.fieldInputContainer}>
+          <Avatar
+            rounded
+            source={images.createPostPfp}
+            size={size.getHeightSize(40)}
+          />
+          <FieldInput />
         </View>
-      )}
-      {shouldShowAtMention && (
-        <View style={styles.tagConatiners}>
-          <AtMention />
+        <View
+          style={{
+            flex: 1,
+          }}
+        >
+          {nft && <AttachedNftContainer />}
+          {media && <Media />}
+          {shouldShowSwapApt && <SwapPost />}
+          {shouldShowAptMonkey && <FloorPricePost />}
+          <View style={{ flex: 1 }} />
         </View>
-      )}
-      {shouldShowPostAttachment && (
-        <View>
-          <PostAttachment />
-        </View>
-      )}
-      {shouldShowHashTags && (
-        <View style={styles.tagConatiners}>
-          <HashTags />
-        </View>
-      )}
-      {startToastCountdown && (
-        <CustomToast
-          alignItems="flex-start"
-          position="bottom"
-          text="Remove the attached NFT in order to add images, videos, GIFs or other NFTs."
-          functions={[
-            () => dispatch(updateAttachNftCountDown(false)),
-            () => dispatch(updateShowPriceModal(true)),
-          ]}
-        />
-      )}
-      <OfferSaleSheet />
+      </ScrollView>
+      <KeyboardAvoidingView>
+        {shouldShowAptosPanel && (
+          <View style={styles.tagConatiners}>
+            <AptosPanel />
+          </View>
+        )}
+        {shouldShowAtMention && (
+          <View style={styles.tagConatiners}>
+            <AtMention />
+          </View>
+        )}
+        {shouldShowPostAttachment && <PostAttachment />}
+        {shouldShowHashTags && (
+          <View style={styles.tagConatiners}>
+            <HashTags />
+          </View>
+        )}
+        {toastToshow == 'mediaDisabled' && (
+          <CustomToast
+            alignItems="flex-start"
+            position="bottom"
+            text="Remove the attached NFT in order to add images, videos, GIFs or other NFTs."
+            functions={[
+              () => {
+                dispatch(updateShowCustomToast(false)),
+                  dispatch(updateToastToShow('none'));
+              },
+            ]}
+          />
+        )}
+      </KeyboardAvoidingView>
+
       <GifBottomSheet />
     </SafeAreaView>
   );
@@ -193,7 +206,7 @@ const styles = StyleSheet.create({
     gap: size.getWidthSize(8),
     marginHorizontal: size.getWidthSize(16),
     marginTop: size.getHeightSize(8),
-    alignItems:"flex-start"
+    alignItems: 'flex-start',
   },
   tagConatiners: {
     maxHeight: size.getHeightSize(260),
@@ -224,5 +237,8 @@ const styles = StyleSheet.create({
     marginVertical: size.getHeightSize(16),
     width: size.getWidthSize(286),
     alignSelf: 'center',
+  },
+  absolutePosition: {
+    width: '100%',
   },
 });

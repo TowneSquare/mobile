@@ -5,119 +5,141 @@ import {
   StyleSheet,
   Image,
   Pressable,
+  Animated,
 } from 'react-native';
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 const { height, width } = Dimensions.get('window');
 
 import Offer from '../../../assets/images/svg/Offer';
 import Clip from '../../../assets/images/svg/Clip';
 import { appColor, fonts, images } from '../../constants';
-
+import OfferSaleSheet from './OfferSaleSheet';
 import { sizes } from '../../utils';
 import { batch } from 'react-redux';
 const size = new sizes(height, width);
-import { SelectedCollectionContext } from './SelectedCollectionContext';
+import { SelectedCollectionContext } from '../../context/SelectedCollectionContext';
 import { useNavigation, StackActions } from '@react-navigation/native';
+import { updateShowPriceModal } from '../../controller/createPost';
 
 import Modal from 'react-native-modal';
-import { useAppDispatch } from '../../controller/hooks';
-import {
-  updatePostNft,
-  updateAttachNftCountDown,
-} from '../../controller/createPost';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { updatePostNft } from '../../controller/createPost';
 interface Props {
   isVisible: boolean;
 }
 const AttachNftModal = () => {
+  const [opacityvalue, setOpacityValue] = useState(0.8);
   const dispatch = useAppDispatch();
+  const isPriceModalVisible = useAppSelector(
+    (state) => state.CreatePostController.priceModal
+  );
+
   const { isModalVisible, handleModalState } = useContext(
     SelectedCollectionContext
   );
 
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
   const navigation = useNavigation();
 
+  //Set opacity
+  useEffect(() => {
+    if (isPriceModalVisible === true) setOpacityValue(1);
+    else setOpacityValue(0.8);
+  }, [isPriceModalVisible]);
+
+  // after opacity is updated, update bottomsheet
+  useEffect(() => {
+    if (opacityvalue === 0.8) setShowBottomSheet(false);
+    else setShowBottomSheet(true);
+  }, [opacityvalue]);
   const handlePress = async () => {
+    dispatch(updateShowPriceModal(true));
     handleModalState;
     batch(() => {
-      dispatch(
-        updatePostNft({
-          name: 'Aptomingos',
-          id: 'Aptomingos #9280',
-        })
-      );
+      // dispatch(
+      //   updatePostNft({
+      //     name: 'Aptomingos',
+      //     id: 'Aptomingos #9280',
+      //   })
+      // );
     });
 
-    navigation.dispatch(StackActions.pop(2));
-    dispatch(updateAttachNftCountDown(true));
+    // navigation.dispatch(StackActions.pop(2));
+    // dispatch(updateAttachNftCountDown(true));
   };
   return (
-    <Modal
-      backdropOpacity={0.1}
-      style={{ margin: 0, backgroundColor: '#000000', opacity: 0.8 }}
-      isVisible={isModalVisible}
-      statusBarTranslucent
-    >
-      <View
-        style={{
-          flex: 1,
-        }}
-      >
-        <View
+    <>
+      {isModalVisible && (
+        <Animated.View
           style={{
-            backgroundColor: '#000000',
-            opacity: 0.9,
-          }}
-        >
-          <View style={styles.imageContainer}>
-            <Image
-              style={styles.image}
-              source={images.NftCollection}
-              resizeMode="cover"
-            />
-          </View>
-        </View>
-
-        <Text style={styles.name}>Aptomingos #9022</Text>
-        <View
-          style={{
-            height: size.getHeightSize(110.5),
-          }}
-        />
-        <Pressable
-          onPress={() => {
-            handleModalState();
-            navigation.dispatch(StackActions.pop(2));
-            dispatch(
-              updatePostNft({
-                name: 'Aptomingos',
-                id: 'Aptomingos #9280',
-              })
-            );
-          }}
-          style={styles.AttachButton}
-        >
-          <Clip />
-          <Text style={styles.AttachText}>Attach to post</Text>
-        </Pressable>
-        <Pressable onPress={handlePress} style={styles.offerButton}>
-          <Offer />
-          <Text style={styles.OfferText}>Attach & offer for sale</Text>
-        </Pressable>
-        <View
-          style={{
-            width: size.getWidthSize(310),
-
+            position: 'absolute',
             alignSelf: 'center',
-            paddingVertical: size.getHeightSize(12.5),
-            marginTop: size.getHeightSize(32),
+            backgroundColor: '#000000',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            opacity: opacityvalue,
           }}
         >
-          <Text onPress={handleModalState} style={styles.back}>
-            Back
-          </Text>
-        </View>
-      </View>
-    </Modal>
+          <View
+            style={{
+              backgroundColor: '#000000',
+            }}
+          >
+            <View style={{ height: size.getHeightSize(150.5) }} />
+            <View style={styles.imageContainer}>
+              <Image
+                style={styles.image}
+                source={images.NftCollection}
+                resizeMode="cover"
+              />
+            </View>
+          </View>
+          <Text style={styles.name}>Aptomingos #9022</Text>
+
+          <View
+            style={{
+              height: size.getHeightSize(110.5),
+            }}
+          />
+          <Pressable
+            onPress={() => {
+              handleModalState();
+              navigation.dispatch(StackActions.pop(2));
+              dispatch(
+                updatePostNft({
+                  name: 'Aptomingos',
+                  id: 'Aptomingos #9280',
+                })
+              );
+            }}
+            style={styles.AttachButton}
+          >
+            <Clip />
+            <Text style={styles.AttachText}>Attach to post</Text>
+          </Pressable>
+          <Pressable onPress={handlePress} style={styles.offerButton}>
+            <Offer />
+            <Text style={styles.OfferText}>Attach & offer for sale</Text>
+          </Pressable>
+          <View
+            style={{
+              width: size.getWidthSize(310),
+
+              alignSelf: 'center',
+              paddingVertical: size.getHeightSize(12.5),
+              marginTop: size.getHeightSize(32),
+            }}
+          >
+            <Text onPress={handleModalState} style={styles.back}>
+              Back
+            </Text>
+          </View>
+          {showBottomSheet && <OfferSaleSheet isVisible={showBottomSheet} />}
+        </Animated.View>
+      )}
+    </>
   );
 };
 
@@ -172,7 +194,6 @@ const styles = StyleSheet.create({
     marginTop: size.getHeightSize(16),
   },
   imageContainer: {
-    marginTop: size.getHeightSize(120),
     height: size.getHeightSize(325),
     width: size.getWidthSize(304),
     alignSelf: 'center',

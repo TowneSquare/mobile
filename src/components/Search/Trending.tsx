@@ -7,7 +7,7 @@ import {
   Pressable,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import SearchField from '../createPost/SearchField';
+import SearchField from '../../shared/Feed/SearchField';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 import { appColor, fonts } from '../../constants';

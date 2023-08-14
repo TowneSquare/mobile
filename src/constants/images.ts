@@ -115,5 +115,23 @@ const appImages = {
   test: require('../../assets/images/png/test.png'),
   test1: require('../../assets/images/png/test1.png'),
   test3: require('../../assets/images/png/test3.png'),
+  profileVector: require('../../assets/images/png/profileVector.png'),
+  profilepicture: require('../../assets/images/png/profilePicture.png'),
+
+  aptosMonkey1: require('../../assets/images/png/AptosMonkey1.png'),
+  aptosMonkey2: require('../../assets/images/png/AptosMonkey2.png'),
+  aptosMonkey3: require('../../assets/images/png/AptosMonkey3.png'),
+  aptosMonkey4: require('../../assets/images/png/AptosMonkey4.png'),
+  aptosMonkey5: require('../../assets/images/png/AptosMonkey5.png'),
+  aptosMonkey6: require('../../assets/images/png/AptosMonkey6.png'),
+  aptosMonkey7: require('../../assets/images/png/AptosMonkey7.png'),
+
+  superStar1: require('../../assets/images/png/SuperStar1.png'),
+  superStar2: require('../../assets/images/png/SuperStar2.png'),
+
+  aptToken: require('../../assets/images/png/AptosToken.png'),
+  usdc: require('../../assets/images/png/usdc.png'),
+  abel: require('../../assets/images/png/abel.png'),
+  blurEffect:require("../../assets/images/png/blurr.png"),
 };
 export const images = appImages;

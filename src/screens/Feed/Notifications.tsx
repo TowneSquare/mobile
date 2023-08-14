@@ -3,6 +3,7 @@ import React from 'react';
 import Constants from 'expo-constants';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
+import Header from '../../shared/Feed/Header';
 import { appColor, fonts } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -101,16 +102,8 @@ const Notifications = () => {
       }}
     >
       <StatusBar style="light" backgroundColor={appColor.kgrayDark2} />
-      <View style={styles.header}>
-        <AntDesign
-          name="arrowleft"
-          color={appColor.kWhiteColor}
-          size={size.fontSize(24)}
-          onPress={navigation.goBack}
-        />
-        <Text style={styles.headerText}>Notifications</Text>
-        <View />
-      </View>
+
+      <Header title="Notification" />
       <FlatList
         data={data}
         renderItem={({ item }) => <Notification data={item} />}
@@ -120,21 +113,4 @@ const Notifications = () => {
 };
 
 export default Notifications;
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    height: size.getHeightSize(86),
-    backgroundColor: appColor.kgrayDark2,
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingBottom: size.getWidthSize(12),
-    paddingHorizontal: size.getWidthSize(16),
-  },
-  headerText: {
-    color: appColor.kTextColor,
-    fontSize: size.fontSize(20),
-    lineHeight: size.getHeightSize(24),
-    fontFamily: 'Outfit-Regular',
-  },
-});
+const styles = StyleSheet.create({});
