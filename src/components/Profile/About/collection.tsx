@@ -74,7 +74,7 @@ const Collection: FC<{
         >
           <View>
             <Image
-              key={item.id}
+              key={`${collectionId}#${item.id}`}
               source={item.image}
               style={{
                 width: size.getWidthSize(100),
@@ -117,7 +117,8 @@ const Collection: FC<{
               fontFamily: "Outfit-Regular",
             }}
           >
-            #{item?.id}
+            #{item?.id }
+            
           </Text>
         </View>
       </View>

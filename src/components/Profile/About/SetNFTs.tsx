@@ -131,6 +131,7 @@ const SetNFT = () => {
           {selectedimage.map((data) =>
             data == undefined ? (
               <Pressable
+                key={`${data.id}#${data.itemId}`}
                 style={{
                   borderWidth: 0.5,
                   width: 70,
@@ -143,6 +144,7 @@ const SetNFT = () => {
               ></Pressable>
             ) : (
               <Pressable
+                key={`${data.id}#${data.itemId}`}
                 style={{
                   position: "relative",
                 }}
@@ -156,7 +158,7 @@ const SetNFT = () => {
                   }}
                 >
                   <Image
-                    key={data.id}
+                    key={`${data.id}#${data.itemId}`}
                     source={data.image}
                     style={{
                       width: 70,
