@@ -19,7 +19,6 @@ const SelectedCollectionScreen = () => {
   const { isModalVisible, handleModalState } = useContext(
     SelectedCollectionContext
   );
-  console.log(isModalVisible);
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,

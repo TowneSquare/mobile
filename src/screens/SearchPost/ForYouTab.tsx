@@ -9,17 +9,8 @@ import Communities from '../../shared/Feed/Communities';
 import SuggestedProfiles from '../../components/Search/SuggestedProfiles';
 import Trending from '../../components/Search/Trending';
 const size = new sizes(height, width);
-import ReportPanel from '../../components/Feed/ReportPanel';
-import ReportPostModal from '../../components/Feed/ReportPostModal';
-import ReportUserModal from '../../components/Feed/ReportUserModal';
-import BlockUserModal from '../../components/Feed/BlockUserModal';
-import { updateShowCustomToast } from '../../controller/createPost';
-import DeleteMyPostPanel from '../../shared/Feed/DeleteMyPostPanel';
-import MyPostPanel from '../../shared/Feed/MyPostPanel';
 
-type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 const ForYouTab = () => {
-
   return (
     <View
       style={{
@@ -36,7 +27,6 @@ const ForYouTab = () => {
         <Text style={styles.labels}>Communities for you</Text>
         <Communities showAll={false} />
       </ScrollView>
- 
     </View>
   );
 };

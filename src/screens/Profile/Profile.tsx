@@ -20,10 +20,7 @@ import SuperStarBottomSheet from '../../components/Profile/About/SuperStarBottom
 import EditProfileModal from '../../components/Profile/About/EditProfileModal';
 import ProfileTabNavigation from '../../navigations/ProfileTabNavigation';
 import { updateSuperStarBottomSheet } from '../../controller/BottomSheetController';
-import {
-  updateToastToShow,
-  updateShowCustomToast,
-} from '../../controller/createPost';
+
 import ReportPostModal from '../../components/Feed/ReportPostModal';
 import CustomToast from '../../shared/Feed/CustomToast';
 import DeleteMyPostPanel from '../../shared/Feed/DeleteMyPostPanel';
@@ -46,13 +43,7 @@ type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
-  const toastType = useAppSelector(
-    (state) => state.CreatePostController.toastType
-  );
-  const handleToast = (type: ToastType) => {
-    dispatch(updateToastToShow(type));
-    dispatch(updateShowCustomToast(true));
-  };
+
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -78,35 +69,13 @@ const Profile = () => {
         typeOfProfile="myProfile"
       />
       <EditProfileModal />
-      <ReportUserModal handleToastView={() => handleToast('reportUser')} />
+      <ReportUserModal />
       <ReportPanel />
-      <ReportPostModal handleToastView={() => handleToast('reportPost')} />
-      <BlockUserModal handleToastView={() => handleToast('blockUser')} />
+      <ReportPostModal />
+      <BlockUserModal />
       <DeleteMyPostPanel />
       <MyPostPanel />
       <VerificationModal />
-      {toastType !== 'none' && toastType !== 'publish' && (
-        <CustomToast
-          type="sucess"
-          marginVertical={24}
-          position="top"
-          text={
-            toastType === 'reportUser'
-              ? 'JohnFlock is reported successfully'
-              : toastType === 'blockUser'
-              ? 'You have blocked JohnFlock'
-              : toastType === 'reportPost'
-              ? 'Post is reported successfully'
-              : null
-          }
-          functions={[
-            () => {
-              dispatch(updateToastToShow('none')),
-                dispatch(updateShowCustomToast(false));
-            },
-          ]}
-        />
-      )}
     </SafeAreaView>
   );
 };

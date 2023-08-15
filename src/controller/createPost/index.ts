@@ -53,14 +53,6 @@ interface Post {
   NFTBottomSheet: boolean;
   posts: Partial<CreatePost>;
   priceModal: boolean;
-  startToastCountdown: boolean;
-  toastType:
-    | 'none'
-    | 'reportUser'
-    | 'blockUser'
-    | 'reportPost'
-    | 'publish'
-    | 'mediaDisabled';
 }
 const initialState: Post = {
   data: atMentionData,
@@ -92,8 +84,6 @@ const initialState: Post = {
     nft: null,
   },
   priceModal: false,
-  startToastCountdown: false,
-  toastType: 'none',
 };
 
 export const fieldHandlerSlice = createSlice({
@@ -250,9 +240,7 @@ export const fieldHandlerSlice = createSlice({
     ) => {
       state.posts.nft = action.payload;
     },
-    updateShowCustomToast: (state, action: PayloadAction<boolean>) => {
-      state.startToastCountdown = action.payload;
-    },
+
     updateAptPrice: (
       state,
       action: PayloadAction<{ name: string; id: string; price?: number }>
@@ -267,19 +255,6 @@ export const fieldHandlerSlice = createSlice({
         community: null,
         nft: null,
       };
-    },
-    updateToastToShow: (
-      state,
-      action: PayloadAction<
-        | 'none'
-        | 'reportUser'
-        | 'blockUser'
-        | 'reportPost'
-        | 'publish'
-        | 'mediaDisabled'
-      >
-    ) => {
-      state.toastType = action.payload;
     },
   },
 });
@@ -304,9 +279,7 @@ export const {
   updateTag,
   updateShowPriceModal,
   updatePostNft,
-  updateShowCustomToast,
   updateAptPrice,
   clearPostData,
-  updateToastToShow,
-  } = fieldHandlerSlice.actions;
+} = fieldHandlerSlice.actions;
 export default fieldHandlerSlice.reducer;

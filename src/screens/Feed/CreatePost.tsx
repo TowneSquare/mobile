@@ -15,7 +15,7 @@ import { appColor, fonts, images } from '../../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HashTags from '../../components/createPost/HashTags';
 import { sizes } from '../../utils';
-
+import { updateToast } from '../../controller/FeedsController';
 import AtMention from '../../components/createPost/AtMention';
 import Constants from 'expo-constants';
 import FieldInput from '../../components/createPost/FieldInput';
@@ -33,35 +33,24 @@ import { Avatar } from 'react-native-elements';
 import { useNavigation, StackActions } from '@react-navigation/native';
 import {
   updateShowPriceModal,
-  updateShowCustomToast,
-  updateToastToShow,
   clearPostData,
 } from '../../controller/createPost';
 import CustomToast from '../../shared/Feed/CustomToast';
 import { ScrollView } from 'react-native-gesture-handler';
 const CreatePost = () => {
-  const {
-    showAtMentions,
-    showHashTags,
-    showAPTPanel,
-    showApt,
-    media,
-    nft,
-    toastToshow,
-  } = useAppSelector((state) => ({
-    showAtMentions: state.CreatePostController.showAtMentionContainer,
-    showHashTags: state.CreatePostController.showHashTags,
-    showAPTPanel: state.CreatePostController.showAptosPanel,
-    showApt: state.CreatePostController.posts.community,
-    message: state.CreatePostController.posts.message,
-    media: state.CreatePostController.posts.media,
-    tags: state.CreatePostController.posts.tags,
-    community: state.CreatePostController.posts.community,
-    nft: state.CreatePostController.posts.nft,
-    post: state.CreatePostController.posts,
-    startToastCountdown: state.CreatePostController.startToastCountdown,
-    toastToshow: state.CreatePostController.toastType,
-  }));
+  const { showAtMentions, showHashTags, showAPTPanel, showApt, media, nft } =
+    useAppSelector((state) => ({
+      showAtMentions: state.CreatePostController.showAtMentionContainer,
+      showHashTags: state.CreatePostController.showHashTags,
+      showAPTPanel: state.CreatePostController.showAptosPanel,
+      showApt: state.CreatePostController.posts.community,
+      message: state.CreatePostController.posts.message,
+      media: state.CreatePostController.posts.media,
+      tags: state.CreatePostController.posts.tags,
+      community: state.CreatePostController.posts.community,
+      nft: state.CreatePostController.posts.nft,
+      post: state.CreatePostController.posts,
+    }));
   const dispatch = useAppDispatch();
 
   const shouldShowAptosPanel = showAPTPanel;
@@ -98,9 +87,15 @@ const CreatePost = () => {
         <Pressable
           onPress={() => {
             navigation.dispatch(StackActions.pop(1));
-            dispatch(updateToastToShow('publish'));
+
             dispatch(clearPostData());
-            dispatch(updateShowCustomToast(true));
+            dispatch(
+              updateToast({
+                displayToast: true,
+                toastMessage: 'Post is published successfully',
+                toastType: 'success',
+              })
+            );
           }}
           style={styles.publishButton}
         >
@@ -146,21 +141,7 @@ const CreatePost = () => {
             <HashTags />
           </View>
         )}
-        {toastToshow == 'mediaDisabled' && (
-          <CustomToast
-            alignItems="flex-start"
-            position="bottom"
-            text="Remove the attached NFT in order to add images, videos, GIFs or other NFTs."
-            functions={[
-              () => {
-                dispatch(updateShowCustomToast(false)),
-                  dispatch(updateToastToShow('none'));
-              },
-            ]}
-          />
-        )}
       </KeyboardAvoidingView>
-
       <GifBottomSheet />
     </SafeAreaView>
   );

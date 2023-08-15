@@ -16,7 +16,7 @@ import { appColor, fonts, images } from '../../constants';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import { FlashList } from '@shopify/flash-list';
 import PostNotFound from '../../../assets/images/svg/PostNotFound';
-import { updateShowCustomToast, updateToastToShow } from '../../controller/createPost';
+
 import BlockUserModal from '../../components/Feed/BlockUserModal';
 import ReportPanel from '../../components/Feed/ReportPanel';
 import ReportPostModal from '../../components/Feed/ReportPostModal';
@@ -25,20 +25,13 @@ import DeleteMyPostPanel from '../../shared/Feed/DeleteMyPostPanel';
 import MyPostPanel from '../../shared/Feed/MyPostPanel';
 import CustomToast from '../../shared/Feed/CustomToast';
 
-type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 const Posts = () => {
   const isSearchFocuesd = useAppSelector(
     (state) => state.SearchPostController.searchFocus
   );
-  const toastType = useAppSelector(
-    (state) => state.CreatePostController.toastType
-  );
 
   const dispatch = useAppDispatch();
-  const handleToast = (type: ToastType) => {
-    // dispatch(updateToastToShow(type));
-    dispatch(updateShowCustomToast(true));
-  };
+
   return (
     <View
       style={{
@@ -67,33 +60,11 @@ const Posts = () => {
         </View>
       </> */}
       <MyPostPanel />
-      <ReportUserModal handleToastView={() => handleToast('reportUser')} />
+      <ReportUserModal />
       <ReportPanel />
-      <ReportPostModal handleToastView={() => handleToast('reportPost')} />
-      <BlockUserModal handleToastView={() => handleToast('blockUser')} />
+      <ReportPostModal />
+      <BlockUserModal />
       <DeleteMyPostPanel />
-      {toastType !== 'none' && toastType !== 'publish' && (
-        <CustomToast
-          type="sucess"
-          marginVertical={24}
-          position="top"
-          text={
-            toastType === 'reportUser'
-              ? 'JohnFlock is reported successfully'
-              : toastType === 'blockUser'
-              ? 'You have blocked JohnFlock'
-              : toastType === 'reportPost'
-              ? 'Post is reported successfully'
-              : null
-          }
-          functions={[
-            () => {
-              dispatch(updateToastToShow('none')),
-                dispatch(updateShowCustomToast(false));
-            },
-          ]}
-        />
-      )}
     </View>
   );
 };

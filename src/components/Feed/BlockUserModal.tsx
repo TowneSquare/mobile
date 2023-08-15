@@ -19,14 +19,15 @@ import BottomSheet, {
 import CustomHandler from './CustomHandler';
 
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-import { updateBlockUserModal } from '../../controller/FeedsController';
+import {
+  updateBlockUserModal,
+  updateToast,
+} from '../../controller/FeedsController';
 const { height, width } = Dimensions.get('window');
 import BlockIcon from '../../../assets/images/svg/BlockIcon';
 const size = new sizes(height, width);
-interface Props {
-  handleToastView: () => void;
-}
-const BlockUserModal = ({ handleToastView }: Props) => {
+
+const BlockUserModal = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
   const dispatch = useAppDispatch();
@@ -105,7 +106,13 @@ const BlockUserModal = ({ handleToastView }: Props) => {
             <Pressable
               onPress={() => {
                 dispatch(updateBlockUserModal(false));
-                handleToastView();
+                dispatch(
+                  updateToast({
+                    displayToast: true,
+                    toastMessage: 'You have blocked JohnFlock',
+                    toastType: 'success',
+                  })
+                );
               }}
               style={styles.blockButton}
             >

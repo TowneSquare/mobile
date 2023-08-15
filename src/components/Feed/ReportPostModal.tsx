@@ -11,13 +11,12 @@ import BottomSheet, {
 import CustomHandler from './CustomHandler';
 import ReportFlag from '../../../assets/images/svg/ReportFlag';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { updateToast } from '../../controller/FeedsController';
 import { updateReportPostModal } from '../../controller/FeedsController';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-interface Props {
-  handleToastView: () => void;
-}
-const ReportPostModal = ({ handleToastView }: Props) => {
+
+const ReportPostModal = () => {
   const dispatch = useAppDispatch();
   const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
   const reportPostModal = useAppSelector(
@@ -90,7 +89,13 @@ const ReportPostModal = ({ handleToastView }: Props) => {
             </Text>
             <Pressable
               onPress={() => {
-                handleToastView();
+                dispatch(
+                  updateToast({
+                    displayToast: true,
+                    toastMessage: 'Post is reported succesfully',
+                    toastType: 'success',
+                  })
+                );
                 dispatch(updateReportPostModal(false));
               }}
               style={styles.reportButton}

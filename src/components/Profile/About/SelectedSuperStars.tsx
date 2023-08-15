@@ -19,7 +19,6 @@ import { deleteSelectedSuperStar } from '../../../controller/UserController';
 const SelectedSuperStars = () => {
   const dispatch = useAppDispatch();
   const selectedStars = useAppSelector((state) => state.USER.selectedSuperStar);
-  console.log(selectedStars);
   const numberOfViews = 6;
 
   return (

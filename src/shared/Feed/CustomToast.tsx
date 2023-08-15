@@ -31,40 +31,38 @@ const CustomToast = ({
 }: Props) => {
   const dispatch = useAppDispatch();
   const [progressValue, setProgressValue] = useState(0);
-  const { shouldShowToast } = useAppSelector((state) => ({
-    shouldShowToast: state.CreatePostController.startToastCountdown,
-  }));
-  useEffect(() => {
-    if (shouldShowToast) {
-      const animationDuration = 4000;
-      const animationSteps = 100;
-      const stepDuration = animationDuration / animationSteps;
-      const stepValue = 1 / animationSteps;
 
-      let step = 0;
-      const interval = setInterval(() => {
-        setProgressValue((prevValue) => {
-          const newValue = prevValue + stepValue;
-          step++;
-          if (step >= animationSteps) {
-            clearInterval(interval);
-            setTimeout(() => {
-              batch(() => {
-                functions.forEach((func) => {
-                  func();
-                });
-              });
-            }, 1000);
-          }
-          return Math.min(newValue, 1);
-        });
-      }, stepDuration);
+  // useEffect(() => {
+  //   if (shouldShowToast) {
+  //     const animationDuration = 4000;
+  //     const animationSteps = 100;
+  //     const stepDuration = animationDuration / animationSteps;
+  //     const stepValue = 1 / animationSteps;
 
-      return () => {
-        clearInterval(interval);
-      };
-    }
-  }, [shouldShowToast]);
+  //     let step = 0;
+  //     const interval = setInterval(() => {
+  //       setProgressValue((prevValue) => {
+  //         const newValue = prevValue + stepValue;
+  //         step++;
+  //         if (step >= animationSteps) {
+  //           clearInterval(interval);
+  //           setTimeout(() => {
+  //             batch(() => {
+  //               functions.forEach((func) => {
+  //                 func();
+  //               });
+  //             });
+  //           }, 1000);
+  //         }
+  //         return Math.min(newValue, 1);
+  //       });
+  //     }, stepDuration);
+
+  //     return () => {
+  //       clearInterval(interval);
+  //     };
+  //   }
+  // }, [shouldShowToast]);
   return (
     <Animated.View
       style={[

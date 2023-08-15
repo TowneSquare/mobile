@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { sizes } from '../../utils';
+// import CToast from '../../shared/Feed/CToast';
 const { height, width } = Dimensions.get('window');
 import { appColor, fonts } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
@@ -27,15 +28,17 @@ import CustomToast from '../../shared/Feed/CustomToast';
 import ReceiveTokenModal from '../../components/Feed/ReceiveTokenModal';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import { updateReceiveModalState } from '../../controller/FeedsController';
-import {
-  updateShowCustomToast,
-  updateToastToShow,
-} from '../../controller/createPost';
 import ReportPostModal from '../../components/Feed/ReportPostModal';
 import ReportUserModal from '../../components/Feed/ReportUserModal';
 import BlockUserModal from '../../components/Feed/BlockUserModal';
 import { resetModals } from '../../controller/FeedsController';
+
+import GreenToastIcon from '../../../assets/images/svg/GreenToastIcon';
+import Toast from 'react-native-toast-message';
 import { batch } from 'react-redux';
+import { LinearProgress } from 'react-native-elements';
+import ToastInfoIcon from '../../../assets/images/svg/ToastInfoIcon';
+import CToast from '../../shared/Feed/CToast';
 type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 const Main = () => {
   useEffect(() => {
@@ -43,11 +46,6 @@ const Main = () => {
   }, []);
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-
-  const toastType = useAppSelector(
-    (state) => state.CreatePostController.toastType
-  );
-
 
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -66,9 +64,30 @@ const Main = () => {
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
   };
-  const handleToast = (type: ToastType) => {
-    dispatch(updateToastToShow(type));
-    dispatch(updateShowCustomToast(true));
+  const toastConfig = {
+    tomatoToast: ({ progressValue }) => (
+      <View style={styles.toastContainer}>
+        <View
+          style={[
+            styles.toastRow,
+            {
+              marginVertical: size.getHeightSize(16),
+              alignItems: 'center',
+            },
+          ]}
+        >
+          {<ToastInfoIcon />}
+          <Text style={styles.toastText}>{'hdhgdgdgdgdgd'}</Text>
+        </View>
+
+        <LinearProgress
+          color={'#2AB576'}
+          trackColor={appColor.kgrayDark2}
+          value={progressValue}
+          variant="determinate"
+        />
+      </View>
+    ),
   };
   return (
     <SafeAreaView
@@ -104,12 +123,13 @@ const Main = () => {
       >
         <AntDesign name="plus" size={25} color={appColor.kTextColor} />
       </Pressable>
-      <ReportUserModal handleToastView={() => handleToast('reportUser')} />
+      <ReportUserModal />
       <ReportPanel />
-        <ReportPostModal handleToastView={() => handleToast('reportPost')} />
-        <BlockUserModal handleToastView={() => handleToast('blockUser')} />
+      <ReportPostModal />
+      <BlockUserModal />
       <ReceiveTokenModal closeModal={closeModal} />
-      {toastType !== 'none' && toastType !== 'publish' && (
+
+      {/* {toastType !== 'none' && toastType !== 'publish' && (
         <CustomToast
           type="sucess"
           marginVertical={24}
@@ -144,7 +164,7 @@ const Main = () => {
             },
           ]}
         />
-      )}
+      )} */}
     </SafeAreaView>
   );
 };
@@ -191,5 +211,28 @@ const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0,0,0,0.7)',
+  },
+
+  toastText: {
+    color: appColor.kTextColor,
+    fontSize: size.fontSize(14),
+    fontFamily: 'Outfit-Regular',
+    lineHeight: size.getHeightSize(18),
+  },
+  toastContainer: {
+    backgroundColor: appColor.kgrayDark2,
+    borderRadius: 4,
+    width: size.getWidthSize(340),
+    marginTop: size.getHeightSize(35),
+    borderWidth: size.getWidthSize(1),
+    borderColor: appColor.kGrayLight3,
+  },
+  toastRow: {
+    flexDirection: 'row',
+    marginHorizontal: size.getWidthSize(16),
+    gap: size.getWidthSize(4),
+
+    width: size.getWidthSize(286),
+    alignSelf: 'center',
   },
 });

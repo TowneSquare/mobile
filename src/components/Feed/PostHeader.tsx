@@ -79,8 +79,7 @@ const PostHeader = ({
     return null;
   }
   const showModal = () => {
-    console.log("here")
-    console.log(myPost)
+   
     dispatch(myPost ? updateMyPostPanel(true) : updtaeReportingModal(true));
   };
 

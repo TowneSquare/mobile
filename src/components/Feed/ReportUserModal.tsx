@@ -18,14 +18,13 @@ import BottomSheet, {
 } from '@gorhom/bottom-sheet';
 import CustomHandler from './CustomHandler';
 import ReportFlag from '../../../assets/images/svg/ReportFlag';
+import { updateToast } from '../../controller/FeedsController';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { updateReportUserModal } from '../../controller/FeedsController';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-interface Props {
-  handleToastView: () => void;
-}
-const ReportUserModal = ({ handleToastView }: Props) => {
+
+const ReportUserModal = () => {
   const reportUserModal = useAppSelector(
     (state) => state.FeedsSliceController.ReportUserModal
   );
@@ -101,7 +100,13 @@ const ReportUserModal = ({ handleToastView }: Props) => {
 
             <Pressable
               onPress={() => {
-                handleToastView();
+                dispatch(
+                  updateToast({
+                    displayToast: true,
+                    toastMessage: 'JohnFlock is reported succesfully',
+                    toastType: 'success',
+                  })
+                );
                 dispatch(updateReportUserModal(false));
               }}
               style={styles.reportButton}

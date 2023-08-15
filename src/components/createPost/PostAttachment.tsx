@@ -10,12 +10,8 @@ import PostNft from '../../../assets/images/svg/PostNft';
 import PostCamera from '../../../assets/images/svg/PostCamera';
 import { useNavigation } from '@react-navigation/native';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import {
-  updateMedia,
-  updateGifBottomSheet,
-  updateShowCustomToast,
-  updateToastToShow,
-} from '../../controller/createPost';
+import { updateToast } from '../../controller/FeedsController';
+import { updateMedia, updateGifBottomSheet } from '../../controller/createPost';
 
 const size = new sizes(height, width);
 const PostAttachment = () => {
@@ -49,10 +45,16 @@ const PostAttachment = () => {
     >
       <Pressable
         onPress={() => {
-          disabled && dispatch(updateToastToShow('mediaDisabled'));
           dispatch(
             disabled
-              ? updateShowCustomToast(true)
+              ? updateToast({
+                  displayToast: true,
+                  toastMessage:
+                    'Remove the attached NFT in order to add images, videos, GIFs or other NFTs.',
+                  toastType: 'info',
+                  position: 'bottom',
+                  alignItems: 'flex-start',
+                })
               : updateMedia(Image.resolveAssetSource(images.feedImage2).uri)
           );
         }}
@@ -67,10 +69,16 @@ const PostAttachment = () => {
       <Pressable
         style={styles.iconContainer}
         onPress={() => {
-          disabled && dispatch(updateToastToShow('mediaDisabled'));
           dispatch(
             disabled
-              ? updateShowCustomToast(true)
+              ? updateToast({
+                  displayToast: true,
+                  toastMessage:
+                    'Remove the attached NFT in order to add images, videos, GIFs or other NFTs.',
+                  toastType: 'info',
+                  position: 'bottom',
+                  alignItems: 'flex-start',
+                })
               : updateMedia(Image.resolveAssetSource(images.feedImage1).uri)
           );
         }}
@@ -84,9 +92,17 @@ const PostAttachment = () => {
       <Pressable
         style={styles.iconContainer}
         onPress={() => {
-          disabled && dispatch(updateToastToShow('mediaDisabled'));
           dispatch(
-            disabled ? updateShowCustomToast(true) : updateGifBottomSheet(true)
+            disabled
+              ? updateToast({
+                  displayToast: true,
+                  toastMessage:
+                    'Remove the attached NFT in order to add images, videos, GIFs or other NFTs.',
+                  toastType: 'info',
+                  position: 'bottom',
+                  alignItems: 'flex-start',
+                })
+              : updateGifBottomSheet(true)
           );
         }}
       >
@@ -100,9 +116,15 @@ const PostAttachment = () => {
         style={styles.iconContainer}
         onPress={() => {
           if (disabled === true) {
-            dispatch(updateShowCustomToast(true));
-            dispatch(updateToastToShow('mediaDisabled'));
-          } else navigation.navigate('NftCollectionScreen' as never);
+            updateToast({
+              displayToast: true,
+              toastMessage:
+                'Remove the attached NFT in order to add images, videos, GIFs or other NFTs.',
+              toastType: 'info',
+              position: 'bottom',
+              alignItems: 'flex-start',
+            });
+          } else navigation.navigate('NftCollectionScreen' as any);
         }}
       >
         <PostNft

@@ -19,7 +19,7 @@ import BottomTabNavigation from './BottomTabNavigation';
 import ChooseUsernameSlide from '../screens/SignUp/ChooseUsernameSlide';
 import DrawerNavigation from './DrawerNavigation';
 import EmailLogin from '../screens/SignUp/EmailLogin';
-
+import ToastWrapper from '../shared/Feed/ToastWrapper';
 import ProfileFollowersTab from './ProfileFollowersTab';
 
 import Notifications from '../screens/Feed/Notifications';
