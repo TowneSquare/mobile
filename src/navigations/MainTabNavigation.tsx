@@ -64,7 +64,7 @@ const MainTab = () => {
                   marginTop: size.getHeightSize(4),
                   flex: 1,
                   marginHorizontal: size.getWidthSize(4),
-                  // height: size.getHeightSize(36),
+                  minHeight: size.getHeightSize(36),
                 }}
                 key={route.key}
                 onPress={() => {

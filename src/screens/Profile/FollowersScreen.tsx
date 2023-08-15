@@ -32,6 +32,6 @@ const FollowersScreen = () => {
 export default FollowersScreen;
 const styles = StyleSheet.create({
   marginTop: {
-    height: size.getHeightSize(54),
+    height: size.getHeightSize(16),
   },
 });

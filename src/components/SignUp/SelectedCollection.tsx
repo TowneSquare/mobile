@@ -6,6 +6,7 @@ import {
   ScrollView,
   Image,
   Pressable,
+  BackHandler,
 } from 'react-native';
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -37,15 +38,12 @@ const SelectedCollection = () => {
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const isVisible = useAppSelector(
-    (state) => state.bottomSheetController.selectedCollectionModal
-  );
-  const renderCount = useAppSelector(
-    (state) => state.bottomSheetController.selectedRender
-  );
-  const profilePics = useAppSelector(
-    (state) => state.USER.details.profileImage
-  );
+  const { isVisible, renderCount, profilePics } = useAppSelector((state) => ({
+    isVisible: state.bottomSheetController.selectedCollectionModal,
+    renderCount: state.bottomSheetController.selectedRender,
+    profilePics: state.USER.details.profileImage,
+  }));
+
   useEffect(() => {
     dispatch(updateSelectedRender(0));
   }, []);
@@ -57,6 +55,22 @@ const SelectedCollection = () => {
       bottomSheetRef.current?.close();
       setBottomSheetOpen(false);
     }
+  }, [isVisible]);
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (isVisible === true && renderCount > 0) {
+        dispatch(updateSelectedRender(0));
+        dispatch(updateSelectedCollection(false));
+        setSnap('67%');
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
   }, [isVisible]);
   const animatedIndex = useSharedValue(0);
   const contentStyle = useAnimatedStyle(() => ({

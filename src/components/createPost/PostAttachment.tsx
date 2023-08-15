@@ -116,14 +116,16 @@ const PostAttachment = () => {
         style={styles.iconContainer}
         onPress={() => {
           if (disabled === true) {
-            updateToast({
-              displayToast: true,
-              toastMessage:
-                'Remove the attached NFT in order to add images, videos, GIFs or other NFTs.',
-              toastType: 'info',
-              position: 'bottom',
-              alignItems: 'flex-start',
-            });
+            dispatch(
+              updateToast({
+                displayToast: true,
+                toastMessage:
+                  'Remove the attached NFT in order to add images, videos, GIFs or other NFTs.',
+                toastType: 'info',
+                position: 'bottom',
+                alignItems: 'flex-start',
+              })
+            );
           } else navigation.navigate('NftCollectionScreen' as any);
         }}
       >

@@ -4,7 +4,14 @@ import BottomSheet, {
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
-import { View, Pressable, Text, StyleSheet, Dimensions } from 'react-native';
+import {
+  View,
+  Pressable,
+  Text,
+  StyleSheet,
+  Dimensions,
+  BackHandler,
+} from 'react-native';
 import CustomHandler from '../../Feed/CustomHandler';
 import { appColor } from '../../../constants';
 import { sizes } from '../../../utils';
@@ -54,6 +61,20 @@ const EditProfileModal = () => {
     ),
     []
   );
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (isModalVisible === true) {
+        closeModal();
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  }, [isModalVisible]);
   return (
     <>
       {!isModalVisible ? (

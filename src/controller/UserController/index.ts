@@ -334,7 +334,7 @@ const initialState: UserState = {
   accountInfo: undefined,
   selectedSuperStars: [],
   selectedSuperStar: [],
-  bio: `🖇️ Love everything about blockchain \n🌍3 web3 Native \n 👀 Always on a lookout for Blue Chips`,
+  bio: `🖇️ Love everything about blockchain \n🌍3 web3 Native \n 👀 Always on a lookout for blue chips`,
   theirProfileBottomSheet: false,
 };
 

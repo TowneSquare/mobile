@@ -1,4 +1,4 @@
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, BackHandler } from 'react-native';
 import React, { useCallback, useMemo, useRef, useEffect } from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
@@ -43,6 +43,20 @@ const InfoBottomSheet = ({
     } else {
       bottomSheetRef.current?.expand();
     }
+  }, [showDisplayBottomSheet]);
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (showDisplayBottomSheet === true) {
+        onCloseDisplayBottomSheet();
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
   }, [showDisplayBottomSheet]);
   const {
     animatedHandleHeight,
@@ -94,7 +108,7 @@ const InfoBottomSheet = ({
                 fontFamily: 'Outfit-Regular',
                 textAlign: 'left',
                 fontSize: size.fontSize(16),
-             
+
                 marginBottom: size.getHeightSize(40),
                 marginTop: size.getHeightSize(8),
               }}

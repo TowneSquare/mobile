@@ -1,4 +1,11 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  Pressable,
+  BackHandler,
+} from 'react-native';
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../../../constants';
 import { sizes } from '../../../utils';
@@ -39,6 +46,21 @@ const VerificationModal = () => {
     } else {
       bottomSheetRef.current?.expand();
     }
+  }, [visibility]);
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (visibility === true) {
+        handleVisibility();
+
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
   }, [visibility]);
   const renderBackdrop = useCallback(
     (props: any) => (

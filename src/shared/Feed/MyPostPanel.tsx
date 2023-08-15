@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   Pressable,
+  BackHandler,
 } from 'react-native';
 import React, { useRef, useEffect, useMemo, useCallback } from 'react';
 import { useFonts } from 'expo-font';
@@ -54,6 +55,20 @@ const MyPostPanel = () => {
     } else {
       bottomSheetRef.current?.expand();
     }
+  }, [showModal]);
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (showModal === true) {
+        closeModal();
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
   }, [showModal]);
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,

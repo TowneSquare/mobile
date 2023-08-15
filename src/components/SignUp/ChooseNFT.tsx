@@ -5,6 +5,7 @@ import {
   Dimensions,
   ScrollView,
   Image,
+  BackHandler,
 } from 'react-native';
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -32,19 +33,18 @@ import Customhandler from './Customhandler';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const ChooseNFT = () => {
-  const collectionLength = useAppSelector(
-    (state) => state.bottomSheetController.listOfNftCollections.length
+  const { collectionLength, isVisible, renderCount } = useAppSelector(
+    (state) => ({
+      collectionLength: state.bottomSheetController.listOfNftCollections.length,
+      isVisible: state.bottomSheetController.NftModalOpen,
+      renderCount: state.bottomSheetController.NFTRender,
+    })
   );
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [snapPoint, setSnap] = useState('67%');
-  const isVisible = useAppSelector(
-    (state) => state.bottomSheetController.NftModalOpen
-  );
-  const renderCount = useAppSelector(
-    (state) => state.bottomSheetController.NFTRender
-  );
+
   useEffect(() => {
     dispatch(updateNftRender(0));
   }, []);
@@ -56,6 +56,22 @@ const ChooseNFT = () => {
       bottomSheetRef.current?.close();
       setBottomSheetOpen(false);
     }
+  }, [isVisible]);
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (isVisible === true && renderCount > 0) {
+        dispatch(updateNftRender(0));
+        dispatch(updateNftOpen(false));
+        collectionLength > 0 && setSnap('67%');
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
   }, [isVisible]);
   const animatedIndex = useSharedValue(0);
   const contentStyle = useAnimatedStyle(() => ({

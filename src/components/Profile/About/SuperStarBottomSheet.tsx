@@ -1,8 +1,9 @@
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, BackHandler } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../../../constants';
+import { useAppSelector } from '../../../controller/hooks';
 import { sizes } from '../../../utils';
 import CustomHandler from '../../Feed/CustomHandler';
 import CitizenLogo from '../../../../assets/images/svg/CitizenLogo';
@@ -12,7 +13,6 @@ import BottomSheet, {
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
-import { useAppSelector } from '../../../controller/hooks';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {
@@ -32,6 +32,20 @@ const SuperStarBottomSheet = ({ handleVisibility, typeOfProfile }: Props) => {
     } else {
       bottomSheetRef.current?.expand();
     }
+  }, [visibility]);
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (visibility === true) {
+        handleVisibility();
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
   }, [visibility]);
   const renderBackdrop = useCallback(
     (props: any) => (

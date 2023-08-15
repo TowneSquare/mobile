@@ -73,7 +73,7 @@ const SearchPostTab = () => {
                   marginTop: size.getHeightSize(4),
                   justifyContent: 'center',
                   flex: 1,
-                  // height: size.getHeightSize(36),
+                  minHeight: size.getHeightSize(36),
                 }}
                 key={route.key}
                 onPress={() => {
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
     paddingVertical: size.getHeightSize(9),
     justifyContent: 'center',
     borderRadius: 40,
+    height: size.getHeightSize(36),
   },
   labelContainer: {
     flexDirection: 'row',

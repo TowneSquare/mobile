@@ -5,6 +5,7 @@ import {
   Pressable,
   StyleSheet,
   Alert,
+  BackHandler,
 } from 'react-native';
 import React, {
   useCallback,
@@ -60,6 +61,20 @@ const SelectedCollectionBottomSheet = () => {
     ),
     []
   );
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (isSelectedCollectionBottomSheetVisible === true) {
+        setSelectedCollectionVisible(false);
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  }, [isSelectedCollectionBottomSheetVisible]);
   const animatedIndex = useSharedValue(0);
   const contentStyle = useAnimatedStyle(() => ({
     transform: [

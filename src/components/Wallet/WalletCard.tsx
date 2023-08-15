@@ -81,12 +81,15 @@ const WalletCard = ({ APTOS_DOMAIN_NAME }: Props) => {
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+
+                  height: size.getHeightSize(28),
                 }}
               >
                 <View
                   style={{
                     flexDirection: 'row',
-                    alignItems: 'center',
+                    alignItems: 'flex-start',
                     paddingLeft: size.getWidthSize(1.5),
                     gap: size.getWidthSize(4),
                   }}
@@ -103,7 +106,7 @@ const WalletCard = ({ APTOS_DOMAIN_NAME }: Props) => {
                   flexDirection: 'row',
                   alignItems: 'center',
                   gap: size.getWidthSize(12),
-                  marginTop: size.getHeightSize(16),
+                  marginTop: size.getHeightSize(13),
                 }}
               >
                 <LinearGradient
@@ -135,7 +138,7 @@ const WalletCard = ({ APTOS_DOMAIN_NAME }: Props) => {
                   <Text style={styles.balance}>$26,231</Text>
                 </View>
               </View>
-              <View style={{ marginTop: size.getHeightSize(24) }}>
+              <View style={{ marginTop: size.getHeightSize(27) }}>
                 <Text
                   style={{
                     fontFamily: 'Outfit-SemiBold',
@@ -205,8 +208,11 @@ const styles = StyleSheet.create({
   view2: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: size.getHeightSize(8),
+    marginTop: size.getHeightSize(4),
     marginHorizontal: size.getWidthSize(4),
+    
+    height:size.getHeightSize(40),
+    marginBottom:size.getHeightSize(7)
   },
   view2Box: {
     alignItems: 'center',
@@ -235,7 +241,6 @@ const styles = StyleSheet.create({
     borderRadius: 200,
     marginBottom: size.getHeightSize(2),
   },
-
   gradient: {
     height: size.getHeightSize(84),
     width: size.getHeightSize(84),
@@ -265,7 +270,8 @@ const styles = StyleSheet.create({
   },
   linearGradient: {
     paddingHorizontal: size.getWidthSize(16),
-    paddingVertical: size.getHeightSize(16),
+    paddingTop: size.getHeightSize(16),
+    paddingBottom: size.getHeightSize(13),
     borderRadius: 10,
     marginBottom: size.getHeightSize(1),
   },

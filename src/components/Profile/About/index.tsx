@@ -319,7 +319,6 @@ const About = ({ route }) => {
         <View>{POST_MEDIA_REPLIES()}</View>
       </ScrollView>
       <ViewSuperStarsModal />
- 
     </SafeAreaView>
   );
 };
@@ -373,6 +372,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: size.getWidthSize(4),
     borderRadius: 40,
+    minHeight: size.getHeightSize(36),
   },
   focusedtabText: {
     color: appColor.kTextColor,
@@ -455,9 +455,10 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     marginTop: size.getHeightSize(32),
     marginHorizontal: size.getWidthSize(16),
-    width:size.getWidthSize(344),
+    width: size.getWidthSize(344),
     paddingVertical: size.getHeightSize(4),
-    alignSelf:"center"
+    marginBottom: size.getHeightSize(8),
+    alignSelf: 'center',
   },
 });
 

@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Dimensions, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Pressable,
+  BackHandler,
+} from 'react-native';
 import React, { useRef, useEffect, useCallback, useMemo } from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
@@ -29,6 +36,20 @@ const ReportPostModal = () => {
     } else {
       bottomSheetRef.current?.expand();
     }
+  }, [reportPostModal]);
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (reportPostModal === true) {
+        dispatch(updateReportPostModal(false));
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
   }, [reportPostModal]);
   const {
     animatedHandleHeight,

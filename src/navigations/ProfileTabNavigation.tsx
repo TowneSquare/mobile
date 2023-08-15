@@ -65,7 +65,7 @@ const ProfileTabNavigation = ({ typeOfProfile }: Props) => {
                   borderRadius: 20,
                   marginTop: size.getHeightSize(4),
                   flex: 1,
-                  height: size.getHeightSize(36),
+                  minHeight: size.getHeightSize(36),
                 }}
                 key={route.key}
                 onPress={() => {

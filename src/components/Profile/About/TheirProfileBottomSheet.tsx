@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, BackHandler } from 'react-native';
 import React, { useCallback, useMemo, useRef, useEffect } from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
@@ -41,6 +41,20 @@ const TheirProfileBottomSheet = () => {
     } else {
       bottomSheetRef.current?.expand();
     }
+  }, [isBottomSheet]);
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (isBottomSheet === true) {
+        dispatch(updateTheirProfileBottomSheet(false));
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
   }, [isBottomSheet]);
   const {
     animatedHandleHeight,

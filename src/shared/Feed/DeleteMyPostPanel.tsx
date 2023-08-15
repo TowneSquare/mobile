@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Dimensions, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Pressable,
+  BackHandler,
+} from 'react-native';
 import React, { useRef, useEffect, useMemo, useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
@@ -38,6 +45,20 @@ const DeleteMyPostPanel = () => {
     ),
     []
   );
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (deleteModal === true) {
+        closeModal();
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  }, [deleteModal]);
   const {
     animatedHandleHeight,
     animatedSnapPoints,

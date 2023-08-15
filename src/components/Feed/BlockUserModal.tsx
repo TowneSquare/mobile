@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   Pressable,
+  BackHandler,
 } from 'react-native';
 import React, { useRef, useEffect, useCallback, useMemo } from 'react';
 import { useFonts } from 'expo-font';
@@ -41,6 +42,22 @@ const BlockUserModal = () => {
       bottomSheetRef.current?.expand();
     }
   }, [blockModal]);
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (blockModal === true) {
+        console.log('herererer');
+        dispatch(updateBlockUserModal(false));
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  }, [blockModal]);
+
   const {
     animatedHandleHeight,
     animatedSnapPoints,

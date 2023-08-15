@@ -5,6 +5,7 @@ import {
   Pressable,
   StyleSheet,
   Alert,
+  BackHandler,
 } from 'react-native';
 import React, {
   useCallback,
@@ -67,6 +68,20 @@ const ChooseProfilePicsBottomSheet = () => {
     } else {
       bottomSheetRef.current?.expand();
     }
+  }, [isChooseProfilePictureVisible]);
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (isChooseProfilePictureVisible === true) {
+        setProfilePictureBottomSheet(false);
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
   }, [isChooseProfilePictureVisible]);
   const {
     animatedHandleHeight,

@@ -14,6 +14,7 @@ import {
   Modal,
   Animated,
   ImageBackground,
+  BackHandler
 } from 'react-native';
 import { appColor } from '../../../constants';
 import AntDesign from '@expo/vector-icons/AntDesign';

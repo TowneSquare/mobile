@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 40,
     paddingHorizontal: size.getWidthSize(16),
+    minHeight: size.getHeightSize(36),
   },
   labelContainer: {
     flexDirection: 'row',

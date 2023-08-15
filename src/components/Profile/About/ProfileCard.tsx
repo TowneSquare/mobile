@@ -77,7 +77,7 @@ const ProfileCard = ({
     { length: numberOfColors },
     (_, index) => index * stepSize
   );
-  const handleNaavigation = () => {};
+
   return (
     <View style={[styles.view1]}>
       <View style={{}}>
@@ -112,7 +112,8 @@ const ProfileCard = ({
               end={[0.7, 0.99]}
               style={{
                 paddingHorizontal: size.getWidthSize(16),
-                paddingVertical: size.getHeightSize(16),
+                paddingTop: size.getHeightSize(16),
+                paddingBottom: size.getHeightSize(12.38),
                 borderRadius: 10,
                 marginBottom: size.getHeightSize(1),
               }}
@@ -133,6 +134,8 @@ const ProfileCard = ({
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'space-between',
+
+                  alignItems: 'flex-start',
                 }}
               >
                 <View
@@ -161,7 +164,7 @@ const ProfileCard = ({
                   flexDirection: 'row',
                   alignItems: 'center',
                   gap: size.getWidthSize(12),
-                  marginTop: size.getHeightSize(16),
+                  marginTop: size.getHeightSize(13),
                 }}
               >
                 <LinearGradient
@@ -214,7 +217,12 @@ const ProfileCard = ({
                   </Text>
                 </View>
               </View>
-              <View style={{ marginTop: 25, alignItems: 'flex-end' }}>
+              <View
+                style={{
+                  marginTop: size.getHeightSize(42),
+                  alignItems: 'flex-end',
+                }}
+              >
                 <Text
                   style={{
                     fontFamily: 'Outfit-SemiBold',

@@ -65,5 +65,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignSelf: 'center',
     paddingHorizontal: size.getWidthSize(16),
+    
   },
 });

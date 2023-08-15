@@ -5,6 +5,7 @@ import {
   Platform,
   Image,
   Dimensions,
+  BackHandler,
 } from 'react-native';
 import React, {
   useState,
@@ -36,7 +37,7 @@ const { height, width } = Dimensions.get('window');
 const CompleteSignUpModal = () => {
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
- 
+
   const size = new sizes(height, width);
   const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
   const isVisible = useAppSelector(
@@ -58,6 +59,21 @@ const CompleteSignUpModal = () => {
       setBottomSheetOpen(false);
     }
   }, [isVisible]);
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (isVisible === true) {
+        dispatch(updateRenderCount(0));
+        dispatch(updateBottomSheet(false));
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  }, [isVisible]);
   const {
     animatedHandleHeight,
     animatedSnapPoints,
@@ -69,7 +85,6 @@ const CompleteSignUpModal = () => {
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
-
 
   const renderBackdrop = useCallback(
     (props: any) => (
@@ -179,7 +194,7 @@ const CompleteSignUpModal = () => {
                   </Text>
                 </View>
               </View>
-              <View style={{height:size.getHeightSize(32)}}/>
+              <View style={{ height: size.getHeightSize(32) }} />
               <ContinueButton closeModal navigateTo="ChooseUsernameSlide" />
               <BackButton marginTop={8} closeModal={true} />
             </Animatable.View>

@@ -164,14 +164,14 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(20),
     fontFamily: 'Outfit-Medium',
     letterSpacing: 0.04,
-    width: size.getWidthSize(152),
+    minWidth: size.getWidthSize(51),
   },
   publishButton: {
     paddingHorizontal: size.getWidthSize(16),
     paddingVertical: size.getHeightSize(7),
     backgroundColor: appColor.kSecondaryButtonColor,
     borderRadius: 40,
-    width: size.getWidthSize(81),
+    minWidth: size.getWidthSize(85),
   },
   publishText: {
     color: appColor.kTextColor,

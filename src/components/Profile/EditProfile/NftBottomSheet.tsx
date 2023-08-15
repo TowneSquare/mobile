@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, BackHandler } from 'react-native';
 import React, {
   useCallback,
   useMemo,
@@ -46,6 +46,20 @@ const NftBottomSheet = () => {
     ),
     []
   );
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (isCollectionBottomSheetVisible === true) {
+        setCollectionBottomSheet(false);
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  }, [isCollectionBottomSheetVisible]);
   useEffect(() => {
     if (isCollectionBottomSheetVisible === false) {
       bottomSheetRef.current?.close();
