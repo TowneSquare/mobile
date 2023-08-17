@@ -47,7 +47,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
   const loginGoogle = async () => {
     const token = await magic.oauth.loginWithPopup({
       provider: "google",
-      redirectURI: Linking.createURL("ChooseUsername"),
+      redirectURI: Linking.createURL("SignUp"),
     });
     console.log(JSON.stringify(token));
     dispatch(updateDidToken(token));
@@ -60,7 +60,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
   const loginDiscord = async () => {
     const token = await magic.oauth.loginWithPopup({
       provider: "discord",
-      redirectURI: Linking.createURL("ChooseUsername"),
+      redirectURI: Linking.createURL("SignUp"),
     });
     console.log(token);
     dispatch(updateDidToken(token));
@@ -146,7 +146,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
           Social, create, build, and transact {"\n"} with anyone anywhere
         </Text>
         <Pressable
-          onPress={() => navigation.navigate("ChooseProfile")}
+          onPress={() => navigation.navigate("SignUp")}
           style={{
             marginTop: size.getHeightSize(129),
             width: size.getWidthSize(348.94),
@@ -200,7 +200,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
           }}
         >
           <Pressable
-            onPress={() => navigation.navigate("ChooseUsernameSlide")}
+            onPress={() => navigation.navigate("SignUp")}
             style={styles.socials}
           >
             <Twitter />
@@ -209,7 +209,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
             <Discord />
           </Pressable>
           <Pressable
-            onPress={() => navigation.navigate("ChooseUsernameSlide")}
+            onPress={() => navigation.navigate("SignUp")}
             style={styles.socials}
           >
             <Apple />

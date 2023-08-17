@@ -1,35 +1,25 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../../utils';
-import { appColor } from '../../constants';
-import User from '../../../assets/images/svg/User';
-import NickNameField from './NickNameField';
-import UsernameField from './UsernameField';
+import { View, Text, Dimensions } from "react-native";
+import React from "react";
+const { height, width } = Dimensions.get("window");
+import { sizes } from "../../../utils";
+import { appColor } from "../../../constants";
+import User from "../../../../assets/images/svg/User";
+import NickNameField from "./NickNameField";
+import UsernameField from "./UsernameField";
 const size = new sizes(height, width);
-const SelectSocialsHeader = () => {
+const ChooseUsernameContent = () => {
   return (
     <>
-       <KeyboardAvoidingView
-      enabled
-        behavior={Platform.OS === 'ios' ? 'padding' : null}
-      >
       <View
         style={{
           marginTop: size.getHeightSize(32),
-          alignSelf: 'center',
+          alignSelf: "center",
         }}
       >
         <User />
       </View>
       <View
         style={{
-          // height: size.getHeightSize(37),
           marginHorizontal: size.getWidthSize(16),
         }}
       >
@@ -37,8 +27,8 @@ const SelectSocialsHeader = () => {
           style={{
             color: appColor.kTextColor,
             fontSize: size.fontSize(29),
-            fontFamily: 'Outfit-Bold',
-            textAlign: 'center',
+            fontFamily: "Outfit-Bold",
+            textAlign: "center",
             marginTop: size.getHeightSize(8),
             lineHeight: size.getHeightSize(37),
           }}
@@ -48,7 +38,7 @@ const SelectSocialsHeader = () => {
       </View>
       <View
         style={{
-          alignSelf: 'center',
+          alignSelf: "center",
           marginTop: size.getHeightSize(8),
           width: size.getWidthSize(304),
           marginHorizontal: size.getWidthSize(16),
@@ -58,8 +48,8 @@ const SelectSocialsHeader = () => {
           style={{
             color: appColor.kTextColor,
             fontSize: size.fontSize(16),
-            fontFamily: 'Outfit-Regular',
-            textAlign: 'center',
+            fontFamily: "Outfit-Regular",
+            textAlign: "center",
             lineHeight: size.getHeightSize(21),
           }}
         >
@@ -67,13 +57,13 @@ const SelectSocialsHeader = () => {
         </Text>
       </View>
       <View style={{ height: size.getHeightSize(113.5) }} />
-   
+      <View>
         <NickNameField />
         <View style={{ height: size.getHeightSize(32) }} />
         <UsernameField />
-      </KeyboardAvoidingView>
+      </View>
     </>
   );
 };
 
-export default SelectSocialsHeader;
+export default ChooseUsernameContent;

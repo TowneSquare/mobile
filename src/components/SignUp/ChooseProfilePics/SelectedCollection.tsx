@@ -1,49 +1,46 @@
 import {
   View,
   Text,
-  StyleSheet,
   Dimensions,
+  Pressable,
   BackHandler,
 } from 'react-native';
 import { useRef, useState, useEffect } from 'react';
 import * as Animatable from 'react-native-animatable';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import NFTCollections from './NFTCollections';
 import {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import ProfilePicsCollection from './ProfilePicsCollection';
 import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
-import { sizes } from '../../utils';
-
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { appColor, fonts } from '../../../constants';
+import { sizes } from '../../../utils';
+import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
 import {
+  updateSelectedCollection,
+  updateSelectedRender,
   updateNftOpen,
   updateNftRender,
-  updateUploadImageModalOpen,
-  updateUploadModalRenderCount,
-} from '../../controller/BottomSheetController';
-import Customhandler from './Customhandler';
+} from '../../../controller/BottomSheetController';
+import Customhandler from '../Customhandler';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-const ChooseNFT = () => {
-  const { collectionLength, isVisible, renderCount } = useAppSelector(
-    (state) => ({
-      collectionLength: state.bottomSheetController.listOfNftCollections.length,
-      isVisible: state.bottomSheetController.NftModalOpen,
-      renderCount: state.bottomSheetController.NFTRender,
-    })
-  );
+const SelectedCollection = () => {
+  const [snapPoint, setSnap] = useState('67%');
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const [snapPoint, setSnap] = useState('67%');
+  const { isVisible, renderCount, profilePics } = useAppSelector((state) => ({
+    isVisible: state.bottomSheetController.selectedCollectionModal,
+    renderCount: state.bottomSheetController.selectedRender,
+    profilePics: state.USER.details.profileImage,
+  }));
 
   useEffect(() => {
-    dispatch(updateNftRender(0));
+    dispatch(updateSelectedRender(0));
   }, []);
   useEffect(() => {
     if (isVisible === true && renderCount > 0) {
@@ -57,9 +54,9 @@ const ChooseNFT = () => {
   useEffect(() => {
     const handleBackButton = () => {
       if (isVisible === true && renderCount > 0) {
-        dispatch(updateNftRender(0));
-        dispatch(updateNftOpen(false));
-        collectionLength > 0 && setSnap('67%');
+        dispatch(updateSelectedRender(0));
+        dispatch(updateSelectedCollection(false));
+        setSnap('67%');
         return true;
       } else {
         return false;
@@ -93,7 +90,6 @@ const ChooseNFT = () => {
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -101,14 +97,14 @@ const ChooseNFT = () => {
   return (
     <BottomSheet
       onClose={() => {
-        dispatch(updateNftRender(0));
-        dispatch(updateNftOpen(false));
-        collectionLength > 0 && setSnap('67%');
+        dispatch(updateSelectedRender(0));
+        dispatch(updateSelectedCollection(false));
+        setSnap('67%');
       }}
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={[collectionLength > 0 ? snapPoint : '30%']}
+      snapPoints={[snapPoint]}
       handleComponent={Customhandler}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
@@ -128,34 +124,14 @@ const ChooseNFT = () => {
             textAlign: 'center',
             marginTop: size.getHeightSize(29),
             lineHeight: size.getHeightSize(37),
-          }}
-        >
-          NFT
-        </Text>
-        <View
-          style={{
-            width: size.getWidthSize(304),
-            alignSelf: 'center',
             marginBottom: size.getHeightSize(32),
-            marginTop: size.getHeightSize(8),
           }}
         >
-          <Text
-            style={{
-              color: appColor.kTextColor,
-              fontSize: size.fontSize(16),
-              fontFamily: 'Outfit-Regular',
-              textAlign: 'center',
-
-              lineHeight: size.getHeightSize(21),
-            }}
-          >
-            Select the NFT you want to use as your PFP
-          </Text>
-        </View>
+          Aptomingos
+        </Text>
       </Animatable.View>
       <BottomSheetScrollView
-        onScroll={() => collectionLength > 0 && setSnap('90%')}
+        onScroll={() => setSnap('90%')}
         showsVerticalScrollIndicator={false}
       >
         <Animatable.View
@@ -165,42 +141,82 @@ const ChooseNFT = () => {
           duration={400}
           style={contentStyle}
         >
-          <NFTCollections />
+          <ProfilePicsCollection />
         </Animatable.View>
       </BottomSheetScrollView>
+
       <View
         style={{
-          justifyContent: 'center',
-          height: size.getHeightSize(48),
-          marginTop: size.getHeightSize(8),
-          paddingVertical: size.getHeightSize(12.5),
-          marginBottom: size.getHeightSize(20),
+          height: size.getHeightSize(116),
+          marginBottom: size.getHeightSize(16),
         }}
       >
-        <Text
-          style={[
-            {
+        <Pressable
+          onPress={() => {
+            dispatch(updateSelectedRender(0));
+            dispatch(updateSelectedCollection(false));
+            setSnap('67%');
+          }}
+          disabled={typeof profilePics === 'undefined' ? true : false}
+          style={{
+            alignSelf: 'center',
+            width: size.getWidthSize(328),
+            borderRadius: 40,
+            // height: size.getHeightSize(48),
+            justifyContent: 'center',
+            marginTop: size.getHeightSize(8),
+            backgroundColor:
+              typeof profilePics === 'undefined'
+                ? appColor.kWhiteColorWithOpacity
+                : appColor.kWhiteColor,
+            paddingVertical: size.getHeightSize(12.5),
+          }}
+        >
+          <Text
+            style={{
+              textAlign: 'center',
+              color: appColor.kButtonTextColor,
+              fontSize: size.fontSize(18),
+              fontFamily: 'Outfit-SemiBold',
+              lineHeight: size.getHeightSize(23),
+
+              letterSpacing: 0.01,
+            }}
+          >
+            Choose
+          </Text>
+        </Pressable>
+        <View
+          style={{
+            justifyContent: 'center',
+            height: size.getHeightSize(48),
+            marginTop: size.getHeightSize(8),
+            paddingVertical: size.getHeightSize(12.5),
+            marginBottom: size.getHeightSize(20),
+          }}
+        >
+          <Text
+            onPress={() => {
+              dispatch(updateSelectedRender(0));
+              dispatch(updateSelectedCollection(false));
+              dispatch(updateNftRender(1));
+              dispatch(updateNftOpen(true));
+              setSnap('67%');
+            }}
+            style={{
               color: appColor.kTextColor,
               fontSize: size.fontSize(18),
               fontFamily: 'Outfit-SemiBold',
               textAlign: 'center',
               lineHeight: size.getHeightSize(23),
-            },
-          ]}
-          onPress={() => {
-            dispatch(updateNftRender(0));
-            dispatch(updateNftOpen(false));
-            dispatch(updateUploadModalRenderCount(1));
-            dispatch(updateUploadImageModalOpen(true));
-            collectionLength > 0 && setSnap('67%');
-          }}
-        >
-          Back
-        </Text>
+            }}
+          >
+            Back
+          </Text>
+        </View>
       </View>
     </BottomSheet>
   );
 };
 
-export default ChooseNFT;
-const styles = StyleSheet.create({});
+export default SelectedCollection;

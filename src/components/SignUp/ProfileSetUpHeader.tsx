@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-
   Dimensions,
 } from "react-native";
 import { ReactNode } from "react";

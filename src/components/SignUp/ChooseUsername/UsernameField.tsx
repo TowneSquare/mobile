@@ -1,10 +1,10 @@
 import { View, Text, Dimensions, TextInput } from "react-native";
-import { sizes } from "../../utils";
+import { sizes } from "../../../utils";
 import { useFonts } from "expo-font";
-import { appColor, fonts } from "../../constants";
-import { useAppSelector, useAppDispatch } from "../../controller/hooks";
-import Info from "../../../assets/images/svg/Info";
-import { updateUsername } from "../../controller/UserController";
+import { appColor, fonts } from "../../../constants";
+import { useAppSelector, useAppDispatch } from "../../../controller/hooks";
+import Info from "../../../../assets/images/svg/Info";
+import { updateUsername } from "../../../controller/UserController";
 const UsernameField = () => {
   const dispatch = useAppDispatch();
   const userNameError = useAppSelector(

@@ -6,14 +6,14 @@ import {
   Dimensions,
 } from 'react-native';
 import { useFonts } from 'expo-font';
-import { images, fonts, appColor } from '../../constants';
+import { images, fonts, appColor } from '../../../constants';
 const { height, width } = Dimensions.get('window');
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
 import {
   updateProfilePics,
-} from '../../controller/BottomSheetController';
-import { updateProfileImage } from '../../controller/UserController';
-import { sizes } from '../../utils';
+} from '../../../controller/BottomSheetController';
+import { updateProfileImage } from '../../../controller/UserController';
+import { sizes } from '../../../utils';
 import { batch } from 'react-redux';
 const size = new sizes(height, width);
 const ProfilePicsCollection = () => {

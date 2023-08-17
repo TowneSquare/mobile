@@ -1,66 +1,50 @@
 import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  Pressable,
+    View,
+    Text,
+    Pressable,
+    Dimensions,
+    StyleSheet
 } from "react-native";
 import { useState } from "react";
-import { appColor, fonts } from "../../constants";
-import { StatusBar } from "expo-status-bar";
-import { useFonts } from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
-const { height, width } = Dimensions.get("window");
-import { sizes } from "../../utils";
-import ContinueButton from "../../components/SignUp/ContinueButton";
-import BackButton from "../../components/SignUp/BackButton";
-import Link from "../../../assets/images/svg/Link";
-import Checked from "../../../assets/images/svg/Checked";
-import DiscordBG from "../../../assets/images/svg/DiscordBG";
-import TwitterBG from "../../../assets/images/svg/TwitterBg";
-import ProfileSetUpHeader from "../../components/SignUp/ProfileSetUpHeader";
+import { sizes } from "../../../utils";
+import { appColor } from "../../../constants";
+import DiscordBG from "../../../../assets/images/svg/DiscordBG";
+import TwitterBG from "../../../../assets/images/svg/TwitterBg";
+import Checked from "../../../../assets/images/svg/Checked";
+import Header from "../Header";
+import Link from "../../../../assets/images/svg/Link";
+
+const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
+
 const ConnectSocials = () => {
   const [isTwitterConected, setTwitterConnected] = useState(false);
   const [isDiscordConnected, setDiscordConnected] = useState(false);
-  let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
-  });
-  if (!isLoaded) {
-    return null;
-  }
+
   const handleTwitterConnection = () => {
     setTwitterConnected(!isTwitterConected);
   };
   const handleDiscordConnection = () => {
     setDiscordConnected(!isDiscordConnected);
   };
-  return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: appColor.signUpBackground,
-      }}
-    >
-      <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
-      <ProfileSetUpHeader
-        SvgImage={<Link />}
-        stepDescription="Next Step: Find your friends"
-        title="Connect your socials"
-        sub_title="Connect both to receive extra credentials in your profile"
-        steps={3}
-        subTitleWidth={304}
-      />
+
+  return(
+    <SafeAreaView>
       <View
         style={{
           flex: 1,
         }}
       />
+      <Header 
+        SvgImage={<Link />}
+        title="Connect your socials"
+        subtitle="Connect both to receive extra credentials in your profile"
+        subTitleWidth={328}
+      />
       <View
         style={{
-          // height: size.getHeightSize(343),
+          height: size.getHeightSize(343),
           width: size.getWidthSize(328),
           alignSelf: "center",
           justifyContent: "center",
@@ -74,6 +58,7 @@ const ConnectSocials = () => {
           }}
         >
           <TwitterBG />
+
           <Text style={styles.socialText}>Twitter</Text>
           {isTwitterConected ? (
             <Pressable
@@ -112,22 +97,12 @@ const ConnectSocials = () => {
           )}
         </View>
       </View>
-      <View style={{ flex: 1 }} />
-
-      <View
-        style={{
-          height: size.getHeightSize(124),
-          marginBottom: size.getHeightSize(24),
-        }}
-      >
-        <ContinueButton navigateTo="FindFriends" />
-        <BackButton marginTop={20} />
-      </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 export default ConnectSocials;
+
 const styles = StyleSheet.create({
   socialText: {
     fontSize: size.fontSize(16),

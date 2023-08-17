@@ -8,7 +8,6 @@ import {
   SafeAreaView,
   FlatList,
   ScrollView,
-  KeyboardAvoidingView
 } from "react-native";
 import Constants from "expo-constants";
 import { useFonts } from "expo-font";
@@ -16,18 +15,24 @@ import TransitionBackButton from "../../components/SignUp/TransitionBackButton";
 import { appColor, fonts } from "../../constants";
 import { sizes } from "../../utils";
 import TranslationForwardButton from "../../components/SignUp/TranslationForwardButton";
-import SelectSocialsHeader from "../../components/SignUp/SelectSocialsHeader";
-import ConnectSocialsAndVerifyContent from "../../components/SignUp/ConnectSocialsAndVerifyContent";
-import { ChooseUsernameSlideProps } from "../../navigations/NavigationTypes";
+import Verify from "../../components/SignUp/ConnectSocialsAndVerify/Verify";
+import { SignUpProps } from "../../navigations/NavigationTypes";
+import ChooseUsernameContent from "../../components/SignUp/ChooseUsername/UsernameContent";
+import ConnectSocials from "../../components/SignUp/ConnectSocials/ConnectSocials";
+import FindFriends from "../../components/SignUp/FindFriends/FindFriends";
+import ExploreCommunities from "../../components/SignUp/ExploreCommunities/ExploreCommunities";
+import ChooseProfilePics from "../../components/SignUp/ChooseProfilePics/ChooseProfilePics";
+
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
 let newWidth = width - 2 * PADDING;
-const ChooseUsernameSlide = ({ navigation }: ChooseUsernameSlideProps) => {
+
+const SignUp = ({ navigation }: SignUpProps) => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList<any>>(null);
   const [viewIndex, setViewIndex] = useState(0);
-  const views = [<SelectSocialsHeader />, <ConnectSocialsAndVerifyContent />];
+  const views = [<ChooseUsernameContent />, <Verify />, <ConnectSocials />, <FindFriends />, <ExploreCommunities />, <ChooseProfilePics />];
   const onViewChangeRef = useRef(({ viewableItems }: any) => {
     setViewIndex(viewableItems[0]?.index);
   });
@@ -37,7 +42,7 @@ const ChooseUsernameSlide = ({ navigation }: ChooseUsernameSlideProps) => {
     if (newIndex < views.length && flatListRef.current) {
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
     } else {
-      navigation.navigate("ConnectSocials");
+      navigation.navigate("Congratulations");
     }
   };
 
@@ -52,8 +57,8 @@ const ChooseUsernameSlide = ({ navigation }: ChooseUsernameSlideProps) => {
 
   const stagePosition = Animated.divide(scrollX, width);
   const progressWidth = stagePosition.interpolate({
-    inputRange: [0, 1, 2],
-    outputRange: [newWidth / 6, (newWidth / 6) * 2, newWidth],
+    inputRange: [0, 1, 2, 3, 4, 5],
+    outputRange: [newWidth / 6, (newWidth / 6) * 2, (newWidth / 6) * 3, (newWidth / 6) * 4,(newWidth / 6) * 5, newWidth],
     extrapolate: "clamp",
   });
 
@@ -62,10 +67,15 @@ const ChooseUsernameSlide = ({ navigation }: ChooseUsernameSlideProps) => {
       case 0:
         return "Select Socials";
       case 1:
-        return "Connect Socials & Verify";
-
-      default:
         return "Select Socials";
+      case 2:
+        return "Find your friends";
+      case 3:
+        return "Explore communities";
+      case 4:
+        return "Choose PFP";
+      default:
+        return "Hang on! You're all done after this.";
     }
   };
 
@@ -80,9 +90,6 @@ const ChooseUsernameSlide = ({ navigation }: ChooseUsernameSlideProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView>
-        
-      </KeyboardAvoidingView>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View
           style={{
@@ -170,7 +177,7 @@ const ChooseUsernameSlide = ({ navigation }: ChooseUsernameSlideProps) => {
   );
 };
 
-export default ChooseUsernameSlide;
+export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
