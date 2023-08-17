@@ -17,6 +17,5 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           assignees: Pcharlesme,
             Pelumi527,
-            kirillzabrodin,
             d2Dreamer
           numOfAssignee: 1
