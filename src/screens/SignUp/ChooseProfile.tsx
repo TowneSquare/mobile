@@ -1,17 +1,12 @@
 import { View, Text, Dimensions, ImageBackground } from 'react-native';
-import React from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
 import CompleteSignUpModal from '../../components/SignUp/CompleteSignUpModal';
 import { sizes } from '../../utils';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Wallets from '../../components/SignUp//Wallets';
-import { useAppSelector } from '../../controller/hooks';
 import BackButton from '../../components/SignUp/BackButton';
-import Background3 from '../../../assets/images/svg/Background3';
 import { ChooseProfileProps } from '../../navigations/NavigationTypes';
-import tinycolor from 'tinycolor2';
 const { height, width } = Dimensions.get('window');
 const ChooseProfile = ({ navigation }: ChooseProfileProps) => {
   const size = new sizes(height, width);

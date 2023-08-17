@@ -1,16 +1,13 @@
 import {
   View,
   Text,
-  ImageBackground,
-  Image,
   Dimensions,
   StyleSheet,
   Pressable,
-  ImageSourcePropType,
   ScrollView,
 } from "react-native";
-import React, { ReactNode, useState, useEffect } from "react";
-import { appColor, fonts, images } from "../../constants";
+import { ReactNode, useState, useEffect } from "react";
+import { appColor, fonts } from "../../constants";
 import { StatusBar } from "expo-status-bar";
 import Community from "../../../assets/images/svg/Community";
 import { useFonts } from "expo-font";
@@ -22,7 +19,6 @@ import ContinueButton from "../../components/SignUp/ContinueButton";
 import BackButton from "../../components/SignUp/BackButton";
 
 import PolygonImage from "../../../assets/images/svg/PolygonImage";
-import Checked from "../../../assets/images/svg/Checked";
 import ScrollableProfileSetUpHeader from "../../components/SignUp/ScrollableProfileSetUpHeader";
 import ScrollableHeaderContent from "../../components/SignUp/ScrollableHeaderContent";
 const size = new sizes(height, width);

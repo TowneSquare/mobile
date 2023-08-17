@@ -1,5 +1,4 @@
 import { View, Text, Dimensions, TextInput } from "react-native";
-import React, { useState } from "react";
 import { sizes } from "../../utils";
 import { useFonts } from "expo-font";
 import { appColor, fonts } from "../../constants";

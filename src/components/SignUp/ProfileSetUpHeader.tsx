@@ -1,14 +1,12 @@
 import {
   View,
   Text,
-  StyleSheet,
-  ImageSourcePropType,
-  Image,
+
   Dimensions,
 } from "react-native";
-import React, { ReactNode, useState, useEffect } from "react";
+import { ReactNode } from "react";
 import { useFonts } from "expo-font";
-import { appColor, fonts, images } from "../../constants";
+import { appColor, fonts } from "../../constants";
 import { sizes } from "../../utils";
 const { height, width } = Dimensions.get("window");
 interface Props {

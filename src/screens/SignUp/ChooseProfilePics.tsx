@@ -6,8 +6,7 @@ import {
   StyleSheet,
   Pressable,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, fonts } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,7 +15,6 @@ import { sizes } from '../../utils';
 import ContinueButton from '../../components/SignUp/ContinueButton';
 import { Entypo } from '@expo/vector-icons';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-import BackButton from '../../components/SignUp/BackButton';
 import ProfileSetUpHeader from '../../components/SignUp/ProfileSetUpHeader';
 import UploadImageModal from '../../components/SignUp/UploadImageModal';
 import SelectedCollection from '../../components/SignUp/SelectedCollection';

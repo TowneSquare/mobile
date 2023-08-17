@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import {
   Text,
   View,
@@ -6,17 +6,14 @@ import {
   Animated,
   Dimensions,
   SafeAreaView,
-  Pressable,
   FlatList,
   ScrollView,
   KeyboardAvoidingView
 } from "react-native";
 import Constants from "expo-constants";
-import { StatusBar } from "expo-status-bar";
-import { useAppSelector } from "../../controller/hooks";
 import { useFonts } from "expo-font";
 import TransitionBackButton from "../../components/SignUp/TransitionBackButton";
-import { appColor, fonts, images } from "../../constants";
+import { appColor, fonts } from "../../constants";
 import { sizes } from "../../utils";
 import TranslationForwardButton from "../../components/SignUp/TranslationForwardButton";
 import SelectSocialsHeader from "../../components/SignUp/SelectSocialsHeader";

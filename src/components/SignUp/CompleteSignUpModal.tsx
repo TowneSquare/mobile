@@ -1,13 +1,10 @@
 import {
   View,
   Text,
-  StyleSheet,
-  Platform,
-  Image,
   Dimensions,
   BackHandler,
 } from 'react-native';
-import React, {
+import {
   useState,
   useRef,
   useEffect,
@@ -16,7 +13,6 @@ import React, {
 } from 'react';
 import BackButton from './BackButton';
 import ContinueButton from './ContinueButton';
-import { MaterialIcons } from '@expo/vector-icons';
 import Customhandler from './Customhandler';
 import * as Animatable from 'react-native-animatable';
 import {
@@ -25,7 +21,7 @@ import {
 } from '../../controller/BottomSheetController';
 import Info from '../../../assets/images/svg/Info';
 import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import BottomSheet, {

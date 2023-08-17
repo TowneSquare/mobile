@@ -2,20 +2,14 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
   Pressable,
   Dimensions,
 } from 'react-native';
-import React, { useState } from 'react';
 import { useFonts } from 'expo-font';
 import { images, fonts, appColor } from '../../constants';
 const { height, width } = Dimensions.get('window');
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import {
-  updateSelectedCollection,
-  updateSelectedRender,
-  updateNftRender,
-  updateNftOpen,
   updateProfilePics,
 } from '../../controller/BottomSheetController';
 import { updateProfileImage } from '../../controller/UserController';

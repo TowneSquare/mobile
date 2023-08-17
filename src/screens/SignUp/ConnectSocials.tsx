@@ -1,14 +1,12 @@
 import {
   View,
   Text,
-  ImageBackground,
-  Image,
   Dimensions,
   StyleSheet,
   Pressable,
 } from "react-native";
-import React, { useState } from "react";
-import { appColor, fonts, images } from "../../constants";
+import { useState } from "react";
+import { appColor, fonts } from "../../constants";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";

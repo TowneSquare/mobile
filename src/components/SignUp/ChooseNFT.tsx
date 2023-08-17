@@ -3,23 +3,20 @@ import {
   Text,
   StyleSheet,
   Dimensions,
-  ScrollView,
-  Image,
   BackHandler,
 } from 'react-native';
-import React, { useMemo, useRef, useState, useEffect } from 'react';
-import { MaterialIcons } from '@expo/vector-icons';
+import { useRef, useState, useEffect } from 'react';
 import * as Animatable from 'react-native-animatable';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import NFTCollections from './NFTCollections';
-import Animated, {
+import {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
 import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
 
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';

@@ -1,12 +1,8 @@
 import { View, Text, Dimensions, StyleSheet } from "react-native";
-import React from "react";
 const { height, width } = Dimensions.get("window");
 import { sizes } from "../../utils";
 import { appColor } from "../../constants";
-import User from "../../../assets/images/svg/User";
 import Link from "../../../assets/images/svg/Link";
-import NickNameField from "./NickNameField";
-import UsernameField from "./UsernameField";
 import SealChecks from "../../../assets/images/svg/SealChecks";
 import Clap from "../../../assets/images/svg/Clap";
 import Robot from "../../../assets/images/svg/Robot";

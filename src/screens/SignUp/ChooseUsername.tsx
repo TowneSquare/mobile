@@ -1,19 +1,12 @@
 import {
   View,
-  Text,
-  ImageBackground,
-  Image,
   Dimensions,
   StyleSheet,
-  Pressable,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
   Animated,
-  TouchableOpacity,
 } from "react-native";
-import React, { useState, useRef } from "react";
-import { appColor, fonts, images } from "../../constants";
+import { useRef } from "react";
+import { appColor } from "../../constants";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 const { height, width } = Dimensions.get("window");
@@ -27,7 +20,6 @@ import { useAppSelector } from "../../controller/hooks";
 import TranslationForwardButton from "../../components/SignUp/TranslationForwardButton";
 import TransitionBackButton from "../../components/SignUp/TransitionBackButton";
 
-import { Transition, Transitioning } from "react-native-reanimated";
 const size = new sizes(height, width);
 const ChooseUsername = () => {
   const animation = useRef(new Animated.Value(0)).current;

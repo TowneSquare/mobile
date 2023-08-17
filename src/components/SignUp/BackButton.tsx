@@ -1,5 +1,4 @@
-import { View, Text, Dimensions, Pressable } from "react-native";
-import React from "react";
+import { View, Text, Dimensions } from "react-native";
 import { appColor, fonts } from "../../constants";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";

@@ -1,14 +1,10 @@
 import {
   View,
   Text,
-  ImageBackground,
-  Image,
   Dimensions,
   StyleSheet,
-  Pressable,
 } from "react-native";
-import React, { useState } from "react";
-import { appColor, fonts, images } from "../../constants";
+import { appColor, fonts } from "../../constants";
 import Robot from "../../../assets/images/svg/Robot";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
