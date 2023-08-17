@@ -98,9 +98,9 @@ const SearchPostTab = () => {
       {isSearchFieldFocused !== 'hide_for_you_tab' && (
         <Tab.Screen options={{}} name="For you" component={ForYouTab} />
       )}
+      <Tab.Screen name="Posts" component={Posts} />
       <Tab.Screen name="People" component={PeopleTab} />
       <Tab.Screen name="Communities" component={CommuintiesTab} />
-      <Tab.Screen name="Posts" component={Posts} />
     </Tab.Navigator>
   );
 };
