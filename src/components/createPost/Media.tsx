@@ -31,7 +31,7 @@ const Media = () => {
       }}
     >
       <Image
-        source={media}
+        source={{uri:media}}
         style={{
           width: '100%',
           height: '100%',
@@ -44,8 +44,10 @@ const Media = () => {
         onPress={() => dispatch(updateMedia(null))}
         style={{
           position: 'absolute',
-          right: size.getWidthSize(8),
-          top: size.getHeightSize(8),
+          right: size.getWidthSize(0),
+          top: size.getHeightSize(0),
+          paddingTop: size.getHeightSize(8),
+          paddingRight: size.getWidthSize(8),
         }}
       >
         <RemoveAttachment />

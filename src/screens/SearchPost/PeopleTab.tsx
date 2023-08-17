@@ -4,11 +4,16 @@ const { height, width } = Dimensions.get('window');
 import { sizes } from '../../utils';
 import UserCircle from '../../../assets/images/svg/UserCirlce';
 import { appColor, fonts } from '../../constants';
-import { useAppSelector } from '../../controller/hooks';
+import ReportPostModal from '../../components/Feed/ReportPostModal';
+import ReportUserModal from '../../components/Feed/ReportUserModal';
+import BlockUserModal from '../../components/Feed/BlockUserModal';
 import SuggestedProfiles from '../../components/Search/SuggestedProfiles';
 const size = new sizes(height, width);
 
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 const PeopleTab = () => {
+  const dispatch = useAppDispatch();
   const { data, searchFocus, searchData } = useAppSelector((state) => ({
     data: state.SearchPostController.profileData,
     searchFocus: state.SearchPostController.searchFocus,

@@ -13,7 +13,7 @@ import { useFonts } from 'expo-font';
 import { images, fonts, appColor } from '../../constants';
 const { height, width } = Dimensions.get('window');
 import { useNavigation } from '@react-navigation/native';
-import { SelectedCollectionContext } from './SelectedCollectionContext';
+import { SelectedCollectionContext } from '../../context/SelectedCollectionContext';
 import { sizes } from '../../utils';
 const size = new sizes(height, width);
 
@@ -113,13 +113,13 @@ const SelectedCollection = () => {
               width: size.getWidthSize(140),
               height: size.getHeightSize(140),
             }}
-            blurRadius={isModalVisible ? 10 : 0}
+            blurRadius={isModalVisible ? 20 : 0}
           />
         }
         <View
           style={[
             styles.collectionNameContainer,
-            { opacity: isModalVisible ? 0.6 : 0.9 },
+            { opacity: isModalVisible ? 0.1 : 0.9 },
           ]}
         >
           <Text

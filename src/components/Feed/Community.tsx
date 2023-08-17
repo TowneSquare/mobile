@@ -282,19 +282,20 @@ const Community: React.FC<Props> = memo(({ data }) => {
                   ]}
                   resizeMode="cover"
                 />
-              </View>
-              <View style={styles.nftcollectionContainer}>
-                <View style={styles.collectionInfo}>
-                  <Image source={images.collectionImage} />
-                  <Text style={styles.collectionName}>
-                    {nftContent.collectionName}
+                <View style={styles.nftcollectionContainer}>
+                  <View style={styles.collectionInfo}>
+                    <Image source={images.collectionImage} />
+                    <Text style={styles.collectionName}>
+                      {nftContent.collectionName}
+                    </Text>
+                  </View>
+
+                  <Text style={styles.collectionId}>
+                    {nftContent.collectionName} {nftContent.collectionId}
                   </Text>
                 </View>
-
-                <Text style={styles.collectionId}>
-                  {nftContent.collectionName} {nftContent.collectionId}
-                </Text>
               </View>
+
               <View style={styles.nftCollection}>
                 <View style={styles.collectionPriceContainer}>
                   <Text style={styles.price}>Price</Text>

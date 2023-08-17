@@ -6,12 +6,17 @@ import {
   Image,
   Dimensions,
   Pressable,
+  BackHandler,
 } from 'react-native';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo, useCallback } from 'react';
 import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetView,
+  useBottomSheetDynamicSnapPoints,
+} from '@gorhom/bottom-sheet';
 import { updateMyPostPanel } from '../../controller/FeedsController';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import CustomHandler from '../../components/Feed/CustomHandler';
@@ -22,47 +27,95 @@ const size = new sizes(height, width);
 const MyPostPanel = () => {
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
   const showModal = useAppSelector(
     (state) => state.FeedsSliceController.MyPostPanel
   );
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        pressBehavior={'close'}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        opacity={0.5}
+      />
+    ),
+    []
+  );
+  const {
+    animatedHandleHeight,
+    animatedSnapPoints,
+    animatedContentHeight,
+    handleContentLayout,
+  } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
+  useEffect(() => {
+    if (showModal === false) {
+      bottomSheetRef.current?.close();
+    } else {
+      bottomSheetRef.current?.expand();
+    }
+  }, [showModal]);
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (showModal === true) {
+        closeModal();
+        return true;
+      } else {
+        return false;
+      }
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  }, [showModal]);
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
-  useEffect(() => {
-    if (showModal === false) {
-      bottomSheetRef.current?.close();
-    }
-  }, [showModal]);
+
   const closeModal = () => {
     bottomSheetRef.current?.close();
     dispatch(updateMyPostPanel(false));
   };
+
   return (
-    <BottomSheet
-      onClose={closeModal}
-      handleComponent={CustomHandler}
-      ref={bottomSheetRef}
-      enablePanDownToClose={true}
-      index={showModal ? 0 : -1}
-      snapPoints={[Platform.OS === 'ios' ? '15%' : '15%']}
-      backgroundStyle={{
-        backgroundColor: appColor.kgrayDark2,
-      }}
-    >
-      <Pressable
-        onPress={() => {
-          closeModal();
-          dispatch(updateDeletePostPanel(true));
-        }}
-        style={styles.container}
-      >
-        <DeleteIcon />
-        <Text style={styles.text}>Delete Post</Text>
-      </Pressable>
-    </BottomSheet>
+    <>
+      {!showModal ? (
+        <></>
+      ) : (
+        <BottomSheet
+          onClose={closeModal}
+          ref={bottomSheetRef}
+          snapPoints={animatedSnapPoints}
+          handleHeight={animatedHandleHeight}
+          contentHeight={animatedContentHeight}
+          enablePanDownToClose={true}
+          animateOnMount={true}
+          backgroundStyle={{
+            backgroundColor: appColor.kgrayDark2,
+          }}
+          handleComponent={CustomHandler}
+          backdropComponent={renderBackdrop}
+        >
+          <BottomSheetView onLayout={handleContentLayout}>
+            <Pressable
+              onPress={() => {
+                closeModal();
+                dispatch(updateDeletePostPanel(true));
+              }}
+              style={styles.container}
+            >
+              <DeleteIcon />
+              <Text style={styles.text}>Delete Post</Text>
+            </Pressable>
+          </BottomSheetView>
+        </BottomSheet>
+      )}
+    </>
   );
 };
 
@@ -74,6 +127,7 @@ const styles = StyleSheet.create({
     gap: size.getWidthSize(8),
     paddingLeft: size.getWidthSize(16),
     alignItems: 'center',
+    marginBottom: size.getHeightSize(46),
   },
   text: {
     fontSize: size.fontSize(18),

@@ -8,14 +8,11 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 const { height, width } = Dimensions.get('window');
-import JoinButton from '../../shared/Feed/JoinButton';
+import JoinButton from './JoinButton';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
 import { sizes } from '../../utils';
-import { Avatar } from 'react-native-elements';
-import FollowButton from '../../shared/Feed/FollowButton';
-import Queen from '../../../assets/images/svg/Queen';
-import ImageStack from '../Notification/ImageStack';
+import ImageStack from '../../components/Notification/ImageStack';
 import Users from '../../../assets/images/svg/Users';
 import { useAppSelector } from '../../controller/hooks';
 const size = new sizes(height, width);

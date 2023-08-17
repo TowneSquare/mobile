@@ -9,6 +9,7 @@ import {
   Pressable,
   FlatList,
   ScrollView,
+  KeyboardAvoidingView
 } from "react-native";
 import Constants from "expo-constants";
 import { StatusBar } from "expo-status-bar";
@@ -82,6 +83,9 @@ const ChooseUsernameSlide = ({ navigation }: ChooseUsernameSlideProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView>
+        
+      </KeyboardAvoidingView>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View
           style={{

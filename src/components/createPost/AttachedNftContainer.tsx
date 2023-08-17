@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+
 import { Avatar } from 'react-native-elements';
 import React, { useState, useContext } from 'react';
 const { height, width } = Dimensions.get('window');
@@ -31,23 +32,75 @@ const AttachedNftContainer = () => {
         <Image
           source={images.NftCollection}
           style={{ height: '100%', width: '100%', borderRadius: 8 }}
+          resizeMode="cover"
         />
+        {price && (
+          <View style={styles.descriptionContainer}>
+            <View style={styles.row}>
+              <Avatar
+                size={size.getHeightSize(16)}
+                rounded
+                source={images.collectionImage}
+              />
+              <Text style={styles.name}>Aptomingos</Text>
+            </View>
+            <Text style={styles.id}>Aptomingos #9280</Text>
+          </View>
+        )}
       </View>
-      <View style={styles.descriptionContainer}>
-        <View style={styles.row}>
-          <Avatar
-            size={size.getHeightSize(16)}
-            rounded
-            source={images.collectionImage}
-          />
-          <Text style={styles.name}>Aptomingos</Text>
+      {!price && (
+        <View
+          style={{
+            bottom: 0,
+            paddingLeft: size.getWidthSize(16),
+            backgroundColor: '#00000070',
+            paddingTop: size.getHeightSize(8),
+          }}
+        >
+          <View style={styles.row}>
+            <Avatar
+              size={size.getHeightSize(16)}
+              rounded
+              source={images.collectionImage}
+            />
+            <Text style={styles.name}>Aptomingos</Text>
+          </View>
+          <Text style={styles.id}>Aptomingos #9280</Text>
         </View>
-        <Text style={styles.id}>Aptomingos #9280</Text>
-      </View>
+      )}
       {price && (
-        <View style={styles.publishContainer}>
+        <View style={[styles.publishContainer, { position: 'relative' }]}>
+          <Text style={styles.publishText}>Price</Text>
+          <Text
+            style={{
+              color: appColor.kTextColor,
+              fontSize: size.fontSize(20),
+              lineHeight: size.getHeightSize(24),
+              fontFamily: 'Outfit-SemiBold',
+              letterSpacing: 0.4,
+            }}
+          >
+            {price} APT
+          </Text>
+        </View>
+      )}
+      {price && (
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: size.getHeightSize(16),
+            gap: size.widthSize(4),
+          }}
+        >
           <GrayInfoIcon />
-          <Text style={styles.publishText}>
+          <Text
+            style={{
+              color: appColor.grayLight,
+              fontSize: size.fontSize(14),
+              fontFamily: 'Outfit-Regular',
+            }}
+          >
             Publish the post to offer the NFT on sale
           </Text>
         </View>
@@ -60,7 +113,9 @@ const AttachedNftContainer = () => {
         style={{
           position: 'absolute',
           right: size.getWidthSize(0),
-          top: size.getHeightSize(8),
+          top: size.getHeightSize(0),
+          paddingTop: size.getHeightSize(8),
+          paddingRight: size.getWidthSize(8),
         }}
       >
         <RemoveAttachment />
@@ -83,8 +138,13 @@ const styles = StyleSheet.create({
     width: size.getWidthSize(280),
   },
   descriptionContainer: {
-    marginLeft: size.getWidthSize(8),
-    marginTop: size.getHeightSize(8),
+    position: 'absolute',
+    bottom: 0,
+    paddingLeft: size.getWidthSize(16),
+    backgroundColor: '#00000070',
+    right: 0,
+    left: 0,
+    paddingTop: size.getHeightSize(8),
   },
   row: {
     flexDirection: 'row',
@@ -106,16 +166,16 @@ const styles = StyleSheet.create({
     marginBottom: size.getHeightSize(8),
   },
   publishContainer: {
-    flexDirection: 'row',
-    gap: size.getWidthSize(4),
-    marginLeft: size.getWidthSize(8),
-    marginTop: size.getHeightSize(8),
-    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: appColor.kGrayLight3,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+    paddingVertical: size.getHeightSize(8),
+    paddingLeft: size.getWidthSize(16),
   },
   publishText: {
     color: appColor.grayLight,
-    fontSize: size.fontSize(14),
-    lineHeight: size.getHeightSize(18),
+    fontSize: size.fontSize(13),
     fontFamily: 'Outfit-Regular',
   },
 });

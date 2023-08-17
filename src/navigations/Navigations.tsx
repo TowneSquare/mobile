@@ -1,39 +1,41 @@
 import {
   createStackNavigator,
   CardStyleInterpolators,
-} from "@react-navigation/stack";
-import FirstScreen from "../screens/SignUp/FirstScreen";
-import { Easing, Animated, Button } from "react-native";
-import { View, Text } from "react-native";
-import React from "react";
-import { RootStackParamList } from "./NavigationTypes";
-import ChooseProfile from "../screens/SignUp/ChooseProfile";
-import ChooseUsername from "../screens/SignUp/ChooseUsername";
-import ConnectSocialsAndVrify from "../screens/SignUp/ConnectSocialsAndVrify";
-import ConnectSocials from "../screens/SignUp/ConnectSocials";
-import FindFriends from "../screens/SignUp/FindFriends";
-import ExploreCommunities from "../screens/SignUp/ExploreCommunities";
-import ChooseProfilePics from "../screens/SignUp/ChooseProfilePics";
-import Congratulations from "../screens/SignUp/Congratulations";
-import BottomTabNavigation from "./BottomTabNavigation";
-import ChooseUsernameSlide from "../screens/SignUp/ChooseUsernameSlide";
-import DrawerNavigation from "./DrawerNavigation";
-import EmailLogin from "../screens/SignUp/EmailLogin";
-import EditProfile from "../components/Profile/About/EditProfile";
-import { appColor, images } from "../constants";
-import SetNFT from "../components/Profile/About/SetNFTs";
-import Notifications from "../screens/Feed/Notifications";
-import ViewImageScreen from "../screens/Feed/ViewImageScreen";
-import VideoPlayer from "../screens/Feed/VideoPlayer";
-import SinglePost from "../screens/Feed/SinglePost";
+} from '@react-navigation/stack';
+import FirstScreen from '../screens/SignUp/FirstScreen';
+import { Easing, Animated, Button } from 'react-native';
+import { View, Text } from 'react-native';
+import React from 'react';
+import { RootStackParamList } from './NavigationTypes';
+import ChooseProfile from '../screens/SignUp/ChooseProfile';
+import ChooseUsername from '../screens/SignUp/ChooseUsername';
+import ConnectSocialsAndVrify from '../screens/SignUp/ConnectSocialsAndVrify';
+import ConnectSocials from '../screens/SignUp/ConnectSocials';
+import FindFriends from '../screens/SignUp/FindFriends';
+import ExploreCommunities from '../screens/SignUp/ExploreCommunities';
+import ChooseProfilePics from '../screens/SignUp/ChooseProfilePics';
+import Congratulations from '../screens/SignUp/Congratulations';
+import BottomTabNavigation from './BottomTabNavigation';
+import ChooseUsernameSlide from '../screens/SignUp/ChooseUsernameSlide';
+import DrawerNavigation from './DrawerNavigation';
+import EmailLogin from '../screens/SignUp/EmailLogin';
+import ToastWrapper from '../shared/Feed/ToastWrapper';
+import ProfileFollowersTab from './ProfileFollowersTab';
 
-import CreatePost from "../screens/Feed/CreatePost";
-import NftCollectionScreen from "../screens/Feed/NftCollectionScreen";
-import SelectedCollectionScreen from "../screens/Feed/SelectedCollectionScreen";
-import Collection from "../components/Profile/About/collection";
-import SearchScreen from "../screens/SearchPost/SearchScreen";
-import SearchPostTab from "./SearchPostTabBar";
-
+import Notifications from '../screens/Feed/Notifications';
+import ViewImageScreen from '../screens/Feed/ViewImageScreen';
+import VideoPlayer from '../screens/Feed/VideoPlayer';
+import SinglePost from '../screens/Feed/SinglePost';
+import SuperStarCollectionScreen from '../screens/Profile/SuperStarCollectionScreen';
+import CreatePost from '../screens/Feed/CreatePost';
+import NftCollectionScreen from '../screens/Feed/NftCollectionScreen';
+import SelectedCollectionScreen from '../screens/Feed/SelectedCollectionScreen';
+import EditProfileScreen from '../screens/Profile/EditProfileScreen';
+import TheirProfileScreen from '../screens/Profile/TheirProfileScreen';
+import SearchScreen from '../screens/SearchPost/SearchScreen';
+import SearchPostTab from './SearchPostTabBar';
+import SelectedSuperStarCollectionScreen from '../screens/Profile/SelectedSuperStarCollectionScreen';
+import FollowersScreen from '../screens/Profile/FollowersScreen';
 const Navigations = ({ magicProps }: { magicProps: any }) => {
   const Stack = createStackNavigator<RootStackParamList>();
   const config = {
@@ -46,12 +48,175 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
   };
 
   const closeconfig = {
-    animation: "timing",
+    animation: 'timing',
     config: {
       duration: 200,
       easing: Easing.linear,
     },
   };
+  const screens = [
+    {
+      name: 'ChooseProfile',
+      element: ChooseProfile,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'ChooseUsername',
+      component: ChooseUsername,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'ConnectSocialsAndVrify',
+      component: ConnectSocialsAndVrify,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'ConnectSocials',
+      component: ConnectSocials,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'FindFriends',
+      component: FindFriends,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'ExploreCommunities',
+      component: ExploreCommunities,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'Congratulations',
+      component: Congratulations,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'ChooseProfilePics',
+      component: ChooseProfilePics,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'ChooseUsernameSlide',
+      component: ChooseUsernameSlide,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'BottomTabNavigation',
+      component: BottomTabNavigation,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'DrawerNavigation',
+      component: DrawerNavigation,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'ViewImageScreen',
+      component: ViewImageScreen,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'VideoPlayer',
+      component: VideoPlayer,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'SinglePost',
+      component: SinglePost,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'Notifications',
+      component: Notifications,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'CreatePost',
+      component: CreatePost,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'SelectedCollectionScreen',
+      component: SelectedCollectionScreen,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'NftCollectionScreen',
+      component: NftCollectionScreen,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'SearchScreen',
+      component: SearchScreen,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'SearchPostTab',
+      component: SearchPostTab,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'SuperStarCollectionScreen',
+      component: SuperStarCollectionScreen,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'SelectedSuperStarCollectionScreen',
+      component: SelectedSuperStarCollectionScreen,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'EditProfileScreen',
+      component: EditProfileScreen,
+      options: {
+        headerShown: false,
+      },
+    },
+  ];
   return (
     <Stack.Navigator
       screenOptions={{
@@ -67,6 +232,13 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
         {() => <FirstScreen {...magicProps} />}
       </Stack.Screen>
 
+      {/* {screens.map((screen) => (
+        <Stack.Screen
+          name={screen.name as any}
+          component={screen.component}
+          options={screen.options}
+        ></Stack.Screen>
+      ))} */}
       <Stack.Screen
         name="ChooseProfile"
         component={ChooseProfile}
@@ -146,28 +318,6 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="EditProfile"
-        component={EditProfile}
-        options={{
-          headerTitle: "Edit profile",
-          headerStyle: {
-            backgroundColor: appColor.kgrayDark2,
-            height: 150,
-          },
-          headerTitleStyle: {
-            color: appColor.kTextColor,
-            fontFamily: "Outfit-Regular",
-            fontSize: 20,
-            marginBottom: -60,
-          },
-          headerTintColor: "white",
-          headerTitleAlign: "center",
-          headerLeftContainerStyle: {
-            justifyContent: "flex-end",
-          },
-        }}
-      />
 
       <Stack.Screen
         name="ViewImageScreen"
@@ -221,29 +371,6 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
       />
 
       <Stack.Screen
-        name="SetNFTs"
-        component={SetNFT}
-        options={({ route }) => ({
-          title: route.params,
-          headerStyle: {
-            backgroundColor: appColor.kgrayDark2,
-            height: 130,
-          },
-          headerTitleStyle: {
-            color: appColor.kTextColor,
-            fontFamily: "Outfit-Regular",
-            fontSize: 20,
-            marginBottom: -40,
-          },
-          headerTintColor: "white",
-          headerTitleAlign: "center",
-          headerLeftContainerStyle: {
-            justifyContent: "flex-end",
-          },
-        })}
-      />
-
-      <Stack.Screen
         name="SearchScreen"
         component={SearchScreen}
         options={{
@@ -253,6 +380,48 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
       <Stack.Screen
         name="SearchPostTab"
         component={SearchPostTab}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SuperStarCollectionScreen"
+        component={SuperStarCollectionScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SelectedSuperStarCollectionScreen"
+        component={SelectedSuperStarCollectionScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EditProfileScreen"
+        component={EditProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ProfileFollowersTab"
+        component={ProfileFollowersTab}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="FollowersScreen"
+        component={FollowersScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="TheirProfileScreen"
+        component={TheirProfileScreen}
         options={{
           headerShown: false,
         }}

@@ -61,8 +61,10 @@ const MainTab = () => {
                     ? 'transparent'
                     : appColor.kSecondaryButtonColor,
                   borderRadius: 20,
-                  width: size.getWidthSize(176),
                   marginTop: size.getHeightSize(4),
+                  flex: 1,
+                  marginHorizontal: size.getWidthSize(4),
+                  minHeight: size.getHeightSize(36),
                 }}
                 key={route.key}
                 onPress={() => {
@@ -108,7 +110,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   focused: {
-    paddingVertical: size.getHeightSize(8),
+    paddingVertical: size.getHeightSize(9),
     justifyContent: 'center',
     borderRadius: 40,
     paddingHorizontal: size.getWidthSize(16),
@@ -118,7 +120,6 @@ const styles = StyleSheet.create({
     backgroundColor: appColor.kgrayDark2,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
-    justifyContent: 'space-around',
     paddingBottom: size.getHeightSize(4),
   },
 });

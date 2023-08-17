@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
 import { sizes } from '../../utils';
-import SearchField from './SearchField';
+import SearchField from '../../shared/Feed/SearchField';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import CustomHandler from '../Feed/CustomHandler';

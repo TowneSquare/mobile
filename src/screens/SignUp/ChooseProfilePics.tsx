@@ -24,13 +24,15 @@ import User from '../../../assets/images/svg/User';
 import {
   updateUploadImageModalOpen,
   updateUploadModalRenderCount,
+  updateProfilePics,
 } from '../../controller/BottomSheetController';
 import ChooseNFT from '../../components/SignUp/ChooseNFT';
 import RemoveAttachment from '../../../assets/images/svg/RemoveAttachment';
 import { ChooseProfilePicsProps } from '../../navigations/NavigationTypes';
 import { updateProfileImage } from '../../controller/UserController';
 import tinycolor from 'tinycolor2';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { batch } from 'react-redux';
+
 const size = new sizes(height, width);
 
 export default function ChooseProfilePics({
@@ -38,19 +40,15 @@ export default function ChooseProfilePics({
 }: ChooseProfilePicsProps) {
   // const ChooseProfilePics = ({ navigation }: ChooseProfilePicsProps) => {
   const dispatch = useAppDispatch();
-  const profilePics = useAppSelector(
-    (state) => state.USER.details.profileImage
-  );
+  const { profilePics, uploadImageModal, NftModal, selectedCollectionModal } =
+    useAppSelector((state) => ({
+      profilePics: state.USER.details.profileImage,
+      uploadImageModal: state.bottomSheetController.uploadImageModalOpen,
+      NftModal: state.bottomSheetController.NftModalOpen,
+      selectedCollectionModal:
+        state.bottomSheetController.selectedCollectionModal,
+    }));
 
-  const uploadImageModal = useAppSelector(
-    (state) => state.bottomSheetController.uploadImageModalOpen
-  );
-  const NftModal = useAppSelector(
-    (state) => state.bottomSheetController.NftModalOpen
-  );
-  const selectedCollectionModal = useAppSelector(
-    (state) => state.bottomSheetController.selectedCollectionModal
-  );
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -130,7 +128,18 @@ export default function ChooseProfilePics({
               </Pressable>
             </Pressable>
             <Pressable
-              onPress={() => dispatch(updateProfileImage(undefined))}
+              onPress={() => {
+                batch(() => {
+                  dispatch(
+                    updateProfilePics({
+                      image: undefined,
+                      name: '',
+                      id: 0,
+                    })
+                  );
+                  dispatch(updateProfileImage(undefined));
+                });
+              }}
               style={{
                 position: 'absolute',
                 left: size.getWidthSize(257),
@@ -138,18 +147,6 @@ export default function ChooseProfilePics({
             >
               <RemoveAttachment />
             </Pressable>
-            <Text
-              style={{
-                color: appColor.kTextColor,
-                fontSize: size.fontSize(22),
-                fontFamily: 'Outfit-Regular',
-                textAlign: 'center',
-                marginTop: size.getHeightSize(16),
-                lineHeight: size.getHeightSize(21),
-              }}
-            >
-              Looks Amazing!
-            </Text>
           </>
         ) : (
           <Pressable
@@ -186,6 +183,11 @@ export default function ChooseProfilePics({
             />
           </Pressable>
         )}
+        {
+          <Text style={styles.looksAmazing}>
+            {profilePics ? 'Looks Amazing!' : ''}
+          </Text>
+        }
       </View>
       <View style={{ flex: 1 }} />
       <View
@@ -198,30 +200,12 @@ export default function ChooseProfilePics({
           disabled={typeof profilePics === 'undefined' ? true : false}
           navigateTo="Congratulations"
         />
-        <View
-          style={{
-            alignSelf: 'center',
-            width: size.getWidthSize(328),
-            borderRadius: 40,
-            height: size.getHeightSize(48),
-            justifyContent: 'center',
-            marginVertical: size.getHeightSize(16),
-            marginHorizontal: size.getWidthSize(16),
-          }}
-        >
+        <View style={styles.laterContainer}>
           <Text
             onPress={() => {
               navigation.navigate('Congratulations');
             }}
-            style={{
-              fontStyle: 'normal',
-              textAlign: 'center',
-              color: appColor.kTextColor,
-              fontSize: size.fontSize(18),
-              fontFamily: 'Outfit-Medium',
-              lineHeight: size.getHeightSize(23),
-              letterSpacing: 0.02,
-            }}
+            style={styles.laterText}
           >
             I'll do it later
           </Text>
@@ -255,5 +239,31 @@ const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
     // backgroundColor: 'rgba(0, 0, 0, 0.5)', // Opacity color
+  },
+  laterText: {
+    fontStyle: 'normal',
+    textAlign: 'center',
+    color: appColor.kTextColor,
+    fontSize: size.fontSize(18),
+    fontFamily: 'Outfit-Medium',
+    lineHeight: size.getHeightSize(23),
+    letterSpacing: 0.02,
+  },
+  laterContainer: {
+    alignSelf: 'center',
+    width: size.getWidthSize(328),
+    borderRadius: 40,
+    height: size.getHeightSize(48),
+    justifyContent: 'center',
+    marginVertical: size.getHeightSize(16),
+    marginHorizontal: size.getWidthSize(16),
+  },
+  looksAmazing: {
+    color: appColor.kTextColor,
+    fontSize: size.fontSize(22),
+    fontFamily: 'Outfit-Regular',
+    textAlign: 'center',
+    marginTop: size.getHeightSize(16),
+    lineHeight: size.getHeightSize(21),
   },
 });

@@ -9,7 +9,7 @@ interface CreatePost {
   message: string;
   tags: string[];
   community: 'Aptos' | 'Aptos Monkeys' | null;
-  media: any;
+  media: string;
   nft: {
     name: string;
     id: string;
@@ -53,8 +53,6 @@ interface Post {
   NFTBottomSheet: boolean;
   posts: Partial<CreatePost>;
   priceModal: boolean;
-  startToastCountdown: boolean;
-  shouldShowPublishToast: boolean;
 }
 const initialState: Post = {
   data: atMentionData,
@@ -80,14 +78,12 @@ const initialState: Post = {
   NFTBottomSheet: false,
   posts: {
     message: '',
-    media: null,
+    media: '',
     tags: [],
     community: null,
     nft: null,
   },
   priceModal: false,
-  startToastCountdown: false,
-  shouldShowPublishToast: false,
 };
 
 export const fieldHandlerSlice = createSlice({
@@ -223,7 +219,7 @@ export const fieldHandlerSlice = createSlice({
     updateShowHashTags: (state, action: PayloadAction<boolean>) => {
       state.showHashTags = action.payload;
     },
-    updateMedia: (state, action: PayloadAction<boolean>) => {
+    updateMedia: (state, action: PayloadAction<string>) => {
       state.posts.media = action.payload;
     },
     updateGifBottomSheet: (state, action: PayloadAction<boolean>) => {
@@ -244,15 +240,14 @@ export const fieldHandlerSlice = createSlice({
     ) => {
       state.posts.nft = action.payload;
     },
-    updateAttachNftCountDown: (state, action: PayloadAction<boolean>) => {
-      state.startToastCountdown = action.payload;
-    },
 
-    updateAptPrice: (state, action: PayloadAction<number>) => {
-      state.posts.nft.price = action.payload;
+    updateAptPrice: (
+      state,
+      action: PayloadAction<{ name: string; id: string; price?: number }>
+    ) => {
+      state.posts.nft = action.payload;
     },
-    updateShouldShowPublishToast: (state, action: PayloadAction<boolean>) => {
-      state.shouldShowPublishToast = action.payload;
+    clearPostData: (state, action: PayloadAction<boolean>) => {
       state.posts = {
         message: '',
         media: null,
@@ -284,8 +279,7 @@ export const {
   updateTag,
   updateShowPriceModal,
   updatePostNft,
-  updateAttachNftCountDown,
   updateAptPrice,
-  updateShouldShowPublishToast,
+  clearPostData,
 } = fieldHandlerSlice.actions;
 export default fieldHandlerSlice.reducer;

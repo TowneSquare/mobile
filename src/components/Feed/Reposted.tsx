@@ -13,6 +13,7 @@ import PostActions from './PostActions';
 import { feedStyle } from './FeedsStyles';
 import { useFonts } from 'expo-font';
 import RepostedHeader from './RepostedHeader';
+import ProfilePicture from './ProfilePicture';
 import {
   UserPost,
   FeedContent,
@@ -128,7 +129,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -167,7 +168,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -211,7 +212,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -244,7 +245,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -283,7 +284,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -342,7 +343,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -368,24 +369,20 @@ const Reposted = ({ data }: { data: UserPost }) => {
                     style={[repostStyles.repostImage]}
                     resizeMode="cover"
                   />
-                </View>
-                <View
-                  style={[
-                    styles.nftcollectionContainer,
-                    { bottom: size.getHeightSize(60) },
-                  ]}
-                >
-                  <View style={styles.collectionInfo}>
-                    <Image source={images.collectionImage} />
-                    <Text style={styles.collectionName}>
-                      {nftContent.collectionName}
+                  <View style={[styles.nftcollectionContainer]}>
+                    <View style={styles.collectionInfo}>
+                      <Image source={images.collectionImage} />
+                      <Text style={styles.collectionName}>
+                        {nftContent.collectionName}
+                      </Text>
+                    </View>
+
+                    <Text style={styles.collectionId}>
+                      {nftContent.collectionName} {nftContent.collectionId}
                     </Text>
                   </View>
-
-                  <Text style={styles.collectionId}>
-                    {nftContent.collectionName} {nftContent.collectionId}
-                  </Text>
                 </View>
+
                 <View style={[styles.nftCollection, { marginBottom: 0 }]}>
                   <View style={styles.collectionPriceContainer}>
                     <Text style={styles.price}>Price</Text>
@@ -411,7 +408,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -469,7 +466,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -521,7 +518,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <AvatarFeed />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}

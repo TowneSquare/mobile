@@ -13,6 +13,7 @@ import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
 import Reposted from './Reposted';
 import APT from '../../../assets/images/svg/APT';
+import { Avatar } from 'react-native-elements';
 import ProfilePicture from './ProfilePicture';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -39,8 +40,13 @@ interface NavigationParameter {
   username: string;
   nickname: string;
 }
-const ForYou = memo(({ data }: { data: UserPost }) => {
+interface Props {
+  myPost?: boolean;
+  data: UserPost;
+}
+const ForYou = memo(({ data, myPost }: Props) => {
   const navigation = useNavigation();
+
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -49,11 +55,17 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
   if (!isLoaded) {
     return null;
   }
+
   const handleNavigation = () => {
-   const params: NavigationParameter={username:data.username, nickname:data.nickname}
+    const params: NavigationParameter = {
+      username: data.username,
+      nickname: data.nickname,
+    };
     navigation.navigate('SinglePost' as any, params);
   };
+
   let content;
+
   const type_of_post = data.type;
   const userPost = data;
   switch (type_of_post) {
@@ -68,6 +80,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
+                myPost={myPost ? myPost : false}
               />
 
               <Text onPress={handleNavigation} style={styles.message}>
@@ -87,7 +100,6 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
       break;
     case FeedContent.MESSAGE_IMAGE:
       userPost.content = data.content as Message_Image;
-
       content = (
         <>
           <View style={styles.feedContainer}>
@@ -97,6 +109,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
+                myPost={myPost ? myPost : false}
               />
 
               <Text onPress={handleNavigation} style={styles.message}>
@@ -129,7 +142,6 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
       break;
     case FeedContent.GIF:
       userPost.content = data.content as GIF;
-
       content = (
         <>
           <View style={styles.feedContainer}>
@@ -140,6 +152,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
+                myPost={myPost ? myPost : false}
               />
 
               <View
@@ -177,6 +190,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
+                myPost={myPost ? myPost : false}
               />
 
               <Pressable
@@ -205,7 +219,6 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
       break;
     case FeedContent.message_EXTERNAL_LINK:
       const linkContent = data.content as Message_External_Link;
-
       content = (
         <>
           <View style={styles.feedContainer}>
@@ -215,6 +228,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
+                myPost={myPost ? myPost : false}
               />
               <Text onPress={handleNavigation} style={styles.message}>
                 {linkContent.message}
@@ -271,6 +285,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
+                myPost={myPost ? myPost : false}
               />
               <Text onPress={handleNavigation} style={styles.message}>
                 {nftContent.message}
@@ -291,19 +306,24 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                   ]}
                   resizeMode="cover"
                 />
-              </View>
-              <View style={[styles.nftcollectionContainer, {}]}>
-                <View style={styles.collectionInfo}>
-                  <Image source={images.collectionImage} />
-                  <Text style={styles.collectionName}>
-                    {nftContent.collectionName}
+                <View style={[styles.nftcollectionContainer, {}]}>
+                  <View style={styles.collectionInfo}>
+                    <Avatar
+                      size={size.getHeightSize(16)}
+                      rounded
+                      source={images.collectionImage}
+                    />
+                    <Text style={styles.collectionName}>
+                      {nftContent.collectionName}
+                    </Text>
+                  </View>
+
+                  <Text style={styles.collectionId}>
+                    {nftContent.collectionName} {nftContent.collectionId}
                   </Text>
                 </View>
-
-                <Text style={styles.collectionId}>
-                  {nftContent.collectionName} {nftContent.collectionId}
-                </Text>
               </View>
+
               <View style={styles.nftCollection}>
                 <View style={styles.collectionPriceContainer}>
                   <Text style={styles.price}>Price</Text>
@@ -335,6 +355,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
+                myPost={myPost ? myPost : false}
               />
               <View
                 style={[
@@ -387,6 +408,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
+                myPost={myPost ? myPost : false}
               />
               <Text onPress={handleNavigation} style={styles.message}>
                 {swapContent.message}
@@ -434,6 +456,7 @@ const ForYou = memo(({ data }: { data: UserPost }) => {
                 username={userPost.username}
                 nickname={userPost.nickname}
                 timepost={userPost.timepost}
+                myPost={myPost ? myPost : false}
               />
               <Text onPress={handleNavigation} style={styles.message}>
                 {floorPriceContent.message}

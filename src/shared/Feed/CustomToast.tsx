@@ -1,18 +1,17 @@
 import { View, Text, Dimensions, StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import {
-  updateAttachNftCountDown,
-  updateShowPriceModal,
-} from '../../controller/createPost';
+
 import { batch } from 'react-redux';
 import { LinearProgress } from 'react-native-elements';
 import ToastIcon from '../../../assets/images/svg/ToastIcon';
+import GreenToastIcon from '../../../assets/images/svg/GreenToastIcon';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import { sizes } from '../../utils';
 const size = new sizes(height, width);
+import ToastInfoIcon from '../../../assets/images/svg/ToastInfoIcon';
 import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
 interface Props {
   text: string;
@@ -20,6 +19,7 @@ interface Props {
   position: 'top' | 'bottom';
   marginVertical?: number;
   alignItems?: 'flex-start' | 'center';
+  type?: 'sucess' | 'info';
 }
 const CustomToast = ({
   text,
@@ -27,46 +27,42 @@ const CustomToast = ({
   position,
   marginVertical,
   alignItems,
+  type,
 }: Props) => {
   const dispatch = useAppDispatch();
   const [progressValue, setProgressValue] = useState(0);
-  const { shouldShowNftAttachmentToast, shouldShowPublishToast } =
-    useAppSelector((state) => ({
-      shouldShowNftAttachmentToast:
-        state.CreatePostController.startToastCountdown,
-      shouldShowPublishToast: state.CreatePostController.shouldShowPublishToast,
-    }));
-  useEffect(() => {
-    if (shouldShowNftAttachmentToast || shouldShowPublishToast) {
-      const animationDuration = 4000;
-      const animationSteps = 100;
-      const stepDuration = animationDuration / animationSteps;
-      const stepValue = 1 / animationSteps;
 
-      let step = 0;
-      const interval = setInterval(() => {
-        setProgressValue((prevValue) => {
-          const newValue = prevValue + stepValue;
-          step++;
-          if (step >= animationSteps) {
-            clearInterval(interval);
-            setTimeout(() => {
-              batch(() => {
-                functions.forEach((func) => {
-                  func();
-                });
-              });
-            }, 1000);
-          }
-          return Math.min(newValue, 1);
-        });
-      }, stepDuration);
+  // useEffect(() => {
+  //   if (shouldShowToast) {
+  //     const animationDuration = 4000;
+  //     const animationSteps = 100;
+  //     const stepDuration = animationDuration / animationSteps;
+  //     const stepValue = 1 / animationSteps;
 
-      return () => {
-        clearInterval(interval);
-      };
-    }
-  }, [shouldShowNftAttachmentToast, shouldShowPublishToast]);
+  //     let step = 0;
+  //     const interval = setInterval(() => {
+  //       setProgressValue((prevValue) => {
+  //         const newValue = prevValue + stepValue;
+  //         step++;
+  //         if (step >= animationSteps) {
+  //           clearInterval(interval);
+  //           setTimeout(() => {
+  //             batch(() => {
+  //               functions.forEach((func) => {
+  //                 func();
+  //               });
+  //             });
+  //           }, 1000);
+  //         }
+  //         return Math.min(newValue, 1);
+  //       });
+  //     }, stepDuration);
+
+  //     return () => {
+  //       clearInterval(interval);
+  //     };
+  //   }
+  // }, [shouldShowToast]);
   return (
     <Animated.View
       style={[
@@ -88,12 +84,12 @@ const CustomToast = ({
           },
         ]}
       >
-        <ToastIcon />
+        {type === 'sucess' ? <GreenToastIcon /> : <ToastInfoIcon />}
         <Text style={styles.toastText}>{text}</Text>
       </View>
 
       <LinearProgress
-        color="white"
+        color={type === 'sucess' ? '#2AB576' : '#FFF'}
         trackColor={appColor.kgrayDark2}
         value={progressValue}
         variant="determinate"

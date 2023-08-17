@@ -15,7 +15,7 @@ import { appColor, fonts, images } from '../../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HashTags from '../../components/createPost/HashTags';
 import { sizes } from '../../utils';
-
+import { updateToast } from '../../controller/FeedsController';
 import AtMention from '../../components/createPost/AtMention';
 import Constants from 'expo-constants';
 import FieldInput from '../../components/createPost/FieldInput';
@@ -33,33 +33,24 @@ import { Avatar } from 'react-native-elements';
 import { useNavigation, StackActions } from '@react-navigation/native';
 import {
   updateShowPriceModal,
-  updateAttachNftCountDown,
-  updateShouldShowPublishToast,
+  clearPostData,
 } from '../../controller/createPost';
-import CustomToast from '../../components/createPost/CustomToast';
+import CustomToast from '../../shared/Feed/CustomToast';
+import { ScrollView } from 'react-native-gesture-handler';
 const CreatePost = () => {
-  const {
-    showAtMentions,
-    showHashTags,
-    showAPTPanel,
-    showApt,
-    media,
-    nft,
-    post,
-    startToastCountdown,
-  } = useAppSelector((state) => ({
-    showAtMentions: state.CreatePostController.showAtMentionContainer,
-    showHashTags: state.CreatePostController.showHashTags,
-    showAPTPanel: state.CreatePostController.showAptosPanel,
-    showApt: state.CreatePostController.posts.community,
-    message: state.CreatePostController.posts.message,
-    media: state.CreatePostController.posts.media,
-    tags: state.CreatePostController.posts.tags,
-    community: state.CreatePostController.posts.community,
-    nft: state.CreatePostController.posts.nft,
-    post: state.CreatePostController.posts,
-    startToastCountdown: state.CreatePostController.startToastCountdown,
-  }));
+  const { showAtMentions, showHashTags, showAPTPanel, showApt, media, nft } =
+    useAppSelector((state) => ({
+      showAtMentions: state.CreatePostController.showAtMentionContainer,
+      showHashTags: state.CreatePostController.showHashTags,
+      showAPTPanel: state.CreatePostController.showAptosPanel,
+      showApt: state.CreatePostController.posts.community,
+      message: state.CreatePostController.posts.message,
+      media: state.CreatePostController.posts.media,
+      tags: state.CreatePostController.posts.tags,
+      community: state.CreatePostController.posts.community,
+      nft: state.CreatePostController.posts.nft,
+      post: state.CreatePostController.posts,
+    }));
   const dispatch = useAppDispatch();
 
   const shouldShowAptosPanel = showAPTPanel;
@@ -88,6 +79,7 @@ const CreatePost = () => {
         backgroundColor: appColor.feedBackground,
       }}
     >
+      {/* <FieldInput /> */}
       <View style={styles.header}>
         <Text onPress={navigation.goBack} style={styles.cancel}>
           Cancel
@@ -95,59 +87,61 @@ const CreatePost = () => {
         <Pressable
           onPress={() => {
             navigation.dispatch(StackActions.pop(1));
-            dispatch(updateShouldShowPublishToast(true));
+
+            dispatch(clearPostData());
+            dispatch(
+              updateToast({
+                displayToast: true,
+                toastMessage: 'Post is published successfully',
+                toastType: 'success',
+              })
+            );
           }}
           style={styles.publishButton}
         >
           <Text style={styles.publishText}>Publish</Text>
         </Pressable>
       </View>
-      <View style={styles.fieldInputContainer}>
-        <Avatar
-          rounded
-          source={images.createPostPfp}
-          size={size.getHeightSize(40)}
-        />
-        <FieldInput />
-      </View>
 
-      {nft && <AttachedNftContainer />}
-      {media && <Media />}
-      {shouldShowSwapApt && <SwapPost />}
-      {shouldShowAptMonkey && <FloorPricePost />}
-      <View style={{ flex: 1 }} />
-      {shouldShowAptosPanel && (
-        <View style={styles.tagConatiners}>
-          <AptosPanel />
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={styles.fieldInputContainer}>
+          <Avatar
+            rounded
+            source={images.createPostPfp}
+            size={size.getHeightSize(40)}
+          />
+          <FieldInput />
         </View>
-      )}
-      {shouldShowAtMention && (
-        <View style={styles.tagConatiners}>
-          <AtMention />
+        <View
+          style={{
+            flex: 1,
+          }}
+        >
+          {nft && <AttachedNftContainer />}
+          {media && <Media />}
+          {shouldShowSwapApt && <SwapPost />}
+          {shouldShowAptMonkey && <FloorPricePost />}
+          <View style={{ flex: 1 }} />
         </View>
-      )}
-      {shouldShowPostAttachment && (
-        <View>
-          <PostAttachment />
-        </View>
-      )}
-      {shouldShowHashTags && (
-        <View style={styles.tagConatiners}>
-          <HashTags />
-        </View>
-      )}
-      {startToastCountdown && (
-        <CustomToast
-          alignItems="flex-start"
-          position="bottom"
-          text="Remove the attached NFT in order to add images, videos, GIFs or other NFTs."
-          functions={[
-            () => dispatch(updateAttachNftCountDown(false)),
-            () => dispatch(updateShowPriceModal(true)),
-          ]}
-        />
-      )}
-      <OfferSaleSheet />
+      </ScrollView>
+      <KeyboardAvoidingView>
+        {shouldShowAptosPanel && (
+          <View style={styles.tagConatiners}>
+            <AptosPanel />
+          </View>
+        )}
+        {shouldShowAtMention && (
+          <View style={styles.tagConatiners}>
+            <AtMention />
+          </View>
+        )}
+        {shouldShowPostAttachment && <PostAttachment />}
+        {shouldShowHashTags && (
+          <View style={styles.tagConatiners}>
+            <HashTags />
+          </View>
+        )}
+      </KeyboardAvoidingView>
       <GifBottomSheet />
     </SafeAreaView>
   );
@@ -170,14 +164,14 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(20),
     fontFamily: 'Outfit-Medium',
     letterSpacing: 0.04,
-    width: size.getWidthSize(152),
+    minWidth: size.getWidthSize(51),
   },
   publishButton: {
     paddingHorizontal: size.getWidthSize(16),
     paddingVertical: size.getHeightSize(7),
     backgroundColor: appColor.kSecondaryButtonColor,
     borderRadius: 40,
-    width: size.getWidthSize(81),
+    minWidth: size.getWidthSize(85),
   },
   publishText: {
     color: appColor.kTextColor,
@@ -193,7 +187,7 @@ const styles = StyleSheet.create({
     gap: size.getWidthSize(8),
     marginHorizontal: size.getWidthSize(16),
     marginTop: size.getHeightSize(8),
-    alignItems:"flex-start"
+    alignItems: 'flex-start',
   },
   tagConatiners: {
     maxHeight: size.getHeightSize(260),
@@ -224,5 +218,8 @@ const styles = StyleSheet.create({
     marginVertical: size.getHeightSize(16),
     width: size.getWidthSize(286),
     alignSelf: 'center',
+  },
+  absolutePosition: {
+    width: '100%',
   },
 });

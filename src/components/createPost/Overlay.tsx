@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import React, { useContext } from 'react';
-import { SelectedCollectionContext } from './SelectedCollectionContext';
+import { SelectedCollectionContext } from '../../context/SelectedCollectionContext';
 const Overlay = () => {
   const { isModalVisible, handleModalState } = useContext(
     SelectedCollectionContext
@@ -14,6 +14,5 @@ const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0,0,0,0.6)',
-   
   },
 });

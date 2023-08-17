@@ -10,24 +10,39 @@ import {
   Pressable,
   FlatList,
 } from 'react-native';
+import { BlurView } from 'expo-blur';
 import { appColor } from '../../../constants';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { useFonts } from 'expo-font';
 import { fonts } from '../../../constants';
 import { images } from '../../../constants';
 import { sizes } from '../../../utils';
 import Info from '../../../../assets/images/svg/Info';
+import MessageIcon from '../../../../assets/images/svg/MessageIcon';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { UserPosts } from '../../Feed/DuumyData';
 import ForYou from '../../Feed/ForYou';
 import { useNavigation } from '@react-navigation/native';
-import { useAppSelector } from '../../../controller/hooks';
-
+import { useAppSelector, useAppDispatch } from '../../../controller/hooks';
+import { updateSuperStarBottomSheet } from '../../../controller/BottomSheetController';
+import EditProfileModal from './EditProfileModal';
+import ProfileCard from './ProfileCard';
+import FollowIcon from '../../../../assets/images/svg/FollowIcon';
 const Tab = createMaterialTopTabNavigator();
-
+import SuperStarBottomSheet from './SuperStarBottomSheet';
+import ViewSuperStarsModal from './ViewSuperStarsModal';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
-const About = () => {
+const About = ({ route }) => {
+  const typeOfProfile = route.params.typeOfProfile as
+    | 'myProfile'
+    | 'theirProfile';
+  const { selectedSuperStars, bio, profilePics } = useAppSelector((state) => ({
+    bio: state.USER.bio,
+    selectedSuperStars: state.USER.selectedSuperStars,
+    profilePics: state.USER.details.profileImage,
+  }));
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
@@ -35,13 +50,8 @@ const About = () => {
   });
 
   const { navigate } = useNavigation();
-  const selectedimage = useAppSelector(
-    (state) => state.USER.selectedCollection
-  );
-  const profilePics = useAppSelector(
-    (state) => state.USER.details.profileImage
-  );
 
+  const dispatch = useAppDispatch();
   const [view, setView] = useState<number>(2);
 
   const NAME = 'Real JC';
@@ -59,19 +69,19 @@ const About = () => {
 
   const Posts = () => {
     return onlyUserPost.map((userpost) => (
-      <ForYou key={userpost.id} data={userpost} />
+      <ForYou key={userpost.id} data={userpost} myPost />
     ));
   };
 
   const Replies = () => {
     return onlyUserPost.map((userpost) => (
-      <ForYou key={userpost.id} data={userpost} />
+      <ForYou key={userpost.id} data={userpost} myPost />
     ));
   };
 
   const Media = () => {
     return onlyUserPost.map((userpost) => (
-      <ForYou key={userpost.id} data={userpost} />
+      <ForYou key={userpost.id} data={userpost} myPost />
     ));
   };
 
@@ -91,265 +101,224 @@ const About = () => {
     <SafeAreaView
       style={{
         backgroundColor: appColor.feedBackground,
-        paddingHorizontal: 15,
+        // paddingHorizontal: 15,
       }}
     >
-      <View style={[styles.view1, styles.shadowProp]}>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
-          >
-            <Image source={images.black_logo} />
-            <Text style={styles.text}>TowneSquare</Text>
-          </View>
-          <View style={{ flexDirection: 'row' }}>
-            <Image source={images.purple_badge} />
-            <Image source={images.green_badge} />
-            <Image source={images.blue_badge} />
-          </View>
-        </View>
-        <View style={{ marginTop: 15, flexDirection: 'row' }}>
-          <View style={styles.imageContainer}>
-            {profilePics ? (
-              <Image
-                style={styles.image}
-                source={{ uri: profilePics }}
-                resizeMode="contain"
-              />
-            ) : (
-              <Image style={{ borderRadius: 50 }} source={images.pfp_avatar} />
-            )}
-          </View>
-          <View style={{ justifyContent: 'center', marginLeft: 15 }}>
-            <Text
-              style={{
-                color: appColor.kTextColor,
-                fontFamily: 'Outfit-Bold',
-                fontSize: size.fontSize(18),
-              }}
-            >
-              {NAME}
-            </Text>
-            <Text
-              style={{
-                color: appColor.kGrayscale,
-                fontSize: size.fontSize(16),
-                fontFamily: 'Outfit-SemiBold',
-              }}
-            >
-              @{NICKNAME}
-            </Text>
-            <Text
-              style={{
-                color: appColor.kSecondaryButtonColor,
-                fontFamily: 'Outfit-Bold',
-                fontSize: size.fontSize(16),
-              }}
-            >
-              {APTOS_DOMAIN_NAME}
-            </Text>
-          </View>
-        </View>
-        <View style={{ marginTop: 25, alignItems: 'flex-end' }}>
-          <Text
-            style={{
-              fontFamily: 'Outfit-SemiBold',
-              color: appColor.kTextColor,
-              fontSize: size.fontSize(14),
-            }}
-          >{`REGISTERED SINCE ${DATE}`}</Text>
-        </View>
-      </View>
-      <View style={styles.view2}>
-        <View style={styles.view2Box}>
-          <Text style={styles.view2TextUp}>{FOLLOWING}</Text>
-          <Text style={styles.view2TextDown}>Following</Text>
-        </View>
-        <View style={styles.view2Box}>
-          <Text style={styles.view2TextUp}>{FOLLOWERS}</Text>
-          <Text style={styles.view2TextDown}>Followers</Text>
-        </View>
-        <View style={styles.view2Box}>
-          <Text style={styles.view2TextUp}>{POST}</Text>
-          <Text style={styles.view2TextDown}>Post</Text>
-        </View>
-        <View style={styles.view2Box}>
-          <Text style={styles.view2TextUp}>{COMMUNITIES}</Text>
-          <Text style={styles.view2TextDown}>Communities</Text>
-        </View>
-      </View>
-      <View style={styles.aboutDiv}>
-        <Text style={styles.aboutHeader}>About</Text>
-        <View>
-          <Text style={styles.aboutText}>Love everything about blockchain</Text>
-        </View>
-        <View>
-          <Text style={styles.aboutText}>3 Web3 Native</Text>
-        </View>
-        <View>
-          <Text style={styles.aboutText}>
-            Always on a lookout for a blue chips
-          </Text>
-        </View>
-      </View>
-      <View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <View
-            style={{
-              flexDirection: 'row',
-            }}
-          >
-            <Text style={styles.aboutHeader}>My Super Stars </Text>
-            <Info />
-          </View>
+      <ScrollView>
+        <ProfileCard
+          NAME={NAME}
+          NICKNAME={NICKNAME}
+          APTOS_DOMAIN_NAME={APTOS_DOMAIN_NAME}
+          DATE={DATE}
+          COMMUNITIES={COMMUNITIES}
+          FOLLOWERS={FOLLOWERS}
+          FOLLOWING={FOLLOWING}
+          POST={POST}
+        />
 
-          {selectedimage.length > 0 ? (
-            <Pressable
-              onPress={() => {
-                navigate('SetNFTs');
-              }}
-            >
-              <Text
-                style={{
-                  color: appColor.kSecondaryButtonColor,
-                  fontFamily: 'Outfit-Bold',
-                  fontSize: size.fontSize(16),
-                }}
-              >
-                Edit
-              </Text>
-            </Pressable>
-          ) : (
-            <></>
-          )}
-        </View>
-        {selectedimage.length > 0 ? (
-          <>
-            <ScrollView horizontal={true}>
-              {selectedimage.map((item) => (
-                <Image
-                  style={{
-                    margin: 5,
-                    width: 120,
-                    height: size.getHeightSize(130),
-                    borderRadius: 15,
-                  }}
-                  key={item.id}
-                  source={item.image}
-                />
-              ))}
-            </ScrollView>
-          </>
-        ) : (
+        {typeOfProfile === 'theirProfile' && (
           <View
             style={{
+              paddingHorizontal: size.getWidthSize(42),
               flexDirection: 'row',
-              padding: 15,
-              marginVertical: 15,
-              justifyContent: 'space-between',
-              borderStyle: 'dashed',
-              borderColor: appColor.kTextSubtitleClor,
-              borderWidth: 1,
-              borderRadius: 30,
+
+              alignItems: 'center',
+              marginTop: size.getHeightSize(24),
+              alignSelf: 'center',
+              gap: size.getWidthSize(16),
             }}
           >
-            <View style={{}}>
-              <Text
-                style={{
-                  color: appColor.kTextSubtitleClor,
-                  fontFamily: 'Outfit-Regular',
-                  fontSize: size.fontSize(13),
-                }}
-              >
-                When you set you preferred
-              </Text>
-              <Text
-                style={{
-                  color: appColor.kTextSubtitleClor,
-                  fontFamily: 'Outfit-Regular',
-                  fontSize: size.fontSize(13),
-                }}
-              >
-                NFTs, they will show here
-              </Text>
-            </View>
-            <Pressable
+            <View
               style={{
-                backgroundColor: appColor.kWhiteColor,
-                borderRadius: 30,
-                paddingHorizontal: 25,
+                flexDirection: 'row',
+                width: size.getWidthSize(130),
+                paddingVertical: size.getHeightSize(4),
+                alignItems: 'center',
                 justifyContent: 'center',
-              }}
-              onPress={() => {
-                navigate('SetNFTs');
+                backgroundColor: appColor.kSecondaryButtonColor,
+                borderRadius: 40,
+                gap: size.getWidthSize(8),
               }}
             >
+              <FollowIcon />
               <Text
                 style={{
                   textAlign: 'center',
-                  fontFamily: 'Outfit-Bold',
+                  fontFamily: 'Outfit-Medium',
+                  fontSize: size.fontSize(16),
+                  color: appColor.kWhiteColor,
+                  letterSpacing: 0.32,
+                  lineHeight: size.getHeightSize(20),
                 }}
               >
-                Set NFTs
+                Follow
               </Text>
-            </Pressable>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                width: size.getWidthSize(130),
+                paddingVertical: size.getHeightSize(4),
+                alignItems: 'center',
+                backgroundColor: appColor.kWhiteColor,
+                borderRadius: 40,
+                gap: size.getWidthSize(8),
+                justifyContent: 'center',
+              }}
+            >
+              <MessageIcon />
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontFamily: 'Outfit-Medium',
+                  fontSize: size.fontSize(16),
+                  color: appColor.blackColor,
+                  letterSpacing: 0.32,
+                  lineHeight: size.getHeightSize(20),
+                }}
+              >
+                Send
+              </Text>
+            </View>
           </View>
         )}
-      </View>
 
-      <View
-        style={{
-          flexDirection: 'row',
-          backgroundColor: appColor.kgrayDark2,
-          borderRadius: 40,
-          marginTop: 10,
-        }}
-      >
-        <Pressable
-          style={view == 2 ? styles.focusedTab : styles.tab}
-          onPress={() => {
-            setView(2);
-          }}
-        >
-          <Text style={view == 2 ? styles.focusedtabText : styles.tabText}>
-            Posts
+        <View style={styles.aboutDiv}>
+          <Text
+            style={[
+              styles.aboutHeader,
+              { marginBottom: size.getHeightSize(12) },
+            ]}
+          >
+            About
           </Text>
-        </Pressable>
-        <Pressable
-          style={view == 1 ? styles.focusedTab : styles.tab}
-          onPress={() => {
-            setView(1);
-          }}
-        >
-          <Text style={view == 1 ? styles.focusedtabText : styles.tabText}>
-            Replies
-          </Text>
-        </Pressable>
-        <Pressable
-          style={view == 0 ? styles.focusedTab : styles.tab}
-          onPress={() => setView(0)}
-        >
-          <Text style={view == 0 ? styles.focusedtabText : styles.tabText}>
-            Media
-          </Text>
-        </Pressable>
-      </View>
-      <View>{POST_MEDIA_REPLIES()}</View>
+          <View>
+            <Text style={styles.aboutText}>{bio}</Text>
+          </View>
+        </View>
+        <View>
+          <View
+            style={[
+              styles.superStarView,
+              {
+                marginBottom:
+                  typeOfProfile === 'myProfile'
+                    ? size.getHeightSize(14)
+                    : size.getHeightSize(14),
+              },
+            ]}
+          >
+            <View
+              style={{
+                flexDirection: 'row',
+                gap: size.getWidthSize(8),
+                alignItems: 'center',
+              }}
+            >
+              <Text style={styles.aboutHeader}>
+                {typeOfProfile === 'myProfile' && 'My '}Super Stars
+              </Text>
+              <Info
+                onPress={() => {
+                  dispatch(updateSuperStarBottomSheet(true));
+                }}
+              />
+            </View>
+
+            {typeOfProfile === 'theirProfile' ? (
+              <></>
+            ) : selectedSuperStars.length > 0 ? (
+              <Pressable
+                onPress={() => {
+                  navigate('SuperStarCollectionScreen');
+                }}
+              >
+                <Text style={styles.edit}>Edit</Text>
+              </Pressable>
+            ) : (
+              <></>
+            )}
+          </View>
+          {selectedSuperStars.length > 0 ? (
+            <>
+              <ScrollView
+                style={{
+                  marginLeft: size.getWidthSize(16),
+                }}
+                horizontal={true}
+                contentContainerStyle={{
+                  paddingRight: size.getWidthSize(10),
+                }}
+              >
+                {selectedSuperStars.map((item) => (
+                  <Image
+                    style={{
+                      marginRight: size.getWidthSize(6),
+                      width: size.getHeightSize(130),
+                      height: size.getHeightSize(130),
+                      borderRadius: 8,
+                    }}
+                    key={item.id}
+                    source={{ uri: item.uri }}
+                  />
+                ))}
+              </ScrollView>
+            </>
+          ) : typeOfProfile === 'theirProfile' ? (
+            <></>
+          ) : (
+            <View style={styles.setNft}>
+              <View style={{}}>
+                <Text style={styles.setNftText}>
+                  When you set you preferred
+                </Text>
+                <Text style={styles.setNftText}>NFTs, they will show here</Text>
+              </View>
+              <Pressable
+                style={styles.setNftButton}
+                onPress={() => {
+                  navigate('SuperStarCollectionScreen');
+                }}
+              >
+                <Text style={styles.setNftButtonText}>Set NFTs</Text>
+              </Pressable>
+            </View>
+          )}
+        </View>
+
+        <View style={styles.tabView}>
+          <Pressable
+            style={view == 2 ? styles.focusedTab : styles.tab}
+            onPress={() => {
+              setView(2);
+            }}
+          >
+            <Text style={view == 2 ? styles.focusedtabText : styles.tabText}>
+              Posts
+            </Text>
+          </Pressable>
+          <Pressable
+            style={view == 1 ? styles.focusedTab : styles.tab}
+            onPress={() => {
+              setView(1);
+            }}
+          >
+            <Text style={view == 1 ? styles.focusedtabText : styles.tabText}>
+              Replies
+            </Text>
+          </Pressable>
+          <Pressable
+            style={view == 0 ? styles.focusedTab : styles.tab}
+            onPress={() => setView(0)}
+          >
+            <Text style={view == 0 ? styles.focusedtabText : styles.tabText}>
+              Media
+            </Text>
+          </Pressable>
+        </View>
+        <View>{POST_MEDIA_REPLIES()}</View>
+      </ScrollView>
+      <ViewSuperStarsModal />
     </SafeAreaView>
   );
 };
@@ -367,23 +336,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Outfit-Bold',
     paddingLeft: 5,
   },
-  shadowProp: {
-    shadowColor: 'white',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.8,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  view2: {
-    backgroundColor: appColor.kgrayDark2,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    borderWidth: 5,
-    display: 'flex',
-    flexDirection: 'row',
-    padding: 10,
-    justifyContent: 'space-evenly',
-  },
+
   view2Box: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -397,17 +350,20 @@ const styles = StyleSheet.create({
     color: appColor.kGrayscale,
   },
   aboutDiv: {
-    marginVertical: 20,
+    marginVertical: size.getHeightSize(24),
+    marginHorizontal: size.getWidthSize(16),
   },
   aboutHeader: {
     color: appColor.kTextColor,
     fontFamily: 'Outfit-Bold',
     fontSize: size.fontSize(20),
-    paddingBottom: 10,
+    lineHeight: size.getHeightSize(24),
   },
   aboutText: {
     color: appColor.kTextColor,
     fontFamily: 'Outfit-Regular',
+    fontSize: size.fontSize(16),
+    lineHeight: size.getHeightSize(20),
   },
   focusedTab: {
     backgroundColor: appColor.kSecondaryButtonColor,
@@ -416,7 +372,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: size.getWidthSize(4),
     borderRadius: 40,
-    height: size.getHeightSize(39),
+    minHeight: size.getHeightSize(36),
   },
   focusedtabText: {
     color: appColor.kTextColor,
@@ -450,6 +406,59 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 50,
+  },
+  superStarView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: size.getWidthSize(16),
+  },
+  edit: {
+    color: appColor.kSecondaryButtonColor,
+    fontFamily: 'Outfit-SemiBold',
+    fontSize: size.fontSize(16),
+    lineHeight: size.getHeightSize(21),
+  },
+  setNft: {
+    flexDirection: 'row',
+    paddingVertical: size.getHeightSize(16),
+    paddingHorizontal: size.getWidthSize(16),
+    justifyContent: 'space-between',
+    borderStyle: 'dashed',
+    borderColor: appColor.kGrayLight3,
+    borderWidth: 1,
+    borderRadius: 8,
+    marginHorizontal: size.getWidthSize(16),
+  },
+  setNftText: {
+    color: appColor.kGrayscale,
+    fontFamily: 'Outfit-Regular',
+    fontSize: size.fontSize(14),
+  },
+  setNftButton: {
+    backgroundColor: appColor.kWhiteColor,
+    borderRadius: 30,
+    paddingHorizontal: size.getWidthSize(16),
+    justifyContent: 'center',
+  },
+  setNftButtonText: {
+    textAlign: 'center',
+    fontFamily: 'Outfit-Medium',
+    fontSize: size.fontSize(16),
+    color: appColor.kGrayscaleDart,
+    letterSpacing: 0.32,
+    lineHeight: size.getHeightSize(20),
+  },
+  tabView: {
+    flexDirection: 'row',
+    backgroundColor: appColor.kgrayDark2,
+    borderRadius: 40,
+    marginTop: size.getHeightSize(32),
+    marginHorizontal: size.getWidthSize(16),
+    width: size.getWidthSize(344),
+    paddingVertical: size.getHeightSize(4),
+    marginBottom: size.getHeightSize(8),
+    alignSelf: 'center',
   },
 });
 

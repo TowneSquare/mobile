@@ -1,6 +1,6 @@
 import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
 import React from 'react';
-import SearchField from '../../components/createPost/SearchField';
+import SearchField from '../../shared/Feed/SearchField';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';

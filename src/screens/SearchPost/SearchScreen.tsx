@@ -11,6 +11,7 @@ import { Octicons } from '@expo/vector-icons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useFonts } from 'expo-font';
 const size = new sizes(height, width);
+import RecentSearch from '../../components/Search/RecentSearch';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import SearchPostTab from '../../navigations/SearchPostTabBar';
 import { SearchScreenProps } from '../../navigations/NavigationTypes';
@@ -36,7 +37,7 @@ const SearchScreen = ({ navigation }: SearchScreenProps) => {
   }
 
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: appColor.feedBackground,
@@ -45,7 +46,7 @@ const SearchScreen = ({ navigation }: SearchScreenProps) => {
       {isSearchFiledFocused === 'hide_for_you_tab' ||
       isSearchFiledFocused === 'default' ? (
         <>
-          <SafeAreaView style={styles.Header}>
+          <View style={styles.Header}>
             <Animated.View
               entering={FadeInUp.duration(30)}
               exiting={FadeOutUp.duration(30)}
@@ -85,16 +86,16 @@ const SearchScreen = ({ navigation }: SearchScreenProps) => {
                 </View>
               </Pressable>
             </Animated.View>
-          </SafeAreaView>
+          </View>
           <SearchPostTab />
         </>
       ) : undefined}
       {isSearchFiledFocused === 'search_focused' && (
         <>
-          <SafeAreaView style={styles.Header}>
+          <View style={styles.Header}>
             <Animated.View
-              entering={FadeInUp.duration(30)}
-              exiting={FadeOutUp.duration(30)}
+              entering={FadeInUp.duration(80)}
+              exiting={FadeOutUp.duration(80)}
               style={styles.searchfield}
             >
               <AntDesign
@@ -105,11 +106,11 @@ const SearchScreen = ({ navigation }: SearchScreenProps) => {
               />
               <SearchPostSearchField />
             </Animated.View>
-          </SafeAreaView>
+          </View>
           <SearchContent />
         </>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -118,7 +119,8 @@ const styles = StyleSheet.create({
   Header: {
     width: '100%',
     backgroundColor: appColor.kgrayDark2,
-    paddingVertical: size.getHeightSize(16),
+    height: size.getHeightSize(80),
+    justifyContent: 'center',
   },
   searchfield: {
     flexDirection: 'row',

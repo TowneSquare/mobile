@@ -1,11 +1,12 @@
-import { store } from "./../store";
+import { store } from './../store';
 
-import { images } from "./../../constants/images";
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { ImageSourcePropType, ImageURISource } from "react-native";
-import { communities, friends } from "./models";
-import { bottomSheetSlice } from "../BottomSheetController";
-import axios from "axios";
+import { images } from './../../constants/images';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { ImageSourcePropType, ImageURISource } from 'react-native';
+import { communities, friends } from './models';
+import { bottomSheetSlice } from '../BottomSheetController';
+import axios from 'axios';
+import { act } from 'react-test-renderer';
 
 export interface collection {
   image: ImageSourcePropType;
@@ -45,7 +46,16 @@ interface UserState {
   accountInfo: any;
   editProfile: boolean;
   NFTCollections: NftCollection[];
-  selectedCollection: selectedCollection[];
+  selectedSuperStars: {
+    uri: string;
+    id: string;
+  }[];
+  selectedSuperStar: {
+    uri: string;
+    id: string;
+  }[];
+  bio: string;
+  theirProfileBottomSheet: boolean;
 }
 
 interface signUpRequest {
@@ -61,11 +71,11 @@ interface followRequest {
 }
 const initialState: UserState = {
   details: {
-    userId: "",
-    TypeOfWallet: "",
-    Nickname: "",
-    username: "",
-    email: "",
+    userId: '',
+    TypeOfWallet: '',
+    Nickname: '',
+    username: '',
+    email: '',
     followedFriends: [],
     joinedCommunities: [],
     profileImage: undefined,
@@ -73,9 +83,9 @@ const initialState: UserState = {
   errors: {
     nicknameError: false,
     usernameError: false,
-    usernameErrorMessage: "",
+    usernameErrorMessage: '',
   },
-  didToken: "",
+  didToken: '',
   editProfile: false,
   NFTCollections: [
     {
@@ -132,7 +142,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: "Aptomingos",
+      Name: 'Aptomingos',
       id: 1,
     },
     {
@@ -164,7 +174,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: "Aptos Monkey",
+      Name: 'Aptos Monkey',
       id: 2,
     },
     {
@@ -211,7 +221,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: "Aptomingos",
+      Name: 'Aptomingos',
       id: 3,
     },
     {
@@ -253,7 +263,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: "Aptos Monkey",
+      Name: 'Aptos Monkey',
       id: 5,
     },
     {
@@ -295,7 +305,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: "Aptomingos",
+      Name: 'Aptomingos',
       id: 6,
     },
     {
@@ -317,16 +327,19 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: "Aptos Monkey lorem Ipsumdalr",
+      Name: 'Aptos Monkey lorem Ipsumdalr',
       id: 7,
     },
   ],
   accountInfo: undefined,
-  selectedCollection: [],
+  selectedSuperStars: [],
+  selectedSuperStar: [],
+  bio: `🖇️ Love everything about blockchain \n🌍3 web3 Native \n 👀 Always on a lookout for blue chips`,
+  theirProfileBottomSheet: false,
 };
 
 export const signUp = createAsyncThunk(
-  "User/signUp",
+  'User/signUp',
   async (signupRequest: signUpRequest, thunkAPI) => {
     const { aptosWallet, nickname, username, email } = signupRequest;
     try {
@@ -344,7 +357,7 @@ export const signUp = createAsyncThunk(
 );
 
 export const follow = createAsyncThunk(
-  "User/follow",
+  'User/follow',
   async (followRequest: followRequest, thunkAPI) => {
     const { fromUserId, toUserIds } = followRequest;
     try {
@@ -360,7 +373,7 @@ export const follow = createAsyncThunk(
 );
 
 export const USER = createSlice({
-  name: "User",
+  name: 'User',
   initialState,
   reducers: {
     updateTypeOfWallet: (state, action: PayloadAction<string>) => {
@@ -384,17 +397,17 @@ export const USER = createSlice({
         state.errors.usernameError = true;
         state.details.username = action.payload;
         state.errors.usernameErrorMessage =
-          "Use only alphanumeric characters and letters";
+          'Use only alphanumeric characters and letters';
       } else if (action.payload.length < 4) {
         state.errors.usernameError = true;
         state.details.username = action.payload;
         state.errors.usernameErrorMessage =
-          "Username must be longer than 4 characters";
+          'Username must be longer than 4 characters';
       } else if (state.details.username.length >= 15) {
         state.errors.usernameError = true;
         state.details.username = action.payload;
         state.errors.usernameErrorMessage =
-          "Username can be max. 15 characters long";
+          'Username can be max. 15 characters long';
       } else {
         state.details.username = action.payload;
         state.errors.usernameError = false;
@@ -427,62 +440,35 @@ export const USER = createSlice({
     updateEditProfile: (state, action: PayloadAction<boolean>) => {
       state.editProfile = action.payload;
     },
-    updateCollectionIsSelected: (
+    updateSelectedSuperStars: (
       state,
-      action: PayloadAction<{
-        collectionId: number;
-        itemId: number;
-        isSelected: boolean;
-      }>
+      action: PayloadAction<{ uri: string; id: string }[]>
     ) => {
-      const newArray = [...state.NFTCollections];
-      newArray[action.payload.collectionId - 1].collections.find(
-        (c) => c.id === action.payload.itemId
-      )!.isSelected = action.payload.isSelected;
-      state.NFTCollections = newArray;
-      if (action.payload.isSelected == true) {
-        state.selectedCollection = [
-          ...state.selectedCollection,
-          {
-            id: state.selectedCollection.length++,
-            collectionId: action.payload.collectionId - 1,
-            itemId: action.payload.itemId,
-            image: newArray[action.payload.collectionId - 1].collections.find(
-              (c) => c.id === action.payload.itemId
-            ).image,
-          },
-        ];
-      }
-      if (action.payload.isSelected == false) {
-        const filtered = state.selectedCollection.filter(
-          (sel) =>
-            sel.image !==
-            newArray[action.payload.collectionId - 1].collections.find(
-              (c) => c.id === action.payload.itemId
-            ).image
-        );
-        state.selectedCollection = filtered;
-      }
+      state.selectedSuperStars = action.payload;
     },
-    updateSelectedImage: (
-      state,
-      action: PayloadAction<{ imageSrc: ImageSourcePropType }>
-    ) => {
-      const filtered = state.selectedCollection.filter(
-        (sel) => sel.image != action.payload.imageSrc
-      );
-      const filter = state.selectedCollection.find(
-        (sel) => sel.image == action.payload.imageSrc
-      );
-      const newArray = [...state.NFTCollections];
-      newArray[filter?.collectionId].collections.find(
-        (c) => c.id === filter.itemId
-      )!.isSelected = false;
-      state.NFTCollections = newArray;
-      state.selectedCollection = filtered;
-    },
+
     updateAccountInfo: (state, action: PayloadAction<any>) => {
       state.accountInfo = action.payload;
+    },
+    updateSelectedSuperStar: (
+      state,
+      action: PayloadAction<{ uri: string; id: string }>
+    ) => {
+      state.selectedSuperStar = [...state.selectedSuperStar, action.payload];
+    },
+    deleteSelectedSuperStar: (state, action: PayloadAction<string>) => {
+      state.selectedSuperStar = state.selectedSuperStar.filter(
+        (obj) => obj['id'] !== action.payload
+      );
+    },
+    resetSelectedSuperStar: (state) => {
+      state.selectedSuperStar = [];
+    },
+    updateBio: (state, action: PayloadAction<string>) => {
+      state.bio = action.payload;
+    },
+    updateTheirProfileBottomSheet: (state, action: PayloadAction<boolean>) => {
+      state.theirProfileBottomSheet = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -503,8 +489,12 @@ export const {
   updateDidToken,
   updateProfileImage,
   updateEditProfile,
-  updateCollectionIsSelected,
   updateAccountInfo,
-  updateSelectedImage,
+  updateSelectedSuperStar,
+  deleteSelectedSuperStar,
+  resetSelectedSuperStar,
+  updateBio,
+  updateTheirProfileBottomSheet,
+  updateSelectedSuperStars,
 } = USER.actions;
 export default USER.reducer;

@@ -99,7 +99,6 @@ export const feedStyle = StyleSheet.create({
     backgroundColor: appColor.kSecondaryButtonColor,
     justifyContent: 'center',
     borderRadius: 40,
-    width: size.getWidthSize(94),
     paddingVertical: size.getHeightSize(7),
   },
   buttonText: {
@@ -115,8 +114,10 @@ export const feedStyle = StyleSheet.create({
     paddingHorizontal: size.getWidthSize(16),
     width: '100%',
     position: 'absolute',
-    bottom: size.getHeightSize(102),
+    bottom: 0,
     paddingVertical: size.getHeightSize(8),
+    right: 0,
+    left: 0,
   },
 
   collectionInfo: {
@@ -135,7 +136,6 @@ export const feedStyle = StyleSheet.create({
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
     fontFamily: 'Outfit-Medium',
-    marginTop: size.getHeightSize(8),
   },
   attachedNftContainer: {
     backgroundColor: appColor.kBlackWithOpacity,
@@ -143,6 +143,7 @@ export const feedStyle = StyleSheet.create({
     width: '100%',
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8,
+    gap:size.getHeightSize(8)
   },
   swapTextTag: {
     color: appColor.primaryLight,

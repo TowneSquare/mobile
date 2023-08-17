@@ -7,6 +7,13 @@ interface FeedController {
   BlockUserModal: boolean;
   MyPostPanel: boolean;
   DeleteMyPostPanel: boolean;
+  showToast: {
+    displayToast: boolean;
+    toastMessage: string;
+    toastType: 'success' | 'info';
+    position?: 'top' | 'bottom';
+    alignItems?: 'center' | 'flex-start' | 'flex-end' | 'stretch' | 'baseline';
+  };
 }
 const initialState: FeedController = {
   ReceiveModalState: false,
@@ -16,6 +23,13 @@ const initialState: FeedController = {
   BlockUserModal: false,
   MyPostPanel: false,
   DeleteMyPostPanel: false,
+  showToast: {
+    displayToast: false,
+    toastMessage: '',
+    toastType: 'success',
+    position: 'top',
+    alignItems: 'center',
+  },
 };
 export const FeedsSlice = createSlice({
   name: 'FeedsController',
@@ -50,6 +64,34 @@ export const FeedsSlice = createSlice({
       state.MyPostPanel = false;
       state.DeleteMyPostPanel = false;
     },
+    updateToast: (
+      state,
+      action: PayloadAction<{
+        displayToast: boolean;
+        toastMessage: string;
+        toastType: 'success' | 'info';
+        position?: 'top' | 'bottom';
+        alignItems?:
+          | 'center'
+          | 'flex-start'
+          | 'flex-end'
+          | 'stretch'
+          | 'baseline';
+      }>
+    ) => {
+      state.showToast.displayToast = action.payload.displayToast;
+      state.showToast.toastMessage = action.payload.toastMessage;
+      state.showToast.toastType = action.payload.toastType;
+      state.showToast.position = action.payload.position;
+      state.showToast.alignItems = action.payload.alignItems;
+    },
+    resetToast: (state) => {
+      state.showToast.displayToast = false;
+      state.showToast.toastMessage = '';
+      state.showToast.toastType = 'success';
+      state.showToast.position = 'top';
+      state.showToast.alignItems = 'center';
+    },
   },
 });
 export const {
@@ -60,6 +102,8 @@ export const {
   updateBlockUserModal,
   updateMyPostPanel,
   updateDeletePostPanel,
-  resetModals
+  resetModals,
+  updateToast,
+  resetToast,
 } = FeedsSlice.actions;
 export default FeedsSlice.reducer;

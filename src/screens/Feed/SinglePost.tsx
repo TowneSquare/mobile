@@ -25,28 +25,23 @@ import { toastConfig } from '../../components/Feed/ShowToast';
 import ToastHook from '../../hooks/Feeds/ToastHook';
 import DeleteMyPostPanel from '../../shared/Feed/DeleteMyPostPanel';
 const size = new sizes(height, width);
+
 import Toast from 'react-native-toast-message';
 import { useNavigation } from '@react-navigation/native';
 import { SinglePostProps } from '../../navigations/NavigationTypes';
 import SinglePostContent from '../../components/SinglePostView/SinglePostContent';
-import { useAppSelector } from '../../controller/hooks';
-
+import { useAppSelector, useAppDispatch } from '../../controller/hooks';
+import CustomToast from '../../shared/Feed/CustomToast';
+type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 const SinglePost = ({ route }: SinglePostProps) => {
   const props = route.params;
   const scrollViewRef = useRef<ScrollView>(null);
   const textInputRef = useRef<TextInput>(null);
   const [replyingTo, setReplyingTo] = useState(false);
-  const { showBlockToast, showReportUserToast, showReportPostToast } =
-    ToastHook();
+
+  const dispatch = useAppDispatch();
   const navigation = useNavigation();
-  const modals = useAppSelector((state) => ({
-    reportPostModal: state.FeedsSliceController.ReportPostModal,
-    reportPanel: state.FeedsSliceController.ReportingModal,
-    reportUser: state.FeedsSliceController.ReportUserModal,
-    blockUser: state.FeedsSliceController.BlockUserModal,
-    myPostModal: state.FeedsSliceController.MyPostPanel,
-    deletePost: state.FeedsSliceController.DeleteMyPostPanel,
-  }));
+
   const data = {
     id: '10',
     pfp: '',
@@ -73,7 +68,6 @@ const SinglePost = ({ route }: SinglePostProps) => {
     return null;
   }
 
-  const isAnyModalOpen = Object.values(modals).some((value) => value === true);
   const handleCommentPress = () => {
     textInputRef.current?.focus();
     setReplyingTo(true);
@@ -88,6 +82,7 @@ const SinglePost = ({ route }: SinglePostProps) => {
     setReplyingTo(false);
     textInputRef.current?.clear();
   };
+
   return (
     <SafeAreaView
       style={{
@@ -117,14 +112,15 @@ const SinglePost = ({ route }: SinglePostProps) => {
         handleBlur={handleBlur}
         textRef={textInputRef}
       />
-      {isAnyModalOpen && <View style={styles.overlay} />}
+      {/* {isAnyModalOpen && <View style={styles.overlay} />} */}
 
       <Toast config={toastConfig} />
-      <ReportUserModal reportUser={showReportUserToast} />
-      <ReportPanel />
+
       <MyPostPanel />
-      <ReportPostModal reportPost={showReportPostToast} />
-      <BlockUserModal block={showBlockToast} />
+      <ReportUserModal />
+      <ReportPanel />
+      <ReportPostModal />
+      <BlockUserModal />
       <DeleteMyPostPanel />
     </SafeAreaView>
   );
@@ -138,7 +134,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: size.getWidthSize(16),
     paddingVertical: size.getHeightSize(20),
     backgroundColor: appColor.kgrayDark2,
-    justifyContent:"space-between"
+    justifyContent: 'space-between',
   },
   headerText: {
     color: appColor.kTextColor,

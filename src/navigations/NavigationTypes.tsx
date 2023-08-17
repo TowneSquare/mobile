@@ -4,13 +4,22 @@ import {
   RouteProp,
 } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-
+import { ImageSourcePropType } from 'react-native';
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
   }
 }
 
+type SelectedSuperStarCollectionScreenParameter = {
+  [SelectedSuperStarCollectionScreen: string]: {
+    title: string;
+    nfts: {
+      image: ImageSourcePropType;
+      name: string;
+    }[];
+  };
+};
 export type RootStackParamList = {
   FirstScreen: undefined;
   ChooseProfile: undefined;
@@ -39,6 +48,22 @@ export type RootStackParamList = {
   Profile;
   SearchScreen: undefined;
   SearchPostTab: undefined;
+  SuperStarCollectionScreen: undefined;
+  SelectedSuperStarCollectionScreen: {
+    title: string;
+    nfts: {
+      image: string;
+      name: string;
+    }[];
+  };
+  EditProfileScreen: undefined;
+  ProfileFollowersTab: undefined;
+  FollowersScreen: {
+    screen: 'Following' | 'Followers' | 'Communities';
+  };
+  TheirProfileScreen: {
+    username: string;
+  };
 };
 
 type CreatePostParameter = {
@@ -52,7 +77,16 @@ type SinglePostParameter = {
     nickname: string;
   };
 };
-
+type FollowerScreenParameter = {
+  [FollowerScreen: string]: {
+    screen: string;
+  };
+};
+type TheirProfileParameter = {
+  [TheirProfile: string]: {
+    username: string;
+  };
+};
 export type FirstScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'FirstScreen'>;
   magic: any;
@@ -166,4 +200,40 @@ export type SearchPostTabProps = {
   navigation: NavigationProp<RootStackParamList, 'SearchPostTab'>;
   magic: any;
   route: RouteProp<ParamListBase, 'SearchPostTab'>;
+};
+export type SuperStarCollectionScreenProps = {
+  navigation: NavigationProp<RootStackParamList, 'SuperStarCollectionScreen'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'SuperStarCollectionScreen'>;
+};
+export type SelectedSuperStarCollectionScreenProps = {
+  navigation: NavigationProp<
+    RootStackParamList,
+    'SelectedSuperStarCollectionScreen'
+  >;
+  magic: any;
+  route: RouteProp<
+    SelectedSuperStarCollectionScreenParameter,
+    'SelectedSuperStarCollectionScreen'
+  >;
+};
+export type EditProfileScreenProps = {
+  navigation: NavigationProp<RootStackParamList, 'EditProfileScreen'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'EditProfileScreen'>;
+};
+export type ProfileFollowersTabProps = {
+  navigation: NavigationProp<RootStackParamList, 'ProfileFollowersTab'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'ProfileFollowersTab'>;
+};
+export type FollowersScreenProps = {
+  navigation: NavigationProp<RootStackParamList, 'FollowersScreen'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'FollowersScreen'>;
+};
+export type TheirProfileScreenProps = {
+  navigation: NavigationProp<RootStackParamList, 'TheirProfileScreen'>;
+  magic: any;
+  route: RouteProp<RootStackParamList, 'TheirProfileScreen'>;
 };

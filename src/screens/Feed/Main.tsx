@@ -6,68 +6,46 @@ import {
   FlatList,
   Pressable,
 } from 'react-native';
-import { toastConfig } from '../../components/Feed/ShowToast';
-import React, { useState, createContext, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { sizes } from '../../utils';
+// import CToast from '../../shared/Feed/CToast';
 const { height, width } = Dimensions.get('window');
 import { appColor, fonts } from '../../constants';
-import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import More from '../../../assets/images/svg/More';
 import BarCode from '../../../assets/images/svg/Barcode';
-import Bell from '../../../assets/images/svg/Bell';
 import Feather from '@expo/vector-icons/Feather';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useFonts } from 'expo-font';
 import NotificationBell from '../../components/Feed/NotificationBell';
 import ReportPanel from '../../components/Feed/ReportPanel';
-import { FeedContent, UserPost, UserCommunityPost } from '../../models';
 import MainTab from '../../navigations/MainTabNavigation';
-import ForYou from '../../components/Feed/ForYou';
-import Community from '../../components/Feed/Community';
-import { UserPosts, CommunityPost } from '../../components/Feed/DuumyData';
 import { useNavigation } from '@react-navigation/native';
 const size = new sizes(height, width);
 import { DrawerActions } from '@react-navigation/native';
-import CustomToast from '../../components/createPost/CustomToast';
+import CustomToast from '../../shared/Feed/CustomToast';
 import ReceiveTokenModal from '../../components/Feed/ReceiveTokenModal';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import { updateReceiveModalState } from '../../controller/FeedsController';
-import { updateShouldShowPublishToast } from '../../controller/createPost';
-import ToastHook from '../../hooks/Feeds/ToastHook';
 import ReportPostModal from '../../components/Feed/ReportPostModal';
 import ReportUserModal from '../../components/Feed/ReportUserModal';
 import BlockUserModal from '../../components/Feed/BlockUserModal';
 import { resetModals } from '../../controller/FeedsController';
+
+import GreenToastIcon from '../../../assets/images/svg/GreenToastIcon';
 import Toast from 'react-native-toast-message';
 import { batch } from 'react-redux';
-type Views = 'For You' | 'Community';
+import { LinearProgress } from 'react-native-elements';
+import ToastInfoIcon from '../../../assets/images/svg/ToastInfoIcon';
+import CToast from '../../shared/Feed/CToast';
+type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 const Main = () => {
   useEffect(() => {
     dispatch(resetModals());
   }, []);
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-
-  const [view, setSwitchView] = useState<Views>('For You');
-  const { showBlockToast, showReportUserToast, showReportPostToast } =
-    ToastHook();
-  const modals = useAppSelector((state) => ({
-    reportPostModal: state.FeedsSliceController.ReportPostModal,
-    reportPanel: state.FeedsSliceController.ReportingModal,
-    reportUser: state.FeedsSliceController.ReportUserModal,
-    blockUser: state.FeedsSliceController.BlockUserModal,
-    myPostModal: state.FeedsSliceController.MyPostPanel,
-    deletePost: state.FeedsSliceController.DeleteMyPostPanel,
-  }));
-  const showPublishToast = useAppSelector(
-    (state) => state.CreatePostController.shouldShowPublishToast
-  );
-  const isAnyModalOpen = Object.values(modals).some((value) => value === true);
-  const handleView = (view: Views) => {
-    setSwitchView(view);
-  };
 
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -85,6 +63,31 @@ const Main = () => {
   };
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
+  };
+  const toastConfig = {
+    tomatoToast: ({ progressValue }) => (
+      <View style={styles.toastContainer}>
+        <View
+          style={[
+            styles.toastRow,
+            {
+              marginVertical: size.getHeightSize(16),
+              alignItems: 'center',
+            },
+          ]}
+        >
+          {<ToastInfoIcon />}
+          <Text style={styles.toastText}>{'hdhgdgdgdgdgd'}</Text>
+        </View>
+
+        <LinearProgress
+          color={'#2AB576'}
+          trackColor={appColor.kgrayDark2}
+          value={progressValue}
+          variant="determinate"
+        />
+      </View>
+    ),
   };
   return (
     <SafeAreaView
@@ -120,21 +123,48 @@ const Main = () => {
       >
         <AntDesign name="plus" size={25} color={appColor.kTextColor} />
       </Pressable>
-      {isAnyModalOpen && <View style={styles.overlay} />}
-      <ReportUserModal reportUser={showReportUserToast} />
+      <ReportUserModal />
       <ReportPanel />
-      <ReportPostModal reportPost={showReportPostToast} />
-      <BlockUserModal block={showBlockToast} />
-      <Toast config={toastConfig} />
+      <ReportPostModal />
+      <BlockUserModal />
       <ReceiveTokenModal closeModal={closeModal} />
-      {showPublishToast && (
+
+      {/* {toastType !== 'none' && toastType !== 'publish' && (
         <CustomToast
+          type="sucess"
+          marginVertical={24}
+          position="top"
+          text={
+            toastType === 'reportUser'
+              ? 'JohnFlock is reported successfully'
+              : toastType === 'blockUser'
+              ? 'You have blocked JohnFlock'
+              : toastType === 'reportPost'
+              ? 'Post is reported successfully'
+              : null
+          }
+          functions={[
+            () => {
+              dispatch(updateToastToShow('none')),
+                dispatch(updateShowCustomToast(false));
+            },
+          ]}
+        />
+      )}
+      {toastType === 'publish' && (
+        <CustomToast
+          type="sucess"
           marginVertical={24}
           position="top"
           text="Post is published successfully"
-          functions={[() => dispatch(updateShouldShowPublishToast(false))]}
+          functions={[
+            () => {
+              dispatch(updateToastToShow('none')),
+                dispatch(updateShowCustomToast(false));
+            },
+          ]}
         />
-      )}
+      )} */}
     </SafeAreaView>
   );
 };
@@ -145,7 +175,7 @@ const styles = StyleSheet.create({
     height: size.heightSize(64),
     width: '100%',
     backgroundColor: appColor.kgrayDark2,
-    paddingVertical: size.getHeightSize(16),
+    justifyContent: 'center',
   },
   Navigation: {
     flexDirection: 'row',
@@ -175,12 +205,34 @@ const styles = StyleSheet.create({
 
     elevation: 9,
     shadowColor: '#000000',
-    shadowOffset:{height:2, width:0},
+    shadowOffset: { height: 2, width: 0 },
     shadowOpacity: 0.25,
- 
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0,0,0,0.7)',
+  },
+
+  toastText: {
+    color: appColor.kTextColor,
+    fontSize: size.fontSize(14),
+    fontFamily: 'Outfit-Regular',
+    lineHeight: size.getHeightSize(18),
+  },
+  toastContainer: {
+    backgroundColor: appColor.kgrayDark2,
+    borderRadius: 4,
+    width: size.getWidthSize(340),
+    marginTop: size.getHeightSize(35),
+    borderWidth: size.getWidthSize(1),
+    borderColor: appColor.kGrayLight3,
+  },
+  toastRow: {
+    flexDirection: 'row',
+    marginHorizontal: size.getWidthSize(16),
+    gap: size.getWidthSize(4),
+
+    width: size.getWidthSize(286),
+    alignSelf: 'center',
   },
 });

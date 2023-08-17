@@ -44,6 +44,8 @@ const Notification = ({ data }: Props) => {
         style={{
           gap: size.heightSize(8),
           flex: 1,
+          marginLeft: size.getWidthSize(16),
+         
         }}
       >
         <Text style={data.read ? styles.readUsername : styles.username}>
@@ -58,7 +60,16 @@ const Notification = ({ data }: Props) => {
         <Text style={data.read ? styles.readTime : styles.time}>
           {data.time}
         </Text>
-        {data.type === 'follow' && <FollowButton isFollowing={false} />}
+        {data.type === 'follow' && (
+          <View
+            style={{
+              alignSelf: 'flex-start',
+              justifyContent: 'center',
+            }}
+          >
+            <FollowButton isFollowing={false} />
+          </View>
+        )}
       </View>
       {data.read ? <View /> : <NotificationDot />}
     </View>
@@ -89,7 +100,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: size.getWidthSize(16),
     paddingVertical: size.getHeightSize(16),
-    gap: size.getWidthSize(8),
+
     borderBottomWidth: size.getHeightSize(1),
     borderColor: appColor.kgrayDark2,
     alignItems: 'flex-start',
