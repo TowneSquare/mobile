@@ -23,7 +23,7 @@ type SelectedSuperStarCollectionScreenParameter = {
 export type RootStackParamList = {
   FirstScreen: undefined;
   ChooseProfile: undefined;
-  ChooseUsername: undefined;
+  SignUp: undefined;
   ConnectSocialsAndVrify: undefined;
   ConnectSocials: undefined;
   FindFriends: undefined;
@@ -96,9 +96,9 @@ export type ChooseProfileProps = {
   navigation: NavigationProp<RootStackParamList, 'ChooseProfile'>;
   route: RouteProp<ParamListBase, 'ChooseProfile'>;
 };
-export type ChooseUsernameProps = {
-  navigation: NavigationProp<RootStackParamList, 'ChooseUsername'>;
-  route: RouteProp<ParamListBase, 'ChooseUsername'>;
+export type SignUpProps = {
+  navigation: NavigationProp<RootStackParamList, 'SignUp'>;
+  route: RouteProp<ParamListBase, 'SignUp'>;
 };
 export type ConnectSocialsAndVrifyProps = {
   navigation: NavigationProp<RootStackParamList, 'ConnectSocialsAndVrify'>;
@@ -108,7 +108,7 @@ export type ConnectSocialsProps = {
   navigation: NavigationProp<RootStackParamList, 'ConnectSocials'>;
   route: RouteProp<ParamListBase, 'ConnectSocials'>;
 };
-export type FinundefineddFriendsProps = {
+export type FindFriendsProps = {
   navigation: NavigationProp<RootStackParamList, 'FindFriends'>;
   route: RouteProp<ParamListBase, 'FindFriends'>;
 };

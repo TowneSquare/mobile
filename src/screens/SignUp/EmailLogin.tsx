@@ -1,7 +1,6 @@
 import {
   Dimensions,
   Pressable,
-  StyleSheet,
   TextInput,
   View,
   ImageBackground,
@@ -19,7 +18,6 @@ import { EmailLoginProps } from "../../navigations/NavigationTypes";
 import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch } from "../../controller/hooks";
 import {
-  updateAccountInfo,
   updateDidToken,
 } from "../../controller/UserController";
 

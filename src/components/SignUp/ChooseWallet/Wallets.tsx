@@ -1,28 +1,25 @@
 import {
   View,
   Text,
-  Image,
   Dimensions,
   Pressable,
   StyleSheet,
 } from 'react-native';
-import React from 'react';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, fonts } from '../../../constants';
 
 import { useFonts } from 'expo-font';
 import { MaterialIcons } from '@expo/vector-icons';
-import Petra from '../../../assets/images/svg/Petra';
-import { sizes } from '../../utils';
+import Petra from '../../../../assets/images/svg/Petra';
+import { sizes } from '../../../utils';
 import {
   updateBottomSheet,
   updateRenderCount,
-} from '../../controller/BottomSheetController';
-import Pontem from '../../../assets/images/svg/Pontem';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-import Fewcha from '../../../assets/images/svg/Fewcha';
-import Rise from '../../../assets/images/svg/Rise';
-import Martian from '../../../assets/images/svg/Martian';
-import LetGoButton from './LetGoButton';
+} from '../../../controller/BottomSheetController';
+import Pontem from '../../../../assets/images/svg/Pontem';
+import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
+import Fewcha from '../../../../assets/images/svg/Fewcha';
+import Rise from '../../../../assets/images/svg/Rise';
+import Martian from '../../../../assets/images/svg/Martian';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Wallets = () => {

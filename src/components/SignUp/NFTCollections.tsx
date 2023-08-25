@@ -3,12 +3,10 @@ import {
   Text,
   Image,
   Pressable,
-  TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import React from 'react';
 import { useFonts } from 'expo-font';
-import { images, fonts, appColor } from '../../constants';
+import { fonts, appColor } from '../../constants';
 const { height, width } = Dimensions.get('window');
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import {

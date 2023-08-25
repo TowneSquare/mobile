@@ -33,7 +33,7 @@ import { appColor, fonts } from '../../../constants';
 import { sizes } from '../../../utils';
 import { EditProfilePictureContext } from '../../../context/EditProfileBottomSheetContext';
 import NFTCollections from '../../SignUp/NFTCollections';
-import ProfilePicsCollection from '../../SignUp/ProfilePicsCollection';
+import ProfilePicsCollection from '../../SignUp/ChooseProfilePics/ProfilePicsCollection';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const SelectedCollectionBottomSheet = () => {

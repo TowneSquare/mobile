@@ -1,20 +1,14 @@
 import {
   View,
   Text,
-  StyleSheet,
   Dimensions,
-  ScrollView,
-  Image,
   Pressable,
   BackHandler,
 } from 'react-native';
-import React, { useMemo, useRef, useState, useEffect } from 'react';
-import { MaterialIcons } from '@expo/vector-icons';
+import { useRef, useState, useEffect } from 'react';
 import * as Animatable from 'react-native-animatable';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import Customhandler from './Customhandler';
-import NFTCollections from './NFTCollections';
-import Animated, {
+import {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
@@ -22,15 +16,16 @@ import Animated, {
 } from 'react-native-reanimated';
 import ProfilePicsCollection from './ProfilePicsCollection';
 import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
-import { sizes } from '../../utils';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { appColor, fonts } from '../../../constants';
+import { sizes } from '../../../utils';
+import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
 import {
   updateSelectedCollection,
   updateSelectedRender,
   updateNftOpen,
   updateNftRender,
-} from '../../controller/BottomSheetController';
+} from '../../../controller/BottomSheetController';
+import Customhandler from '../Customhandler';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const SelectedCollection = () => {

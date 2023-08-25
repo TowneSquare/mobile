@@ -2,24 +2,15 @@ import {
   View,
   Text,
   ImageBackground,
-  Image,
   Dimensions,
-  StyleSheet,
-  Pressable,
 } from "react-native";
-import React, { useEffect } from "react";
-import Background2 from "../../../assets/images/svg/Background2";
 import { useFonts } from "expo-font";
-import { Avatar } from "react-native-elements";
 import { appColor, fonts, images } from "../../constants";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { sizes } from "../../utils";
 import Congrats from "../../../assets/images/svg/Congrats";
-import { StackActions } from "@react-navigation/native";
 import LetGoButton from "../../components/SignUp/LetGoButton";
 const { height, width } = Dimensions.get("window");
-import { FirstScreenProps } from "../../navigations/NavigationTypes";
 const size = new sizes(height, width);
 const Congratulations = () => {
   let [isLoaded] = useFonts({

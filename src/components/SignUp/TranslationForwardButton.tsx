@@ -1,9 +1,6 @@
-import { View, Text, Dimensions, Pressable } from "react-native";
-import React from "react";
-import { useFonts } from "expo-font";
-import { appColor, fonts, images } from "../../constants";
+import { Text, Dimensions, Pressable } from "react-native";
+import { appColor } from "../../constants";
 import { sizes } from "../../utils";
-import { useNavigation } from "@react-navigation/native";
 import { useAppSelector } from "../../controller/hooks";
 const { height, width } = Dimensions.get("window");
 interface Props {

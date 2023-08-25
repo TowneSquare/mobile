@@ -3,19 +3,17 @@ import {
   Text,
   StyleSheet,
   Dimensions,
-  ScrollView,
-  Image,
   Pressable,
   Alert,
   BackHandler,
 } from 'react-native';
-import React, { useMemo, useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Animatable from 'react-native-animatable';
 import Photo from '../../../assets/images/svg/Photo';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import BottomSheet from '@gorhom/bottom-sheet';
 import Handler from './Handler';
-import Animated, {
+import {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
@@ -29,7 +27,7 @@ import {
 } from '../../controller/BottomSheetController';
 import Cat from '../../../assets/images/svg/Cat';
 import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
 import Camera from '../../../assets/images/svg/Camera';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
