@@ -1,9 +1,9 @@
 import {
-    View,
-    Text,
-    Pressable,
-    Dimensions,
-    StyleSheet
+  View,
+  Text,
+  Pressable,
+  Dimensions,
+  StyleSheet
 } from "react-native";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";

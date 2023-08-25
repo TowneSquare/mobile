@@ -146,7 +146,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
           Social, create, build, and transact {"\n"} with anyone anywhere
         </Text>
         <Pressable
-          onPress={() => navigation.navigate("SignUp")}
+          onPress={() => navigation.navigate("ChooseWallet")}
           style={{
             marginTop: size.getHeightSize(129),
             width: size.getWidthSize(348.94),

@@ -6,7 +6,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import { appColor, fonts } from '../../../constants';
-
 import { useFonts } from 'expo-font';
 import { MaterialIcons } from '@expo/vector-icons';
 import Petra from '../../../../assets/images/svg/Petra';
@@ -64,7 +63,6 @@ const Wallets = () => {
           size={size.fontSize(25)}
         />
       </Pressable>
-      {/* <LetGoButton navigateTo="DrawerNavigation" /> */}
       <Pressable
         onPress={() => {
           dispatch(updateRenderCount(1));

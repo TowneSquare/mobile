@@ -7,7 +7,6 @@ import {
   Dimensions,
   SafeAreaView,
   FlatList,
-  ScrollView,
 } from "react-native";
 import Constants from "expo-constants";
 import { useFonts } from "expo-font";
@@ -22,6 +21,9 @@ import ConnectSocials from "../../components/SignUp/ConnectSocials/ConnectSocial
 import FindFriends from "../../components/SignUp/FindFriends/FindFriends";
 import ExploreCommunities from "../../components/SignUp/ExploreCommunities/ExploreCommunities";
 import ChooseProfilePics from "../../components/SignUp/ChooseProfilePics/ChooseProfilePics";
+import UploadImageModal from "../../components/SignUp/ChooseProfilePics/UploadImageModal";
+import ChooseNFT from "../../components/SignUp/ChooseProfilePics/ChooseNFT";
+import SelectedCollection from "../../components/SignUp/ChooseProfilePics/SelectedCollection";
 
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
@@ -171,6 +173,9 @@ const SignUp = ({ navigation }: SignUpProps) => {
           }}
         />
       </View>
+      <UploadImageModal />
+      <ChooseNFT />
+      <SelectedCollection />
     </SafeAreaView>
   );
 };
