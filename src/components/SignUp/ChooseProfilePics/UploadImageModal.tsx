@@ -10,9 +10,9 @@ import {
 import { useRef, useState, useEffect } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Animatable from 'react-native-animatable';
-import Photo from '../../../assets/images/svg/Photo';
+import Photo from '../../../../assets/images/svg/Photo';
 import BottomSheet from '@gorhom/bottom-sheet';
-import Handler from './Handler';
+import Handler from '../Handler';
 import {
   Extrapolation,
   interpolate,
@@ -24,13 +24,13 @@ import {
   updateUploadModalRenderCount,
   updateNftOpen,
   updateNftRender,
-} from '../../controller/BottomSheetController';
-import Cat from '../../../assets/images/svg/Cat';
+} from '../../../controller/BottomSheetController';
+import Cat from '../../../../assets/images/svg/Cat';
 import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
-import { sizes } from '../../utils';
-import Camera from '../../../assets/images/svg/Camera';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { appColor, fonts } from '../../../constants';
+import { sizes } from '../../../utils';
+import Camera from '../../../../assets/images/svg/Camera';
+import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
 import {
   launchImageLibraryAsync,
   MediaTypeOptions,
@@ -38,7 +38,7 @@ import {
   useCameraPermissions,
   PermissionStatus,
 } from 'expo-image-picker';
-import { updateProfileImage } from '../../controller/UserController';
+import { updateProfileImage } from '../../../controller/UserController';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
