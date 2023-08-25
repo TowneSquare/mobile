@@ -53,6 +53,13 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
       },
     },
     {
+      name: 'EmailLogin',
+      component: EmailLogin,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
       name: 'Congratulations',
       component: Congratulations,
       options: {
@@ -188,7 +195,13 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-
+      <Stack.Screen
+        name="EmailLogin"
+        component={EmailLogin}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen
         name="BottomTabNavigation"
         component={BottomTabNavigation}
@@ -318,9 +331,6 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-      <Stack.Screen name="EmailLogin" options={{ headerShown: false }}>
-        {() => <EmailLogin {...magicProps} />}
-      </Stack.Screen>
     </Stack.Navigator>
   );
 };

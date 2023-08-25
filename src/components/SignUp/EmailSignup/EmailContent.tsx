@@ -2,11 +2,10 @@ import { View, Text, Dimensions } from "react-native";
 const { height, width } = Dimensions.get("window");
 import { sizes } from "../../../utils";
 import { appColor } from "../../../constants";
-import User from "../../../../assets/images/svg/User";
-import NickNameField from "./NickNameField";
-import UsernameField from "./UsernameField";
+import Envelope from "../../../../assets/images/svg/Envelope";
+import EmailField from "./EmailField";
 const size = new sizes(height, width);
-const ChooseUsernameContent = () => {
+const EmailContent = () => {
   return (
     <>
       <View
@@ -15,7 +14,7 @@ const ChooseUsernameContent = () => {
           alignSelf: "center",
         }}
       >
-        <User />
+        <Envelope />
       </View>
       <View
         style={{
@@ -32,7 +31,7 @@ const ChooseUsernameContent = () => {
             lineHeight: size.getHeightSize(37),
           }}
         >
-          Choose your username
+          Get started
         </Text>
       </View>
       <View
@@ -52,17 +51,29 @@ const ChooseUsernameContent = () => {
             lineHeight: size.getHeightSize(21),
           }}
         >
-          Stand out in Towne Square with a Nickname and a unique username.
+          Continue with your email
         </Text>
       </View>
       <View style={{ height: size.getHeightSize(113.5) }} />
       <View>
-        <NickNameField />
-        <View style={{ height: size.getHeightSize(32) }} />
-        <UsernameField />
+        <EmailField />
+      </View>
+      <View style={{ height: size.getHeightSize(180) }} />
+      <View>
+        <Text
+            style={{
+                color: appColor.kTextColor,
+                fontSize: size.fontSize(14),
+                fontFamily: "Outfit-Regular",
+                textAlign: "center",
+                lineHeight: size.getHeightSize(18),
+            }}
+        >
+            By continuing to use the app, you agree to the Terms of Service and Privacy Policy.
+        </Text>
       </View>
     </>
   );
 };
 
-export default ChooseUsernameContent;
+export default EmailContent;

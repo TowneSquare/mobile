@@ -40,6 +40,7 @@ interface UserState {
   errors: {
     nicknameError: boolean;
     usernameError: boolean;
+    emailError: boolean;
     usernameErrorMessage: string;
   };
   didToken: string;
@@ -83,6 +84,7 @@ const initialState: UserState = {
   errors: {
     nicknameError: false,
     usernameError: false,
+    emailError: false,
     usernameErrorMessage: '',
   },
   didToken: '',
@@ -388,6 +390,15 @@ export const USER = createSlice({
         state.errors.nicknameError = false;
       }
     },
+    updateEmail: (state, action: PayloadAction<string>) => {
+      if (state.details.email.length >= 70) {
+        state.details.email = action.payload;
+        state.errors.emailError = true;
+      } else {
+        state.details.email = action.payload;
+        state.errors.emailError = false;
+      }
+    },
     updateUsername: (state, action: PayloadAction<string>) => {
       const usernameRegex = /^[a-zA-Z0-9]+$/;
       if (
@@ -427,6 +438,9 @@ export const USER = createSlice({
     },
     updateNicknameError: (state, action: PayloadAction<boolean>) => {
       state.errors.nicknameError = action.payload;
+    },
+    updateEmailError: (state, action: PayloadAction<boolean>) => {
+      state.errors.emailError = action.payload;
     },
     updateUsernameError: (state, action) => {
       state.errors.usernameError = action.payload;
@@ -481,11 +495,13 @@ export const USER = createSlice({
 export const {
   updateTypeOfWallet,
   updateNickname,
+  updateEmail,
   updateUsername,
   updateFollowedFriends,
   updateJoinedCommunities,
   updateNicknameError,
   updateUsernameError,
+  updateEmailError,
   updateDidToken,
   updateProfileImage,
   updateEditProfile,
