@@ -7,7 +7,6 @@ import {
   Dimensions,
   SafeAreaView,
   FlatList,
-  ScrollView,
 } from "react-native";
 import Constants from "expo-constants";
 import { useFonts } from "expo-font";
