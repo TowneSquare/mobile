@@ -22,6 +22,7 @@ import ConnectSocials from "../../components/SignUp/ConnectSocials/ConnectSocial
 import FindFriends from "../../components/SignUp/FindFriends/FindFriends";
 import ExploreCommunities from "../../components/SignUp/ExploreCommunities/ExploreCommunities";
 import ChooseProfilePics from "../../components/SignUp/ChooseProfilePics/ChooseProfilePics";
+import UploadImageModal from "../../components/SignUp/ChooseProfilePics/UploadImageModal";
 
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
@@ -171,6 +172,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
           }}
         />
       </View>
+      <UploadImageModal />
     </SafeAreaView>
   );
 };

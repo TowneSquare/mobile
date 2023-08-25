@@ -15,7 +15,6 @@ import { sizes } from '../../../utils';
 import { Entypo } from '@expo/vector-icons';
 import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
 import Header from '../Header';
-import UploadImageModal from './UploadImageModal';
 import SelectedCollection from './SelectedCollection';
 import User from '../../../../assets/images/svg/User';
 import {
@@ -180,7 +179,6 @@ const ChooseProfilePics = () => {
           }
         </View>
         <View style={{ flex: 1 }} />
-        <UploadImageModal />
         <ChooseNFT />
         <SelectedCollection />
       </SafeAreaView>
