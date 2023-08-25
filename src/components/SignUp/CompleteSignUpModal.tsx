@@ -191,7 +191,7 @@ const CompleteSignUpModal = () => {
                 </View>
               </View>
               <View style={{ height: size.getHeightSize(32) }} />
-              <ContinueButton closeModal navigateTo="ChooseUsernameSlide" />
+              <ContinueButton closeModal navigateTo="SignUp" />
               <BackButton marginTop={8} closeModal={true} />
             </Animatable.View>
           </BottomSheetView>

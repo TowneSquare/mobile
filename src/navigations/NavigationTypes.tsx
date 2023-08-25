@@ -22,7 +22,7 @@ type SelectedSuperStarCollectionScreenParameter = {
 };
 export type RootStackParamList = {
   FirstScreen: undefined;
-  ChooseProfile: undefined;
+  ChooseWallet: undefined;
   SignUp: undefined;
   ConnectSocialsAndVrify: undefined;
   ConnectSocials: undefined;
@@ -92,9 +92,9 @@ export type FirstScreenProps = {
   magic: any;
   route: RouteProp<ParamListBase, 'FirstScreen'>;
 };
-export type ChooseProfileProps = {
-  navigation: NavigationProp<RootStackParamList, 'ChooseProfile'>;
-  route: RouteProp<ParamListBase, 'ChooseProfile'>;
+export type ChooseWalletProps = {
+  navigation: NavigationProp<RootStackParamList, 'ChooseWallet'>;
+  route: RouteProp<ParamListBase, 'ChooseWallet'>;
 };
 export type SignUpProps = {
   navigation: NavigationProp<RootStackParamList, 'SignUp'>;

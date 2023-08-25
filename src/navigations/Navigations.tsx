@@ -26,6 +26,7 @@ import SearchPostTab from './SearchPostTabBar';
 import SelectedSuperStarCollectionScreen from '../screens/Profile/SelectedSuperStarCollectionScreen';
 import FollowersScreen from '../screens/Profile/FollowersScreen';
 import Congratulations from '../screens/SignUp/Congratulations';
+import ChooseWallet from '../screens/SignUp/ChooseWallet';
 const Navigations = ({ magicProps }: { magicProps: any }) => {
   const Stack = createStackNavigator<RootStackParamList>();
   const config = {
@@ -55,6 +56,13 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
     {
       name: 'EmailLogin',
       component: EmailLogin,
+      options: {
+        headerShown: false,
+      },
+    },
+    {
+      name: 'ChooseWallet',
+      component: ChooseWallet,
       options: {
         headerShown: false,
       },
@@ -191,6 +199,13 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
       <Stack.Screen
         name="SignUp"
         component={SignUp}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ChooseWallet"
+        component={ChooseWallet}
         options={{
           headerShown: false,
         }}
