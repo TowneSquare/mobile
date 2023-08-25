@@ -90,89 +90,87 @@ const SignUp = ({ navigation }: SignUpProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View
+      <View
+        style={{
+          marginTop: size.getHeightSize(42),
+          paddingHorizontal: PADDING,
+        }}
+      >
+        <Text
           style={{
-            marginTop: size.getHeightSize(42),
-            paddingHorizontal: PADDING,
+            color: appColor.kTextColor,
+            marginBottom: size.getHeightSize(8),
+            fontFamily: "Outfit-Regular",
+            fontSize: size.fontSize(14),
+            lineHeight: size.getHeightSize(18),
+            width: size.getWidthSize(257),
           }}
         >
-          <Text
-            style={{
-              color: appColor.kTextColor,
-              marginBottom: size.getHeightSize(8),
-              fontFamily: "Outfit-Regular",
-              fontSize: size.fontSize(14),
-              lineHeight: size.getHeightSize(18),
-              width: size.getWidthSize(257),
-            }}
-          >
-            Next step: {stageTitle(viewIndex)}
-          </Text>
+          Next step: {stageTitle(viewIndex)}
+        </Text>
 
+        <Animated.View
+          style={{
+            height: size.getHeightSize(2),
+            backgroundColor: appColor.kStatusBarNaviDark,
+            width: newWidth,
+          }}
+        >
           <Animated.View
             style={{
               height: size.getHeightSize(2),
-              backgroundColor: appColor.kStatusBarNaviDark,
-              width: newWidth,
+              backgroundColor: appColor.kSecondaryButtonColor,
+              width: progressWidth,
             }}
-          >
-            <Animated.View
+          />
+        </Animated.View>
+      </View>
+      <FlatList
+        scrollEnabled={false}
+        ref={flatListRef}
+        data={views}
+        horizontal
+        pagingEnabled
+        scrollEventThrottle={16}
+        snapToAlignment="center"
+        showsHorizontalScrollIndicator={false}
+        bounces={false}
+        onViewableItemsChanged={onViewChangeRef.current}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+          { useNativeDriver: false }
+        )}
+        renderItem={({ item }: any) => {
+          return (
+            <View
               style={{
-                height: size.getHeightSize(2),
-                backgroundColor: appColor.kSecondaryButtonColor,
-                width: progressWidth,
+                width: width,
+                backgroundColor: "transparent",
+                flex: 1,
               }}
-            />
-          </Animated.View>
-        </View>
-        <FlatList
-          scrollEnabled={false}
-          ref={flatListRef}
-          data={views}
-          horizontal
-          pagingEnabled
-          scrollEventThrottle={16}
-          snapToAlignment="center"
-          showsHorizontalScrollIndicator={false}
-          bounces={false}
-          onViewableItemsChanged={onViewChangeRef.current}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            { useNativeDriver: false }
-          )}
-          renderItem={({ item }: any) => {
-            return (
-              <View
-                style={{
-                  width: width,
-                  backgroundColor: "transparent",
-                  flex: 1,
-                }}
-              >
-                {item}
-              </View>
-            );
+            >
+              {item}
+            </View>
+          );
+        }}
+      />
+      <View
+        style={{
+          height: size.getHeightSize(124),
+          marginBottom: size.getHeightSize(24),
+        }}
+      >
+        <TranslationForwardButton
+          action={() => {
+            handleNextSlide();
           }}
         />
-        <View
-          style={{
-            height: size.getHeightSize(124),
-            marginBottom: size.getHeightSize(24),
+        <TransitionBackButton
+          action={() => {
+            handlePreviousSlide();
           }}
-        >
-          <TranslationForwardButton
-            action={() => {
-              handleNextSlide();
-            }}
-          />
-          <TransitionBackButton
-            action={() => {
-              handlePreviousSlide();
-            }}
-          />
-        </View>
-      </ScrollView>
+        />
+      </View>
     </SafeAreaView>
   );
 };
