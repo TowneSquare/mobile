@@ -80,13 +80,23 @@ const Wallets = () => {
           size={size.fontSize(25)}
         />
       </Pressable>
-      <View style={[styles.wallet, { backgroundColor: appColor.kgrayDark2 }]}>
+      <Pressable
+        onPress={() => {
+          dispatch(updateRenderCount(1));
+          dispatch(updateBottomSheet(true));
+        }}
+        style={[styles.wallet, { paddingRight: size.getWidthSize(13) }]}
+      >
         <View style={styles.rows}>
           <Petra />
           <Text style={styles.leadingText}>Petra</Text>
         </View>
-        <Text style={styles.text}>Coming soon</Text>
-      </View>
+        <MaterialIcons
+          name="keyboard-arrow-right"
+          color={appColor.kWhiteColor}
+          size={size.fontSize(25)}
+        />
+      </Pressable>
       <View style={[styles.wallet, { backgroundColor: appColor.kgrayDark2 }]}>
         <View style={styles.rows}>
           <Fewcha />
