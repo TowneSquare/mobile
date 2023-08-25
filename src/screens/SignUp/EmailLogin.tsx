@@ -23,6 +23,8 @@ import ExploreCommunities from "../../components/SignUp/ExploreCommunities/Explo
 import ChooseProfilePics from "../../components/SignUp/ChooseProfilePics/ChooseProfilePics";
 import UploadImageModal from "../../components/SignUp/ChooseProfilePics/UploadImageModal";
 import EmailContent from "../../components/SignUp/EmailSignup/EmailContent";
+import ChooseNFT from "../../components/SignUp/ChooseProfilePics/ChooseNFT";
+import SelectedCollection from "../../components/SignUp/ChooseProfilePics/SelectedCollection";
 
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
@@ -175,6 +177,8 @@ const EmailLogin = ({ navigation }: EmailLoginProps) => {
         />
       </View>
       <UploadImageModal />
+      <ChooseNFT />
+      <SelectedCollection />
     </SafeAreaView>
   );
 };

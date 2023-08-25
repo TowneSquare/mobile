@@ -15,14 +15,12 @@ import { sizes } from '../../../utils';
 import { Entypo } from '@expo/vector-icons';
 import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
 import Header from '../Header';
-import SelectedCollection from './SelectedCollection';
 import User from '../../../../assets/images/svg/User';
 import {
 updateUploadImageModalOpen,
 updateUploadModalRenderCount,
 updateProfilePics,
 } from '../../../controller/BottomSheetController';
-import ChooseNFT from './ChooseNFT';
 import RemoveAttachment from '../../../../assets/images/svg/RemoveAttachment';
 import { updateProfileImage } from '../../../controller/UserController';
 import tinycolor from 'tinycolor2';
@@ -179,8 +177,6 @@ const ChooseProfilePics = () => {
         }
       </View>
       <View style={{ flex: 1 }} />
-      <ChooseNFT />
-      <SelectedCollection />
     </SafeAreaView>
   );
 }
