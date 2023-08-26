@@ -208,13 +208,13 @@ const FindFriends = () => {
       }}
     >
       <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
-      <Header
-        SvgImage={<Hands />}
-        title="Find your friends"
-        subtitle="Say hi to your friends that are already on TowneSquare!"
-        subTitleWidth={size.getWidthSize(304)}
-      />
       <ScrollView showsVerticalScrollIndicator={false}>
+        <Header
+          SvgImage={<Hands />}
+          title="Find your friends"
+          subtitle="Say hi to your friends that are already on TowneSquare!"
+          subTitleWidth={size.getWidthSize(304)}
+        />
         <View
           style={{
             marginTop: size.getHeightSize(32),
