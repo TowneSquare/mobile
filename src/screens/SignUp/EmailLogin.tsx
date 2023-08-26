@@ -38,6 +38,8 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const [disable, setDisable] = useState(false);
+  const [viewIndex, setViewIndex] = useState(0);
+
   const userName = useAppSelector(
     (state) => state.USER.details.username
   );
@@ -53,11 +55,10 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
       case 0: setDisable(email.length < 1 ? true : false); break;
       case 1: setDisable(nickName.length < 1 || userName.length < 1? true : false); break;
     }
-  }, [userName, nickName, email]);
+  }, [userName, nickName, email, viewIndex]);
 
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList<any>>(null);
-  const [viewIndex, setViewIndex] = useState(0);
   const views = [<EmailContent />, <ChooseUsernameContent />, <Verify />, <ConnectSocials />, <FindFriends />, <ExploreCommunities />, <ChooseProfilePics />];
   const onViewChangeRef = useRef(({ viewableItems }: any) => {
     setViewIndex(viewableItems[0]?.index);
