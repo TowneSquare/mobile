@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Text,
   View,
@@ -25,13 +25,36 @@ import UploadImageModal from "../../components/SignUp/ChooseProfilePics/UploadIm
 import EmailContent from "../../components/SignUp/EmailSignup/EmailContent";
 import ChooseNFT from "../../components/SignUp/ChooseProfilePics/ChooseNFT";
 import SelectedCollection from "../../components/SignUp/ChooseProfilePics/SelectedCollection";
+import { useNavigation } from "@react-navigation/native";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import { updateDidToken } from "../../controller/UserController";
 
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
 let newWidth = width - 2 * PADDING;
 
-const EmailLogin = ({ navigation }: EmailLoginProps) => {
+const EmailLogin = ({ magic }: EmailLoginProps) => {
+  const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+  const [disable, setDisable] = useState(false);
+  const userName = useAppSelector(
+    (state) => state.USER.details.username
+  );
+  const nickName = useAppSelector(
+    (state) => state.USER.details.Nickname
+  );
+  const email = useAppSelector(
+    (state) => state.USER.details.email
+  );
+
+  useEffect(() => {
+    switch (viewIndex){
+      case 0: setDisable(email.length < 1 ? true : false); break;
+      case 1: setDisable(nickName.length < 1 || userName.length < 1? true : false); break;
+    }
+  }, [userName, nickName, email]);
+
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList<any>>(null);
   const [viewIndex, setViewIndex] = useState(0);
@@ -40,7 +63,11 @@ const EmailLogin = ({ navigation }: EmailLoginProps) => {
     setViewIndex(viewableItems[0]?.index);
   });
 
-  const handleNextSlide = () => {
+  const handleNextSlide = async () => {
+    if (viewIndex == 0) {
+      const token = await magic.auth.loginWithEmailOTP({ email });
+      dispatch(updateDidToken(token));
+    }
     const newIndex = viewIndex + 1;
     if (newIndex < views.length && flatListRef.current) {
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
@@ -166,6 +193,7 @@ const EmailLogin = ({ navigation }: EmailLoginProps) => {
         }}
       >
         <TranslationForwardButton
+          disable={disable}
           action={() => {
             handleNextSlide();
           }}

@@ -210,13 +210,11 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="EmailLogin"
-        component={EmailLogin}
-        options={{
-          headerShown: false,
-        }}
-      />
+
+      <Stack.Screen name="EmailLogin" options={{ headerShown: false }}>
+        {() => <EmailLogin {...magicProps} />}
+      </Stack.Screen>
+
       <Stack.Screen
         name="BottomTabNavigation"
         component={BottomTabNavigation}
