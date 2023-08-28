@@ -32,7 +32,7 @@ const ChooseUsernameContent = () => {
             lineHeight: size.getHeightSize(37),
           }}
         >
-          Choose your username
+          How shall we call you?
         </Text>
       </View>
       <View
@@ -52,7 +52,7 @@ const ChooseUsernameContent = () => {
             lineHeight: size.getHeightSize(21),
           }}
         >
-          Stand out in Towne Square with a Nickname and a unique username.
+          Stand out in TowneSquare with a display name and a unique username.
         </Text>
       </View>
       <View style={{ height: size.getHeightSize(113.5) }} />
