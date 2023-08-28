@@ -4,24 +4,19 @@ import { sizes } from "../../utils";
 import { useAppSelector } from "../../controller/hooks";
 const { height, width } = Dimensions.get("window");
 interface Props {
+  disable: boolean;
   action: () => void;
 }
-const TranslationForwardButton = ({ action }: Props) => {
+const TranslationForwardButton = ({ disable, action }: Props) => {
   const usernameError = useAppSelector(
     (state) => state.USER.errors.usernameError
   );
   const nickNameError = useAppSelector(
     (state) => state.USER.errors.nicknameError
   );
-  const userNameLength = useAppSelector(
-    (state) => state.USER.details.username.length
-  );
   const size = new sizes(height, width);
-  const nickNameLength = useAppSelector(
-    (state) => state.USER.details.Nickname.length
-  );
-  let disabled =
-    usernameError || nickNameError || userNameLength < 1 || nickNameLength < 1;
+
+  let disabled = usernameError || nickNameError || disable;
   return (
     <Pressable
       disabled={disabled}
