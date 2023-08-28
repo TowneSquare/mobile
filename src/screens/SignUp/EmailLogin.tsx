@@ -98,7 +98,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
       case 0:
         return "Choose your username";
       case 1:
-        return "Select Socials";
+        return "Connect Socials & Verify";
       case 2:
         return "Select Socials";
       case 3:

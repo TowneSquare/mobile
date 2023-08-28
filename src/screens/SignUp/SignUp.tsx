@@ -67,7 +67,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
   let stageTitle = (index: number) => {
     switch (index) {
       case 0:
-        return "Select Socials";
+        return "Connect Socials & Verify";
       case 1:
         return "Select Socials";
       case 2:

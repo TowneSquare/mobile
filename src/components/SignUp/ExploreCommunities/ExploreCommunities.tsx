@@ -51,6 +51,98 @@ const ExploreCommunities = () => {
       image: <PolygonImage />,
       name: "Aptos Monkey",
     },
+    {
+      id: 5,
+      image: <PolygonImage />,
+      name: "Aptomingos",
+      message: "You have their NFT!",
+    },
+    {
+      id: 6,
+      image: <PolygonImage />,
+      name: "Bruh Bears",
+      message: "You have their NFT!",
+    },
+    {
+      id: 7,
+      image: <PolygonImage />,
+      name: "Pontem Space Pirates from Siberia",
+      message: "You have their NFT!",
+    },
+    {
+      id: 8,
+      image: <PolygonImage />,
+      name: "Aptos Monkey",
+    },
+    {
+      id: 9,
+      image: <PolygonImage />,
+      name: "Aptomingos",
+      message: "You have their NFT!",
+    },
+    {
+      id: 10,
+      image: <PolygonImage />,
+      name: "Bruh Bears",
+      message: "You have their NFT!",
+    },
+    {
+      id: 11,
+      image: <PolygonImage />,
+      name: "Pontem Space Pirates from Siberia",
+      message: "You have their NFT!",
+    },
+    {
+      id: 12,
+      image: <PolygonImage />,
+      name: "Aptos Monkey",
+    },
+    {
+      id: 13,
+      image: <PolygonImage />,
+      name: "Aptomingos",
+      message: "You have their NFT!",
+    },
+    {
+      id: 14,
+      image: <PolygonImage />,
+      name: "Bruh Bears",
+      message: "You have their NFT!",
+    },
+    {
+      id: 15,
+      image: <PolygonImage />,
+      name: "Pontem Space Pirates from Siberia",
+      message: "You have their NFT!",
+    },
+    {
+      id: 16,
+      image: <PolygonImage />,
+      name: "Aptos Monkey",
+    },
+    {
+      id: 17,
+      image: <PolygonImage />,
+      name: "Aptomingos",
+      message: "You have their NFT!",
+    },
+    {
+      id: 18,
+      image: <PolygonImage />,
+      name: "Bruh Bears",
+      message: "You have their NFT!",
+    },
+    {
+      id: 19,
+      image: <PolygonImage />,
+      name: "Pontem Space Pirates from Siberia",
+      message: "You have their NFT!",
+    },
+    {
+      id: 20,
+      image: <PolygonImage />,
+      name: "Aptos Monkey",
+    },
   ];
   const [communities, setCommunities] = useState<Communities[]>([]);
   const [disableOnPress, setOnPress] = useState(false);

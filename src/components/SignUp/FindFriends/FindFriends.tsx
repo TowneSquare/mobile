@@ -80,6 +80,97 @@ const FindFriends = () => {
       username: "@username7",
       verification: "citizen",
     },
+    {
+      id: 8,
+      image: <AvatarFriend />,
+      name: "User Name",
+      username: "@username8",
+      verification: "citizen",
+    },
+    {
+      id: 9,
+      image: <AvatarFriend />,
+      name: "User Name",
+      username: "@username9",
+      verification: "citizen",
+    },
+    {
+      id: 10,
+      image: <AvatarFriend />,
+      name: "User Name",
+      username: "@username10",
+      verification: "citizen",
+    },
+    {
+      id: 11,
+      image: <AvatarFriend />,
+      name: "User Name",
+      username: "@username11",
+      verification: "citizen",
+    },
+    {
+      id: 12,
+      image: <AvatarFriend />,
+      name: "User Name",
+      username: "@username12",
+      verification: "verified",
+    },
+    {
+      id: 13,
+      image: <AvatarFriend />,
+      name: "User Name",
+      username: "@username13",
+      verification: "citizen",
+    },
+    {
+      id: 14,
+      image: <AvatarFriend />,
+      name: "User Name",
+      username: "@username14",
+      verification: "verified",
+    },
+    {
+      id: 15,
+      image: <AvatarFriend />,
+      name: "User Name",
+      username: "@username15",
+      verification: "citizen",
+    },
+    {
+      id: 16,
+      image: <AvatarFriend />,
+      name: "User Name",
+      username: "@username16",
+      verification: "verified",
+    },
+    {
+      id: 17,
+      image: <AvatarFriend />,
+      name: "User Name",
+      username: "@username17",
+      verification: "citizen",
+    },
+    {
+      id: 18,
+      image: <AvatarFriend />,
+      name: "User Name",
+      username: "@username18",
+      verification: "citizen",
+    },
+    {
+      id: 19,
+      image: <AvatarFriend />,
+      name: "User Name",
+      username: "@username19",
+      verification: "citizen",
+    },
+    {
+      id: 20,
+      image: <AvatarFriend />,
+      name: "User Name",
+      username: "@username20",
+      verification: "citizen",
+    },
   ];
 
   const [following, setFollowers] = useState<Friend[]>([]);
@@ -117,13 +208,13 @@ const FindFriends = () => {
       }}
     >
       <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
-      <Header
-        SvgImage={<Hands />}
-        title="Find your friends"
-        subtitle="Say hi to your friends that are already on TowneSquare!"
-        subTitleWidth={size.getWidthSize(304)}
-      />
       <ScrollView showsVerticalScrollIndicator={false}>
+        <Header
+          SvgImage={<Hands />}
+          title="Find your friends"
+          subtitle="Say hi to your friends that are already on TowneSquare!"
+          subTitleWidth={size.getWidthSize(304)}
+        />
         <View
           style={{
             marginTop: size.getHeightSize(32),
