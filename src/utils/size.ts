@@ -1,5 +1,3 @@
-import { PixelRatio } from 'react-native';
-
 class sizeConfig {
   screenHeight: number;
   screenWidth: number;

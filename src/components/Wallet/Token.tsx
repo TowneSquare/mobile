@@ -1,10 +1,5 @@
-import { View, Text, Image, Dimensions } from 'react-native';
-import React from 'react';
-import { useFonts } from 'expo-font';
-import BarCodeIcon from '../../../assets/images/svg/BarcodeIcon';
-import SendIcon from '../../../assets/images/svg/SendIcon';
-import SwapIcon from '../../../assets/images/svg/SwapIcon';
-import { images, fonts, appColor } from '../../constants';
+import { View, Text, Dimensions } from 'react-native';
+import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 import { Avatar } from 'react-native-elements';
 const { height, width } = Dimensions.get('window');

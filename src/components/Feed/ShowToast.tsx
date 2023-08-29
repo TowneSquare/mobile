@@ -1,9 +1,8 @@
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import React from 'react';
 import { LinearProgress } from 'react-native-elements';
-import { appColor, fonts, images } from '../../constants';
+import { appColor } from '../../constants';
 import { sizes } from '../../utils';
-import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
 import ToastIcon from '../../../assets/images/svg/ToastIcon';
 const size = new sizes(height, width);

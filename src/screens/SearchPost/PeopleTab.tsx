@@ -1,12 +1,8 @@
 import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
-import React from 'react';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../../utils';
 import UserCircle from '../../../assets/images/svg/UserCirlce';
-import { appColor, fonts } from '../../constants';
-import ReportPostModal from '../../components/Feed/ReportPostModal';
-import ReportUserModal from '../../components/Feed/ReportUserModal';
-import BlockUserModal from '../../components/Feed/BlockUserModal';
+import { appColor } from '../../constants';
 import SuggestedProfiles from '../../components/Search/SuggestedProfiles';
 const size = new sizes(height, width);
 

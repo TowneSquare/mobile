@@ -3,7 +3,6 @@ import {
   CardStyleInterpolators,
 } from '@react-navigation/stack';
 import { Easing, Animated } from 'react-native';
-import React from 'react';
 import { RootStackParamList } from './NavigationTypes';
 import BottomTabNavigation from './BottomTabNavigation';
 import SignUp from '../screens/SignUp/SignUp';

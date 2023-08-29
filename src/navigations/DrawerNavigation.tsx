@@ -1,12 +1,6 @@
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItem,
-} from "@react-navigation/drawer";
-import { NavigationContainer, DrawerActions } from "@react-navigation/native";
-import { View, Text, Dimensions } from "react-native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Dimensions } from "react-native";
 import { sizes } from "../utils";
-import React from "react";
 import BookMarks from "../screens/DrawerScreens/BookMarks";
 import Calender from "../screens/DrawerScreens/Calendar";
 import Settings from "../screens/DrawerScreens/Settings";
@@ -14,7 +8,6 @@ import Support from "../screens/DrawerScreens/Support";
 import TowneSquarePurpleScreen from "../screens/DrawerScreens/TowneSquarePurpleScreen";
 import DrawerComponents from "../screens/DrawerScreens/DrawerComponents";
 import BottomTabNavigation from "./BottomTabNavigation";
-import { DrawerNavigationProp } from "@react-navigation/drawer";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const DrawerNavigation = () => {

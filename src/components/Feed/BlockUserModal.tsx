@@ -1,16 +1,13 @@
 import {
-  View,
   Text,
   StyleSheet,
-  Platform,
-  Image,
   Dimensions,
   Pressable,
   BackHandler,
 } from 'react-native';
-import React, { useRef, useEffect, useCallback, useMemo } from 'react';
+import { useRef, useEffect, useCallback, useMemo } from 'react';
 import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
 import BottomSheet, {
   BottomSheetBackdrop,
@@ -18,7 +15,6 @@ import BottomSheet, {
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
 import CustomHandler from './CustomHandler';
-
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import {
   updateBlockUserModal,

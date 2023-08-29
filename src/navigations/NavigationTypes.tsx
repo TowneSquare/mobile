@@ -3,7 +3,6 @@ import {
   ParamListBase,
   RouteProp,
 } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { ImageSourcePropType } from 'react-native';
 declare global {
   namespace ReactNavigation {

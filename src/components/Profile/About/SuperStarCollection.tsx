@@ -6,11 +6,9 @@ import {
   Pressable,
   StyleSheet,
 } from 'react-native';
-import React from 'react';
 import { appColor, images, fonts } from '../../../constants';
 import { sizes } from '../../../utils';
 import { useFonts } from 'expo-font';
-import { useAppSelector } from '../../../controller/hooks';
 import { NavigationProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../../navigations/NavigationTypes';
 const { height, width } = Dimensions.get('window');

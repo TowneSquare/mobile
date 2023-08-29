@@ -1,14 +1,13 @@
 import {
-  View,
   Text,
   StyleSheet,
   Dimensions,
   Pressable,
   BackHandler,
 } from 'react-native';
-import React, { useRef, useEffect, useCallback, useMemo } from 'react';
+import { useRef, useEffect, useCallback, useMemo } from 'react';
 import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
 import BottomSheet, {
   BottomSheetBackdrop,

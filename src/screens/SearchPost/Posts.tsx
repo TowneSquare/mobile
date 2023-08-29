@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  FlatList,
   Dimensions,
   StyleSheet,
   ScrollView,
@@ -12,18 +11,15 @@ import { UserPosts } from '../../components/Feed/DuumyData';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import { appColor, fonts, images } from '../../constants';
+import { appColor } from '../../constants';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import { FlashList } from '@shopify/flash-list';
-import PostNotFound from '../../../assets/images/svg/PostNotFound';
-
 import BlockUserModal from '../../components/Feed/BlockUserModal';
 import ReportPanel from '../../components/Feed/ReportPanel';
 import ReportPostModal from '../../components/Feed/ReportPostModal';
 import ReportUserModal from '../../components/Feed/ReportUserModal';
 import DeleteMyPostPanel from '../../shared/Feed/DeleteMyPostPanel';
 import MyPostPanel from '../../shared/Feed/MyPostPanel';
-import CustomToast from '../../shared/Feed/CustomToast';
 
 const Posts = () => {
   const isSearchFocuesd = useAppSelector(

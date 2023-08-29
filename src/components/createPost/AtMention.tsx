@@ -7,13 +7,9 @@ import {
   FlatList,
   Pressable,
 } from 'react-native';
-import React, { useState } from 'react';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import AntDesign from '@expo/vector-icons/AntDesign';
+import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import { batch } from 'react-redux';

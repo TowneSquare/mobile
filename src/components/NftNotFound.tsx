@@ -1,8 +1,6 @@
-import React from "react";
 import { SafeAreaView } from "react-native";
 import Modal from "react-native-modal";
 import { Text, Pressable, View, StyleSheet, Dimensions } from "react-native";
-import { appColor } from "../constants";
 import { sizes } from "../utils";
 
 const { height, width } = Dimensions.get("window");

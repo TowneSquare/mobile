@@ -7,7 +7,7 @@ import {
   Alert,
   BackHandler,
 } from 'react-native';
-import React, {
+import {
   useCallback,
   useMemo,
   useRef,
@@ -17,11 +17,9 @@ import React, {
 } from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
-  BottomSheetView,
-  useBottomSheetDynamicSnapPoints,
   BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
-import Animated, {
+import {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
@@ -29,10 +27,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useAppSelector, useAppDispatch } from '../../../controller/hooks';
 import * as Animatable from 'react-native-animatable';
-import { appColor, fonts } from '../../../constants';
+import { appColor } from '../../../constants';
 import { sizes } from '../../../utils';
 import { EditProfilePictureContext } from '../../../context/EditProfileBottomSheetContext';
-import NFTCollections from '../../SignUp/NFTCollections';
 import ProfilePicsCollection from '../../SignUp/ChooseProfilePics/ProfilePicsCollection';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);

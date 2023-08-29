@@ -1,7 +1,7 @@
 import { View, Dimensions } from 'react-native';
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
 import SearchField from '../../shared/Feed/SearchField';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';

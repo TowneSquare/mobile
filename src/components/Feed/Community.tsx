@@ -6,27 +6,23 @@ import {
   StyleSheet,
   Pressable,
 } from 'react-native';
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { sizes } from '../../utils';
 import { appColor, fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
-import FeedLink from '../../../assets/images/svg/FeedLink';
 import { useNavigation } from '@react-navigation/native';
 import ProfilePicture from './ProfilePicture';
 import { feedStyle } from './FeedsStyles';
 import APT from '../../../assets/images/svg/APT';
 import PostedIn from './PostedIn';
 import {
-  UserPost,
   FeedContent,
   SWAP_OPTION_INCLUDED,
   FLOOR_PRICE_INCLUDED,
   UserCommunityPost,
 } from '../../models';
 const size = new sizes(height, width);
-import AvatarFeed from '../../../assets/images/svg/AvatarFeed';
-import ImageFeed2 from '../../../assets/images/svg/ImageFeed2';
 import PostHeader from './PostHeader';
 import {
   Message_Only,

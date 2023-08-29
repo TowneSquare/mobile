@@ -5,12 +5,11 @@ import {
   Dimensions,
   StyleSheet,
 } from 'react-native';
-import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { sizes } from '../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import { appColor, fonts } from '../constants';
+import { appColor } from '../constants';
 import FollowersTab from '../screens/Profile/FollowersTab';
 import FollowingTab from '../screens/Profile/FollowingTab';
 import CommunitiesTab from '../screens/Profile/CommunitiesTab';

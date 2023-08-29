@@ -1,5 +1,4 @@
 import { View, Dimensions, StyleSheet, Image, Pressable } from 'react-native';
-import React from 'react';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';

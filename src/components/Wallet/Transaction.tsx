@@ -1,17 +1,11 @@
 import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
-import React from 'react';
-import { useFonts } from 'expo-font';
-import BarCodeIcon from '../../../assets/images/svg/BarcodeIcon';
-import SendIcon from '../../../assets/images/svg/SendIcon';
-import SwapIcon from '../../../assets/images/svg/SwapIcon';
-import { images, fonts, appColor } from '../../constants';
+import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 import { Avatar } from 'react-native-elements';
 import Receive from '../../../assets/images/svg/Receive';
 import SendTokenIcon from '../../../assets/images/svg/SendTokenIcon';
 import SwapToken from '../../../assets/images/svg/SwapToken';
 const { height, width } = Dimensions.get('window');
-import ArrowUp from '../../../assets/images/svg/ArrowUp';
 const size = new sizes(height, width);
 interface TransactionProps {
   date: string;

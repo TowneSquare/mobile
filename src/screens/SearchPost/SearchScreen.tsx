@@ -1,17 +1,15 @@
 import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
 import SearchContent from '../../components/Search/SearchContent';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 import { appColor, fonts } from '../../constants';
-import Constants from 'expo-constants';
 import SearchPostSearchField from '../../components/Search/SearchPostSearchField';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Octicons } from '@expo/vector-icons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useFonts } from 'expo-font';
 const size = new sizes(height, width);
-import RecentSearch from '../../components/Search/RecentSearch';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import SearchPostTab from '../../navigations/SearchPostTabBar';
 import { SearchScreenProps } from '../../navigations/NavigationTypes';

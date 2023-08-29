@@ -1,7 +1,6 @@
 import { View, Text, Dimensions, StyleSheet, BackHandler } from 'react-native';
-import React, {
+import {
   useCallback,
-  useMemo,
   useRef,
   useEffect,
   useState,
@@ -9,17 +8,16 @@ import React, {
 } from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
-  useBottomSheetDynamicSnapPoints,
   BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
-import Animated, {
+import {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
 import * as Animatable from 'react-native-animatable';
-import { appColor, fonts } from '../../../constants';
+import { appColor } from '../../../constants';
 import { sizes } from '../../../utils';
 import { EditProfilePictureContext } from '../../../context/EditProfileBottomSheetContext';
 import NFTCollections from '../../SignUp/NFTCollections';

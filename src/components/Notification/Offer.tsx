@@ -1,5 +1,4 @@
 import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
-import React from 'react';
 import { Avatar } from 'react-native-elements';
 import { appColor, images } from '../../constants';
 import { sizes } from '../../utils';

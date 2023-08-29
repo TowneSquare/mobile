@@ -6,7 +6,7 @@ import {
   TextInput,
   StyleSheet,
 } from 'react-native';
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../../constants';
@@ -22,16 +22,13 @@ import AddCommentTextInput from '../../components/SinglePostView/AddCommentTextI
 import { sizes } from '../../utils';
 import MyPostPanel from '../../shared/Feed/MyPostPanel';
 import { toastConfig } from '../../components/Feed/ShowToast';
-import ToastHook from '../../hooks/Feeds/ToastHook';
 import DeleteMyPostPanel from '../../shared/Feed/DeleteMyPostPanel';
 const size = new sizes(height, width);
-
 import Toast from 'react-native-toast-message';
 import { useNavigation } from '@react-navigation/native';
 import { SinglePostProps } from '../../navigations/NavigationTypes';
 import SinglePostContent from '../../components/SinglePostView/SinglePostContent';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import CustomToast from '../../shared/Feed/CustomToast';
+import { useAppDispatch } from '../../controller/hooks';
 type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 const SinglePost = ({ route }: SinglePostProps) => {
   const props = route.params;

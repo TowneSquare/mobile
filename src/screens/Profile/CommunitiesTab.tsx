@@ -1,6 +1,5 @@
-import { View, Text, Dimensions, StyleSheet, ScrollView } from 'react-native';
-import React from 'react';
-import { appColor, fonts, images } from '../../constants';
+import { View, Dimensions, ScrollView } from 'react-native';
+import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 import SearchField from '../../shared/Feed/SearchField';
 import Communities from '../../shared/Feed/Communities';

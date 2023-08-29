@@ -2,15 +2,13 @@ import {
   View,
   Text,
   Dimensions,
-  FlatList,
   ScrollView,
   StyleSheet,
   Pressable,
   Image,
 } from 'react-native';
-import React from 'react';
 import SelectedStars from '../../components/Profile/About/SelectedStars';
-import { appColor, images } from '../../constants';
+import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 import Header from '../../shared/Feed/Header';
 import { updateSelectedSuperStar } from '../../controller/UserController';
@@ -19,7 +17,6 @@ import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import { SelectedSuperStarCollectionScreenProps } from '../../navigations/NavigationTypes';
 import SelectedIcon from '../../../assets/images/svg/SelectedIcon';
 
-import { LinearGradient } from 'expo-linear-gradient';
 const { height, width } = Dimensions.get('window');
 
 const size = new sizes(height, width);

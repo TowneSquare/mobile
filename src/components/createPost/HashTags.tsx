@@ -1,20 +1,17 @@
 import {
-  View,
   Text,
   StyleSheet,
   Dimensions,
-  Image,
   FlatList,
   Pressable,
 } from 'react-native';
-import React, { useState } from 'react';
 const { height, width } = Dimensions.get('window');
 import {
   updateSelectedHashMention,
   updateShowHashTags,
 } from '../../controller/createPost';
 import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
 import { batch } from 'react-redux';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';

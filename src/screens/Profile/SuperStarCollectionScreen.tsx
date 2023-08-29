@@ -1,14 +1,10 @@
 import {
   View,
-  Text,
   Dimensions,
-  FlatList,
   ScrollView,
   StyleSheet,
-  Pressable,
 } from 'react-native';
-import React from 'react';
-import { appColor, images } from '../../constants';
+import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 import Header from '../../shared/Feed/Header';
 import { SafeAreaView } from 'react-native-safe-area-context';

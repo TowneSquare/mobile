@@ -1,5 +1,4 @@
 import { View, Text, Dimensions, Pressable } from 'react-native';
-import React from 'react';
 import Bell from '../../../assets/images/svg/Bell';
 import { useNavigation } from '@react-navigation/native';
 import { sizes } from '../../utils';

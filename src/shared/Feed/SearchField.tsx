@@ -1,18 +1,12 @@
 import {
   View,
-  Text,
   StyleSheet,
-  Platform,
-  Image,
   Dimensions,
-  Pressable,
   TextInput,
 } from 'react-native';
-import React, { useRef, useEffect } from 'react';
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { appColor } from '../../constants';
 import { sizes } from '../../utils';
-import { Octicons, Ionicons } from '@expo/vector-icons';
+import { Octicons } from '@expo/vector-icons';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {

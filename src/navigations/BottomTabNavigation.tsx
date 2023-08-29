@@ -1,5 +1,5 @@
-import { View, Text, Dimensions } from 'react-native';
-import React, { ReactNode } from 'react';
+import { Dimensions } from 'react-native';
+import { ReactNode } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../../assets/images/svg/Home';
 import ProfileSvg from '../../assets/images/svg/ProfileSvg';
@@ -10,7 +10,6 @@ import Profile from '../screens/Profile/Profile';
 import ChatSvg from '../../assets/images/svg/ChatSvg';
 import HomeBlur from '../../assets/images/svg/HomeBlur';
 import ProfileFocused from '../../assets/images/svg/ProfileFocused';
-import Space from '../screens/Feed/Space';
 import Community from '../screens/Feed/Community';
 import Chats from '../screens/Feed/Chats';
 import { sizes } from '../utils/size';

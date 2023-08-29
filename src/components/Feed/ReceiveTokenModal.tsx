@@ -3,12 +3,11 @@ import {
   Text,
   StyleSheet,
   Platform,
-  Image,
   Dimensions,
   BackHandler,
 } from 'react-native';
-import React, { useCallback, useRef, useContext, useEffect } from 'react';
-import Animated, {
+import { useCallback, useRef, useEffect } from 'react';
+import {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
@@ -17,16 +16,13 @@ import Animated, {
 import ShareIcon from '../../../assets/images/svg/ShareIcon';
 import CopyIcon from '../../../assets/images/svg/CopyIcon';
 import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
 import BottomSheet, {
   BottomSheetBackdrop,
-  BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
-import { updateReceiveModalState } from '../../controller/FeedsController';
 import * as Animatable from 'react-native-animatable';
 const { height, width } = Dimensions.get('window');
-import ModalBackDrop from '../../shared/Feed/ModalBackDrop';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import CustomHandler from './CustomHandler';
 import ReceiveBarCode from '../../../assets/images/svg/ReceiveBarCode';

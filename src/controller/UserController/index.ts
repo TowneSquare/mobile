@@ -1,12 +1,8 @@
-import { store } from './../store';
-
 import { images } from './../../constants/images';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { ImageSourcePropType, ImageURISource } from 'react-native';
+import { ImageSourcePropType } from 'react-native';
 import { communities, friends } from './models';
-import { bottomSheetSlice } from '../BottomSheetController';
 import axios from 'axios';
-import { act } from 'react-test-renderer';
 
 export interface collection {
   image: ImageSourcePropType;

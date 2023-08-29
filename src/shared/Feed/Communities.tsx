@@ -1,12 +1,10 @@
 import {
   View,
   Text,
-  Pressable,
   Dimensions,
   StyleSheet,
   Image,
 } from 'react-native';
-import React, { useState } from 'react';
 const { height, width } = Dimensions.get('window');
 import JoinButton from './JoinButton';
 import { useFonts } from 'expo-font';
