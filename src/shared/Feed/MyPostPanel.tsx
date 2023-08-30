@@ -1,11 +1,14 @@
 import {
+  View,
   Text,
   StyleSheet,
+  Platform,
+  Image,
   Dimensions,
   Pressable,
   BackHandler,
 } from 'react-native';
-import { useRef, useEffect, useMemo, useCallback } from 'react';
+import React, { useRef, useEffect, useMemo, useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';

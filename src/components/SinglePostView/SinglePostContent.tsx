@@ -4,14 +4,20 @@ import {
   Dimensions,
   Image,
   StyleSheet,
+  Pressable,
 } from 'react-native';
+import React, { memo } from 'react';
 import { sizes } from '../../utils';
-import { fonts, images } from '../../constants';
+import { appColor, fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
+import FeedLink from '../../../assets/images/svg/FeedLink';
+import Reposted from '../Feed/Reposted';
 import APT from '../../../assets/images/svg/APT';
+import ProfilePicture from '../Feed/ProfilePicture';
 import SinglePostHeader from './SinglePostHeader';
 import { singlePostStyles } from './SinglePostsStyles';
+import { useNavigation } from '@react-navigation/native';
 import {
   UserPost,
   FeedContent,
@@ -19,6 +25,8 @@ import {
   FLOOR_PRICE_INCLUDED,
 } from '../../models';
 const size = new sizes(height, width);
+
+import PostHeader from '../Feed/PostHeader';
 import {
   Message_Only,
   Message_Image,
@@ -29,6 +37,8 @@ import {
 } from '../../models';
 import PostActions from '../Feed/PostActions';
 import APTMonkey from '../../../assets/images/svg/APTMonkey';
+import { feedStyle } from '../Feed/FeedsStyles';
+import ShowThread from '../Feed/ShowThread';
 const SinglePostContent = ({ data }: { data: UserPost }) => {
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,

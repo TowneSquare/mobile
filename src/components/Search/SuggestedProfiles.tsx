@@ -1,7 +1,10 @@
 import { Text, Dimensions, StyleSheet } from 'react-native';
+import React from 'react';
 const { height, width } = Dimensions.get('window');
+import { useFonts } from 'expo-font';
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
+
 import { useAppSelector } from '../../controller/hooks';
 import UserDisplay from '../../shared/Feed/UserDisplay';
 const size = new sizes(height, width);

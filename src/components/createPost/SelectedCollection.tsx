@@ -3,11 +3,12 @@ import {
   Text,
   Image,
   Pressable,
+  TouchableOpacity,
   Dimensions,
   FlatList,
   StyleSheet,
 } from 'react-native';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { useFonts } from 'expo-font';
 import { images, fonts, appColor } from '../../constants';
 const { height, width } = Dimensions.get('window');
@@ -15,7 +16,8 @@ import { useNavigation } from '@react-navigation/native';
 import { SelectedCollectionContext } from '../../context/SelectedCollectionContext';
 import { sizes } from '../../utils';
 const size = new sizes(height, width);
-import { useAppDispatch } from '../../controller/hooks';
+
+import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 interface SelectedNftCollection {
   image?: any;
   Name?: string;

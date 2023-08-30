@@ -1,6 +1,7 @@
 import { View, Text, Dimensions, StyleSheet, BackHandler } from 'react-native';
-import {
+import React, {
   useCallback,
+  useMemo,
   useRef,
   useEffect,
   useState,
@@ -8,19 +9,20 @@ import {
 } from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
+  useBottomSheetDynamicSnapPoints,
   BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
-import {
+import Animated, {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
 import * as Animatable from 'react-native-animatable';
-import { appColor } from '../../../constants';
+import { appColor, fonts } from '../../../constants';
 import { sizes } from '../../../utils';
 import { EditProfilePictureContext } from '../../../context/EditProfileBottomSheetContext';
-import NFTCollections from '../../SignUp/NFTCollections';
+import NFTCollections from '../../../shared/UpdatePFP/NFTCollections';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const NftBottomSheet = () => {

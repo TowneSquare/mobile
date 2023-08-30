@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import React from 'react';
 import SearchPost from '../../../assets/images/svg/SearcPost';
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
@@ -7,6 +8,7 @@ import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 const { height, width } = Dimensions.get('window');
 import { updateSearchFocus } from '../../controller/SearchPost';
 import UserDisplay from '../../shared/Feed/UserDisplay';
+import RecentSearch from './RecentSearch';
 const size = new sizes(height, width);
 
 const SearchContent = () => {

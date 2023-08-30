@@ -1,4 +1,5 @@
 import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import React from 'react';
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 import { useNavigation } from '@react-navigation/native';

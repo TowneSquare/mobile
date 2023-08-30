@@ -1,13 +1,22 @@
 import {
+  View,
   Text,
   StyleSheet,
+  Platform,
+  Image,
   Dimensions,
   Pressable,
   BackHandler,
 } from 'react-native';
-import { useRef, useEffect, useCallback, useMemo } from 'react';
+import React, {
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+  useContext,
+} from 'react';
 import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
+import { appColor, fonts, images } from '../../constants';
 import { sizes } from '../../utils';
 import BottomSheet, {
   BottomSheetBackdrop,
@@ -15,6 +24,7 @@ import BottomSheet, {
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
 import CustomHandler from './CustomHandler';
+
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import {
   updateBlockUserModal,
@@ -23,8 +33,9 @@ import {
 const { height, width } = Dimensions.get('window');
 import BlockIcon from '../../../assets/images/svg/BlockIcon';
 const size = new sizes(height, width);
-
+import { SetCommunityContext } from '../../context/SetUpCommunityContext';
 const BlockUserModal = () => {
+
   const bottomSheetRef = useRef<BottomSheet>(null);
   const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
   const dispatch = useAppDispatch();
@@ -41,7 +52,7 @@ const BlockUserModal = () => {
   useEffect(() => {
     const handleBackButton = () => {
       if (blockModal === true) {
-        console.log('herererer');
+        // console.log('herererer');
         dispatch(updateBlockUserModal(false));
         return true;
       } else {

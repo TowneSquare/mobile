@@ -1,4 +1,5 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
+import React from 'react';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../../utils';
 import { appColor, fonts, images } from '../../constants';

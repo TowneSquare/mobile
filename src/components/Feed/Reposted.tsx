@@ -1,10 +1,13 @@
 import { View, Text, Dimensions, Image, StyleSheet } from 'react-native';
+import React from 'react';
 import { sizes } from '../../utils';
 import { appColor, fonts, images } from '../../constants';
 const { height, width } = Dimensions.get('window');
+import AvatarFeed from '../../../assets/images/svg/AvatarFeed';
 import Queen from '../../../assets/images/svg/Queen';
 import APTMonkey from '../../../assets/images/svg/APTMonkey';
 import APT from '../../../assets//images/svg/APT';
+import Feather from '@expo/vector-icons/Feather';
 import PostHeader from './PostHeader';
 import PostActions from './PostActions';
 import { feedStyle } from './FeedsStyles';

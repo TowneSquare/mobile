@@ -1,5 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { ImageSourcePropType } from 'react-native';
+import { images } from '../../constants';
+import { ReactNode } from 'react';
 import { atMentionData, hashTagData, aptosTags } from './dummyData';
 import { SearchFuntion, ExtractTags } from '../../utils/helperFunction';
 

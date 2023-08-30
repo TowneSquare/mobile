@@ -1,20 +1,26 @@
+import React from 'react';
 import {
   StyleSheet,
   View,
   Text,
   Pressable,
+  Image,
   Dimensions,
 } from 'react-native';
+import { TabBarProps } from 'react-native-collapsible-tab-view';
 import { appColor, fonts } from '../../../constants';
 import { useFonts } from 'expo-font';
-import { useAppDispatch } from '../../../controller/hooks';
+import { images } from '../../../constants';
+import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
 import {
   updateEditProfile,
   updateTheirProfileBottomSheet,
 } from '../../../controller/UserController';
 import { sizes } from '../../../utils';
+import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { Ionicons } from '@expo/vector-icons';
 import Threelines from '../../../../assets/images/svg/Threelines';
 import MoreIcons from '../../../../assets/images/svg/MoreIcons';
 import { useNavigation } from '@react-navigation/native';

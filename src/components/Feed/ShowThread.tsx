@@ -1,9 +1,10 @@
-import { Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 import { sizes } from '../../utils';
 import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 import { appColor, fonts } from '../../constants';
+import React from 'react';
 
 const ShowThread = () => {
   let [isLoaded] = useFonts({

@@ -1,4 +1,5 @@
-import { useCallback } from 'react';
+import { View, Text } from 'react-native';
+import React, { useCallback } from 'react';
 import { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 
 const ModalBackDrop = useCallback(

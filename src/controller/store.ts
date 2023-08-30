@@ -1,9 +1,10 @@
-import { configureStore } from "@reduxjs/toolkit";
-import bottomSheetSlice from "./BottomSheetController";
-import USER from "./UserController";
-import FeedsSlice from "./FeedsController";
-import FieldSlice from "./createPost";
-import SearcPostSlice from "./SearchPost";
+import { configureStore } from '@reduxjs/toolkit';
+import bottomSheetSlice from './BottomSheetController';
+import USER from './UserController';
+import FeedsSlice from './FeedsController';
+import FieldSlice from './createPost';
+import SearcPostSlice from './SearchPost';
+import  COMMUNITY  from './CommunityController';
 export const store = configureStore({
   reducer: {
     bottomSheetController: bottomSheetSlice,
@@ -11,6 +12,7 @@ export const store = configureStore({
     FeedsSliceController: FeedsSlice,
     CreatePostController: FieldSlice,
     SearchPostController: SearcPostSlice,
+    COMMUNITY,
   },
 });
 

@@ -5,10 +5,15 @@ import { appColor } from "../../../constants";
 import User from "../../../../assets/images/svg/User";
 import NickNameField from "./NickNameField";
 import UsernameField from "./UsernameField";
+
 const size = new sizes(height, width);
 const ChooseUsernameContent = () => {
   return (
-    <>
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
       <View
         style={{
           marginTop: size.getHeightSize(32),
@@ -55,13 +60,17 @@ const ChooseUsernameContent = () => {
           Stand out in TowneSquare with a display name and a unique username.
         </Text>
       </View>
-      <View style={{ height: size.getHeightSize(113.5) }} />
-      <View>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+        }}
+      >
         <NickNameField />
         <View style={{ height: size.getHeightSize(32) }} />
         <UsernameField />
       </View>
-    </>
+    </View>
   );
 };
 

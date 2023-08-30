@@ -5,11 +5,12 @@ import {
   Dimensions,
   StyleSheet,
 } from 'react-native';
+import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { sizes } from '../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import { appColor } from '../constants';
+import { appColor, fonts } from '../constants';
 import About from '../components/Profile/About';
 import Wallet from '../screens/Wallet';
 const Tab = createMaterialTopTabNavigator();

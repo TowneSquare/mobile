@@ -1,4 +1,4 @@
-import { useRef, useMemo, useCallback, useEffect } from 'react';
+import React, { useRef, useMemo, useCallback, useEffect } from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
@@ -19,6 +19,7 @@ import { useAppSelector, useAppDispatch } from '../../../controller/hooks';
 import { updateEditProfile } from '../../../controller/UserController';
 import EditProfilePen from '../../../../assets/images/svg/EditProfile';
 import GetVerifiedBadge from '../../../../assets/images/svg/GetVerifiedBadge';
+import { EditProfileProps } from '../../../navigations/NavigationTypes';
 import { useNavigation } from '@react-navigation/native';
 import { updateVerificationModal } from '../../../controller/BottomSheetController';
 const { height, width } = Dimensions.get('window');

@@ -1,13 +1,17 @@
 import {
   View,
+  Text,
   Dimensions,
+  StyleSheet,
+  FlatList,
   Pressable,
   Image,
 } from 'react-native';
+import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor, fonts, images } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { sizes } from '../../utils';
 import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/native';

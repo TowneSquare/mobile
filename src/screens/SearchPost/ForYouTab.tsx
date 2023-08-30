@@ -1,8 +1,10 @@
 import { View, Text, ScrollView, StyleSheet, Dimensions } from 'react-native';
+import React from 'react';
+import { useAppDispatch } from '../../controller/hooks';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 import { StatusBar } from 'expo-status-bar';
-import { appColor } from '../../constants';
+import { appColor, fonts } from '../../constants';
 import Communities from '../../shared/Feed/Communities';
 import SuggestedProfiles from '../../components/Search/SuggestedProfiles';
 import Trending from '../../components/Search/Trending';

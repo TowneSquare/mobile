@@ -3,9 +3,10 @@ import {
   Text,
   Dimensions,
   StyleSheet,
+  FlatList,
   Pressable,
 } from 'react-native';
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { sizes } from '../../utils';
 // import CToast from '../../shared/Feed/CToast';
 const { height, width } = Dimensions.get('window');
@@ -23,16 +24,21 @@ import MainTab from '../../navigations/MainTabNavigation';
 import { useNavigation } from '@react-navigation/native';
 const size = new sizes(height, width);
 import { DrawerActions } from '@react-navigation/native';
+import CustomToast from '../../shared/Feed/CustomToast';
 import ReceiveTokenModal from '../../components/Feed/ReceiveTokenModal';
-import { useAppDispatch } from '../../controller/hooks';
+import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import { updateReceiveModalState } from '../../controller/FeedsController';
 import ReportPostModal from '../../components/Feed/ReportPostModal';
 import ReportUserModal from '../../components/Feed/ReportUserModal';
 import BlockUserModal from '../../components/Feed/BlockUserModal';
 import { resetModals } from '../../controller/FeedsController';
+
+import GreenToastIcon from '../../../assets/images/svg/GreenToastIcon';
+import Toast from 'react-native-toast-message';
+import { batch } from 'react-redux';
 import { LinearProgress } from 'react-native-elements';
 import ToastInfoIcon from '../../../assets/images/svg/ToastInfoIcon';
-
+import CToast from '../../shared/Feed/CToast';
 type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 const Main = () => {
   useEffect(() => {

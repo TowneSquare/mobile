@@ -1,11 +1,15 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import React, { useState, createContext, useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
+import { Tabs, MaterialTabBar } from 'react-native-collapsible-tab-view';
 import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
-import { useAppDispatch } from '../../controller/hooks';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { useFonts } from 'expo-font';
 import Header from '../../components/Profile/Header';
+import Wallet from '../Wallet';
+import About from '../../components/Profile/About';
 import ReportUserModal from '../../components/Feed/ReportUserModal';
 import BlockUserModal from '../../components/Feed/BlockUserModal';
 import ReportPanel from '../../components/Feed/ReportPanel';
@@ -16,7 +20,9 @@ import SuperStarBottomSheet from '../../components/Profile/About/SuperStarBottom
 import EditProfileModal from '../../components/Profile/About/EditProfileModal';
 import ProfileTabNavigation from '../../navigations/ProfileTabNavigation';
 import { updateSuperStarBottomSheet } from '../../controller/BottomSheetController';
+
 import ReportPostModal from '../../components/Feed/ReportPostModal';
+import CustomToast from '../../shared/Feed/CustomToast';
 import DeleteMyPostPanel from '../../shared/Feed/DeleteMyPostPanel';
 
 const title = 'Real JC';

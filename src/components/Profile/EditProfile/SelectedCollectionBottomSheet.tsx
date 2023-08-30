@@ -7,7 +7,7 @@ import {
   Alert,
   BackHandler,
 } from 'react-native';
-import {
+import React, {
   useCallback,
   useMemo,
   useRef,
@@ -17,9 +17,11 @@ import {
 } from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
+  BottomSheetView,
+  useBottomSheetDynamicSnapPoints,
   BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
-import {
+import Animated, {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
@@ -27,9 +29,10 @@ import {
 } from 'react-native-reanimated';
 import { useAppSelector, useAppDispatch } from '../../../controller/hooks';
 import * as Animatable from 'react-native-animatable';
-import { appColor } from '../../../constants';
+import { appColor, fonts } from '../../../constants';
 import { sizes } from '../../../utils';
 import { EditProfilePictureContext } from '../../../context/EditProfileBottomSheetContext';
+import NFTCollections from '../../../shared/UpdatePFP/NFTCollections';
 import ProfilePicsCollection from '../../SignUp/ChooseProfilePics/ProfilePicsCollection';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
@@ -41,7 +44,7 @@ const SelectedCollectionBottomSheet = () => {
     isSelectedCollectionBottomSheetVisible,
   } = useContext(EditProfilePictureContext);
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
+
   const [snapPoint, setSnap] = useState('67%');
   const profilePics = useAppSelector(
     (state) => state.USER.details.profileImage

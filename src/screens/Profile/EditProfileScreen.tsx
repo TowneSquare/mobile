@@ -3,22 +3,28 @@ import {
   Text,
   Dimensions,
   StyleSheet,
+  Image,
   TextInput,
   ScrollView,
+  KeyboardAvoidingView,
+  Platform,
   Pressable,
 } from 'react-native';
-import { useState } from 'react';
-import { appColor } from '../../constants';
+import React, { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { appColor, fonts, images } from '../../constants';
 import Info from '../../../assets/images/svg/Info';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import InfoBottomSheet from '../../components/Profile/EditProfile/InfoBottomSheet';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFonts } from 'expo-font';
 import Header from '../../shared/Feed/Header';
 import NftBottomSheet from '../../components/Profile/EditProfile/NftBottomSheet';
 import { updateNickname } from '../../controller/UserController';
 import { updateBio } from '../../controller/UserController';
+import { EditProfilePictureContext } from '../../context/EditProfileBottomSheetContext';
 import { EditProfileBottomSheetProvider } from '../../context/EditProfileBottomSheetContext';
 const size = new sizes(height, width);
 import ProfileImage from '../../components/Profile/About/ProfileImage';

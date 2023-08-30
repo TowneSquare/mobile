@@ -171,12 +171,7 @@ const ExploreCommunities = () => {
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: appColor.signUpBackground,
-      }}
-    >
+    <>
       <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
       <View
         style={{
@@ -253,7 +248,7 @@ const ExploreCommunities = () => {
                   key={Community.id}
                   style={{
                     flexDirection: "row",
-                    width: size.getWidthSize(328), 
+                    width: size.getWidthSize(328),
                     borderRadius: 40,
                     paddingVertical: size.getHeightSize(8),
                     paddingHorizontal: size.getWidthSize(8),
@@ -312,7 +307,7 @@ const ExploreCommunities = () => {
           </View>
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </>
   );
 };
 

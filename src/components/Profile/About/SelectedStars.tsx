@@ -2,11 +2,15 @@ import {
   View,
   Text,
   Dimensions,
+  FlatList,
+  ScrollView,
   StyleSheet,
   Pressable,
+  Image,
 } from 'react-native';
+import React from 'react';
 import { sizes } from '../../../utils';
-import { appColor, } from '../../../constants';
+import { appColor, images } from '../../../constants';
 import SelectedSuperStars from './SelectedSuperStars';
 import { NavigationProp, CommonActions } from '@react-navigation/native';
 import { RootStackParamList } from '../../../navigations/NavigationTypes';

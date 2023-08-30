@@ -1,9 +1,14 @@
 import {
   View,
+  Text,
   Dimensions,
   StyleSheet,
+  Image,
+  ImageBackground,
 } from "react-native";
+import React from "react";
 const { height, width } = Dimensions.get("window");
+import { appColor, fonts, images } from "../../constants";
 import { sizes } from "../../utils";
 const size = new sizes(height, width);
 

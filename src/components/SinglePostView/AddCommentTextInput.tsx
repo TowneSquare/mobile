@@ -2,11 +2,13 @@ import {
   View,
   Text,
   Dimensions,
+  ScrollView,
   TextInput,
   Animated,
+  TextInputProps,
   StyleSheet,
 } from 'react-native';
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../../constants';

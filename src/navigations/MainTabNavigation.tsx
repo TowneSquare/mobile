@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   View,
   Text,
@@ -6,12 +7,13 @@ import {
   StyleSheet,
 } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
 import { sizes } from '../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 import CommunitiesPost from '../screens/Feed/CommunitiesPost';
 import ForYouPosts from '../screens/Feed/ForYouPosts';
-import { appColor } from '../constants';
+import { appColor, fonts } from '../constants';
 const Tab = createMaterialTopTabNavigator();
 const MainTab = () => {
   const renderTabBarLabel = ({ focused, route }) => {

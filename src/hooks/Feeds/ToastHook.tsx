@@ -1,7 +1,13 @@
 import { useDispatch } from 'react-redux';
-import { updateReportPostModal } from '../../controller/FeedsController';
+import {
+  updateBlockUserModal,
+  updateReportUserModal,
+  updateReportPostModal,
+} from '../../controller/FeedsController';
+import { batch } from 'react-redux';
 import Toast from 'react-native-toast-message';
 
+import { updateShowPriceModal } from '../../controller/createPost';
 const ToastHook = () => {
   const dispatch = useDispatch();
   const showBlockToast = () => {

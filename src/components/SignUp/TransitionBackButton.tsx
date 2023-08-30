@@ -5,8 +5,10 @@ import { sizes } from "../../utils";
 const { height, width } = Dimensions.get("window");
 interface Props {
   action: () => void;
+  index?: number;
+  next?: () => void;
 }
-const TransitionBackButton = ({ action }: Props) => {
+const TransitionBackButton = ({ action, index, next }: Props) => {
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
     "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
@@ -31,7 +33,7 @@ const TransitionBackButton = ({ action }: Props) => {
     >
       <Text
         onPress={() => {
-          action();
+          index === 5 ? next() : action();
         }}
         style={{
           fontStyle: "normal",
@@ -44,7 +46,7 @@ const TransitionBackButton = ({ action }: Props) => {
           letterSpacing: 0.02,
         }}
       >
-        Back
+        {index === 5 ? "I'll do it later" : "Back"}
       </Text>
     </View>
   );

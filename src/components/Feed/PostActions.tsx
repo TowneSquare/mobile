@@ -1,9 +1,10 @@
 import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { sizes } from '../../utils';
 import { appColor, fonts } from '../../constants';
 import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
+import EvilIcons from '@expo/vector-icons/EvilIcons';
 import Retweet from '../../../assets/images/svg/Retweet';
 import BookMark from '../../../assets/images/svg/BookMark';
 import LikePost from '../../../assets/images/svg/LikePost';

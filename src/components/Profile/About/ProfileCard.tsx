@@ -1,16 +1,22 @@
 import {
+  SafeAreaView,
   StyleSheet,
   Text,
   View,
   Image,
   Dimensions,
+  ScrollView,
   Pressable,
+  ImageBackground,
+  ImageResolvedAssetSource,
 } from 'react-native';
+import React from 'react';
 import { appColor } from '../../../constants';
 import { useFonts } from 'expo-font';
 import { fonts } from '../../../constants';
 import { images } from '../../../constants';
 import { sizes } from '../../../utils';
+import Info from '../../../../assets/images/svg/Info';
 import { useNavigation } from '@react-navigation/native';
 import { useAppSelector } from '../../../controller/hooks';
 import PurpleBadge from '../../../../assets/images/svg/PurpleBadge';

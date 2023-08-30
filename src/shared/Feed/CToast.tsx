@@ -1,14 +1,15 @@
 import { View, Text, Dimensions, StyleSheet, Animated } from 'react-native';
-import Toast from 'react-native-toast-message';
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import { LinearProgress } from 'react-native-elements';
 import GreenToastIcon from '../../../assets/images/svg/GreenToastIcon';
 const { height, width } = Dimensions.get('window');
-import { appColor } from '../../constants';
+import { appColor, fonts, images } from '../../constants';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import { sizes } from '../../utils';
-import { useEffect, useState } from 'react';
-import { resetToast } from '../../controller/FeedsController';
+import React, { useEffect, useState, useCallback } from 'react';
+import { updateToast, resetToast } from '../../controller/FeedsController';
 import ToastInfoIcon from '../../../assets/images/svg/ToastInfoIcon';
+import { batch } from 'react-redux';
 const size = new sizes(height, width);
 
 const CToast = () => {

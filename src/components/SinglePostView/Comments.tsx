@@ -2,11 +2,13 @@ import {
   View,
   Text,
   Dimensions,
+  Image,
   StyleSheet,
+  Pressable,
 } from "react-native";
-import { useState } from "react";
+import React, { useState } from "react";
 import { sizes } from "../../utils";
-import { appColor, fonts } from "../../constants";
+import { appColor, fonts, images } from "../../constants";
 import ProfilePicture from "../Feed/ProfilePicture";
 import { useFonts } from "expo-font";
 import PostHeader from "../Feed/PostHeader";
@@ -16,6 +18,15 @@ import LikedIcon from "../../../assets/images/svg/LikedIcon";
 const { height, width } = Dimensions.get("window");
 import SinglePostCommentHeader from "./SinglePostCommentHeader";
 const size = new sizes(height, width);
+import Animated, {
+  Extrapolate,
+  Extrapolation,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
+
 interface Props {
   handleCommentButton: () => void;
   myPost?: boolean;

@@ -1,4 +1,5 @@
-import { View } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
+import React from 'react';
 import { UserPosts } from '../../components/Feed/DuumyData';
 import ForYou from '../../components/Feed/ForYou';
 import { appColor } from '../../constants';

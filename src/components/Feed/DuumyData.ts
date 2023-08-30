@@ -1,4 +1,4 @@
-import { UserPost, UserCommunityPost } from '../../models';
+import { UserPost, FeedContent, UserCommunityPost } from '../../models';
 
 export const UserPosts: UserPost[] = [
   {

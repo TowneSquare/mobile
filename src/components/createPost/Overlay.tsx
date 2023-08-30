@@ -1,5 +1,5 @@
-import { View, StyleSheet } from 'react-native';
-import { useContext } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
 import { SelectedCollectionContext } from '../../context/SelectedCollectionContext';
 const Overlay = () => {
   const { isModalVisible, handleModalState } = useContext(

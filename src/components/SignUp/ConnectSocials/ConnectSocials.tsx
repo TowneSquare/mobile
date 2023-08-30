@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  Pressable,
-  Dimensions,
-  StyleSheet
-} from "react-native";
+import { View, Text, Pressable, Dimensions, StyleSheet } from "react-native";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { sizes } from "../../../utils";
@@ -29,14 +23,9 @@ const ConnectSocials = () => {
     setDiscordConnected(!isDiscordConnected);
   };
 
-  return(
-    <SafeAreaView>
-      <View
-        style={{
-          flex: 1,
-        }}
-      />
-      <Header 
+  return (
+    <>
+      <Header
         SvgImage={<Link />}
         title="Connect your socials"
         subtitle="Connect both to receive extra credentials in your profile"
@@ -44,11 +33,11 @@ const ConnectSocials = () => {
       />
       <View
         style={{
-          height: size.getHeightSize(343),
           width: size.getWidthSize(328),
           alignSelf: "center",
           justifyContent: "center",
           gap: size.getHeightSize(16),
+          flex: 1,
         }}
       >
         <View
@@ -97,9 +86,9 @@ const ConnectSocials = () => {
           )}
         </View>
       </View>
-    </SafeAreaView>
-  )
-}
+    </>
+  );
+};
 
 export default ConnectSocials;
 

@@ -6,10 +6,11 @@ import {
   Pressable,
   FlatList,
 } from 'react-native';
+import React from 'react';
 import { batch } from 'react-redux';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
+import { appColor, fonts, images } from '../../constants';
 import { sizes } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import {

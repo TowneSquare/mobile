@@ -7,6 +7,8 @@ import {
   Dimensions,
   SafeAreaView,
   FlatList,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import Constants from "expo-constants";
 import { useFonts } from "expo-font";
@@ -24,6 +26,7 @@ import ChooseProfilePics from "../../components/SignUp/ChooseProfilePics/ChooseP
 import UploadImageModal from "../../components/SignUp/ChooseProfilePics/UploadImageModal";
 import ChooseNFT from "../../components/SignUp/ChooseProfilePics/ChooseNFT";
 import SelectedCollection from "../../components/SignUp/ChooseProfilePics/SelectedCollection";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
@@ -34,7 +37,14 @@ const SignUp = ({ navigation }: SignUpProps) => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList<any>>(null);
   const [viewIndex, setViewIndex] = useState(0);
-  const views = [<ChooseUsernameContent />, <Verify />, <ConnectSocials />, <FindFriends />, <ExploreCommunities />, <ChooseProfilePics />];
+  const views = [
+    <ChooseUsernameContent />,
+    <Verify />,
+    <ConnectSocials />,
+    <FindFriends />,
+    <ExploreCommunities />,
+    <ChooseProfilePics />,
+  ];
   const onViewChangeRef = useRef(({ viewableItems }: any) => {
     setViewIndex(viewableItems[0]?.index);
   });
@@ -60,10 +70,17 @@ const SignUp = ({ navigation }: SignUpProps) => {
   const stagePosition = Animated.divide(scrollX, width);
   const progressWidth = stagePosition.interpolate({
     inputRange: [0, 1, 2, 3, 4, 5],
-    outputRange: [newWidth / 6, (newWidth / 6) * 2, (newWidth / 6) * 3, (newWidth / 6) * 4,(newWidth / 6) * 5, newWidth],
+    outputRange: [
+      newWidth / 6,
+      (newWidth / 6) * 2,
+      (newWidth / 6) * 3,
+      (newWidth / 6) * 4,
+      (newWidth / 6) * 5,
+      newWidth,
+    ],
     extrapolate: "clamp",
   });
-
+  console.log(viewIndex);
   let stageTitle = (index: number) => {
     switch (index) {
       case 0:
@@ -127,51 +144,71 @@ const SignUp = ({ navigation }: SignUpProps) => {
           />
         </Animated.View>
       </View>
-      <FlatList
-        scrollEnabled={false}
-        ref={flatListRef}
-        data={views}
-        horizontal
-        pagingEnabled
-        scrollEventThrottle={16}
-        snapToAlignment="center"
-        showsHorizontalScrollIndicator={false}
-        bounces={false}
-        onViewableItemsChanged={onViewChangeRef.current}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-          { useNativeDriver: false }
-        )}
-        renderItem={({ item }: any) => {
-          return (
-            <View
-              style={{
-                width: width,
-                backgroundColor: "transparent",
-                flex: 1,
-              }}
-            >
-              {item}
-            </View>
-          );
-        }}
-      />
       <View
         style={{
-          height: size.getHeightSize(124),
-          marginBottom: size.getHeightSize(24),
+          flex: 1,
+          width: width,
         }}
       >
-        <TranslationForwardButton
-          action={() => {
-            handleNextSlide();
-          }}
-        />
-        <TransitionBackButton
-          action={() => {
-            handlePreviousSlide();
-          }}
-        />
+        <KeyboardAwareScrollView style={{ flex: 1 }}>
+          <View
+            style={{
+              width: width,
+              alignItems: "center",
+              flex: 1,
+            }}
+          >
+            <FlatList
+              scrollEnabled={false}
+              ref={flatListRef}
+              data={views}
+              horizontal
+              pagingEnabled
+              scrollEventThrottle={16}
+              snapToAlignment="center"
+              showsHorizontalScrollIndicator={false}
+              bounces={false}
+              onViewableItemsChanged={onViewChangeRef.current}
+              onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                { useNativeDriver: false }
+              )}
+              renderItem={({ item }: any) => {
+                return (
+                  <View
+                    style={{
+                      width: width,
+
+                      height: size.getHeightSize(634),
+                    }}
+                  >
+                    {item}
+                  </View>
+                );
+              }}
+            />
+          </View>
+          <View
+            style={{
+              height: size.getHeightSize(124),
+              // marginBottom: size.getHeightSize(24),
+            }}
+          >
+            <TranslationForwardButton
+              action={() => {
+                handleNextSlide();
+              }}
+              disable={false}
+            />
+            <TransitionBackButton
+              action={() => {
+                handlePreviousSlide();
+              }}
+              index={viewIndex}
+              next={handleNextSlide}
+            />
+          </View>
+        </KeyboardAwareScrollView>
       </View>
       <UploadImageModal />
       <ChooseNFT />
@@ -185,7 +222,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: size.getHeightSize(42),
     backgroundColor: appColor.signUpBackground,
   },
 });

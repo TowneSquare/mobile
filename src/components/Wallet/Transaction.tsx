@@ -1,17 +1,20 @@
-import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
-import { appColor } from '../../constants';
-import { sizes } from '../../utils';
-import { Avatar } from 'react-native-elements';
-import Receive from '../../../assets/images/svg/Receive';
-import SendTokenIcon from '../../../assets/images/svg/SendTokenIcon';
-import SwapToken from '../../../assets/images/svg/SwapToken';
-const { height, width } = Dimensions.get('window');
+import { View, Text, Image, Dimensions, StyleSheet } from "react-native";
+import React from "react";
+
+import { appColor } from "../../constants";
+import { sizes } from "../../utils";
+import { Avatar } from "react-native-elements";
+import Receive from "../../../assets/images/svg/Receive";
+import SendTokenIcon from "../../../assets/images/svg/SendTokenIcon";
+import SwapToken from "../../../assets/images/svg/SwapToken";
+const { height, width } = Dimensions.get("window");
+
 const size = new sizes(height, width);
 interface TransactionProps {
   date: string;
   asset?: string;
-  type: 'send' | 'receive' | 'swap';
-  assetType?: 'pinnedNFT' | 'Token';
+  type: "send" | "receive" | "swap";
+  assetType?: "pinnedNFT" | "Token";
 }
 
 interface ReceiveTransaction extends TransactionProps {
@@ -39,7 +42,7 @@ const Transaction = ({
   type,
   ...transactionProps
 }: TransactionsProps) => {
-  if (type === 'send') {
+  if (type === "send") {
     const props = transactionProps as SendTransaction;
     return (
       <View style={styles.parentContainer}>
@@ -56,16 +59,16 @@ const Transaction = ({
             <Text style={styles.to}>{props.to}</Text>
           </View>
         </View>
-        {props.assetType === 'Token' && (
+        {props.assetType === "Token" && (
           <Text style={styles.tokenText}>
             -{asset}
-            <Text style={[styles.tokenText, { fontFamily: 'Outfit-Regular' }]}>
-              {' '}
+            <Text style={[styles.tokenText, { fontFamily: "Outfit-Regular" }]}>
+              {" "}
               APT
             </Text>
           </Text>
         )}
-        {props.assetType === 'pinnedNFT' && (
+        {props.assetType === "pinnedNFT" && (
           <View
             style={{
               width: size.getHeightSize(40),
@@ -75,8 +78,8 @@ const Transaction = ({
           >
             <Image
               style={{
-                height: '100%',
-                width: '100%',
+                height: "100%",
+                width: "100%",
                 borderRadius: 4,
               }}
               source={{ uri: props.pinnedNftUri }}
@@ -86,7 +89,7 @@ const Transaction = ({
       </View>
     );
   }
-  if (type === 'receive') {
+  if (type === "receive") {
     const props = transactionProps as ReceiveTransaction;
     return (
       <View style={styles.parentContainer}>
@@ -103,16 +106,16 @@ const Transaction = ({
             <Text style={styles.to}>{props.from}</Text>
           </View>
         </View>
-        {props.assetType === 'Token' && (
+        {props.assetType === "Token" && (
           <Text style={styles.tokenText}>
             -{asset}
-            <Text style={[styles.tokenText, { fontFamily: 'Outfit-Regular' }]}>
-              {' '}
+            <Text style={[styles.tokenText, { fontFamily: "Outfit-Regular" }]}>
+              {" "}
               APT
             </Text>
           </Text>
         )}
-        {props.assetType === 'pinnedNFT' && (
+        {props.assetType === "pinnedNFT" && (
           <View
             style={{
               width: size.getHeightSize(40),
@@ -122,8 +125,8 @@ const Transaction = ({
           >
             <Image
               style={{
-                height: '100%',
-                width: '100%',
+                height: "100%",
+                width: "100%",
                 borderRadius: 4,
               }}
               source={{ uri: props.pinnedNftUri }}
@@ -133,7 +136,7 @@ const Transaction = ({
       </View>
     );
   }
-  if (type === 'swap') {
+  if (type === "swap") {
     const props = transactionProps as SwapTransaction;
     return (
       <View style={styles.parentContainer}>
@@ -143,8 +146,8 @@ const Transaction = ({
         <View style={styles.swapContent}>
           <View
             style={{
-              justifyContent: 'center',
-              alignItems: 'flex-end',
+              justifyContent: "center",
+              alignItems: "flex-end",
             }}
           >
             <Text style={styles.tokenText}>{props.fromValue}</Text>
@@ -155,7 +158,7 @@ const Transaction = ({
                 rounded
               />
               <Text
-                style={[styles.tokenText, { fontFamily: 'Outfit-Regular' }]}
+                style={[styles.tokenText, { fontFamily: "Outfit-Regular" }]}
               >
                 APT
               </Text>
@@ -164,8 +167,8 @@ const Transaction = ({
           <Text style={styles.recipent}>TO</Text>
           <View
             style={{
-              justifyContent: 'center',
-              alignItems: 'flex-end',
+              justifyContent: "center",
+              alignItems: "flex-end",
             }}
           >
             <Text style={styles.tokenText}>{props.toValue}</Text>
@@ -176,7 +179,7 @@ const Transaction = ({
                 rounded
               />
               <Text
-                style={[styles.tokenText, { fontFamily: 'Outfit-Regular' }]}
+                style={[styles.tokenText, { fontFamily: "Outfit-Regular" }]}
               >
                 USDC
               </Text>
@@ -191,71 +194,71 @@ const Transaction = ({
 export default Transaction;
 const styles = StyleSheet.create({
   parentContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: size.getWidthSize(16),
     paddingHorizontal: size.getWidthSize(8),
-    alignItems: 'center',
+    alignItems: "center",
     borderBottomWidth: 1,
     borderBottomColor: appColor.grayDark,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginHorizontal: size.getWidthSize(16),
   },
   date: {
     color: appColor.grayLight,
     fontSize: size.fontSize(13),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     lineHeight: size.getHeightSize(16),
     marginRight: size.getWidthSize(8),
   },
   recipent: {
     color: appColor.grayLight,
     fontSize: size.fontSize(11),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     lineHeight: size.getHeightSize(14),
     letterSpacing: 0.44,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   view2: {
-    justifyContent: 'center',
+    justifyContent: "center",
     flex: 1,
     marginLeft: size.getWidthSize(8),
     gap: size.getHeightSize(3),
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   view3: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: size.getWidthSize(4),
   },
   to: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     lineHeight: size.getHeightSize(18),
   },
   tokenText: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     lineHeight: size.getHeightSize(21),
   },
   swapText: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     lineHeight: size.getHeightSize(21),
     flex: 1,
     marginLeft: size.getWidthSize(8),
   },
   swapContent: {
-    alignSelf: 'flex-end',
-    flexDirection: 'row',
-    alignItems: 'center',
+    alignSelf: "flex-end",
+    flexDirection: "row",
+    alignItems: "center",
     gap: size.getWidthSize(16),
   },
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: size.getWidthSize(4),
   },
 });

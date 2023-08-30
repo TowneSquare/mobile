@@ -201,12 +201,7 @@ const FindFriends = () => {
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: appColor.signUpBackground,
-      }}
-    >
+    <>
       <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Header
@@ -330,7 +325,7 @@ const FindFriends = () => {
           ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </>
   );
 };
 

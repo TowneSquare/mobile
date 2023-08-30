@@ -1,4 +1,5 @@
 import { View, Text, Dimensions, Pressable, StyleSheet } from "react-native";
+import React from "react";
 import { sizes } from "../../utils";
 import { appColor, fonts } from "../../constants";
 import { useFonts } from "expo-font";
@@ -7,6 +8,7 @@ const { height, width } = Dimensions.get("window");
 import { useAppDispatch } from "../../controller/hooks";
 import { updtaeReportingModal } from "../../controller/FeedsController";
 import Feather from "@expo/vector-icons/Feather";
+import Entypo from "@expo/vector-icons/Entypo";
 const size = new sizes(height, width);
 interface Props {
   username: string;

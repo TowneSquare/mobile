@@ -3,9 +3,12 @@ import {
   Text,
   Dimensions,
   StyleSheet,
+  Image,
+  FlatList,
   KeyboardAvoidingView,
   Pressable,
 } from 'react-native';
+import React, { useEffect, useState } from 'react';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
@@ -14,6 +17,7 @@ import HashTags from '../../components/createPost/HashTags';
 import { sizes } from '../../utils';
 import { updateToast } from '../../controller/FeedsController';
 import AtMention from '../../components/createPost/AtMention';
+import Constants from 'expo-constants';
 import FieldInput from '../../components/createPost/FieldInput';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import PostAttachment from '../../components/createPost/PostAttachment';
@@ -24,9 +28,14 @@ import FloorPricePost from '../../components/createPost/FloorPricePost';
 import AptosPanel from '../../components/createPost/AptosPanel';
 import Media from '../../components/createPost/Media';
 import GifBottomSheet from '../../components/createPost/GifBottomSheet';
+import OfferSaleSheet from '../../components/createPost/OfferSaleSheet';
 import { Avatar } from 'react-native-elements';
 import { useNavigation, StackActions } from '@react-navigation/native';
-import { clearPostData } from '../../controller/createPost';
+import {
+  updateShowPriceModal,
+  clearPostData,
+} from '../../controller/createPost';
+import CustomToast from '../../shared/Feed/CustomToast';
 import { ScrollView } from 'react-native-gesture-handler';
 const CreatePost = () => {
   const { showAtMentions, showHashTags, showAPTPanel, showApt, media, nft } =

@@ -6,7 +6,7 @@ import {
   TextInput,
   StyleSheet,
 } from 'react-native';
-import { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../../constants';
@@ -22,13 +22,16 @@ import AddCommentTextInput from '../../components/SinglePostView/AddCommentTextI
 import { sizes } from '../../utils';
 import MyPostPanel from '../../shared/Feed/MyPostPanel';
 import { toastConfig } from '../../components/Feed/ShowToast';
+import ToastHook from '../../hooks/Feeds/ToastHook';
 import DeleteMyPostPanel from '../../shared/Feed/DeleteMyPostPanel';
 const size = new sizes(height, width);
+
 import Toast from 'react-native-toast-message';
 import { useNavigation } from '@react-navigation/native';
 import { SinglePostProps } from '../../navigations/NavigationTypes';
 import SinglePostContent from '../../components/SinglePostView/SinglePostContent';
-import { useAppDispatch } from '../../controller/hooks';
+import { useAppSelector, useAppDispatch } from '../../controller/hooks';
+import CustomToast from '../../shared/Feed/CustomToast';
 type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 const SinglePost = ({ route }: SinglePostProps) => {
   const props = route.params;
@@ -40,22 +43,19 @@ const SinglePost = ({ route }: SinglePostProps) => {
   const navigation = useNavigation();
 
   const data = {
-    id: '10',
-    pfp: '',
-    username: props.username,
-    nickname: props.nickname,
-    timepost: '13h',
-    comments: '99k',
-    retweet: '99k',
-    like: '99k',
-    type: 'floor-price',
-    content: {
-      message: 'Just joined TowneSquare, a new web3 social platform!',
-      messageTag: 'AptosMonkeys',
-      collectionName: 'Aptos Monkeys',
-      amount: 14,
-    },
-  };
+  id: '1',
+  pfp: '',
+  username: 'Real JC',
+  nickname: 'Real',
+  timepost: '6d',
+  comments: '99k',
+  retweet: '99k',
+  like: '99k',
+  type: 'message only',
+  content: {
+    message: 'Just joined TowneSquare, a new web3 social platform!',
+  },
+};
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,

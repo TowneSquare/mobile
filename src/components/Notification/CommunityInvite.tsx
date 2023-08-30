@@ -1,7 +1,9 @@
 import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import React from 'react';
 import { appColor, images, fonts } from '../../constants';
 import { sizes } from '../../utils';
 import ImageStack from './ImageStack';
+import HexagonImage from './HexagonImage';
 import JoinButton from '../../shared/Feed/JoinButton';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';

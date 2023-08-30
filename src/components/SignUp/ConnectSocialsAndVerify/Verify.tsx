@@ -12,8 +12,12 @@ const size = new sizes(height, width);
 
 const Verify = () => {
   return (
-    <>
-      <Header 
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
+      <Header
         SvgImage={<Link />}
         title="Connect Socials & Verify"
         subtitle="Connect your socials, help us fight bots, and get rewarded!"
@@ -23,8 +27,9 @@ const Verify = () => {
         style={{
           width: size.getWidthSize(328),
           alignSelf: "center",
-          height: size.getHeightSize(224),
           alignItems: "center",
+          flex: 1,
+          justifyContent: "center",
         }}
       >
         <View style={[styles.row]}>
@@ -46,8 +51,7 @@ const Verify = () => {
           <Text style={styles.description}>Bye to bots & spammers</Text>
         </View>
       </View>
-      <View style={{ flex: 1 }} />
-    </>
+    </View>
   );
 };
 

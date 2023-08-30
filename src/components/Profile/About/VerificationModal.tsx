@@ -6,7 +6,8 @@ import {
   Pressable,
   BackHandler,
 } from 'react-native';
-import { appColor } from '../../../constants';
+import { useFonts } from 'expo-font';
+import { appColor, fonts } from '../../../constants';
 import { sizes } from '../../../utils';
 import BottomSheet, {
   BottomSheetBackdrop,
@@ -15,7 +16,7 @@ import BottomSheet, {
 } from '@gorhom/bottom-sheet';
 import Badge from '../../../../assets/images/svg/Badge';
 import { useAppDispatch } from '../../../controller/hooks';
-import {
+import React, {
   useRef,
   useEffect,
   useCallback,
@@ -25,6 +26,7 @@ import {
 import { useAppSelector } from '../../../controller/hooks';
 import CustomHandler from '../../Feed/CustomHandler';
 import { updateVerificationModal } from '../../../controller/BottomSheetController';
+import Checked from '../../../../assets/images/svg/Checked';
 import TwitterBG from '../../../../assets/images/svg/TwitterBg';
 import DiscordBG from '../../../../assets/images/svg/DiscordBG';
 const { height, width } = Dimensions.get('window');

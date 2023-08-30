@@ -1,19 +1,28 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
+  SafeAreaView,
   StyleSheet,
   Text,
   View,
   Image,
   Dimensions,
+  ScrollView,
+  Pressable,
   FlatList,
+  Touchable,
   TouchableOpacity,
   Modal,
   Animated,
+  ImageBackground,
+  BackHandler
 } from 'react-native';
 import { appColor } from '../../../constants';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useFonts } from 'expo-font';
+import { fonts, images } from '../../../constants';
 import { sizes } from '../../../utils';
-import { useAppSelector } from '../../../controller/hooks';
+import { BlurView } from 'expo-blur';
+import { useAppSelector, useAppDispatch } from '../../../controller/hooks';
 const { height, width } = Dimensions.get('window');
 import { StatusBar } from 'expo-status-bar';
 const size = new sizes(height, width);

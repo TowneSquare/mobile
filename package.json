@@ -48,6 +48,7 @@
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-keyboard-aware-view": "^0.0.14",
     "react-native-modal": "^13.0.1",
     "react-native-pager-view": "6.1.2",
     "react-native-qrcode-svg": "^6.2.0",

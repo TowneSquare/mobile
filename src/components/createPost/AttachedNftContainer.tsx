@@ -6,9 +6,12 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+
 import { Avatar } from 'react-native-elements';
+import React, { useState, useContext } from 'react';
 const { height, width } = Dimensions.get('window');
-import { appColor, images } from '../../constants';
+import { useFonts } from 'expo-font';
+import { appColor, fonts, images } from '../../constants';
 import { sizes } from '../../utils';
 import GrayInfoIcon from '../../../assets/images/svg/GrayInfoIcon';
 import {

@@ -1,5 +1,7 @@
 import { Dimensions, StyleSheet, View, ScrollView, Text } from 'react-native';
+import React from 'react';
 import Communities from '../../shared/Feed/Communities';
+
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');

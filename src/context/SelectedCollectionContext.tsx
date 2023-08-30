@@ -1,4 +1,4 @@
-import { useState, createContext, ReactNode } from 'react';
+import React, { useState, createContext, ReactNode } from 'react';
 
 type SelectedCollectionContextProps = {
   isModalVisible: boolean;

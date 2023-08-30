@@ -1,15 +1,16 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
-import { useState } from 'react';
+import { View, Text, Pressable, Dimensions, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../../constants';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import Offer from './Offer';
 import { sizes } from '../../utils';
 import NotificationDot from '../../../assets/images/svg/NotificationDot';
 import ProfilePicture from './ProfilePicture';
+
 import CommunityInvite from './CommunityInvite';
 import FollowButton from '../../shared/Feed/FollowButton';
-
 const size = new sizes(height, width);
 
 interface Props {

@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Pressable,
 } from 'react-native';
-import { memo } from 'react';
+import React, { memo } from 'react';
 import { sizes } from '../../utils';
 import { appColor, fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
@@ -35,6 +35,7 @@ import {
 import PostActions from './PostActions';
 import APTMonkey from '../../../assets/images/svg/APTMonkey';
 import { feedStyle } from './FeedsStyles';
+import ShowThread from './ShowThread';
 interface NavigationParameter {
   username: string;
   nickname: string;

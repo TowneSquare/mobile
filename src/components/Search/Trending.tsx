@@ -4,11 +4,15 @@ import {
   Dimensions,
   StyleSheet,
   FlatList,
+  Pressable,
 } from 'react-native';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import SearchField from '../../shared/Feed/SearchField';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
-import { appColor } from '../../constants';
+import { appColor, fonts } from '../../constants';
+import Constants from 'expo-constants';
+import { useFonts } from 'expo-font';
 interface Trends {
   tags: string;
   no: string;

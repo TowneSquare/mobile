@@ -1,9 +1,14 @@
 import { View, Text, Dimensions } from 'react-native';
+import React from 'react';
 import { sizes } from '../../utils';
-import { appColor, fonts } from '../../constants';
+import { appColor, fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
+
 const { height, width } = Dimensions.get('window');
+import Feather from '@expo/vector-icons/Feather';
+import Entypo from '@expo/vector-icons/Entypo';
 import RepostedIcon from '../../../assets/images/svg/RepostedIcon';
+import { Avatar } from 'react-native-elements';
 const size = new sizes(height, width);
 const RepostedHeader = () => {
   let [isLoaded] = useFonts({

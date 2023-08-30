@@ -1,6 +1,8 @@
-import { Text, Dimensions, BackHandler } from 'react-native';
+import { View, Text, Dimensions, BackHandler } from 'react-native';
+
 import * as Animatable from 'react-native-animatable';
-import { appColor } from '../../../constants';
+import { useFonts } from 'expo-font';
+import { appColor, fonts } from '../../../constants';
 import { useAppSelector } from '../../../controller/hooks';
 import { sizes } from '../../../utils';
 import CustomHandler from '../../Feed/CustomHandler';

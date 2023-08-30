@@ -8,7 +8,7 @@ import {
 import { useRef, useState, useEffect } from 'react';
 import * as Animatable from 'react-native-animatable';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import NFTCollections from '../NFTCollections';
+import NFTCollections from '../../../shared/UpdatePFP/NFTCollections';
 import {
   Extrapolation,
   interpolate,

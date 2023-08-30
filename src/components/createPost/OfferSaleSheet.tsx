@@ -7,7 +7,7 @@ import {
   Keyboard,
   KeyboardEvent,
 } from 'react-native';
-import {
+import React, {
   useRef,
   useEffect,
   useState,
@@ -21,11 +21,12 @@ import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
 import BottomSheet, {
   BottomSheetBackdrop,
+  BottomSheetScrollView,
   BottomSheetTextInput,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
-import { useAppDispatch } from '../../controller/hooks';
+import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import CustomHandler from '../Feed/CustomHandler';
 import {
   updateShowPriceModal,
@@ -34,6 +35,7 @@ import {
 import { batch } from 'react-redux';
 const { height, width } = Dimensions.get('window');
 import InfoLarge from '../../../assets/images/svg/InfoLarge';
+import { set } from 'react-native-reanimated';
 const size = new sizes(height, width);
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 interface Props {
