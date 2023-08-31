@@ -1,4 +1,4 @@
-import React, { useState, createContext, ReactNode } from 'react';
+import { useState, createContext, ReactNode } from 'react';
 type EditPictureBottomSheetStateType = {
   isChooseProfilePictureVisible: boolean;
   setProfilePictureBottomSheet: (state: boolean) => void;

@@ -7,12 +7,11 @@ import {
   Pressable,
   Animated,
 } from 'react-native';
-import React, { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 const { height, width } = Dimensions.get('window');
-
 import Offer from '../../../assets/images/svg/Offer';
 import Clip from '../../../assets/images/svg/Clip';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, images } from '../../constants';
 import OfferSaleSheet from './OfferSaleSheet';
 import { sizes } from '../../utils';
 import { batch } from 'react-redux';
@@ -20,8 +19,6 @@ const size = new sizes(height, width);
 import { SelectedCollectionContext } from '../../context/SelectedCollectionContext';
 import { useNavigation, StackActions } from '@react-navigation/native';
 import { updateShowPriceModal } from '../../controller/createPost';
-
-import Modal from 'react-native-modal';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { updatePostNft } from '../../controller/createPost';
 interface Props {

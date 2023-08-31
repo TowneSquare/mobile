@@ -1,11 +1,9 @@
 import {
-  View,
   TextInput,
   TextInputProps,
   Animated,
-  ViewProps,
 } from 'react-native';
-import React, { ReactNode, forwardRef, Ref, useRef, useEffect } from 'react';
+import { ReactNode, forwardRef, Ref } from 'react';
 
 interface ViewExtendsTextInputProps extends TextInputProps {
   children?: ReactNode;

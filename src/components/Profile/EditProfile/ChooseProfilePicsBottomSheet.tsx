@@ -7,7 +7,7 @@ import {
   Alert,
   BackHandler,
 } from 'react-native';
-import React, {
+import {
   useCallback,
   useMemo,
   useRef,
@@ -31,7 +31,7 @@ import Cat from '../../../../assets/images/svg/Cat';
 import Photo from '../../../../assets/images/svg/Photo';
 import Camera from '../../../../assets/images/svg/Camera';
 import CustomHandler from '../../Feed/CustomHandler';
-import { appColor, fonts } from '../../../constants';
+import { appColor } from '../../../constants';
 import { useAppDispatch } from '../../../controller/hooks';
 import { sizes } from '../../../utils';
 import { updateProfileImage } from '../../../controller/UserController';

@@ -1,8 +1,6 @@
-import { View, Text, Dimensions, StyleSheet, Image } from 'react-native';
-import React from 'react';
+import { View, Dimensions, StyleSheet, Image } from 'react-native';
 const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { images } from '../../constants';
 import { sizes } from '../../utils';
 import LikeNotificationLogo from '../../../assets/images/svg/LikeNotificationLogo';
 import OfferNotificationLogo from '../../../assets/images/svg/OfferNotificationLogo';

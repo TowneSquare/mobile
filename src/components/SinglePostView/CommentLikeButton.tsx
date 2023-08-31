@@ -1,8 +1,7 @@
 import { View, Text, StyleSheet, Dimensions } from "react-native";
-import React, { useState } from "react";
+import { useState } from "react";
 import Animated, {
   Extrapolate,
-  Extrapolation,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
@@ -11,7 +10,7 @@ import Animated, {
 import { useFonts } from "expo-font";
 import LikePost from "../../../assets/images/svg/LikePost";
 import LikedIcon from "../../../assets/images/svg/LikedIcon";
-import { appColor, fonts, images } from "../../constants";
+import { appColor, fonts } from "../../constants";
 const { height, width } = Dimensions.get("window");
 import { sizes } from "../../utils";
 const size = new sizes(height, width);

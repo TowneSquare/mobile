@@ -1,14 +1,11 @@
 import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
-import React from 'react';
 import SearchField from '../../shared/Feed/SearchField';
 const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { appColor } from '../../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { sizes } from '../../utils';
 import { useNavigation } from '@react-navigation/native';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
-import { useAppSelector } from '../../controller/hooks';
+import { AntDesign } from '@expo/vector-icons';
 import NftCollections from '../../components/createPost/NftCollections';
 const size = new sizes(height, width);
 const NftCollectionScreen = () => {

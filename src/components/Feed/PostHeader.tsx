@@ -3,15 +3,11 @@ import {
   Text,
   Dimensions,
   Pressable,
-  LayoutChangeEvent,
 } from 'react-native';
-import React, {
+import {
   useEffect,
   useState,
-  useMemo,
-  useRef,
   useCallback,
-  useLayoutEffect,
 } from 'react';
 import { sizes } from '../../utils';
 import { appColor, fonts } from '../../constants';
@@ -24,8 +20,6 @@ import {
   updateMyPostPanel,
 } from '../../controller/FeedsController';
 import Feather from '@expo/vector-icons/Feather';
-import Entypo from '@expo/vector-icons/Entypo';
-import IntrinsicWidth from '../../shared/Feed/IntrinsicWidth';
 const size = new sizes(height, width);
 interface Props {
   username: string;

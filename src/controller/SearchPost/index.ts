@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { ImageSourcePropType } from 'react-native';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ProfileData, CommunitiesData } from './dummyData';
 interface Data {
   name: string;

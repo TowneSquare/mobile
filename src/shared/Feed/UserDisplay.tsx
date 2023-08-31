@@ -1,8 +1,6 @@
-import { View, Text, Pressable, Dimensions, StyleSheet } from 'react-native';
-import React, { useState } from 'react';
+import { View, Text, Dimensions, StyleSheet } from 'react-native';
 const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, images } from '../../constants';
 import { sizes } from '../../utils';
 import { Avatar } from 'react-native-elements';
 import FollowButton from './FollowButton';

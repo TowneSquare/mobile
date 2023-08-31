@@ -2,23 +2,17 @@ import {
   View,
   Text,
   ImageBackground,
-  Image,
   Dimensions,
   StyleSheet,
   Pressable,
 } from "react-native";
-import React, { useEffect } from "react";
-import { SvgXml } from "react-native-svg";
 import Twitter from "../../../assets/images/svg/Twitter";
 import { useFonts } from "expo-font";
-import { Avatar } from "react-native-elements";
 import Apple from "../../../assets/images/svg/Apple";
 import { appColor, fonts, images } from "../../constants";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { sizes } from "../../utils";
-import Background1 from "../../../assets/images/svg/Background1";
-import { StackActions, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 const { height, width } = Dimensions.get("window");
 import { FirstScreenProps } from "../../navigations/NavigationTypes";
 import Description from "../../../assets/images/svg/Description";
@@ -27,7 +21,6 @@ import Google from "../../../assets/images/svg/Google";
 import Mail from "../../../assets/images/svg/Mail";
 import Logo from "../../../assets/images/svg/Logo";
 import Description2 from "../../../assets/images/svg/Description2";
-import TowneSquareLogo from "../../../assets/images/svg/TownesquareLogo";
 const size = new sizes(height, width);
 
 import * as Linking from "expo-linking";
@@ -54,7 +47,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
   const loginGoogle = async () => {
     const token = await magic.oauth.loginWithPopup({
       provider: "google",
-      redirectURI: Linking.createURL("ChooseUsername"),
+      redirectURI: Linking.createURL("SignUp"),
     });
     console.log(JSON.stringify(token));
     dispatch(updateDidToken(token));
@@ -67,7 +60,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
   const loginDiscord = async () => {
     const token = await magic.oauth.loginWithPopup({
       provider: "discord",
-      redirectURI: Linking.createURL("ChooseUsername"),
+      redirectURI: Linking.createURL("SignUp"),
     });
     console.log(token);
     dispatch(updateDidToken(token));
@@ -153,7 +146,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
           Social, create, build, and transact {"\n"} with anyone anywhere
         </Text>
         <Pressable
-          onPress={() => navigation.navigate("ChooseProfile")}
+          onPress={() => navigation.navigate("ChooseWallet")}
           style={{
             marginTop: size.getHeightSize(129),
             width: size.getWidthSize(348.94),
@@ -207,7 +200,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
           }}
         >
           <Pressable
-            onPress={() => navigation.navigate("ChooseUsernameSlide")}
+            onPress={() => navigation.navigate("SignUp")}
             style={styles.socials}
           >
             <Twitter />
@@ -216,7 +209,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
             <Discord />
           </Pressable>
           <Pressable
-            onPress={() => navigation.navigate("ChooseUsernameSlide")}
+            onPress={() => navigation.navigate("SignUp")}
             style={styles.socials}
           >
             <Apple />

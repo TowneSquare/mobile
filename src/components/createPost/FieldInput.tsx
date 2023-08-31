@@ -1,16 +1,14 @@
 import {
-  View,
   Text,
   Dimensions,
   StyleSheet,
   TextInput,
-  ScrollView,
 } from 'react-native';
 import { batch } from 'react-redux';
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect } from 'react';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, fonts } from '../../constants';
 import {
   updateFilteredData,
   updateShowAtContainer,

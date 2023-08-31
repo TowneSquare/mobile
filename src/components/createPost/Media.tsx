@@ -1,16 +1,11 @@
 import {
   View,
-  Text,
   Dimensions,
-  StyleSheet,
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
 const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
 import RemoveAttachment from '../../../assets/images/svg/RemoveAttachment';
-import { appColor, fonts, images } from '../../constants';
 import { sizes } from '../../utils';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import { updateMedia } from '../../controller/createPost';

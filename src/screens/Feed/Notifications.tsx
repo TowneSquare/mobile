@@ -1,13 +1,10 @@
-import { View, Text, Dimensions, StyleSheet, FlatList } from 'react-native';
+import { Dimensions, StyleSheet, FlatList } from 'react-native';
 import React from 'react';
-import Constants from 'expo-constants';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
+const { height, width } = Dimensions.get('window');;
 import Header from '../../shared/Feed/Header';
-import { appColor, fonts } from '../../constants';
+import { appColor } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AntDesign from '@expo/vector-icons/AntDesign';
 import { sizes } from '../../utils';
 import { useNavigation } from '@react-navigation/native';
 import Notification from '../../components/Notification/Notification';

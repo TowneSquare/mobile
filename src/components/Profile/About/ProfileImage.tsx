@@ -1,16 +1,11 @@
 import {
-  View,
   Text,
   Image,
-  TextInput,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
   Pressable,
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { images, appColor } from '../../../constants';
 import { useAppSelector } from '../../../controller/hooks';
 import { sizes } from '../../../utils';

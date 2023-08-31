@@ -3,15 +3,11 @@ import {
   Text,
   Dimensions,
   StyleSheet,
-  Image,
-  FlatList,
 } from 'react-native';
-import React from 'react';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
+import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
-
 const size = new sizes(height, width);
 import APT from '../../../assets/images/svg/APT';
 const SwapPost = () => {

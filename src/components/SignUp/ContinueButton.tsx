@@ -1,7 +1,6 @@
-import { View, Text, Dimensions, Pressable } from "react-native";
-import React from "react";
+import { Text, Dimensions, Pressable } from "react-native";
 import { useFonts } from "expo-font";
-import { appColor, fonts, images } from "../../constants";
+import { appColor, fonts } from "../../constants";
 import { sizes } from "../../utils";
 import { useNavigation } from "@react-navigation/native";
 const { height, width } = Dimensions.get("window");

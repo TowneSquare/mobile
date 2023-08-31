@@ -1,5 +1,4 @@
 import { View, Text, Dimensions, StyleSheet } from "react-native";
-import React from "react";
 const { height, width } = Dimensions.get("window");
 import { sizes } from "../../utils";
 const size = new sizes(height, width);
@@ -13,11 +12,6 @@ import QuestionIcon from "../../../assets/images/svg/QuestionIcon";
 import LogOutIcon from "../../../assets/images/svg/LogOutIcon";
 import BookmarkLogo from "../../../assets/images/svg/BookmarkLogo";
 import { useFonts } from "expo-font";
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItem,
-} from "@react-navigation/drawer";
 import { appColor } from "../../constants";
 import Constants from "expo-constants";
 const DrawerComponents = () => {

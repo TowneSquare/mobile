@@ -1,6 +1,5 @@
 import { View, StyleSheet, Dimensions, TextInput } from 'react-native';
-import React, { memo, useState, useEffect, useRef } from 'react';
-import { useFonts } from 'expo-font';
+import { useState, useEffect, useRef } from 'react';
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 import { Octicons } from '@expo/vector-icons';

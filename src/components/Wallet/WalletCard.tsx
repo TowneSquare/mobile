@@ -1,5 +1,4 @@
 import {
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
@@ -7,18 +6,14 @@ import {
   Dimensions,
   Pressable,
 } from 'react-native';
-import React from 'react';
-
 import { useFonts } from 'expo-font';
 import BarCodeIcon from '../../../assets/images/svg/BarcodeIcon';
 import SendIcon from '../../../assets/images/svg/SendIcon';
 import SwapIcon from '../../../assets/images/svg/SwapIcon';
 import { images, fonts, appColor } from '../../constants';
 import { sizes } from '../../utils';
-
 import { useNavigation } from '@react-navigation/native';
 import { useAppSelector } from '../../controller/hooks';
-
 import TowneSquareProfileLogo from '../../../assets/images/svg/TowneSquareProfileLogo';
 import { LinearGradient } from 'expo-linear-gradient';
 import TownesquareGradient from '../../../assets/images/svg/TownesquareGradient';

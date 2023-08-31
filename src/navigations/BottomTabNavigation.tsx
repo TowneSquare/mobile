@@ -1,22 +1,22 @@
-import { View, Text, Dimensions } from 'react-native';
-import React, { ReactNode } from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../../assets/images/svg/Home';
-import ProfileSvg from '../../assets/images/svg/ProfileSvg';
-import MicrophoneSvg from '../../assets/images/svg/MicrophoneSvg';
-import MultipleSvg from '../../assets/images/svg/MultipleSvg';
-import Main from '../screens/Feed/Main';
-import Profile from '../screens/Profile/Profile';
-import ChatSvg from '../../assets/images/svg/ChatSvg';
-import HomeBlur from '../../assets/images/svg/HomeBlur';
-import ProfileFocused from '../../assets/images/svg/ProfileFocused';
-import Space from '../screens/Feed/Space';
-import Community from '../screens/Feed/Community';
-import Chats from '../screens/Feed/Chats';
-import { sizes } from '../utils/size';
-import { appColor } from '../constants';
-const { height, width } = Dimensions.get('window');
-import { useAppSelector } from '../controller/hooks';
+import { Dimensions } from "react-native";
+import { ReactNode } from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Home from "../../assets/images/svg/Home";
+import ProfileSvg from "../../assets/images/svg/ProfileSvg";
+import MicrophoneSvg from "../../assets/images/svg/MicrophoneSvg";
+import MultipleSvg from "../../assets/images/svg/MultipleSvg";
+import Main from "../screens/Feed/Main";
+import Profile from "../screens/Profile/Profile";
+import ChatSvg from "../../assets/images/svg/ChatSvg";
+import HomeBlur from "../../assets/images/svg/HomeBlur";
+import ProfileFocused from "../../assets/images/svg/ProfileFocused";
+
+import Chats from "../screens/Feed/Chats";
+import { sizes } from "../utils/size";
+import { appColor } from "../constants";
+import CommunityDemo from "../screens/Community/CommunityDemo";
+const { height, width } = Dimensions.get("window");
+import { useAppSelector } from "../controller/hooks";
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigation = () => {
@@ -33,11 +33,11 @@ const BottomTabNavigation = () => {
   }));
   const isAnyModalOpen = Object.values(modals).some((modal) => modal === true);
   const editProfile = useAppSelector((state) => state.USER.editProfile);
-  const main = 'Main';
-  const profile = 'UserProfile';
-  const space = 'Space';
-  const chats = 'Chats';
-  const community = 'Community';
+  const main = "Main";
+  const profile = "UserProfile";
+  const space = "Space";
+  const chats = "Chats";
+  const community = "Community";
   const size = new sizes(height, width);
   return (
     <Tab.Navigator
@@ -48,7 +48,7 @@ const BottomTabNavigation = () => {
           borderWidth: 0,
           height: size.getHeightSize(64),
           backgroundColor: appColor.kGrayscaleDart,
-          display: isAnyModalOpen || editProfile ? 'none' : 'flex',
+          display: isAnyModalOpen || editProfile ? "none" : "flex",
           borderTopWidth: 0,
         },
         tabBarLabel: () => null,
@@ -81,7 +81,7 @@ const BottomTabNavigation = () => {
       />
       <Tab.Screen
         name={community}
-        component={Community}
+        component={CommunityDemo}
         options={{ headerShown: false }}
       />
       {/* <Tab.Screen

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   View,
   Text,
@@ -7,7 +6,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
 import Posts from '../screens/SearchPost/Posts';
 import ForYouTab from '../screens/SearchPost/ForYouTab';
 import PeopleTab from '../screens/SearchPost/PeopleTab';
@@ -16,8 +14,7 @@ import { sizes } from '../utils';
 const { height, width } = Dimensions.get('window');
 import { useAppSelector } from '../controller/hooks';
 const size = new sizes(height, width);
-import { appColor, fonts } from '../constants';
-import Constants from 'expo-constants';
+import { appColor } from '../constants';
 const Tab = createMaterialTopTabNavigator();
 
 const SearchPostTab = () => {

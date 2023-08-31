@@ -1,19 +1,16 @@
 import {
   View,
-  Text,
   Dimensions,
   ScrollView,
   Image,
   StyleSheet,
   Pressable,
 } from 'react-native';
-import React from 'react';
-import { appColor, images } from '../../../constants';
+import { appColor } from '../../../constants';
 import { sizes } from '../../../utils';
 import { useAppSelector, useAppDispatch } from '../../../controller/hooks';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { deleteSelectedSuperStar } from '../../../controller/UserController';
 const SelectedSuperStars = () => {

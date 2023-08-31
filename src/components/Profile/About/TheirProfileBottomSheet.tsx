@@ -1,13 +1,12 @@
 import { View, Text, Dimensions, StyleSheet, BackHandler } from 'react-native';
-import React, { useCallback, useMemo, useRef, useEffect } from 'react';
+import { useCallback, useMemo, useRef, useEffect } from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
 import CustomHandler from '../../Feed/CustomHandler';
-import { appColor, fonts } from '../../../constants';
-import Flag from '../../../../assets/images/svg/Flag';
+import { appColor } from '../../../constants';
 import RedFlagIcon from '../../../../assets/images/svg/RedFlagIcon';
 import BottomSheetShareIcon from '../../../../assets/images/svg/BottomSheetShareIcon';
 import { sizes } from '../../../utils';

@@ -1,9 +1,8 @@
-import { Pressable, Text, Dimensions, StyleSheet } from 'react-native';
+import { Pressable, Dimensions } from 'react-native';
 import { Avatar } from 'react-native-elements';
-import React from 'react';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../../utils';
-import { images, fonts } from '../../constants';
+import { images } from '../../constants';
 const size = new sizes(height, width);
 import { useNavigation } from '@react-navigation/native';
 interface Props {

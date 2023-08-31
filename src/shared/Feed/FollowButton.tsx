@@ -1,8 +1,7 @@
-import { View, Text, Pressable, Dimensions, StyleSheet } from 'react-native';
-import React, { useState } from 'react';
+import { Text, Pressable, Dimensions, StyleSheet } from 'react-native';
+import { useState } from 'react';
 const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
+import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 const size = new sizes(height, width);
 interface Props {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,14 +8,10 @@ import {
   Dimensions,
   ScrollView,
   Pressable,
-  FlatList,
 } from 'react-native';
-import { BlurView } from 'expo-blur';
 import { appColor } from '../../../constants';
-import AntDesign from '@expo/vector-icons/AntDesign';
 import { useFonts } from 'expo-font';
 import { fonts } from '../../../constants';
-import { images } from '../../../constants';
 import { sizes } from '../../../utils';
 import Info from '../../../../assets/images/svg/Info';
 import MessageIcon from '../../../../assets/images/svg/MessageIcon';
@@ -25,11 +21,9 @@ import ForYou from '../../Feed/ForYou';
 import { useNavigation } from '@react-navigation/native';
 import { useAppSelector, useAppDispatch } from '../../../controller/hooks';
 import { updateSuperStarBottomSheet } from '../../../controller/BottomSheetController';
-import EditProfileModal from './EditProfileModal';
 import ProfileCard from './ProfileCard';
 import FollowIcon from '../../../../assets/images/svg/FollowIcon';
 const Tab = createMaterialTopTabNavigator();
-import SuperStarBottomSheet from './SuperStarBottomSheet';
 import ViewSuperStarsModal from './ViewSuperStarsModal';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
