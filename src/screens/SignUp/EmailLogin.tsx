@@ -26,6 +26,11 @@ import EmailContent from "../../components/SignUp/EmailSignup/EmailContent";
 import ChooseNFT from "../../components/SignUp/ChooseProfilePics/ChooseNFT";
 import SelectedCollection from "../../components/SignUp/ChooseProfilePics/SelectedCollection";
 import { useNavigation } from "@react-navigation/native";
+import {
+  updateAccountInfo,
+  updateDidToken,
+} from "../../controller/UserController";
+import { signup } from "../../api";
 import { useAppDispatch, useAppSelector } from "../../controller/hooks";
 import { updateDidToken } from "../../controller/UserController";
 
@@ -120,6 +125,15 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
   if (!isLoaded) {
     return null;
   }
+
+  const login = async () => {
+    const token = await magic.auth.loginWithEmailOTP({ email });
+    console.log("Magic Token: ", token);
+    dispatch(updateDidToken(token));
+    const result = await signup(token);
+    console.log("Singup: ", result);
+    navigation.navigate("ChooseUsernameSlide");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
