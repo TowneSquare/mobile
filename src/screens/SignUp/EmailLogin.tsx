@@ -22,6 +22,7 @@ import {
   updateAccountInfo,
   updateDidToken,
 } from "../../controller/UserController";
+import { signup } from "../../api";
 
 const EmailLogin = ({ magic }: EmailLoginProps) => {
   const navigation = useNavigation();
@@ -41,8 +42,10 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
 
   const login = async () => {
     const token = await magic.auth.loginWithEmailOTP({ email });
-    console.log(token);
+    console.log("Magic Token: ", token);
     dispatch(updateDidToken(token));
+    const result = await signup(token);
+    console.log("Singup: ", result);
     navigation.navigate("ChooseUsernameSlide");
   };
 
