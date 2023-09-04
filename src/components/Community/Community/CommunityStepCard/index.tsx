@@ -87,24 +87,25 @@ const CommunityStepCard = () => {
         }}
         horizontal
       >
-        <View style={styles.card}>
+        <Pressable
+          onPress={() => {
+            navigation.navigate("VerifyCommunityScreen");
+          }}
+          style={styles.card}
+        >
           <Text style={styles.Title}>Step 1 of 5</Text>
-          <Pressable
-            onPress={() => {
-              navigation.navigate("VerifyCommunityScreen");
-            }}
-          >
-            <Text style={styles.header}>
-              {CommunityCardStepDetails[0].Header}
-            </Text>
-          </Pressable>
+
+          <Text style={styles.header}>
+            {CommunityCardStepDetails[0].Header}
+          </Text>
+
           <Text style={styles.description}>
             Dummy text if needed as additional description
           </Text>
           <Pressable>
             <Text style={styles.btnText}>Skip for now</Text>
           </Pressable>
-        </View>
+        </Pressable>
 
         <View style={styles.card}>
           <Text style={styles.Title}>Step 2 of 5</Text>

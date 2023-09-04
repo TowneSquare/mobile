@@ -12,7 +12,7 @@ import {
 import CommunityAvatar from "../../../../assets/images/svg/CommunityAvatar";
 
 import RenderDescription from "../../../components/Community/JoinCommunity/Description";
-import ImageStack from "../../../components/Notification/ImageStack";
+import ImageStack from "../../../shared/Feed/ImageStack";
 import { appColor, images } from "../../../constants";
 import { sizes } from "../../../utils/size";
 import PinnedPost from "../../../components/Community/JoinCommunity/PinnedPost";

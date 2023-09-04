@@ -33,9 +33,10 @@ const TransitionView = () => {
   const [viewIndex, setViewIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList<any>>(null);
-  const onViewChangeRef = useRef(({ viewableItems }: any) => {
-    setViewIndex(viewableItems[0]?.index);
-  });
+  // const onViewChangeRef = useRef(({ viewableItems }: any) => {
+  //   console.log(`======${viewableItems[0]?.index}============`)
+  //   setViewIndex(viewableItems[0]?.index);
+  // });
   const [isNftBottomSheetVisible, setIsNftBottomSheetVisible] = useState(false);
   const [viewNFTVisible, setViewNftVisibility] = useState(false);
   const [selectedAssetVisibility, setSelectedAssetBottomSheet] =
@@ -50,6 +51,7 @@ const TransitionView = () => {
     }
   };
   const handleSlide = () => {
+    setViewIndex((previous) => previous + 1);
     const newIndex = viewIndex + 1;
     if (newIndex < views.length && flatListRef.current) {
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
@@ -58,6 +60,7 @@ const TransitionView = () => {
     }
   };
   const handlePreviousSlide = () => {
+    setViewIndex((previous) => previous - 1);
     const newIndex = viewIndex - 1;
     if (newIndex >= 0 && flatListRef.current) {
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
@@ -132,6 +135,8 @@ const TransitionView = () => {
     case 6:
       disableContinueButon = true;
       break;
+    default:
+      break;
   }
 
   return (
@@ -195,7 +200,7 @@ const TransitionView = () => {
               snapToAlignment="center"
               showsHorizontalScrollIndicator={false}
               bounces={false}
-              onViewableItemsChanged={onViewChangeRef.current}
+              // onViewableItemsChanged={onViewChangeRef.current}
               onScroll={Animated.event(
                 [{ nativeEvent: { contentOffset: { x: scrollX } } }],
                 { useNativeDriver: false }
@@ -218,7 +223,7 @@ const TransitionView = () => {
 
           <View>
             <Pressable
-              disabled={disableContinueButon}
+              // disabled={disableContinueButon}
               onPress={() => {
                 handleNextSlide();
               }}
@@ -235,7 +240,11 @@ const TransitionView = () => {
             </Pressable>
             <View style={styles.backButton}>
               <Text
-                onPress={() => handlePreviousSlide()}
+                onPress={() => {
+                  viewIndex === 4 && communityDetails.asset === "Crypto_asset"
+                    ? handleSlide()
+                    : handlePreviousSlide();
+                }}
                 style={styles.backText}
               >
                 {viewIndex === 4 && communityDetails.asset === "Crypto_asset"

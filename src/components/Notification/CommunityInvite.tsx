@@ -1,17 +1,17 @@
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
-import { appColor, images, fonts } from '../../constants';
-import { sizes } from '../../utils';
-import ImageStack from './ImageStack';
-import JoinButton from '../../shared/Feed/JoinButton';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
+import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
+import { appColor, images, fonts } from "../../constants";
+import { sizes } from "../../utils";
+import ImageStack from "../../shared/Feed/ImageStack";
+import JoinButton from "../../shared/Feed/JoinButton";
+const { height, width } = Dimensions.get("window");
+import { useFonts } from "expo-font";
 const size = new sizes(height, width);
 const CommunityInvite = () => {
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
@@ -60,35 +60,35 @@ const styles = StyleSheet.create({
   button: {
     paddingHorizontal: size.getWidthSize(16),
     backgroundColor: appColor.kSecondaryButtonColor,
-    justifyContent: 'center',
+    justifyContent: "center",
     borderRadius: 40,
     width: size.getWidthSize(63),
     paddingVertical: size.getHeightSize(7),
   },
   buttonText: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-Medium',
+    fontFamily: "Outfit-Medium",
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(20),
     letterSpacing: 0.02,
   },
   imageStyle: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     borderRadius: 8,
   },
   groupDescription: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(8),
     paddingHorizontal: size.getWidthSize(8),
     marginTop: size.getHeightSize(8),
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    justifyContent: "space-between",
+    alignItems: "flex-start",
   },
   groupName: {
     fontSize: size.fontSize(20),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(24),
     letterSpacing: 0.04,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   groupText: {
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.grayLight,
     lineHeight: size.getHeightSize(18),
     letterSpacing: 0.04,
@@ -106,21 +106,21 @@ const styles = StyleSheet.create({
     marginBottom: size.getHeightSize(16),
   },
   textBold: {
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
   },
   members: {
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.grayLight,
     lineHeight: size.getHeightSize(18),
     marginLeft: size.getWidthSize(30),
   },
   groupDetails: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(4),
     marginLeft: size.getWidthSize(8),
     marginBottom: size.getHeightSize(24),
-    alignItems: 'center',
+    alignItems: "center",
   },
   groupInfoContainer: {
     backgroundColor: appColor.kgrayDark2,
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   hexagon: {
     width: size.getHeightSize(64),
     height: size.getHeightSize(64),
-    position: 'absolute',
+    position: "absolute",
     left: size.getWidthSize(8),
     top: size.getHeightSize(17),
   },

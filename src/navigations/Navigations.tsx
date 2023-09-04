@@ -39,6 +39,7 @@ import CommunityInfoScreen from "../screens/Community/JoinComm/CommunityInfoScre
 import CommunityMainScreen from "../screens/Community/JoinComm/CommunityMainScreen";
 import CommunityWelcomeScreen from "../screens/Community/JoinComm/CommunityWelcomeScreen";
 import PinnedPostsScreen from "../screens/Community/JoinComm/PinnedPostsScreen";
+import ExploreCommunityScreen from "../screens/Community/ExploreCommunity/ExploreCommunityScreen";
 
 const Navigations = ({ magicProps }: { magicProps: any }) => {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -96,6 +97,8 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
+
+    
 
       <Stack.Screen name="EmailLogin" options={{ headerShown: false }}>
         {() => <EmailLogin {...magicProps} />}
@@ -323,6 +326,13 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
       <Stack.Screen
         name="CommunityScreen"
         component={CommunityScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ExploreCommunityScreen"
+        component={ExploreCommunityScreen}
         options={{
           headerShown: false,
         }}

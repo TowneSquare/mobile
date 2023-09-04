@@ -58,10 +58,13 @@ const CreateCommunity1 = () => {
           <Text style={styles.leadingText}>
             Find communities that inspire you
           </Text>
-          <View style={styles.button}>
+          <Pressable
+            onPress={() => navigation.navigate("ExploreCommunityScreen")}
+            style={styles.button}
+          >
             <ExploreIcons size={size.getHeightSize(24)} />
             <Text style={styles.buttonText}>Explore communities</Text>
-          </View>
+          </Pressable>
           <Text style={styles.or}>or</Text>
           <Text style={styles.create}>Create a new community</Text>
           <Pressable

@@ -33,7 +33,7 @@ class sizeConfig {
     return size * this.textMultiplier;
   }
   sHeight(value: number): number {
-    return this.screenHeight * value;
+    return (this.screenHeight / value) * value;
   }
   sWidth(value: number): number {
     return this.screenWidth * value;

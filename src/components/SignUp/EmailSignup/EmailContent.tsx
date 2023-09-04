@@ -12,6 +12,7 @@ const EmailContent = () => {
         style={{
           marginTop: size.getHeightSize(32),
           alignSelf: "center",
+          paddingLeft: size.getWidthSize(16),
         }}
       >
         <Envelope />
@@ -61,15 +62,16 @@ const EmailContent = () => {
       <View style={{ height: size.getHeightSize(180) }} />
       <View>
         <Text
-            style={{
-                color: appColor.kTextColor,
-                fontSize: size.fontSize(14),
-                fontFamily: "Outfit-Regular",
-                textAlign: "center",
-                lineHeight: size.getHeightSize(18),
-            }}
+          style={{
+            color: appColor.kTextColor,
+            fontSize: size.fontSize(14),
+            fontFamily: "Outfit-Regular",
+            textAlign: "center",
+            lineHeight: size.getHeightSize(18),
+          }}
         >
-            By continuing to use the app, you agree to the Terms of Service and Privacy Policy.
+          By continuing to use the app, you agree to the Terms of Service and
+          Privacy Policy.
         </Text>
       </View>
     </>

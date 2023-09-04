@@ -33,12 +33,7 @@ const data = {
 };
 const ForCommunityPosts = () => {
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: appColor.feedBackground,
-      }}
-    >
+    <View style={{}}>
       <Text style={styles.textTitle}>2 pinned posts</Text>
       <PinnedPost />
       <Text style={[styles.textTitle, { marginTop: size.getHeightSize(16) }]}>
@@ -48,14 +43,7 @@ const ForCommunityPosts = () => {
       <ForYou data={data} />
       <ForYou data={data} />
       <ForYou data={data} />
-
-      {/* <FlatList
-        data={CommunityPost.slice(0, 2)}
-        renderItem={({ item }) => (
-          <ComPostModel data={item} navigation={'SinglePost'} />
-        )}
-        keyExtractor={(item) => item.id}
-      /> */}
+      <ForYou data={data} />
     </View>
   );
 };

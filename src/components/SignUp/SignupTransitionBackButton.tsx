@@ -8,7 +8,7 @@ interface Props {
   index?: number;
   next?: () => void;
 }
-const TransitionBackButton = ({ action, index, next }: Props) => {
+const SignupTransitionBackButton = ({ action, index, next }: Props) => {
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
     "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
@@ -27,13 +27,13 @@ const TransitionBackButton = ({ action, index, next }: Props) => {
         // height: size.getHeightSize(48),
         justifyContent: "center",
         marginTop: size.getHeightSize(8),
-        marginBottom: size.getHeightSize(16),
+
         paddingVertical: size.getHeightSize(16),
       }}
     >
       <Text
         onPress={() => {
-          index === 6 ? next() : action();
+          index === 5 ? next() : action();
         }}
         style={{
           fontStyle: "normal",
@@ -46,10 +46,10 @@ const TransitionBackButton = ({ action, index, next }: Props) => {
           letterSpacing: 0.02,
         }}
       >
-        {index=== 6 ? "I'll do it later" : "Back"}
+        {index === 5 ? "I'll do it later" : "Back"}
       </Text>
     </View>
   );
 };
 
-export default TransitionBackButton;
+export default SignupTransitionBackButton;

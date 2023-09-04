@@ -6,18 +6,17 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
-import { ReactNode, useState, useEffect } from "react";
+import { ReactNode, useState } from "react";
 import { appColor, fonts } from "../../../constants";
 import { StatusBar } from "expo-status-bar";
 import Community from "../../../../assets/images/svg/Community";
 import { useFonts } from "expo-font";
-import { SafeAreaView } from "react-native-safe-area-context";
 const { height, width } = Dimensions.get("window");
 import { sizes } from "../../../utils";
 import Verified from "../../../../assets/images/svg/Verified";
 import PolygonImage from "../../../../assets/images/svg/PolygonImage";
 import Header from "../Header";
-
+import { useNavigation } from "@react-navigation/native";
 const size = new sizes(height, width);
 interface Communities {
   id: number;
@@ -27,6 +26,7 @@ interface Communities {
 }
 
 const ExploreCommunities = () => {
+  const navigation = useNavigation();
   const Communities: Array<Communities> = [
     {
       id: 1,
@@ -145,12 +145,8 @@ const ExploreCommunities = () => {
     },
   ];
   const [communities, setCommunities] = useState<Communities[]>([]);
-  const [disableOnPress, setOnPress] = useState(false);
-  useEffect(() => {
-    if (communities.length > 0) {
-      setOnPress(false);
-    } else setOnPress(true);
-  }, [communities]);
+  const [joinAll, setJoinAll] = useState(false);
+
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
     "Outfit-Medium": fonts.OUTFIT_NORMAL,
@@ -171,148 +167,151 @@ const ExploreCommunities = () => {
   };
 
   return (
-    <SafeAreaView
+    <View
       style={{
         flex: 1,
-        backgroundColor: appColor.signUpBackground,
       }}
     >
-      <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
-      <View
+      <ScrollView
         style={{
-          flex: 1,
+          height: size.getHeightSize(594),
         }}
       >
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Header
-            SvgImage={<Community />}
-            title="Explore Communities"
-            subtitle="Here are some communities you might be interested in"
-            subTitleWidth={size.getWidthSize(304)}
-          />
+        <Header
+          SvgImage={<Community />}
+          title="Explore Communities"
+          subtitle="Here are some communities you might be interested in"
+          subTitleWidth={size.getWidthSize(304)}
+        />
+        <View
+          style={{
+            width: size.getWidthSize(328),
+            marginTop: size.getHeightSize(32),
+            alignSelf: "center",
+            flex: 1,
+          }}
+        >
           <View
             style={{
               width: size.getWidthSize(328),
-              marginTop: size.getHeightSize(32),
-              alignSelf: "center",
-              flex: 1,
+              flexDirection: "row",
+              justifyContent: "space-between",
+
+              paddingVertical: size.getHeightSize(10.5),
+              paddingHorizontal: size.getWidthSize(8),
+              alignItems: "center",
             }}
           >
+            <Text
+              style={{
+                fontSize: size.fontSize(18),
+                fontFamily: "Outfit-Regular",
+                textAlign: "center",
+                lineHeight: size.getHeightSize(23),
+                color: appColor.kTextColor,
+                fontStyle: "normal",
+              }}
+            >
+              Suggested Communities
+            </Text>
             <View
               style={{
-                width: size.getWidthSize(328),
-                flexDirection: "row",
-                justifyContent: "space-between",
-
-                paddingVertical: size.getHeightSize(10.5),
-                paddingHorizontal: size.getWidthSize(8),
-                alignItems: "center",
+                width: size.getWidthSize(65),
+                marginRight: size.getWidthSize(8),
               }}
             >
               <Text
+                onPress={() => {
+                  communities.length === Communities.length
+                    ? setCommunities([])
+                    : setCommunities(Communities);
+             
+                }}
                 style={{
-                  fontSize: size.fontSize(18),
-                  fontFamily: "Outfit-Regular",
-                  textAlign: "center",
-                  lineHeight: size.getHeightSize(23),
-                  color: appColor.kTextColor,
-                  fontStyle: "normal",
+                  fontSize: size.fontSize(16),
+                  fontFamily: "Outfit-SemiBold",
+                  textAlign: "right",
+                  color: appColor.kSecondaryButtonColor,
+                  lineHeight: size.getHeightSize(21),
                 }}
               >
-                Suggested Communities
+                {communities.length === Communities.length
+                  ? "Leave all"
+                  : "Join all"}
               </Text>
-              <View
-                style={{
-                  width: size.getWidthSize(65),
-                  marginRight: size.getWidthSize(8),
-                }}
-              >
-                <Text
-                  onPress={() => setCommunities(Communities)}
-                  style={{
-                    fontSize: size.fontSize(16),
-                    fontFamily: "Outfit-SemiBold",
-                    textAlign: "right",
-                    color: appColor.kSecondaryButtonColor,
-                    lineHeight: size.getHeightSize(21),
-                  }}
-                >
-                  Join all
-                </Text>
-              </View>
-            </View>
-
-            {/* ScrollView */}
-            <View
-              style={{
-                flex: 1,
-              }}
-            >
-              {Communities.map((Community) => (
-                <View
-                  key={Community.id}
-                  style={{
-                    flexDirection: "row",
-                    width: size.getWidthSize(328), 
-                    borderRadius: 40,
-                    paddingVertical: size.getHeightSize(8),
-                    paddingHorizontal: size.getWidthSize(8),
-                    alignItems: "center",
-                    marginBottom: size.getHeightSize(8),
-                  }}
-                >
-                  {Community.image}
-                  <View
-                    style={{
-                      flex: 1,
-                      marginLeft: size.getWidthSize(8),
-                    }}
-                  >
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        gap: size.getWidthSize(4.56),
-                        width: size.getWidthSize(153),
-                      }}
-                    >
-                      <Text
-                        numberOfLines={1}
-                        ellipsizeMode="tail"
-                        style={styles.username}
-                      >
-                        {Community.name}
-                      </Text>
-                      <Verified />
-                    </View>
-
-                    {Community.message && (
-                      <Text style={styles.message}>{Community.message}</Text>
-                    )}
-                  </View>
-                  {communities.some(
-                    (myCommuinty) => myCommuinty.name === Community.name
-                  ) ? (
-                    <Pressable
-                      onPress={() => removeCommunity(Community)}
-                      style={styles.myCommunityButton}
-                    >
-                      <Text style={styles.buttonText}>Joined</Text>
-                    </Pressable>
-                  ) : (
-                    <Pressable
-                      onPress={() => addCommunity(Community)}
-                      style={styles.button}
-                    >
-                      <Text style={styles.buttonText}>Join</Text>
-                    </Pressable>
-                  )}
-                </View>
-              ))}
             </View>
           </View>
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+
+          {/* ScrollView */}
+          <View
+            style={{
+              flex: 1,
+            }}
+          >
+            {Communities.map((Community) => (
+              <View
+                key={Community.id}
+                style={{
+                  flexDirection: "row",
+                  width: size.getWidthSize(328),
+                  borderRadius: 40,
+                  paddingVertical: size.getHeightSize(8),
+                  paddingHorizontal: size.getWidthSize(8),
+                  alignItems: "center",
+                  marginBottom: size.getHeightSize(8),
+                }}
+              >
+                {Community.image}
+                <View
+                  style={{
+                    flex: 1,
+                    marginLeft: size.getWidthSize(8),
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      gap: size.getWidthSize(4.56),
+                      width: size.getWidthSize(153),
+                    }}
+                  >
+                    <Text
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                      style={styles.username}
+                    >
+                      {Community.name}
+                    </Text>
+                    <Verified />
+                  </View>
+
+                  {Community.message && (
+                    <Text style={styles.message}>{Community.message}</Text>
+                  )}
+                </View>
+                {communities.some(
+                  (myCommuinty) => myCommuinty.id === Community.id
+                ) ? (
+                  <Pressable
+                    onPress={() => removeCommunity(Community)}
+                    style={styles.myCommunityButton}
+                  >
+                    <Text style={styles.buttonText}>Joined</Text>
+                  </Pressable>
+                ) : (
+                  <Pressable
+                    onPress={() => addCommunity(Community)}
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>Join</Text>
+                  </Pressable>
+                )}
+              </View>
+            ))}
+          </View>
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 

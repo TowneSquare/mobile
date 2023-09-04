@@ -3,6 +3,7 @@ const { height, width } = Dimensions.get("window");
 import { images } from "../../constants";
 import { sizes } from "../../utils";
 const size = new sizes(height, width);
+
 const ImageStack = () => {
   return (
     <View
