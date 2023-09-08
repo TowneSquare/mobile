@@ -40,6 +40,7 @@ import CommunityMainScreen from "../screens/Community/JoinComm/CommunityMainScre
 import CommunityWelcomeScreen from "../screens/Community/JoinComm/CommunityWelcomeScreen";
 import PinnedPostsScreen from "../screens/Community/JoinComm/PinnedPostsScreen";
 import ExploreCommunityScreen from "../screens/Community/ExploreCommunity/ExploreCommunityScreen";
+import PermissionsScreen from "../screens/Community/Community/AddAdminsScreen/PermissionsScreen";
 
 const Navigations = ({ magicProps }: { magicProps: any }) => {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -273,6 +274,14 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
       <Stack.Screen
         name="CreateChannelScreen"
         component={CreateChannelScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="PermissionsScreen"
+        component={PermissionsScreen}
         options={{
           headerShown: false,
         }}

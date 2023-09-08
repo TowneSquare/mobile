@@ -70,6 +70,7 @@ export type RootStackParamList = {
   InviteMembersScreen: undefined;
   AddAdminsScreen: undefined;
   CreateChannelScreen: undefined;
+  PermissionsScreen:undefined;
 
   CommunityWelcomeScreen: undefined;
   CommunityMainScreen: undefined;
@@ -284,6 +285,12 @@ export type AddAdminsScreenProps = {
   navigation: NavigationProp<RootStackParamList, "AddAdminsScreen">;
   magic: any;
   route: RouteProp<ParamListBase, "AddAdminsScreen">;
+};
+
+export type PermissionsScreenProps = {
+  navigation: NavigationProp<RootStackParamList, "PermissionsScreen">;
+  magic: any;
+  route: RouteProp<ParamListBase, "PermissionsScreen">;
 };
 
 // Join community screens

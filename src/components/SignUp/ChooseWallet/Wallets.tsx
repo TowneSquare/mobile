@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
 import Fewcha from '../../../../assets/images/svg/Fewcha';
 import Rise from '../../../../assets/images/svg/Rise';
 import Martian from '../../../../assets/images/svg/Martian';
+import LetGoButton from '../LetGoButton';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Wallets = () => {
@@ -46,6 +47,7 @@ const Wallets = () => {
         alignItems: 'center',
       }}
     >
+      <LetGoButton  navigateTo="DrawerNavigation"/>
       <Pressable
         onPress={() => {
           dispatch(updateRenderCount(1));
