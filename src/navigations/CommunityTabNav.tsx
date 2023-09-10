@@ -30,6 +30,7 @@ const CommunityTab = () => {
   };
   return (
     <Tab.Navigator
+    
       screenOptions={({ route }) => ({
         lazy: true,
         tabBarStyle: {

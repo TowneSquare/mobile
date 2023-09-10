@@ -71,6 +71,8 @@ export type SetCommunityType = {
   ) => void;
   viewIndex: number;
   setViewIndex: (index: number) => void;
+  selectedAssetBottomSheetVisibility: boolean;
+  setSelectedAssetBottomSheetVisibility: (state: boolean) => void;
 };
 type ChooseCommunityPFPProps = {
   children: ReactNode;
@@ -134,6 +136,8 @@ export const SetCommunityContext = createContext<SetCommunityType>({
   ],
   viewIndex: 0,
   setViewIndex: (index: number) => {},
+  selectedAssetBottomSheetVisibility: false,
+  setSelectedAssetBottomSheetVisibility: (state: boolean) => {},
 });
 const SetUpCommunityContext: React.FC<ChooseCommunityPFPProps> = ({
   children,
@@ -153,7 +157,6 @@ const SetUpCommunityContext: React.FC<ChooseCommunityPFPProps> = ({
       amount: '',
     },
     cryptoAssetAmountType: 'any_amount',
-    // ... initial values for communityDetails ...
   });
   const [isChooseProfilePictureVisible, setPFPBottomsheet] = useState(false);
   const [isCollectionBottomSheetVisible, setCollectionBottomSheetVisible] =
@@ -188,6 +191,9 @@ const SetUpCommunityContext: React.FC<ChooseCommunityPFPProps> = ({
     <SelectedAssetView />, // or this
   ]);
   const [viewIndex, setIndex] = useState(0);
+  const [selectedAssetBottomSheetVisibility, setSelectedAssetBottomSheet] =
+    useState(false);
+
   const contextValue: SetCommunityType = {
     isChooseProfilePictureVisible,
     isCollectionBottomSheetVisible,
@@ -244,7 +250,7 @@ const SetUpCommunityContext: React.FC<ChooseCommunityPFPProps> = ({
           <SetCommunityInfo />,
           <SelectTokenView />,
           <TokenGateView />,
-          <CommunityNFT />, //This
+          <CommunityNFT />, 
         ]);
       } else if (type === 'add_crypto_asset_view') {
         setView([
@@ -253,15 +259,17 @@ const SetUpCommunityContext: React.FC<ChooseCommunityPFPProps> = ({
           <SelectTokenView />,
           <TokenGateView />,
           <CryptoAssetView />,
-          // or this
-          //This
-          <SelectedAssetView />, // this
+          <SelectedAssetView />,
         ]);
       }
     },
     viewIndex,
     setViewIndex(index) {
       setIndex(index);
+    },
+    selectedAssetBottomSheetVisibility,
+    setSelectedAssetBottomSheetVisibility(state) {
+      setSelectedAssetBottomSheet(state);
     },
   };
 

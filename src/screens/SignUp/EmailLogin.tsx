@@ -8,7 +8,6 @@ import {
   SafeAreaView,
   FlatList,
 } from "react-native";
-import Constants from "expo-constants";
 import { useFonts } from "expo-font";
 import TransitionBackButton from "../../components/SignUp/TransitionBackButton";
 import { appColor, fonts } from "../../constants";
@@ -26,14 +25,9 @@ import EmailContent from "../../components/SignUp/EmailSignup/EmailContent";
 import ChooseNFT from "../../components/SignUp/ChooseProfilePics/ChooseNFT";
 import SelectedCollection from "../../components/SignUp/ChooseProfilePics/SelectedCollection";
 import { useNavigation } from "@react-navigation/native";
-import {
-  updateAccountInfo,
-  updateDidToken,
-} from "../../controller/UserController";
-import { signup } from "../../api";
 import { useAppDispatch, useAppSelector } from "../../controller/hooks";
 import { updateDidToken } from "../../controller/UserController";
-
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
@@ -42,39 +36,63 @@ let newWidth = width - 2 * PADDING;
 const EmailLogin = ({ magic }: EmailLoginProps) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-  const [disable, setDisable] = useState(false);
+
   const [viewIndex, setViewIndex] = useState(0);
 
-  const userName = useAppSelector(
-    (state) => state.USER.details.username
-  );
-  const nickName = useAppSelector(
-    (state) => state.USER.details.Nickname
-  );
-  const email = useAppSelector(
-    (state) => state.USER.details.email
-  );
+  const {
+    usernameError,
+    nickNameError,
+    userNameLength,
+    nickNameLength,
+    email,
+    profilePics,
+  } = useAppSelector((state) => ({
+    usernameError: state.USER.errors.usernameError,
+    nickNameError: state.USER.errors.nicknameError,
+    userNameLength: state.USER.details.username.length,
+    nickNameLength: state.USER.details.Nickname.length,
+    email: state.USER.details.email,
+    profilePics: state.USER.details.profileImage,
+  }));
 
-  useEffect(() => {
-    switch (viewIndex){
-      case 0: setDisable(email.length < 1 ? true : false); break;
-      case 1: setDisable(nickName.length < 1 || userName.length < 1? true : false); break;
-    }
-  }, [userName, nickName, email, viewIndex]);
-
+  let disable;
+  switch (viewIndex) {
+    case 0:
+      disable = email.length < 1 ? true : false;
+      break;
+    case 1:
+      disable =
+        usernameError ||
+        nickNameError ||
+        userNameLength < 1 ||
+        nickNameLength < 1;
+      break;
+    case 6:
+      disable = typeof profilePics === "undefined" ? true : false;
+      break;
+  }
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList<any>>(null);
-  const views = [<EmailContent />, <ChooseUsernameContent />, <Verify />, <ConnectSocials />, <FindFriends />, <ExploreCommunities />, <ChooseProfilePics />];
+  const views = [
+    <EmailContent />,
+    <ChooseUsernameContent />,
+    <Verify />,
+    <ConnectSocials />,
+    <FindFriends />,
+    <ExploreCommunities />,
+    <ChooseProfilePics />,
+  ];
   const onViewChangeRef = useRef(({ viewableItems }: any) => {
     setViewIndex(viewableItems[0]?.index);
   });
-
   const handleNextSlide = async () => {
+    setViewIndex((previous) => previous + 1);
+    const newIndex = viewIndex + 1;
     if (viewIndex == 0) {
       const token = await magic.auth.loginWithEmailOTP({ email });
       dispatch(updateDidToken(token));
     }
-    const newIndex = viewIndex + 1;
+    // const newIndex = viewIndex + 1;
     if (newIndex < views.length && flatListRef.current) {
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
     } else {
@@ -83,6 +101,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
   };
 
   const handlePreviousSlide = () => {
+    setViewIndex((previous) => previous - 1);
     const newIndex = viewIndex - 1;
     if (newIndex >= 0 && flatListRef.current) {
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
@@ -94,7 +113,15 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
   const stagePosition = Animated.divide(scrollX, width);
   const progressWidth = stagePosition.interpolate({
     inputRange: [0, 1, 2, 3, 4, 5, 6],
-    outputRange: [newWidth / 7, (newWidth / 7) * 2, (newWidth / 7) * 3, (newWidth / 7) * 4, (newWidth / 7) * 5, (newWidth / 7) * 6, newWidth],
+    outputRange: [
+      newWidth / 7,
+      (newWidth / 7) * 2,
+      (newWidth / 7) * 3,
+      (newWidth / 7) * 4,
+      (newWidth / 7) * 5,
+      (newWidth / 7) * 6,
+      newWidth,
+    ],
     extrapolate: "clamp",
   });
 
@@ -125,15 +152,6 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
   if (!isLoaded) {
     return null;
   }
-
-  const login = async () => {
-    const token = await magic.auth.loginWithEmailOTP({ email });
-    console.log("Magic Token: ", token);
-    dispatch(updateDidToken(token));
-    const result = await signup(token);
-    console.log("Singup: ", result);
-    navigation.navigate("ChooseUsernameSlide");
-  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -172,52 +190,70 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
           />
         </Animated.View>
       </View>
-      <FlatList
-        scrollEnabled={false}
-        ref={flatListRef}
-        data={views}
-        horizontal
-        pagingEnabled
-        scrollEventThrottle={16}
-        snapToAlignment="center"
-        showsHorizontalScrollIndicator={false}
-        bounces={false}
-        onViewableItemsChanged={onViewChangeRef.current}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-          { useNativeDriver: false }
-        )}
-        renderItem={({ item }: any) => {
-          return (
-            <View
-              style={{
-                width: width,
-                backgroundColor: "transparent",
-                flex: 1,
-              }}
-            >
-              {item}
-            </View>
-          );
-        }}
-      />
       <View
         style={{
-          height: size.getHeightSize(124),
-          marginBottom: size.getHeightSize(24),
+          flex: 1,
+          width: width,
         }}
       >
-        <TranslationForwardButton
-          disable={disable}
-          action={() => {
-            handleNextSlide();
-          }}
-        />
-        <TransitionBackButton
-          action={() => {
-            handlePreviousSlide();
-          }}
-        />
+        <KeyboardAwareScrollView style={{ flex: 1 }}>
+          <View
+            style={{
+              width: width,
+              alignItems: "center",
+              flex: 1,
+            }}
+          >
+            <FlatList
+              scrollEnabled={false}
+              ref={flatListRef}
+              data={views}
+              horizontal
+              pagingEnabled
+              scrollEventThrottle={16}
+              snapToAlignment="center"
+              showsHorizontalScrollIndicator={false}
+              bounces={false}
+              // onViewableItemsChanged={onViewChangeRef.current}
+              onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                { useNativeDriver: false }
+              )}
+              renderItem={({ item }: any) => {
+                return (
+                  <View
+                    style={{
+                      width: width,
+                      backgroundColor: "transparent",
+                      height: size.getHeightSize(634),
+                    }}
+                  >
+                    {item}
+                  </View>
+                );
+              }}
+            />
+          </View>
+          <View
+            style={{
+              height: size.getHeightSize(124),
+            }}
+          >
+            <TranslationForwardButton
+              disable={disable}
+              action={() => {
+                handleNextSlide();
+              }}
+            />
+            <TransitionBackButton
+              action={() => {
+                handlePreviousSlide();
+              }}
+              index={viewIndex}
+              next={handleNextSlide}
+            />
+          </View>
+        </KeyboardAwareScrollView>
       </View>
       <UploadImageModal />
       <ChooseNFT />
@@ -231,7 +267,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: size.getHeightSize(42),
     backgroundColor: appColor.signUpBackground,
   },
 });

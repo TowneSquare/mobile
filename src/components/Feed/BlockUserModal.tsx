@@ -41,7 +41,7 @@ const BlockUserModal = () => {
   useEffect(() => {
     const handleBackButton = () => {
       if (blockModal === true) {
-        console.log('herererer');
+      
         dispatch(updateBlockUserModal(false));
         return true;
       } else {
