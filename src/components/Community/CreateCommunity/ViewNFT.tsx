@@ -6,32 +6,51 @@ import {
   BackHandler,
   Image,
   Pressable,
-} from "react-native";
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useEffect,
-} from "react";
+} from 'react-native';
+import React, { useCallback, useMemo, useRef, useEffect } from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
-} from "@gorhom/bottom-sheet";
-import CustomHandler from "../../Feed/CustomHandler";
-import InfoIcon from "../../../../assets/images/svg/InfoIcon";
-import { appColor, images } from "../../../constants";
-import { sizes } from "../../../utils";
-const { height, width } = Dimensions.get("window");
+} from '@gorhom/bottom-sheet';
+import CustomHandler from '../../Feed/CustomHandler';
+import InfoIcon from '../../../../assets/images/svg/InfoIcon';
+import { appColor, images } from '../../../constants';
+import { sizes } from '../../../utils';
+const { height, width } = Dimensions.get('window');
+import { useNavigation } from '@react-navigation/native';
+import { CommunityDetailsType } from '../../../context/CommunitySettingsContext';
 const size = new sizes(height, width);
+type TokenGateSettingsCompleteParams = {
+  TokenGateSettingsComplete: {
+    nftImageUri: string;
+    type: 'NFT' | 'crypto_asset';
+    amount?: string;
+    name?: string;
+  };
+};
 interface Props {
   visibility: boolean;
   onclose: () => void;
-  onContinueButtonPressed: () => void;
+  navigateTo?: keyof TokenGateSettingsCompleteParams;
+  onBackButtonPressed: () => void;
+  callBack?: () => void;
+  communityDetails?: CommunityDetailsType;
+  communityAssetType?: 'NFT' | 'crypto_asset';
 }
-const ViewNFT = ({ visibility, onclose, onContinueButtonPressed }: Props) => {
+
+const ViewNFT = ({
+  visibility,
+  onBackButtonPressed,
+  onclose,
+  navigateTo,
+  callBack,
+  communityDetails,
+  communityAssetType,
+}: Props) => {
+  const navigation = useNavigation();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const initialSnapPoints = useMemo(() => ["CONTENT_HEIGHT"], []);
+  const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
   const {
     animatedHandleHeight,
     animatedSnapPoints,
@@ -42,7 +61,7 @@ const ViewNFT = ({ visibility, onclose, onContinueButtonPressed }: Props) => {
     (props: any) => (
       <BottomSheetBackdrop
         {...props}
-        pressBehavior={"close"}
+        pressBehavior={'close'}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
         opacity={0.5}
@@ -59,9 +78,9 @@ const ViewNFT = ({ visibility, onclose, onContinueButtonPressed }: Props) => {
         return false;
       }
     };
-    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     return () => {
-      BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   }, [visibility]);
   return (
@@ -94,7 +113,7 @@ const ViewNFT = ({ visibility, onclose, onContinueButtonPressed }: Props) => {
             <Text style={styles.title}>SIOthians</Text>
             <View
               style={{
-                alignSelf: "center",
+                alignSelf: 'center',
                 marginTop: size.getHeightSize(32),
                 height: size.getHeightSize(210),
                 width: size.getWidthSize(206),
@@ -104,8 +123,8 @@ const ViewNFT = ({ visibility, onclose, onContinueButtonPressed }: Props) => {
                 source={{ uri: Image.resolveAssetSource(images.siothian).uri }}
                 resizeMode="cover"
                 style={{
-                  height: "100%",
-                  width: "100%",
+                  height: '100%',
+                  width: '100%',
                   borderRadius: 6,
                 }}
               />
@@ -113,11 +132,11 @@ const ViewNFT = ({ visibility, onclose, onContinueButtonPressed }: Props) => {
             <View
               style={{
                 marginTop: size.getHeightSize(44.75),
-                flexDirection: "row",
+                flexDirection: 'row',
                 paddingHorizontal: size.getWidthSize(16),
                 paddingVertical: size.getWidthSize(16),
                 gap: size.getWidthSize(16),
-                alignItems: "flex-start",
+                alignItems: 'flex-start',
                 borderRadius: 8,
                 borderWidth: 1,
                 borderColor: appColor.grayLight,
@@ -130,14 +149,14 @@ const ViewNFT = ({ visibility, onclose, onContinueButtonPressed }: Props) => {
                   lineHeight: size.getHeightSize(21),
                   color: appColor.kTextColor,
 
-                  fontFamily: "Outfit-Regular",
+                  fontFamily: 'Outfit-Regular',
                   flex: 1,
                 }}
               >
                 Embrace the Power of NFTs! By continuing, you'll create an
-                exclusive token-gated community for holders of{" "}
-                <Text style={{ fontFamily: "Outfit-Bold" }}>
-                  [Collection name]{" "}
+                exclusive token-gated community for holders of{' '}
+                <Text style={{ fontFamily: 'Outfit-Bold' }}>
+                  [Collection name]{' '}
                 </Text>
                 NFT collection.
               </Text>
@@ -151,14 +170,27 @@ const ViewNFT = ({ visibility, onclose, onContinueButtonPressed }: Props) => {
               <Pressable
                 onPress={() => {
                   onclose();
-                  onContinueButtonPressed();
+                  callBack && callBack();
+                  navigateTo &&
+                    navigation.navigate(navigateTo, {
+                      asset: {
+                        nftImageUri: Image.resolveAssetSource(images.siothian)
+                          .uri,
+                        type: communityAssetType,
+                        amount: communityDetails?.selectedCryptoAsset.amount
+                          ? communityDetails.selectedCryptoAsset.amount
+                          : undefined,
+                        name: communityDetails?.selectedCryptoAsset.name,
+                        coinId: communityDetails?.selectedCryptoAsset.coinId,
+                      },
+                    });
                 }}
                 style={{
-                  alignSelf: "center",
+                  alignSelf: 'center',
                   width: size.getWidthSize(328),
                   borderRadius: 40,
                   minHeight: size.getHeightSize(48),
-                  justifyContent: "center",
+                  justifyContent: 'center',
                   marginTop: size.getHeightSize(8),
                   backgroundColor: appColor.kWhiteColor,
                   paddingVertical: size.getHeightSize(12.5),
@@ -166,10 +198,10 @@ const ViewNFT = ({ visibility, onclose, onContinueButtonPressed }: Props) => {
               >
                 <Text
                   style={{
-                    textAlign: "center",
+                    textAlign: 'center',
                     color: appColor.kButtonTextColor,
                     fontSize: size.fontSize(18),
-                    fontFamily: "Outfit-SemiBold",
+                    fontFamily: 'Outfit-SemiBold',
                     lineHeight: size.getHeightSize(23),
 
                     letterSpacing: 0.01,
@@ -182,6 +214,7 @@ const ViewNFT = ({ visibility, onclose, onContinueButtonPressed }: Props) => {
                 <Text
                   onPress={() => {
                     onclose();
+                    onBackButtonPressed();
                   }}
                   style={styles.back}
                 >
@@ -200,28 +233,28 @@ export default ViewNFT;
 const styles = StyleSheet.create({
   container: {
     marginTop: size.heightSize(36),
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: size.getWidthSize(8),
 
-    alignItems: "center",
+    alignItems: 'center',
   },
   text: {
     fontSize: size.fontSize(18),
     lineHeight: size.getHeightSize(23),
     color: appColor.kTextColor,
     letterSpacing: 0.36,
-    fontFamily: "Outfit-Medium",
+    fontFamily: 'Outfit-Medium',
   },
   title: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(29),
-    fontFamily: "Outfit-Bold",
-    textAlign: "center",
+    fontFamily: 'Outfit-Bold',
+    textAlign: 'center',
     marginTop: size.getHeightSize(29),
     lineHeight: size.getHeightSize(37),
   },
   backButton: {
-    justifyContent: "center",
+    justifyContent: 'center',
     height: size.getHeightSize(48),
     marginTop: size.getHeightSize(8),
     paddingVertical: size.getHeightSize(12.5),
@@ -230,8 +263,8 @@ const styles = StyleSheet.create({
   back: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(18),
-    fontFamily: "Outfit-SemiBold",
-    textAlign: "center",
+    fontFamily: 'Outfit-SemiBold',
+    textAlign: 'center',
     lineHeight: size.getHeightSize(23),
   },
 });

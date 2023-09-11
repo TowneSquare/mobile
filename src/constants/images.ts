@@ -132,6 +132,16 @@ const appImages = {
   aptToken: require('../../assets/images/png/AptosToken.png'),
   usdc: require('../../assets/images/png/usdc.png'),
   abel: require('../../assets/images/png/abel.png'),
-  blurEffect:require("../../assets/images/png/blurr.png"),
+  blurEffect: require('../../assets/images/png/blurr.png'),
+
+  siothian: require('../../assets/images/png/Siothian1.png'),
+  aptos: require('../../assets/images/png/aptos.png'),
+  Banner: require('../../assets/images/png/bannner.png'),
+  Comm_Avatar: require('../../assets/images/png/C_Avatar.png'),
+  Comm_Avatar2: require('../../assets/images/png/C2_Avatar.png'),
+  MainAvatar: require('../../assets/images/png/mainavatar.png'),
+  commlogo: require('../../assets/images/png/commlogo.png'),
+  SiothianCommunity: require('../../assets/images/png/SiothianCommunity.png'),
+  theter: require('../../assets/images/png/Theter.png'),
 };
 export const images = appImages;

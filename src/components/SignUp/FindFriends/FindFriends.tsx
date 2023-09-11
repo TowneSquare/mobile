@@ -5,22 +5,22 @@ import {
   StyleSheet,
   Pressable,
   ScrollView,
+  SectionList,
 } from "react-native";
-import { ReactNode, useState, useEffect } from "react";
+import { ReactNode, useState } from "react";
 import { appColor, fonts } from "../../../constants";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { sizes } from "../../../utils";
 import Hands from "../../../../assets/images/svg/Hands";
 import VerifiedBlue from "../../../../assets/images/svg/VerifiedBlue";
 import AvatarFriend from "../../../../assets/images/svg/AvatarFriend";
 import Queen from "../../../../assets/images/svg/Queen";
 import Header from "../Header";
-
+import { useNavigation } from "@react-navigation/native";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
-
+import Constants from "expo-constants";
 interface Friend {
   id: number;
   image: ReactNode;
@@ -30,6 +30,7 @@ interface Friend {
 }
 
 const FindFriends = () => {
+  const navigation = useNavigation();
   const friends: Array<Friend> = [
     {
       id: 1,
@@ -174,12 +175,7 @@ const FindFriends = () => {
   ];
 
   const [following, setFollowers] = useState<Friend[]>([]);
-  const [disableOnPress, setOnPress] = useState(false);
-  useEffect(() => {
-    if (following.length > 0) {
-      setOnPress(false);
-    } else setOnPress(true);
-  }, [following]);
+
   let [isLoaded] = useFonts({
     "Outfit-Regular": fonts.OUTFIT_REGULAR,
     "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -201,14 +197,16 @@ const FindFriends = () => {
   };
 
   return (
-    <SafeAreaView
+    <View
       style={{
         flex: 1,
-        backgroundColor: appColor.signUpBackground,
       }}
     >
-      <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={{
+          height: size.getHeightSize(594),
+        }}
+      >
         <Header
           SvgImage={<Hands />}
           title="Find your friends"
@@ -219,7 +217,6 @@ const FindFriends = () => {
           style={{
             marginTop: size.getHeightSize(32),
             alignSelf: "center",
-            flex: 1,
           }}
         >
           <View
@@ -252,7 +249,13 @@ const FindFriends = () => {
               }}
             >
               <Text
-                onPress={() => setFollowers(friends)}
+                onPress={() => {
+                  following.length === friends.length
+                    ? setFollowers([])
+                    : setFollowers(friends);
+                 
+           
+                }}
                 style={{
                   fontSize: size.fontSize(16),
                   fontFamily: "Outfit-SemiBold",
@@ -261,76 +264,83 @@ const FindFriends = () => {
                   lineHeight: size.getHeightSize(24),
                 }}
               >
-                Follow all
+                {following.length === friends.length
+                  ? "Unfollow all"
+                  : "Follow all"}
               </Text>
             </View>
           </View>
-
-          {friends.map((friend) => (
-            <View
-              key={friend.id}
-              style={{
-                flexDirection: "row",
-                width: size.getWidthSize(328),
-                borderRadius: 40,
-                paddingVertical: size.getHeightSize(8),
-                paddingHorizontal: size.getWidthSize(8),
-                alignItems: "center",
-                marginBottom: size.getHeightSize(8),
-              }}
-            >
-              {friend.image}
+          <View
+            style={{
+              flex: 1,
+            }}
+          >
+            {friends.map((friend) => (
               <View
+                key={friend.id}
                 style={{
-                  flex: 1,
-                  marginLeft: size.getWidthSize(8),
+                  flexDirection: "row",
+                  width: size.getWidthSize(328),
+                  borderRadius: 40,
+                  paddingVertical: size.getHeightSize(8),
+                  paddingHorizontal: size.getWidthSize(8),
+                  alignItems: "center",
+                  marginBottom: size.getHeightSize(8),
                 }}
               >
+                {friend.image}
                 <View
                   style={{
-                    flexDirection: "row",
-                    gap: size.getWidthSize(4.56),
-                    width: size.getWidthSize(153),
+                    flex: 1,
+                    marginLeft: size.getWidthSize(8),
                   }}
                 >
-                  <Text
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
-                    style={styles.username}
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      gap: size.getWidthSize(4.56),
+                      width: size.getWidthSize(153),
+                    }}
                   >
-                    {friend.name}
-                  </Text>
-                  {friend.verification === "verified" ? (
-                    <VerifiedBlue />
-                  ) : (
-                    <Queen />
-                  )}
-                </View>
+                    <Text
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                      style={styles.username}
+                    >
+                      {friend.name}
+                    </Text>
+                    {friend.verification === "verified" ? (
+                      <VerifiedBlue />
+                    ) : (
+                      <Queen />
+                    )}
+                  </View>
 
-                <Text style={styles.subusername}>{friend.username}</Text>
+                  <Text style={styles.subusername}>{friend.username}</Text>
+                </View>
+                {following.some(
+                  (myFollower) => myFollower.username === friend.username
+                ) ? (
+                  <Pressable
+                    onPress={() => removeFollowers(friend)}
+                    style={styles.followingButton}
+                  >
+                    <Text style={styles.buttonText}>Following</Text>
+                  </Pressable>
+                ) : (
+                  <Pressable
+                    onPress={() => addFollowers(friend)}
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>Follow</Text>
+                  </Pressable>
+                )}
               </View>
-              {following.some(
-                (myFollower) => myFollower.username === friend.username
-              ) ? (
-                <Pressable
-                  onPress={() => removeFollowers(friend)}
-                  style={styles.followingButton}
-                >
-                  <Text style={styles.buttonText}>Following</Text>
-                </Pressable>
-              ) : (
-                <Pressable
-                  onPress={() => addFollowers(friend)}
-                  style={styles.button}
-                >
-                  <Text style={styles.buttonText}>Follow</Text>
-                </Pressable>
-              )}
-            </View>
-          ))}
+            ))}
+          </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

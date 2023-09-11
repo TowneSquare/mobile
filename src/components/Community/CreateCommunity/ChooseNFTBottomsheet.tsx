@@ -1,21 +1,21 @@
-import { View, Text, StyleSheet, Dimensions, BackHandler } from "react-native";
-import React, { useRef, useState, useEffect, useCallback } from "react";
-import * as Animatable from "react-native-animatable";
+import { View, Text, StyleSheet, Dimensions, BackHandler } from 'react-native';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import * as Animatable from 'react-native-animatable';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetScrollView,
-} from "@gorhom/bottom-sheet";
-import NFTCollections from "../../../shared/UpdatePFP/NFTCollections";
+} from '@gorhom/bottom-sheet';
+import NFTCollections from '../../../shared/UpdatePFP/NFTCollections';
 import {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
-} from "react-native-reanimated";
-import { appColor } from "../../../constants";
-import { sizes } from "../../../utils";
-import CustomHandler from "../../Feed/CustomHandler";
-const { height, width } = Dimensions.get("window");
+} from 'react-native-reanimated';
+import { appColor } from '../../../constants';
+import { sizes } from '../../../utils';
+import CustomHandler from '../../Feed/CustomHandler';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {
   callback: () => void;
@@ -24,12 +24,12 @@ interface Props {
 }
 const ChooseNFTBottomsheet = ({ callback, visible, onclose }: Props) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const [snapPoint, setSnap] = useState("67%");
+  const [snapPoint, setSnap] = useState('67%');
   const renderBackdrop = useCallback(
     (props: any) => (
       <BottomSheetBackdrop
         {...props}
-        pressBehavior={"none"}
+        pressBehavior={'none'}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
         opacity={0.8}
@@ -43,16 +43,16 @@ const ChooseNFTBottomsheet = ({ callback, visible, onclose }: Props) => {
   useEffect(() => {
     const handleBackButton = () => {
       if (visible === true) {
-        setSnap("67%");
+        setSnap('67%');
         onclose();
         return true;
       } else {
         return false;
       }
     };
-    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     return () => {
-      BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   }, [visible]);
   const animatedIndex = useSharedValue(0);
@@ -75,7 +75,8 @@ const ChooseNFTBottomsheet = ({ callback, visible, onclose }: Props) => {
     ),
   }));
   const handleCallback = () => {
-    setSnap("67%");
+    setSnap('67%');
+    onclose();
     callback();
   };
   return (
@@ -105,12 +106,12 @@ const ChooseNFTBottomsheet = ({ callback, visible, onclose }: Props) => {
           <BottomSheetScrollView
             style={{}}
             showsVerticalScrollIndicator={false}
-            onScroll={() => setSnap("90%")}
+            onScroll={() => setSnap('90%')}
           >
             <Animatable.View
-              animation={"fadeInUp"}
+              animation={'fadeInUp'}
               delay={500}
-              easing={"ease-in-out"}
+              easing={'ease-in-out'}
               duration={400}
               style={contentStyle}
             >
@@ -122,7 +123,7 @@ const ChooseNFTBottomsheet = ({ callback, visible, onclose }: Props) => {
             style={{
               minHeight: size.getHeightSize(44),
               marginTop: size.getHeightSize(16),
-              justifyContent: "center",
+              justifyContent: 'center',
 
               marginBottom: size.getHeightSize(16),
             }}
@@ -130,7 +131,7 @@ const ChooseNFTBottomsheet = ({ callback, visible, onclose }: Props) => {
             <Text
               style={styles.cancel}
               onPress={() => {
-                setSnap("67%");
+                setSnap('67%');
                 onclose();
                 // setProfilePictureBottomSheet(true);
               }}
@@ -149,33 +150,33 @@ const styles = StyleSheet.create({
   text: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: "Outfit-Regular",
-    textAlign: "center",
+    fontFamily: 'Outfit-Regular',
+    textAlign: 'center',
 
     lineHeight: size.getHeightSize(21),
     marginBottom: size.getHeightSize(32),
     marginTop: size.getHeightSize(8),
   },
   innerStyle: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     flex: 1,
   },
 
   title: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(29),
-    fontFamily: "Outfit-Bold",
-    textAlign: "center",
+    fontFamily: 'Outfit-Bold',
+    textAlign: 'center',
     marginTop: size.getHeightSize(29),
     lineHeight: size.getHeightSize(37),
   },
   cancel: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(18),
-    fontFamily: "Outfit-Medium",
+    fontFamily: 'Outfit-Medium',
     lineHeight: size.getHeightSize(23),
-    textAlign: "center",
+    textAlign: 'center',
     letterSpacing: 0.02,
   },
 });

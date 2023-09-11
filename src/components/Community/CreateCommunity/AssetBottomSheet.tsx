@@ -5,35 +5,50 @@ import {
   Dimensions,
   BackHandler,
   Pressable,
-} from "react-native";
-import React, { useRef, useEffect, useCallback, useContext } from "react";
-
-import AptosIcon from "../../../../assets/images/svg/AptosIcon";
-import UsdcIcon from "../../../../assets/images/svg/UsdcIcon";
-import TetherIcon from "../../../../assets/images/svg/TetherIcon";
-
+} from 'react-native';
+import React, { useRef, useEffect, useCallback, useContext } from 'react';
+import AptosIcon from '../../../../assets/images/svg/AptosIcon';
+import UsdcIcon from '../../../../assets/images/svg/UsdcIcon';
+import TetherIcon from '../../../../assets/images/svg/TetherIcon';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetScrollView,
-} from "@gorhom/bottom-sheet";
-import { appColor, fonts, images } from "../../../constants";
-import { SetCommunityContext } from "../../../context/SetUpCommunityContext";
-import { sizes } from "../../../utils";
-import CustomHandler from "../../Feed/CustomHandler";
-const { height, width } = Dimensions.get("window");
+} from '@gorhom/bottom-sheet';
+import { appColor } from '../../../constants';
+import { sizes } from '../../../utils';
+import CustomHandler from '../../Feed/CustomHandler';
+import { CommunityDetailsType } from '../../../context/SetUpCommunityContext';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-const AssetBottomSheet = () => {
+type ContextType<T> = React.Context<T | undefined>;
+interface Props<T> {
+  context: ContextType<T>;
+}
+type AssetBottomSheetContextType = {
+  ischooseAssetBottomSheetVisible: boolean;
+  setChooseAssetBottomSheetVisibilty: (state: boolean) => void;
+  setSelectedAsset: (assets: {
+    logo: React.ReactNode;
+    Name: string;
+    coinId: string;
+  }) => void;
+  communityDetails: Partial<CommunityDetailsType>;
+  setCommunityDetails: (details: Partial<CommunityDetailsType>) => void;
+};
+const AssetBottomSheet = <T,>({ context }: Props<T>) => {
   const {
     setChooseAssetBottomSheetVisibilty,
     ischooseAssetBottomSheetVisible,
     setSelectedAsset,
-  } = useContext(SetCommunityContext);
+    setCommunityDetails,
+    communityDetails,
+  } = useContext(context) as AssetBottomSheetContextType;
   const bottomSheetRef = useRef<BottomSheet>(null);
   const renderBackdrop = useCallback(
     (props: any) => (
       <BottomSheetBackdrop
         {...props}
-        pressBehavior={"none"}
+        pressBehavior={'close'}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
         opacity={0.8}
@@ -53,9 +68,9 @@ const AssetBottomSheet = () => {
         return false;
       }
     };
-    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     return () => {
-      BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   }, [ischooseAssetBottomSheetVisible]);
 
@@ -69,7 +84,7 @@ const AssetBottomSheet = () => {
             setChooseAssetBottomSheetVisibilty(false);
           }}
           ref={bottomSheetRef}
-          snapPoints={["80%"]}
+          snapPoints={['80%']}
           index={ischooseAssetBottomSheetVisible ? 0 : -1}
           enablePanDownToClose={true}
           animateOnMount={true}
@@ -94,8 +109,14 @@ const AssetBottomSheet = () => {
                 onPress={() => {
                   setSelectedAsset({
                     logo: <AptosIcon />,
-                    coinId: "Aptos coin",
-                    Name: "APT",
+                    coinId: 'Aptos coin',
+                    Name: 'APT',
+                  });
+                  setChooseAssetBottomSheetVisibilty(false);
+                  communityDetails.selectedCryptoAsset.name = 'APT';
+                  communityDetails.selectedCryptoAsset.coinId = 'Aptos coin';
+                  setCommunityDetails({
+                    ...communityDetails,
                   });
                 }}
                 style={styles.row}
@@ -111,8 +132,13 @@ const AssetBottomSheet = () => {
                 onPress={() => {
                   setSelectedAsset({
                     logo: <TetherIcon />,
-                    coinId: "Tether USD",
-                    Name: "USDT",
+                    coinId: 'Tether USD',
+                    Name: 'USDT',
+                  });
+                  communityDetails.selectedCryptoAsset.name = 'USDT';
+                  communityDetails.selectedCryptoAsset.coinId = 'Tether USD';
+                  setCommunityDetails({
+                    ...communityDetails,
                   });
                   setChooseAssetBottomSheetVisibilty(false);
                 }}
@@ -129,8 +155,13 @@ const AssetBottomSheet = () => {
                 onPress={() => {
                   setSelectedAsset({
                     logo: <UsdcIcon />,
-                    coinId: "USD coin",
-                    Name: "USDC",
+                    coinId: 'USD coin',
+                    Name: 'USDC',
+                  });
+                  communityDetails.selectedCryptoAsset.name = 'USDC';
+                  communityDetails.selectedCryptoAsset.coinId = 'USD coin';
+                  setCommunityDetails({
+                    ...communityDetails,
                   });
                   setChooseAssetBottomSheetVisibilty(false);
                 }}
@@ -146,8 +177,14 @@ const AssetBottomSheet = () => {
                 onPress={() => {
                   setSelectedAsset({
                     logo: <TetherIcon />,
-                    coinId: "Aptos coin",
-                    Name: "APT",
+                    coinId: 'Aptos coin',
+                    Name: 'APT',
+                  });
+                  setChooseAssetBottomSheetVisibilty(false);
+                  communityDetails.selectedCryptoAsset.name = 'APT';
+                  communityDetails.selectedCryptoAsset.coinId = 'Aptos coin';
+                  setCommunityDetails({
+                    ...communityDetails,
                   });
                 }}
                 style={styles.row}
@@ -162,8 +199,14 @@ const AssetBottomSheet = () => {
                 onPress={() => {
                   setSelectedAsset({
                     logo: <TetherIcon />,
-                    coinId: "Aptos coin",
-                    Name: "APT",
+                    coinId: 'Aptos coin',
+                    Name: 'APT',
+                  });
+                  setChooseAssetBottomSheetVisibilty(false);
+                  communityDetails.selectedCryptoAsset.name = 'APT';
+                  communityDetails.selectedCryptoAsset.coinId = 'Aptos coin';
+                  setCommunityDetails({
+                    ...communityDetails,
                   });
                   setChooseAssetBottomSheetVisibilty(false);
                 }}
@@ -179,8 +222,14 @@ const AssetBottomSheet = () => {
                 onPress={() => {
                   setSelectedAsset({
                     logo: <TetherIcon />,
-                    coinId: "Aptos coin",
-                    Name: "APT",
+                    coinId: 'Aptos coin',
+                    Name: 'APT',
+                  });
+                  setChooseAssetBottomSheetVisibilty(false);
+                  communityDetails.selectedCryptoAsset.name = 'APT';
+                  communityDetails.selectedCryptoAsset.coinId = 'Aptos coin';
+                  setCommunityDetails({
+                    ...communityDetails,
                   });
                   setChooseAssetBottomSheetVisibilty(false);
                 }}
@@ -196,8 +245,14 @@ const AssetBottomSheet = () => {
                 onPress={() => {
                   setSelectedAsset({
                     logo: <TetherIcon />,
-                    coinId: "Aptos coin",
-                    Name: "APT",
+                    coinId: 'Aptos coin',
+                    Name: 'APT',
+                  });
+                  setChooseAssetBottomSheetVisibilty(false);
+                  communityDetails.selectedCryptoAsset.name = 'APT';
+                  communityDetails.selectedCryptoAsset.coinId = 'Aptos coin';
+                  setCommunityDetails({
+                    ...communityDetails,
                   });
                   setChooseAssetBottomSheetVisibilty(false);
                 }}
@@ -213,8 +268,14 @@ const AssetBottomSheet = () => {
                 onPress={() => {
                   setSelectedAsset({
                     logo: <TetherIcon />,
-                    coinId: "Aptos coin",
-                    Name: "APT",
+                    coinId: 'Aptos coin',
+                    Name: 'APT',
+                  });
+                  setChooseAssetBottomSheetVisibilty(false);
+                  communityDetails.selectedCryptoAsset.name = 'APT';
+                  communityDetails.selectedCryptoAsset.coinId = 'Aptos coin';
+                  setCommunityDetails({
+                    ...communityDetails,
                   });
                   setChooseAssetBottomSheetVisibilty(false);
                 }}
@@ -230,8 +291,14 @@ const AssetBottomSheet = () => {
                 onPress={() => {
                   setSelectedAsset({
                     logo: <TetherIcon />,
-                    coinId: "Aptos coin",
-                    Name: "APT",
+                    coinId: 'Aptos coin',
+                    Name: 'APT',
+                  });
+                  setChooseAssetBottomSheetVisibilty(false);
+                  communityDetails.selectedCryptoAsset.name = 'APT';
+                  communityDetails.selectedCryptoAsset.coinId = 'Aptos coin';
+                  setCommunityDetails({
+                    ...communityDetails,
                   });
                   setChooseAssetBottomSheetVisibilty(false);
                 }}
@@ -247,8 +314,14 @@ const AssetBottomSheet = () => {
                 onPress={() => {
                   setSelectedAsset({
                     logo: <TetherIcon />,
-                    coinId: "Aptos coin",
-                    Name: "APT",
+                    coinId: 'Aptos coin',
+                    Name: 'APT',
+                  });
+                  setChooseAssetBottomSheetVisibilty(false);
+                  communityDetails.selectedCryptoAsset.name = 'APT';
+                  communityDetails.selectedCryptoAsset.coinId = 'Aptos coin';
+                  setCommunityDetails({
+                    ...communityDetails,
                   });
                   setChooseAssetBottomSheetVisibilty(false);
                 }}
@@ -264,8 +337,14 @@ const AssetBottomSheet = () => {
                 onPress={() => {
                   setSelectedAsset({
                     logo: <TetherIcon />,
-                    coinId: "Aptos coin",
-                    Name: "APT",
+                    coinId: 'Aptos coin',
+                    Name: 'APT',
+                  });
+                  setChooseAssetBottomSheetVisibilty(false);
+                  communityDetails.selectedCryptoAsset.name = 'APT';
+                  communityDetails.selectedCryptoAsset.coinId = 'Aptos coin';
+                  setCommunityDetails({
+                    ...communityDetails,
                   });
                   setChooseAssetBottomSheetVisibilty(false);
                 }}
@@ -290,15 +369,15 @@ const styles = StyleSheet.create({
   title: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(29),
-    fontFamily: "Outfit-Bold",
-    textAlign: "center",
+    fontFamily: 'Outfit-Bold',
+    textAlign: 'center',
     marginTop: size.getHeightSize(29),
     lineHeight: size.getHeightSize(37),
     marginBottom: size.getHeightSize(32),
   },
   row: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginHorizontal: size.getWidthSize(16),
     gap: size.getWidthSize(16),
     paddingVertical: size.getHeightSize(8),
@@ -306,13 +385,13 @@ const styles = StyleSheet.create({
   text1: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: "Outfit-Bold",
+    fontFamily: 'Outfit-Bold',
     lineHeight: size.getHeightSize(21),
   },
   text2: {
     color: appColor.grayLight,
     fontSize: size.fontSize(14),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     lineHeight: size.getHeightSize(18),
   },
 });

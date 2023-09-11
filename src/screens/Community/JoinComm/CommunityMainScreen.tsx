@@ -11,14 +11,15 @@ import { sizes } from "../../../utils";
 
 import { images } from "../../../constants/images";
 
-import ImageStack from "../../../components/Notification/ImageStack";
+import ImageStack from "../../../shared/Feed/ImageStack";
 import { appColor } from "../../../constants";
 
-import CommunityTab from "../../../navigations/CommunityTabNav";
+import CommunityTab from "../../../components/Community/Community/CommunityTab/CommunityTab";
 import CommunityAvatar from "../../../../assets/images/svg/CommunityAvatar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CommunityHeader from "../../../shared/Community/CommunityHeader";
-import Feather from "react-native-vector-icons/Feather";
+import ForCommunityPosts from "../../../components/Community/JoinCommunity/UUserpost";
+import AboutCommunity from "../../../components/Community/JoinCommunity/AboutCommunity";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 
@@ -32,7 +33,6 @@ const CommunityMainScreen: React.FC = () => {
         }}
       >
         <ScrollView
-          style={{}}
           contentContainerStyle={{
             flexGrow: 1,
           }}
@@ -52,14 +52,7 @@ const CommunityMainScreen: React.FC = () => {
               source={images.SiothianCommunity}
             />
           </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "flex-start",
-              gap: size.getWidthSize(10),
-              marginTop: size.getHeightSize(6),
-            }}
-          >
+          <View style={styles.view}>
             <View>
               <CommunityAvatar
                 size={size.getHeightSize(75)}
@@ -70,26 +63,14 @@ const CommunityMainScreen: React.FC = () => {
                 }}
               />
             </View>
-            <Text
-              style={{
-                color: appColor.kTextColor,
-                fontSize: size.fontSize(20),
-                lineHeight: size.getHeightSize(24),
-                letterSpacing: 0.4,
-                fontFamily: "Outfit-Bold",
-                textAlign: "center",
-                marginLeft: size.getWidthSize(85),
-              }}
-            >
-              Community X
-            </Text>
+            <Text style={styles.communityName}>Community X</Text>
           </View>
 
           <View style={styles.row}>
             <ImageStack />
             <Text style={styles.text}>13K members</Text>
           </View>
-          <CommunityTab />
+          <CommunityTab views={[<ForCommunityPosts />, <AboutCommunity />]} />
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -99,7 +80,6 @@ const CommunityMainScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     backgroundColor: appColor.feedBackground,
   },
   row: {
@@ -116,6 +96,21 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontFamily: "Outfit-Regular",
     paddingLeft: size.getWidthSize(36),
+  },
+  view: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: size.getWidthSize(10),
+    marginTop: size.getHeightSize(6),
+  },
+  communityName: {
+    color: appColor.kTextColor,
+    fontSize: size.fontSize(20),
+    lineHeight: size.getHeightSize(24),
+    letterSpacing: 0.4,
+    fontFamily: "Outfit-Bold",
+    textAlign: "center",
+    marginLeft: size.getWidthSize(85),
   },
 });
 

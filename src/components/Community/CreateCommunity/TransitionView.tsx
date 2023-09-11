@@ -6,58 +6,63 @@ import {
   Pressable,
   FlatList,
   Animated,
-} from "react-native";
-import React, { useState, useContext, useRef } from "react";
-import { appColor } from "../../../constants";
-import { sizes } from "../../../utils";
-const { height, width } = Dimensions.get("window");
+} from 'react-native';
+import React, { useState, useContext, useRef } from 'react';
+import { appColor } from '../../../constants';
+import { sizes } from '../../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import SelectedAssetBottomsheet from "./SelectedAssetBottomsheet";
-import ChooseNFTBottomsheet from "./ChooseNFTBottomsheet";
-import { useNavigation } from "@react-navigation/native";
-import { SetCommunityContext } from "../../../context/SetUpCommunityContext";
-import RemoveAssetBottomSheet from "./RemoveAssetBottomSheet";
-import AssetBottomSheet from "./AssetBottomSheet";
-import ChooseNFTPFPBottomSheet from "../../../shared/UpdatePFP/ChooseNFTPFPBottomSheet";
-import UploadImageBottomSheet from "../../../shared/UpdatePFP/UploadImageBottomSheet";
-import SelectedCollectionBottomSheet from "../../../shared/UpdatePFP/SelectedCollectionBottomSheet";
-import ViewNFT from "./ViewNFT";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import SelectedAssetBottomsheet from './SelectedAssetBottomsheet';
+import ChooseNFTBottomsheet from './ChooseNFTBottomsheet';
+import { useNavigation } from '@react-navigation/native';
+import { SetCommunityContext } from '../../../context/SetUpCommunityContext';
+import RemoveAssetBottomSheet from './RemoveAssetBottomSheet';
+import AssetBottomSheet from './AssetBottomSheet';
+import ChooseNFTPFPBottomSheet from '../../../shared/UpdatePFP/ChooseNFTPFPBottomSheet';
+import UploadImageBottomSheet from '../../../shared/UpdatePFP/UploadImageBottomSheet';
+import SelectedCollectionBottomSheet from '../../../shared/UpdatePFP/SelectedCollectionBottomSheet';
+import ViewNFT from './ViewNFT';
 
 let PADDING = size.getWidthSize(26);
 let newWidth = width - 2 * PADDING;
 
 const TransitionView = () => {
   const navigation = useNavigation();
-  const { communityDetails, views } = useContext(SetCommunityContext);
+  const { communityDetails, views, setSelectedAssetBottomSheetVisibility } =
+    useContext(SetCommunityContext);
   const [viewIndex, setViewIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList<any>>(null);
-  const onViewChangeRef = useRef(({ viewableItems }: any) => {
-    setViewIndex(viewableItems[0]?.index);
-  });
+  // const onViewChangeRef = useRef(({ viewableItems }: any) => {
+  //   console.log(`======${viewableItems[0]?.index}============`)
+  //   setViewIndex(viewableItems[0]?.index);
+  // });
   const [isNftBottomSheetVisible, setIsNftBottomSheetVisible] = useState(false);
   const [viewNFTVisible, setViewNftVisibility] = useState(false);
-  const [selectedAssetVisibility, setSelectedAssetBottomSheet] =
-    useState(false);
+
   const handleNextSlide = () => {
-    if (viewIndex === 3 && communityDetails.asset === "NFT") {
+    if (viewIndex === 3 && communityDetails.asset === 'NFT') {
       setIsNftBottomSheetVisible(true);
-    } else if (viewIndex === 4 && communityDetails.asset === "Crypto_asset") {
-      setSelectedAssetBottomSheet(true);
+    } else if (viewIndex === 4 && communityDetails.asset === 'Crypto_asset') {
+      setSelectedAssetBottomSheetVisibility(true);
+    } else if (viewIndex === 2 && communityDetails.gate === 'nongated') {
+      navigation.navigate('CreateCommunitySuccessScreen');
     } else {
       handleSlide();
     }
   };
   const handleSlide = () => {
+    setViewIndex((previous) => previous + 1);
     const newIndex = viewIndex + 1;
     if (newIndex < views.length && flatListRef.current) {
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
     } else {
-      navigation.navigate("CreateCommunitySuccessScreen");
+      navigation.navigate('CreateCommunitySuccessScreen');
     }
   };
   const handlePreviousSlide = () => {
+    setViewIndex((previous) => previous - 1);
     const newIndex = viewIndex - 1;
     if (newIndex >= 0 && flatListRef.current) {
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
@@ -79,28 +84,28 @@ const TransitionView = () => {
   const progressWidth = stagePosition.interpolate({
     inputRange: Array.from({ length: views.length }, (_, index) => index),
     outputRange: distributeRange(newWidth, views.length),
-    extrapolate: "clamp",
+    extrapolate: 'clamp',
   });
   let stageTitle = (index: number) => {
     switch (index) {
       case 0:
-        return "Select Socials";
+        return 'Select Socials';
       case 1:
-        return "Select Socials";
+        return 'Select Socials';
       case 2:
-        return "Select Socials";
+        return 'Select Socials';
       case 3:
-        return "Select Socials";
+        return 'Select Socials';
       case 4:
-        return "Select Socials";
+        return 'Select Socials';
       case 5:
-        return "Select Socials";
+        return 'Select Socials';
       case 6:
-        return "Select Socials";
+        return 'Select Socials';
       case 7:
-        return "Select Socials";
+        return 'Select Socials';
       default:
-        return "Select Socials";
+        return 'Select Socials';
     }
   };
 
@@ -123,7 +128,7 @@ const TransitionView = () => {
     case 4:
       disableContinueButon =
         viewIndex === 4 &&
-        communityDetails.cryptoAssetAmountType === "specified_amount" &&
+        communityDetails.cryptoAssetAmountType === 'specified_amount' &&
         !communityDetails.selectedCryptoAsset.amount;
       break;
     case 5:
@@ -131,6 +136,8 @@ const TransitionView = () => {
       break;
     case 6:
       disableContinueButon = true;
+      break;
+    default:
       break;
   }
 
@@ -146,7 +153,7 @@ const TransitionView = () => {
           style={{
             color: appColor.kTextColor,
             marginBottom: size.getHeightSize(8),
-            fontFamily: "Outfit-Regular",
+            fontFamily: 'Outfit-Regular',
             fontSize: size.fontSize(14),
             lineHeight: size.getHeightSize(18),
             width: size.getWidthSize(257),
@@ -182,7 +189,7 @@ const TransitionView = () => {
             style={{
               flex: 1,
               width: width,
-              alignItems: "center",
+              alignItems: 'center',
             }}
           >
             <FlatList
@@ -195,7 +202,7 @@ const TransitionView = () => {
               snapToAlignment="center"
               showsHorizontalScrollIndicator={false}
               bounces={false}
-              onViewableItemsChanged={onViewChangeRef.current}
+              // onViewableItemsChanged={onViewChangeRef.current}
               onScroll={Animated.event(
                 [{ nativeEvent: { contentOffset: { x: scrollX } } }],
                 { useNativeDriver: false }
@@ -218,7 +225,7 @@ const TransitionView = () => {
 
           <View>
             <Pressable
-              disabled={disableContinueButon}
+              // disabled={disableContinueButon}
               onPress={() => {
                 handleNextSlide();
               }}
@@ -226,7 +233,7 @@ const TransitionView = () => {
                 styles.continueButton,
                 {
                   backgroundColor: disableContinueButon
-                    ? "#FFFFFF60"
+                    ? '#FFFFFF60'
                     : appColor.kWhiteColor,
                 },
               ]}
@@ -235,12 +242,16 @@ const TransitionView = () => {
             </Pressable>
             <View style={styles.backButton}>
               <Text
-                onPress={() => handlePreviousSlide()}
+                onPress={() => {
+                  viewIndex === 4 && communityDetails.asset === 'Crypto_asset'
+                    ? handleSlide()
+                    : handlePreviousSlide();
+                }}
                 style={styles.backText}
               >
-                {viewIndex === 4 && communityDetails.asset === "Crypto_asset"
+                {viewIndex === 4 && communityDetails.asset === 'Crypto_asset'
                   ? "I'll do it later"
-                  : "Back"}
+                  : 'Back'}
               </Text>
             </View>
           </View>
@@ -249,11 +260,10 @@ const TransitionView = () => {
       <UploadImageBottomSheet context={SetCommunityContext} />
       <ChooseNFTPFPBottomSheet context={SetCommunityContext} />
       <SelectedCollectionBottomSheet context={SetCommunityContext} />
-      <AssetBottomSheet />
+      <AssetBottomSheet context={SetCommunityContext} />
       <RemoveAssetBottomSheet />
       <SelectedAssetBottomsheet
-        visibility={selectedAssetVisibility}
-        onclose={() => setSelectedAssetBottomSheet(false)}
+        context={SetCommunityContext}
         onContinuewButtonPressed={() => {
           handleSlide();
         }}
@@ -267,13 +277,14 @@ const TransitionView = () => {
         visible={isNftBottomSheetVisible}
       />
       <ViewNFT
+        onBackButtonPressed={() => {
+          setIsNftBottomSheetVisible(true);
+        }}
         visibility={viewNFTVisible}
         onclose={() => {
           setViewNftVisibility(false);
         }}
-        onContinueButtonPressed={() => {
-          handleSlide();
-        }}
+        callBack={handleSlide}
       />
     </>
   );
@@ -282,41 +293,41 @@ const TransitionView = () => {
 export default TransitionView;
 const styles = StyleSheet.create({
   backText: {
-    fontStyle: "normal",
-    textAlign: "center",
+    fontStyle: 'normal',
+    textAlign: 'center',
     color: appColor.kTextColor,
     fontSize: size.fontSize(18),
-    fontFamily: "Outfit-Medium",
+    fontFamily: 'Outfit-Medium',
 
     lineHeight: size.getHeightSize(23),
     letterSpacing: 0.02,
   },
   backButton: {
-    alignSelf: "center",
+    alignSelf: 'center',
     width: size.getWidthSize(328),
     borderRadius: 40,
     minHeight: size.getHeightSize(48),
-    justifyContent: "center",
+    justifyContent: 'center',
     marginTop: size.getHeightSize(8),
     marginBottom: size.getHeightSize(16),
     paddingVertical: size.getHeightSize(12.5),
   },
   continueButton: {
-    alignSelf: "center",
+    alignSelf: 'center',
     width: size.getWidthSize(328),
     borderRadius: 40,
     minHeight: size.getHeightSize(48),
-    justifyContent: "center",
+    justifyContent: 'center',
 
     paddingVertical: size.getHeightSize(12.5),
     marginBottom: size.getHeightSize(8),
   },
   continueText: {
-    textAlign: "center",
+    textAlign: 'center',
     color: appColor.kButtonTextColor,
     fontSize: size.fontSize(18),
-    fontFamily: "Outfit-Medium",
-    fontStyle: "normal",
+    fontFamily: 'Outfit-Medium',
+    fontStyle: 'normal',
     lineHeight: size.getHeightSize(23),
     letterSpacing: 0.02,
   },

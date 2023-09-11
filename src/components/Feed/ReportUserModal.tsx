@@ -40,7 +40,7 @@ const ReportUserModal = () => {
   useEffect(() => {
     const handleBackButton = () => {
       if (reportUserModal === true) {
-        console.log('herererer');
+        
         dispatch(updateReportUserModal(false));
         return true;
       } else {

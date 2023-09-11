@@ -5,42 +5,67 @@ import {
   StyleSheet,
   BackHandler,
   Pressable,
-} from "react-native";
+  Image,
+} from 'react-native';
 import React, {
   useCallback,
   useMemo,
   useRef,
   useEffect,
   useContext,
-} from "react";
+} from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
-} from "@gorhom/bottom-sheet";
-import AptosIcon from "../../../../assets/images/svg/AptosIcon";
-import CustomHandler from "../../Feed/CustomHandler";
-import { SetCommunityContext } from "../../../context/SetUpCommunityContext";
-import InfoIcon from "../../../../assets/images/svg/InfoIcon";
-import { appColor } from "../../../constants";
-import { sizes } from "../../../utils";
-const { height, width } = Dimensions.get("window");
+} from '@gorhom/bottom-sheet';
+import TheterIcon from '../../../../assets/images/svg/ThetherIcon';
+import AptosIcon from '../../../../assets/images/svg/AptosIcon';
+import CustomHandler from '../../Feed/CustomHandler';
+import { CommunityDetailsType } from '../../../context/SetUpCommunityContext';
+import InfoIcon from '../../../../assets/images/svg/InfoIcon';
+import { appColor, images } from '../../../constants';
+import { sizes } from '../../../utils';
+import { useNavigation } from '@react-navigation/native';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-interface Props {
-  visibility: boolean;
-  onclose: () => void;
 
-  onContinuewButtonPressed: () => void;
+type TokenGateSettingsCompleteParams = {
+  TokenGateSettingsComplete: {
+    nftImageUri: string;
+    type: 'NFT' | 'crypto_asset';
+    amount?: string;
+    name?: string;
+  };
+};
+type ContextType<T> = React.Context<T | undefined>;
+interface Props<T> {
+  context: ContextType<T>;
+  navigateTo?: keyof TokenGateSettingsCompleteParams;
+  onContinuewButtonPressed?: () => void;
+  communityAssetType?: 'NFT' | 'crypto_asset';
 }
-const SelectedAssetBottomsheet = ({
-  visibility,
-  onclose,
+type SelectedAssetBottomSheetContextType = {
+  selectedAssetBottomSheetVisibility: boolean;
+  setSelectedAssetBottomSheetVisibility: (state: boolean) => void;
+  communityDetails: CommunityDetailsType;
+};
 
+const SelectedAssetBottomsheet = <T,>({
+  context,
   onContinuewButtonPressed,
-}: Props) => {
-  const { communityDetails } = useContext(SetCommunityContext);
+  navigateTo,
+  communityAssetType,
+}: Props<T>) => {
+  const {
+    selectedAssetBottomSheetVisibility,
+    setSelectedAssetBottomSheetVisibility,
+    communityDetails,
+  } = useContext(context) as SelectedAssetBottomSheetContextType;
+  const navigation = useNavigation();
+
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const initialSnapPoints = useMemo(() => ["CONTENT_HEIGHT"], []);
+  const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
   const {
     animatedHandleHeight,
     animatedSnapPoints,
@@ -51,7 +76,7 @@ const SelectedAssetBottomsheet = ({
     (props: any) => (
       <BottomSheetBackdrop
         {...props}
-        pressBehavior={"close"}
+        pressBehavior={'close'}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
         opacity={0.5}
@@ -61,27 +86,27 @@ const SelectedAssetBottomsheet = ({
   );
   useEffect(() => {
     const handleBackButton = () => {
-      if (visibility === true) {
-        onclose();
+      if (selectedAssetBottomSheetVisibility === true) {
+        setSelectedAssetBottomSheetVisibility(false);
         return true;
       } else {
         return false;
       }
     };
-    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     return () => {
-      BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
-  }, [visibility]);
+  }, [selectedAssetBottomSheetVisibility]);
 
   return (
     <>
-      {!visibility ? (
+      {!selectedAssetBottomSheetVisibility ? (
         <></>
       ) : (
         <BottomSheet
           onClose={() => {
-            onclose();
+            setSelectedAssetBottomSheetVisibility(false);
           }}
           ref={bottomSheetRef}
           snapPoints={animatedSnapPoints}
@@ -102,72 +127,67 @@ const SelectedAssetBottomsheet = ({
             onLayout={handleContentLayout}
           >
             <Text style={styles.title}>Aptos APT</Text>
-            <AptosIcon
-              size={size.getHeightSize(130)}
-              style={{
-                alignSelf: "center",
-                marginTop: size.heightSize(32),
-              }}
-            />
+            {communityAssetType === 'crypto_asset' ? (
+              <TheterIcon
+                size={size.getHeightSize(130)}
+                style={{
+                  alignSelf: 'center',
+                  marginTop: size.heightSize(32),
+                }}
+              />
+            ) : (
+              <AptosIcon
+                size={size.getHeightSize(130)}
+                style={{
+                  alignSelf: 'center',
+                  marginTop: size.heightSize(32),
+                }}
+              />
+            )}
             <Text
               style={{
                 fontSize: size.fontSize(16),
                 lineHeight: size.getHeightSize(21),
                 color: appColor.grayLight,
-                fontFamily: "Outfit-Regular",
-                textAlign: "center",
+                fontFamily: 'Outfit-Regular',
+                textAlign: 'center',
                 marginTop: size.getHeightSize(32),
               }}
             >
-              New members will need to hold{" "}
+              New members will need to hold{' '}
               <Text
                 style={{
-                  fontFamily: "Outfit-Bold",
+                  fontFamily: 'Outfit-Bold',
                   color: appColor.kTextColor,
                 }}
               >
                 {communityDetails.selectedCryptoAsset.amount
                   ? communityDetails.selectedCryptoAsset.amount
-                  : "ANY AMOUNT"}
-              </Text>{" "}
+                  : 'ANY AMOUNT'}
+              </Text>{' '}
               of
               <Text
                 style={{
-                  fontFamily: "Outfit-Bold",
+                  fontFamily: 'Outfit-Bold',
                   color: appColor.kTextColor,
                 }}
               >
-                {" "}
-                APT{" "}
+                {' '}
+                {communityDetails.selectedCryptoAsset.name
+                  ? communityDetails.selectedCryptoAsset.name
+                  : 'APT'}{' '}
               </Text>
               to be able to join the community
             </Text>
-            {/* <View
-              style={{
-                alignSelf: 'center',
-                marginTop: size.getHeightSize(32),
-                height: size.getHeightSize(210),
-                width: size.getWidthSize(206),
-              }}
-            >
-              <Image
-                source={{ uri: Image.resolveAssetSource(images.aptos).uri }}
-                resizeMode="cover"
-                style={{
-                  height: '100%',
-                  width: '100%',
-                  borderRadius: 6,
-                }}
-              />
-            </View> */}
+
             <View
               style={{
                 marginTop: size.getHeightSize(44.75),
-                flexDirection: "row",
+                flexDirection: 'row',
                 paddingHorizontal: size.getWidthSize(16),
                 paddingVertical: size.getWidthSize(16),
                 gap: size.getWidthSize(16),
-                alignItems: "flex-start",
+                alignItems: 'flex-start',
                 borderRadius: 8,
                 borderWidth: 1,
                 borderColor: appColor.grayLight,
@@ -179,14 +199,13 @@ const SelectedAssetBottomsheet = ({
                   fontSize: size.fontSize(16),
                   lineHeight: size.getHeightSize(21),
                   color: appColor.kTextColor,
-
-                  fontFamily: "Outfit-Regular",
+                  fontFamily: 'Outfit-Regular',
                   flex: 1,
                 }}
               >
                 By continuing, you'll create a token-gated community, granting
-                entry only to holders of{" "}
-                <Text style={{ fontFamily: "Outfit-Bold" }}>[Token name] </Text>
+                entry only to holders of{' '}
+                <Text style={{ fontFamily: 'Outfit-Bold' }}>[Token name] </Text>
               </Text>
             </View>
             <View
@@ -197,15 +216,28 @@ const SelectedAssetBottomsheet = ({
             >
               <Pressable
                 onPress={() => {
-                  onclose();
-                  onContinuewButtonPressed();
+                  setSelectedAssetBottomSheetVisibility(false);
+                  onContinuewButtonPressed && onContinuewButtonPressed();
+                  navigateTo &&
+                    navigation.navigate(navigateTo, {
+                      asset: {
+                        nftImageUri: Image.resolveAssetSource(images.theter)
+                          .uri,
+                        type: communityAssetType,
+                        amount: communityDetails.selectedCryptoAsset.amount
+                          ? communityDetails.selectedCryptoAsset.amount
+                          : undefined,
+                        name: communityDetails.selectedCryptoAsset.name,
+                        coinId: communityDetails.selectedCryptoAsset.coinId,
+                      },
+                    });
                 }}
                 style={{
-                  alignSelf: "center",
+                  alignSelf: 'center',
                   width: size.getWidthSize(328),
                   borderRadius: 40,
                   minHeight: size.getHeightSize(48),
-                  justifyContent: "center",
+                  justifyContent: 'center',
                   marginTop: size.getHeightSize(8),
                   backgroundColor: appColor.kWhiteColor,
                   paddingVertical: size.getHeightSize(12.5),
@@ -213,10 +245,10 @@ const SelectedAssetBottomsheet = ({
               >
                 <Text
                   style={{
-                    textAlign: "center",
+                    textAlign: 'center',
                     color: appColor.kButtonTextColor,
                     fontSize: size.fontSize(18),
-                    fontFamily: "Outfit-SemiBold",
+                    fontFamily: 'Outfit-SemiBold',
                     lineHeight: size.getHeightSize(23),
 
                     letterSpacing: 0.01,
@@ -228,7 +260,7 @@ const SelectedAssetBottomsheet = ({
               <View style={styles.backButton}>
                 <Text
                   onPress={() => {
-                    onclose();
+                    setSelectedAssetBottomSheetVisibility(false);
                   }}
                   style={styles.back}
                 >
@@ -247,28 +279,28 @@ export default SelectedAssetBottomsheet;
 const styles = StyleSheet.create({
   container: {
     marginTop: size.heightSize(36),
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: size.getWidthSize(8),
 
-    alignItems: "center",
+    alignItems: 'center',
   },
   text: {
     fontSize: size.fontSize(18),
     lineHeight: size.getHeightSize(23),
     color: appColor.kTextColor,
     letterSpacing: 0.36,
-    fontFamily: "Outfit-Medium",
+    fontFamily: 'Outfit-Medium',
   },
   title: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(29),
-    fontFamily: "Outfit-Bold",
-    textAlign: "center",
+    fontFamily: 'Outfit-Bold',
+    textAlign: 'center',
     marginTop: size.getHeightSize(29),
     lineHeight: size.getHeightSize(37),
   },
   backButton: {
-    justifyContent: "center",
+    justifyContent: 'center',
     height: size.getHeightSize(48),
     marginTop: size.getHeightSize(8),
     paddingVertical: size.getHeightSize(12.5),
@@ -277,8 +309,8 @@ const styles = StyleSheet.create({
   back: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(18),
-    fontFamily: "Outfit-SemiBold",
-    textAlign: "center",
+    fontFamily: 'Outfit-SemiBold',
+    textAlign: 'center',
     lineHeight: size.getHeightSize(23),
   },
 });

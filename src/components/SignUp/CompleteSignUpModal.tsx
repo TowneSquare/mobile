@@ -1,41 +1,30 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  BackHandler,
-} from 'react-native';
-import {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  useMemo,
-} from 'react';
-import BackButton from './BackButton';
-import ContinueButton from './ContinueButton';
-import Customhandler from './Customhandler';
-import * as Animatable from 'react-native-animatable';
+import { View, Text, Dimensions, BackHandler } from "react-native";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import BackButton from "./BackButton";
+import ContinueButton from "./ContinueButton";
+import Customhandler from "./Customhandler";
+import * as Animatable from "react-native-animatable";
 import {
   updateRenderCount,
   updateBottomSheet,
-} from '../../controller/BottomSheetController';
-import Info from '../../../assets/images/svg/Info';
-import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
-import { sizes } from '../../utils';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
+} from "../../controller/BottomSheetController";
+import Info from "../../../assets/images/svg/Info";
+import { useFonts } from "expo-font";
+import { appColor, fonts } from "../../constants";
+import { sizes } from "../../utils";
+import { useAppSelector, useAppDispatch } from "../../controller/hooks";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
-} from '@gorhom/bottom-sheet';
-const { height, width } = Dimensions.get('window');
+} from "@gorhom/bottom-sheet";
+const { height, width } = Dimensions.get("window");
 const CompleteSignUpModal = () => {
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const size = new sizes(height, width);
-  const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
+  const initialSnapPoints = useMemo(() => ["CONTENT_HEIGHT"], []);
   const isVisible = useAppSelector(
     (state) => state.bottomSheetController.isBottomSheetOpen
   );
@@ -65,9 +54,9 @@ const CompleteSignUpModal = () => {
         return false;
       }
     };
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
     return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+      BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
     };
   }, [isVisible]);
   const {
@@ -77,16 +66,16 @@ const CompleteSignUpModal = () => {
     handleContentLayout,
   } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
 
   const renderBackdrop = useCallback(
     (props: any) => (
       <BottomSheetBackdrop
         {...props}
-        pressBehavior={'close'}
+        pressBehavior={"close"}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
         opacity={0.5}
@@ -118,20 +107,20 @@ const CompleteSignUpModal = () => {
         >
           <BottomSheetView onLayout={handleContentLayout}>
             <Animatable.View
-              animation={'fadeInUp'}
+              animation={"fadeInUp"}
               delay={300}
-              easing={'ease-in-out'}
+              easing={"ease-in-out"}
               duration={400}
               style={{}}
             >
               <Text
                 style={{
-                  textAlign: 'center',
+                  textAlign: "center",
                   color: appColor.kTextColor,
-                  fontFamily: 'Outfit-Bold',
+                  fontFamily: "Outfit-Bold",
                   fontSize: size.fontSize(29),
                   marginTop: size.getHeightSize(48),
-                  fontStyle: 'normal',
+                  fontStyle: "normal",
                   lineHeight: size.getHeightSize(37),
                 }}
               >
@@ -139,14 +128,14 @@ const CompleteSignUpModal = () => {
               </Text>
               <Text
                 style={{
-                  textAlign: 'center',
+                  textAlign: "center",
                   color: appColor.kTextColor,
-                  fontFamily: 'Outfit-Medium',
+                  fontFamily: "Outfit-Medium",
                   marginTop: size.getHeightSize(16),
                   fontSize: size.fontSize(16),
                   marginHorizontal: size.getWidthSize(16),
                   lineHeight: size.getHeightSize(21),
-                  fontStyle: 'normal',
+                  fontStyle: "normal",
                 }}
               >
                 Connecting your wallet allows you to perform transactions by
@@ -161,8 +150,8 @@ const CompleteSignUpModal = () => {
                   // height: size.getHeightSize(95),
                   width: size.getWidthSize(328),
                   backgroundColor: appColor.kGrayLight3,
-                  alignSelf: 'center',
-                  flexDirection: 'row',
+                  alignSelf: "center",
+                  flexDirection: "row",
                   borderRadius: 8,
                   marginTop: size.getHeightSize(24),
                   marginHorizontal: size.getWidthSize(16),
@@ -179,10 +168,10 @@ const CompleteSignUpModal = () => {
                     style={{
                       fontSize: size.fontSize(16),
                       color: appColor.kTextColor,
-                      textAlign: 'left',
+                      textAlign: "left",
                       paddingLeft: size.getWidthSize(10),
                       lineHeight: size.getHeightSize(21),
-                      fontFamily: 'Outfit-Regular',
+                      fontFamily: "Outfit-Regular",
                     }}
                   >
                     TowneSquare will not be able to make any changes to your

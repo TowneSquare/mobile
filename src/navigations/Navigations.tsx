@@ -1,45 +1,60 @@
 import {
   createStackNavigator,
   CardStyleInterpolators,
-} from "@react-navigation/stack";
-import { Easing, Animated } from "react-native";
-import { RootStackParamList } from "./NavigationTypes";
-import BottomTabNavigation from "./BottomTabNavigation";
-import SignUp from "../screens/SignUp/SignUp";
-import DrawerNavigation from "./DrawerNavigation";
-import ProfileFollowersTab from "./ProfileFollowersTab";
-import FirstScreen from "../screens/SignUp/FirstScreen";
-import EmailLogin from "../screens/SignUp/EmailLogin";
-import Notifications from "../screens/Feed/Notifications";
-import ViewImageScreen from "../screens/Feed/ViewImageScreen";
-import VideoPlayer from "../screens/Feed/VideoPlayer";
-import SinglePost from "../screens/Feed/SinglePost";
-import SuperStarCollectionScreen from "../screens/Profile/SuperStarCollectionScreen";
-import CreatePost from "../screens/Feed/CreatePost";
-import NftCollectionScreen from "../screens/Feed/NftCollectionScreen";
-import SelectedCollectionScreen from "../screens/Feed/SelectedCollectionScreen";
-import EditProfileScreen from "../screens/Profile/EditProfileScreen";
-import TheirProfileScreen from "../screens/Profile/TheirProfileScreen";
-import SearchScreen from "../screens/SearchPost/SearchScreen";
-import SearchPostTab from "./SearchPostTabBar";
-import SelectedSuperStarCollectionScreen from "../screens/Profile/SelectedSuperStarCollectionScreen";
-import FollowersScreen from "../screens/Profile/FollowersScreen";
-import Congratulations from "../screens/SignUp/Congratulations";
-import ChooseWallet from "../screens/SignUp/ChooseWallet";
-import CreateCommunityScreen from "../screens/Community/CreateCommunity/CreateCommunityScreen";
-import CommunitySetupScreen from "../screens/Community/CreateCommunity/CommunitySetupScreen";
-import VerifyCommunityScreen from "../screens/Community/Community/VerifyCommunityScreen";
-import InviteMembersScreen from "../screens/Community/Community/InviteMembersScreen";
-import AddAdminsScreen from "../screens/Community/Community/AddAdminsScreen";
-import CommunityScreen from "../screens/Community/Community/CommunityScreen";
-import CreateChannelScreen from "../screens/Community/Community/CreateChannelScreen";
-import CreateCommunity1 from "../screens/Community/CreateCommunity/CreateCommunity1";
-import CreateCommunitySuccessScreen from "../screens/Community/CreateCommunity/CreateCommunitySuccessScreen";
-import CommunityInfoScreen from "../screens/Community/JoinComm/CommunityInfoScreen";
-import CommunityMainScreen from "../screens/Community/JoinComm/CommunityMainScreen";
-import CommunityWelcomeScreen from "../screens/Community/JoinComm/CommunityWelcomeScreen";
-import PinnedPostsScreen from "../screens/Community/JoinComm/PinnedPostsScreen";
-
+} from '@react-navigation/stack';
+import { Easing, Animated } from 'react-native';
+import { RootStackParamList } from './NavigationTypes';
+import BottomTabNavigation from './BottomTabNavigation';
+import SignUp from '../screens/SignUp/SignUp';
+import DrawerNavigation from './DrawerNavigation';
+import ProfileFollowersTab from './ProfileFollowersTab';
+import FirstScreen from '../screens/SignUp/FirstScreen';
+import EmailLogin from '../screens/SignUp/EmailLogin';
+import Notifications from '../screens/Feed/Notifications';
+import ViewImageScreen from '../screens/Feed/ViewImageScreen';
+import VideoPlayer from '../screens/Feed/VideoPlayer';
+import SinglePost from '../screens/Feed/SinglePost';
+import SuperStarCollectionScreen from '../screens/Profile/SuperStarCollectionScreen';
+import CreatePost from '../screens/Feed/CreatePost';
+import NftCollectionScreen from '../screens/Feed/NftCollectionScreen';
+import SelectedCollectionScreen from '../screens/Feed/SelectedCollectionScreen';
+import EditProfileScreen from '../screens/Profile/EditProfileScreen';
+import TheirProfileScreen from '../screens/Profile/TheirProfileScreen';
+import SearchScreen from '../screens/SearchPost/SearchScreen';
+import SearchPostTab from './SearchPostTabBar';
+import SelectedSuperStarCollectionScreen from '../screens/Profile/SelectedSuperStarCollectionScreen';
+import FollowersScreen from '../screens/Profile/FollowersScreen';
+import Congratulations from '../screens/SignUp/Congratulations';
+import ChooseWallet from '../screens/SignUp/ChooseWallet';
+import CreateCommunityScreen from '../screens/Community/CreateCommunity/CreateCommunityScreen';
+import CommunitySetupScreen from '../screens/Community/CreateCommunity/CommunitySetupScreen';
+import VerifyCommunityScreen from '../screens/Community/Community/VerifyCommunityScreen';
+import InviteMembersScreen from '../screens/Community/Community/InviteMembersScreen';
+import AddAdminsScreen from '../screens/Community/Community/AddAdminsScreen';
+import CommunityScreen from '../screens/Community/Community/CommunityScreen';
+import CreateChannelScreen from '../screens/Community/Community/CreateChannelScreen';
+import CreateCommunity1 from '../screens/Community/CreateCommunity/CreateCommunity1';
+import CreateCommunitySuccessScreen from '../screens/Community/CreateCommunity/CreateCommunitySuccessScreen';
+import CommunityInfoScreen from '../screens/Community/JoinComm/CommunityInfoScreen';
+import CommunityMainScreen from '../screens/Community/JoinComm/CommunityMainScreen';
+import CommunityWelcomeScreen from '../screens/Community/JoinComm/CommunityWelcomeScreen';
+import PinnedPostsScreen from '../screens/Community/JoinComm/PinnedPostsScreen';
+import ExploreCommunityScreen from '../screens/Community/ExploreCommunity/ExploreCommunityScreen';
+import CommunitySettings from '../screens/Community/Settings/CommunitySettings';
+import GeneralSettings from '../screens/Community/Settings/GeneralSettings';
+import CommunityPrivacy from '../screens/Community/Settings/CommunityPrivacy';
+import TokenGateSettings from '../screens/Community/Settings/TokenGateSettings';
+import CommunityAssetSettings from '../screens/Community/Settings/CommunityAssetSettings';
+import TokenGateSettingsComplete from '../screens/Community/Settings/TokenGateSettingsComplete';
+import CryptoAssetSettings from '../screens/Community/Settings/CryptoAssetSettings';
+import AddMembers from '../screens/Community/Settings/AddMembers';
+import MemberRole from '../screens/Community/Settings/MemberRole';
+import Roles from '../screens/Community/Settings/Roles';
+import NewRole from '../screens/Community/Settings/NewRole';
+import Permissions from '../screens/Community/Settings/Permissions';
+import AddMember from '../screens/Community/Settings/AddMember';
+import NotificationSettings from '../screens/Community/Settings/NotificationSettings';
+import ViewRoles from '../screens/Community/Settings/VIewRoles';
 const Navigations = ({ magicProps }: { magicProps: any }) => {
   const Stack = createStackNavigator<RootStackParamList>();
   const config = {
@@ -52,7 +67,7 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
   };
 
   const closeconfig = {
-    animation: "timing",
+    animation: 'timing',
     config: {
       duration: 200,
       easing: Easing.linear,
@@ -73,7 +88,6 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
       <Stack.Screen name="FirstScreen" options={{ headerShown: false }}>
         {() => <FirstScreen {...magicProps} />}
       </Stack.Screen>
-
       {/* {screens.map((screen) => (
         <Stack.Screen
           name={screen.name as any}
@@ -81,7 +95,6 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           options={screen.options}
         ></Stack.Screen>
       ))} */}
-
       <Stack.Screen
         name="SignUp"
         component={SignUp}
@@ -96,11 +109,9 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-
       <Stack.Screen name="EmailLogin" options={{ headerShown: false }}>
         {() => <EmailLogin {...magicProps} />}
       </Stack.Screen>
-
       <Stack.Screen
         name="BottomTabNavigation"
         component={BottomTabNavigation}
@@ -115,7 +126,6 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-
       <Stack.Screen
         name="ViewImageScreen"
         component={ViewImageScreen}
@@ -158,7 +168,6 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-
       <Stack.Screen
         name="NftCollectionScreen"
         component={NftCollectionScreen}
@@ -166,7 +175,6 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-
       <Stack.Screen
         name="SearchScreen"
         component={SearchScreen}
@@ -230,7 +238,6 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-
       <Stack.Screen
         name="CreateCommunityScreen"
         component={CreateCommunityScreen}
@@ -274,7 +281,6 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-
       {/* Join Community */}
       <Stack.Screen
         name="CommunityInfoScreen"
@@ -304,7 +310,6 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-
       <Stack.Screen
         name="CreateCommunity1"
         component={CreateCommunity1}
@@ -319,10 +324,121 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-
       <Stack.Screen
         name="CommunityScreen"
         component={CommunityScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ExploreCommunityScreen"
+        component={ExploreCommunityScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CommunitySettings"
+        component={CommunitySettings}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="GeneralSettings"
+        component={GeneralSettings}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CommunityPrivacy"
+        component={CommunityPrivacy}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="TokenGateSettings"
+        component={TokenGateSettings}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CommunityAssetSettings"
+        component={CommunityAssetSettings}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="TokenGateSettingsComplete"
+        component={TokenGateSettingsComplete}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CryptoAssetSettings"
+        component={CryptoAssetSettings}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="AddMembers"
+        component={AddMembers}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="MemberRole"
+        component={MemberRole}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Roles"
+        component={Roles}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="NewRole"
+        component={NewRole}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Permissions"
+        component={Permissions}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="AddMember"
+        component={AddMember}
+        options={{
+          headerShown: false,
+        }}
+      />
+        <Stack.Screen
+        name="NotificationSettings"
+        component={NotificationSettings}
+        options={{
+          headerShown: false,
+        }}
+      />
+         <Stack.Screen
+        name="ViewRoles"
+        component={ViewRoles}
         options={{
           headerShown: false,
         }}

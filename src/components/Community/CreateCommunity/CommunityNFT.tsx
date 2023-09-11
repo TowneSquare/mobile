@@ -63,7 +63,7 @@ const CommunityNFT = () => {
             source={{ uri: Image.resolveAssetSource(images.siothian).uri }}
           />
         </View>
-        <Text style={styles.text}>SIOthian</Text>
+        <Text style={styles.text}>SIOthians</Text>
         <Text style={styles.leadingText}>
           Community is token-gated with SIOthian NFT's
         </Text>
