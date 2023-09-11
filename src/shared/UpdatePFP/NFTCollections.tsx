@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  Image,
-  Pressable,
-  Dimensions,
-} from 'react-native';
+import { View, Text, Image, Pressable, Dimensions } from 'react-native';
 import { useFonts } from 'expo-font';
 import { fonts, appColor } from '../../constants';
 const { height, width } = Dimensions.get('window');

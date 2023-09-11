@@ -12,7 +12,7 @@ const size = new sizes(height, width);
 interface Props {
   placeholder: string;
   marginTop?: number;
-  width?: string;
+  width?: string|number;
 }
 const SearchField = ({ placeholder, marginTop, width }: Props) => {
   return (
