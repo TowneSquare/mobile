@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  Pressable,
-} from 'react-native';
+import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
 import { useEffect } from 'react';
 import { sizes } from '../../utils';
 // import CToast from '../../shared/Feed/CToast';
@@ -29,15 +23,11 @@ import { updateReceiveModalState } from '../../controller/FeedsController';
 import ReportPostModal from '../../components/Feed/ReportPostModal';
 import ReportUserModal from '../../components/Feed/ReportUserModal';
 import BlockUserModal from '../../components/Feed/BlockUserModal';
-import { resetModals } from '../../controller/FeedsController';
+
 import { LinearProgress } from 'react-native-elements';
 import ToastInfoIcon from '../../../assets/images/svg/ToastInfoIcon';
 
-type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 const Main = () => {
-  useEffect(() => {
-    dispatch(resetModals());
-  }, []);
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
@@ -58,31 +48,7 @@ const Main = () => {
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
   };
-  const toastConfig = {
-    tomatoToast: ({ progressValue }) => (
-      <View style={styles.toastContainer}>
-        <View
-          style={[
-            styles.toastRow,
-            {
-              marginVertical: size.getHeightSize(16),
-              alignItems: 'center',
-            },
-          ]}
-        >
-          {<ToastInfoIcon />}
-          <Text style={styles.toastText}>{'hdhgdgdgdgdgd'}</Text>
-        </View>
 
-        <LinearProgress
-          color={'#2AB576'}
-          trackColor={appColor.kgrayDark2}
-          value={progressValue}
-          variant="determinate"
-        />
-      </View>
-    ),
-  };
   return (
     <SafeAreaView
       style={{
@@ -111,7 +77,10 @@ const Main = () => {
 
       <Pressable
         onPress={() =>
-          navigation.navigate('CreatePost' as any, { showToast: false })
+          navigation.navigate('CreatePost', {
+            showToast: false,
+            whichPost: 'singlePost',
+          })
         }
         style={styles.FAB}
       >

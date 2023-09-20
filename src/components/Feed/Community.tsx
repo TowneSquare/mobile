@@ -437,21 +437,21 @@ const Community: React.FC<Props> = memo(({ data }) => {
                   ${floorPriceContent.messageTag}
                 </Text>
               </Text>
-              <View style={styles.SwapContainer}>
-                <View style={styles.swapDescription}>
-                  <View style={styles.swapImageContainer}>
-                    <APTMonkey />
-                    <Text style={styles.swapLeadingText}>
-                      {floorPriceContent.collectionName}
-                    </Text>
-                  </View>
-                  <Text style={styles.floorPrice}>
-                    Floor price{' '}
-                    <Text style={styles.floorAmount}>
-                      {floorPriceContent.amount} APT
-                    </Text>
+              <View style={styles.floorPriceContainer}>
+                <Text style={[styles.floorPrice]}>
+                  Floor price{' '}
+                  <Text style={styles.floorAmount}>
+                    {floorPriceContent.amount} APT
                   </Text>
-                </View>
+                </Text>
+                <APTMonkey
+                  style={{
+                    marginRight: size.getWidthSize(4),
+                  }}
+                />
+                <Text numberOfLines={1} style={styles.swapLeadingText}>
+                  {floorPriceContent.collectionName}
+                </Text>
               </View>
               <PostActions
                 noOfComments={userPost.comments}

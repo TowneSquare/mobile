@@ -8,6 +8,7 @@ interface Props {
   disable?: boolean;
   callBack: () => void;
 }
+
 const ContinueButton = ({ callBack, disable }: Props) => {
   return (
     <Pressable

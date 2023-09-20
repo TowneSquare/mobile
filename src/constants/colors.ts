@@ -35,7 +35,6 @@ const colors = {
   grayDark: '#404040',
   primaryLight: '#B882FF',
   primary300: '#D6BBFB',
-
   blackColor: '#000000',
 };
 export const appColor = colors;

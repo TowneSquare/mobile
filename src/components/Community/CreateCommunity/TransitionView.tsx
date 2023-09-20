@@ -225,7 +225,7 @@ const TransitionView = () => {
 
           <View>
             <Pressable
-              // disabled={disableContinueButon}
+              disabled={disableContinueButon}
               onPress={() => {
                 handleNextSlide();
               }}

@@ -14,6 +14,7 @@ interface FeedController {
     position?: 'top' | 'bottom';
     alignItems?: 'center' | 'flex-start' | 'flex-end' | 'stretch' | 'baseline';
   };
+  currentTab: string;
 }
 const initialState: FeedController = {
   ReceiveModalState: false,
@@ -30,6 +31,7 @@ const initialState: FeedController = {
     position: 'top',
     alignItems: 'center',
   },
+  currentTab: 'feed',
 };
 export const FeedsSlice = createSlice({
   name: 'FeedsController',
@@ -92,6 +94,9 @@ export const FeedsSlice = createSlice({
       state.showToast.position = 'top';
       state.showToast.alignItems = 'center';
     },
+    updateCurrentTab: (state, action: PayloadAction<string>) => {
+      state.currentTab = action.payload;
+    },
   },
 });
 export const {
@@ -105,5 +110,6 @@ export const {
   resetModals,
   updateToast,
   resetToast,
+  updateCurrentTab,
 } = FeedsSlice.actions;
 export default FeedsSlice.reducer;

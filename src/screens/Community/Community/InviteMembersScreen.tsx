@@ -144,16 +144,19 @@ const InviteMembersScreen = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: appColor.kgrayDark2,
+          paddingHorizontal: size.getWidthSize(16),
+          paddingVertical: size.getHeightSize(16),
         }}
       >
         <Pressable
           disabled={disabledSendInvite}
           style={{
             backgroundColor: appColor.kSecondaryButtonColor,
-            width: 328,
-            paddingVertical: 16,
+            width: size.getWidthSize(328),
+            paddingVertical: size.getHeightSize(16),
             borderRadius: 40,
-            marginBottom: 8,
+            marginBottom: size.getHeightSize(8),
             opacity: INVITE_MEMBERS.length > 0 ? 1 : 0.5,
           }}
           onPress={() => {
@@ -171,11 +174,11 @@ const InviteMembersScreen = () => {
         >
           <Text
             style={{
-              color: appColor.kWhiteColor,
-              textAlign: "center",
-              fontFamily: "Outfit-SemiBold",
               fontSize: size.fontSize(18),
+              textAlign: "center",
+              fontFamily: "Outfit-Medium",
               fontWeight: "500",
+              color: appColor.kTextColor,
             }}
           >{`Send invite ${
             INVITE_MEMBERS.length > 0 ? INVITE_MEMBERS.length : ""
@@ -183,19 +186,19 @@ const InviteMembersScreen = () => {
         </Pressable>
         <Pressable
           style={{
-            backgroundColor: appColor.kWhiteColor,
-            width: 328,
-            paddingVertical: 16,
+            backgroundColor: appColor.kTextColor,
+            width: size.getWidthSize(328),
+            paddingVertical: size.getHeightSize(16),
             borderRadius: 40,
           }}
           onPress={onShare}
         >
           <Text
             style={{
-              color: appColor.feedBackground,
+              color: appColor.kGrayscaleDart,
               textAlign: "center",
-              fontFamily: "Outfit-Medium",
-              fontSize: 18,
+              fontFamily: "Outfit-Regular",
+              fontSize: size.fontSize(18),
               fontWeight: "500",
             }}
           >
@@ -238,6 +241,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingBottom: size.getHeightSize(4),
     paddingHorizontal: size.getWidthSize(4),
+    marginHorizontal:size.getWidthSize(16),
+    marginVertical:size.getHeightSize(16),
     justifyContent: "center",
   },
 });

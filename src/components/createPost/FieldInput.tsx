@@ -1,9 +1,4 @@
-import {
-  Text,
-  Dimensions,
-  StyleSheet,
-  TextInput,
-} from 'react-native';
+import { Text, Dimensions, StyleSheet, TextInput } from 'react-native';
 import { batch } from 'react-redux';
 import { useState, useRef, useEffect } from 'react';
 const { height, width } = Dimensions.get('window');
@@ -24,7 +19,10 @@ import {
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { sizes } from '../../utils';
 const size = new sizes(height, width);
-const FieldInput = () => {
+interface Props {
+  whichPost: 'communityPost' | 'singlePost';
+}
+const FieldInput = ({ whichPost }: Props) => {
   const textInputRef = useRef(null);
   const dispatch = useAppDispatch();
   const value = useAppSelector((state) => state.CreatePostController.inputText);
@@ -57,7 +55,18 @@ const FieldInput = () => {
             !/[ !#@$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n]/.test(word.substring(1)))
         ) {
           return (
-            <Text key={wordIndex} style={styles.mention}>
+            <Text
+              key={wordIndex}
+              style={[
+                styles.mention,
+                {
+                  color:
+                    whichPost === 'communityPost'
+                      ? appColor.kTextColor
+                      : appColor.primaryLight,
+                },
+              ]}
+            >
               {word + (wordIndex !== words.length - 1 ? ' ' : '')}
             </Text>
           );

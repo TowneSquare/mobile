@@ -12,6 +12,7 @@ import { LinkingOptions } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 import ToastWrapper from './src/shared/Feed/ToastWrapper';
 import { RootStackParamList } from './src/navigations/NavigationTypes';
+import CreateChannelBottomSheet from './src/components/DrawerContent/CreateChannelBottomSheet';
 
 const linking: LinkingOptions<RootStackParamList> = {
   prefixes: [Linking.createURL('/')],
@@ -39,13 +40,15 @@ export default function App() {
   };
 
   return (
-    <Provider store={store}>
-      <magic.Relayer />
-
-      <NavigationContainer linking={linking}>
-        <Navigations magicProps={magicProps} />
-      </NavigationContainer>
-      <ToastWrapper />
-    </Provider>
+   
+      <Provider store={store}>
+        <magic.Relayer />
+        <NavigationContainer linking={linking}>
+          <Navigations magicProps={magicProps} />
+          <CreateChannelBottomSheet />
+        </NavigationContainer>
+        <ToastWrapper />
+      </Provider>
+   
   );
 }

@@ -2,19 +2,18 @@ import { configureStore } from '@reduxjs/toolkit';
 import bottomSheetSlice from './BottomSheetController';
 import USER from './UserController';
 import FeedsSlice from './FeedsController';
-import FieldSlice from './createPost';
+import CreatePostSlice from './createPost';
 import SearcPostSlice from './SearchPost';
 import COMMUNITY from './CommunityController';
-import CommunitySettingsSlice from './CommunitySettings';
+
 export const store = configureStore({
   reducer: {
     bottomSheetController: bottomSheetSlice,
     USER,
     FeedsSliceController: FeedsSlice,
-    CreatePostController: FieldSlice,
+    CreatePostController: CreatePostSlice,
     SearchPostController: SearcPostSlice,
     COMMUNITY,
-    CommunitySettingsController: CommunitySettingsSlice,
   },
 });
 

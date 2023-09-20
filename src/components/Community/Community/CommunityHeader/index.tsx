@@ -1,8 +1,8 @@
-import React from "react";
-import { useNavigation } from "@react-navigation/native";
-import { useFonts } from "expo-font";
-import { fonts, appColor, images } from "../../../../constants";
-import { useAppDispatch } from "../../../../controller/hooks";
+import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
+import { fonts, appColor, images } from '../../../../constants';
+import { useAppDispatch } from '../../../../controller/hooks';
 import {
   Pressable,
   Dimensions,
@@ -10,12 +10,12 @@ import {
   StyleSheet,
   Text,
   Image,
-} from "react-native";
-import MoreIcons from "../../../../../assets/images/svg/MoreIcons";
-import AntDesign from "@expo/vector-icons/AntDesign";
+} from 'react-native';
+import MoreIcons from '../../../../../assets/images/svg/MoreIcons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
-const { height, width } = Dimensions.get("window");
-import { sizes } from "../../../../utils";
+const { height, width } = Dimensions.get('window');
+import { sizes } from '../../../../utils';
 
 const size = new sizes(height, width);
 
@@ -23,15 +23,15 @@ type CommunityHeaderProps = {
   title: string;
   description?: string;
   height?: number;
-  typeOfProfile: "myProfile" | "theirProfile";
+  typeOfProfile: 'myProfile' | 'theirProfile';
 };
 
 const CommunityHeader = ({ title, typeOfProfile }: CommunityHeaderProps) => {
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   const dispatch = useAppDispatch();
 
@@ -45,10 +45,10 @@ const CommunityHeader = ({ title, typeOfProfile }: CommunityHeaderProps) => {
 
   return (
     <View style={[styles.root, { height: size.getHeightSize(70) }]}>
-      {typeOfProfile === "myProfile" ? (
+      {typeOfProfile === 'myProfile' ? (
         <View
           style={{
-            position: "relative",
+            position: 'relative',
           }}
         >
           <Pressable>
@@ -81,30 +81,30 @@ const CommunityHeader = ({ title, typeOfProfile }: CommunityHeaderProps) => {
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: "#222222",
-    justifyContent: "space-between",
+    backgroundColor: '#222222',
+    justifyContent: 'space-between',
 
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: size.getWidthSize(16),
   },
   title: {
-    color: "white",
+    color: 'white',
     fontSize: 20,
-    textAlign: "center",
-    alignItems: "center",
-    fontFamily: "Outfit-Regular",
+    textAlign: 'center',
+    alignItems: 'center',
+    fontFamily: 'Outfit-Regular',
   },
   description: {
-    color: "white",
+    color: 'white',
     fontSize: 16,
-    textAlign: "center",
+    textAlign: 'center',
   },
   img: {
     height: 50,
     width: 50,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
