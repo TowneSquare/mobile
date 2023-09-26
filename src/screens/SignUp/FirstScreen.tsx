@@ -5,40 +5,40 @@ import {
   Dimensions,
   StyleSheet,
   Pressable,
-} from "react-native";
-import Twitter from "../../../assets/images/svg/Twitter";
-import { useFonts } from "expo-font";
-import Apple from "../../../assets/images/svg/Apple";
-import { appColor, fonts, images } from "../../constants";
-import { StatusBar } from "expo-status-bar";
-import { sizes } from "../../utils";
-import { useNavigation } from "@react-navigation/native";
-const { height, width } = Dimensions.get("window");
-import { FirstScreenProps } from "../../navigations/NavigationTypes";
-import Description from "../../../assets/images/svg/Description";
-import Discord from "../../../assets/images/svg/Discord";
-import Google from "../../../assets/images/svg/Google";
-import Mail from "../../../assets/images/svg/Mail";
-import Logo from "../../../assets/images/svg/Logo";
-import Description2 from "../../../assets/images/svg/Description2";
+} from 'react-native';
+import Twitter from '../../../assets/images/svg/Twitter';
+import { useFonts } from 'expo-font';
+import Apple from '../../../assets/images/svg/Apple';
+import { appColor, fonts, images } from '../../constants';
+import { StatusBar } from 'expo-status-bar';
+import { sizes } from '../../utils';
+import { useNavigation } from '@react-navigation/native';
+const { height, width } = Dimensions.get('window');
+import { FirstScreenProps } from '../../navigations/NavigationTypes';
+import Description from '../../../assets/images/svg/Description';
+import Discord from '../../../assets/images/svg/Discord';
+import Google from '../../../assets/images/svg/Google';
+import Mail from '../../../assets/images/svg/Mail';
+import Logo from '../../../assets/images/svg/Logo';
+import Description2 from '../../../assets/images/svg/Description2';
 const size = new sizes(height, width);
 
-import * as Linking from "expo-linking";
-import { useAppDispatch } from "../../controller/hooks";
+import * as Linking from 'expo-linking';
+import { useAppDispatch } from '../../controller/hooks';
 import {
   updateAccountInfo,
   updateDidToken,
-} from "../../controller/UserController";
+} from '../../controller/UserController';
 
 const FirstScreen = ({ magic }: FirstScreenProps) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -46,8 +46,8 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
 
   const loginGoogle = async () => {
     const token = await magic.oauth.loginWithPopup({
-      provider: "google",
-      redirectURI: Linking.createURL("SignUp"),
+      provider: 'google',
+      redirectURI: Linking.createURL('SignUp'),
     });
     console.log(JSON.stringify(token));
     dispatch(updateDidToken(token));
@@ -59,8 +59,8 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
 
   const loginDiscord = async () => {
     const token = await magic.oauth.loginWithPopup({
-      provider: "discord",
-      redirectURI: Linking.createURL("SignUp"),
+      provider: 'discord',
+      redirectURI: Linking.createURL('SignUp'),
     });
     console.log(token);
     dispatch(updateDidToken(token));
@@ -77,22 +77,20 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
       <ImageBackground
         resizeMode="cover"
         style={{
-          height: "100%",
-          width: "100%",
+          height: '100%',
+          width: '100%',
         }}
         source={images.background2}
       >
         <View
           style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            marginLeft: size.widthSize(18.58),
-
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
             top: 18.58,
-            bottom: 76.96,
-            left: size.widthSize(18.58),
-            right: size.widthSize(37.15),
+
+            left: size.widthSize(16),
+
             // width: size.widthSize(224),
             gap: size.widthSize(4.42),
             marginTop: size.getHeightSize(40),
@@ -103,11 +101,11 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
             style={{
               marginLeft: size.widthSize(4.42),
               color: appColor.kTextColor,
-              fontSize: size.fontSize(31.3587),
-              fontFamily: "Outfit-Bold",
-              fontStyle: "normal",
+              fontSize: size.fontSize(29.47),
+              fontFamily: 'Outfit-Bold',
+              fontStyle: 'normal',
               lineHeight: size.heightSize(38),
-              textAlign: "right",
+              textAlign: 'right',
             }}
           >
             TowneSquare
@@ -116,15 +114,15 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
 
         <Description
           style={{
-            alignSelf: "flex-start",
+            alignSelf: 'flex-start',
             marginTop: size.heightSize(103.71),
-            width: size.widthSize(355.7),
-            height: size.heightSize(61.45),
+            width: size.widthSize(360),
+            height: size.heightSize(83),
           }}
         />
         <Description2
           style={{
-            alignSelf: "flex-end",
+            alignSelf: 'flex-end',
             width: size.widthSize(355.7),
             height: size.getHeightSize(61.45),
             marginTop: size.heightSize(11.55),
@@ -133,44 +131,42 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
         <Text
           style={{
             marginTop: size.getHeightSize(24.47),
-            textAlign: "center",
+            textAlign: 'center',
             color: appColor.kTextColor,
-            fontFamily: "Outfit-SemiBold",
+            fontFamily: 'Outfit-SemiBold',
             fontSize: size.fontSize(17.0213),
             marginLeft: size.getWidthSize(49),
             marginRight: size.getHeightSize(42),
             lineHeight: size.getHeightSize(22),
-            fontStyle: "normal",
+            fontStyle: 'normal',
           }}
         >
-          Social, create, build, and transact {"\n"} with anyone anywhere
+          Social, create, build, and transact {'\n'} with anyone anywhere
         </Text>
         <Pressable
-          onPress={() => navigation.navigate("ChooseWallet")}
+          onPress={() => navigation.navigate('ChooseWallet')}
           style={{
             marginTop: size.getHeightSize(129),
-            width: size.getWidthSize(348.94),
-            //  height: size.getHeightSize(51.06),
-            justifyContent: "center",
+            width: size.getWidthSize(328),
+            height: size.getHeightSize(48),
+            justifyContent: 'center',
             backgroundColor: appColor.kButtonBackgroundColor,
-            alignSelf: "center",
+            alignSelf: 'center',
             borderRadius: 40,
-            flexGrow: 0,
-            gap: size.getWidthSize(8),
             paddingHorizontal: size.getWidthSize(8.51064),
-            paddingVertical: size.getHeightSize(17.0213),
-            display: "flex",
+            paddingVertical: size.getHeightSize(14),
+            alignItems: 'center',
           }}
         >
           <Text
             style={{
-              textAlign: "center",
+              textAlign: 'center',
               color: appColor.kButtonTextColor,
-              fontFamily: "Outfit-Bold",
-              fontSize: size.fontSize(17.0213),
-              lineHeight: size.getHeightSize(21),
-              fontStyle: "normal",
-              textTransform: "uppercase",
+              fontFamily: 'Outfit-Bold',
+              fontSize: size.fontSize(16),
+              lineHeight: size.getHeightSize(20),
+              fontStyle: 'normal',
+              textTransform: 'uppercase',
             }}
           >
             Connect Wallet
@@ -179,11 +175,11 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
         <Text
           style={{
             color: appColor.kTextColor,
-            textAlign: "center",
-            fontFamily: "Outfit-Regular",
+            textAlign: 'center',
+            fontFamily: 'Outfit-Regular',
             fontSize: size.fontSize(21.2766),
             marginTop: size.getHeightSize(24),
-            fontStyle: "normal",
+            fontStyle: 'normal',
             lineHeight: size.getHeightSize(27),
           }}
         >
@@ -192,36 +188,49 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
         <View
           style={{
             marginTop: size.getHeightSize(24),
-            flexDirection: "row",
+            flexDirection: 'row',
             width: size.getWidthSize(328),
-            justifyContent: "space-between",
-            alignSelf: "center",
-            alignItems: "flex-start",
+            justifyContent: 'space-between',
+            alignSelf: 'center',
+            alignItems: 'flex-start',
           }}
         >
           <Pressable
-            onPress={() => navigation.navigate("SignUp")}
+            onPress={() => {
+              navigation.navigate('DrawerNavigation');
+
+              // navigation.navigate('SignUp');
+            }}
             style={styles.socials}
           >
-            <Twitter />
+            <Twitter
+              width={size.getWidthSize(26)}
+              height={size.getHeightSize(24)}
+            />
           </Pressable>
           <Pressable onPress={() => loginDiscord()} style={styles.socials}>
-            <Discord />
+            <Discord size={size.getHeightSize(28)} />
           </Pressable>
           <Pressable
-            onPress={() => navigation.navigate("SignUp")}
+            onPress={() => navigation.navigate('SignUp')}
             style={styles.socials}
           >
-            <Apple />
+            <Apple
+              height={size.getHeightSize(28)}
+              width={size.getWidthSize(24)}
+            />
           </Pressable>
           <Pressable onPress={() => loginGoogle()} style={styles.socials}>
-            <Google />
+            <Google
+              height={size.getHeightSize(24)}
+              width={size.getWidthSize(24)}
+            />
           </Pressable>
           <Pressable
-            onPress={() => navigation.navigate("EmailLogin")}
+            onPress={() => navigation.navigate('EmailLogin')}
             style={styles.socials}
           >
-            <Mail />
+            <Mail size={size.getHeightSize(32)} />
           </Pressable>
         </View>
       </ImageBackground>
@@ -232,11 +241,11 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
 export default FirstScreen;
 const styles = StyleSheet.create({
   socials: {
-    height: size.getHeightSize(51.06),
-    width: size.getHeightSize(51.06),
+    height: size.getHeightSize(48),
+    width: size.getHeightSize(48),
     backgroundColor: appColor.kWhiteColor,
     borderRadius: 100,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

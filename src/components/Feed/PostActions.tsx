@@ -7,11 +7,13 @@ const { height, width } = Dimensions.get('window');
 import Retweet from '../../../assets/images/svg/Retweet';
 import BookMark from '../../../assets/images/svg/BookMark';
 import LikePost from '../../../assets/images/svg/LikePost';
-import ShareFeed from '../../../assets/images/svg/ShareFeed';
+import TipIcon from '../../../assets/images/svg/TipIcon';
 import LikedIcon from '../../../assets/images/svg/LikedIcon';
 import Retweeted from '../../../assets/images/svg/Retweeted';
 import BookMarkedIcon from '../../../assets/images/svg/BookMarkedIcon';
 import CommentIcon from '../../../assets/images/svg/CommentIcon';
+import { updateTipBottomSheet } from '../../controller/FeedsController';
+import { useAppDispatch } from '../../controller/hooks';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -37,6 +39,7 @@ const PostActions = ({
   marginBottom,
   marginTop,
 }: Props) => {
+  const dispatch = useAppDispatch();
   const [changeLikeTextColor, setlikesTextColor] = useState(false);
   const [changeRetweetTextColor, setRetweetTextColor] = useState(false);
   const handleLike = () => {
@@ -140,7 +143,7 @@ const PostActions = ({
           gap: size.getWidthSize(2),
         }}
       >
-        <CommentIcon />
+        <CommentIcon size={size.getHeightSize(24)} />
         <Text
           style={{
             fontSize: size.fontSize(13),
@@ -163,11 +166,11 @@ const PostActions = ({
           <Animated.View
             style={[StyleSheet.absoluteFillObject, retweetoutlineStyle]}
           >
-            <Retweet />
+            <Retweet size={size.getHeightSize(24)} />
           </Animated.View>
 
           <Animated.View style={retweetfillStyle}>
-            <Retweeted />
+            <Retweeted size={size.getHeightSize(24)} />
           </Animated.View>
         </Pressable>
         <Text
@@ -195,11 +198,11 @@ const PostActions = ({
       >
         <Pressable onPress={handleLike}>
           <Animated.View style={[StyleSheet.absoluteFillObject, outlineStyle]}>
-            <LikePost />
+            <LikePost size={size.getHeightSize(24)} />
           </Animated.View>
 
           <Animated.View style={fillStyle}>
-            <LikedIcon />
+            <LikedIcon size={size.getHeightSize(24)} />
           </Animated.View>
         </Pressable>
         <Text
@@ -223,7 +226,10 @@ const PostActions = ({
           gap: size.getWidthSize(2),
         }}
       >
-        <ShareFeed />
+        <TipIcon
+          onPress={() => dispatch(updateTipBottomSheet(true))}
+          size={size.getHeightSize(24)}
+        />
       </View>
       <View
         style={{
@@ -235,11 +241,11 @@ const PostActions = ({
           <Animated.View
             style={[StyleSheet.absoluteFillObject, bookmarkoutlineStyle]}
           >
-            <BookMark />
+            <BookMark size={size.getHeightSize(24)} />
           </Animated.View>
 
           <Animated.View style={bookmarkfillStyle}>
-            <BookMarkedIcon />
+            <BookMarkedIcon size={size.getHeightSize(24)} />
           </Animated.View>
         </Pressable>
       </View>

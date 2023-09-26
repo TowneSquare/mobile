@@ -26,9 +26,7 @@ const ViewRoles = ({ navigation, route }: ViewRolesProps) => {
   const [showRemoveMemberBottomSheet, setRemoveBottomSheetVisibility] =
     useState(false);
   const [showDeleteRoleBottomSheet, setBottomSheetVisibility] = useState(false);
-  const members = useAppSelector(
-    (state) => state.CommunitySettingsController.members
-  );
+  const members = useAppSelector((state) => state.COMMUNITY.members);
   return (
     <SafeAreaView
       style={{

@@ -53,10 +53,13 @@ const CommunitySettings = ({ navigation }: CommunitySettingsProps) => {
         <Text style={styles.text}>Verify Community</Text>
         <ArrowRight size={size.getHeightSize(24)} />
       </View>
-      <View style={styles.view}>
+      <Pressable
+        onPress={() => navigation.navigate('BannedMember')}
+        style={styles.view}
+      >
         <Text style={styles.text}>Banned members</Text>
         <ArrowRight size={size.getHeightSize(24)} />
-      </View>
+      </Pressable>
       <View style={styles.noBorder}>
         <Text style={styles.text}>Leave community</Text>
       </View>

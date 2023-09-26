@@ -12,31 +12,20 @@ import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ReportPostModal from '../../components/Feed/ReportPostModal';
-import ReportUserModal from '../../components/Feed/ReportUserModal';
-import BlockUserModal from '../../components/Feed/BlockUserModal';
-import ReportPanel from '../../components/Feed/ReportPanel';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Comments from '../../components/SinglePostView/Comments';
 import AddCommentTextInput from '../../components/SinglePostView/AddCommentTextInput';
 import { sizes } from '../../utils';
-import MyPostPanel from '../../shared/Feed/MyPostPanel';
-import { toastConfig } from '../../components/Feed/ShowToast';
-import DeleteMyPostPanel from '../../shared/Feed/DeleteMyPostPanel';
 const size = new sizes(height, width);
-import Toast from 'react-native-toast-message';
 import { useNavigation } from '@react-navigation/native';
 import { SinglePostProps } from '../../navigations/NavigationTypes';
 import SinglePostContent from '../../components/SinglePostView/SinglePostContent';
 import { useAppDispatch } from '../../controller/hooks';
-type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 const SinglePost = ({ route }: SinglePostProps) => {
   const props = route.params;
   const scrollViewRef = useRef<ScrollView>(null);
   const textInputRef = useRef<TextInput>(null);
   const [replyingTo, setReplyingTo] = useState(false);
-
-  const dispatch = useAppDispatch();
   const navigation = useNavigation();
 
   const data = {
@@ -110,15 +99,6 @@ const SinglePost = ({ route }: SinglePostProps) => {
         textRef={textInputRef}
       />
       {/* {isAnyModalOpen && <View style={styles.overlay} />} */}
-
-      <Toast config={toastConfig} />
-
-      <MyPostPanel />
-      <ReportUserModal />
-      <ReportPanel />
-      <ReportPostModal />
-      <BlockUserModal />
-      <DeleteMyPostPanel />
     </SafeAreaView>
   );
 };

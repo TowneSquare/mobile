@@ -50,11 +50,9 @@ const AddCommentTextInput = ({
     // Start the animation
     Animated.timing(borderRadiusValue, {
       toValue: newBorderRadius,
-      duration: 500, // Animation duration in milliseconds
-      useNativeDriver: false, // Set to true if possible, to improve performance
+      duration: 500,
+      useNativeDriver: false,
     }).start();
-
-    // Update the state with the new value
     setBorderRadius(newBorderRadius);
   };
   const handleContentSizeChange = (event: any) => {
@@ -88,7 +86,11 @@ const AddCommentTextInput = ({
             value={text}
             style={[{ borderRadius: borderRadius }, styles.textInput]}
           />
-          {text.length >= 1 ? <SendButtonActive /> : <SendButton />}
+          {text.length >= 1 ? (
+            <SendButtonActive size={size.getHeightSize(24)} />
+          ) : (
+            <SendButton size={size.getHeightSize(24)} />
+          )}
         </View>
         {text.length > 2000 && (
           <View style={styles.errorConatiner}>

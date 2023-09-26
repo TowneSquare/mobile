@@ -80,7 +80,7 @@ const InfoBottomSheet = ({
           backgroundStyle={{
             backgroundColor: appColor.kgrayDark2,
           }}
-          handleComponent={CustomHandler}
+          handleComponent={()=><CustomHandler/>}
           backdropComponent={renderBackdrop}
         >
           <BottomSheetView

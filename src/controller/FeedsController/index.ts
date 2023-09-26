@@ -14,6 +14,9 @@ interface FeedController {
     position?: 'top' | 'bottom';
     alignItems?: 'center' | 'flex-start' | 'flex-end' | 'stretch' | 'baseline';
   };
+  currentTab: string;
+  tipBottomSheet: boolean;
+  selectedSwipeablePFPId: string;
 }
 const initialState: FeedController = {
   ReceiveModalState: false,
@@ -30,6 +33,9 @@ const initialState: FeedController = {
     position: 'top',
     alignItems: 'center',
   },
+  currentTab: 'feed',
+  tipBottomSheet: false,
+  selectedSwipeablePFPId: '',
 };
 export const FeedsSlice = createSlice({
   name: 'FeedsController',
@@ -92,6 +98,15 @@ export const FeedsSlice = createSlice({
       state.showToast.position = 'top';
       state.showToast.alignItems = 'center';
     },
+    updateCurrentTab: (state, action: PayloadAction<string>) => {
+      state.currentTab = action.payload;
+    },
+    updateTipBottomSheet: (state, action: PayloadAction<boolean>) => {
+      state.tipBottomSheet = action.payload;
+    },
+    updateSelectedSwipeablePFPId: (state, action: PayloadAction<string>) => {
+      state.selectedSwipeablePFPId = action.payload;
+    },
   },
 });
 export const {
@@ -105,5 +120,8 @@ export const {
   resetModals,
   updateToast,
   resetToast,
+  updateCurrentTab,
+  updateTipBottomSheet,
+  updateSelectedSwipeablePFPId,
 } = FeedsSlice.actions;
 export default FeedsSlice.reducer;

@@ -14,7 +14,9 @@ export const feedStyle = StyleSheet.create({
   },
   subHeading: {
     marginLeft: size.getWidthSize(8),
-    flex: 1,
+    width: size.getWidthSize(288),
+
+    left: size.getWidthSize(40),
   },
   message: {
     color: appColor.kTextColor,
@@ -143,7 +145,7 @@ export const feedStyle = StyleSheet.create({
     width: '100%',
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8,
-    gap:size.getHeightSize(8)
+    gap: size.getHeightSize(8),
   },
   swapTextTag: {
     color: appColor.primaryLight,
@@ -153,7 +155,6 @@ export const feedStyle = StyleSheet.create({
     marginLeft: size.getWidthSize(9),
   },
   SwapContainer: {
-    backgroundColor: appColor.kgrayDark2,
     flexDirection: 'row',
     borderWidth: 1,
     borderColor: appColor.kGrayLight3,
@@ -177,6 +178,7 @@ export const feedStyle = StyleSheet.create({
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(21),
     letterSpacing: 0.04,
+    flex: 1,
   },
   swapPriceTag: {
     fontSize: size.fontSize(16),
@@ -207,7 +209,7 @@ export const feedStyle = StyleSheet.create({
     fontFamily: 'Outfit-Regular',
     color: appColor.kGrayscale,
     lineHeight: size.getHeightSize(21),
-    marginVertical: size.getHeightSize(2),
+    marginRight: size.getWidthSize(8),
   },
   floorAmount: {
     fontSize: size.fontSize(16),
@@ -216,5 +218,14 @@ export const feedStyle = StyleSheet.create({
     lineHeight: size.getHeightSize(21),
     marginVertical: size.getHeightSize(2),
   },
-  buttons: {},
+  floorPriceContainer: {
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: appColor.kGrayLight3,
+    borderRadius: 8,
+    marginTop: size.getHeightSize(8),
+    alignItems: 'center',
+    paddingHorizontal: size.getWidthSize(16),
+    paddingVertical: size.getHeightSize(8),
+  },
 });

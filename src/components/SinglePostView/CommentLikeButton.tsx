@@ -1,18 +1,18 @@
-import { View, Text, StyleSheet, Dimensions } from "react-native";
-import { useState } from "react";
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { useState } from 'react';
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-} from "react-native-reanimated";
-import { useFonts } from "expo-font";
-import LikePost from "../../../assets/images/svg/LikePost";
-import LikedIcon from "../../../assets/images/svg/LikedIcon";
-import { appColor, fonts } from "../../constants";
-const { height, width } = Dimensions.get("window");
-import { sizes } from "../../utils";
+} from 'react-native-reanimated';
+import { useFonts } from 'expo-font';
+import LikePost from '../../../assets/images/svg/LikePost';
+import LikedIcon from '../../../assets/images/svg/LikedIcon';
+import { appColor, fonts } from '../../constants';
+const { height, width } = Dimensions.get('window');
+import { sizes } from '../../utils';
 const size = new sizes(height, width);
 const CommentLikeButton = () => {
   const [changeLikeTextColor, setlikesTextColor] = useState(false);
@@ -41,9 +41,9 @@ const CommentLikeButton = () => {
     };
   });
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -51,10 +51,10 @@ const CommentLikeButton = () => {
   return (
     <View style={styles.reactionContent}>
       <Animated.View style={[StyleSheet.absoluteFillObject, outlineStyle]}>
-        <LikePost onPress={handleLike} />
+        <LikePost size={size.getHeightSize(24)} onPress={handleLike} />
       </Animated.View>
       <Animated.View style={fillStyle}>
-        <LikedIcon onPress={handleLike} />
+        <LikedIcon size={size.getHeightSize(24)} onPress={handleLike} />
       </Animated.View>
       <Text style={styles.reactionText}>4</Text>
     </View>
@@ -64,12 +64,12 @@ const CommentLikeButton = () => {
 export default CommentLikeButton;
 const styles = StyleSheet.create({
   reactionContent: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: size.getWidthSize(4),
-    alignItems: "center",
+    alignItems: 'center',
   },
   reactionText: {
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     color: appColor.grayLight,
     fontSize: size.fontSize(13),
     lineHeight: size.getHeightSize(16),

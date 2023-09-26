@@ -22,7 +22,7 @@ interface Props {
   visibility: boolean;
   onClose: () => void;
   callBack: () => void;
-  banType: 'kick' | 'ban';
+  banType: 'kick' | 'ban' | 'unban';
 }
 const BanMemberBottomSheet = ({
   callBack,
@@ -64,6 +64,32 @@ const BanMemberBottomSheet = ({
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   }, [visibility]);
+  let title: string;
+  let description: string;
+  let buttonText: string;
+  switch (banType) {
+    case 'ban':
+      title = ' Are you sure you want to ban [Member name]?';
+      description =
+        "[Member name] won't be able to join this community anymore";
+      buttonText = 'Ban Member';
+      break;
+    case 'kick':
+      title = 'Are you sure you want to kick [Member name]?';
+      description =
+        '[Member name] will be kicked out of the community but will be able to rejoin';
+      buttonText = 'Kick Member';
+      break;
+    case 'unban':
+      title = 'Remove ban';
+      description =
+        'Are you sure you want to remove “Member name” from the ban list?';
+      buttonText = 'Remove';
+      break;
+    default:
+      break;
+  }
+
   return (
     <>
       {!visibility ? (
@@ -98,33 +124,27 @@ const BanMemberBottomSheet = ({
                 alignSelf: 'center',
               }}
             />
-            {banType === 'ban' ? (
-              <Text style={styles.title}>
-                Are you sure you want to ban [Member name]?
-              </Text>
-            ) : (
-              <Text style={styles.title}>
-                Are you sure you want to kick [Member name]?
-              </Text>
-            )}
-            {banType === 'ban' ? (
-              <Text style={styles.description}>
-                [Member name] won't be able to join this community anymore
-              </Text>
-            ) : (
-              <Text style={styles.description}>
-                [Member name] will be kicked out of the community but will be
-                able to rejoin
-              </Text>
-            )}
+
+            <Text style={styles.title}>{title}</Text>
+
+            <Text style={styles.description}>{description}</Text>
+
             <Pressable
               onPress={onClose}
-              style={banType === 'ban' ? styles.banButton : styles.button}
+              style={
+                banType === 'ban' || banType === 'unban'
+                  ? styles.banButton
+                  : styles.button
+              }
             >
               <Text
-                style={banType === 'ban' ? styles.banText : styles.buttonText}
+                style={
+                  banType === 'ban' || banType === 'unban'
+                    ? styles.banText
+                    : styles.buttonText
+                }
               >
-                {banType === 'ban' ? 'Ban Member' : 'Kick member'}
+                {buttonText}
               </Text>
             </Pressable>
             <View

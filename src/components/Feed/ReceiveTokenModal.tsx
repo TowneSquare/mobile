@@ -102,7 +102,7 @@ const ReceiveTokenModal = ({ closeModal }: Props) => {
       ) : (
         <BottomSheet
           onClose={closeModal}
-          handleComponent={CustomHandler}
+          handleComponent={()=><CustomHandler/>}
           ref={bottomSheetRef}
           enablePanDownToClose={true}
           backdropComponent={renderBackdrop}

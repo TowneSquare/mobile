@@ -1,4 +1,6 @@
 import 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import Navigations from './src/navigations/Navigations';
 import { Provider } from 'react-redux';
@@ -10,8 +12,9 @@ import { AptosExtension } from '@magic-ext/aptos';
 import { APTOS_NODE_URL } from './constants';
 import { LinkingOptions } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
-import ToastWrapper from './src/shared/Feed/ToastWrapper';
+import ToastWrapper from './src/shared/Feed/OverlayWrapper';
 import { RootStackParamList } from './src/navigations/NavigationTypes';
+import CreateChannelBottomSheet from './src/components/DrawerContent/CreateChannelBottomSheet';
 
 const linking: LinkingOptions<RootStackParamList> = {
   prefixes: [Linking.createURL('/')],
@@ -39,13 +42,25 @@ export default function App() {
   };
 
   return (
-    <Provider store={store}>
-      <magic.Relayer />
-
-      <NavigationContainer linking={linking}>
-        <Navigations magicProps={magicProps} />
-      </NavigationContainer>
-      <ToastWrapper />
-    </Provider>
+    <GestureHandlerRootView style={styles.gestureHandler}>
+      <Provider store={store}>
+        <magic.Relayer />
+        <NavigationContainer linking={linking}>
+          <Navigations magicProps={magicProps} />
+          <CreateChannelBottomSheet />
+        </NavigationContainer>
+        <ToastWrapper />
+        {/* <View style={styles.overlay} /> */}
+      </Provider>
+    </GestureHandlerRootView>
   );
 }
+const styles = StyleSheet.create({
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.7)',
+  },
+  gestureHandler: {
+    flex: 1,
+  },
+});

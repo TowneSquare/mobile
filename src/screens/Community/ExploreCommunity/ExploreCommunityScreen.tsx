@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
     fontFamily: "Outfit-Regular",
-    marginLeft: size.getWidthSize(14),
+    marginLeft: size.getWidthSize(16),
   },
   view4: {
     flexDirection: "row",

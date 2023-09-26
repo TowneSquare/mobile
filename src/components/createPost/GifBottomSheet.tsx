@@ -40,7 +40,7 @@ const GifBottomSheet = () => {
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
       }}
-      handleComponent={CustomHandler}
+      handleComponent={()=><CustomHandler/>}
       enablePanDownToClose={true}
       ref={bottomSheetRef}
     >

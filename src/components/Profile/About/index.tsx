@@ -95,7 +95,6 @@ const About = ({ route }) => {
     <SafeAreaView
       style={{
         backgroundColor: appColor.feedBackground,
-        // paddingHorizontal: 15,
       }}
     >
       <ScrollView>
@@ -134,7 +133,7 @@ const About = ({ route }) => {
                 gap: size.getWidthSize(8),
               }}
             >
-              <FollowIcon />
+              <FollowIcon size={size.getHeightSize(24)} />
               <Text
                 style={{
                   textAlign: 'center',

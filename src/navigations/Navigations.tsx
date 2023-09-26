@@ -6,7 +6,7 @@ import { Easing, Animated } from 'react-native';
 import { RootStackParamList } from './NavigationTypes';
 import BottomTabNavigation from './BottomTabNavigation';
 import SignUp from '../screens/SignUp/SignUp';
-import DrawerNavigation from './DrawerNavigation';
+import DrawerNavigation from './DrawerStack';
 import ProfileFollowersTab from './ProfileFollowersTab';
 import FirstScreen from '../screens/SignUp/FirstScreen';
 import EmailLogin from '../screens/SignUp/EmailLogin';
@@ -55,6 +55,10 @@ import Permissions from '../screens/Community/Settings/Permissions';
 import AddMember from '../screens/Community/Settings/AddMember';
 import NotificationSettings from '../screens/Community/Settings/NotificationSettings';
 import ViewRoles from '../screens/Community/Settings/VIewRoles';
+import CreateChannel from '../screens/Community/CreateChannel/CreateChannel';
+import Channels from '../screens/Community/CreateChannel/Channels';
+import ChannelCategories from '../screens/Community/CreateChannel/ChannelCategories';
+import BannedMember from '../screens/Community/Settings/BannedMember';
 const Navigations = ({ magicProps }: { magicProps: any }) => {
   const Stack = createStackNavigator<RootStackParamList>();
   const config = {
@@ -282,13 +286,13 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
         }}
       />
       {/* Join Community */}
-      <Stack.Screen
+      {/* <Stack.Screen
         name="CommunityInfoScreen"
         component={CommunityInfoScreen}
         options={{
           headerShown: false,
         }}
-      />
+      /> */}
       <Stack.Screen
         name="CommunityWelcomeScreen"
         component={CommunityWelcomeScreen}
@@ -429,16 +433,44 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-        <Stack.Screen
+      <Stack.Screen
         name="NotificationSettings"
         component={NotificationSettings}
         options={{
           headerShown: false,
         }}
       />
-         <Stack.Screen
+      <Stack.Screen
         name="ViewRoles"
         component={ViewRoles}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CreateChannel"
+        component={CreateChannel}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ChannelCategories"
+        component={ChannelCategories}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Channels"
+        component={Channels}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="BannedMember"
+        component={BannedMember}
         options={{
           headerShown: false,
         }}

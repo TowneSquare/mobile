@@ -13,7 +13,7 @@ const ForYouPosts = () => {
     >
       <FlashList
         data={UserPosts}
-        renderItem={({ item }) => <ForYou data={item} />}
+        renderItem={({ item }) => <ForYou data={item} shouldPFPSwipe />}
         keyExtractor={(item) => item.id}
         estimatedItemSize={200}
       />

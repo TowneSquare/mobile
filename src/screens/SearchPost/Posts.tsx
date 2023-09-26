@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
+import { View, Text, Dimensions, StyleSheet, ScrollView } from 'react-native';
 import React from 'react';
 import ForYou from '../../components/Feed/ForYou';
 import { UserPosts } from '../../components/Feed/DuumyData';
@@ -14,12 +8,6 @@ const size = new sizes(height, width);
 import { appColor } from '../../constants';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import { FlashList } from '@shopify/flash-list';
-import BlockUserModal from '../../components/Feed/BlockUserModal';
-import ReportPanel from '../../components/Feed/ReportPanel';
-import ReportPostModal from '../../components/Feed/ReportPostModal';
-import ReportUserModal from '../../components/Feed/ReportUserModal';
-import DeleteMyPostPanel from '../../shared/Feed/DeleteMyPostPanel';
-import MyPostPanel from '../../shared/Feed/MyPostPanel';
 
 const Posts = () => {
   const isSearchFocuesd = useAppSelector(
@@ -41,7 +29,9 @@ const Posts = () => {
         )}
         <FlashList
           data={UserPosts}
-          renderItem={({ item }) => <ForYou data={item} />}
+          renderItem={({ item }) => (
+            <ForYou data={item} shouldPFPSwipe={false} />
+          )}
           keyExtractor={(item) => item.id}
           estimatedItemSize={200}
         />
@@ -55,12 +45,6 @@ const Posts = () => {
           </Text>
         </View>
       </> */}
-      <MyPostPanel />
-      <ReportUserModal />
-      <ReportPanel />
-      <ReportPostModal />
-      <BlockUserModal />
-      <DeleteMyPostPanel />
     </View>
   );
 };

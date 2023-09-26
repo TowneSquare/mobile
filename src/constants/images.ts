@@ -143,5 +143,6 @@ const appImages = {
   commlogo: require('../../assets/images/png/commlogo.png'),
   SiothianCommunity: require('../../assets/images/png/SiothianCommunity.png'),
   theter: require('../../assets/images/png/Theter.png'),
+  pfpImage: require('../../assets/images/png/PfpImage.png'),
 };
 export const images = appImages;

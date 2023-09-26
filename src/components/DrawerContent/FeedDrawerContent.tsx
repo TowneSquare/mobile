@@ -1,25 +1,26 @@
-import { View, Text, Dimensions, StyleSheet } from "react-native";
-const { height, width } = Dimensions.get("window");
-import { sizes } from "../../utils";
+import { View, Text, Dimensions, StyleSheet } from 'react-native';
+const { height, width } = Dimensions.get('window');
+import { sizes } from '../../utils';
 const size = new sizes(height, width);
-import { Avatar } from "react-native-elements";
-import BarCode from "../../../assets/images/svg/Barcode";
-import { images, fonts } from "../../constants";
-import TowneSquareIcon from "../../../assets/images/svg/TowneSquareIcon";
-import SettingsIcon from "../../../assets/images/svg/SettingsIcon";
-import CalendarIcon from "../../../assets/images/svg/CalendarIcon";
-import QuestionIcon from "../../../assets/images/svg/QuestionIcon";
-import LogOutIcon from "../../../assets/images/svg/LogOutIcon";
-import BookmarkLogo from "../../../assets/images/svg/BookmarkLogo";
-import { useFonts } from "expo-font";
-import { appColor } from "../../constants";
-import Constants from "expo-constants";
-const DrawerComponents = () => {
+import { Avatar } from 'react-native-elements';
+import BarCode from '../../../assets/images/svg/Barcode';
+import { images, fonts } from '../../constants';
+import { useState } from 'react';
+import TowneSquareIcon from '../../../assets/images/svg/TowneSquareIcon';
+import SettingsIcon from '../../../assets/images/svg/SettingsIcon';
+import CalendarIcon from '../../../assets/images/svg/CalendarIcon';
+import QuestionIcon from '../../../assets/images/svg/QuestionIcon';
+import LogOutIcon from '../../../assets/images/svg/LogOutIcon';
+import BookmarkLogo from '../../../assets/images/svg/BookmarkLogo';
+import { useFonts } from 'expo-font';
+import { appColor } from '../../constants';
+import Constants from 'expo-constants';
+const FeedDrawerContent = () => {
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
-    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
@@ -35,11 +36,11 @@ const DrawerComponents = () => {
         style={{
           marginHorizontal: size.getWidthSize(16),
           marginTop: size.getHeightSize(32) + Constants.statusBarHeight,
-          flexDirection: "row",
+          flexDirection: 'row',
 
           gap: size.getWidthSize(12),
 
-          alignItems: "center",
+          alignItems: 'center',
         }}
       >
         <Avatar
@@ -53,7 +54,7 @@ const DrawerComponents = () => {
               color: appColor.kTextColor,
               fontSize: size.fontSize(16),
               lineHeight: size.getHeightSize(21),
-              fontFamily: "Outfit-SemiBold",
+              fontFamily: 'Outfit-SemiBold',
             }}
           >
             @realjczhang
@@ -63,7 +64,7 @@ const DrawerComponents = () => {
               color: appColor.primaryLight,
               fontSize: size.fontSize(14),
               lineHeight: size.getHeightSize(18),
-              fontFamily: "Outfit-Regular",
+              fontFamily: 'Outfit-Regular',
             }}
           >
             jczhang.apt
@@ -71,7 +72,7 @@ const DrawerComponents = () => {
         </View>
         <BarCode
           style={{
-            marginLeft: "auto",
+            marginLeft: 'auto',
           }}
         />
       </View>
@@ -79,11 +80,11 @@ const DrawerComponents = () => {
         style={{
           marginTop: size.getHeightSize(16),
           marginHorizontal: size.getWidthSize(16),
-          flexDirection: "row",
+          flexDirection: 'row',
           backgroundColor: appColor.kGrayscaleDart,
           borderRadius: 10,
           paddingHorizontal: size.getWidthSize(8),
-          justifyContent: "space-between",
+          justifyContent: 'space-between',
         }}
       >
         <View style={styles.tagContainer}>
@@ -121,7 +122,7 @@ const DrawerComponents = () => {
               borderTopWidth: 1,
               borderBottomWidth: 1,
               borderColor: appColor.grayDark,
-              alignItems: "center",
+              alignItems: 'center',
             },
           ]}
         >
@@ -135,7 +136,7 @@ const DrawerComponents = () => {
                 color: appColor.grayLight,
                 fontSize: size.fontSize(14),
                 lineHeight: size.getHeightSize(18),
-                fontFamily: "Outfit-Regular",
+                fontFamily: 'Outfit-Regular',
               }}
             >
               Coming soon
@@ -160,36 +161,36 @@ const DrawerComponents = () => {
   );
 };
 
-export default DrawerComponents;
+export default FeedDrawerContent;
 const styles = StyleSheet.create({
   tagContainer: {
     gap: size.getWidthSize(12),
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: size.getHeightSize(8),
   },
   tagText: {
     color: appColor.kGrayscale,
     fontSize: size.fontSize(13),
     lineHeight: size.getHeightSize(16),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
   },
   tagSubText: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: "Outfit-Bold",
+    fontFamily: 'Outfit-Bold',
   },
   navigationText: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
   },
   textContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: size.getWidthSize(12),
-    alignItems: "center",
+    alignItems: 'center',
     paddingVertical: size.getHeightSize(10),
     marginTop: size.getHeightSize(8),
   },

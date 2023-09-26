@@ -149,7 +149,7 @@ const ChooseProfilePicsBottomSheet = () => {
           backgroundStyle={{
             backgroundColor: appColor.kgrayDark2,
           }}
-          handleComponent={CustomHandler}
+          handleComponent={()=><CustomHandler/>}
           backdropComponent={renderBackdrop}
         >
           <BottomSheetView

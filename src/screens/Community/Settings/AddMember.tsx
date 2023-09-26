@@ -16,15 +16,13 @@ import ArrowDown from '../../../../assets/images/svg/ArrowDown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { AddMemberProps } from '../../../navigations/NavigationTypes';
 import Member from '../../../components/Community/Settings/Member';
-import { updateMembers } from '../../../controller/CommunitySettings';
+import { updateMembers } from '../../../controller/CommunityController';
 import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const AddMember = ({ navigation }: AddMemberProps) => {
   const dispatch = useAppDispatch();
-  const members = useAppSelector(
-    (state) => state.CommunitySettingsController.members
-  );
+  const members = useAppSelector((state) => state.COMMUNITY.members);
 
   const [collapseAdmin, setCollapseAdmin] = useState(true);
   const [collapseModerator, setCollapseModerator] = useState(true);

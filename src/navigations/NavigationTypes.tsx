@@ -40,7 +40,10 @@ export type RootStackParamList = {
   VideoPlayer: undefined;
   SinglePost: undefined;
   Notifications: undefined;
-  CreatePost: { showToast?: boolean };
+  CreatePost: {
+    showToast?: boolean;
+    whichPost: 'communityPost' | 'singlePost';
+  };
   NftCollectionScreen: undefined;
   SelectedCollectionScreen: undefined;
   Collection: undefined;
@@ -104,6 +107,11 @@ export type RootStackParamList = {
   ViewRoles: {
     title: string;
   };
+  CreateChannel: undefined;
+  ChannelCategories: undefined;
+  Channels: undefined;
+  BannedMember: undefined;
+  ChannelChat: undefined;
 };
 
 type TokenGateSettingsCompleteParams = {
@@ -125,6 +133,7 @@ type ViewRolesParams = {
 type CreatePostParameter = {
   [CreatePost: string]: {
     showToast: boolean;
+    whichPost: 'communityPost' | 'singlePost';
   };
 };
 type SinglePostParameter = {
@@ -450,4 +459,24 @@ export type ViewRolesProps = {
   navigation: NavigationProp<RootStackParamList, 'ViewRoles'>;
   magic: any;
   route: RouteProp<ViewRolesParams, 'ViewRoles'>;
+};
+export type CreateChannelProps = {
+  navigation: NavigationProp<RootStackParamList, 'CreateChannel'>;
+  magic: any;
+  route: RouteProp<ViewRolesParams, 'CreateChannel'>;
+};
+export type ChannelCategoriesProps = {
+  navigation: NavigationProp<RootStackParamList, 'ChannelCategories'>;
+  magic: any;
+  route: RouteProp<ViewRolesParams, 'ChannelCategories'>;
+};
+export type ChannelsProps = {
+  navigation: NavigationProp<RootStackParamList, 'Channels'>;
+  magic: any;
+  route: RouteProp<ViewRolesParams, 'Channels'>;
+};
+export type BannedMemberProps = {
+  navigation: NavigationProp<RootStackParamList, 'BannedMember'>;
+  magic: any;
+  route: RouteProp<ViewRolesParams, 'BannedMember'>;
 };

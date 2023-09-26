@@ -19,7 +19,7 @@ const RepostedHeader = () => {
       style={{
         flexDirection: 'row',
         marginTop: size.getHeightSize(5),
-        marginBottom: size.getHeightSize(9.5),
+        marginBottom: size.getHeightSize(8),
         alignItems: 'center',
         gap: size.getWidthSize(8),
       }}
