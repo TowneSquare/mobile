@@ -70,6 +70,32 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
     dispatch(updateAccountInfo(accountInfo));
   };
 
+  const loginApple = async () => {
+    const token = await magic.oauth.loginWithPopup({
+      provider: "apple",
+      redirectURI: Linking.createURL("SignUp"),
+    });
+    console.log(token);
+    dispatch(updateDidToken(token));
+
+    const accountInfo = await magic.aptos.getAccountInfo();
+    console.log(accountInfo);
+    dispatch(updateAccountInfo(accountInfo));
+  };
+
+  const loginX = async () => {
+    const token = await magic.oauth.loginWithPopup({
+      provider: "twitter",
+      redirectURI: Linking.createURL("SignUp"),
+    });
+    console.log(token);
+    dispatch(updateDidToken(token));
+
+    const accountInfo = await magic.aptos.getAccountIngo();
+    console.log(accountInfo);
+    dispatch(updateAccountInfo(accountInfo));
+  }
+
   return (
     <>
       <StatusBar style="light" />
@@ -196,11 +222,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
           }}
         >
           <Pressable
-            onPress={() => {
-              // navigation.navigate('DrawerNavigation');
-
-              navigation.navigate('SignUp');
-            }}
+            onPress={() => loginX()}
             style={styles.socials}
           >
             <Twitter
@@ -208,11 +230,14 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
               height={size.getHeightSize(24)}
             />
           </Pressable>
-          <Pressable onPress={() => loginDiscord()} style={styles.socials}>
-            <Discord size={size.getHeightSize(28)} />
+          <Pressable 
+            onPress={() => loginDiscord()} 
+            style={styles.socials}
+          >
+            <Discord />
           </Pressable>
           <Pressable
-            onPress={() => navigation.navigate('SignUp')}
+            onPress={() => loginApple()}
             style={styles.socials}
           >
             <Apple
@@ -220,11 +245,11 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
               width={size.getWidthSize(24)}
             />
           </Pressable>
-          <Pressable onPress={() => loginGoogle()} style={styles.socials}>
-            <Google
-              height={size.getHeightSize(24)}
-              width={size.getWidthSize(24)}
-            />
+          <Pressable 
+            onPress={() => loginGoogle()} 
+            style={styles.socials}
+          >
+            <Google />
           </Pressable>
           <Pressable
             onPress={() => navigation.navigate('EmailLogin')}
