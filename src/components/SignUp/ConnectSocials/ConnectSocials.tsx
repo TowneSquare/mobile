@@ -48,7 +48,7 @@ const ConnectSocials = () => {
         >
           <TwitterBG />
 
-          <Text style={styles.socialText}>Twitter</Text>
+          <Text style={styles.socialText}>X</Text>
           {isTwitterConected ? (
             <Pressable
               onPress={handleTwitterConnection}
