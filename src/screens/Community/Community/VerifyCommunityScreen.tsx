@@ -14,7 +14,7 @@ import { appColor, images, fonts } from "../../../constants";
 import { sizes } from "../../../utils";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
-import TwitterBG from "../../../../assets/images/svg/TwitterBg";
+import XBG from "../../../../assets/images/svg/XBg";
 import { Avatar } from "react-native-elements";
 import Info from "../../../../assets/images/svg/Info";
 import CommunityVerifyIcon from "../../../../assets/images/svg/CommunityVerifyIcon";
@@ -101,7 +101,7 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
           </Text>
           <Text style={styles.text}>
             In order to verify the community you need to connect community’s
-            official Twitter account.
+            official X account.
           </Text>
           <Text style={styles.text}>
             Verified communities will get a Verified badge once approved.
@@ -119,7 +119,7 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
             alignSelf: "center",
           }}
         >
-          Connect community's official Twitter account
+          Connect community's official X account
         </Text>
         {!connected ? (
           <>
@@ -140,7 +140,7 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
                   gap: size.getWidthSize(16),
                 }}
               >
-                <TwitterBG />
+                <XBG />
                 <Text
                   style={{
                     color: appColor.kWhiteColor,
@@ -149,7 +149,7 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
                     lineHeight: size.getHeightSize(16),
                   }}
                 >
-                  Twitter
+                  X
                 </Text>
               </View>
               <Pressable
@@ -213,7 +213,7 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
                     lineHeight: size.getHeightSize(21),
                   }}
                 >
-                  [Community Twitter profile]
+                  [Community X profile]
                 </Text>
               </View>
               {verified ? (
@@ -313,7 +313,7 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
                   width: 136,
                 }}
               >
-                [Community Twitter profile]
+                [Community X profile]
               </Text>
             </View>
             <View

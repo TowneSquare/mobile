@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { sizes } from "../../../utils";
 import { appColor } from "../../../constants";
 import DiscordBG from "../../../../assets/images/svg/DiscordBG";
-import TwitterBG from "../../../../assets/images/svg/TwitterBg";
+import XBG from "../../../../assets/images/svg/XBg";
 import Checked from "../../../../assets/images/svg/Checked";
 import Header from "../Header";
 import Link from "../../../../assets/images/svg/Link";
@@ -13,11 +13,11 @@ const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 
 const ConnectSocials = () => {
-  const [isTwitterConected, setTwitterConnected] = useState(false);
+  const [isXConected, setXConnected] = useState(false);
   const [isDiscordConnected, setDiscordConnected] = useState(false);
 
-  const handleTwitterConnection = () => {
-    setTwitterConnected(!isTwitterConected);
+  const handleXConnection = () => {
+    setXConnected(!isXConected);
   };
   const handleDiscordConnection = () => {
     setDiscordConnected(!isDiscordConnected);
@@ -46,19 +46,19 @@ const ConnectSocials = () => {
             alignItems: "center",
           }}
         >
-          <TwitterBG />
+          <XBG />
 
           <Text style={styles.socialText}>X</Text>
-          {isTwitterConected ? (
+          {isXConected ? (
             <Pressable
-              onPress={handleTwitterConnection}
+              onPress={handleXConnection}
               style={styles.isConnected}
             >
               <Checked />
               <Text style={styles.isConnectedText}>Connected</Text>
             </Pressable>
           ) : (
-            <Pressable onPress={handleTwitterConnection} style={styles.button}>
+            <Pressable onPress={handleXConnection} style={styles.button}>
               <Text style={styles.buttonText}>Connect</Text>
             </Pressable>
           )}

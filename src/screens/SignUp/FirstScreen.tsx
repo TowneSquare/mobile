@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Pressable,
 } from 'react-native';
-import Twitter from '../../../assets/images/svg/Twitter';
+import X from '../../../assets/images/svg/X';
 import { useFonts } from 'expo-font';
 import Apple from '../../../assets/images/svg/Apple';
 import { appColor, fonts, images } from '../../constants';
@@ -85,7 +85,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
 
   const loginX = async () => {
     const token = await magic.oauth.loginWithPopup({
-      provider: "twitter",
+      provider: "X",
       redirectURI: Linking.createURL("SignUp"),
     });
     console.log(token);
@@ -225,7 +225,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
             onPress={() => loginX()}
             style={styles.socials}
           >
-            <Twitter
+            <X
               width={size.getWidthSize(26)}
               height={size.getHeightSize(24)}
             />
