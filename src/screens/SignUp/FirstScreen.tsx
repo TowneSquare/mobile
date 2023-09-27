@@ -234,14 +234,17 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
             onPress={() => loginDiscord()} 
             style={styles.socials}
           >
-            <Discord />
+            <Discord 
+              width={size.getWidthSize(30)}
+              height={size.getHeightSize(28)}
+            />
           </Pressable>
           <Pressable
             onPress={() => loginApple()}
             style={styles.socials}
           >
             <Apple
-              height={size.getHeightSize(28)}
+              height={size.getHeightSize(26)}
               width={size.getWidthSize(24)}
             />
           </Pressable>
@@ -249,13 +252,18 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
             onPress={() => loginGoogle()} 
             style={styles.socials}
           >
-            <Google />
+            <Google 
+              width={size.getWidthSize(28)}
+              height={size.getHeightSize(26)}
+            />
           </Pressable>
           <Pressable
             onPress={() => navigation.navigate('EmailLogin')}
             style={styles.socials}
           >
-            <Mail size={size.getHeightSize(32)} />
+            <Mail 
+              size={size.getHeightSize(32)} 
+            />
           </Pressable>
         </View>
       </ImageBackground>
