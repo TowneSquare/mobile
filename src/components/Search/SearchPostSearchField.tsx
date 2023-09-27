@@ -36,12 +36,11 @@ const SearchPostSearchField = () => {
   };
   const showKeyboard = () => {
     textInputRef.current.focus();
-    
   };
   return (
     <View style={[styles.container]}>
       <Octicons
-        name="search"k
+        name="search"
         size={size.fontSize(20)}
         color={appColor.kWhiteColor}
       />
@@ -57,7 +56,10 @@ const SearchPostSearchField = () => {
         style={[styles.textInput]}
       />
       {text ? (
-        <DelIcon onPress={() => dispatch(updateSearchFocus('default'))} />
+        <DelIcon
+          size={size.getHeightSize(20)}
+          onPress={() => dispatch(updateSearchFocus('default'))}
+        />
       ) : (
         <View />
       )}

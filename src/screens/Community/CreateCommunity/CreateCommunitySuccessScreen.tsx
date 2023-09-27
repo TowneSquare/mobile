@@ -8,17 +8,19 @@ import {
   View,
   Pressable,
 } from 'react-native';
-import React, { useState } from 'react';
-import { appColor, fonts, images } from '../../../constants';
+import React from 'react';
+import { appColor, images } from '../../../constants';
 import { sizes } from '../../../utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useFonts } from 'expo-font';
-import { useNavigation } from '@react-navigation/native';
-
+import { useNavigation, CommonActions } from '@react-navigation/native';
+import { updateHasCreatedCommunity } from '../../../controller/CommunityController';
+import { useAppDispatch } from '../../../controller/hooks';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
 const CreateCommunitySuccessScreen = () => {
+  const navigation = useNavigation();
+  const dispatch = useAppDispatch();
   return (
     <SafeAreaView>
       <ImageBackground
@@ -98,7 +100,20 @@ const CreateCommunitySuccessScreen = () => {
             begins here!
           </Text>
           <Pressable
-            onPress={() => {}}
+            onPress={() => {
+              dispatch(updateHasCreatedCommunity(true));
+              navigation.dispatch(
+                CommonActions.navigate({
+                  name: 'DrawerNavigation',
+                  params: {
+                    screen: 'Tabs',
+                    params: {
+                      screen: 'Community',
+                    },
+                  },
+                })
+              );
+            }}
             style={{
               backgroundColor: appColor.kWhiteColor,
               alignSelf: 'center',

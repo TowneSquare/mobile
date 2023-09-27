@@ -150,7 +150,7 @@ const UploadImageBottomSheet = <T,>({ context }: Props<T>) => {
           backgroundStyle={{
             backgroundColor: appColor.kgrayDark2,
           }}
-          handleComponent={CustomHandler}
+          handleComponent={() => <CustomHandler />}
           backdropComponent={renderBackdrop}
         >
           <BottomSheetView

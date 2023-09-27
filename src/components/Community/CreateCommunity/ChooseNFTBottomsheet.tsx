@@ -97,7 +97,7 @@ const ChooseNFTBottomsheet = ({ callback, visible, onclose }: Props) => {
             backgroundColor: appColor.kgrayDark2,
           }}
           backdropComponent={renderBackdrop}
-          handleComponent={CustomHandler}
+          handleComponent={()=><CustomHandler/>}
         >
           <Text style={styles.title}>NFT</Text>
 

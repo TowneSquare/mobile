@@ -17,7 +17,7 @@ const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const TheirProfileBottomSheet = () => {
   const dispatch = useAppDispatch();
-  const isBottomSheet = useAppSelector(
+  const visibility = useAppSelector(
     (state) => state.USER.theirProfileBottomSheet
   );
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -35,15 +35,15 @@ const TheirProfileBottomSheet = () => {
     []
   );
   useEffect(() => {
-    if (isBottomSheet === false) {
+    if (visibility === false) {
       bottomSheetRef.current?.close();
     } else {
       bottomSheetRef.current?.expand();
     }
-  }, [isBottomSheet]);
+  }, [visibility]);
   useEffect(() => {
     const handleBackButton = () => {
-      if (isBottomSheet === true) {
+      if (visibility === true) {
         dispatch(updateTheirProfileBottomSheet(false));
         return true;
       } else {
@@ -54,7 +54,7 @@ const TheirProfileBottomSheet = () => {
     return () => {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
-  }, [isBottomSheet]);
+  }, [visibility]);
   const {
     animatedHandleHeight,
     animatedSnapPoints,
@@ -63,7 +63,7 @@ const TheirProfileBottomSheet = () => {
   } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
   return (
     <>
-      {!isBottomSheet ? (
+      {!visibility ? (
         <></>
       ) : (
         <BottomSheet
@@ -79,7 +79,7 @@ const TheirProfileBottomSheet = () => {
           backgroundStyle={{
             backgroundColor: appColor.kgrayDark2,
           }}
-          handleComponent={CustomHandler}
+          handleComponent={()=><CustomHandler/>}
           backdropComponent={renderBackdrop}
         >
           <BottomSheetView

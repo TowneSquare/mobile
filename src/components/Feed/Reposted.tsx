@@ -141,7 +141,8 @@ const Reposted = ({ data }: { data: UserPost }) => {
                     styles.message,
                     {
                       marginHorizontal: size.getWidthSize(16),
-                      marginBottom: size.getHeightSize(16),
+                      marginBottom: size.getHeightSize(8),
+                     
                     },
                   ]}
                 >
@@ -532,21 +533,31 @@ const Reposted = ({ data }: { data: UserPost }) => {
                     ${floorPriceContent.messageTag}
                   </Text>
                 </Text>
-                <View style={repostStyles.swapContainer}>
-                  <View style={styles.swapDescription}>
-                    <View style={styles.swapImageContainer}>
-                      <APTMonkey />
-                      <Text style={styles.swapLeadingText}>
-                        {floorPriceContent.collectionName}
-                      </Text>
-                    </View>
-                    <Text style={styles.floorPrice}>
-                      Floor price{' '}
-                      <Text style={styles.floorAmount}>
-                        {floorPriceContent.amount} APT
-                      </Text>
+                <View
+                  style={[
+                    styles.floorPriceContainer,
+                    {
+                      borderRadius: 0,
+                      borderBottomWidth: 0,
+                      borderLeftWidth: 0,
+                      borderRightWidth: 0,
+                    },
+                  ]}
+                >
+                  <Text style={[styles.floorPrice]}>
+                    Floor price{' '}
+                    <Text style={styles.floorAmount}>
+                      {floorPriceContent.amount} APT
                     </Text>
-                  </View>
+                  </Text>
+                  <APTMonkey
+                    style={{
+                      marginRight: size.getWidthSize(4),
+                    }}
+                  />
+                  <Text numberOfLines={1} style={styles.swapLeadingText}>
+                    {floorPriceContent.collectionName}
+                  </Text>
                 </View>
               </View>
               <PostActions
@@ -590,7 +601,7 @@ const repostStyles = StyleSheet.create({
     marginBottom: size.getHeightSize(8),
   },
   repostText: {
-    marginHorizontal: size.getWidthSize(8),
+    marginHorizontal: size.getWidthSize(16),
   },
   repostLink: {
     marginHorizontal: size.getWidthSize(8),
@@ -599,7 +610,6 @@ const repostStyles = StyleSheet.create({
     marginBottom: size.getHeightSize(0),
   },
   swapContainer: {
-    backgroundColor: appColor.kgrayDark2,
     flexDirection: 'row',
     borderTopWidth: 1,
     borderColor: appColor.kGrayLight3,

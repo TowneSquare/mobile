@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
 export enum VerifyCommunityState {
   NOT_APPROVED,
@@ -10,6 +10,11 @@ export enum InviteStatus {
   NOT_INVITED,
   INVITE_PENDING,
   INVITE_ACCEPTED,
+}
+interface User {
+  name: string;
+  username: string;
+  id: string;
 }
 
 interface CommunityUserData {
@@ -26,7 +31,11 @@ interface CommunityState {
   verificationStatus: VerifyCommunityState;
   invitedMembers: Array<Number>;
   communityMembers: Array<Number>;
-  inviteSent:boolean
+  inviteSent: boolean;
+  createChannelBottomSheetVisibility: boolean;
+  members: User[];
+  channelName: string[];
+  hasCreatedCommunity: boolean;
 }
 
 const initialState: CommunityState = {
@@ -34,40 +43,40 @@ const initialState: CommunityState = {
     {
       id: 1,
       userData: {
-        name: "User Name",
-        username: "@web3_guru",
+        name: 'User Name',
+        username: '@web3_guru',
       },
       InviteState: InviteStatus.NOT_INVITED,
     },
     {
       id: 2,
       userData: {
-        name: "User Name",
-        username: "@web3_guru",
+        name: 'User Name',
+        username: '@web3_guru',
       },
       InviteState: InviteStatus.NOT_INVITED,
     },
     {
       id: 3,
       userData: {
-        name: "User Name",
-        username: "@web3_guru",
+        name: 'User Name',
+        username: '@web3_guru',
       },
       InviteState: InviteStatus.NOT_INVITED,
     },
     {
       id: 4,
       userData: {
-        name: "User Name",
-        username: "@web3_guru",
+        name: 'User Name',
+        username: '@web3_guru',
       },
       InviteState: InviteStatus.NOT_INVITED,
     },
     {
       id: 5,
       userData: {
-        name: "User Name",
-        username: "@web3_guru",
+        name: 'User Name',
+        username: '@web3_guru',
       },
       InviteState: InviteStatus.NOT_INVITED,
     },
@@ -75,11 +84,15 @@ const initialState: CommunityState = {
   verificationStatus: VerifyCommunityState.NOT_APPROVED,
   invitedMembers: [],
   communityMembers: [],
-  inviteSent:false
+  inviteSent: false,
+  createChannelBottomSheetVisibility: false,
+  members: [],
+  channelName: [],
+  hasCreatedCommunity: false,
 };
 
 export const COMMUNITY = createSlice({
-  name: "Community",
+  name: 'Community',
   initialState,
   reducers: {
     updateVerificationStatus: (
@@ -112,7 +125,31 @@ export const COMMUNITY = createSlice({
         state.communityData = [userData, ...newCommunityData];
       }
       state.invitedMembers = [];
-      state.inviteSent = true
+      state.inviteSent = true;
+    },
+    updateCreateChannelBottomSheetVisibility: (
+      state,
+      action: PayloadAction<boolean>
+    ) => {
+      state.createChannelBottomSheetVisibility = action.payload;
+    },
+    updateMembers: (state, action: PayloadAction<User>) => {
+      const memberExist = state.members.find(
+        (member) => member.id === action.payload.id
+      );
+      if (memberExist) {
+        state.members = state.members.filter(
+          (member) => member.id !== action.payload.id
+        );
+      } else {
+        state.members = [...state.members, action.payload];
+      }
+    },
+    updateChannelName: (state, action: PayloadAction<string>) => {
+      state.channelName = [...state.channelName, action.payload];
+    },
+    updateHasCreatedCommunity: (state, action: PayloadAction<boolean>) => {
+      state.hasCreatedCommunity = action.payload;
     },
   },
 });
@@ -123,5 +160,9 @@ export const {
   removeInviteMembers,
   clearInviteMembers,
   sendInvite,
+  updateCreateChannelBottomSheetVisibility,
+  updateMembers,
+  updateChannelName,
+  updateHasCreatedCommunity,
 } = COMMUNITY.actions;
 export default COMMUNITY.reducer;

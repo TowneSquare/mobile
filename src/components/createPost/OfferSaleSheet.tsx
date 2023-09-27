@@ -7,13 +7,7 @@ import {
   Keyboard,
   KeyboardEvent,
 } from 'react-native';
-import {
-  useRef,
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
-} from 'react';
+import { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import { useFonts } from 'expo-font';
 import Aptos from '../../../assets/images/svg/Aptos';
 import { useNavigation, StackActions } from '@react-navigation/native';
@@ -127,7 +121,7 @@ const OfferSaleSheet = ({ isVisible }: Props) => {
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
       }}
-      handleComponent={CustomHandler}
+      handleComponent={() => <CustomHandler />}
       backdropComponent={renderBackdrop}
       keyboardBehavior="interactive"
     >

@@ -8,10 +8,14 @@ import {
 } from 'react-native';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
+import { useState } from 'react';
 import { appColor, fonts, images } from '../../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HashTags from '../../components/createPost/HashTags';
 import { sizes } from '../../utils';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import CreatePostCommunityIcon from '../../../assets/images/svg/CreatePostCommunityIcon';
+import CreatePostAptosIcon from '../../../assets/images/svg/CreatePostAptosIcon';
 import { updateToast } from '../../controller/FeedsController';
 import AtMention from '../../components/createPost/AtMention';
 import FieldInput from '../../components/createPost/FieldInput';
@@ -19,6 +23,7 @@ import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import PostAttachment from '../../components/createPost/PostAttachment';
 import AttachedNftContainer from '../../components/createPost/AttachedNftContainer';
 const size = new sizes(height, width);
+import CommunityPostPrivacyBottomSheet from '../../components/Community/CreatePost/CommunityPostPrivacyBottomSheet';
 import SwapPost from '../../components/createPost/SwapPost';
 import FloorPricePost from '../../components/createPost/FloorPricePost';
 import AptosPanel from '../../components/createPost/AptosPanel';
@@ -28,7 +33,13 @@ import { Avatar } from 'react-native-elements';
 import { useNavigation, StackActions } from '@react-navigation/native';
 import { clearPostData } from '../../controller/createPost';
 import { ScrollView } from 'react-native-gesture-handler';
-const CreatePost = () => {
+import { CreatePostProps } from '../../navigations/NavigationTypes';
+const CreatePost = ({ route }: CreatePostProps) => {
+  const whichPost = route.params.whichPost;
+  const [
+    showCommunityPostPrivacyBottomSheet,
+    setShowCommunityPostPrivacyBottomSheet,
+  ] = useState(false);
   const { showAtMentions, showHashTags, showAPTPanel, showApt, media, nft } =
     useAppSelector((state) => ({
       showAtMentions: state.CreatePostController.showAtMentionContainer,
@@ -43,7 +54,9 @@ const CreatePost = () => {
       post: state.CreatePostController.posts,
     }));
   const dispatch = useAppDispatch();
-
+  const postPrivacy = useAppSelector(
+    (state) => state.CreatePostController.communityPostPrivacy
+  );
   const shouldShowAptosPanel = showAPTPanel;
   const shouldShowAtMention = showAtMentions;
   const shouldShowHashTags = showHashTags;
@@ -70,7 +83,6 @@ const CreatePost = () => {
         backgroundColor: appColor.feedBackground,
       }}
     >
-      {/* <FieldInput /> */}
       <View style={styles.header}>
         <Text onPress={navigation.goBack} style={styles.cancel}>
           Cancel
@@ -101,7 +113,7 @@ const CreatePost = () => {
             source={images.createPostPfp}
             size={size.getHeightSize(40)}
           />
-          <FieldInput />
+          <FieldInput whichPost={whichPost} />
         </View>
         <View
           style={{
@@ -126,7 +138,29 @@ const CreatePost = () => {
             <AtMention />
           </View>
         )}
-        {shouldShowPostAttachment && <PostAttachment />}
+        {shouldShowPostAttachment && (
+          <>
+            {whichPost === 'communityPost' && (
+              <Pressable
+                onPress={() => setShowCommunityPostPrivacyBottomSheet(true)}
+                style={styles.privacyPost}
+              >
+                <CreatePostAptosIcon size={size.getHeightSize(24)} />
+                {postPrivacy === 'public' ? (
+                  <Text style={styles.typeOfPost}>Public</Text>
+                ) : (
+                  <Text style={styles.typeOfPost}>Community only</Text>
+                )}
+                <MaterialIcons
+                  name="arrow-drop-down"
+                  color={appColor.primaryLight}
+                  size={size.fontSize(24)}
+                />
+              </Pressable>
+            )}
+            <PostAttachment />
+          </>
+        )}
         {shouldShowHashTags && (
           <View style={styles.tagConatiners}>
             <HashTags />
@@ -134,6 +168,10 @@ const CreatePost = () => {
         )}
       </KeyboardAvoidingView>
       <GifBottomSheet />
+      <CommunityPostPrivacyBottomSheet
+        onClose={() => setShowCommunityPostPrivacyBottomSheet(false)}
+        visibility={showCommunityPostPrivacyBottomSheet}
+      />
     </SafeAreaView>
   );
 };
@@ -212,5 +250,23 @@ const styles = StyleSheet.create({
   },
   absolutePosition: {
     width: '100%',
+  },
+  typeOfPost: {
+    color: appColor.primaryLight,
+    fontSize: size.fontSize(16),
+    fontFamily: 'Outfit-Regular',
+    lineHeight: size.getHeightSize(21),
+  },
+  privacyPost: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: size.getHeightSize(8),
+    paddingHorizontal: size.getWidthSize(16),
+    borderRadius: 40,
+    alignSelf: 'flex-start',
+    marginBottom: size.getHeightSize(16),
+    gap: size.getWidthSize(8),
+    backgroundColor: 'rgba(184, 130, 255, 0.30)',
+    marginLeft: size.getWidthSize(16),
   },
 });

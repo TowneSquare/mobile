@@ -98,7 +98,7 @@ const ReportUserModal = () => {
           backgroundStyle={{
             backgroundColor: appColor.kgrayDark2,
           }}
-          handleComponent={CustomHandler}
+          handleComponent={()=><CustomHandler/>}
           backdropComponent={renderBackdrop}
         >
           <BottomSheetView onLayout={handleContentLayout}>

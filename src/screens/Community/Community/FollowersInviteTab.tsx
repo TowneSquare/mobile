@@ -1,12 +1,12 @@
-import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { View } from "react-native";
-import { appColor } from "../../../constants";
-import SearchField from "../../../shared/Feed/SearchField";
-import { ScrollView } from "react-native-gesture-handler";
-import InviteUserDisplay from "../../../components/Community/Community/InviteUserDisplay";
-import { InviteStatus } from "../../../controller/CommunityController";
-import { useAppSelector } from "../../../controller/hooks";
+import React from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { View } from 'react-native';
+import { appColor } from '../../../constants';
+import SearchField from '../../../shared/Feed/SearchField';
+import { ScrollView } from 'react-native-gesture-handler';
+import InviteUserDisplay from '../../../components/Community/Community/InviteUserDisplay';
+import { InviteStatus } from '../../../controller/CommunityController';
+import { useAppSelector } from '../../../controller/hooks';
 
 const FollowersInviteTab = () => {
   const COMMUNITY_DATA = useAppSelector(

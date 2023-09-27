@@ -19,7 +19,7 @@ const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
 interface Props {
-  icon?: 'more_icon' | 'cancel_icon' | 'selected';
+  icon?: 'more_icon' | 'cancel_icon' | 'selected' | 'unban';
   callBack?: () => void;
   badge: 'purple_badge' | 'queen_badge';
 }
@@ -40,6 +40,20 @@ const Member = ({ callBack, icon, badge }: Props) => {
         );
       case 'selected':
         return <SelectedMemberIcon size={size.getHeightSize(20)} />;
+      case 'unban':
+        return (
+          <Text
+            style={{
+              fontSize: size.fontSize(18),
+              fontFamily: 'Outfit-Medium',
+              color: appColor.kErrorText,
+              lineHeight: size.getHeightSize(23),
+              letterSpacing: 0.36,
+            }}
+          >
+            Unban
+          </Text>
+        );
     }
   };
 

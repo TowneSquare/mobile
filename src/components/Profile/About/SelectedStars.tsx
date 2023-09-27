@@ -1,12 +1,6 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  Pressable,
-} from 'react-native';
+import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
 import { sizes } from '../../../utils';
-import { appColor, } from '../../../constants';
+import { appColor } from '../../../constants';
 import SelectedSuperStars from './SelectedSuperStars';
 import { NavigationProp, CommonActions } from '@react-navigation/native';
 import { RootStackParamList } from '../../../navigations/NavigationTypes';
@@ -48,17 +42,14 @@ const SelectedStars = ({ navigation }: Props) => {
           onPress={() => {
             dispatch(updateSelectedSuperStars(selectedStars));
             navigation.dispatch(
-              CommonActions.reset({
-                index: 0,
-                routes: [
-                  {
-                    name: 'BottomTabNavigation',
-                    state: {
-                      index: 0,
-                      routes: [{ name: 'UserProfile' }],
-                    },
+              CommonActions.navigate({
+                name: 'DrawerNavigation',
+                params: {
+                  screen: 'Tabs',
+                  params: {
+                    screen: 'UserProfile',
                   },
-                ],
+                },
               })
             );
             dispatch(resetSelectedSuperStar());

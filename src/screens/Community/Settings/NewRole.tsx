@@ -23,9 +23,7 @@ const size = new sizes(height, width);
 const NewRole = ({ navigation }: NewRoleProps) => {
   const [showRemoveMemberBottomSheet, setRemoveBottomSheetVisibility] =
     useState(false);
-  const members = useAppSelector(
-    (state) => state.CommunitySettingsController.members
-  );
+  const members = useAppSelector((state) => state.COMMUNITY.members);
   return (
     <SafeAreaView
       style={{

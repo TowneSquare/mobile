@@ -51,6 +51,7 @@ interface Post {
   NFTBottomSheet: boolean;
   posts: Partial<CreatePost>;
   priceModal: boolean;
+  communityPostPrivacy: 'public' | 'community-only';
 }
 const initialState: Post = {
   data: atMentionData,
@@ -82,6 +83,7 @@ const initialState: Post = {
     nft: null,
   },
   priceModal: false,
+  communityPostPrivacy: 'public',
 };
 
 export const fieldHandlerSlice = createSlice({
@@ -254,6 +256,12 @@ export const fieldHandlerSlice = createSlice({
         nft: null,
       };
     },
+    updateCommunityPostPrivacy: (
+      state,
+      action: PayloadAction<'public' | 'community-only'>
+    ) => {
+      state.communityPostPrivacy = action.payload;
+    },
   },
 });
 export const {
@@ -279,5 +287,6 @@ export const {
   updatePostNft,
   updateAptPrice,
   clearPostData,
+  updateCommunityPostPrivacy,
 } = fieldHandlerSlice.actions;
 export default fieldHandlerSlice.reducer;

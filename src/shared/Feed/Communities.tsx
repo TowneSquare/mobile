@@ -1,18 +1,12 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  Image,
-} from 'react-native';
-const { height, width } = Dimensions.get('window');
-import JoinButton from './JoinButton';
-import { useFonts } from 'expo-font';
-import { appColor, fonts, images } from '../../constants';
-import { sizes } from '../../utils';
-import ImageStack from '../../components/Notification/ImageStack';
-import Users from '../../../assets/images/svg/Users';
-import { useAppSelector } from '../../controller/hooks';
+import { View, Text, Dimensions, StyleSheet, Image } from "react-native";
+const { height, width } = Dimensions.get("window");
+import JoinButton from "./JoinButton";
+import { useFonts } from "expo-font";
+import { appColor, fonts, images } from "../../constants";
+import { sizes } from "../../utils";
+import ImageStack from "./ImageStack";
+import Users from "../../../assets/images/svg/Users";
+import { useAppSelector } from "../../controller/hooks";
 const size = new sizes(height, width);
 interface Props {
   showAll: boolean;
@@ -27,12 +21,12 @@ const Communities = ({ showAll }: Props) => {
     searchFocus: state.SearchPostController.searchFocus,
     searchData: state.SearchPostController.communitySearchDataFiltered,
   }));
-  const communityData = searchFocus === 'hide_for_you_tab' ? searchData : data;
+  const communityData = searchFocus === "hide_for_you_tab" ? searchData : data;
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
   });
   if (!isLoaded) {
     return null;
@@ -102,35 +96,35 @@ const styles = StyleSheet.create({
   button: {
     paddingHorizontal: size.getWidthSize(16),
     backgroundColor: appColor.kSecondaryButtonColor,
-    justifyContent: 'center',
+    justifyContent: "center",
     borderRadius: 40,
     width: size.getWidthSize(63),
     paddingVertical: size.getHeightSize(7),
   },
   buttonText: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-Medium',
+    fontFamily: "Outfit-Medium",
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(20),
     letterSpacing: 0.02,
   },
   imageStyle: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     borderRadius: 8,
   },
   groupDescription: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(8),
     paddingHorizontal: size.getWidthSize(8),
     marginTop: size.getHeightSize(8),
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    justifyContent: "space-between",
+    alignItems: "flex-start",
   },
   groupName: {
     fontSize: size.fontSize(20),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(24),
     letterSpacing: 0.04,
@@ -138,7 +132,7 @@ const styles = StyleSheet.create({
   },
   groupText: {
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.grayLight,
     lineHeight: size.getHeightSize(18),
     letterSpacing: 0.04,
@@ -148,21 +142,21 @@ const styles = StyleSheet.create({
     marginBottom: size.getHeightSize(16),
   },
   textBold: {
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
   },
   members: {
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.grayLight,
     lineHeight: size.getHeightSize(18),
     marginLeft: size.getWidthSize(30),
   },
   groupDetails: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(4),
     marginLeft: size.getWidthSize(8),
     marginBottom: size.getHeightSize(24),
-    alignItems: 'center',
+    alignItems: "center",
   },
   groupInfoContainer: {
     backgroundColor: appColor.kgrayDark2,
@@ -176,37 +170,37 @@ const styles = StyleSheet.create({
   hexagon: {
     width: size.getHeightSize(64),
     height: size.getHeightSize(64),
-    position: 'absolute',
+    position: "absolute",
     left: size.getWidthSize(8),
     top: size.getHeightSize(-32),
   },
   text: {
     fontSize: size.fontSize(20),
     lineHeight: size.getHeightSize(24),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     color: appColor.kTextColor,
     letterSpacing: size.getWidthSize(0.8),
   },
   showMore: {
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     color: appColor.klightPurple,
     letterSpacing: size.getWidthSize(0.8),
     marginTop: size.getHeightSize(16),
     marginBottom: size.getHeightSize(24),
-    textAlign: 'center',
+    textAlign: "center",
   },
   notFoundText: {
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: size.getHeightSize(21),
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.grayLight,
     width: size.getWidthSize(271),
   },
   container: {
-    alignSelf: 'center',
-    alignItems: 'center',
+    alignSelf: "center",
+    alignItems: "center",
   },
 });

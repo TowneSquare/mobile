@@ -6,18 +6,12 @@ const { height, width } = Dimensions.get('window');
 import { useAppDispatch } from '../../controller/hooks';
 import { useFonts } from 'expo-font';
 import Header from '../../components/Profile/Header';
-import ReportUserModal from '../../components/Feed/ReportUserModal';
-import BlockUserModal from '../../components/Feed/BlockUserModal';
-import ReportPanel from '../../components/Feed/ReportPanel';
-import MyPostPanel from '../../shared/Feed/MyPostPanel';
 import VerificationModal from '../../components/Profile/About/VerificationModal';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SuperStarBottomSheet from '../../components/Profile/About/SuperStarBottomSheet';
 import EditProfileModal from '../../components/Profile/About/EditProfileModal';
 import ProfileTabNavigation from '../../navigations/ProfileTabNavigation';
 import { updateSuperStarBottomSheet } from '../../controller/BottomSheetController';
-import ReportPostModal from '../../components/Feed/ReportPostModal';
-import DeleteMyPostPanel from '../../shared/Feed/DeleteMyPostPanel';
 
 const title = 'Real JC';
 
@@ -63,12 +57,6 @@ const Profile = () => {
         typeOfProfile="myProfile"
       />
       <EditProfileModal />
-      <ReportUserModal />
-      <ReportPanel />
-      <ReportPostModal />
-      <BlockUserModal />
-      <DeleteMyPostPanel />
-      <MyPostPanel />
       <VerificationModal />
     </SafeAreaView>
   );

@@ -92,7 +92,7 @@ const AssetBottomSheet = <T,>({ context }: Props<T>) => {
             backgroundColor: appColor.kgrayDark2,
           }}
           backdropComponent={renderBackdrop}
-          handleComponent={CustomHandler}
+          handleComponent={()=><CustomHandler/>}
         >
           <Text style={styles.title}>Choose asset</Text>
 

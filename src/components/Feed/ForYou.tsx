@@ -42,8 +42,9 @@ interface NavigationParameter {
 interface Props {
   myPost?: boolean;
   data: UserPost;
+  shouldPFPSwipe: boolean;
 }
-const ForYou = memo(({ data, myPost }: Props) => {
+const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
   const navigation = useNavigation();
 
   let [isLoaded] = useFonts({
@@ -73,7 +74,7 @@ const ForYou = memo(({ data, myPost }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture id={data.id} swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -81,7 +82,6 @@ const ForYou = memo(({ data, myPost }: Props) => {
                 timepost={userPost.timepost}
                 myPost={myPost ? myPost : false}
               />
-
               <Text onPress={handleNavigation} style={styles.message}>
                 {userPost.content.message}
               </Text>
@@ -102,7 +102,7 @@ const ForYou = memo(({ data, myPost }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture id={data.id} swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -144,7 +144,7 @@ const ForYou = memo(({ data, myPost }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture id={data.id} swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 onPress={handleNavigation}
@@ -182,7 +182,7 @@ const ForYou = memo(({ data, myPost }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture id={data.id} swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 onPress={handleNavigation}
@@ -221,7 +221,7 @@ const ForYou = memo(({ data, myPost }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture id={data.id} swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -278,7 +278,7 @@ const ForYou = memo(({ data, myPost }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture id={data.id} swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -347,7 +347,7 @@ const ForYou = memo(({ data, myPost }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture id={data.id} swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 onPress={handleNavigation}
@@ -401,7 +401,7 @@ const ForYou = memo(({ data, myPost }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture id={data.id} swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -449,7 +449,7 @@ const ForYou = memo(({ data, myPost }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture id={data.id} swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -464,21 +464,21 @@ const ForYou = memo(({ data, myPost }: Props) => {
                   ${floorPriceContent.messageTag}
                 </Text>
               </Text>
-              <View style={styles.SwapContainer}>
-                <View style={styles.swapDescription}>
-                  <View style={styles.swapImageContainer}>
-                    <APTMonkey />
-                    <Text style={styles.swapLeadingText}>
-                      {floorPriceContent.collectionName}
-                    </Text>
-                  </View>
-                  <Text style={styles.floorPrice}>
-                    Floor price{' '}
-                    <Text style={styles.floorAmount}>
-                      {floorPriceContent.amount} APT
-                    </Text>
+              <View style={styles.floorPriceContainer}>
+                <Text style={[styles.floorPrice]}>
+                  Floor price{' '}
+                  <Text style={styles.floorAmount}>
+                    {floorPriceContent.amount} APT
                   </Text>
-                </View>
+                </Text>
+                <APTMonkey
+                  style={{
+                    marginRight: size.getWidthSize(4),
+                  }}
+                />
+                <Text numberOfLines={1} style={styles.swapLeadingText}>
+                  {floorPriceContent.collectionName}
+                </Text>
               </View>
               <PostActions
                 noOfComments={userPost.comments}
@@ -517,5 +517,14 @@ const communityStyles = StyleSheet.create({
     lineHeight: size.getHeightSize(18),
     color: appColor.primaryLight,
     fontFamily: 'Outfit-SemiBold',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });

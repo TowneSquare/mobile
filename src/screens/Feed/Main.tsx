@@ -1,13 +1,5 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  Pressable,
-} from 'react-native';
-import { useEffect } from 'react';
+import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
 import { sizes } from '../../utils';
-// import CToast from '../../shared/Feed/CToast';
 const { height, width } = Dimensions.get('window');
 import { appColor, fonts } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
@@ -18,7 +10,6 @@ import Feather from '@expo/vector-icons/Feather';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useFonts } from 'expo-font';
 import NotificationBell from '../../components/Feed/NotificationBell';
-import ReportPanel from '../../components/Feed/ReportPanel';
 import MainTab from '../../navigations/MainTabNavigation';
 import { useNavigation } from '@react-navigation/native';
 const size = new sizes(height, width);
@@ -26,18 +17,8 @@ import { DrawerActions } from '@react-navigation/native';
 import ReceiveTokenModal from '../../components/Feed/ReceiveTokenModal';
 import { useAppDispatch } from '../../controller/hooks';
 import { updateReceiveModalState } from '../../controller/FeedsController';
-import ReportPostModal from '../../components/Feed/ReportPostModal';
-import ReportUserModal from '../../components/Feed/ReportUserModal';
-import BlockUserModal from '../../components/Feed/BlockUserModal';
-import { resetModals } from '../../controller/FeedsController';
-import { LinearProgress } from 'react-native-elements';
-import ToastInfoIcon from '../../../assets/images/svg/ToastInfoIcon';
 
-type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 const Main = () => {
-  useEffect(() => {
-    dispatch(resetModals());
-  }, []);
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
@@ -58,31 +39,7 @@ const Main = () => {
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
   };
-  const toastConfig = {
-    tomatoToast: ({ progressValue }) => (
-      <View style={styles.toastContainer}>
-        <View
-          style={[
-            styles.toastRow,
-            {
-              marginVertical: size.getHeightSize(16),
-              alignItems: 'center',
-            },
-          ]}
-        >
-          {<ToastInfoIcon />}
-          <Text style={styles.toastText}>{'hdhgdgdgdgdgd'}</Text>
-        </View>
 
-        <LinearProgress
-          color={'#2AB576'}
-          trackColor={appColor.kgrayDark2}
-          value={progressValue}
-          variant="determinate"
-        />
-      </View>
-    ),
-  };
   return (
     <SafeAreaView
       style={{
@@ -108,57 +65,21 @@ const Main = () => {
         </View>
       </View>
       <MainTab />
-
       <Pressable
         onPress={() =>
-          navigation.navigate('CreatePost' as any, { showToast: false })
+          navigation.navigate('CreatePost', {
+            showToast: false,
+            whichPost: 'singlePost',
+          })
         }
         style={styles.FAB}
       >
         <AntDesign name="plus" size={25} color={appColor.kTextColor} />
       </Pressable>
-      <ReportUserModal />
-      <ReportPanel />
-      <ReportPostModal />
-      <BlockUserModal />
-      <ReceiveTokenModal closeModal={closeModal} />
+      {/* <View style={styles.overlay} /> */}
 
-      {/* {toastType !== 'none' && toastType !== 'publish' && (
-        <CustomToast
-          type="sucess"
-          marginVertical={24}
-          position="top"
-          text={
-            toastType === 'reportUser'
-              ? 'JohnFlock is reported successfully'
-              : toastType === 'blockUser'
-              ? 'You have blocked JohnFlock'
-              : toastType === 'reportPost'
-              ? 'Post is reported successfully'
-              : null
-          }
-          functions={[
-            () => {
-              dispatch(updateToastToShow('none')),
-                dispatch(updateShowCustomToast(false));
-            },
-          ]}
-        />
-      )}
-      {toastType === 'publish' && (
-        <CustomToast
-          type="sucess"
-          marginVertical={24}
-          position="top"
-          text="Post is published successfully"
-          functions={[
-            () => {
-              dispatch(updateToastToShow('none')),
-                dispatch(updateShowCustomToast(false));
-            },
-          ]}
-        />
-      )} */}
+      <ReceiveTokenModal closeModal={closeModal} />
+      {/* <TipBottomSheet /> */}
     </SafeAreaView>
   );
 };
@@ -205,6 +126,8 @@ const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0,0,0,0.7)',
+    // position: 'absolute',
+    zIndex: 0,
   },
 
   toastText: {

@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, StyleSheet, Animated } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, Animated, ActivityIndicator } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { LinearProgress } from 'react-native-elements';
 import GreenToastIcon from '../../../assets/images/svg/GreenToastIcon';
