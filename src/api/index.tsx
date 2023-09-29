@@ -36,7 +36,9 @@ function createCall(path, data = null, headers = {}, method = 'POST') {
         if (error.code == 400) console.log(error.message);
       });
 }
-
+export async function checkSignup(token: string, issuer: string, aptosWallet: string) {
+  return createCall('user/checkSignup', {issuer, aptosWallet}, {authorization: token}, "GET")
+}
 export async function signup(token: string) {
   return createCall('signup', { issuer: token }, { authorization: token });
 }

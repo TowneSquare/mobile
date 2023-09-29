@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+
 import {
   Text,
   View,
@@ -26,8 +27,9 @@ import ChooseNFT from "../../components/SignUp/ChooseProfilePics/ChooseNFT";
 import SelectedCollection from "../../components/SignUp/ChooseProfilePics/SelectedCollection";
 import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../../controller/hooks";
-import { updateDidToken } from "../../controller/UserController";
+import { updateAccountInfo, updateDidToken, updateMetadata } from "../../controller/UserController";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { checkSignup } from "../../api";
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
@@ -90,7 +92,21 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     const newIndex = viewIndex + 1;
     if (viewIndex == 0) {
       const token = await magic.auth.loginWithEmailOTP({ email });
+      console.log(JSON.stringify(token));
       dispatch(updateDidToken(token));
+  
+      const accountInfo = await magic.aptos.getAccountInfo();
+      console.log(accountInfo);
+      dispatch(updateAccountInfo(accountInfo));
+
+      const metadata = await magic.user.getMetadata();
+      console.log(metadata)
+      dispatch(updateMetadata(metadata))
+
+      const res = await checkSignup(token, metadata.issuer, accountInfo.address );
+      if(res){
+        navigation.navigate("Congratulations");
+      }
     }
     // const newIndex = viewIndex + 1;
     if (newIndex < views.length && flatListRef.current) {

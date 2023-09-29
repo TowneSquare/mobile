@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import bottomSheetSlice from './BottomSheetController';
 import USER from './UserController';
 import FeedsSlice from './FeedsController';
@@ -14,7 +14,7 @@ export const store = configureStore({
     CreatePostController: CreatePostSlice,
     SearchPostController: SearcPostSlice,
     COMMUNITY,
-  },
+  }
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
