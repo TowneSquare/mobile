@@ -111,7 +111,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
         accountInfo.address
       );
       console.log(metadata.issuer, accountInfo.address, res);
-      if (res) {
+      if (res.isExist == true) {
         navigation.navigate("Congratulations");
       }
     }

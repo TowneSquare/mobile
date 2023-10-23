@@ -5,7 +5,9 @@ import {
   Dimensions,
   StyleSheet,
   Pressable,
-} from 'react-native';
+  TouchableOpacity
+  } from 'react-native';
+import { useRef } from "react";
 import X from '../../../assets/images/svg/X';
 import { useFonts } from 'expo-font';
 import Apple from '../../../assets/images/svg/Apple';
@@ -28,11 +30,15 @@ import { useAppDispatch } from '../../controller/hooks';
 import {
   updateAccountInfo,
   updateDidToken,
+  updateMetadata,
 } from '../../controller/UserController';
+import { checkSignup } from "../../api";
+import Loader from "../../../assets/svg/Loader";
 
 const FirstScreen = ({ magic }: FirstScreenProps) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
+  const loaderRef = useRef();
 
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -44,62 +50,94 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
     return null;
   }
 
-  const loginGoogle = async () => {
-    const token = await magic.oauth.loginWithPopup({
-      provider: 'google',
-      redirectURI: Linking.createURL('SignUp'),
-    });
-    console.log(JSON.stringify(token));
-    dispatch(updateDidToken(token));
+  const showLoader = (show = true) => {
+    if (loaderRef.current && show)
+      (loaderRef.current as any).setNativeProps({ style: { display: "flex" } });
+
+    if (loaderRef.current && !show)
+      (loaderRef.current as any).setNativeProps({ style: { display: "none" } });
+  }
+  const doNext = async (token: any) => {
+    dispatch(updateDidToken(token.magic.idToken));
 
     const accountInfo = await magic.aptos.getAccountInfo();
-    console.log(accountInfo);
     dispatch(updateAccountInfo(accountInfo));
+
+    const metadata = await magic.user.getMetadata();
+    dispatch(updateMetadata(metadata));
+
+    const res = await checkSignup(
+      token.magic.idToken,
+      metadata.issuer,
+      accountInfo.address
+    );
+
+    showLoader(false);
+
+    if (res.isExist == true) {
+      navigation.navigate("Congratulations");
+    } else {
+      navigation.navigate("SignUp");
+    }
+  };
+
+  const loginGoogle = async () => {
+    showLoader();
+    const token = await magic.oauth.loginWithPopup({
+      provider: "google",
+      redirectURI: Linking.createURL("FirstScreen"),
+    });
+    doNext(token);
   };
 
   const loginDiscord = async () => {
+    showLoader();
     const token = await magic.oauth.loginWithPopup({
-      provider: 'discord',
-      redirectURI: Linking.createURL('SignUp'),
+      provider: "discord",
+      redirectURI: Linking.createURL("FirstScreen"),
     });
-    console.log(token);
-    dispatch(updateDidToken(token));
-
-    const accountInfo = await magic.aptos.getAccountInfo();
-    console.log(accountInfo);
-    dispatch(updateAccountInfo(accountInfo));
+    doNext(token);
   };
 
   const loginApple = async () => {
+    showLoader();
     const token = await magic.oauth.loginWithPopup({
       provider: "apple",
-      redirectURI: Linking.createURL("SignUp"),
+      redirectURI: Linking.createURL("FirstScreen"),
     });
-    console.log(token);
-    dispatch(updateDidToken(token));
-
-    const accountInfo = await magic.aptos.getAccountInfo();
-    console.log(accountInfo);
-    dispatch(updateAccountInfo(accountInfo));
+    doNext(token);
   };
 
   const loginX = async () => {
+    showLoader();
     const token = await magic.oauth.loginWithPopup({
       provider: "X",
-      redirectURI: Linking.createURL("SignUp"),
+      redirectURI: Linking.createURL("FirstScreen"),
     });
-    console.log(token);
-    dispatch(updateDidToken(token));
-
-    const accountInfo = await magic.aptos.getAccountIngo();
-    console.log(accountInfo);
-    dispatch(updateAccountInfo(accountInfo));
-  }
+    doNext(token);
+  };
 
   return (
     <>
       <StatusBar style="light" />
 
+      <TouchableOpacity
+        style={{
+          display: "none",
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0,
+          backgroundColor: "#000000a0",
+          zIndex: 999,
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+        ref={loaderRef}
+      >
+        <Loader />
+      </TouchableOpacity>
       <ImageBackground
         resizeMode="cover"
         style={{
@@ -234,7 +272,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
             onPress={() => loginDiscord()} 
             style={styles.socials}
           >
-            <Discord 
+            <Discord
               width={size.getWidthSize(30)}
               height={size.getHeightSize(28)}
             />
@@ -252,7 +290,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
             onPress={() => loginGoogle()} 
             style={styles.socials}
           >
-            <Google 
+            <Google
               width={size.getWidthSize(28)}
               height={size.getHeightSize(26)}
             />

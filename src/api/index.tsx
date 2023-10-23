@@ -40,5 +40,8 @@ export async function checkSignup(token: string, issuer: string, aptosWallet: st
   return createCall(`user/checkSignup?issuer=${issuer}&aptosWallet=${aptosWallet}`, {}, {authorization: token}, "GET")
 }
 export async function signup(token: string, issuer: string, aptosWallet: string, nickname: string, username: string, email: string) {
-  return createCall('user/signup', { issuer, aptosWallet, nickName: nickname, userName: username, email }, { authorization: token });
+  return createCall('user/signup', { issuer, aptosWallet, nickname, username, email }, { authorization: token });
+}
+export async function getAllUser(token: string) {
+  return createCall(`user/getall`, {}, {authorization: token}, "GET")
 }
