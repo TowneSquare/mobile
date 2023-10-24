@@ -8,6 +8,7 @@ import {
   Dimensions,
   SafeAreaView,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import { useFonts } from "expo-font";
 import TransitionBackButton from "../../components/SignUp/TransitionBackButton";
@@ -34,6 +35,7 @@ import {
 } from "../../controller/UserController";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { checkSignup, signup } from "../../api";
+import Loader from "../../../assets/svg/Loader";
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
@@ -42,7 +44,7 @@ let newWidth = width - 2 * PADDING;
 const EmailLogin = ({ magic }: EmailLoginProps) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-
+  const loaderRef = useRef();
   const [viewIndex, setViewIndex] = useState(0);
 
   const {
@@ -92,30 +94,43 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
   const onViewChangeRef = useRef(({ viewableItems }: any) => {
     setViewIndex(viewableItems[0]?.index);
   });
+
+  const showLoader = (show = true) => {
+    if (loaderRef.current && show)
+      (loaderRef.current as any).setNativeProps({ style: { display: "flex" } });
+
+    if (loaderRef.current && !show)
+      (loaderRef.current as any).setNativeProps({ style: { display: "none" } });
+  };
+
   const handleNextSlide = async () => {
     setViewIndex((previous) => previous + 1);
     const newIndex = viewIndex + 1;
     if (viewIndex == 0) {
-      const token = await magic.auth.loginWithEmailOTP({ email });
-      dispatch(updateDidToken(token));
+      try {
+        showLoader(true);
+        const token = await magic.auth.loginWithEmailOTP({ email });
+        dispatch(updateDidToken(token));
 
-      const accountInfo = await magic.aptos.getAccountInfo();
-      dispatch(updateAccountInfo(accountInfo));
+        const accountInfo = await magic.aptos.getAccountInfo();
+        dispatch(updateAccountInfo(accountInfo));
 
-      const metadata = await magic.user.getMetadata();
-      dispatch(updateMetadata(metadata));
+        const metadata = await magic.user.getMetadata();
+        dispatch(updateMetadata(metadata));
+        console.log(token, accountInfo, metadata);
 
-      const res = await checkSignup(
-        token,
-        metadata.issuer,
-        accountInfo.address
-      );
-      console.log(metadata.issuer, accountInfo.address, res);
-      if (res.isExist == true) {
-        navigation.navigate("Congratulations");
+        const res = await checkSignup(token);
+        console.log(res);
+        showLoader(false);
+        if (res.isExist == true) {
+          navigation.navigate("Congratulations");
+        }
+      } catch (e) {
+        showLoader(false);
+        return;
       }
     }
-    // const newIndex = viewIndex + 1;
+
     if (newIndex < views.length && flatListRef.current) {
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
     } else {
@@ -189,6 +204,23 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity
+        style={{
+          display: "none",
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0,
+          backgroundColor: "#000000a0",
+          zIndex: 999,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        ref={loaderRef}
+      >
+        <Loader />
+      </TouchableOpacity>
       <View
         style={{
           marginTop: size.getHeightSize(42),

@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Pressable,
   TouchableOpacity
-  } from 'react-native';
+} from 'react-native';
 import { useRef } from "react";
 import X from '../../../assets/images/svg/X';
 import { useFonts } from 'expo-font';
@@ -56,65 +56,54 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
 
     if (loaderRef.current && !show)
       (loaderRef.current as any).setNativeProps({ style: { display: "none" } });
-  }
-  const doNext = async (token: any) => {
-    dispatch(updateDidToken(token.magic.idToken));
+  };
+  const loginWith = async (provider: string) => {
+    try {
+      showLoader(true);
 
-    const accountInfo = await magic.aptos.getAccountInfo();
-    dispatch(updateAccountInfo(accountInfo));
+      const token = await magic.oauth.loginWithPopup({
+        provider,
+        redirectURI: Linking.createURL("FirstScreen"),
+      });
+      dispatch(updateDidToken(token.magic.idToken));
 
-    const metadata = await magic.user.getMetadata();
-    dispatch(updateMetadata(metadata));
+      const accountInfo = await magic.aptos.getAccountInfo();
+      dispatch(updateAccountInfo(accountInfo));
 
-    const res = await checkSignup(
-      token.magic.idToken,
-      metadata.issuer,
-      accountInfo.address
-    );
+      const metadata = await magic.user.getMetadata();
+      dispatch(updateMetadata(metadata));
 
-    showLoader(false);
+      const res = await checkSignup(
+        token.magic.idToken
+      );
 
-    if (res.isExist == true) {
-      navigation.navigate("Congratulations");
-    } else {
-      navigation.navigate("SignUp");
+      showLoader(false);
+
+      if (res.isExist == true) {
+        navigation.navigate("Congratulations");
+      } else {
+        navigation.navigate("SignUp");
+      }
+    } catch (error) {
+      console.log("Catch: " , error);
+      showLoader(false)
     }
   };
 
   const loginGoogle = async () => {
-    showLoader();
-    const token = await magic.oauth.loginWithPopup({
-      provider: "google",
-      redirectURI: Linking.createURL("FirstScreen"),
-    });
-    doNext(token);
+    loginWith("google");
   };
 
   const loginDiscord = async () => {
-    showLoader();
-    const token = await magic.oauth.loginWithPopup({
-      provider: "discord",
-      redirectURI: Linking.createURL("FirstScreen"),
-    });
-    doNext(token);
+    loginWith("discord");
   };
 
   const loginApple = async () => {
-    showLoader();
-    const token = await magic.oauth.loginWithPopup({
-      provider: "apple",
-      redirectURI: Linking.createURL("FirstScreen"),
-    });
-    doNext(token);
+    loginWith("apple");
   };
 
   const loginX = async () => {
-    showLoader();
-    const token = await magic.oauth.loginWithPopup({
-      provider: "X",
-      redirectURI: Linking.createURL("FirstScreen"),
-    });
-    doNext(token);
+    loginWith("X");
   };
 
   return (

@@ -5,10 +5,10 @@ import Svg, { SvgProps, Path } from "react-native-svg";
 import { Easing } from "react-native-reanimated";
 
 const Loader = (props: SvgProps) => {
-  const spinValue = useRef(new Animated.Value(0));
+  const spinValue = new Animated.Value(0);
   useEffect(() => {
     Animated.loop(
-      Animated.timing(spinValue.current, {
+      Animated.timing(spinValue, {
         toValue: 1,
         duration: 1000,
         easing: Easing.linear,
@@ -17,7 +17,7 @@ const Loader = (props: SvgProps) => {
     ).start();
   });
 
-  const rotate = spinValue.current.interpolate({
+  const rotate = spinValue.interpolate({
     inputRange: [0, 1],
     outputRange: ["0deg", "360deg"],
   });

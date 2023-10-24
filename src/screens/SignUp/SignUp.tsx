@@ -52,22 +52,20 @@ const SignUp = ({ navigation }: SignUpProps) => {
   const user = useAppSelector((state) => state.USER);
 
   const handleNextSlide = async () => {
-    setViewIndex((previous) => previous + 1);
-    const newIndex = viewIndex + 1;
-    console.log(newIndex, views.length)
-    if (newIndex < views.length && flatListRef.current) {
-      flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
+    if (viewIndex + 1 < views.length && flatListRef.current) {
+      setViewIndex((previous) => previous + 1);
+
+      flatListRef.current.scrollToIndex({ index: viewIndex + 1, animated: true });
     } else {
       const result = await getAllUser(user.didToken);
-      console.log(result)
-      
+
       const res = await signup(
         user.didToken,
         user.metadata.issuer,
         user.accountInfo.address,
         user.details.Nickname,
         user.details.username,
-        user.details.email
+        user.metadata.email
       );
       console.log(res)
       if (!res.error && res.success != false) {
