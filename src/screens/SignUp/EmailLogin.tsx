@@ -13,7 +13,7 @@ import {
 import { useFonts } from "expo-font";
 import TransitionBackButton from "../../components/SignUp/TransitionBackButton";
 import { appColor, fonts } from "../../constants";
-import { sizes } from "../../utils";
+import { setLoginSession, sizes } from "../../utils";
 import TranslationForwardButton from "../../components/SignUp/TranslationForwardButton";
 import Verify from "../../components/SignUp/ConnectSocialsAndVerify/Verify";
 import { EmailLoginProps } from "../../navigations/NavigationTypes";
@@ -36,6 +36,7 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { checkSignup, signup } from "../../api";
 import Loader from "../../../assets/svg/Loader";
+
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
@@ -120,9 +121,9 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
         console.log(token, accountInfo, metadata);
 
         const res = await checkSignup(token);
-        console.log(res);
         showLoader(false);
-        if (res.isExist == true) {
+        if (res.isExist && res.isExist == true) {
+          await setLoginSession(res.wallet);
           navigation.navigate("Congratulations");
         }
       } catch (e) {
@@ -142,7 +143,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
         user.details.username,
         user.details.email
       );
-      console.log(res);
+
       if (!res.error && res.success != false) {
         navigation.navigate("Congratulations");
       }

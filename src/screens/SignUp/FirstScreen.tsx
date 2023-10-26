@@ -7,13 +7,13 @@ import {
   Pressable,
   TouchableOpacity
 } from 'react-native';
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import X from '../../../assets/images/svg/X';
 import { useFonts } from 'expo-font';
 import Apple from '../../../assets/images/svg/Apple';
 import { appColor, fonts, images } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
-import { sizes } from '../../utils';
+import { getLoginSession, setLoginSession, sizes } from '../../utils';
 import { useNavigation } from '@react-navigation/native';
 const { height, width } = Dimensions.get('window');
 import { FirstScreenProps } from '../../navigations/NavigationTypes';
@@ -46,9 +46,14 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
-  if (!isLoaded) {
-    return null;
-  }
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const session = await getLoginSession();
+      if (session) navigation.navigate("Congratulations");
+    };
+    checkSession();
+  }, []);
 
   const showLoader = (show = true) => {
     if (loaderRef.current && show)
@@ -73,20 +78,19 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
       const metadata = await magic.user.getMetadata();
       dispatch(updateMetadata(metadata));
 
-      const res = await checkSignup(
-        token.magic.idToken
-      );
+      const res = await checkSignup(token.magic.idToken);
 
       showLoader(false);
 
-      if (res.isExist == true) {
+      if (res.isExist && res.isExist == true) {
+        await setLoginSession(res.wallet);
         navigation.navigate("Congratulations");
       } else {
         navigation.navigate("SignUp");
       }
     } catch (error) {
-      console.log("Catch: " , error);
-      showLoader(false)
+      console.log("Catch: ", error);
+      showLoader(false);
     }
   };
 
@@ -105,6 +109,10 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
   const loginX = async () => {
     loginWith("X");
   };
+
+  if (!isLoaded) {
+    return null;
+  }
 
   return (
     <>

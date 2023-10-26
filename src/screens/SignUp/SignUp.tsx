@@ -57,8 +57,6 @@ const SignUp = ({ navigation }: SignUpProps) => {
 
       flatListRef.current.scrollToIndex({ index: viewIndex + 1, animated: true });
     } else {
-      const result = await getAllUser(user.didToken);
-
       const res = await signup(
         user.didToken,
         user.metadata.issuer,
@@ -69,7 +67,6 @@ const SignUp = ({ navigation }: SignUpProps) => {
       );
       console.log(res)
       if (!res.error && res.success != false) {
-        
         navigation.navigate("Congratulations");
       }
     }
