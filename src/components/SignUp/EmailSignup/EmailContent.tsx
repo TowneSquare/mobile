@@ -4,6 +4,7 @@ import { sizes } from "../../../utils";
 import { appColor } from "../../../constants";
 import Envelope from "../../../../assets/images/svg/Envelope";
 import EmailField from "./EmailField";
+import { Link } from "@react-navigation/native";
 const size = new sizes(height, width);
 const EmailContent = () => {
   return (
@@ -70,8 +71,24 @@ const EmailContent = () => {
             lineHeight: size.getHeightSize(18),
           }}
         >
-          By continuing to use the app, you agree to the Terms of Service and
-          Privacy Policy.
+          By continuing to use the app, you agree to the
+          <Link
+            to="/"
+            style={{
+              color: appColor.primaryLight,
+            }}
+          >
+            &nbsp;Terms of Service&nbsp;
+          </Link>
+          and
+          <Link
+            to="/"
+            style={{
+              color: appColor.primaryLight,
+            }}
+          >
+            &nbsp;Privacy Policy.&nbsp;
+          </Link>
         </Text>
       </View>
     </>
