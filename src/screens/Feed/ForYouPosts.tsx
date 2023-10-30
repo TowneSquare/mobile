@@ -3,7 +3,13 @@ import { UserPosts } from '../../components/Feed/DuumyData';
 import ForYou from '../../components/Feed/ForYou';
 import { appColor } from '../../constants';
 import { FlashList } from '@shopify/flash-list';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { getAllPost } from '../../controller/createPost';
 const ForYouPosts = () => {
+   const dispatch = useAppDispatch();
+   const userToken = useAppSelector(
+    (state) => state.USER.didToken
+  );
   return (
     <View
       style={{
@@ -16,6 +22,9 @@ const ForYouPosts = () => {
         renderItem={({ item }) => <ForYou data={item} shouldPFPSwipe />}
         keyExtractor={(item) => item.id}
         estimatedItemSize={200}
+        onRefresh={() => {
+          dispatch(getAllPost(userToken))
+        }}
       />
     </View>
   );

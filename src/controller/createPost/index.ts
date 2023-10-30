@@ -1,12 +1,16 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ImageSourcePropType } from 'react-native';
-import { atMentionData, hashTagData, aptosTags } from './dummyData';
-import { SearchFuntion, ExtractTags } from '../../utils/helperFunction';
+import { useSelector } from "react-redux";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { ImageSourcePropType } from "react-native";
+import { atMentionData, hashTagData, aptosTags } from "./dummyData";
+import { SearchFuntion, ExtractTags } from "../../utils/helperFunction";
+import axios from "axios";
+import { BACKEND_URL } from "../../../config/env";
+import { useAppSelector } from "../hooks";
 
 interface CreatePost {
   message: string;
   tags: string[];
-  community: 'Aptos' | 'Aptos Monkeys' | null;
+  community: "Aptos" | "Aptos Monkeys" | null;
   media: string;
   nft: {
     name: string;
@@ -51,22 +55,22 @@ interface Post {
   NFTBottomSheet: boolean;
   posts: Partial<CreatePost>;
   priceModal: boolean;
-  communityPostPrivacy: 'public' | 'community-only';
+  communityPostPrivacy: "public" | "community-only";
 }
 const initialState: Post = {
   data: atMentionData,
   filteredAtMentions: atMentionData,
-  postMessage: '',
+  postMessage: "",
   showAtMentionContainer: false,
   formattedContent: [],
-  selectedAtMention: '',
-  inputText: '',
-  currentWord: '',
-  cursorIndex: '',
+  selectedAtMention: "",
+  inputText: "",
+  currentWord: "",
+  cursorIndex: "",
   showHashTags: false,
   hashTagData: hashTagData,
   filteredHashTagData: hashTagData,
-  selectedHashTag: '',
+  selectedHashTag: "",
   showAptosMonkey: false,
   showAptosPanel: false,
   showAptosSwap: false,
@@ -76,18 +80,67 @@ const initialState: Post = {
   GIFBottomSheet: false,
   NFTBottomSheet: false,
   posts: {
-    message: '',
-    media: '',
+    message: "",
+    media: "",
     tags: [],
     community: null,
     nft: null,
   },
   priceModal: false,
-  communityPostPrivacy: 'public',
+  communityPostPrivacy: "public",
 };
 
+// const authorization = useAppSelector(
+//     (state) => state.USER.didToken
+//   );
+
+export const createPost = createAsyncThunk(
+  "Feed/createPost",
+  async ({ description, imageUrL, videoUrL, token }: any, thunkAPI) => {
+    try {
+      const res = await axios.post(
+        `${BACKEND_URL}posts/create`,
+        {
+          description,
+          imageUrL,
+          videoUrL,
+        },
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getAllPost = createAsyncThunk(
+  "Feed/FindAll",
+  async (token: string, thunkAPI) => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}posts/findAll`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
+
+      const result = await response.data;
+      console.log(response, result, "result");
+    } catch (error) {
+      return thunkAPI.rejectWithValue;
+    }
+  }
+);
+
 export const fieldHandlerSlice = createSlice({
-  name: 'postHandler',
+  name: "postHandler",
   initialState,
   reducers: {
     updateShowAptosPanel: (state, action: PayloadAction<boolean>) => {
@@ -95,13 +148,13 @@ export const fieldHandlerSlice = createSlice({
     },
     updateShowAptosSwap: (
       state,
-      action: PayloadAction<'Aptos' | 'Aptos Monkeys' | null>
+      action: PayloadAction<"Aptos" | "Aptos Monkeys" | null>
     ) => {
       state.posts.community = action.payload;
     },
 
     updateFilteredData: (state, action: PayloadAction<string>) => {
-      let searchWord = action.payload.replace('@', '');
+      let searchWord = action.payload.replace("@", "");
       const atMentions = state.data;
       if (searchWord) {
         const newAtMention = SearchFuntion(atMentions, searchWord);
@@ -111,7 +164,7 @@ export const fieldHandlerSlice = createSlice({
       }
     },
     updateFilteredHashData: (state, action: PayloadAction<string>) => {
-      let searchWord = action.payload.replace('#', '');
+      let searchWord = action.payload.replace("#", "");
       const hash_tag = state.hashTagData;
 
       if (searchWord) {
@@ -123,7 +176,7 @@ export const fieldHandlerSlice = createSlice({
     },
     //  The function below append the input tags from keyboard to the existing words
     updateFilteredAptTags: (state, action: PayloadAction<string>) => {
-      let searchWord = action.payload.replace('$', '');
+      let searchWord = action.payload.replace("$", "");
       const apt_tag = state.aptTag;
       if (searchWord) {
         const newAptTag = SearchFuntion(apt_tag, searchWord);
@@ -147,7 +200,7 @@ export const fieldHandlerSlice = createSlice({
       const current_word = state.currentWord;
       const tag = action.payload;
 
-      if (current_word === '@') {
+      if (current_word === "@") {
         const cursor_index = Number(state.cursorIndex);
         state.inputText =
           state.inputText.slice(0, cursor_index) +
@@ -156,7 +209,7 @@ export const fieldHandlerSlice = createSlice({
         state.posts.message = state.inputText;
         state.posts.tags = ExtractTags(state.posts.message);
       } else {
-        state.inputText = currentTextInput.replace(current_word, '@' + tag);
+        state.inputText = currentTextInput.replace(current_word, "@" + tag);
         state.posts.message = state.inputText;
         state.posts.tags = ExtractTags(state.posts.message);
       }
@@ -167,7 +220,7 @@ export const fieldHandlerSlice = createSlice({
       const current_word = state.currentWord;
       const tag = action.payload;
 
-      if (current_word === '$') {
+      if (current_word === "$") {
         const cursor_index = Number(state.cursorIndex);
         state.inputText =
           state.inputText.slice(0, cursor_index) +
@@ -176,7 +229,7 @@ export const fieldHandlerSlice = createSlice({
         state.posts.message = state.inputText;
         state.posts.tags = ExtractTags(state.posts.message);
       } else {
-        state.inputText = currentTextInput.replace(current_word, '$' + tag);
+        state.inputText = currentTextInput.replace(current_word, "$" + tag);
         state.posts.message = state.inputText;
         state.posts.tags = ExtractTags(state.posts.message);
       }
@@ -188,18 +241,18 @@ export const fieldHandlerSlice = createSlice({
       const current_word = state.currentWord;
       const hash = action.payload;
 
-      if (current_word === '#') {
+      if (current_word === "#") {
         const cursor_index = Number(state.cursorIndex);
         state.inputText =
           state.inputText.slice(0, cursor_index) +
-          hash.replace('#', '') +
+          hash.replace("#", "") +
           state.inputText.slice(cursor_index);
         state.posts.message = state.inputText;
         state.posts.tags = ExtractTags(state.posts.message);
       } else {
         state.inputText = currentTextInput.replace(
           current_word,
-          '#' + hash.replace('#', '')
+          "#" + hash.replace("#", "")
         );
         state.posts.message = state.inputText;
         state.posts.tags = ExtractTags(state.posts.message);
@@ -249,7 +302,7 @@ export const fieldHandlerSlice = createSlice({
     },
     clearPostData: (state, action: PayloadAction<boolean>) => {
       state.posts = {
-        message: '',
+        message: "",
         media: null,
         tags: [],
         community: null,
@@ -258,10 +311,13 @@ export const fieldHandlerSlice = createSlice({
     },
     updateCommunityPostPrivacy: (
       state,
-      action: PayloadAction<'public' | 'community-only'>
+      action: PayloadAction<"public" | "community-only">
     ) => {
       state.communityPostPrivacy = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createPost.fulfilled, (state, action) => {});
   },
 });
 export const {
