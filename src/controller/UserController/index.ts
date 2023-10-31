@@ -2,6 +2,7 @@ import { images } from './../../constants/images';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { ImageSourcePropType } from 'react-native';
 import { communities, friends } from './models';
+import { didToken } from '../../../config/env';
 import axios from 'axios';
 
 export interface collection {
@@ -84,7 +85,7 @@ const initialState: UserState = {
     emailError: false,
     usernameErrorMessage: '',
   },
-  didToken: '',
+  didToken: didToken,
   editProfile: false,
   NFTCollections: [
     {

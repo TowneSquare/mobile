@@ -18,6 +18,37 @@ interface CreatePost {
     price?: number;
   } | null;
 }
+
+interface Customer {
+  _id: string;
+  issuer: string;
+  aptosWallet: string;
+  nickname: string;
+  username: string;
+  email: string;
+  referralCode: string;
+}
+
+interface Comment {
+  _id: string;
+  content: string;
+  postId: string;
+  createdAt: string;
+}
+export interface PostData {
+  _id: string;
+  title: string;
+  description: string;
+  imageUrl: ImageSourcePropType;
+  videoUrl: string;
+  userId: string;
+  repost: boolean;
+  createdAt: string;
+  likes: Array<string>;
+  retweet: Array<string>;
+  comments: Array<Comment>;
+  customer: Customer;
+}
 interface AtMentions {
   name: string;
   description?: string;
@@ -32,6 +63,7 @@ interface AptosTags {
   collection?: string;
 }
 interface Post {
+  AllPost: Array<PostData>;
   data: AtMentions[];
   filteredAtMentions: AtMentions[];
   postMessage: string;
@@ -58,6 +90,7 @@ interface Post {
   communityPostPrivacy: "public" | "community-only";
 }
 const initialState: Post = {
+  AllPost: [],
   data: atMentionData,
   filteredAtMentions: atMentionData,
   postMessage: "",
@@ -90,9 +123,6 @@ const initialState: Post = {
   communityPostPrivacy: "public",
 };
 
-// const authorization = useAppSelector(
-//     (state) => state.USER.didToken
-//   );
 
 export const createPost = createAsyncThunk(
   "Feed/createPost",
@@ -132,7 +162,8 @@ export const getAllPost = createAsyncThunk(
       });
 
       const result = await response.data;
-      console.log(response, result, "result");
+      console.log(result)
+      return result;
     } catch (error) {
       return thunkAPI.rejectWithValue;
     }
@@ -318,6 +349,12 @@ export const fieldHandlerSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(createPost.fulfilled, (state, action) => {});
+    builder.addCase(getAllPost.fulfilled, (state, action) => {
+      state.AllPost = action.payload;
+    });
+    builder.addCase(getAllPost.pending, (state, action) => {
+
+    })
   },
 });
 export const {

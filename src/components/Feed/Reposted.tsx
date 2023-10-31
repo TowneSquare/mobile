@@ -26,11 +26,12 @@ import {
   ATTACHED_NFT,
 } from '../../models';
 import { Avatar } from 'react-native-elements';
+import { PostData } from '../../controller/createPost';
 const size = new sizes(height, width);
 interface Props {
-  data: UserPost;
+  data: PostData;
 }
-const Reposted = ({ data }: { data: UserPost }) => {
+const Reposted = ({ data }: { data: PostData }) => {
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -76,7 +77,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
                 maxWidth: size.getWidthSize(74),
               }}
             >
-              {data.username}
+              {data.customer.username}
             </Text>
             <Queen />
             <Text
@@ -90,7 +91,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
                 maxWidth: size.getWidthSize(67),
               }}
             >
-              @{data.nickname}
+              @{data.customer.nickname}
             </Text>
             <Text
               style={{
@@ -110,7 +111,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
                 fontFamily: 'Outfit-Regular',
               }}
             >
-              {data.timepost}
+              {'2m'} //TODO
             </Text>
           </View>
         </View>
@@ -119,19 +120,26 @@ const Reposted = ({ data }: { data: UserPost }) => {
   };
   let content;
   const type_of_post = data.content as Repost;
+  const contentTypeOfRepost = 
+data.imageUrl
+    ? FeedContent.MESSAGE_IMAGE
+    : data.videoUrl
+    ? FeedContent.VIDEO :
+    data.repost ? FeedContent.REPOST
+    : FeedContent.MESSAGE_ONLY;
   const userPost = data;
   switch (type_of_post.contentTypeOfRepost) {
     case FeedContent.MESSAGE_ONLY:
-      userPost.content = data.content as Message_Only;
+      //userPost.content = data.content as Message_Only;
       content = (
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
-                username={userPost.username}
-                nickname={userPost.nickname}
-                timepost={userPost.timepost}
+                username={userPost.customer.username}
+                nickname={userPost.customer.nickname}
+                timepost={'2m'} //TODO
               />
               <RepostedHeader />
               <View style={repostStyles.repostContainer}>
@@ -146,14 +154,14 @@ const Reposted = ({ data }: { data: UserPost }) => {
                     },
                   ]}
                 >
-                  {userPost.content.message}
+                  {userPost.description}
                 </Text>
               </View>
 
               <PostActions
-                noOfComments={userPost.comments}
-                noOfLikes={userPost.like}
-                noOfRetweet={userPost.retweet}
+                noOfComments={userPost.comments.length}
+                noOfLikes={userPost.likes.length}
+                noOfRetweet={userPost.retweet.length}
               />
             </View>
           </View>

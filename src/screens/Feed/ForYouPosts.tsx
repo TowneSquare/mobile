@@ -5,12 +5,26 @@ import { appColor } from '../../constants';
 import { FlashList } from '@shopify/flash-list';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { getAllPost } from '../../controller/createPost';
+import { useEffect } from 'react';
 const ForYouPosts = () => {
    const dispatch = useAppDispatch();
    const userToken = useAppSelector(
     (state) => state.USER.didToken
   );
+  const AllPost = useAppSelector(
+    (state) => state.CreatePostController.AllPost
+  );
+
+  useEffect(() => {
+    dispatch(getAllPost(userToken))
+    "i ran again"
+  }, [])
+
+  console.log(AllPost, "allpost")
+  
+  
   return (
+    
     <View
       style={{
         flex: 1,
@@ -18,13 +32,14 @@ const ForYouPosts = () => {
       }}
     >
       <FlashList
-        data={UserPosts}
+        data={AllPost}
         renderItem={({ item }) => <ForYou data={item} shouldPFPSwipe />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         estimatedItemSize={200}
         onRefresh={() => {
           dispatch(getAllPost(userToken))
         }}
+        refreshing={false}
       />
     </View>
   );
