@@ -354,6 +354,9 @@ export const fieldHandlerSlice = createSlice({
     });
     builder.addCase(getAllPost.pending, (state, action) => {
 
+    });
+    builder.addCase(getAllPost.rejected, (state, action) => {
+      state.AllPost = [];
     })
   },
 });
