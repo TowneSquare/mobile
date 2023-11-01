@@ -25,6 +25,7 @@ import SelectedCollection from "../../components/SignUp/ChooseProfilePics/Select
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import SignupTransitionBackButton from "../../components/SignUp/SignupTransitionBackButton";
 import { useAppSelector } from "../../controller/hooks";
+import { getAllUser, signup } from "../../api";
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
@@ -48,13 +49,26 @@ const SignUp = ({ navigation }: SignUpProps) => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList<any>>(null);
   const [viewIndex, setViewIndex] = useState(0);
-  const handleNextSlide = () => {
-    setViewIndex((previous) => previous + 1);
-    const newIndex = viewIndex + 1;
-    if (newIndex < views.length && flatListRef.current) {
-      flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
+  const user = useAppSelector((state) => state.USER);
+
+  const handleNextSlide = async () => {
+    if (viewIndex + 1 < views.length && flatListRef.current) {
+      setViewIndex((previous) => previous + 1);
+
+      flatListRef.current.scrollToIndex({ index: viewIndex + 1, animated: true });
     } else {
-      navigation.navigate("Congratulations");
+      const res = await signup(
+        user.didToken,
+        user.metadata.issuer,
+        user.accountInfo.address,
+        user.details.Nickname,
+        user.details.username,
+        user.metadata.email
+      );
+      console.log(res)
+      if (!res.error && res.success != false) {
+        navigation.navigate("Congratulations");
+      }
     }
   };
   const views = [
