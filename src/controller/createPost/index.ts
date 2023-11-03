@@ -19,6 +19,13 @@ interface CreatePost {
   } | null;
 }
 
+export enum POSTSTATE {
+  NONE,
+  PENDING,
+  FULFILLED,
+  REJECTED
+}
+
 interface Customer {
   _id: string;
   issuer: string;
@@ -45,9 +52,12 @@ export interface PostData {
   repost: boolean;
   createdAt: string;
   likes: Array<string>;
-  retweet: Array<string>;
+  reposts: Array<string>;
   comments: Array<Comment>;
   customer: Customer;
+  originalCustomer:Customer
+  originalPostId:string
+  originalCustomerId:string
 }
 interface AtMentions {
   name: string;
@@ -64,6 +74,7 @@ interface AptosTags {
 }
 interface Post {
   AllPost: Array<PostData>;
+  PostState: POSTSTATE
   data: AtMentions[];
   filteredAtMentions: AtMentions[];
   postMessage: string;
@@ -91,6 +102,7 @@ interface Post {
 }
 const initialState: Post = {
   AllPost: [],
+  PostState: POSTSTATE.NONE,
   data: atMentionData,
   filteredAtMentions: atMentionData,
   postMessage: "",
@@ -351,12 +363,14 @@ export const fieldHandlerSlice = createSlice({
     builder.addCase(createPost.fulfilled, (state, action) => {});
     builder.addCase(getAllPost.fulfilled, (state, action) => {
       state.AllPost = action.payload;
+       state.PostState = POSTSTATE.FULFILLED
     });
     builder.addCase(getAllPost.pending, (state, action) => {
-
+      state.PostState = POSTSTATE.PENDING
     });
     builder.addCase(getAllPost.rejected, (state, action) => {
       state.AllPost = [];
+      state.PostState = POSTSTATE.REJECTED
     })
   },
 });
