@@ -161,7 +161,7 @@ data.imageUrl
               <PostActions
                 noOfComments={userPost.comments.length}
                 noOfLikes={userPost.likes.length}
-                noOfRetweet={userPost.retweet.length}
+                noOfRetweet={userPost.reposts.length}
               />
             </View>
           </View>

@@ -96,7 +96,7 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
               <PostActions
                 noOfComments={userPost.comments.length}
                 noOfLikes={userPost.likes.length}
-                noOfRetweet={userPost.retweet.length}
+                noOfRetweet={userPost.reposts.length}
               />
               {/* <ShowThread /> */}
             </View>
@@ -145,7 +145,7 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
               <PostActions
                 noOfComments={userPost.comments.length}
                 noOfLikes={userPost.likes.length}
-                noOfRetweet={userPost.retweet.length}
+                noOfRetweet={userPost.reposts.length}
               />
 
               {/* <PostActions
@@ -233,7 +233,7 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
               <PostActions
                 noOfComments={userPost.comments.length}
                 noOfLikes={userPost.likes.length}
-                noOfRetweet={userPost.retweet.length}
+                noOfRetweet={userPost.reposts.length}
               />
               {/* <PostActions
                 noOfComments={userPost.comments}
@@ -547,9 +547,9 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
     //     </>
     //   );
     //   break;
-    // case FeedContent.REPOST:
-    //   content = <Reposted data={data} />;
-    //   break;
+    case FeedContent.REPOST:
+      content = <Reposted data={data} />;
+      break;
   }
   return <>{content}</>;
 });
