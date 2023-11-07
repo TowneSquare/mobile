@@ -7,7 +7,7 @@ import {
 import CommunityScreen from '../screens/Community/Community/CommunityScreen';
 import Home from '../../assets/images/svg/Home';
 import ProfileSvg from '../../assets/images/svg/ProfileSvg';
-import RewardTab from '../screens/Feed/Reward';
+import RewardTab from '../screens/Rewards/Reward';
 import MultipleSvg from '../../assets/images/svg/MultipleSvg';
 import Main from '../screens/Feed/Main';
 import Profile from '../screens/Profile/Profile';
@@ -16,7 +16,9 @@ import HomeBlur from '../../assets/images/svg/HomeBlur';
 import ProfileFocused from '../../assets/images/svg/ProfileFocused';
 import { useEffect } from 'react';
 import { updateCurrentTab } from '../controller/FeedsController';
-import Chats from '../screens/Feed/Chats';
+import Chats from '../screens/DM/Chats';
+import CommingSoon from '../screens/Community/CommingSoon';
+import RewardFocusedTab from '../../assets/images/svg/RewardFocusedTab';
 import { sizes } from '../utils/size';
 import { appColor } from '../constants';
 import RewardIcon from '../../assets/images/svg/RewardIcon';
@@ -27,6 +29,7 @@ const { height, width } = Dimensions.get('window');
 import { useAppSelector, useAppDispatch } from '../controller/hooks';
 import { RouteProp } from '@react-navigation/native';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import ChatTabFocusedIcon from '../../assets/images/svg/ChatTabFocusedIcon';
 
 const Tab = createBottomTabNavigator();
 type RootStackParamList = {
@@ -52,7 +55,6 @@ const BottomTabNavigation: React.FC<{
   }, [focusedRouteName]);
   const dispatch = useAppDispatch();
   const modals = useAppSelector((state) => ({
-    ReceiveModalVisibility: state.FeedsSliceController.ReceiveModalState,
     superStarBottomSheet: state.bottomSheetController.superStarBottomSheet,
     verificationModal: state.bottomSheetController.verificationModal,
   }));
@@ -105,7 +107,7 @@ const BottomTabNavigation: React.FC<{
           if (routeName === reward) {
             image =
               focused === true ? (
-                <RewardIcon size={size.getHeightSize(24)} />
+                <RewardFocusedTab size={size.getHeightSize(24)} />
               ) : (
                 <RewardIcon size={size.getHeightSize(24)} />
               );
@@ -113,7 +115,7 @@ const BottomTabNavigation: React.FC<{
           if (routeName === chats) {
             image =
               focused === true ? (
-                <ChatSvg size={size.getHeightSize(24)} />
+                <ChatTabFocusedIcon size={size.getHeightSize(24)} />
               ) : (
                 <ChatSvg size={size.getHeightSize(24)} />
               );
@@ -137,18 +139,18 @@ const BottomTabNavigation: React.FC<{
       />
       <Tab.Screen
         name={community}
-        component={CommunityToShow}
+        component={CommingSoon}
         options={{ headerShown: false }}
       />
-    
+
+      <Tab.Screen
+        name={reward}
+        component={RewardTab}
+        options={{ headerShown: false }}
+      />
       <Tab.Screen
         name={chats}
         component={Chats}
-        options={{ headerShown: false }}
-      />
-        <Tab.Screen
-        name={reward}
-        component={RewardTab}
         options={{ headerShown: false }}
       />
       <Tab.Screen

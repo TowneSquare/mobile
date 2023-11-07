@@ -21,6 +21,7 @@ interface Props {
   fontColor?: string;
   buttonBackgroundColor?: string;
   disableOpacity?: string;
+  ButtonTypetype?: 'warning';
 }
 const ActionButton = ({
   callBack,
@@ -31,19 +32,22 @@ const ActionButton = ({
   fontColor,
   fontFamily,
   fontSize,
-
+  ButtonTypetype,
   letterSpacing,
   lineHeight,
 }: Props) => {
   let bgColor: string;
   if (disable && buttonBackgroundColor) {
-    bgColor = `${buttonBackgroundColor}${disableOpacity}`;
+    bgColor = `${buttonBackgroundColor}`;
   } else if (buttonBackgroundColor) {
     bgColor = buttonBackgroundColor;
   } else if (disable) {
     bgColor = '#FFFFFF60';
   } else {
     bgColor = appColor.kWhiteColor;
+  }
+  if (ButtonTypetype === 'warning') {
+    bgColor = appColor.kErrorText;
   }
   return (
     <Pressable
@@ -57,6 +61,7 @@ const ActionButton = ({
         minHeight: size.getHeightSize(48),
         justifyContent: 'center',
         paddingVertical: size.getHeightSize(12.5),
+        opacity: disable ? 0.4 : 1,
       }}
     >
       <Text

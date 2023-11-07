@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Text,
   View,
@@ -7,38 +7,38 @@ import {
   Pressable,
   LogBox,
   Dimensions,
-} from "react-native";
-import { VerifyCommunityScreenProps } from "../../../navigations/NavigationTypes";
-import Header from "../../../shared/Feed/Header";
-import { appColor, images, fonts } from "../../../constants";
-import { sizes } from "../../../utils";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useFonts } from "expo-font";
-import XBG from "../../../../assets/images/svg/XBg";
-import { Avatar } from "react-native-elements";
-import Info from "../../../../assets/images/svg/Info";
-import CommunityVerifyIcon from "../../../../assets/images/svg/CommunityVerifyIcon";
-import { useAppDispatch, useAppSelector } from "../../../controller/hooks";
-import ConnectedIcon from "../../../../assets/images/svg/ConnectedIcon";
-import { updateVerificationStatus } from "../../../controller/CommunityController";
+} from 'react-native';
+import { VerifyCommunityScreenProps } from '../../../navigations/NavigationTypes';
+import Header from '../../../shared/Feed/Header';
+import { appColor, images, fonts } from '../../../constants';
+import { sizes } from '../../../utils';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFonts } from 'expo-font';
+import XBg from '../../../../assets/images/svg/XBg';
+import { Avatar } from 'react-native-elements';
+import Info from '../../../../assets/images/svg/Info';
+import CommunityVerifyIcon from '../../../../assets/images/svg/CommunityVerifyIcon';
+import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
+import ConnectedIcon from '../../../../assets/images/svg/ConnectedIcon';
+import { updateVerificationStatus } from '../../../controller/CommunityController';
 export enum VerifyCommunityState {
   NOT_APPROVED,
   PENDING,
   APPROVED,
 }
-const { height, width } = Dimensions.get("window");
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const VerifyCommunityScreen = ({ navigation, route }) => {
   const [connected, setConnection] = useState(false);
   const [verified, setVerification] = useState(false);
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
 
   LogBox.ignoreLogs([
-    "Non-serializable values were found in the navigation state",
+    'Non-serializable values were found in the navigation state',
   ]);
 
   const dispatch = useAppDispatch();
@@ -67,7 +67,7 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
       <CommunityVerifyIcon
         size={size.getHeightSize(100)}
         style={{
-          alignSelf: "center",
+          alignSelf: 'center',
           marginTop: size.getHeightSize(32),
         }}
       />
@@ -79,11 +79,11 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
         <Text
           style={{
             color: appColor.kTextColor,
-            fontFamily: "Outfit-Bold",
+            fontFamily: 'Outfit-Bold',
             fontSize: size.fontSize(29),
             lineHeight: size.getHeightSize(37),
             marginTop: size.getHeightSize(8),
-            textAlign: "center",
+            textAlign: 'center',
           }}
         >
           Verify Community X!
@@ -92,7 +92,7 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
           style={{
             marginTop: size.getHeightSize(32),
             gap: size.getHeightSize(16),
-            alignSelf: "center",
+            alignSelf: 'center',
           }}
         >
           <Text style={styles.text}>
@@ -101,7 +101,7 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
           </Text>
           <Text style={styles.text}>
             In order to verify the community you need to connect community’s
-            official X account.
+            official Twitter account.
           </Text>
           <Text style={styles.text}>
             Verified communities will get a Verified badge once approved.
@@ -111,40 +111,40 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
         <Text
           style={{
             color: appColor.kWhiteColor,
-            fontFamily: "Outfit-Bold",
+            fontFamily: 'Outfit-Bold',
             fontSize: size.fontSize(20),
             marginTop: size.getHeightSize(32),
             letterSpacing: 0.4,
             lineHeight: size.getHeightSize(24),
-            alignSelf: "center",
+            alignSelf: 'center',
           }}
         >
-          Connect community's official X account
+          Connect community's official Twitter account
         </Text>
         {!connected ? (
           <>
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 marginTop: size.getHeightSize(16),
                 paddingHorizontal: size.getWidthSize(8),
               }}
             >
               <View
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
                   gap: size.getWidthSize(16),
                 }}
               >
-                <XBG />
+                <XBg size={size.getHeightSize(45)} />
                 <Text
                   style={{
                     color: appColor.kWhiteColor,
-                    fontFamily: "Outfit-SemiBold",
+                    fontFamily: 'Outfit-SemiBold',
                     fontSize: size.fontSize(16),
                     lineHeight: size.getHeightSize(16),
                   }}
@@ -167,9 +167,9 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
                 <Text
                   style={{
                     color: appColor.kWhiteColor,
-                    fontFamily: "Outfit-Medium",
+                    fontFamily: 'Outfit-Medium',
                     fontSize: size.fontSize(16),
-                    textAlign: "center",
+                    textAlign: 'center',
                     letterSpacing: 0.32,
                     lineHeight: size.getHeightSize(20),
                   }}
@@ -183,19 +183,19 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
           <>
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 marginTop: size.getHeightSize(16),
                 paddingHorizontal: size.getWidthSize(8),
               }}
             >
               <View
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                   gap: size.getWidthSize(16),
                 }}
               >
@@ -207,20 +207,20 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
                 <Text
                   style={{
                     color: appColor.kWhiteColor,
-                    fontFamily: "Outfit-SemiBold",
+                    fontFamily: 'Outfit-SemiBold',
                     fontSize: size.fontSize(16),
                     maxWidth: size.getWidthSize(161),
                     lineHeight: size.getHeightSize(21),
                   }}
                 >
-                  [Community X profile]
+                  [Community Twitter profile]
                 </Text>
               </View>
               {verified ? (
                 <View
                   style={{
-                    flexDirection: "row",
-                    alignItems: "center",
+                    flexDirection: 'row',
+                    alignItems: 'center',
                     gap: size.getWidthSize(8),
                   }}
                 >
@@ -228,7 +228,7 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
                   <Text
                     style={{
                       color: appColor.kTextColor,
-                      fontFamily: "Outfit-Medium",
+                      fontFamily: 'Outfit-Medium',
                       fontSize: size.fontSize(16),
                       letterSpacing: 0.32,
                       lineHeight: size.getHeightSize(20),
@@ -242,7 +242,7 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
                   <Text
                     style={{
                       color: appColor.kGrayscale,
-                      fontFamily: "Outfit-Medium",
+                      fontFamily: 'Outfit-Medium',
                       fontSize: size.fontSize(16),
                       letterSpacing: 0.32,
                       lineHeight: size.getHeightSize(20),
@@ -255,8 +255,8 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
             </View>
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
+                flexDirection: 'row',
+                justifyContent: 'space-between',
                 marginTop: size.getHeightSize(32),
                 paddingVertical: size.getHeightSize(16),
                 paddingHorizontal: size.getWidthSize(16),
@@ -264,16 +264,16 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
                 borderWidth: 1,
                 borderColor: appColor.grayLight,
                 borderRadius: 8,
-                alignItems: "flex-start",
+                alignItems: 'flex-start',
               }}
             >
               <Info />
               <Text
                 style={{
                   color: appColor.kWhiteColor,
-                  fontFamily: "Outfit-Regular",
+                  fontFamily: 'Outfit-Regular',
                   fontSize: 16,
-                  fontWeight: "400",
+                  fontWeight: '400',
                   flex: 1,
                 }}
               >
@@ -313,7 +313,7 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
                   width: 136,
                 }}
               >
-                [Community X profile]
+                [Community Twitter profile]
               </Text>
             </View>
             <View
@@ -353,8 +353,8 @@ const VerifyCommunityScreen = ({ navigation, route }) => {
           style={{
             color: appColor.kWhiteColor,
             fontSize: size.fontSize(16),
-            fontFamily: "Outfit-SemiBold",
-            textAlign: "center",
+            fontFamily: 'Outfit-SemiBold',
+            textAlign: 'center',
             lineHeight: size.getHeightSize(21),
           }}
         >
@@ -370,7 +370,7 @@ export default VerifyCommunityScreen;
 const styles = StyleSheet.create({
   text: {
     color: appColor.kTextColor,
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
   },

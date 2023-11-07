@@ -29,20 +29,21 @@ const SinglePost = ({ route }: SinglePostProps) => {
   const navigation = useNavigation();
 
   const data = {
-    id: '10',
+    id: '9',
     pfp: '',
-    username: props.username,
-    nickname: props.nickname,
-    timepost: '13h',
+    username: 'Username',
+    nickname: 'username',
+    timepost: '5m',
     comments: '99k',
     retweet: '99k',
     like: '99k',
-    type: 'floor-price',
+    type: 'swap-option-included',
     content: {
       message: 'Just joined TowneSquare, a new web3 social platform!',
-      messageTag: 'AptosMonkeys',
-      collectionName: 'Aptos Monkeys',
-      amount: 14,
+      messageTag: 'APT',
+      collectionName: '',
+      logo: '',
+      price: 8.46,
     },
   };
   let [isLoaded] = useFonts({

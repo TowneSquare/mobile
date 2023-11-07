@@ -20,18 +20,19 @@ interface Props {
   fontColor?: string;
   buttonBackgroundColor?: string;
   disableOpacity?: string;
+  paddingVertical?: number;
 }
 const ActionButton2 = ({
   callBack,
   disable,
   title,
-
   fontColor,
   fontFamily,
   fontSize,
 
   letterSpacing,
   lineHeight,
+  paddingVertical,
 }: Props) => {
   return (
     <Pressable
@@ -43,7 +44,9 @@ const ActionButton2 = ({
         borderRadius: 40,
         minHeight: size.getHeightSize(48),
         justifyContent: 'center',
-        paddingVertical: size.getHeightSize(12.5),
+        paddingVertical: paddingVertical
+          ? size.getHeightSize(paddingVertical)
+          : size.getHeightSize(12.5),
       }}
     >
       <Text
