@@ -65,7 +65,7 @@ const Permissions = ({ navigation }: PermissionsProps) => {
             />
             <SettingsToggle
               title="Verify community"
-              body="Members can verify the community by linking community’s official X account"
+              body="Members can verify the community by linking community’s official Twitter account"
             />
             <SettingsToggle
               title="Create invite"

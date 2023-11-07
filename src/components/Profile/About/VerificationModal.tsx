@@ -15,22 +15,16 @@ import BottomSheet, {
 } from '@gorhom/bottom-sheet';
 import Badge from '../../../../assets/images/svg/Badge';
 import { useAppDispatch } from '../../../controller/hooks';
-import {
-  useRef,
-  useEffect,
-  useCallback,
-  useMemo,
-  useState,
-} from 'react';
+import { useRef, useEffect, useCallback, useMemo, useState } from 'react';
 import { useAppSelector } from '../../../controller/hooks';
 import CustomHandler from '../../Feed/CustomHandler';
 import { updateVerificationModal } from '../../../controller/BottomSheetController';
-import XBG from '../../../../assets/images/svg/XBg';
+import TwitterBG from '../../../../assets/images/svg/XBg';
 import DiscordBG from '../../../../assets/images/svg/DiscordBG';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const VerificationModal = () => {
-  const [isXConected, setXConnected] = useState(false);
+  const [isTwitterConected, setTwitterConnected] = useState(false);
   const [isDiscordConnected, setDiscordConnected] = useState(false);
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -81,8 +75,8 @@ const VerificationModal = () => {
     animatedContentHeight,
     handleContentLayout,
   } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
-  const handleXConnection = () => {
-    setXConnected(!isXConected);
+  const handleTwitterConnection = () => {
+    setTwitterConnected(!isTwitterConected);
   };
   const handleDiscordConnection = () => {
     setDiscordConnected(!isDiscordConnected);
@@ -103,7 +97,7 @@ const VerificationModal = () => {
           backgroundStyle={{
             backgroundColor: appColor.kgrayDark2,
           }}
-          handleComponent={()=><CustomHandler/>}
+          handleComponent={() => <CustomHandler />}
           backdropComponent={renderBackdrop}
         >
           <BottomSheetView
@@ -120,7 +114,7 @@ const VerificationModal = () => {
             >
               <Badge />
             </View>
-            {isXConected || isDiscordConnected ? (
+            {isTwitterConected || isDiscordConnected ? (
               <Text
                 style={[
                   styles.details,
@@ -143,11 +137,11 @@ const VerificationModal = () => {
             <Text
               style={[styles.description, { marginTop: size.getHeightSize(0) }]}
             >
-              {isXConected || isDiscordConnected
+              {isTwitterConected || isDiscordConnected
                 ? ' Connect your second social account and get the '
-                : 'Connect your X & Discord accounts and get the '}
+                : 'Connect your Twitter & Discord accounts and get the '}
               <Text style={[styles.description, { fontFamily: 'Outfit-Bold' }]}>
-                {(isXConected || isDiscordConnected) && 'TowneSquare '}
+                {(isTwitterConected || isDiscordConnected) && 'TowneSquare '}
                 Prime Citizen badge<Text style={styles.details}>!</Text>
               </Text>
             </Text>
@@ -166,18 +160,18 @@ const VerificationModal = () => {
                   justifyContent: 'space-between',
                 }}
               >
-                <XBG />
-                <Text style={styles.socialText}>X</Text>
-                {isXConected ? (
+                <TwitterBG />
+                <Text style={styles.socialText}>Twitter</Text>
+                {isTwitterConected ? (
                   <Pressable
-                    onPress={handleXConnection}
+                    onPress={handleTwitterConnection}
                     style={styles.isConnected}
                   >
                     <Text style={styles.isConnectedText}>Connected</Text>
                   </Pressable>
                 ) : (
                   <Pressable
-                    onPress={handleXConnection}
+                    onPress={handleTwitterConnection}
                     style={styles.button}
                   >
                     <Text style={styles.buttonText}>Connect</Text>

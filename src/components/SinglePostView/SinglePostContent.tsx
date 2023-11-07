@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  Image,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, Dimensions, Image, StyleSheet } from 'react-native';
 import { sizes } from '../../utils';
 import { fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
@@ -352,11 +346,16 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
                   ${swapContent.messageTag}
                 </Text>
               </Text>
-              <View style={[styles.SwapContainer, { marginBottom: 0 }]}>
+              <View
+                style={[
+                  styles.SwapContainer,
+                  { marginBottom: 0, backgroundColor: 'transparent' },
+                ]}
+              >
                 <View style={styles.swapDescription}>
                   <View style={styles.swapImageContainer}>
                     <APT />
-                    <Text style={styles.swapLeadingText}>Aptos APT</Text>
+                    <Text style={styles.swapLeadingText}>APT</Text>
                   </View>
                   <Text style={styles.swapPriceTag}>${swapContent.price}</Text>
                   <Text style={styles.priceFeed}>
@@ -398,19 +397,34 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
                 </Text>
               </Text>
               <View style={[styles.SwapContainer, { marginBottom: 0 }]}>
-                <View style={styles.swapDescription}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    paddingVertical: size.getHeightSize(8),
+                    // gap: size.getWidthSize(8),
+                  }}
+                >
                   <View style={styles.swapImageContainer}>
+                    <Text
+                      style={[
+                        styles.floorPrice,
+                        { marginRight: size.getWidthSize(8) },
+                      ]}
+                    >
+                      Floor price{' '}
+                      <Text style={styles.floorAmount}>
+                        {floorPriceContent.amount} APT
+                      </Text>
+                    </Text>
                     <APTMonkey />
-                    <Text style={styles.swapLeadingText}>
+                    <Text
+                      numberOfLines={1}
+                      style={[styles.swapLeadingText, { flex: 1 }]}
+                    >
                       {floorPriceContent.collectionName}
                     </Text>
                   </View>
-                  <Text style={styles.floorPrice}>
-                    Floor price{' '}
-                    <Text style={styles.floorAmount}>
-                      {floorPriceContent.amount} APT
-                    </Text>
-                  </Text>
                 </View>
               </View>
               <PostActions

@@ -2,12 +2,13 @@ import { View, Text, Dimensions, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import { sizes } from '../../utils';
 import { appColor, fonts } from '../../constants';
-import ProfilePicture from '../Feed/ProfilePicture';
+
 import { useFonts } from 'expo-font';
 import PostHeader from '../Feed/PostHeader';
 import AddComment from '../../../assets/images/svg/addComment';
 import LikePost from '../../../assets/images/svg/LikePost';
 import LikedIcon from '../../../assets/images/svg/LikedIcon';
+import ProfilePicture from '../Feed/ProfilePicture';
 const { height, width } = Dimensions.get('window');
 import SinglePostCommentHeader from './SinglePostCommentHeader';
 const size = new sizes(height, width);

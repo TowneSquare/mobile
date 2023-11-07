@@ -9,9 +9,11 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { sizes } from '../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
+import CommingSoon from '../screens/Feed/CommingSoon';
 import CommunitiesPost from '../screens/Feed/CommunitiesPost';
 import ForYouPosts from '../screens/Feed/ForYouPosts';
 import { appColor } from '../constants';
+
 const Tab = createMaterialTopTabNavigator();
 const MainTab = () => {
   const renderTabBarLabel = ({ focused, route }) => {
@@ -62,7 +64,8 @@ const MainTab = () => {
                   marginTop: size.getHeightSize(4),
                   flex: 1,
                   marginHorizontal: size.getWidthSize(4),
-                  minHeight: size.getHeightSize(36),
+                  height: size.getHeightSize(36),
+                  justifyContent: 'center',
                 }}
                 key={route.key}
                 onPress={() => {
@@ -72,9 +75,7 @@ const MainTab = () => {
                     canPreventDefault: true,
                   });
 
-                  if (!isFocused) {
-                    navigation.navigate(route.name);
-                  }
+                  navigation.navigate(route.name);
                 }}
               >
                 {renderTabBarLabel({ focused: isFocused, route })}
@@ -85,7 +86,7 @@ const MainTab = () => {
       )}
     >
       <Tab.Screen name="For You" component={ForYouPosts} />
-      <Tab.Screen name="Community" component={CommunitiesPost} />
+      <Tab.Screen name="Community" component={CommingSoon} />
     </Tab.Navigator>
   );
 };
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   focused: {
-    paddingVertical: size.getHeightSize(9),
+    // paddingVertical: size.getHeightSize(9),
     justifyContent: 'center',
     borderRadius: 40,
     paddingHorizontal: size.getWidthSize(16),

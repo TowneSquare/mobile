@@ -10,7 +10,7 @@ import PostActions from './PostActions';
 import { feedStyle } from './FeedsStyles';
 import { useFonts } from 'expo-font';
 import RepostedHeader from './RepostedHeader';
-import ProfilePicture from './ProfilePicture';
+import ProfilePicture from './SwipeableProfilePicture';
 import {
   UserPost,
   FeedContent,
@@ -27,10 +27,14 @@ import {
 } from '../../models';
 import { Avatar } from 'react-native-elements';
 const size = new sizes(height, width);
-interface Props {
+
+const Reposted = ({
+  data,
+  shouldPFPSwipe,
+}: {
   data: UserPost;
-}
-const Reposted = ({ data }: { data: UserPost }) => {
+  shouldPFPSwipe: boolean;
+}) => {
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -126,7 +130,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -142,7 +146,6 @@ const Reposted = ({ data }: { data: UserPost }) => {
                     {
                       marginHorizontal: size.getWidthSize(16),
                       marginBottom: size.getHeightSize(8),
-                     
                     },
                   ]}
                 >
@@ -162,11 +165,10 @@ const Reposted = ({ data }: { data: UserPost }) => {
       break;
     case FeedContent.MESSAGE_IMAGE:
       userPost.content = data.content as Message_Image;
-
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -210,7 +212,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -243,7 +245,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -282,7 +284,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -341,7 +343,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -406,7 +408,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -464,7 +466,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -516,7 +518,7 @@ const Reposted = ({ data }: { data: UserPost }) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}

@@ -10,7 +10,7 @@ const appImages = {
   // petra: require('../../assets/images/png/petra.png'),
   // pontem: require('../../assets/images/png/pontem.png'),
   // rise: require('../../assets/images/png/rise.png'),
-  // X: require('../../assets/images/png/X.png'),
+  // twitter: require('../../assets/images/png/twitter.png'),
   info: require('../../assets/images/png/info.png'),
   user: require('../../assets/images/png/user.png'),
   link: require('../../assets/images/png/link.png'),
@@ -18,7 +18,7 @@ const appImages = {
   users: require('../../assets/images/png/users.png'),
   hands: require('../../assets/images/png/hands.png'),
   robot: require('../../assets/images/png/robot.png'),
-  X2: require('../../assets/images/png/X2.png'),
+  twitter2: require('../../assets/images/png/twitter2.png'),
   discord2: require('../../assets/images/png/discord2.png'),
   friend1: require('../../assets/images/png/friend1.png'),
   friend2: require('../../assets/images/png/friend2.png'),
@@ -144,5 +144,8 @@ const appImages = {
   SiothianCommunity: require('../../assets/images/png/SiothianCommunity.png'),
   theter: require('../../assets/images/png/Theter.png'),
   pfpImage: require('../../assets/images/png/PfpImage.png'),
+  comingsoon: require('../../assets/images/png/commingsoon.png'),
+  poster1: require('../../assets/images/png/poster1.png'),
+  poster2:require('../../assets/images/png/poster2.png')
 };
 export const images = appImages;

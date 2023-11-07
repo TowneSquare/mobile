@@ -32,6 +32,7 @@ interface UserState {
     followedFriends: friends[];
     joinedCommunities: communities[];
     profileImage: any;
+    referralCode: string;
   };
   errors: {
     nicknameError: boolean;
@@ -41,7 +42,6 @@ interface UserState {
   };
   didToken: string;
   accountInfo: any;
-  metadata: any;
   editProfile: boolean;
   NFTCollections: NftCollection[];
   selectedSuperStars: {
@@ -77,6 +77,7 @@ const initialState: UserState = {
     followedFriends: [],
     joinedCommunities: [],
     profileImage: undefined,
+    referralCode: '',
   },
   errors: {
     nicknameError: false,
@@ -331,7 +332,6 @@ const initialState: UserState = {
     },
   ],
   accountInfo: undefined,
-  metadata: undefined,
   selectedSuperStars: [],
   selectedSuperStar: [],
   bio: `🖇️ Love everything about blockchain \n🌍3 web3 Native \n 👀 Always on a lookout for blue chips`,
@@ -422,6 +422,9 @@ export const USER = createSlice({
         state.errors.usernameError = false;
       }
     },
+    updateReferralCode: (state, action: PayloadAction<string>) => {
+      state.details.referralCode = action.payload;
+    },
     updateFollowedFriends: (state, action: PayloadAction<friends>) => {
       state.details.followedFriends = [
         ...state.details.followedFriends,
@@ -461,9 +464,6 @@ export const USER = createSlice({
 
     updateAccountInfo: (state, action: PayloadAction<any>) => {
       state.accountInfo = action.payload;
-    },
-    updateMetadata: (state, action: PayloadAction<any>) => {
-      state.metadata = action.payload;
     },
     updateSelectedSuperStar: (
       state,
@@ -507,12 +507,12 @@ export const {
   updateProfileImage,
   updateEditProfile,
   updateAccountInfo,
-  updateMetadata,
   updateSelectedSuperStar,
   deleteSelectedSuperStar,
   resetSelectedSuperStar,
   updateBio,
   updateTheirProfileBottomSheet,
   updateSelectedSuperStars,
+  updateReferralCode,
 } = USER.actions;
 export default USER.reducer;

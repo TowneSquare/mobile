@@ -30,7 +30,7 @@ const TranslationForwardButton = ({ disable, action }: Props) => {
         alignSelf: "center",
         width: size.getWidthSize(328),
         borderRadius: 40,
-        // height: size.getHeightSize(48),
+        minHeight: size.getHeightSize(48),
         justifyContent: "center",
         marginTop: size.getHeightSize(8),
         paddingVertical: size.getHeightSize(12.5),

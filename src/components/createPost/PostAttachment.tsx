@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import { updateToast } from '../../controller/FeedsController';
 import { updateMedia, updateGifBottomSheet } from '../../controller/createPost';
-
+import { updateAttachNftType } from '../../controller/FeedsController';
 const size = new sizes(height, width);
 const PostAttachment = () => {
   const dispatch = useAppDispatch();
@@ -125,7 +125,10 @@ const PostAttachment = () => {
                 alignItems: 'flex-start',
               })
             );
-          } else navigation.navigate('NftCollectionScreen' as any);
+          } else {
+            dispatch(updateAttachNftType('createPost')),
+              navigation.navigate('NftCollectionScreen');
+          }
         }}
       >
         <PostNft

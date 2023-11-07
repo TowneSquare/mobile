@@ -12,6 +12,7 @@ import LikedIcon from '../../../assets/images/svg/LikedIcon';
 import Retweeted from '../../../assets/images/svg/Retweeted';
 import BookMarkedIcon from '../../../assets/images/svg/BookMarkedIcon';
 import CommentIcon from '../../../assets/images/svg/CommentIcon';
+import SharePostIcon from '../../../assets/images/svg/SharePostIcon';
 import { updateTipBottomSheet } from '../../controller/FeedsController';
 import { useAppDispatch } from '../../controller/hooks';
 import Animated, {
@@ -30,6 +31,7 @@ interface Props {
   paddingHorizontal?: number;
   marginBottom?: boolean;
   marginTop?: boolean;
+  showShareIcon?: boolean;
 }
 const PostActions = ({
   noOfComments,
@@ -38,6 +40,7 @@ const PostActions = ({
   paddingHorizontal,
   marginBottom,
   marginTop,
+  showShareIcon,
 }: Props) => {
   const dispatch = useAppDispatch();
   const [changeLikeTextColor, setlikesTextColor] = useState(false);
@@ -125,7 +128,7 @@ const PostActions = ({
   return (
     <View
       style={{
-        gap: size.getWidthSize(20),
+        gap: size.getWidthSize(12),
         flexDirection: 'row',
         paddingVertical: size.getHeightSize(8),
         paddingHorizontal: paddingHorizontal
@@ -220,35 +223,24 @@ const PostActions = ({
           {noOfLikes}
         </Text>
       </View>
-      <View
-        style={{
-          alignItems: 'center',
-          gap: size.getWidthSize(2),
-        }}
-      >
-        <TipIcon
-          onPress={() => dispatch(updateTipBottomSheet(true))}
-          size={size.getHeightSize(24)}
-        />
-      </View>
-      <View
-        style={{
-          alignItems: 'center',
-          gap: size.getWidthSize(2),
-        }}
-      >
-        <Pressable onPress={handleBookMark}>
-          <Animated.View
-            style={[StyleSheet.absoluteFillObject, bookmarkoutlineStyle]}
-          >
-            <BookMark size={size.getHeightSize(24)} />
-          </Animated.View>
 
-          <Animated.View style={bookmarkfillStyle}>
-            <BookMarkedIcon size={size.getHeightSize(24)} />
-          </Animated.View>
-        </Pressable>
-      </View>
+      <TipIcon
+        onPress={() => dispatch(updateTipBottomSheet(true))}
+        size={size.getHeightSize(24)}
+      />
+      {showShareIcon && <SharePostIcon size={size.getHeightSize(24)} />}
+
+      <Pressable onPress={handleBookMark}>
+        <Animated.View
+          style={[StyleSheet.absoluteFillObject, bookmarkoutlineStyle]}
+        >
+          <BookMark size={size.getHeightSize(24)} />
+        </Animated.View>
+
+        <Animated.View style={bookmarkfillStyle}>
+          <BookMarkedIcon size={size.getHeightSize(24)} />
+        </Animated.View>
+      </Pressable>
     </View>
   );
 };

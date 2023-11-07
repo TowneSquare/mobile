@@ -18,6 +18,7 @@ import {
 const { height, width } = Dimensions.get('window');
 import { appColor, fonts } from '../constants';
 import CancelIcon from '../../assets/images/svg/CancelIcon';
+import ChatSendButton from '../../assets/images/svg/ChatSendButton';
 import SendButton from '../../assets/images/svg/SendButton';
 import SendButtonActive from '../../assets/images/svg/SendButtonActive';
 import { sizes } from '../utils';
@@ -50,7 +51,6 @@ const ChatInputBox: ForwardRefRenderFunction<ComponentRef, Props> = (
   }, [height]);
   useImperativeHandle(ref, () => ({
     focusTextInput() {
-      console.log('=============');
       setTimeout(() => {
         showKeyboard();
       }, 500);

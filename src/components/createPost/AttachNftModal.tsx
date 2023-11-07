@@ -14,13 +14,14 @@ import Clip from '../../../assets/images/svg/Clip';
 import { appColor, images } from '../../constants';
 import OfferSaleSheet from './OfferSaleSheet';
 import { sizes } from '../../utils';
-import { batch } from 'react-redux';
+import DMAttachNFT from '../DM/AttachNft';
 const size = new sizes(height, width);
 import { SelectedCollectionContext } from '../../context/SelectedCollectionContext';
 import { useNavigation, StackActions } from '@react-navigation/native';
 import { updateShowPriceModal } from '../../controller/createPost';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { updatePostNft } from '../../controller/createPost';
+import AttachNft from './AttachNft';
 interface Props {
   isVisible: boolean;
 }
@@ -30,7 +31,9 @@ const AttachNftModal = () => {
   const isPriceModalVisible = useAppSelector(
     (state) => state.CreatePostController.priceModal
   );
-
+  const modalType = useAppSelector(
+    (state) => state.FeedsSliceController.AttachNftType
+  );
   const { isModalVisible, handleModalState } = useContext(
     SelectedCollectionContext
   );
@@ -38,13 +41,11 @@ const AttachNftModal = () => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const navigation = useNavigation();
 
-  //Set opacity
   useEffect(() => {
     if (isPriceModalVisible === true) setOpacityValue(1);
     else setOpacityValue(0.8);
   }, [isPriceModalVisible]);
 
-  // after opacity is updated, update bottomsheet
   useEffect(() => {
     if (opacityvalue === 0.8) setShowBottomSheet(false);
     else setShowBottomSheet(true);
@@ -52,17 +53,6 @@ const AttachNftModal = () => {
   const handlePress = async () => {
     dispatch(updateShowPriceModal(true));
     handleModalState;
-    batch(() => {
-      // dispatch(
-      //   updatePostNft({
-      //     name: 'Aptomingos',
-      //     id: 'Aptomingos #9280',
-      //   })
-      // );
-    });
-
-    // navigation.dispatch(StackActions.pop(2));
-    // dispatch(updateAttachNftCountDown(true));
   };
   return (
     <>
@@ -79,60 +69,24 @@ const AttachNftModal = () => {
             opacity: opacityvalue,
           }}
         >
-          <View
-            style={{
-              backgroundColor: '#000000',
-            }}
-          >
-            <View style={{ height: size.getHeightSize(150.5) }} />
-            <View style={styles.imageContainer}>
-              <Image
-                style={styles.image}
-                source={images.NftCollection}
-                resizeMode="cover"
-              />
-            </View>
-          </View>
-          <Text style={styles.name}>Aptomingos #9022</Text>
-
-          <View
-            style={{
-              height: size.getHeightSize(110.5),
-            }}
-          />
-          <Pressable
-            onPress={() => {
-              handleModalState();
-              navigation.dispatch(StackActions.pop(2));
-              dispatch(
-                updatePostNft({
-                  name: 'Aptomingos',
-                  id: 'Aptomingos #9280',
-                })
-              );
-            }}
-            style={styles.AttachButton}
-          >
-            <Clip />
-            <Text style={styles.AttachText}>Attach to post</Text>
-          </Pressable>
-          <Pressable onPress={handlePress} style={styles.offerButton}>
-            <Offer />
-            <Text style={styles.OfferText}>Attach & offer for sale</Text>
-          </Pressable>
-          <View
-            style={{
-              width: size.getWidthSize(310),
-
-              alignSelf: 'center',
-              paddingVertical: size.getHeightSize(12.5),
-              marginTop: size.getHeightSize(32),
-            }}
-          >
-            <Text onPress={handleModalState} style={styles.back}>
-              Back
-            </Text>
-          </View>
+          {modalType === 'DM' ? (
+            <DMAttachNFT />
+          ) : (
+            <AttachNft
+              callBack={() => {
+                handleModalState();
+                navigation.dispatch(StackActions.pop(2));
+                dispatch(
+                  updatePostNft({
+                    name: 'Aptomingos',
+                    id: 'Aptomingos #9280',
+                  })
+                );
+              }}
+              handleModalState={handleModalState}
+              handlePress={handlePress}
+            />
+          )}
           {showBottomSheet && <OfferSaleSheet isVisible={showBottomSheet} />}
         </Animated.View>
       )}

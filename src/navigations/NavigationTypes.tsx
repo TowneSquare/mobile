@@ -112,6 +112,45 @@ export type RootStackParamList = {
   Channels: undefined;
   BannedMember: undefined;
   ChannelChat: undefined;
+  Conversation: undefined;
+  SendToken: undefined;
+  TokenSuccess: {
+    popNo: number;
+  };
+  Offerforsale: undefined;
+  NFTOffer: {
+    type: 'myOffer' | 'theirOffer';
+  };
+  MyRefferals: undefined;
+  Dex: {
+    type: 'DEX swap' | 'NFT trade' | 'User transaction';
+  };
+  Withdraw: undefined;
+  Airdrops: {
+    type:
+      | 'My refferals'
+      | 'NFT holdings'
+      | 'Defi trading'
+      | 'Dex Swap'
+      | 'NFT trade'
+      | 'Social transaction';
+  };
+  AptosMonkey: undefined;
+  ShareReferralCode: undefined;
+  SwapMain: undefined;
+  ProfileSendToken: undefined;
+  Support: undefined;
+  AccountInfo: undefined;
+  AccountNotifications: undefined;
+  AccountSettings: undefined;
+  Bookmarks: undefined;
+  TownesquareVerification: undefined;
+};
+
+type NFTOfferParams = {
+  [NFTOffer: string]: {
+    type: 'myOffer' | 'theirOffer';
+  };
 };
 
 type TokenGateSettingsCompleteParams = {
@@ -123,6 +162,11 @@ type TokenGateSettingsCompleteParams = {
       name?: string;
       coinId: string;
     };
+  };
+};
+type TokenSuccessParams = {
+  [Offerforsale: string]: {
+    popNo: number;
   };
 };
 type ViewRolesParams = {
@@ -150,6 +194,24 @@ type FollowerScreenParameter = {
 type TheirProfileParameter = {
   [TheirProfile: string]: {
     username: string;
+  };
+};
+
+type DEXParameter = {
+  [DEX: string]: {
+    type: 'DEX swap' | 'NFT trade' | 'User transaction';
+  };
+};
+type AirdropParameter = {
+  [Airdrops: string]: {
+    type:
+      | 'My refferals'
+      | 'NFT holdings'
+      | 'AptosMonkeys'
+      | 'Defi trading'
+      | 'Dex Swap'
+      | 'NFT trade'
+      | 'Social transaction';
   };
 };
 export type FirstScreenProps = {
@@ -463,20 +525,115 @@ export type ViewRolesProps = {
 export type CreateChannelProps = {
   navigation: NavigationProp<RootStackParamList, 'CreateChannel'>;
   magic: any;
-  route: RouteProp<ViewRolesParams, 'CreateChannel'>;
+  route: RouteProp<ParamListBase, 'CreateChannel'>;
 };
 export type ChannelCategoriesProps = {
   navigation: NavigationProp<RootStackParamList, 'ChannelCategories'>;
   magic: any;
-  route: RouteProp<ViewRolesParams, 'ChannelCategories'>;
+  route: RouteProp<ParamListBase, 'ChannelCategories'>;
 };
 export type ChannelsProps = {
   navigation: NavigationProp<RootStackParamList, 'Channels'>;
   magic: any;
-  route: RouteProp<ViewRolesParams, 'Channels'>;
+  route: RouteProp<ParamListBase, 'Channels'>;
 };
 export type BannedMemberProps = {
   navigation: NavigationProp<RootStackParamList, 'BannedMember'>;
   magic: any;
-  route: RouteProp<ViewRolesParams, 'BannedMember'>;
+  route: RouteProp<ParamListBase, 'BannedMember'>;
+};
+export type ConversationProps = {
+  navigation: NavigationProp<RootStackParamList, 'Conversation'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'Conversation'>;
+};
+export type SendTokenProps = {
+  navigation: NavigationProp<RootStackParamList, 'SendToken'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'SendToken'>;
+};
+export type TokenSuccessProps = {
+  navigation: NavigationProp<RootStackParamList, 'TokenSuccess'>;
+  magic: any;
+  route: RouteProp<TokenSuccessParams, 'TokenSuccess'>;
+};
+export type OfferforsaleProps = {
+  navigation: NavigationProp<RootStackParamList, 'Offerforsale'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'Offerforsale'>;
+};
+export type NFTOfferProps = {
+  navigation: NavigationProp<RootStackParamList, 'NFTOffer'>;
+  magic: any;
+  route: RouteProp<NFTOfferParams, 'NFTOffer'>;
+};
+export type MyRefferalsProps = {
+  navigation: NavigationProp<RootStackParamList, 'MyRefferals'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'MyRefferals'>;
+};
+export type DexProps = {
+  navigation: NavigationProp<RootStackParamList, 'Dex'>;
+  magic: any;
+  route: RouteProp<DEXParameter, 'Dex'>;
+};
+export type DWithdrawProps = {
+  navigation: NavigationProp<RootStackParamList, 'Withdraw'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'Withdraw'>;
+};
+export type AirdropsProps = {
+  navigation: NavigationProp<RootStackParamList, 'Airdrops'>;
+  magic: any;
+  route: RouteProp<AirdropParameter, 'Airdrops'>;
+};
+export type AptosMonkeyProps = {
+  navigation: NavigationProp<RootStackParamList, 'AptosMonkey'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'AptosMonkey'>;
+};
+export type ShareReferralCodeProps = {
+  navigation: NavigationProp<RootStackParamList, 'ShareReferralCode'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'ShareReferralCode'>;
+};
+export type SwapMainProps = {
+  navigation: NavigationProp<RootStackParamList, 'SwapMain'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'SwapMain'>;
+};
+export type ProfileSendTokenProps = {
+  navigation: NavigationProp<RootStackParamList, 'ProfileSendToken'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'ProfileSendToken'>;
+};
+export type SupportProps = {
+  navigation: NavigationProp<RootStackParamList, 'Support'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'Support'>;
+};
+export type AccountInfoProps = {
+  navigation: NavigationProp<RootStackParamList, 'AccountInfo'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'AccountInfo'>;
+};
+export type AccountNotificationsProps = {
+  navigation: NavigationProp<RootStackParamList, 'AccountNotifications'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'AccountNotifications'>;
+};
+export type AccountSettingsProps = {
+  navigation: NavigationProp<RootStackParamList, 'AccountSettings'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'AccountSettings'>;
+};
+export type BookmarksProps = {
+  navigation: NavigationProp<RootStackParamList, 'Bookmarks'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'Bookmarks'>;
+};
+export type TownesquareVerificationProps = {
+  navigation: NavigationProp<RootStackParamList, 'TownesquareVerification'>;
+  magic: any;
+  route: RouteProp<ParamListBase, 'TownesquareVerification'>;
 };

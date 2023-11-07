@@ -103,7 +103,6 @@ export const singlePostStyles = StyleSheet.create({
     backgroundColor: appColor.kSecondaryButtonColor,
     justifyContent: 'center',
     borderRadius: 40,
-    width: size.getWidthSize(94),
     paddingVertical: size.getHeightSize(7),
   },
   buttonText: {
@@ -192,7 +191,7 @@ export const singlePostStyles = StyleSheet.create({
   },
   priceFeed: {
     fontSize: size.fontSize(13),
-    fontFamily: 'Outfit-Medium',
+    fontFamily: 'Outfit-Regular',
     color: appColor.kGrayscale,
     lineHeight: size.getHeightSize(16),
     letterSpacing: 0.04,

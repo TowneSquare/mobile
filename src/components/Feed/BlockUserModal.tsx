@@ -41,7 +41,6 @@ const BlockUserModal = () => {
   useEffect(() => {
     const handleBackButton = () => {
       if (blockModal === true) {
-      
         dispatch(updateBlockUserModal(false));
         return true;
       } else {

@@ -11,11 +11,12 @@ import { OAuthExtension } from '@magic-ext/react-native-expo-oauth';
 import { AptosExtension } from '@magic-ext/aptos';
 import { APTOS_NODE_URL } from './constants';
 import { LinkingOptions } from '@react-navigation/native';
+import SelectUsersBottomsheet from './src/components/ProfileSendToken/SelectUsersBottomsheet';
 import * as Linking from 'expo-linking';
 import ToastWrapper from './src/shared/Feed/OverlayWrapper';
 import { RootStackParamList } from './src/navigations/NavigationTypes';
 import CreateChannelBottomSheet from './src/components/DrawerContent/CreateChannelBottomSheet';
-
+import LogoutBottomsheet from './src/components/Feed/LogoutBottomsheet';
 const linking: LinkingOptions<RootStackParamList> = {
   prefixes: [Linking.createURL('/')],
   config: {
@@ -48,6 +49,8 @@ export default function App() {
         <NavigationContainer linking={linking}>
           <Navigations magicProps={magicProps} />
           <CreateChannelBottomSheet />
+          <SelectUsersBottomsheet />
+          <LogoutBottomsheet />
         </NavigationContainer>
         <ToastWrapper />
         {/* <View style={styles.overlay} /> */}

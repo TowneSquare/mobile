@@ -1,15 +1,15 @@
-import { View, Text, Pressable, Dimensions, StyleSheet } from "react-native";
-import { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { sizes } from "../../../utils";
-import { appColor } from "../../../constants";
-import DiscordBG from "../../../../assets/images/svg/DiscordBG";
-import XBG from "../../../../assets/images/svg/XBg";
-import Checked from "../../../../assets/images/svg/Checked";
-import Header from "../Header";
-import Link from "../../../../assets/images/svg/Link";
+import { View, Text, Pressable, Dimensions, StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { sizes } from '../../../utils';
+import { appColor } from '../../../constants';
+import DiscordBG from '../../../../assets/images/svg/DiscordBG';
+import XBG from '../../../../assets/images/svg/XBg';
+import Checked from '../../../../assets/images/svg/Checked';
+import Header from '../Header';
+import Link from '../../../../assets/images/svg/Link';
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get('window');
 const size = new sizes(height, width);
 
 const ConnectSocials = () => {
@@ -34,26 +34,23 @@ const ConnectSocials = () => {
       <View
         style={{
           width: size.getWidthSize(328),
-          alignSelf: "center",
-          justifyContent: "center",
+          alignSelf: 'center',
+          justifyContent: 'center',
           gap: size.getHeightSize(16),
           flex: 1,
         }}
       >
         <View
           style={{
-            flexDirection: "row",
-            alignItems: "center",
+            flexDirection: 'row',
+            alignItems: 'center',
           }}
         >
-          <XBG />
+          <XBG size={size.getHeightSize(45)} />
 
           <Text style={styles.socialText}>X</Text>
           {isXConected ? (
-            <Pressable
-              onPress={handleXConnection}
-              style={styles.isConnected}
-            >
+            <Pressable onPress={handleXConnection} style={styles.isConnected}>
               <Checked />
               <Text style={styles.isConnectedText}>Connected</Text>
             </Pressable>
@@ -65,8 +62,8 @@ const ConnectSocials = () => {
         </View>
         <View
           style={{
-            flexDirection: "row",
-            alignItems: "center",
+            flexDirection: 'row',
+            alignItems: 'center',
           }}
         >
           <DiscordBG />
@@ -95,17 +92,17 @@ export default ConnectSocials;
 const styles = StyleSheet.create({
   socialText: {
     fontSize: size.fontSize(16),
-    fontFamily: "Outfit-SemiBold",
+    fontFamily: 'Outfit-SemiBold',
     paddingLeft: size.getWidthSize(16),
     color: appColor.kTextColor,
     flex: 1,
     lineHeight: size.getHeightSize(16),
-    fontStyle: "normal",
+    fontStyle: 'normal',
   },
   button: {
     backgroundColor: appColor.kSecondaryButtonColor,
     borderRadius: 40,
-    justifyContent: "center",
+    justifyContent: 'center',
     height: size.getHeightSize(38),
     // width: size.getWidthSize(100),
     paddingHorizontal: size.getWidthSize(16),
@@ -113,26 +110,26 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: size.fontSize(16),
-    fontFamily: "Outfit-Medium",
-    textAlign: "center",
+    fontFamily: 'Outfit-Medium',
+    textAlign: 'center',
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(18),
   },
   isConnected: {
     paddingVertical: size.getHeightSize(10),
-    justifyContent: "center",
-    flexDirection: "row",
+    justifyContent: 'center',
+    flexDirection: 'row',
     width: size.getWidthSize(113),
     height: size.getHeightSize(38),
     gap: size.getWidthSize(8),
-    alignItems: "center",
+    alignItems: 'center',
   },
   isConnectedText: {
     fontSize: size.fontSize(16),
-    fontFamily: "Outfit-SemiBold",
-    textAlign: "center",
+    fontFamily: 'Outfit-SemiBold',
+    textAlign: 'center',
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(18),
-    fontStyle: "normal",
+    fontStyle: 'normal',
   },
 });

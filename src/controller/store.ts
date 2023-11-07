@@ -1,11 +1,12 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import bottomSheetSlice from './BottomSheetController';
 import USER from './UserController';
 import FeedsSlice from './FeedsController';
 import CreatePostSlice from './createPost';
 import SearcPostSlice from './SearchPost';
 import COMMUNITY from './CommunityController';
-
+import Reward from './RewardController';
+import Swap from './SwapController';
 export const store = configureStore({
   reducer: {
     bottomSheetController: bottomSheetSlice,
@@ -14,7 +15,9 @@ export const store = configureStore({
     CreatePostController: CreatePostSlice,
     SearchPostController: SearcPostSlice,
     COMMUNITY,
-  }
+    RewardController: Reward,
+    SwapController: Swap,
+  },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

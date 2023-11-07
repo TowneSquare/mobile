@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef } from 'react';
 import {
   Text,
   View,
@@ -6,85 +6,81 @@ import {
   Animated,
   Dimensions,
   FlatList,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useFonts } from "expo-font";
-import { appColor, fonts } from "../../constants";
-import { sizes } from "../../utils";
-import TranslationForwardButton from "../../components/SignUp/TranslationForwardButton";
-import Verify from "../../components/SignUp/ConnectSocialsAndVerify/Verify";
-import { SignUpProps } from "../../navigations/NavigationTypes";
-import ChooseUsernameContent from "../../components/SignUp/ChooseUsername/UsernameContent";
-import ConnectSocials from "../../components/SignUp/ConnectSocials/ConnectSocials";
-import FindFriends from "../../components/SignUp/FindFriends/FindFriends";
-import ExploreCommunities from "../../components/SignUp/ExploreCommunities/ExploreCommunities";
-import ChooseProfilePics from "../../components/SignUp/ChooseProfilePics/ChooseProfilePics";
-import UploadImageModal from "../../components/SignUp/ChooseProfilePics/UploadImageModal";
-import ChooseNFT from "../../components/SignUp/ChooseProfilePics/ChooseNFT";
-import SelectedCollection from "../../components/SignUp/ChooseProfilePics/SelectedCollection";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import SignupTransitionBackButton from "../../components/SignUp/SignupTransitionBackButton";
-import { useAppSelector } from "../../controller/hooks";
-import { getAllUser, signup } from "../../api";
-const { width, height } = Dimensions.get("window");
+} from 'react-native';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
+import { useFonts } from 'expo-font';
+import { appColor, fonts } from '../../constants';
+import { sizes } from '../../utils';
+import ReferralView from '../../components/SignUp/Referral/ReferralView';
+import TranslationForwardButton from '../../components/SignUp/TranslationForwardButton';
+import Verify from '../../components/SignUp/ConnectSocialsAndVerify/Verify';
+import { SignUpProps } from '../../navigations/NavigationTypes';
+import ActionButton2 from '../../shared/ActionButton2';
+import ChooseUsernameContent from '../../components/SignUp/ChooseUsername/UsernameContent';
+import ConnectSocials from '../../components/SignUp/ConnectSocials/ConnectSocials';
+import FindFriends from '../../components/SignUp/FindFriends/FindFriends';
+import ExploreCommunities from '../../components/SignUp/ExploreCommunities/ExploreCommunities';
+import ChooseProfilePics from '../../components/SignUp/ChooseProfilePics/ChooseProfilePics';
+import UploadImageModal from '../../components/SignUp/ChooseProfilePics/UploadImageModal';
+import ChooseNFT from '../../components/SignUp/ChooseProfilePics/ChooseNFT';
+import SelectedCollection from '../../components/SignUp/ChooseProfilePics/SelectedCollection';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import SignupTransitionBackButton from '../../components/SignUp/SignupTransitionBackButton';
+import { useAppSelector } from '../../controller/hooks';
+const { width, height } = Dimensions.get('window');
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
 let newWidth = width - 2 * PADDING;
 
 const SignUp = ({ navigation }: SignUpProps) => {
+  const padding = useSafeAreaInsets();
   const {
     usernameError,
     nickNameError,
     userNameLength,
     nickNameLength,
     profilePics,
+    referralCode,
   } = useAppSelector((state) => ({
     usernameError: state.USER.errors.usernameError,
     nickNameError: state.USER.errors.nicknameError,
     userNameLength: state.USER.details.username.length,
     nickNameLength: state.USER.details.Nickname.length,
     profilePics: state.USER.details.profileImage,
+    referralCode: state.USER.details.referralCode,
   }));
-
-  const scrollX = useRef(new Animated.Value(0)).current;
-  const flatListRef = useRef<FlatList<any>>(null);
-  const [viewIndex, setViewIndex] = useState(0);
-  const user = useAppSelector((state) => state.USER);
-
-  const handleNextSlide = async () => {
-    if (viewIndex + 1 < views.length && flatListRef.current) {
-      setViewIndex((previous) => previous + 1);
-
-      flatListRef.current.scrollToIndex({ index: viewIndex + 1, animated: true });
-    } else {
-      const res = await signup(
-        user.didToken,
-        user.metadata.issuer,
-        user.accountInfo.address,
-        user.details.Nickname,
-        user.details.username,
-        user.metadata.email
-      );
-      console.log(res)
-      if (!res.error && res.success != false) {
-        navigation.navigate("Congratulations");
-      }
-    }
-  };
   const views = [
+    <ReferralView />,
     <ChooseUsernameContent />,
     <Verify />,
     <ConnectSocials />,
     <FindFriends />,
-    <ExploreCommunities />,
+    // <ExploreCommunities />,
     <ChooseProfilePics />,
   ];
+  const scrollX = useRef(new Animated.Value(0)).current;
+  const flatListRef = useRef<FlatList<any>>(null);
+  const [viewIndex, setViewIndex] = useState(0);
+  const handleNextSlide = () => {
+    const newIndex = viewIndex + 1;
+    if (newIndex < views.length && flatListRef.current) {
+      setViewIndex((previous) => previous + 1);
+      flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
+    } else {
+      navigation.navigate('Congratulations');
+    }
+  };
+
   const onViewChangeRef = useRef(({ viewableItems }: any) => {
     setViewIndex(viewableItems[0]?.index);
   });
 
   const handlePreviousSlide = () => {
     setViewIndex((previous) => previous - 1);
+
     const newIndex = viewIndex - 1;
     if (newIndex >= 0 && flatListRef.current) {
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
@@ -104,21 +100,21 @@ const SignUp = ({ navigation }: SignUpProps) => {
       (newWidth / 6) * 5,
       newWidth,
     ],
-    extrapolate: "clamp",
+    extrapolate: 'clamp',
   });
 
   let stageTitle = (index: number) => {
     switch (index) {
       case 0:
-        return "Connect Socials & Verify";
+        return 'Connect Socials & Verify';
       case 1:
-        return "Select Socials";
+        return 'Connect Socials & Verify';
       case 2:
-        return "Find your friends";
+        return 'Select socials';
       case 3:
-        return "Explore communities";
+        return 'Find your friends';
       case 4:
-        return "Choose PFP";
+        return 'Choose PFP';
       default:
         return "Hang on! You're all done after this.";
     }
@@ -126,6 +122,9 @@ const SignUp = ({ navigation }: SignUpProps) => {
   let disable;
   switch (viewIndex) {
     case 0:
+      disable = referralCode.length < 1;
+      break;
+    case 1:
       disable =
         usernameError ||
         nickNameError ||
@@ -133,22 +132,30 @@ const SignUp = ({ navigation }: SignUpProps) => {
         nickNameLength < 1;
       break;
     case 5:
-      disable = typeof profilePics === "undefined" ? true : false;
+      disable = typeof profilePics === 'undefined' ? true : false;
       break;
     default:
       break;
   }
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          flex: 1,
+          paddingTop: padding.top,
+        },
+      ]}
+    >
       <View
         style={{
           marginTop: size.getHeightSize(42),
@@ -159,10 +166,10 @@ const SignUp = ({ navigation }: SignUpProps) => {
           style={{
             color: appColor.kTextColor,
             marginBottom: size.getHeightSize(8),
-            fontFamily: "Outfit-Regular",
+            fontFamily: 'Outfit-Regular',
             fontSize: size.fontSize(14),
             lineHeight: size.getHeightSize(18),
-            width: newWidth
+            width: newWidth,
           }}
         >
           Next step: {stageTitle(viewIndex)}
@@ -199,7 +206,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
           <View
             style={{
               width: width,
-              alignItems: "center",
+              alignItems: 'center',
               flex: 1,
             }}
           >
@@ -235,6 +242,8 @@ const SignUp = ({ navigation }: SignUpProps) => {
           <View
             style={{
               marginBottom: size.getHeightSize(16),
+              gap: size.getHeightSize(8),
+              flex: 1,
             }}
           >
             <TranslationForwardButton
@@ -243,6 +252,22 @@ const SignUp = ({ navigation }: SignUpProps) => {
               }}
               disable={disable}
             />
+            {viewIndex === 0 && (
+              <Text
+                onPress={handleNextSlide}
+                style={{
+                  paddingVertical: size.getHeightSize(12.5),
+                  fontSize: size.fontSize(18),
+                  color: appColor.kTextColor,
+                  textAlign: 'center',
+                  marginLeft: size.getWidthSize(6),
+                  lineHeight: size.getHeightSize(23),
+                  fontFamily: 'Outfit-Medium',
+                }}
+              >
+                I don't have a referral code
+              </Text>
+            )}
             <SignupTransitionBackButton
               action={() => {
                 handlePreviousSlide();
@@ -256,14 +281,13 @@ const SignUp = ({ navigation }: SignUpProps) => {
       <UploadImageModal />
       <ChooseNFT />
       <SelectedCollection />
-    </SafeAreaView>
+    </View>
   );
 };
 
 export default SignUp;
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     // paddingTop: size.getHeightSize(56),
     backgroundColor: appColor.signUpBackground,
   },
