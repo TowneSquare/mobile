@@ -166,6 +166,12 @@ export const getAllPost = createAsyncThunk(
   async (token: string, thunkAPI) => {
     try {
       const response = await axios.get(`${BACKEND_URL}posts/findAll`, {
+        params:{
+          page:"",
+          limit:"",
+          search:"",
+          userId:""
+        },
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",

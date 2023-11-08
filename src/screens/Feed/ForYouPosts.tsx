@@ -32,11 +32,11 @@ const ForYouPosts = () => {
   }
 
   // useEffect(() => {
-  //   dispatch(getAllPost(userToken))
-  //   console.log("i ran again")
+    // dispatch(getAllPost(userToken))
+    // console.log("i ran again")
   // }, [])
 
-  console.log(AllPost, "allpost")
+  // console.log(AllPost, "allpost")s
 
 
   const EmptyComponent = () => {

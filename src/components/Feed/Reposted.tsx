@@ -77,7 +77,7 @@ const Reposted = ({ data }: { data: PostData }) => {
                 maxWidth: size.getWidthSize(74),
               }}
             >
-              {data.customer.username}
+              {data.originalCustomer.username}
             </Text>
             <Queen />
             <Text
@@ -91,7 +91,7 @@ const Reposted = ({ data }: { data: PostData }) => {
                 maxWidth: size.getWidthSize(67),
               }}
             >
-              @{data.customer.nickname}
+              @{data.originalCustomer.nickname}
             </Text>
             <Text
               style={{
@@ -119,7 +119,7 @@ const Reposted = ({ data }: { data: PostData }) => {
     );
   };
   let content;
-  const type_of_post = data.content as Repost;
+  // const type_of_post = data.content as Repost;
   const contentTypeOfRepost = 
 data.imageUrl
     ? FeedContent.MESSAGE_IMAGE
@@ -128,7 +128,7 @@ data.imageUrl
     data.repost ? FeedContent.REPOST
     : FeedContent.MESSAGE_ONLY;
   const userPost = data;
-  switch (type_of_post.contentTypeOfRepost) {
+  switch (contentTypeOfRepost) {
     case FeedContent.MESSAGE_ONLY:
       //userPost.content = data.content as Message_Only;
       content = (
@@ -169,7 +169,7 @@ data.imageUrl
       );
       break;
     case FeedContent.MESSAGE_IMAGE:
-      userPost.content = data.content as Message_Image;
+      // userPost.content = data.content as Message_Image;
 
       content = (
         <>
@@ -177,9 +177,9 @@ data.imageUrl
             <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
-                username={userPost.username}
-                nickname={userPost.nickname}
-                timepost={userPost.timepost}
+                username={userPost.customer.username}
+                nickname={userPost.customer.nickname}
+                timepost={'2m'} //TODO
               />
               <RepostedHeader />
               <View style={repostStyles.repostContainer}>
@@ -192,7 +192,7 @@ data.imageUrl
                     },
                   ]}
                 >
-                  {userPost.content.message}
+                  {userPost.description}
                 </Text>
                 <View style={[styles.mediaContainer, { marginBottom: 0 }]}>
                   <Image
@@ -203,16 +203,16 @@ data.imageUrl
                 </View>
               </View>
               <PostActions
-                noOfComments={userPost.comments}
-                noOfLikes={userPost.like}
-                noOfRetweet={userPost.retweet}
+                noOfComments={userPost.comments.length}
+                noOfLikes={userPost.comments.length}
+                noOfRetweet={userPost.reposts.length}
               />
             </View>
           </View>
         </>
       );
       break;
-    case FeedContent.GIF:
+    // case FeedContent.GIF:
       userPost.content = data.content as GIF;
 
       content = (
@@ -247,16 +247,16 @@ data.imageUrl
       );
       break;
     case FeedContent.VIDEO:
-      userPost.content = data.content as VIDEO;
+      // userPost.content = data.content as VIDEO;
       content = (
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
-                username={userPost.username}
-                nickname={userPost.nickname}
-                timepost={userPost.timepost}
+                username={userPost.customer.username}
+                nickname={userPost.customer.nickname}
+                timepost={'2m'} //TODO
               />
               <RepostedHeader />
               <View style={repostStyles.repostContainer}>
@@ -275,16 +275,16 @@ data.imageUrl
                 </View>
               </View>
               <PostActions
-                noOfComments={userPost.comments}
-                noOfLikes={userPost.like}
-                noOfRetweet={userPost.retweet}
+                noOfComments={userPost.comments.length}
+                noOfLikes={userPost.comments.length}
+                noOfRetweet={userPost.reposts.length}
               />
             </View>
           </View>
         </>
       );
       break;
-    case FeedContent.message_EXTERNAL_LINK:
+    // case FeedContent.message_EXTERNAL_LINK:
       const linkContent = data.content as Message_External_Link;
 
       content = (
@@ -344,7 +344,7 @@ data.imageUrl
       );
       break;
 
-    case FeedContent.NFT_FOR_SALE:
+    // case FeedContent.NFT_FOR_SALE:
       const nftContent = data.content as NFT_FOR_SALE;
       content = (
         <>
@@ -409,7 +409,7 @@ data.imageUrl
         </>
       );
       break;
-    case FeedContent.ATTACHED_NFT:
+    // case FeedContent.ATTACHED_NFT:
       const attachedNftContent = data.content as ATTACHED_NFT;
       content = (
         <>
@@ -467,7 +467,7 @@ data.imageUrl
         </>
       );
       break;
-    case FeedContent.SWAP_OPTION_INCLUDED:
+    // case FeedContent.SWAP_OPTION_INCLUDED:
       const swapContent = data.content as SWAP_OPTION_INCLUDED;
       content = (
         <>
@@ -519,7 +519,7 @@ data.imageUrl
         </>
       );
       break;
-    case FeedContent.FLOOR_PRICE_INCLUDED:
+    // case FeedContent.FLOOR_PRICE_INCLUDED:
       const floorPriceContent = data.content as FLOOR_PRICE_INCLUDED;
       content = (
         <>
