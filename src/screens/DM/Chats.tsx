@@ -10,6 +10,8 @@ interface Data {
   text: string;
   name: string;
   time: string;
+  // name: string;
+  // time: string;
   noOfUnreadMessages?: number;
 }
 
