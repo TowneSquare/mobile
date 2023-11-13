@@ -1,10 +1,11 @@
-import { View, Text, Dimensions } from "react-native";
+import { View, Text, Dimensions, Linking } from "react-native";
 const { height, width } = Dimensions.get("window");
 import { sizes } from "../../../utils";
 import { appColor } from "../../../constants";
 import Envelope from "../../../../assets/images/svg/Envelope";
 import EmailField from "./EmailField";
 import { Link } from "@react-navigation/native";
+
 const size = new sizes(height, width);
 const EmailContent = () => {
   return (
@@ -82,23 +83,25 @@ const EmailContent = () => {
             lineHeight: size.getHeightSize(18),
           }}
         >
-          <Link
-            to="/"
-            style={{
-              color: appColor.primaryLight,
-            }}
+          <Text
+            style={{ color: appColor.primaryLight }}
+            onPress={() =>
+              Linking.openURL("https://www.townesquare.xyz/TermsOfService")
+            }
           >
             &nbsp;Terms of Service&nbsp;
-          </Link>
+          </Text>
           and
-          <Link
-            to="/"
+          <Text
             style={{
               color: appColor.primaryLight,
             }}
+            onPress={() =>
+              Linking.openURL("https://www.townesquare.xyz/PrivacyPolicy")
+            }
           >
             &nbsp;Privacy Policy.&nbsp;
-          </Link>
+          </Text>
         </Text>
       </View>
     </>
