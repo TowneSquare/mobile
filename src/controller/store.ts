@@ -7,6 +7,9 @@ import SearcPostSlice from './SearchPost';
 import COMMUNITY from './CommunityController';
 
 export const store = configureStore({
+  middleware:(getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: false
+  }),
   reducer: {
     bottomSheetController: bottomSheetSlice,
     USER,

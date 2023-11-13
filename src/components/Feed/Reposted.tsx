@@ -77,7 +77,7 @@ const Reposted = ({ data }: { data: PostData }) => {
                 maxWidth: size.getWidthSize(74),
               }}
             >
-              {data.originalCustomer.username}
+              {data.originalCustomer?.username}
             </Text>
             <Queen />
             <Text

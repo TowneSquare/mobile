@@ -59,21 +59,22 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
 
   const handleNavigation = () => {
     const params: NavigationParameter = {
-      username: data.customer.username,
-      nickname: data.customer.nickname,
+      username: data?.customer?.username,
+      nickname: data?.customer?.nickname,
     };
     navigation.navigate("SinglePost" as any, params);
   };
 
   let content;
 
-  const type_of_post = data.imageUrl
-    ? FeedContent.MESSAGE_IMAGE
-    : data.videoUrl
-    ? FeedContent.VIDEO
-    : data.repost
+  const type_of_post = data?.repost
     ? FeedContent.REPOST
-    : FeedContent.MESSAGE_ONLY;
+    : data?.videoUrl
+    ? FeedContent.VIDEO
+    : data?.imageUrl
+    ? FeedContent.MESSAGE_IMAGE
+    : data?.description ? FeedContent.MESSAGE_ONLY: FeedContent.EMPTY;
+    console.log(type_of_post, "type of post")
   const userPost = data;
   switch (type_of_post) {
     case FeedContent.MESSAGE_ONLY:
@@ -81,22 +82,22 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture id={data._id} swipeable={shouldPFPSwipe} />
+            <ProfilePicture id={data?._id} swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
-                username={userPost.customer.username}
-                nickname={userPost.customer.nickname}
+                username={userPost?.customer?.username}
+                nickname={userPost?.customer?.nickname}
                 timepost={"2m"} // TODO: fix the post time
                 myPost={myPost ? myPost : false}
               />
               <Text onPress={handleNavigation} style={styles.message}>
-                {userPost.description}
+                {userPost?.description}
               </Text>
 
               <PostActions
-                noOfComments={userPost.comments.length}
-                noOfLikes={userPost.likes.length}
-                noOfRetweet={userPost.reposts.length}
+                noOfComments={userPost?.comments?.length}
+                noOfLikes={userPost?.likes?.length}
+                noOfRetweet={userPost?.reposts?.length}
               />
               {/* <ShowThread /> */}
             </View>
@@ -119,14 +120,14 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
               /> */}
 
               <PostHeader
-                username={userPost.customer.username}
-                nickname={userPost.customer.nickname}
+                username={userPost?.customer?.username}
+                nickname={userPost?.customer?.nickname}
                 timepost={"2m"} // TODO: fix the post time
                 myPost={myPost ? myPost : false}
               />
 
               <Text onPress={handleNavigation} style={styles.message}>
-                {userPost.description}
+                {userPost?.description}
               </Text>
 
               <Pressable
@@ -143,9 +144,9 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
                 />
               </Pressable>
               <PostActions
-                noOfComments={userPost.comments.length}
-                noOfLikes={userPost.likes.length}
-                noOfRetweet={userPost.reposts.length}
+                noOfComments={userPost?.comments?.length}
+                noOfLikes={userPost?.likes?.length}
+                noOfRetweet={userPost?.reposts?.length}
               />
 
               {/* <PostActions
@@ -211,8 +212,8 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
             <View style={styles.subHeading}>
               <PostHeader
                 onPress={handleNavigation}
-                username={userPost.customer.username}
-                nickname={userPost.customer.nickname}
+                username={userPost?.customer?.username}
+                nickname={userPost?.customer?.nickname}
                 timepost={"2m"} // TODO
                 myPost={myPost ? myPost : false}
               />
@@ -231,9 +232,9 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
                 />
               </Pressable>
               <PostActions
-                noOfComments={userPost.comments.length}
-                noOfLikes={userPost.likes.length}
-                noOfRetweet={userPost.reposts.length}
+                noOfComments={userPost?.comments?.length}
+                noOfLikes={userPost?.likes?.length}
+                noOfRetweet={userPost?.reposts?.length}
               />
               {/* <PostActions
                 noOfComments={userPost.comments}

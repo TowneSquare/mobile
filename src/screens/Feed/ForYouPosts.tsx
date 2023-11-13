@@ -21,6 +21,12 @@ const ForYouPosts = () => {
     (state) => state.CreatePostController.AllPost
   );
 
+    useEffect(() => {
+    dispatch(getAllPost(userToken))
+  }, [])
+
+  console.log(AllPost, "allpost")
+
 
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -31,10 +37,7 @@ const ForYouPosts = () => {
     return null;
   }
 
-  // useEffect(() => {
-    // dispatch(getAllPost(userToken))
-    // console.log("i ran again")
-  // }, [])
+
 
   // console.log(AllPost, "allpost")s
 

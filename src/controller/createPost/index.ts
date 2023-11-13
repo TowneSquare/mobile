@@ -369,14 +369,15 @@ export const fieldHandlerSlice = createSlice({
     builder.addCase(createPost.fulfilled, (state, action) => {});
     builder.addCase(getAllPost.fulfilled, (state, action) => {
       state.AllPost = action.payload;
-       state.PostState = POSTSTATE.FULFILLED
+      state.PostState = POSTSTATE.FULFILLED
     });
     builder.addCase(getAllPost.pending, (state, action) => {
       state.PostState = POSTSTATE.PENDING
     });
     builder.addCase(getAllPost.rejected, (state, action) => {
-      state.AllPost = [];
-      state.PostState = POSTSTATE.REJECTED
+       state.PostState = POSTSTATE.REJECTED
+      state.AllPost = [...state.AllPost];
+     
     })
   },
 });
