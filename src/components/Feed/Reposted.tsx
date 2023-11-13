@@ -134,7 +134,7 @@ data.imageUrl
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture swipeable={shouldPFPSwipe} />
+            <ProfilePicture  />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.customer.username}
@@ -173,7 +173,7 @@ data.imageUrl
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture swipeable={shouldPFPSwipe} />
+            <ProfilePicture />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.customer.username}
@@ -212,45 +212,45 @@ data.imageUrl
       );
       break;
     // case FeedContent.GIF:
-      userPost.content = data.content as GIF;
+      // userPost.content = data.content as GIF;
 
-      content = (
-        <>
-          <View style={styles.feedContainer}>
-            <ProfilePicture swipeable={shouldPFPSwipe} />
-            <View style={styles.subHeading}>
-              <PostHeader
-                username={userPost.username}
-                nickname={userPost.nickname}
-                timepost={userPost.timepost}
-              />
-              <RepostedHeader />
-              <View style={repostStyles.repostContainer}>
-                <Header />
-                <View style={[styles.mediaContainer, { marginBottom: 0 }]}>
-                  <Image
-                    source={images.feedImage2}
-                    style={[repostStyles.repostImage]}
-                    resizeMode="cover"
-                  />
-                </View>
-              </View>
-              <PostActions
-                noOfComments={userPost.comments}
-                noOfLikes={userPost.like}
-                noOfRetweet={userPost.retweet}
-              />
-            </View>
-          </View>
-        </>
-      );
-      break;
+      // content = (
+      //   <>
+      //     <View style={styles.feedContainer}>
+      //       <ProfilePicture swipeable={shouldPFPSwipe} />
+      //       <View style={styles.subHeading}>
+      //         <PostHeader
+      //           username={userPost.username}
+      //           nickname={userPost.nickname}
+      //           timepost={userPost.timepost}
+      //         />
+      //         <RepostedHeader />
+      //         <View style={repostStyles.repostContainer}>
+      //           <Header />
+      //           <View style={[styles.mediaContainer, { marginBottom: 0 }]}>
+      //             <Image
+      //               source={images.feedImage2}
+      //               style={[repostStyles.repostImage]}
+      //               resizeMode="cover"
+      //             />
+      //           </View>
+      //         </View>
+      //         <PostActions
+      //           noOfComments={userPost.comments}
+      //           noOfLikes={userPost.like}
+      //           noOfRetweet={userPost.retweet}
+      //         />
+      //       </View>
+      //     </View>
+      //   </>
+      // );
+      // break;
     case FeedContent.VIDEO:
       // userPost.content = data.content as VIDEO;
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture swipeable={shouldPFPSwipe} />
+            <ProfilePicture  />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.customer.username}
@@ -284,299 +284,299 @@ data.imageUrl
       );
       break;
     // case FeedContent.message_EXTERNAL_LINK:
-      const linkContent = data.content as Message_External_Link;
+      // const linkContent = data.content as Message_External_Link;
 
-      content = (
-        <>
-          <View style={styles.feedContainer}>
-            <ProfilePicture swipeable={shouldPFPSwipe} />
-            <View style={styles.subHeading}>
-              <PostHeader
-                username={userPost.username}
-                nickname={userPost.nickname}
-                timepost={userPost.timepost}
-              />
-              <RepostedHeader />
-              <View style={repostStyles.repostContainer}>
-                <Header />
-                <Text style={[styles.message, repostStyles.repostText]}>
-                  {linkContent.message}
-                </Text>
-                <Text style={[styles.link, repostStyles.repostLink]}>
-                  {linkContent.link}
-                </Text>
-                <View
-                  style={[
-                    styles.mediaContainer,
-                    repostStyles.repostMediaContainer,
-                  ]}
-                >
-                  <Image
-                    source={images.feedImageLink}
-                    style={[styles.imageStyle, { borderRadius: 0 }]}
-                    resizeMode="cover"
-                  />
-                </View>
-                <View
-                  style={[
-                    styles.linkDescriptionContainer,
-                    { marginBottom: size.getHeightSize(0) },
-                  ]}
-                >
-                  <Text style={styles.linkTitle}>
-                    {linkContent.linkDescription}
-                  </Text>
-                  <Text style={styles.linkSubTitle}>
-                    {linkContent.linkSubTitle}
-                  </Text>
-                  <Text style={styles.linkText}>{linkContent.url}</Text>
-                </View>
-              </View>
-              <PostActions
-                noOfComments={userPost.comments}
-                noOfLikes={userPost.like}
-                noOfRetweet={userPost.retweet}
-              />
-            </View>
-          </View>
-        </>
-      );
-      break;
+      // content = (
+      //   <>
+      //     <View style={styles.feedContainer}>
+      //       <ProfilePicture swipeable={shouldPFPSwipe} />
+      //       <View style={styles.subHeading}>
+      //         <PostHeader
+      //           username={userPost.username}
+      //           nickname={userPost.nickname}
+      //           timepost={userPost.timepost}
+      //         />
+      //         <RepostedHeader />
+      //         <View style={repostStyles.repostContainer}>
+      //           <Header />
+      //           <Text style={[styles.message, repostStyles.repostText]}>
+      //             {linkContent.message}
+      //           </Text>
+      //           <Text style={[styles.link, repostStyles.repostLink]}>
+      //             {linkContent.link}
+      //           </Text>
+      //           <View
+      //             style={[
+      //               styles.mediaContainer,
+      //               repostStyles.repostMediaContainer,
+      //             ]}
+      //           >
+      //             <Image
+      //               source={images.feedImageLink}
+      //               style={[styles.imageStyle, { borderRadius: 0 }]}
+      //               resizeMode="cover"
+      //             />
+      //           </View>
+      //           <View
+      //             style={[
+      //               styles.linkDescriptionContainer,
+      //               { marginBottom: size.getHeightSize(0) },
+      //             ]}
+      //           >
+      //             <Text style={styles.linkTitle}>
+      //               {linkContent.linkDescription}
+      //             </Text>
+      //             <Text style={styles.linkSubTitle}>
+      //               {linkContent.linkSubTitle}
+      //             </Text>
+      //             <Text style={styles.linkText}>{linkContent.url}</Text>
+      //           </View>
+      //         </View>
+      //         <PostActions
+      //           noOfComments={userPost.comments}
+      //           noOfLikes={userPost.like}
+      //           noOfRetweet={userPost.retweet}
+      //         />
+      //       </View>
+      //     </View>
+      //   </>
+      // );
+      // break;
 
     // case FeedContent.NFT_FOR_SALE:
-      const nftContent = data.content as NFT_FOR_SALE;
-      content = (
-        <>
-          <View style={styles.feedContainer}>
-            <ProfilePicture swipeable={shouldPFPSwipe} />
-            <View style={styles.subHeading}>
-              <PostHeader
-                username={userPost.username}
-                nickname={userPost.nickname}
-                timepost={userPost.timepost}
-              />
-              <RepostedHeader />
-              <View style={repostStyles.repostContainer}>
-                <Header />
-                <Text style={[styles.message, repostStyles.repostText]}>
-                  {nftContent.message}
-                </Text>
-                <View
-                  style={[
-                    styles.mediaContainer,
-                    {
-                      marginBottom: size.getHeightSize(0),
-                    },
-                  ]}
-                >
-                  <Image
-                    source={images.feedImage5}
-                    style={[repostStyles.repostImage]}
-                    resizeMode="cover"
-                  />
-                  <View style={[styles.nftcollectionContainer]}>
-                    <View style={styles.collectionInfo}>
-                      <Image source={images.collectionImage} />
-                      <Text style={styles.collectionName}>
-                        {nftContent.collectionName}
-                      </Text>
-                    </View>
+      // const nftContent = data.content as NFT_FOR_SALE;
+      // content = (
+      //   <>
+      //     <View style={styles.feedContainer}>
+      //       <ProfilePicture swipeable={shouldPFPSwipe} />
+      //       <View style={styles.subHeading}>
+      //         <PostHeader
+      //           username={userPost.username}
+      //           nickname={userPost.nickname}
+      //           timepost={userPost.timepost}
+      //         />
+      //         <RepostedHeader />
+      //         <View style={repostStyles.repostContainer}>
+      //           <Header />
+      //           <Text style={[styles.message, repostStyles.repostText]}>
+      //             {nftContent.message}
+      //           </Text>
+      //           <View
+      //             style={[
+      //               styles.mediaContainer,
+      //               {
+      //                 marginBottom: size.getHeightSize(0),
+      //               },
+      //             ]}
+      //           >
+      //             <Image
+      //               source={images.feedImage5}
+      //               style={[repostStyles.repostImage]}
+      //               resizeMode="cover"
+      //             />
+      //             <View style={[styles.nftcollectionContainer]}>
+      //               <View style={styles.collectionInfo}>
+      //                 <Image source={images.collectionImage} />
+      //                 <Text style={styles.collectionName}>
+      //                   {nftContent.collectionName}
+      //                 </Text>
+      //               </View>
 
-                    <Text style={styles.collectionId}>
-                      {nftContent.collectionName} {nftContent.collectionId}
-                    </Text>
-                  </View>
-                </View>
+      //               <Text style={styles.collectionId}>
+      //                 {nftContent.collectionName} {nftContent.collectionId}
+      //               </Text>
+      //             </View>
+      //           </View>
 
-                <View style={[styles.nftCollection, { marginBottom: 0 }]}>
-                  <View style={styles.collectionPriceContainer}>
-                    <Text style={styles.price}>Price</Text>
-                    <Text style={styles.amount}>{nftContent.price} APT</Text>
-                  </View>
-                  <View style={styles.button}>
-                    <Text style={styles.buttonText}>Buy now</Text>
-                  </View>
-                </View>
-              </View>
-              <PostActions
-                noOfComments={userPost.comments}
-                noOfLikes={userPost.like}
-                noOfRetweet={userPost.retweet}
-              />
-            </View>
-          </View>
-        </>
-      );
-      break;
+      //           <View style={[styles.nftCollection, { marginBottom: 0 }]}>
+      //             <View style={styles.collectionPriceContainer}>
+      //               <Text style={styles.price}>Price</Text>
+      //               <Text style={styles.amount}>{nftContent.price} APT</Text>
+      //             </View>
+      //             <View style={styles.button}>
+      //               <Text style={styles.buttonText}>Buy now</Text>
+      //             </View>
+      //           </View>
+      //         </View>
+      //         <PostActions
+      //           noOfComments={userPost.comments}
+      //           noOfLikes={userPost.like}
+      //           noOfRetweet={userPost.retweet}
+      //         />
+      //       </View>
+      //     </View>
+      //   </>
+      // );
+      // break;
     // case FeedContent.ATTACHED_NFT:
-      const attachedNftContent = data.content as ATTACHED_NFT;
-      content = (
-        <>
-          <View style={styles.feedContainer}>
-            <ProfilePicture swipeable={shouldPFPSwipe} />
-            <View style={styles.subHeading}>
-              <PostHeader
-                username={userPost.username}
-                nickname={userPost.nickname}
-                timepost={userPost.timepost}
-              />
-              <RepostedHeader />
-              <View style={repostStyles.repostContainer}>
-                <Header />
-                <View
-                  style={[
-                    styles.mediaContainer,
-                    {
-                      marginBottom: size.getHeightSize(8),
-                    },
-                  ]}
-                >
-                  <Image
-                    source={images.feedImage5}
-                    style={[styles.imageStyle, { borderRadius: 0 }]}
-                    resizeMode="cover"
-                  />
-                </View>
-                <View
-                  style={[
-                    styles.attachedNftContainer,
-                    { marginBottom: size.getHeightSize(8) },
-                  ]}
-                >
-                  <View style={styles.collectionInfo}>
-                    <Image source={images.collectionImage} />
-                    <Text style={styles.collectionName}>
-                      {attachedNftContent.collectionName}
-                    </Text>
-                  </View>
+    //   const attachedNftContent = data.content as ATTACHED_NFT;
+    //   content = (
+    //     <>
+    //       <View style={styles.feedContainer}>
+    //         <ProfilePicture swipeable={shouldPFPSwipe} />
+    //         <View style={styles.subHeading}>
+    //           <PostHeader
+    //             username={userPost.username}
+    //             nickname={userPost.nickname}
+    //             timepost={userPost.timepost}
+    //           />
+    //           <RepostedHeader />
+    //           <View style={repostStyles.repostContainer}>
+    //             <Header />
+    //             <View
+    //               style={[
+    //                 styles.mediaContainer,
+    //                 {
+    //                   marginBottom: size.getHeightSize(8),
+    //                 },
+    //               ]}
+    //             >
+    //               <Image
+    //                 source={images.feedImage5}
+    //                 style={[styles.imageStyle, { borderRadius: 0 }]}
+    //                 resizeMode="cover"
+    //               />
+    //             </View>
+    //             <View
+    //               style={[
+    //                 styles.attachedNftContainer,
+    //                 { marginBottom: size.getHeightSize(8) },
+    //               ]}
+    //             >
+    //               <View style={styles.collectionInfo}>
+    //                 <Image source={images.collectionImage} />
+    //                 <Text style={styles.collectionName}>
+    //                   {attachedNftContent.collectionName}
+    //                 </Text>
+    //               </View>
 
-                  <Text style={styles.collectionId}>
-                    {attachedNftContent.collectionName}
-                    {attachedNftContent.collectionId}
-                  </Text>
-                </View>
-              </View>
-              <PostActions
-                noOfComments={userPost.comments}
-                noOfLikes={userPost.like}
-                noOfRetweet={userPost.retweet}
-              />
-            </View>
-          </View>
-        </>
-      );
-      break;
-    // case FeedContent.SWAP_OPTION_INCLUDED:
-      const swapContent = data.content as SWAP_OPTION_INCLUDED;
-      content = (
-        <>
-          <View style={styles.feedContainer}>
-            <ProfilePicture swipeable={shouldPFPSwipe} />
-            <View style={styles.subHeading}>
-              <PostHeader
-                username={userPost.username}
-                nickname={userPost.nickname}
-                timepost={userPost.timepost}
-              />
-              <RepostedHeader />
-              <View style={repostStyles.repostContainer}>
-                <Header />
-                <Text style={[styles.message, repostStyles.repostText]}>
-                  {swapContent.message}
-                  <Text style={styles.swapTextTag}>
-                    {' '}
-                    ${swapContent.messageTag}
-                  </Text>
-                </Text>
-                <View style={repostStyles.swapContainer}>
-                  <View style={styles.swapDescription}>
-                    <View style={styles.swapImageContainer}>
-                      <APT />
-                      <Text style={styles.swapLeadingText}>Aptos APT</Text>
-                    </View>
-                    <Text style={styles.swapPriceTag}>
-                      ${swapContent.price}
-                    </Text>
-                    <Text style={styles.priceFeed}>
-                      Price feed{' '}
-                      <Text style={styles.priceFeedType}>Liquidswap</Text>
-                    </Text>
-                  </View>
+    //               <Text style={styles.collectionId}>
+    //                 {attachedNftContent.collectionName}
+    //                 {attachedNftContent.collectionId}
+    //               </Text>
+    //             </View>
+    //           </View>
+    //           <PostActions
+    //             noOfComments={userPost.comments}
+    //             noOfLikes={userPost.like}
+    //             noOfRetweet={userPost.retweet}
+    //           />
+    //         </View>
+    //       </View>
+    //     </>
+    //   );
+    //   break;
+    // // case FeedContent.SWAP_OPTION_INCLUDED:
+    //   const swapContent = data.content as SWAP_OPTION_INCLUDED;
+    //   content = (
+    //     <>
+    //       <View style={styles.feedContainer}>
+    //         <ProfilePicture swipeable={shouldPFPSwipe} />
+    //         <View style={styles.subHeading}>
+    //           <PostHeader
+    //             username={userPost.username}
+    //             nickname={userPost.nickname}
+    //             timepost={userPost.timepost}
+    //           />
+    //           <RepostedHeader />
+    //           <View style={repostStyles.repostContainer}>
+    //             <Header />
+    //             <Text style={[styles.message, repostStyles.repostText]}>
+    //               {swapContent.message}
+    //               <Text style={styles.swapTextTag}>
+    //                 {' '}
+    //                 ${swapContent.messageTag}
+    //               </Text>
+    //             </Text>
+    //             <View style={repostStyles.swapContainer}>
+    //               <View style={styles.swapDescription}>
+    //                 <View style={styles.swapImageContainer}>
+    //                   <APT />
+    //                   <Text style={styles.swapLeadingText}>Aptos APT</Text>
+    //                 </View>
+    //                 <Text style={styles.swapPriceTag}>
+    //                   ${swapContent.price}
+    //                 </Text>
+    //                 <Text style={styles.priceFeed}>
+    //                   Price feed{' '}
+    //                   <Text style={styles.priceFeedType}>Liquidswap</Text>
+    //                 </Text>
+    //               </View>
 
-                  <View style={styles.button}>
-                    <Text style={styles.buttonText}>Swap APT</Text>
-                  </View>
-                </View>
-              </View>
-              <PostActions
-                noOfComments={userPost.comments}
-                noOfLikes={userPost.like}
-                noOfRetweet={userPost.retweet}
-              />
-            </View>
-          </View>
-        </>
-      );
-      break;
-    // case FeedContent.FLOOR_PRICE_INCLUDED:
-      const floorPriceContent = data.content as FLOOR_PRICE_INCLUDED;
-      content = (
-        <>
-          <View style={styles.feedContainer}>
-            <ProfilePicture swipeable={shouldPFPSwipe} />
-            <View style={styles.subHeading}>
-              <PostHeader
-                username={userPost.username}
-                nickname={userPost.nickname}
-                timepost={userPost.timepost}
-              />
-              <RepostedHeader />
-              <View style={repostStyles.repostContainer}>
-                <Header />
-                <Text style={[styles.message, repostStyles.repostText]}>
-                  {floorPriceContent.message}
-                  <Text style={styles.swapTextTag}>
-                    {' '}
-                    ${floorPriceContent.messageTag}
-                  </Text>
-                </Text>
-                <View
-                  style={[
-                    styles.floorPriceContainer,
-                    {
-                      borderRadius: 0,
-                      borderBottomWidth: 0,
-                      borderLeftWidth: 0,
-                      borderRightWidth: 0,
-                    },
-                  ]}
-                >
-                  <Text style={[styles.floorPrice]}>
-                    Floor price{' '}
-                    <Text style={styles.floorAmount}>
-                      {floorPriceContent.amount} APT
-                    </Text>
-                  </Text>
-                  <APTMonkey
-                    style={{
-                      marginRight: size.getWidthSize(4),
-                    }}
-                  />
-                  <Text numberOfLines={1} style={styles.swapLeadingText}>
-                    {floorPriceContent.collectionName}
-                  </Text>
-                </View>
-              </View>
-              <PostActions
-                noOfComments={userPost.comments}
-                noOfLikes={userPost.like}
-                noOfRetweet={userPost.retweet}
-              />
-            </View>
-          </View>
-        </>
-      );
-      break;
+    //               <View style={styles.button}>
+    //                 <Text style={styles.buttonText}>Swap APT</Text>
+    //               </View>
+    //             </View>
+    //           </View>
+    //           <PostActions
+    //             noOfComments={userPost.comments}
+    //             noOfLikes={userPost.like}
+    //             noOfRetweet={userPost.retweet}
+    //           />
+    //         </View>
+    //       </View>
+    //     </>
+    //   );
+    //   break;
+    // // case FeedContent.FLOOR_PRICE_INCLUDED:
+    //   const floorPriceContent = data.content as FLOOR_PRICE_INCLUDED;
+    //   content = (
+    //     <>
+    //       <View style={styles.feedContainer}>
+    //         <ProfilePicture swipeable={shouldPFPSwipe} />
+    //         <View style={styles.subHeading}>
+    //           <PostHeader
+    //             username={userPost.username}
+    //             nickname={userPost.nickname}
+    //             timepost={userPost.timepost}
+    //           />
+    //           <RepostedHeader />
+    //           <View style={repostStyles.repostContainer}>
+    //             <Header />
+    //             <Text style={[styles.message, repostStyles.repostText]}>
+    //               {floorPriceContent.message}
+    //               <Text style={styles.swapTextTag}>
+    //                 {' '}
+    //                 ${floorPriceContent.messageTag}
+    //               </Text>
+    //             </Text>
+    //             <View
+    //               style={[
+    //                 styles.floorPriceContainer,
+    //                 {
+    //                   borderRadius: 0,
+    //                   borderBottomWidth: 0,
+    //                   borderLeftWidth: 0,
+    //                   borderRightWidth: 0,
+    //                 },
+    //               ]}
+    //             >
+    //               <Text style={[styles.floorPrice]}>
+    //                 Floor price{' '}
+    //                 <Text style={styles.floorAmount}>
+    //                   {floorPriceContent.amount} APT
+    //                 </Text>
+    //               </Text>
+    //               <APTMonkey
+    //                 style={{
+    //                   marginRight: size.getWidthSize(4),
+    //                 }}
+    //               />
+    //               <Text numberOfLines={1} style={styles.swapLeadingText}>
+    //                 {floorPriceContent.collectionName}
+    //               </Text>
+    //             </View>
+    //           </View>
+    //           <PostActions
+    //             noOfComments={userPost.comments}
+    //             noOfLikes={userPost.like}
+    //             noOfRetweet={userPost.retweet}
+    //           />
+    //         </View>
+    //       </View>
+    //     </>
+    //   );
+    //   break;
   }
   return <>{content}</>;
 };
