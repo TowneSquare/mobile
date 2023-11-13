@@ -23,6 +23,23 @@ interface initialStateProps {
   listOfNftCollections: NftCollection[];
   superStarBottomSheet: boolean;
   verificationModal: boolean;
+  handleTransactiondetailBottomsheet: {
+    visibility: boolean;
+    dex?: {
+      name: string;
+      dexImage: string;
+    };
+    type: 'token_swap' | 'token_transfer' | undefined;
+  };
+  selectUserBottomsheet: {
+    visibility: boolean;
+    selectedUser: {
+      name: string;
+      username: string;
+      profilePicsUri: string;
+    };
+  };
+  islogoutBottomsheetVisibile: boolean;
 }
 const initialState: initialStateProps = {
   isBottomSheetOpen: false,
@@ -82,6 +99,23 @@ const initialState: initialStateProps = {
   ],
   superStarBottomSheet: false,
   verificationModal: false,
+  handleTransactiondetailBottomsheet: {
+    visibility: false,
+    dex: {
+      name: '',
+      dexImage: '',
+    },
+    type: undefined,
+  },
+  selectUserBottomsheet: {
+    visibility: false,
+    selectedUser: {
+      name: '',
+      username: '',
+      profilePicsUri: '',
+    },
+  },
+  islogoutBottomsheetVisibile: false,
 };
 
 export const bottomSheetSlice = createSlice({
@@ -124,6 +158,41 @@ export const bottomSheetSlice = createSlice({
     // updateNotFoundModal: (state, action: PayloadAction<boolean>) => {
     //   state.notFoundModal = action.payload;
     // },
+    updateTransactionDetailsBottomsheet: (
+      state,
+      action: PayloadAction<{
+        visibility: boolean;
+        dex?: {
+          name: string;
+          dexImage: string;
+        };
+        type: 'token_swap' | 'token_transfer' | undefined;
+      }>
+    ) => {
+      state.handleTransactiondetailBottomsheet = action.payload;
+    },
+    updateSelectUserBottomsheet: (
+      state,
+      action: PayloadAction<{
+        visibility: boolean;
+        selectedUser?: {
+          name: string;
+          username: string;
+          profilePicsUri: string;
+        };
+      }>
+    ) => {
+      state.selectUserBottomsheet.visibility = action.payload.visibility;
+      if (action.payload.selectedUser) {
+        state.selectUserBottomsheet.selectedUser = action.payload.selectedUser;
+      }
+    },
+    updateLogoutBottomSheetVisibility: (
+      state,
+      action: PayloadAction<boolean>
+    ) => {
+      state.islogoutBottomsheetVisibile = action.payload;
+    },
   },
 });
 export const {
@@ -138,6 +207,9 @@ export const {
   updateProfilePics,
   updateSuperStarBottomSheet,
   updateVerificationModal,
+  updateTransactionDetailsBottomsheet,
+  updateSelectUserBottomsheet,
+  updateLogoutBottomSheetVisibility,
 } = bottomSheetSlice.actions;
 
 export default bottomSheetSlice.reducer;

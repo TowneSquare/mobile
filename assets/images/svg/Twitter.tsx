@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Svg, { SvgProps, Path } from 'react-native-svg';
-const X = (props: SvgProps) => (
+const Twitter = (props: SvgProps) => (
   <Svg
     width={props.width}
     height={props.height}
@@ -14,4 +14,4 @@ const X = (props: SvgProps) => (
     />
   </Svg>
 );
-export default X;
+export default Twitter;

@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-
 import {
   Text,
   View,
@@ -27,13 +26,8 @@ import ChooseNFT from "../../components/SignUp/ChooseProfilePics/ChooseNFT";
 import SelectedCollection from "../../components/SignUp/ChooseProfilePics/SelectedCollection";
 import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../../controller/hooks";
-import {
-  updateAccountInfo,
-  updateDidToken,
-  updateMetadata,
-} from "../../controller/UserController";
+import { updateDidToken } from "../../controller/UserController";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { checkSignup, signup } from "../../api";
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
@@ -60,7 +54,6 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     email: state.USER.details.email,
     profilePics: state.USER.details.profileImage,
   }));
-  const user = useAppSelector((state) => state.USER);
 
   let disable;
   switch (viewIndex) {
@@ -98,39 +91,12 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     if (viewIndex == 0) {
       const token = await magic.auth.loginWithEmailOTP({ email });
       dispatch(updateDidToken(token));
-
-      const accountInfo = await magic.aptos.getAccountInfo();
-      dispatch(updateAccountInfo(accountInfo));
-
-      const metadata = await magic.user.getMetadata();
-      dispatch(updateMetadata(metadata));
-
-      const res = await checkSignup(
-        token,
-        metadata.issuer,
-        accountInfo.address
-      );
-      console.log(metadata.issuer, accountInfo.address, res);
-      if (res) {
-        navigation.navigate("Congratulations");
-      }
     }
     // const newIndex = viewIndex + 1;
     if (newIndex < views.length && flatListRef.current) {
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
     } else {
-      const res = await signup(
-        user.didToken,
-        user.metadata.issuer,
-        user.accountInfo.address,
-        user.details.Nickname,
-        user.details.username,
-        user.details.email
-      );
-      console.log(res);
-      if (!res.error && res.success != false) {
-        navigation.navigate("Congratulations");
-      }
+      navigation.navigate("Congratulations");
     }
   };
 

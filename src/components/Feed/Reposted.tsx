@@ -10,7 +10,7 @@ import PostActions from './PostActions';
 import { feedStyle } from './FeedsStyles';
 import { useFonts } from 'expo-font';
 import RepostedHeader from './RepostedHeader';
-import ProfilePicture from './ProfilePicture';
+import ProfilePicture from './SwipeableProfilePicture';
 import {
   UserPost,
   FeedContent,
@@ -134,7 +134,7 @@ data.imageUrl
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.customer.username}
@@ -150,7 +150,6 @@ data.imageUrl
                     {
                       marginHorizontal: size.getWidthSize(16),
                       marginBottom: size.getHeightSize(8),
-                     
                     },
                   ]}
                 >
@@ -174,7 +173,7 @@ data.imageUrl
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.customer.username}
@@ -218,7 +217,7 @@ data.imageUrl
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -251,7 +250,7 @@ data.imageUrl
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.customer.username}
@@ -290,7 +289,7 @@ data.imageUrl
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -349,7 +348,7 @@ data.imageUrl
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -414,7 +413,7 @@ data.imageUrl
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -472,7 +471,7 @@ data.imageUrl
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}
@@ -524,7 +523,7 @@ data.imageUrl
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.username}

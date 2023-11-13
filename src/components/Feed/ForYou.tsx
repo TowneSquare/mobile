@@ -165,7 +165,7 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture id={data.id} swipeable={shouldPFPSwipe} />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               <PostHeader
                 onPress={handleNavigation}
@@ -252,7 +252,7 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture id={data.id} swipeable={shouldPFPSwipe} />
+            <ProfilePicture swipeable={shouldPFPSwipe} />
             <View style={styles.subHeading}>
               {/* <PostHeader
                 username={userPost.customer.username}
@@ -549,7 +549,7 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
     //   );
     //   break;
     case FeedContent.REPOST:
-      content = <Reposted data={data} />;
+      content = <Reposted data={data} shouldPFPSwipe={shouldPFPSwipe} />;
       break;
   }
   return <>{content}</>;

@@ -216,7 +216,10 @@ const PostAttachment = () => {
                 alignItems: "flex-start",
               })
             );
-          } else navigation.navigate("NftCollectionScreen" as any);
+          } else {
+            //dispatch(updateAttachNftType('createPost')),
+              navigation.navigate("NftCollectionScreen");
+          }
         }}
       >
         <PostNft

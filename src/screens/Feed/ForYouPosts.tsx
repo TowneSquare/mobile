@@ -1,11 +1,11 @@
-import { View, Text, Image, Dimensions } from 'react-native';
+import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
 import { UserPosts } from '../../components/Feed/DuumyData';
+import { sizes } from '../../utils';
 import ForYou from '../../components/Feed/ForYou';
 import { appColor, images , fonts} from '../../constants';
 import { FlashList } from '@shopify/flash-list';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { useFonts } from "expo-font";
-import { sizes } from "../../utils";
 import { getAllPost, POSTSTATE } from '../../controller/createPost';
 import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -37,9 +37,6 @@ const ForYouPosts = () => {
     return null;
   }
 
-
-
-  // console.log(AllPost, "allpost")s
 
 
   const EmptyComponent = () => {
@@ -111,3 +108,21 @@ const ForYouPosts = () => {
 };
 
 export default ForYouPosts;
+const styles = StyleSheet.create({
+  FAB: {
+    height: size.getHeightSize(56),
+    width: size.getHeightSize(56),
+    borderRadius: 50,
+    backgroundColor: appColor.kSecondaryButtonColor,
+    position: 'absolute',
+    bottom: size.getHeightSize(42),
+    right: size.getWidthSize(18),
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    elevation: 9,
+    shadowColor: '#000000',
+    shadowOffset: { height: 2, width: 0 },
+    shadowOpacity: 0.25,
+  },
+});

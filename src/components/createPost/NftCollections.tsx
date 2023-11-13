@@ -19,7 +19,10 @@ interface NftCollection {
   Name?: string;
   id?: number;
 }
-const NftCollections = () => {
+interface Props {
+  callBack?: () => {};
+}
+const NftCollections = ({ callBack }: Props) => {
   const navigation = useNavigation();
   const collections = useAppSelector(
     (state) => state.bottomSheetController.listOfNftCollections
@@ -37,7 +40,7 @@ const NftCollections = () => {
         key={collection.id}
         style={styles.collection}
         onPress={() => {
-          navigation.navigate('SelectedCollectionScreen' as never);
+          callBack ? callBack : navigation.navigate('SelectedCollectionScreen');
         }}
       >
         {

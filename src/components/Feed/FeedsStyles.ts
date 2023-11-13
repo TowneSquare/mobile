@@ -190,7 +190,7 @@ export const feedStyle = StyleSheet.create({
   },
   priceFeed: {
     fontSize: size.fontSize(13),
-    fontFamily: 'Outfit-Medium',
+    fontFamily: 'Outfit-Regular',
     color: appColor.kGrayscale,
     lineHeight: size.getHeightSize(16),
     letterSpacing: 0.04,

@@ -18,20 +18,16 @@ import CopyIcon from '../../../assets/images/svg/CopyIcon';
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
-import BottomSheet, {
-  BottomSheetBackdrop,
-} from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import * as Animatable from 'react-native-animatable';
 const { height, width } = Dimensions.get('window');
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import CustomHandler from './CustomHandler';
-import ReceiveBarCode from '../../../assets/images/svg/ReceiveBarCode';
+import BottomsheetWrapper from '../../shared/BottomsheetWrapper';
 import QRCode from 'react-native-qrcode-svg';
-interface Props {
-  closeModal: () => void;
-}
+import { updateReceiveModalState } from '../../controller/FeedsController';
+
 const size = new sizes(height, width);
-const ReceiveTokenModal = ({ closeModal }: Props) => {
+const ReceiveTokenModal = () => {
   const dispatch = useAppDispatch();
   const ReceiveModalVisibility = useAppSelector(
     (state) => state.FeedsSliceController.ReceiveModalState
@@ -68,106 +64,65 @@ const ReceiveTokenModal = ({ closeModal }: Props) => {
       Extrapolation.CLAMP
     ),
   }));
-  const renderBackdrop = useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        pressBehavior={'close'}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        opacity={0.5}
-      />
-    ),
-    []
-  );
-  useEffect(() => {
-    const handleBackButton = () => {
-      if (ReceiveModalVisibility === true) {
-        closeModal();
-        bottomSheetRef.current?.close();
-        return true;
-      } else {
-        return false;
-      }
-    };
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
-    };
-  }, [ReceiveModalVisibility]);
+
   return (
-    <>
-      {!ReceiveModalVisibility ? (
-        <></>
-      ) : (
-        <BottomSheet
-          onClose={closeModal}
-          handleComponent={()=><CustomHandler/>}
-          ref={bottomSheetRef}
-          enablePanDownToClose={true}
-          backdropComponent={renderBackdrop}
-          index={ReceiveModalVisibility ? 0 : -1}
-          snapPoints={[Platform.OS === 'ios' ? '81.2%' : '81.2%']}
-          backgroundStyle={{
-            backgroundColor: appColor.kgrayDark2,
-          }}
-        >
-          <Animatable.View
-            animation={'fadeInUp'}
-            delay={500}
-            easing={'ease-in-out'}
-            duration={400}
-            style={{
-              flex: 1,
-            }}
-          >
-            <ReceiveBarCode
+    <BottomsheetWrapper
+      onClose={() => dispatch(updateReceiveModalState(false))}
+      visibility={ReceiveModalVisibility}
+    >
+      <Animatable.View
+        animation={'fadeInUp'}
+        delay={500}
+        easing={'ease-in-out'}
+        duration={400}
+        style={{
+          flex: 1,
+        }}
+      >
+        {/* <ReceiveBarCode
               style={{
                 alignSelf: 'center',
                 marginTop: size.getHeightSize(24),
               }}
-            />
-            <Text style={styles.ReceiveToken}>Receive Token</Text>
-            <View style={styles.QRCodeContainer}>
-              <QRCode
-                size={size.getHeightSize(160)}
-                value={'AEEWppRWXMtvDysp9RzSWUMqpNB2isq3gviAMqcJkcjC'}
-              />
-            </View>
-            <View
-              style={{
-                marginHorizontal: size.getWidthSize(16),
-                marginTop: size.getHeightSize(32),
-              }}
-            >
-              <Text style={styles.myAddress}>My address</Text>
-              <Text style={styles.address}>
-                AEEWppRWXMtvDysp9RzSWUMqpNB2isq3gviAMqcJkcjC
-              </Text>
-              <Text style={styles.addressDescription}>
-                This is a Aptos wallet. Please only send assets on the Aptos
-                blockchain.
-              </Text>
-            </View>
-            <View style={{ flex: 1 }} />
-            <View
-              style={{
-                marginBottom: size.getHeightSize(32),
-              }}
-            >
-              <View style={styles.copyButton}>
-                <CopyIcon />
-                <Text style={styles.copyText}>Copy</Text>
-              </View>
-              <View style={styles.shareButton}>
-                <ShareIcon />
-                <Text style={styles.shareText}>Share</Text>
-              </View>
-            </View>
-          </Animatable.View>
-        </BottomSheet>
-      )}
-    </>
+            /> */}
+        <Text style={styles.ReceiveToken}>Receive tokens</Text>
+        <View style={styles.QRCodeContainer}>
+          <QRCode
+            size={size.getHeightSize(202)}
+            value={'AEEWppRWXMtvDysp9RzSWUMqpNB2isq3gviAMqcJkcjC'}
+          />
+        </View>
+        <View
+          style={{
+            marginTop: size.getHeightSize(32),
+          }}
+        >
+          <Text style={styles.myAddress}>My address</Text>
+          <Text style={styles.address}>
+            AEEWppRWXMtvDysp9RzSWUMqpNB2isq3gviAMqcJkcjC
+          </Text>
+          <Text style={styles.addressDescription}>
+            This is an Aptos wallet address. When sending assets to this wallet,
+            please select Aptos network.
+          </Text>
+        </View>
+        <View style={{ flex: 1 }} />
+        <View
+          style={{
+            marginVertical: size.getHeightSize(32),
+          }}
+        >
+          <View style={styles.copyButton}>
+            <CopyIcon />
+            <Text style={styles.copyText}>Copy</Text>
+          </View>
+          <View style={styles.shareButton}>
+            <ShareIcon />
+            <Text style={styles.shareText}>Share</Text>
+          </View>
+        </View>
+      </Animatable.View>
+    </BottomsheetWrapper>
   );
 };
 
@@ -180,12 +135,12 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(24),
     fontFamily: 'Outfit-SemiBold',
     letterSpacing: 0.04,
-    marginTop: size.getHeightSize(8),
+    marginTop: size.getHeightSize(24),
   },
   QRCodeContainer: {
     marginTop: size.getHeightSize(32),
-    height: size.getHeightSize(182),
-    width: size.getWidthSize(181.52),
+    height: size.getHeightSize(246),
+    width: size.getHeightSize(246),
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
@@ -193,13 +148,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   myAddress: {
-    color: appColor.kTextColor,
-    fontSize: size.fontSize(16),
-    lineHeight: size.getHeightSize(21),
+    color: appColor.grayLight,
+    fontSize: size.fontSize(13),
+    lineHeight: size.getHeightSize(16),
     fontFamily: 'Outfit-Regular',
+    textTransform: 'uppercase',
   },
   address: {
-    color: appColor.primaryLight,
+    color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
     fontFamily: 'Outfit-SemiBold',
@@ -216,7 +172,7 @@ const styles = StyleSheet.create({
   },
   copyButton: {
     backgroundColor: appColor.kSecondaryButtonColor,
-    marginHorizontal: size.getWidthSize(16),
+
     gap: size.getWidthSize(8),
     flexDirection: 'row',
     alignItems: 'center',
@@ -233,7 +189,7 @@ const styles = StyleSheet.create({
   },
   shareButton: {
     backgroundColor: appColor.kWhiteColor,
-    marginHorizontal: size.getWidthSize(16),
+
     gap: size.getWidthSize(8),
     flexDirection: 'row',
     alignItems: 'center',

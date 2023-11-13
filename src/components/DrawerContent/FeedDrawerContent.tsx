@@ -1,11 +1,13 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../../utils';
 const size = new sizes(height, width);
 import { Avatar } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
 import BarCode from '../../../assets/images/svg/Barcode';
 import { images, fonts } from '../../constants';
-import { useState } from 'react';
+import { updateLogoutBottomSheetVisibility } from '../../controller/BottomSheetController';
+import { useAppDispatch } from '../../controller/hooks';
 import TowneSquareIcon from '../../../assets/images/svg/TowneSquareIcon';
 import SettingsIcon from '../../../assets/images/svg/SettingsIcon';
 import CalendarIcon from '../../../assets/images/svg/CalendarIcon';
@@ -16,6 +18,8 @@ import { useFonts } from 'expo-font';
 import { appColor } from '../../constants';
 import Constants from 'expo-constants';
 const FeedDrawerContent = () => {
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -84,13 +88,13 @@ const FeedDrawerContent = () => {
           backgroundColor: appColor.kGrayscaleDart,
           borderRadius: 10,
           paddingHorizontal: size.getWidthSize(8),
-          justifyContent: 'space-between',
+          justifyContent: 'space-around',
         }}
       >
-        <View style={styles.tagContainer}>
+        {/* <View style={styles.tagContainer}>
           <Text style={styles.tagText}>Communities</Text>
           <Text style={styles.tagSubText}>24</Text>
-        </View>
+        </View> */}
         <View style={styles.tagContainer}>
           <Text style={styles.tagText}>Following</Text>
           <Text style={styles.tagSubText}>72K</Text>
@@ -109,12 +113,18 @@ const FeedDrawerContent = () => {
           style={[styles.textContainer, { marginTop: size.getHeightSize(10) }]}
         >
           <TowneSquareIcon />
-          <Text style={styles.navigationText}>TowneSquare Purple</Text>
+          <View>
+            <Text style={styles.navigationText}>TowneSquare Purple</Text>
+            <Text style={styles.comingSoon}>Coming soon</Text>
+          </View>
         </View>
-        <View style={styles.textContainer}>
+        <Pressable
+          onPress={() => navigation.navigate('Bookmarks')}
+          style={styles.textContainer}
+        >
           <BookmarkLogo />
           <Text style={styles.navigationText}>Bookmarks</Text>
-        </View>
+        </Pressable>
         <View
           style={[
             styles.textContainer,
@@ -130,32 +140,34 @@ const FeedDrawerContent = () => {
             style={[styles.textContainer, { marginTop: size.getHeightSize(0) }]}
           >
             <CalendarIcon />
-            <Text style={[styles.navigationText, { flex: 1 }]}>Calendar</Text>
-            <Text
-              style={{
-                color: appColor.grayLight,
-                fontSize: size.fontSize(14),
-                lineHeight: size.getHeightSize(18),
-                fontFamily: 'Outfit-Regular',
-              }}
-            >
-              Coming soon
-            </Text>
+            <View>
+              <Text style={[styles.navigationText]}>Calendar</Text>
+              <Text style={styles.comingSoon}>Coming soon</Text>
+            </View>
           </View>
         </View>
 
-        <View style={styles.textContainer}>
+        <Pressable
+          onPress={() => navigation.navigate('AccountSettings')}
+          style={styles.textContainer}
+        >
           <SettingsIcon />
           <Text style={styles.navigationText}>Settings</Text>
-        </View>
-        <View style={styles.textContainer}>
+        </Pressable>
+        <Pressable
+          onPress={() => navigation.navigate('Support')}
+          style={styles.textContainer}
+        >
           <QuestionIcon />
           <Text style={styles.navigationText}>Support</Text>
-        </View>
-        <View style={styles.textContainer}>
+        </Pressable>
+        <Pressable
+          onPress={() => dispatch(updateLogoutBottomSheetVisibility(true))}
+          style={styles.textContainer}
+        >
           <LogOutIcon />
           <Text style={styles.navigationText}>Logout</Text>
-        </View>
+        </Pressable>
       </View>
     </View>
   );
@@ -193,5 +205,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: size.getHeightSize(10),
     marginTop: size.getHeightSize(8),
+  },
+  comingSoon: {
+    color: appColor.grayLight,
+    fontSize: size.fontSize(14),
+    lineHeight: size.getHeightSize(18),
+    fontFamily: 'Outfit-Regular',
   },
 });

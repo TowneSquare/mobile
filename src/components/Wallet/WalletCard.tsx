@@ -14,16 +14,21 @@ import { images, fonts, appColor } from '../../constants';
 import { sizes } from '../../utils';
 import { useNavigation } from '@react-navigation/native';
 import { useAppSelector } from '../../controller/hooks';
+import { useAppDispatch } from '../../controller/hooks';
+
 import TowneSquareProfileLogo from '../../../assets/images/svg/TowneSquareProfileLogo';
 import { LinearGradient } from 'expo-linear-gradient';
 import TownesquareGradient from '../../../assets/images/svg/TownesquareGradient';
 const { height, width } = Dimensions.get('window');
 import WalletImage from '../../../assets/images/svg/WalletImage';
+import { updateSelectUserBottomsheet } from '../../controller/BottomSheetController';
+import { updateReceiveModalState } from '../../controller/FeedsController';
 const size = new sizes(height, width);
 interface Props {
   APTOS_DOMAIN_NAME: string;
 }
 const WalletCard = ({ APTOS_DOMAIN_NAME }: Props) => {
+  const dispatch = useAppDispatch();
   const navigation = useNavigation();
   const profilePics = useAppSelector(
     (state) => state.USER.details.profileImage
@@ -153,7 +158,9 @@ const WalletCard = ({ APTOS_DOMAIN_NAME }: Props) => {
 
       <View style={styles.view2}>
         <Pressable
-          onPress={() => {}}
+          onPress={() => {
+            dispatch(updateReceiveModalState(true));
+          }}
           style={[
             styles.view2Box,
             {
@@ -166,7 +173,13 @@ const WalletCard = ({ APTOS_DOMAIN_NAME }: Props) => {
           <Text style={styles.view2TextUp}>Receive</Text>
         </Pressable>
         <Pressable
-          onPress={() => {}}
+          onPress={() => {
+            dispatch(
+              updateSelectUserBottomsheet({
+                visibility: true,
+              })
+            );
+          }}
           style={[
             styles.view2Box,
             {
@@ -178,7 +191,10 @@ const WalletCard = ({ APTOS_DOMAIN_NAME }: Props) => {
           <SendIcon />
           <Text style={styles.view2TextUp}>Send</Text>
         </Pressable>
-        <Pressable style={styles.view2Box}>
+        <Pressable
+          onPress={() => navigation.navigate('SwapMain')}
+          style={styles.view2Box}
+        >
           <SwapIcon />
           <Text style={styles.view2TextUp}>Swap</Text>
         </Pressable>
@@ -205,9 +221,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: size.getHeightSize(4),
     marginHorizontal: size.getWidthSize(4),
-    
-    height:size.getHeightSize(40),
-    marginBottom:size.getHeightSize(7)
+
+    height: size.getHeightSize(40),
+    marginBottom: size.getHeightSize(7),
   },
   view2Box: {
     alignItems: 'center',

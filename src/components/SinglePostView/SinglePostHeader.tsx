@@ -6,7 +6,7 @@ const { height, width } = Dimensions.get('window');
 import { useAppDispatch } from '../../controller/hooks';
 import { updtaeReportingModal } from '../../controller/FeedsController';
 import Feather from '@expo/vector-icons/Feather';
-import ProfilePicture from '../Feed/ProfilePicture';
+import ProfilePicture from '../Feed/SwipeableProfilePicture';
 const size = new sizes(height, width);
 interface Props {
   username: string;
@@ -34,11 +34,12 @@ const SinglePostHeader = ({ username, nickname, timepost, onPress }: Props) => {
         alignItems: 'flex-start',
       }}
     >
-      <ProfilePicture />
+      <ProfilePicture left={-1} top={-4} swipeable />
+
       <View
         style={{
           flex: 1,
-          marginLeft: size.getWidthSize(8),
+          marginLeft: size.getWidthSize(48),
         }}
       >
         <Text

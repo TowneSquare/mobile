@@ -17,6 +17,7 @@ interface FeedController {
   currentTab: string;
   tipBottomSheet: boolean;
   selectedSwipeablePFPId: string;
+  AttachNftType: 'createPost' | 'DM';
 }
 const initialState: FeedController = {
   ReceiveModalState: false,
@@ -36,6 +37,7 @@ const initialState: FeedController = {
   currentTab: 'feed',
   tipBottomSheet: false,
   selectedSwipeablePFPId: '',
+  AttachNftType: 'createPost',
 };
 export const FeedsSlice = createSlice({
   name: 'FeedsController',
@@ -107,6 +109,12 @@ export const FeedsSlice = createSlice({
     updateSelectedSwipeablePFPId: (state, action: PayloadAction<string>) => {
       state.selectedSwipeablePFPId = action.payload;
     },
+    updateAttachNftType: (
+      state,
+      action: PayloadAction<'DM' | 'createPost'>
+    ) => {
+      state.AttachNftType = action.payload;
+    },
   },
 });
 export const {
@@ -123,5 +131,6 @@ export const {
   updateCurrentTab,
   updateTipBottomSheet,
   updateSelectedSwipeablePFPId,
+  updateAttachNftType,
 } = FeedsSlice.actions;
 export default FeedsSlice.reducer;

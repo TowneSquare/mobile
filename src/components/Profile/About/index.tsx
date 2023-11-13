@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -9,7 +8,9 @@ import {
   ScrollView,
   Pressable,
 } from 'react-native';
+import CheckedIcon from '../../../../assets/images/svg/CheckedIcon';
 import { appColor } from '../../../constants';
+import { useState, useReducer } from 'react';
 import { useFonts } from 'expo-font';
 import { fonts } from '../../../constants';
 import { sizes } from '../../../utils';
@@ -22,13 +23,53 @@ import { useNavigation } from '@react-navigation/native';
 import { useAppSelector, useAppDispatch } from '../../../controller/hooks';
 import { updateSuperStarBottomSheet } from '../../../controller/BottomSheetController';
 import ProfileCard from './ProfileCard';
+import ProfileTipIcon from '../../../../assets/images/svg/ProfileTipIcon';
 import FollowIcon from '../../../../assets/images/svg/FollowIcon';
+import { updateTipBottomSheet } from '../../../controller/FeedsController';
 const Tab = createMaterialTopTabNavigator();
 import ViewSuperStarsModal from './ViewSuperStarsModal';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
+type SuperStarReducerState = {
+  showSuperStarModal: boolean;
+  imageUri: string;
+};
+type SuperStarReducerAction = {
+  type: 'SHOW' | 'CLOSE';
+  payload?: {
+    showSuperStarModal: boolean;
+    imageUri: string;
+  };
+};
+const selectedSuperStarsReducer = (
+  state: SuperStarReducerState,
+  action: SuperStarReducerAction
+) => {
+  switch (action.type) {
+    case 'SHOW':
+      return {
+        showSuperStarModal: action.payload.showSuperStarModal,
+        imageUri: action.payload.imageUri,
+      };
+    case 'CLOSE':
+      return {
+        showSuperStarModal: false,
+        imageUri: '',
+      };
+
+    default:
+      return state;
+  }
+};
+
 const About = ({ route }) => {
+  const [superStarModal, useDispatch] = useReducer(selectedSuperStarsReducer, {
+    showSuperStarModal: false,
+    imageUri: '',
+  });
+  const [following, follow] = useState(false);
+  // const [showSuperStarModal, setModalVisibility] = useState(false);
   const typeOfProfile = route.params.typeOfProfile as
     | 'myProfile'
     | 'theirProfile';
@@ -37,6 +78,7 @@ const About = ({ route }) => {
     selectedSuperStars: state.USER.selectedSuperStars,
     profilePics: state.USER.details.profileImage,
   }));
+
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
@@ -63,19 +105,19 @@ const About = ({ route }) => {
 
   const Posts = () => {
     return onlyUserPost.map((userpost) => (
-      <ForYou key={userpost.id} data={userpost} myPost />
+      <ForYou key={userpost.id} data={userpost} myPost shouldPFPSwipe={false} />
     ));
   };
 
   const Replies = () => {
     return onlyUserPost.map((userpost) => (
-      <ForYou key={userpost.id} data={userpost} myPost />
+      <ForYou key={userpost.id} data={userpost} myPost shouldPFPSwipe={false} />
     ));
   };
 
   const Media = () => {
     return onlyUserPost.map((userpost) => (
-      <ForYou key={userpost.id} data={userpost} myPost />
+      <ForYou key={userpost.id} data={userpost} myPost shouldPFPSwipe={false} />
     ));
   };
 
@@ -91,6 +133,10 @@ const About = ({ route }) => {
     }
   };
 
+  const handleFollow = () => {
+    following && navigate('FollowersScreen', { screen: 'Following' });
+    follow((previous) => !previous);
+  };
   return (
     <SafeAreaView
       style={{
@@ -110,68 +156,40 @@ const About = ({ route }) => {
         />
 
         {typeOfProfile === 'theirProfile' && (
-          <View
-            style={{
-              paddingHorizontal: size.getWidthSize(42),
-              flexDirection: 'row',
-
-              alignItems: 'center',
-              marginTop: size.getHeightSize(24),
-              alignSelf: 'center',
-              gap: size.getWidthSize(16),
-            }}
-          >
-            <View
-              style={{
-                flexDirection: 'row',
-                width: size.getWidthSize(130),
-                paddingVertical: size.getHeightSize(4),
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: appColor.kSecondaryButtonColor,
-                borderRadius: 40,
-                gap: size.getWidthSize(8),
-              }}
+          <View style={styles.view}>
+            <Pressable
+              onPress={handleFollow}
+              style={[
+                styles.followView,
+                {
+                  backgroundColor: following
+                    ? appColor.kGrayLight3
+                    : appColor.kSecondaryButtonColor,
+                  paddingHorizontal: following
+                    ? size.getWidthSize(13.5)
+                    : size.getWidthSize(25),
+                },
+              ]}
             >
-              <FollowIcon size={size.getHeightSize(24)} />
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontFamily: 'Outfit-Medium',
-                  fontSize: size.fontSize(16),
-                  color: appColor.kWhiteColor,
-                  letterSpacing: 0.32,
-                  lineHeight: size.getHeightSize(20),
-                }}
-              >
-                Follow
+              {following ? (
+                <CheckedIcon size={size.getHeightSize(24)} />
+              ) : (
+                <FollowIcon size={size.getHeightSize(24)} />
+              )}
+              <Text style={styles.followText}>
+                {following ? 'Following' : 'Follow'}
               </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                width: size.getWidthSize(130),
-                paddingVertical: size.getHeightSize(4),
-                alignItems: 'center',
-                backgroundColor: appColor.kWhiteColor,
-                borderRadius: 40,
-                gap: size.getWidthSize(8),
-                justifyContent: 'center',
-              }}
-            >
+            </Pressable>
+            <View style={styles.iconView}>
               <MessageIcon />
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontFamily: 'Outfit-Medium',
-                  fontSize: size.fontSize(16),
-                  color: appColor.blackColor,
-                  letterSpacing: 0.32,
-                  lineHeight: size.getHeightSize(20),
+            </View>
+            <View style={styles.iconView}>
+              <ProfileTipIcon
+                size={size.getHeightSize(24)}
+                onPress={() => {
+                  dispatch(updateTipBottomSheet(true));
                 }}
-              >
-                Send
-              </Text>
+              />
             </View>
           </View>
         )}
@@ -244,16 +262,28 @@ const About = ({ route }) => {
                 }}
               >
                 {selectedSuperStars.map((item) => (
-                  <Image
-                    style={{
-                      marginRight: size.getWidthSize(6),
-                      width: size.getHeightSize(130),
-                      height: size.getHeightSize(130),
-                      borderRadius: 8,
+                  <Pressable
+                    onPress={() => {
+                      useDispatch({
+                        type: 'SHOW',
+                        payload: {
+                          showSuperStarModal: true,
+                          imageUri: item.uri,
+                        },
+                      });
                     }}
-                    key={item.id}
-                    source={{ uri: item.uri }}
-                  />
+                  >
+                    <Image
+                      style={{
+                        marginRight: size.getWidthSize(6),
+                        width: size.getHeightSize(130),
+                        height: size.getHeightSize(130),
+                        borderRadius: 8,
+                      }}
+                      key={item.id}
+                      source={{ uri: item.uri }}
+                    />
+                  </Pressable>
                 ))}
               </ScrollView>
             </>
@@ -311,7 +341,15 @@ const About = ({ route }) => {
         </View>
         <View>{POST_MEDIA_REPLIES()}</View>
       </ScrollView>
-      <ViewSuperStarsModal />
+      <ViewSuperStarsModal
+        visibility={superStarModal.showSuperStarModal}
+        close={() =>
+          useDispatch({
+            type: 'CLOSE',
+          })
+        }
+        imageUri={superStarModal.imageUri}
+      />
     </SafeAreaView>
   );
 };
@@ -452,6 +490,43 @@ const styles = StyleSheet.create({
     paddingVertical: size.getHeightSize(4),
     marginBottom: size.getHeightSize(8),
     alignSelf: 'center',
+  },
+  view: {
+    paddingHorizontal: size.getWidthSize(42),
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: size.getHeightSize(24),
+    alignSelf: 'center',
+    gap: size.getWidthSize(16),
+  },
+  followView: {
+    flexDirection: 'row',
+    paddingVertical: size.getHeightSize(4),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: appColor.kSecondaryButtonColor,
+    borderRadius: 40,
+    gap: size.getWidthSize(8),
+    paddingHorizontal: size.getWidthSize(25),
+    minHeight: size.getHeightSize(34),
+  },
+  followText: {
+    textAlign: 'center',
+    fontFamily: 'Outfit-Medium',
+    fontSize: size.fontSize(16),
+    color: appColor.kWhiteColor,
+    letterSpacing: 0.32,
+    lineHeight: size.getHeightSize(20),
+  },
+  iconView: {
+    flexDirection: 'row',
+    paddingVertical: size.getHeightSize(4),
+    alignItems: 'center',
+    backgroundColor: appColor.kWhiteColor,
+    borderRadius: 40,
+    gap: size.getWidthSize(8),
+    justifyContent: 'center',
+    paddingHorizontal: size.getWidthSize(16),
   },
 });
 

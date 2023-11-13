@@ -30,6 +30,7 @@ interface Props {
   paddingHorizontal?: number;
   marginBottom?: boolean;
   marginTop?: boolean;
+  showShareIcon?: boolean;
 }
 const PostActions = ({
   noOfComments,
@@ -38,6 +39,7 @@ const PostActions = ({
   paddingHorizontal,
   marginBottom,
   marginTop,
+  showShareIcon,
 }: Props) => {
   const dispatch = useAppDispatch();
   const [changeLikeTextColor, setlikesTextColor] = useState(false);
@@ -244,11 +246,11 @@ const PostActions = ({
             <BookMark size={size.getHeightSize(24)} />
           </Animated.View>
 
-          <Animated.View style={bookmarkfillStyle}>
-            <BookMarkedIcon size={size.getHeightSize(24)} />
-          </Animated.View>
-        </Pressable>
-      </View>
+        <Animated.View style={bookmarkfillStyle}>
+          <BookMarkedIcon size={size.getHeightSize(24)} />
+        </Animated.View>
+      </Pressable>
+    </View>
     </View>
   );
 };

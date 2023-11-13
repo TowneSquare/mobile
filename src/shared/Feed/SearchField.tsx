@@ -1,20 +1,24 @@
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  TextInput,
-} from 'react-native';
+import { View, StyleSheet, Dimensions, TextInput } from 'react-native';
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 import { Octicons } from '@expo/vector-icons';
+import { onChange } from 'react-native-reanimated';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {
   placeholder: string;
   marginTop?: number;
-  width?: string|number;
+  width?: string | number;
+  borderColor?: string;
+  onChangeText?: (text: string) => void;
 }
-const SearchField = ({ placeholder, marginTop, width }: Props) => {
+const SearchField = ({
+  placeholder,
+  marginTop,
+  width,
+  borderColor,
+  onChangeText,
+}: Props) => {
   return (
     <View
       style={[
@@ -35,11 +39,13 @@ const SearchField = ({ placeholder, marginTop, width }: Props) => {
       <TextInput
         cursorColor={appColor.primaryLight}
         placeholder={placeholder}
+        onChangeText={onChangeText}
         placeholderTextColor={appColor.kGrayLight3}
         style={[
           styles.textInput,
           {
             width: width ? width : size.getWidthSize(328),
+            borderColor: borderColor ? borderColor : appColor.kWhiteColor,
           },
         ]}
       />

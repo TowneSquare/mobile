@@ -10,7 +10,7 @@
 
 - [TowneSquare](https://www.townesquare.xyz/)
 - [GitBook](https://docs.townesquare.xyz/townesquare-whitepaper/)
-- Follow us on [X](https://X.com/townesquare.xyz)
+- Follow us on [Twitter](https://twitter.com/townesquare.xyz)
 
 ## Contributing
 

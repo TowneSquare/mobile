@@ -1,9 +1,4 @@
-import {
-  View,
-  Dimensions,
-  Pressable,
-  Image,
-} from 'react-native';
+import { View, Dimensions, Pressable, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor, fonts, images } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
@@ -76,6 +71,7 @@ const ViewImageScreen = () => {
           noOfLikes={'99k'}
           noOfRetweet={'99k'}
           paddingHorizontal={16}
+          showShareIcon
         />
       </View>
     </SafeAreaView>

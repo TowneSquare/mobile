@@ -52,7 +52,6 @@ const SelectedCollectionScreen = () => {
             <Text style={[styles.text, {}]}>Aptomingos</Text>
             <View />
           </View>
-
           <SelectedCollection />
           <Overlay />
           {<AttachNftModal />}

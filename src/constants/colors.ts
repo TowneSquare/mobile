@@ -36,5 +36,7 @@ const colors = {
   primaryLight: '#B882FF',
   primary300: '#D6BBFB',
   blackColor: '#000000',
+  error: '#FF4471',
+  success: '#2AB576',
 };
 export const appColor = colors;

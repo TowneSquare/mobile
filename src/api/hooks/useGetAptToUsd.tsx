@@ -5,7 +5,6 @@ type UseGetAptToUsdResponse = {
   isLoading: boolean;
   error: unknown;
 };
-
 export function useGetAptToUsd(): UseGetAptToUsdResponse {
   const result = useQuery(["aptToUsd"], async () => {
     let response = await fetch(

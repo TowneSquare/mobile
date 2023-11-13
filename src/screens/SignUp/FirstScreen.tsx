@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Pressable,
 } from 'react-native';
-import X from '../../../assets/images/svg/X';
+import Twitter from '../../../assets/images/svg/Twitter';
 import { useFonts } from 'expo-font';
 import Apple from '../../../assets/images/svg/Apple';
 import { appColor, fonts, images } from '../../constants';
@@ -69,11 +69,10 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
     console.log(accountInfo);
     dispatch(updateAccountInfo(accountInfo));
   };
-
   const loginApple = async () => {
     const token = await magic.oauth.loginWithPopup({
-      provider: "apple",
-      redirectURI: Linking.createURL("SignUp"),
+      provider: 'apple',
+      redirectURI: Linking.createURL('SignUp'),
     });
     console.log(token);
     dispatch(updateDidToken(token));
@@ -85,8 +84,8 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
 
   const loginX = async () => {
     const token = await magic.oauth.loginWithPopup({
-      provider: "X",
-      redirectURI: Linking.createURL("SignUp"),
+      provider: 'X',
+      redirectURI: Linking.createURL('SignUp'),
     });
     console.log(token);
     dispatch(updateDidToken(token));
@@ -94,8 +93,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
     const accountInfo = await magic.aptos.getAccountIngo();
     console.log(accountInfo);
     dispatch(updateAccountInfo(accountInfo));
-  }
-
+  };
   return (
     <>
       <StatusBar style="light" />
@@ -222,48 +220,38 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
           }}
         >
           <Pressable
-            onPress={() => loginX()}
+            onPress={() => {
+              // navigation.navigate('DrawerNavigation');
+
+              loginX();
+            }}
             style={styles.socials}
           >
-            <X
+            <Twitter
               width={size.getWidthSize(26)}
               height={size.getHeightSize(24)}
             />
           </Pressable>
-          <Pressable 
-            onPress={() => loginDiscord()} 
-            style={styles.socials}
-          >
-            <Discord 
-              width={size.getWidthSize(30)}
-              height={size.getHeightSize(28)}
-            />
+          <Pressable onPress={() => loginDiscord()} style={styles.socials}>
+            <Discord size={size.getHeightSize(28)} />
           </Pressable>
-          <Pressable
-            onPress={() => loginApple()}
-            style={styles.socials}
-          >
+          <Pressable onPress={() => loginApple()} style={styles.socials}>
             <Apple
-              height={size.getHeightSize(26)}
+              height={size.getHeightSize(28)}
               width={size.getWidthSize(24)}
             />
           </Pressable>
-          <Pressable 
-            onPress={() => loginGoogle()} 
-            style={styles.socials}
-          >
-            <Google 
-              width={size.getWidthSize(28)}
-              height={size.getHeightSize(26)}
+          <Pressable onPress={() => loginGoogle()} style={styles.socials}>
+            <Google
+              height={size.getHeightSize(24)}
+              width={size.getWidthSize(24)}
             />
           </Pressable>
           <Pressable
             onPress={() => navigation.navigate('EmailLogin')}
             style={styles.socials}
           >
-            <Mail 
-              size={size.getHeightSize(32)} 
-            />
+            <Mail size={size.getHeightSize(32)} />
           </Pressable>
         </View>
       </ImageBackground>

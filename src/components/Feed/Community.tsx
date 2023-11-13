@@ -12,7 +12,7 @@ import { appColor, fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
 import { useNavigation } from '@react-navigation/native';
-import ProfilePicture from './ProfilePicture';
+import ProfilePicture from './SwipeableProfilePicture';
 import { feedStyle } from './FeedsStyles';
 import APT from '../../../assets/images/svg/APT';
 import PostedIn from './PostedIn';
