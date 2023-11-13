@@ -161,48 +161,48 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
       );
       break;
       // case FeedContent.GIF:
-      userPost.content = data.content as GIF;
-      content = (
-        <>
-          <View style={styles.feedContainer}>
-            <ProfilePicture swipeable={shouldPFPSwipe} />
-            <View style={styles.subHeading}>
-              <PostHeader
-                onPress={handleNavigation}
-                username={userPost.username}
-                nickname={userPost.nickname}
-                timepost={userPost.timepost}
-                myPost={myPost ? myPost : false}
-              />
+      // userPost.content = data.content as GIF;
+      // content = (
+      //   <>
+      //     <View style={styles.feedContainer}>
+      //       <ProfilePicture swipeable={shouldPFPSwipe} />
+      //       <View style={styles.subHeading}>
+      //         <PostHeader
+      //           onPress={handleNavigation}
+      //           username={userPost.username}
+      //           nickname={userPost.nickname}
+      //           timepost={userPost.timepost}
+      //           myPost={myPost ? myPost : false}
+      //         />
 
-              <View
-                style={[
-                  styles.mediaContainer,
-                  { marginBottom: size.getHeightSize(0) },
-                ]}
-              >
-                <Image
-                  source={images.feedImage2}
-                  style={styles.imageStyle}
-                  resizeMode="cover"
-                />
-              </View>
-              {/* <PostActions
-               noOfComments={userPost.comments.length}
-                noOfLikes={userPost.likes.length}
-                noOfRetweet={userPost.retweet.length}
-              /> */}
-              <PostActions
-                noOfComments={userPost.comments}
-                noOfLikes={userPost.like}
-                noOfRetweet={userPost.retweet}
-              />
-              {/* <ShowThread /> */}
-            </View>
-          </View>
-        </>
-      );
-      break;
+      //         <View
+      //           style={[
+      //             styles.mediaContainer,
+      //             { marginBottom: size.getHeightSize(0) },
+      //           ]}
+      //         >
+      //           <Image
+      //             source={images.feedImage2}
+      //             style={styles.imageStyle}
+      //             resizeMode="cover"
+      //           />
+      //         </View>
+      //         {/* <PostActions
+      //          noOfComments={userPost.comments.length}
+      //           noOfLikes={userPost.likes.length}
+      //           noOfRetweet={userPost.retweet.length}
+      //         /> */}
+      //         <PostActions
+      //           noOfComments={userPost.comments}
+      //           noOfLikes={userPost.like}
+      //           noOfRetweet={userPost.retweet}
+      //         />
+      //         {/* <ShowThread /> */}
+      //       </View>
+      //     </View>
+      //   </>
+      // );
+      // break;
     case FeedContent.VIDEO:
       //userPost.content = data.content as VIDEO;
       content = (
@@ -248,67 +248,67 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
       );
       break;
       // case FeedContent.message_EXTERNAL_LINK:
-      const linkContent = data.content as Message_External_Link;
-      content = (
-        <>
-          <View style={styles.feedContainer}>
-            <ProfilePicture swipeable={shouldPFPSwipe} />
-            <View style={styles.subHeading}>
-              {/* <PostHeader
-                username={userPost.customer.username}
-                nickname={userPost.customer.nickname}
-                timepost={userPost.timepost}
-                myPost={myPost ? myPost : false}
-              /> */}
-              <PostHeader
-                username={userPost.username}
-                nickname={userPost.nickname}
-                timepost={userPost.timepost}
-                myPost={myPost ? myPost : false}
-              />
-              <Text onPress={handleNavigation} style={styles.message}>
-                {linkContent.message}
-              </Text>
-              <Text style={styles.link}>{linkContent.link}</Text>
-              <View
-                style={[
-                  styles.mediaContainer,
-                  { marginBottom: size.getHeightSize(0) },
-                ]}
-              >
-                <Image
-                  source={images.feedImageLink}
-                  style={[
-                    styles.imageStyle,
-                    {
-                      borderBottomLeftRadius: 0,
-                      borderBottomRightRadius: 0,
-                      width: "100%",
-                    },
-                  ]}
-                  resizeMode="cover"
-                />
-              </View>
-              <View style={styles.linkDescriptionContainer}>
-                <Text style={styles.linkTitle}>
-                  {linkContent.linkDescription}
-                </Text>
-                <Text style={styles.linkSubTitle}>
-                  {linkContent.linkSubTitle}
-                </Text>
-                <Text style={styles.linkText}>{linkContent.url}</Text>
-              </View>
-              <PostActions
-                noOfComments={userPost.comments}
-                noOfLikes={userPost.like}
-                noOfRetweet={userPost.retweet}
-              />
-              {/* <ShowThread /> */}
-            </View>
-          </View>
-        </>
-      );
-      break;
+      // const linkContent = data.content as Message_External_Link;
+      // content = (
+      //   <>
+      //     <View style={styles.feedContainer}>
+      //       <ProfilePicture swipeable={shouldPFPSwipe} />
+      //       <View style={styles.subHeading}>
+      //         {/* <PostHeader
+      //           username={userPost.customer.username}
+      //           nickname={userPost.customer.nickname}
+      //           timepost={userPost.timepost}
+      //           myPost={myPost ? myPost : false}
+      //         /> */}
+      //         <PostHeader
+      //           username={userPost.username}
+      //           nickname={userPost.nickname}
+      //           timepost={userPost.timepost}
+      //           myPost={myPost ? myPost : false}
+      //         />
+      //         <Text onPress={handleNavigation} style={styles.message}>
+      //           {linkContent.message}
+      //         </Text>
+      //         <Text style={styles.link}>{linkContent.link}</Text>
+      //         <View
+      //           style={[
+      //             styles.mediaContainer,
+      //             { marginBottom: size.getHeightSize(0) },
+      //           ]}
+      //         >
+      //           <Image
+      //             source={images.feedImageLink}
+      //             style={[
+      //               styles.imageStyle,
+      //               {
+      //                 borderBottomLeftRadius: 0,
+      //                 borderBottomRightRadius: 0,
+      //                 width: "100%",
+      //               },
+      //             ]}
+      //             resizeMode="cover"
+      //           />
+      //         </View>
+      //         <View style={styles.linkDescriptionContainer}>
+      //           <Text style={styles.linkTitle}>
+      //             {linkContent.linkDescription}
+      //           </Text>
+      //           <Text style={styles.linkSubTitle}>
+      //             {linkContent.linkSubTitle}
+      //           </Text>
+      //           <Text style={styles.linkText}>{linkContent.url}</Text>
+      //         </View>
+      //         <PostActions
+      //           noOfComments={userPost.comments}
+      //           noOfLikes={userPost.like}
+      //           noOfRetweet={userPost.retweet}
+      //         />
+      //         {/* <ShowThread /> */}
+      //       </View>
+      //     </View>
+      //   </>
+      // );
+      // break;
 
     // case FeedContent.NFT_FOR_SALE:
     //   const nftContent = data.content as NFT_FOR_SALE;
