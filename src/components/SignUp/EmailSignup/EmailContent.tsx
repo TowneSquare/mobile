@@ -72,6 +72,16 @@ const EmailContent = () => {
           }}
         >
           By continuing to use the app, you agree to the
+        </Text>
+        <Text
+          style={{
+            color: appColor.kTextColor,
+            fontSize: size.fontSize(14),
+            fontFamily: "Outfit-Regular",
+            textAlign: "center",
+            lineHeight: size.getHeightSize(18),
+          }}
+        >
           <Link
             to="/"
             style={{
