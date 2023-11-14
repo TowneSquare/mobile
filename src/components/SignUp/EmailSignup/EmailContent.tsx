@@ -1,9 +1,11 @@
-import { View, Text, Dimensions } from "react-native";
+import { View, Text, Dimensions, Linking } from "react-native";
 const { height, width } = Dimensions.get("window");
 import { sizes } from "../../../utils";
 import { appColor } from "../../../constants";
 import Envelope from "../../../../assets/images/svg/Envelope";
 import EmailField from "./EmailField";
+import { Link } from "@react-navigation/native";
+
 const size = new sizes(height, width);
 const EmailContent = () => {
   return (
@@ -70,8 +72,36 @@ const EmailContent = () => {
             lineHeight: size.getHeightSize(18),
           }}
         >
-          By continuing to use the app, you agree to the Terms of Service and
-          Privacy Policy.
+          By continuing to use the app, you agree to the
+        </Text>
+        <Text
+          style={{
+            color: appColor.kTextColor,
+            fontSize: size.fontSize(14),
+            fontFamily: "Outfit-Regular",
+            textAlign: "center",
+            lineHeight: size.getHeightSize(18),
+          }}
+        >
+          <Text
+            style={{ color: appColor.primaryLight }}
+            onPress={() =>
+              Linking.openURL("https://www.townesquare.xyz/TermsOfService")
+            }
+          >
+            &nbsp;Terms of Service&nbsp;
+          </Text>
+          and
+          <Text
+            style={{
+              color: appColor.primaryLight,
+            }}
+            onPress={() =>
+              Linking.openURL("https://www.townesquare.xyz/PrivacyPolicy")
+            }
+          >
+            &nbsp;Privacy Policy.&nbsp;
+          </Text>
         </Text>
       </View>
     </>
