@@ -1,15 +1,88 @@
-import { View, StyleSheet, Dimensions, Pressable } from 'react-native';
+import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
 import { UserPosts } from '../../components/Feed/DuumyData';
 import { sizes } from '../../utils';
 import ForYou from '../../components/Feed/ForYou';
-import { appColor } from '../../constants';
+import { appColor, images , fonts} from '../../constants';
 import { FlashList } from '@shopify/flash-list';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import { useNavigation } from '@react-navigation/native';
-const { height, width } = Dimensions.get('window');
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { useFonts } from "expo-font";
+import { getAllPost, POSTSTATE } from '../../controller/createPost';
+import { useEffect } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
+
 const ForYouPosts = () => {
-  const navigation = useNavigation();
+   const dispatch = useAppDispatch();
+   const userToken = useAppSelector(
+    (state) => state.USER.didToken
+  );
+  const AllPost = useAppSelector(
+    (state) => state.CreatePostController.AllPost
+  );
+
+    useEffect(() => {
+    dispatch(getAllPost(userToken))
+  }, [])
+
+  console.log(AllPost, "allpost")
+
+
+  let [isLoaded] = useFonts({
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+  });
+  if (!isLoaded) {
+    return null;
+  }
+
+
+
+  const EmptyComponent = () => {
+    return (
+      <SafeAreaView style={{
+       display:"flex",
+       alignItems:"center",
+       justifyContent:"center"
+      }} >
+       <View style={{
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+        marginTop:"50%"
+       }}>
+         <Image source={images.plug} style={{
+          height:61,
+          width:60
+        }}/>
+        <View style={{
+          display:"flex",
+          justifyContent:"center",
+          alignItems:"center",
+          marginTop: size.getHeightSize(8)
+        }}>
+          <Text style={{
+          color: appColor.grayLight,
+          fontFamily:"Outfit-Regular",
+          fontSize: size.fontSize(16),
+        }}>
+          Something went wrong.
+        </Text>
+        <Text style={{
+          color: appColor.grayLight,
+           fontFamily:"Outfit-Regular",
+           fontSize: size.fontSize(16),
+        }}>
+          Try to reload.
+        </Text>
+        </View>
+       </View>
+      </SafeAreaView>
+    )
+  }
+  
+  
   return (
     <View
       style={{
@@ -18,24 +91,20 @@ const ForYouPosts = () => {
       }}
     >
       <FlashList
-        data={UserPosts}
+        data={AllPost}
         renderItem={({ item }) => <ForYou data={item} shouldPFPSwipe />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => index.toString()}
         estimatedItemSize={200}
+        onRefresh={() => {
+          dispatch(getAllPost(userToken))
+        }}
+        refreshing={false}
+        ListEmptyComponent={EmptyComponent}
       />
-      <Pressable
-        onPress={() =>
-          navigation.navigate('CreatePost', {
-            showToast: false,
-            whichPost: 'singlePost',
-          })
-        }
-        style={styles.FAB}
-      >
-        <AntDesign name="plus" size={25} color={appColor.kTextColor} />
-      </Pressable>
     </View>
   );
+
+  
 };
 
 export default ForYouPosts;

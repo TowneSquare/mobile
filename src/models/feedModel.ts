@@ -9,6 +9,7 @@ export enum FeedContent {
   SWAP_OPTION_INCLUDED = "swap-option-included",
   FLOOR_PRICE_INCLUDED = "floor-price",
   REPOST = "repost",
+  EMPTY = "empty"
 }
 export interface Message_Only {
   message: string;
