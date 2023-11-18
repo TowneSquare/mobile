@@ -5,13 +5,15 @@ import {
   Dimensions,
   StyleSheet,
   Pressable,
+  TouchableOpacity,
 } from 'react-native';
-import Twitter from '../../../assets/images/svg/Twitter';
+import { useRef, useEffect } from 'react';
+import X from '../../../assets/images/svg/X';
 import { useFonts } from 'expo-font';
 import Apple from '../../../assets/images/svg/Apple';
 import { appColor, fonts, images } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
-import { sizes } from '../../utils';
+import { getLoginSession, setLoginSession, sizes } from '../../utils';
 import { useNavigation } from '@react-navigation/native';
 const { height, width } = Dimensions.get('window');
 import { FirstScreenProps } from '../../navigations/NavigationTypes';
@@ -28,11 +30,15 @@ import { useAppDispatch } from '../../controller/hooks';
 import {
   updateAccountInfo,
   updateDidToken,
+  updateMetadata,
 } from '../../controller/UserController';
-
+import { checkSignup } from '../../api';
+import Loader from '../../../assets/svg/Loader';
+//
 const FirstScreen = ({ magic }: FirstScreenProps) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
+  const loaderRef = useRef();
 
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -40,64 +46,95 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const session = await getLoginSession();
+      if (session) navigation.navigate('Congratulations');
+    };
+    checkSession();
+  }, []);
+
+  const showLoader = (show = true) => {
+    if (loaderRef.current && show)
+      (loaderRef.current as any).setNativeProps({ style: { display: 'flex' } });
+
+    if (loaderRef.current && !show)
+      (loaderRef.current as any).setNativeProps({ style: { display: 'none' } });
+  };
+  const loginWith = async (provider: string) => {
+    try {
+      showLoader(true);
+
+      const token = await magic.oauth.loginWithPopup({
+        provider,
+        redirectURI: Linking.createURL('FirstScreen'),
+      });
+      dispatch(updateDidToken(token.magic.idToken));
+
+      const accountInfo = await magic.aptos.getAccountInfo();
+      dispatch(updateAccountInfo(accountInfo));
+
+      const metadata = await magic.user.getMetadata();
+      dispatch(updateMetadata(metadata));
+
+      const res = await checkSignup(token.magic.idToken);
+
+      showLoader(false);
+
+      if (res.isExist && res.isExist == true) {
+        await setLoginSession(res.wallet);
+        navigation.navigate('Congratulations');
+      } else {
+        navigation.navigate('SignUp');
+      }
+    } catch (error) {
+      console.log('Catch: ', error);
+      showLoader(false);
+    }
+  };
+
+  const loginGoogle = async () => {
+    loginWith('google');
+  };
+
+  const loginDiscord = async () => {
+    loginWith('discord');
+  };
+
+  const loginApple = async () => {
+    loginWith('apple');
+  };
+
+  const loginX = async () => {
+    loginWith('X');
+  };
+
   if (!isLoaded) {
     return null;
   }
 
-  const loginGoogle = async () => {
-    const token = await magic.oauth.loginWithPopup({
-      provider: 'google',
-      redirectURI: Linking.createURL('SignUp'),
-    });
-    console.log(JSON.stringify(token));
-    dispatch(updateDidToken(token));
-
-    const accountInfo = await magic.aptos.getAccountInfo();
-    console.log(accountInfo);
-    dispatch(updateAccountInfo(accountInfo));
-  };
-
-  const loginDiscord = async () => {
-    const token = await magic.oauth.loginWithPopup({
-      provider: 'discord',
-      redirectURI: Linking.createURL('SignUp'),
-    });
-    console.log(token);
-    dispatch(updateDidToken(token));
-
-    const accountInfo = await magic.aptos.getAccountInfo();
-    console.log(accountInfo);
-    dispatch(updateAccountInfo(accountInfo));
-  };
-  const loginApple = async () => {
-    const token = await magic.oauth.loginWithPopup({
-      provider: 'apple',
-      redirectURI: Linking.createURL('SignUp'),
-    });
-    console.log(token);
-    dispatch(updateDidToken(token));
-
-    const accountInfo = await magic.aptos.getAccountInfo();
-    console.log(accountInfo);
-    dispatch(updateAccountInfo(accountInfo));
-  };
-
-  const loginX = async () => {
-    const token = await magic.oauth.loginWithPopup({
-      provider: 'X',
-      redirectURI: Linking.createURL('SignUp'),
-    });
-    console.log(token);
-    dispatch(updateDidToken(token));
-
-    const accountInfo = await magic.aptos.getAccountIngo();
-    console.log(accountInfo);
-    dispatch(updateAccountInfo(accountInfo));
-  };
   return (
     <>
       <StatusBar style="light" />
 
+      <TouchableOpacity
+        style={{
+          display: 'none',
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0,
+          backgroundColor: '#000000a0',
+          zIndex: 999,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        ref={loaderRef}
+      >
+        <Loader />
+      </TouchableOpacity>
       <ImageBackground
         resizeMode="cover"
         style={{
@@ -221,30 +258,29 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
         >
           <Pressable
             onPress={() => {
-              // navigation.navigate('DrawerNavigation');
-
-              loginX();
+              navigation.navigate('DrawerNavigation');
+              // loginX()
             }}
             style={styles.socials}
           >
-            <Twitter
-              width={size.getWidthSize(26)}
-              height={size.getHeightSize(24)}
-            />
+            <X width={size.getWidthSize(26)} height={size.getHeightSize(24)} />
           </Pressable>
           <Pressable onPress={() => loginDiscord()} style={styles.socials}>
-            <Discord size={size.getHeightSize(28)} />
+            <Discord
+              width={size.getWidthSize(30)}
+              height={size.getHeightSize(28)}
+            />
           </Pressable>
           <Pressable onPress={() => loginApple()} style={styles.socials}>
             <Apple
-              height={size.getHeightSize(28)}
+              height={size.getHeightSize(26)}
               width={size.getWidthSize(24)}
             />
           </Pressable>
           <Pressable onPress={() => loginGoogle()} style={styles.socials}>
             <Google
-              height={size.getHeightSize(24)}
-              width={size.getWidthSize(24)}
+              width={size.getWidthSize(28)}
+              height={size.getHeightSize(26)}
             />
           </Pressable>
           <Pressable

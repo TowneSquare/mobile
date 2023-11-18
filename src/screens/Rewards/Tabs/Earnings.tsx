@@ -9,6 +9,7 @@ import {
 import React from 'react';
 import { appColor } from '../../../constants';
 import { sizes } from '../../../utils';
+import TowneSquareLogo from '../../../../assets/images/svg/Reward/TowneSqaureLogo';
 import InfoIcon from '../../../../assets/images/svg/InfoIcon';
 import Refferal from '../../../../assets/images/svg/Reward/Refferal';
 import ShareIcon from '../../../../assets/images/svg/Reward/ShareIcon';
@@ -86,6 +87,10 @@ const Earnings = () => {
             style={styles.card}
           >
             <SwapIcon size={size.getHeightSize(32)} />
+            <TowneSquareLogo
+              size={size.getHeightSize(20)}
+              style={styles.logo}
+            />
             <Text style={styles.label}>DEX swap</Text>
             <Text style={styles.amount}>$0</Text>
             <ArrowRight size={size.fontSize(24)} color={appColor.kWhiteColor} />
@@ -95,6 +100,10 @@ const Earnings = () => {
             style={styles.card}
           >
             <NFTIcon size={size.getHeightSize(32)} />
+            <TowneSquareLogo
+              size={size.getHeightSize(20)}
+              style={styles.logo}
+            />
             <Text style={styles.label}>NFT trade</Text>
             <Text style={styles.amount}>$86.88</Text>
             <ArrowRight size={size.fontSize(24)} color={appColor.kWhiteColor} />
@@ -106,6 +115,10 @@ const Earnings = () => {
             style={styles.card}
           >
             <TipIcon size={size.getHeightSize(32)} />
+            <TowneSquareLogo
+              size={size.getHeightSize(20)}
+              style={styles.logo}
+            />
             <Text style={styles.label}>Social transactions</Text>
             <Text style={styles.amount}>$86.88</Text>
             <ArrowRight size={size.fontSize(24)} color={appColor.kWhiteColor} />
@@ -257,5 +270,10 @@ const styles = StyleSheet.create({
     gap: size.getHeightSize(8),
     marginHorizontal: size.getWidthSize(16),
     marginTop: size.getHeightSize(8),
+  },
+  logo: {
+    position: 'absolute',
+    left: size.getWidthSize(34),
+    bottom: size.getHeightSize(13),
   },
 });

@@ -35,7 +35,8 @@ const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
 let newWidth = width - 2 * PADDING;
 
-const SignUp = ({ navigation }: SignUpProps) => {
+const SignUp = ({ navigation, route }: SignUpProps) => {
+  console.log(route.params);
   const padding = useSafeAreaInsets();
   const {
     usernameError,

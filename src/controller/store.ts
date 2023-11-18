@@ -8,6 +8,10 @@ import COMMUNITY from './CommunityController';
 import Reward from './RewardController';
 import Swap from './SwapController';
 export const store = configureStore({
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
   reducer: {
     bottomSheetController: bottomSheetSlice,
     USER,

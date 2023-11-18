@@ -8,7 +8,6 @@ interface NftCollection {
 
 interface initialStateProps {
   isBottomSheetOpen: boolean;
-  renderCount: number;
   uploadImageModalOpen: boolean;
   uploadModalRenderCount: number;
   NftModalOpen: boolean;
@@ -43,7 +42,6 @@ interface initialStateProps {
 }
 const initialState: initialStateProps = {
   isBottomSheetOpen: false,
-  renderCount: 0,
   uploadImageModalOpen: false,
   uploadModalRenderCount: 0,
   NftModalOpen: false,
@@ -125,9 +123,7 @@ export const bottomSheetSlice = createSlice({
     updateBottomSheet: (state, action: PayloadAction<boolean>) => {
       state.isBottomSheetOpen = action.payload;
     },
-    updateRenderCount: (state, action: PayloadAction<number>) => {
-      state.renderCount = action.payload;
-    },
+ 
     updateUploadImageModalOpen: (state, action: PayloadAction<boolean>) => {
       state.uploadImageModalOpen = action.payload;
     },
@@ -197,7 +193,6 @@ export const bottomSheetSlice = createSlice({
 });
 export const {
   updateBottomSheet,
-  updateRenderCount,
   updateUploadImageModalOpen,
   updateUploadModalRenderCount,
   updateNftOpen,

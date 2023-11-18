@@ -14,3 +14,7 @@ export const SAMPLE_MESSAGE_PAYLOAD = {
   message: "Hello from Aptos Wallet Adapter",
   nonce: "random_string",
 };
+export const CONNECT_PETRA_WALLET_PAYLOAD={
+    domain: 'com.townesquare.townesquare',
+    name: 'TowneSquare',
+}

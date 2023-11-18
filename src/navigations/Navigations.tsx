@@ -21,7 +21,7 @@ import SelectedCollectionScreen from '../screens/Feed/SelectedCollectionScreen';
 import EditProfileScreen from '../screens/Profile/EditProfileScreen';
 import TheirProfileScreen from '../screens/Profile/TheirProfileScreen';
 import SearchScreen from '../screens/SearchPost/SearchScreen';
-import SearchPostTab from './SearchPostTabBar';
+// import SearchPostTab from './SearchPostTabBar';
 import SelectedSuperStarCollectionScreen from '../screens/Profile/SelectedSuperStarCollectionScreen';
 import FollowersScreen from '../screens/Profile/FollowersScreen';
 import Congratulations from '../screens/SignUp/Congratulations';
@@ -111,13 +111,7 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
       <Stack.Screen name="FirstScreen" options={{ headerShown: false }}>
         {() => <FirstScreen {...magicProps} />}
       </Stack.Screen>
-      {/* {screens.map((screen) => (
-        <Stack.Screen
-          name={screen.name as any}
-          component={screen.component}
-          options={screen.options}
-        ></Stack.Screen>
-      ))} */}
+
       <Stack.Screen
         name="SignUp"
         component={SignUp}
@@ -205,13 +199,13 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="SearchPostTab"
         component={SearchPostTab}
         options={{
           headerShown: false,
         }}
-      />
+      /> */}
       <Stack.Screen
         name="SuperStarCollectionScreen"
         component={SuperStarCollectionScreen}
@@ -233,13 +227,13 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="ProfileFollowersTab"
         component={ProfileFollowersTab}
         options={{
           headerShown: false,
         }}
-      />
+      /> */}
       <Stack.Screen
         name="FollowersScreen"
         component={FollowersScreen}

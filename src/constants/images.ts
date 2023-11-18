@@ -146,6 +146,7 @@ const appImages = {
   pfpImage: require('../../assets/images/png/PfpImage.png'),
   comingsoon: require('../../assets/images/png/commingsoon.png'),
   poster1: require('../../assets/images/png/poster1.png'),
-  poster2:require('../../assets/images/png/poster2.png')
+  poster2: require('../../assets/images/png/poster2.png'),
+  plug: require('../../assets/images/png/Plugs.png'),
 };
 export const images = appImages;

@@ -30,6 +30,7 @@ const OverlayWrapper = () => {
       <ReferralBottomsheet />
       <PointsonholdBottomsheet />
       <Transactiondetails />
+   
       <ReceiveTokenModal  />
     </>
   );

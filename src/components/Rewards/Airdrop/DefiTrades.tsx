@@ -30,10 +30,11 @@ const DefiTrades = () => {
   };
   return (
     <Pressable onPress={handleModal} style={styles.parentContainer}>
-      <PontemIcon size={size.getHeightSize(24)} />
+      <Text style={styles.text}>APT</Text>
       <View style={styles.row}>
-        <Text style={styles.text}>APT</Text>
-        <ConvertIcon size={size.getHeightSize(18)} />
+        <Text style={styles.at}>@</Text>
+        <PontemIcon size={size.getHeightSize(24)} />
+
         <Text style={styles.text}>CAKE</Text>
       </View>
       <Text style={styles.amount}>100</Text>
@@ -60,9 +61,9 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: size.getWidthSize(7),
+    gap: size.getWidthSize(2),
     flex: 1,
-    marginLeft: size.getWidthSize(24),
+    marginLeft: size.getWidthSize(4),
   },
   amount: {
     fontSize: size.fontSize(16),
@@ -70,5 +71,13 @@ const styles = StyleSheet.create({
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(21),
     marginRight: size.getWidthSize(4),
+  },
+  at: {
+    fontSize: size.fontSize(16),
+    fontFamily: 'Outfit-Regular',
+    color: appColor.kTextColor,
+
+    lineHeight: size.getHeightSize(21),
+    opacity: 0.5,
   },
 });

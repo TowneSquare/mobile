@@ -37,6 +37,25 @@ function createCall(path, data = null, headers = {}, method = 'POST') {
       });
 }
 
-export async function signup(token: string) {
-  return createCall('signup', { issuer: token }, { authorization: token });
+
+export async function checkSignup(token: string) {
+  return createCall(`user/checkSignup`, {}, { authorization: token }, 'GET');
 }
+export async function signup(
+  token: string,
+  issuer: string,
+  aptosWallet: string,
+  nickname: string,
+  username: string,
+  email: string
+) {
+  return createCall(
+    'user/signup',
+    { issuer, aptosWallet, nickname, username, email },
+    { authorization: token }
+  );
+}
+export async function getAllUser(token: string) {
+  return createCall(`user/getall`, {}, { authorization: token }, 'GET');
+}
+

@@ -1,8 +1,20 @@
-import { View, StyleSheet, Dimensions, Pressable } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Image,
+  Text,
+  Pressable,
+} from 'react-native';
+import { images } from '../../constants';
 import { UserPosts } from '../../components/Feed/DuumyData';
 import { sizes } from '../../utils';
 import ForYou from '../../components/Feed/ForYou';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { getAllPost, POSTSTATE } from '../../controller/createPost';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor } from '../../constants';
+import { useEffect } from 'react';
 import { FlashList } from '@shopify/flash-list';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
@@ -10,6 +22,70 @@ const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const ForYouPosts = () => {
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+  const userToken = useAppSelector((state) => state.USER.didToken);
+  const AllPost = useAppSelector((state) => state.CreatePostController.AllPost);
+  useEffect(() => {
+    dispatch(getAllPost(userToken));
+  }, []);
+
+  console.log(AllPost, 'allpost');
+
+  const EmptyComponent = () => {
+    return (
+      <SafeAreaView
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <View
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: '50%',
+          }}
+        >
+          <Image
+            source={images.plug}
+            style={{
+              height: size.getHeightSize(61),
+              width: size.getWidthSize(60),
+            }}
+          />
+          <View
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: size.getHeightSize(8),
+            }}
+          >
+            <Text
+              style={{
+                color: appColor.grayLight,
+                fontFamily: 'Outfit-Regular',
+                fontSize: size.fontSize(16),
+              }}
+            >
+              Something went wrong.
+            </Text>
+            <Text
+              style={{
+                color: appColor.grayLight,
+                fontFamily: 'Outfit-Regular',
+                fontSize: size.fontSize(16),
+              }}
+            >
+              Try to reload.
+            </Text>
+          </View>
+        </View>
+      </SafeAreaView>
+    );
+  };
   return (
     <View
       style={{
@@ -18,10 +94,15 @@ const ForYouPosts = () => {
       }}
     >
       <FlashList
-        data={UserPosts}
+        data={AllPost}
         renderItem={({ item }) => <ForYou data={item} shouldPFPSwipe />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => index.toString()}
         estimatedItemSize={200}
+        onRefresh={() => {
+          dispatch(getAllPost(userToken));
+        }}
+        refreshing={false}
+        ListEmptyComponent={EmptyComponent}
       />
       <Pressable
         onPress={() =>
