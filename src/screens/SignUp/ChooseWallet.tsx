@@ -22,6 +22,7 @@ import { sizes } from '../../utils';
 import { handlWalletConnect } from '../../utils/connectWallet';
 import { useState } from 'react';
 import BackButton from '../../components/SignUp/BackButton';
+import LetGoButton from '../../components/SignUp/LetGoButton';
 import { ChooseWalletProps } from '../../navigations/NavigationTypes';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
@@ -77,6 +78,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
               alignItems: 'center',
             }}
           >
+            <LetGoButton navigateTo="DrawerNavigation" />
             <Pressable
               onPress={() => {
                 setSelectedWallet('pontem');

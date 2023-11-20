@@ -183,7 +183,7 @@ export const getAllPost = createAsyncThunk(
       console.log(result)
       return result;
     } catch (error) {
-      return thunkAPI.rejectWithValue;
+      return [];
     }
   }
 );
