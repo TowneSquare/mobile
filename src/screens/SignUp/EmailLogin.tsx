@@ -7,6 +7,7 @@ import {
   Dimensions,
   SafeAreaView,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import { useFonts } from "expo-font";
 import TransitionBackButton from "../../components/SignUp/TransitionBackButton";
@@ -26,8 +27,17 @@ import ChooseNFT from "../../components/SignUp/ChooseProfilePics/ChooseNFT";
 import SelectedCollection from "../../components/SignUp/ChooseProfilePics/SelectedCollection";
 import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../../controller/hooks";
-import { updateDidToken } from "../../controller/UserController";
+
+import {
+  updateAccountInfo,
+  updateDidToken,
+  updateMetadata,
+} from "../../controller/UserController";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { checkSignup, signup } from "../../api";
+import Loader from "../../../assets/svg/Loader";
+import { setLoginSession } from "../../utils/session";
+
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
@@ -37,6 +47,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
+  const loaderRef = useRef();
   const [viewIndex, setViewIndex] = useState(0);
 
   const {
@@ -54,6 +65,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     email: state.USER.details.email,
     profilePics: state.USER.details.profileImage,
   }));
+  const user = useAppSelector((state) => state.USER);
 
   let disable;
   switch (viewIndex) {
@@ -85,18 +97,58 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
   const onViewChangeRef = useRef(({ viewableItems }: any) => {
     setViewIndex(viewableItems[0]?.index);
   });
+
+  const showLoader = (show = true) => {
+    if (loaderRef.current && show)
+      (loaderRef.current as any).setNativeProps({ style: { display: "flex" } });
+
+    if (loaderRef.current && !show)
+      (loaderRef.current as any).setNativeProps({ style: { display: "none" } });
+  };
+
   const handleNextSlide = async () => {
     setViewIndex((previous) => previous + 1);
     const newIndex = viewIndex + 1;
     if (viewIndex == 0) {
-      const token = await magic.auth.loginWithEmailOTP({ email });
-      dispatch(updateDidToken(token));
+      try {
+        showLoader(true);
+        const token = await magic.auth.loginWithEmailOTP({ email });
+        dispatch(updateDidToken(token));
+
+        const accountInfo = await magic.aptos.getAccountInfo();
+        dispatch(updateAccountInfo(accountInfo));
+
+        const metadata = await magic.user.getMetadata();
+        dispatch(updateMetadata(metadata));
+        console.log(token, accountInfo, metadata);
+
+        const res = await checkSignup(token);
+        showLoader(false);
+        if (res.isExist && res.isExist == true) {
+          await setLoginSession(res.wallet);
+          navigation.navigate("Congratulations");
+        }
+      } catch (e) {
+        showLoader(false);
+        return;
+      }
     }
-    // const newIndex = viewIndex + 1;
+
     if (newIndex < views.length && flatListRef.current) {
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
     } else {
-      navigation.navigate("Congratulations");
+      const res = await signup(
+        user.didToken,
+        user.metadata.issuer,
+        user.accountInfo.address,
+        user.details.Nickname,
+        user.details.username,
+        user.details.email
+      );
+
+      if (!res.error && res.success != false) {
+        navigation.navigate("Congratulations");
+      }
     }
   };
 
@@ -155,6 +207,23 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity
+        style={{
+          display: "none",
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0,
+          backgroundColor: "#000000a0",
+          zIndex: 999,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        ref={loaderRef}
+      >
+        <Loader />
+      </TouchableOpacity>
       <View
         style={{
           marginTop: size.getHeightSize(42),

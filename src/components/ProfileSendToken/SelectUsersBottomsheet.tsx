@@ -179,6 +179,7 @@ const SelectUsersBottomsheet = () => {
                 );
               }}
               data={{ name: 'UsernameX', username: '@jczhang' }}
+              key={index}
             />
           ))}
         </View>
