@@ -1,9 +1,9 @@
-import { images } from './../../constants/images';
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { ImageSourcePropType } from 'react-native';
-import { communities, friends } from './models';
-import { didToken } from '../../../config/env';
-import axios from 'axios';
+import { images } from "./../../constants/images";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { ImageSourcePropType } from "react-native";
+import { communities, friends } from "./models";
+import { didToken } from "../../../config/env";
+import axios from "axios";
 
 export interface collection {
   image: ImageSourcePropType;
@@ -43,6 +43,7 @@ interface UserState {
   };
   didToken: string;
   accountInfo: any;
+  metadata: any;
   editProfile: boolean;
   NFTCollections: NftCollection[];
   selectedSuperStars: {
@@ -70,21 +71,21 @@ interface followRequest {
 }
 const initialState: UserState = {
   details: {
-    userId: '',
-    TypeOfWallet: '',
-    Nickname: '',
-    username: '',
-    email: '',
+    userId: "",
+    TypeOfWallet: "",
+    Nickname: "",
+    username: "",
+    email: "",
     followedFriends: [],
     joinedCommunities: [],
     profileImage: undefined,
-    referralCode: '',
+    referralCode: "",
   },
   errors: {
     nicknameError: false,
     usernameError: false,
     emailError: false,
-    usernameErrorMessage: '',
+    usernameErrorMessage: "",
   },
   didToken: didToken,
   editProfile: false,
@@ -143,7 +144,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: 'Aptomingos',
+      Name: "Aptomingos",
       id: 1,
     },
     {
@@ -175,7 +176,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: 'Aptos Monkey',
+      Name: "Aptos Monkey",
       id: 2,
     },
     {
@@ -222,7 +223,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: 'Aptomingos',
+      Name: "Aptomingos",
       id: 3,
     },
     {
@@ -264,7 +265,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: 'Aptos Monkey',
+      Name: "Aptos Monkey",
       id: 5,
     },
     {
@@ -306,7 +307,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: 'Aptomingos',
+      Name: "Aptomingos",
       id: 6,
     },
     {
@@ -328,11 +329,12 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: 'Aptos Monkey lorem Ipsumdalr',
+      Name: "Aptos Monkey lorem Ipsumdalr",
       id: 7,
     },
   ],
   accountInfo: undefined,
+  metadata: undefined,
   selectedSuperStars: [],
   selectedSuperStar: [],
   bio: `🖇️ Love everything about blockchain \n🌍3 web3 Native \n 👀 Always on a lookout for blue chips`,
@@ -340,7 +342,7 @@ const initialState: UserState = {
 };
 
 export const signUp = createAsyncThunk(
-  'User/signUp',
+  "User/signUp",
   async (signupRequest: signUpRequest, thunkAPI) => {
     const { aptosWallet, nickname, username, email } = signupRequest;
     try {
@@ -358,7 +360,7 @@ export const signUp = createAsyncThunk(
 );
 
 export const follow = createAsyncThunk(
-  'User/follow',
+  "User/follow",
   async (followRequest: followRequest, thunkAPI) => {
     const { fromUserId, toUserIds } = followRequest;
     try {
@@ -374,7 +376,7 @@ export const follow = createAsyncThunk(
 );
 
 export const USER = createSlice({
-  name: 'User',
+  name: "User",
   initialState,
   reducers: {
     updateTypeOfWallet: (state, action: PayloadAction<string>) => {
@@ -407,17 +409,17 @@ export const USER = createSlice({
         state.errors.usernameError = true;
         state.details.username = action.payload;
         state.errors.usernameErrorMessage =
-          'Use only alphanumeric characters and letters';
+          "Use only alphanumeric characters and letters";
       } else if (action.payload.length < 4) {
         state.errors.usernameError = true;
         state.details.username = action.payload;
         state.errors.usernameErrorMessage =
-          'Username must be longer than 4 characters';
+          "Username must be longer than 4 characters";
       } else if (state.details.username.length >= 15) {
         state.errors.usernameError = true;
         state.details.username = action.payload;
         state.errors.usernameErrorMessage =
-          'Username can be max. 15 characters long';
+          "Username can be max. 15 characters long";
       } else {
         state.details.username = action.payload;
         state.errors.usernameError = false;
@@ -466,6 +468,9 @@ export const USER = createSlice({
     updateAccountInfo: (state, action: PayloadAction<any>) => {
       state.accountInfo = action.payload;
     },
+    updateMetadata: (state, action: PayloadAction<any>) => {
+      state.metadata = action.payload;
+    },
     updateSelectedSuperStar: (
       state,
       action: PayloadAction<{ uri: string; id: string }>
@@ -474,7 +479,7 @@ export const USER = createSlice({
     },
     deleteSelectedSuperStar: (state, action: PayloadAction<string>) => {
       state.selectedSuperStar = state.selectedSuperStar.filter(
-        (obj) => obj['id'] !== action.payload
+        (obj) => obj["id"] !== action.payload
       );
     },
     resetSelectedSuperStar: (state) => {
@@ -508,6 +513,7 @@ export const {
   updateProfileImage,
   updateEditProfile,
   updateAccountInfo,
+  updateMetadata,
   updateSelectedSuperStar,
   deleteSelectedSuperStar,
   resetSelectedSuperStar,
