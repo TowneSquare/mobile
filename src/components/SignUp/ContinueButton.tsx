@@ -1,32 +1,29 @@
-import { Text, Dimensions, Pressable } from "react-native";
-import { useFonts } from "expo-font";
-import { appColor, fonts } from "../../constants";
-import { sizes } from "../../utils";
-import { useNavigation } from "@react-navigation/native";
-const { height, width } = Dimensions.get("window");
-import {
-  updateBottomSheet,
-  updateRenderCount,
-} from "../../controller/BottomSheetController";
+import { Text, Dimensions, Pressable } from 'react-native';
+import { useFonts } from 'expo-font';
+import { appColor, fonts } from '../../constants';
+import { sizes } from '../../utils';
+import { useNavigation } from '@react-navigation/native';
+const { height, width } = Dimensions.get('window');
+import { updateBottomSheet } from '../../controller/BottomSheetController';
 
-import { useAppDispatch } from "../../controller/hooks";
+import { useAppDispatch } from '../../controller/hooks';
 interface Props {
   navigateTo?: string;
   marginTop?: number;
-  closeModal?: boolean;
+  onPress?: () => void;
   disabled?: boolean;
 }
 const ContinueButton = ({
   navigateTo,
   marginTop,
-  closeModal,
+  onPress,
   disabled,
 }: Props) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
   });
   if (!isLoaded) {
     return null;
@@ -36,33 +33,29 @@ const ContinueButton = ({
     <Pressable
       disabled={disabled}
       onPress={() => {
-        if (closeModal) {
-          dispatch(updateRenderCount(0));
-          dispatch(updateBottomSheet(false));
-        }
-
-        navigation.navigate(navigateTo as never);
+        onPress();
+        // navigation.navigate(navigateTo as never);
       }}
       style={{
         backgroundColor: disabled
           ? appColor.kWhiteColorWithOpacity
           : appColor.kWhiteColor,
-        alignSelf: "center",
+        alignSelf: 'center',
         width: size.getWidthSize(328),
         borderRadius: 40,
         // height: size.getHeightSize(48),
-        justifyContent: "center",
+        justifyContent: 'center',
         marginTop: marginTop ? size.getHeightSize(8) : 8,
         paddingVertical: size.getHeightSize(12.5),
       }}
     >
       <Text
         style={{
-          textAlign: "center",
+          textAlign: 'center',
           color: appColor.kButtonTextColor,
           fontSize: size.fontSize(18),
-          fontFamily: "Outfit-Medium",
-          fontStyle: "normal",
+          fontFamily: 'Outfit-Medium',
+          fontStyle: 'normal',
           lineHeight: size.getHeightSize(23),
           letterSpacing: 0.02,
         }}

@@ -1,5 +1,13 @@
-import { View, Text, Dimensions, StyleSheet, FlatList } from 'react-native';
-import React from 'react';
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  FlatList,
+  Pressable,
+  Animated,
+} from 'react-native';
+import React, { useState } from 'react';
 import { sizes } from '../../../utils';
 import { appColor } from '../../../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -9,6 +17,9 @@ import MyEarning from '../../../components/Rewards/UserDisplay/MyRank';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Rankings = () => {
+  const [showDropdown, setDropdown] = useState(false);
+  const [filterIndex, setFilterIndex] = useState(0);
+  const filters = ['24h', '7 days', '30 days', 'All time'];
   return (
     <View
       style={{
@@ -18,14 +29,51 @@ const Rankings = () => {
     >
       <View style={styles.view}>
         <Text style={styles.earners}>Top 500 Earners</Text>
-        <View style={styles.dropDownView}>
-          <Text style={styles.days}>30 days</Text>
-          <Ionicons
-            name="caret-down"
-            size={size.getHeightSize(10)}
-            color={appColor.kWhiteColor}
-          />
-        </View>
+        <Pressable
+          onPress={() => {
+            setDropdown((previous) => !previous);
+          }}
+          style={[
+            styles.dropDownView,
+            {
+              borderRadius: showDropdown ? 20 : 40,
+            },
+          ]}
+        >
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: size.getWidthSize(8),
+            }}
+          >
+            <Text style={styles.selectedDate}>{filters[filterIndex]}</Text>
+            <Ionicons
+              name={showDropdown ? 'caret-up' : 'caret-down'}
+              size={size.getWidthSize(14)}
+              color={appColor.kWhiteColor}
+              style={{
+                margin: size.getHeightSize(6),
+              }}
+            />
+          </View>
+          {showDropdown &&
+            filters.map((filter, index) => {
+              if (index !== filterIndex) {
+                return (
+                  <Text
+                    onPress={() => {
+                      setFilterIndex(index);
+                      setDropdown((previous) => !previous);
+                    }}
+                    style={styles.days}
+                  >
+                    {filter}
+                  </Text>
+                );
+              } else return null;
+            })}
+        </Pressable>
       </View>
       <View
         style={{
@@ -51,9 +99,11 @@ export default Rankings;
 const styles = StyleSheet.create({
   view: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginHorizontal: size.getWidthSize(16),
-    marginTop: size.getHeightSize(16),
+    marginTop: size.getHeightSize(26),
+    marginBottom: size.getHeightSize(14),
+    zIndex: 1,
   },
   earners: {
     fontSize: size.fontSize(20),
@@ -64,15 +114,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   dropDownView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: size.getWidthSize(8),
     borderWidth: 1,
-    borderRadius: 40,
+    gap: size.getHeightSize(8),
     borderColor: appColor.kGrayLight3,
-    paddingVertical: size.getHeightSize(10),
+    paddingVertical: size.getHeightSize(8),
     paddingLeft: size.getWidthSize(16),
     paddingRight: size.getWidthSize(8),
+    width: size.getWidthSize(114),
+    position: 'absolute',
+    backgroundColor: appColor.feedBackground,
+    right: 0,
+    top: size.getHeightSize(-10),
   },
   days: {
     fontSize: size.fontSize(16),
@@ -80,5 +132,13 @@ const styles = StyleSheet.create({
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(20),
     letterSpacing: 0.32,
+  },
+  selectedDate: {
+    fontSize: size.fontSize(16),
+    fontFamily: 'Outfit-Medium',
+    color: appColor.kTextColor,
+    lineHeight: size.getHeightSize(20),
+    letterSpacing: 0.32,
+    flex: 1,
   },
 });

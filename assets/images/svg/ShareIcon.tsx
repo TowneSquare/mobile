@@ -1,16 +1,7 @@
-import * as React from 'react';
-import { sizes } from '../../../src/utils';
-import { Dimensions } from 'react-native';
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from 'react-native-svg';
-const { height, width } = Dimensions.get('window');
-const size = new sizes(height, width);
+import * as React from "react";
+import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg";
 const ShareIcon = (props: SvgProps) => (
-  <Svg
-    width={size.getHeightSize(24)}
-    height={size.getHeightSize(24)}
-    fill="none"
-    {...props}
-  >
+  <Svg width={25} height={24} fill="none" {...props}>
     <G
       stroke="#121212"
       strokeLinecap="round"

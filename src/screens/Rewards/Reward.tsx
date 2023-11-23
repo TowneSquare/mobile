@@ -6,9 +6,7 @@ import Airdrop from './Tabs/Airdrop';
 import Earnings from './Tabs/Earnings';
 import TopTabNavigator from '../../navigations/TopTabNavigator';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ReferralBottomsheet from '../../components/Rewards/Airdrop/ReferralBottomsheet';
 const { height, width } = Dimensions.get('window');
-
 const size = new sizes(height, width);
 const RewardTab = () => {
   const tabContent = [

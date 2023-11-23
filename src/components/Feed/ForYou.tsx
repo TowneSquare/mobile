@@ -5,25 +5,25 @@ import {
   Image,
   StyleSheet,
   Pressable,
-} from "react-native";
-import { memo } from "react";
-import { sizes } from "../../utils";
-import { appColor, fonts, images } from "../../constants";
-import { useFonts } from "expo-font";
-const { height, width } = Dimensions.get("window");
-import Reposted from "./Reposted";
-import APT from "../../../assets/images/svg/APT";
-import { Avatar } from "react-native-elements";
-import ProfilePicture from "./ProfilePicture";
-import { useNavigation } from "@react-navigation/native";
+} from 'react-native';
+import { memo } from 'react';
+import { sizes } from '../../utils';
+import { appColor, fonts, images } from '../../constants';
+import { useFonts } from 'expo-font';
+const { height, width } = Dimensions.get('window');
+import Reposted from './Reposted';
+import APT from '../../../assets/images/svg/APT';
+import { Avatar } from 'react-native-elements';
+import ProfilePicture from './SwipeableProfilePicture';
+import { useNavigation } from '@react-navigation/native';
 import {
   UserPost,
   FeedContent,
   SWAP_OPTION_INCLUDED,
   FLOOR_PRICE_INCLUDED,
-} from "../../models";
+} from '../../models';
 const size = new sizes(height, width);
-import PostHeader from "./PostHeader";
+import PostHeader from './PostHeader';
 import {
   Message_Only,
   Message_Image,
@@ -31,11 +31,11 @@ import {
   Message_External_Link,
   VIDEO,
   NFT_FOR_SALE,
-} from "../../models";
-import PostActions from "./PostActions";
-import APTMonkey from "../../../assets/images/svg/APTMonkey";
-import { feedStyle } from "./FeedsStyles";
-import { PostData } from "../../controller/createPost";
+} from '../../models';
+import PostActions from './PostActions';
+import APTMonkey from '../../../assets/images/svg/APTMonkey';
+import { feedStyle } from './FeedsStyles';
+import { PostData } from '../../controller/createPost';
 interface NavigationParameter {
   username: string;
   nickname: string;
@@ -49,9 +49,9 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
   const navigation = useNavigation();
 
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -62,7 +62,7 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
       username: data?.customer?.username,
       nickname: data?.customer?.nickname,
     };
-    navigation.navigate("SinglePost" as any, params);
+    navigation.navigate('SinglePost' as any, params);
   };
 
   let content;
@@ -73,8 +73,10 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
     ? FeedContent.VIDEO
     : data?.imageUrl
     ? FeedContent.MESSAGE_IMAGE
-    : data?.description ? FeedContent.MESSAGE_ONLY: FeedContent.EMPTY;
-    console.log(type_of_post, "type of post")
+    : data?.description
+    ? FeedContent.MESSAGE_ONLY
+    : FeedContent.EMPTY;
+  console.log(type_of_post, 'type of post');
   const userPost = data;
   switch (type_of_post) {
     case FeedContent.MESSAGE_ONLY:
@@ -87,7 +89,7 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
               <PostHeader
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
-                timepost={"2m"} // TODO: fix the post time
+                timepost={'2m'} // TODO: fix the post time
                 myPost={myPost ? myPost : false}
               />
               <Text onPress={handleNavigation} style={styles.message}>
@@ -122,7 +124,7 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
               <PostHeader
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
-                timepost={"2m"} // TODO: fix the post time
+                timepost={'2m'} // TODO: fix the post time
                 myPost={myPost ? myPost : false}
               />
 
@@ -131,7 +133,7 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
               </Text>
 
               <Pressable
-                onPress={() => navigation.navigate("ViewImageScreen" as never)}
+                onPress={() => navigation.navigate('ViewImageScreen' as never)}
                 style={[
                   styles.mediaContainer,
                   { marginBottom: size.getHeightSize(0) },
@@ -160,49 +162,49 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
         </>
       );
       break;
-      // case FeedContent.GIF:
-      // userPost.content = data.content as GIF;
-      // content = (
-      //   <>
-      //     <View style={styles.feedContainer}>
-      //       <ProfilePicture swipeable={shouldPFPSwipe} />
-      //       <View style={styles.subHeading}>
-      //         <PostHeader
-      //           onPress={handleNavigation}
-      //           username={userPost.username}
-      //           nickname={userPost.nickname}
-      //           timepost={userPost.timepost}
-      //           myPost={myPost ? myPost : false}
-      //         />
+    // case FeedContent.GIF:
+    // userPost.content = data.content as GIF;
+    // content = (
+    //   <>
+    //     <View style={styles.feedContainer}>
+    //       <ProfilePicture swipeable={shouldPFPSwipe} />
+    //       <View style={styles.subHeading}>
+    //         <PostHeader
+    //           onPress={handleNavigation}
+    //           username={userPost.username}
+    //           nickname={userPost.nickname}
+    //           timepost={userPost.timepost}
+    //           myPost={myPost ? myPost : false}
+    //         />
 
-      //         <View
-      //           style={[
-      //             styles.mediaContainer,
-      //             { marginBottom: size.getHeightSize(0) },
-      //           ]}
-      //         >
-      //           <Image
-      //             source={images.feedImage2}
-      //             style={styles.imageStyle}
-      //             resizeMode="cover"
-      //           />
-      //         </View>
-      //         {/* <PostActions
-      //          noOfComments={userPost.comments.length}
-      //           noOfLikes={userPost.likes.length}
-      //           noOfRetweet={userPost.retweet.length}
-      //         /> */}
-      //         <PostActions
-      //           noOfComments={userPost.comments}
-      //           noOfLikes={userPost.like}
-      //           noOfRetweet={userPost.retweet}
-      //         />
-      //         {/* <ShowThread /> */}
-      //       </View>
-      //     </View>
-      //   </>
-      // );
-      // break;
+    //         <View
+    //           style={[
+    //             styles.mediaContainer,
+    //             { marginBottom: size.getHeightSize(0) },
+    //           ]}
+    //         >
+    //           <Image
+    //             source={images.feedImage2}
+    //             style={styles.imageStyle}
+    //             resizeMode="cover"
+    //           />
+    //         </View>
+    //         {/* <PostActions
+    //          noOfComments={userPost.comments.length}
+    //           noOfLikes={userPost.likes.length}
+    //           noOfRetweet={userPost.retweet.length}
+    //         /> */}
+    //         <PostActions
+    //           noOfComments={userPost.comments}
+    //           noOfLikes={userPost.like}
+    //           noOfRetweet={userPost.retweet}
+    //         />
+    //         {/* <ShowThread /> */}
+    //       </View>
+    //     </View>
+    //   </>
+    // );
+    // break;
     case FeedContent.VIDEO:
       //userPost.content = data.content as VIDEO;
       content = (
@@ -214,12 +216,12 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
                 onPress={handleNavigation}
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
-                timepost={"2m"} // TODO
+                timepost={'2m'} // TODO
                 myPost={myPost ? myPost : false}
               />
 
               <Pressable
-                onPress={() => navigation.navigate("VideoPlayer" as never)}
+                onPress={() => navigation.navigate('VideoPlayer' as never)}
                 style={[
                   styles.mediaContainer,
                   { marginBottom: size.getHeightSize(0) },
@@ -247,68 +249,68 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
         </>
       );
       break;
-      // case FeedContent.message_EXTERNAL_LINK:
-      // const linkContent = data.content as Message_External_Link;
-      // content = (
-      //   <>
-      //     <View style={styles.feedContainer}>
-      //       <ProfilePicture swipeable={shouldPFPSwipe} />
-      //       <View style={styles.subHeading}>
-      //         {/* <PostHeader
-      //           username={userPost.customer.username}
-      //           nickname={userPost.customer.nickname}
-      //           timepost={userPost.timepost}
-      //           myPost={myPost ? myPost : false}
-      //         /> */}
-      //         <PostHeader
-      //           username={userPost.username}
-      //           nickname={userPost.nickname}
-      //           timepost={userPost.timepost}
-      //           myPost={myPost ? myPost : false}
-      //         />
-      //         <Text onPress={handleNavigation} style={styles.message}>
-      //           {linkContent.message}
-      //         </Text>
-      //         <Text style={styles.link}>{linkContent.link}</Text>
-      //         <View
-      //           style={[
-      //             styles.mediaContainer,
-      //             { marginBottom: size.getHeightSize(0) },
-      //           ]}
-      //         >
-      //           <Image
-      //             source={images.feedImageLink}
-      //             style={[
-      //               styles.imageStyle,
-      //               {
-      //                 borderBottomLeftRadius: 0,
-      //                 borderBottomRightRadius: 0,
-      //                 width: "100%",
-      //               },
-      //             ]}
-      //             resizeMode="cover"
-      //           />
-      //         </View>
-      //         <View style={styles.linkDescriptionContainer}>
-      //           <Text style={styles.linkTitle}>
-      //             {linkContent.linkDescription}
-      //           </Text>
-      //           <Text style={styles.linkSubTitle}>
-      //             {linkContent.linkSubTitle}
-      //           </Text>
-      //           <Text style={styles.linkText}>{linkContent.url}</Text>
-      //         </View>
-      //         <PostActions
-      //           noOfComments={userPost.comments}
-      //           noOfLikes={userPost.like}
-      //           noOfRetweet={userPost.retweet}
-      //         />
-      //         {/* <ShowThread /> */}
-      //       </View>
-      //     </View>
-      //   </>
-      // );
-      // break;
+    // case FeedContent.message_EXTERNAL_LINK:
+    // const linkContent = data.content as Message_External_Link;
+    // content = (
+    //   <>
+    //     <View style={styles.feedContainer}>
+    //       <ProfilePicture swipeable={shouldPFPSwipe} />
+    //       <View style={styles.subHeading}>
+    //         {/* <PostHeader
+    //           username={userPost.customer.username}
+    //           nickname={userPost.customer.nickname}
+    //           timepost={userPost.timepost}
+    //           myPost={myPost ? myPost : false}
+    //         /> */}
+    //         <PostHeader
+    //           username={userPost.username}
+    //           nickname={userPost.nickname}
+    //           timepost={userPost.timepost}
+    //           myPost={myPost ? myPost : false}
+    //         />
+    //         <Text onPress={handleNavigation} style={styles.message}>
+    //           {linkContent.message}
+    //         </Text>
+    //         <Text style={styles.link}>{linkContent.link}</Text>
+    //         <View
+    //           style={[
+    //             styles.mediaContainer,
+    //             { marginBottom: size.getHeightSize(0) },
+    //           ]}
+    //         >
+    //           <Image
+    //             source={images.feedImageLink}
+    //             style={[
+    //               styles.imageStyle,
+    //               {
+    //                 borderBottomLeftRadius: 0,
+    //                 borderBottomRightRadius: 0,
+    //                 width: "100%",
+    //               },
+    //             ]}
+    //             resizeMode="cover"
+    //           />
+    //         </View>
+    //         <View style={styles.linkDescriptionContainer}>
+    //           <Text style={styles.linkTitle}>
+    //             {linkContent.linkDescription}
+    //           </Text>
+    //           <Text style={styles.linkSubTitle}>
+    //             {linkContent.linkSubTitle}
+    //           </Text>
+    //           <Text style={styles.linkText}>{linkContent.url}</Text>
+    //         </View>
+    //         <PostActions
+    //           noOfComments={userPost.comments}
+    //           noOfLikes={userPost.like}
+    //           noOfRetweet={userPost.retweet}
+    //         />
+    //         {/* <ShowThread /> */}
+    //       </View>
+    //     </View>
+    //   </>
+    // );
+    // break;
 
     // case FeedContent.NFT_FOR_SALE:
     //   const nftContent = data.content as NFT_FOR_SALE;
@@ -559,26 +561,26 @@ export default ForYou;
 const styles = StyleSheet.create(feedStyle);
 const communityStyles = StyleSheet.create({
   container: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: size.getWidthSize(6),
-    alignItems: "center",
+    alignItems: 'center',
   },
   postedIn: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.grayLight,
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
   },
   communityName: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.primaryLight,
-    fontFamily: "Outfit-SemiBold",
+    fontFamily: 'Outfit-SemiBold',
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.7)",
-    position: "absolute",
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    position: 'absolute',
     top: 0,
     bottom: 0,
     left: 0,

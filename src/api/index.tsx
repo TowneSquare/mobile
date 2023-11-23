@@ -1,10 +1,10 @@
-import { BACKEND_URL } from "../../config/env";
+import { BACKEND_URL } from '../../config/env';
 let _headers = {
-  Accept: "application/json",
-  "Content-Type": "application/json",
+  Accept: 'application/json',
+  'Content-Type': 'application/json',
 };
 
-function createCall(path, data = null, headers = {}, method = "POST") {
+function createCall(path, data = null, headers = {}, method = 'POST') {
   const merged = {
     ..._headers,
     ...headers,
@@ -16,7 +16,7 @@ function createCall(path, data = null, headers = {}, method = "POST") {
   }
 
   let strData = JSON.stringify(body);
-  if (method == "GET")
+  if (method == 'GET')
     return fetch(`${BACKEND_URL}${path}`, {
       method: method,
       headers: merged,
@@ -38,7 +38,7 @@ function createCall(path, data = null, headers = {}, method = "POST") {
 }
 
 export async function checkSignup(token: string) {
-  return createCall(`user/checkSignup`, {}, { authorization: token }, "GET");
+  return createCall(`user/checkSignup`, {}, { authorization: token }, 'GET');
 }
 export async function signup(
   token: string,
@@ -49,7 +49,7 @@ export async function signup(
   email: string
 ) {
   return createCall(
-    "user/signup",
+    'user/signup',
     { issuer, aptosWallet, nickname, username, email },
     { authorization: token }
   );

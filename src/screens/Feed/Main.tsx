@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
+import { View, Text, Dimensions, StyleSheet } from 'react-native';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 import { appColor, fonts } from '../../constants';
@@ -7,14 +7,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import More from '../../../assets/images/svg/More';
 import BarCode from '../../../assets/images/svg/Barcode';
 import Feather from '@expo/vector-icons/Feather';
-import AntDesign from '@expo/vector-icons/AntDesign';
 import { useFonts } from 'expo-font';
+import ForYouPosts from './ForYouPosts';
+import CommingSoon from './CommingSoon';
 import NotificationBell from '../../components/Feed/NotificationBell';
-import MainTab from '../../navigations/MainTabNavigation';
 import { useNavigation } from '@react-navigation/native';
 const size = new sizes(height, width);
 import { DrawerActions } from '@react-navigation/native';
-import ReceiveTokenModal from '../../components/Feed/ReceiveTokenModal';
+import TopTabNavigator from '../../navigations/TopTabNavigator';
 import { useAppDispatch } from '../../controller/hooks';
 import { updateReceiveModalState } from '../../controller/FeedsController';
 
@@ -30,13 +30,23 @@ const Main = () => {
   if (!isLoaded) {
     return null;
   }
- 
+
   const openModal = () => {
     dispatch(updateReceiveModalState(true));
   };
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
   };
+  const tabContent = [
+    {
+      name: 'For You',
+      content: ForYouPosts,
+    },
+    {
+      name: 'Community',
+      content: CommingSoon,
+    },
+  ];
 
   return (
     <SafeAreaView
@@ -62,12 +72,7 @@ const Main = () => {
           <BarCode onPress={openModal} />
         </View>
       </View>
-      <MainTab />
-
-      {/* <View style={styles.overlay} /> */}
-
-   
-      {/* <TipBottomSheet /> */}
+      <TopTabNavigator components={tabContent} fullRadius={false} />
     </SafeAreaView>
   );
 };

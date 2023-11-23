@@ -144,6 +144,9 @@ const appImages = {
   SiothianCommunity: require('../../assets/images/png/SiothianCommunity.png'),
   theter: require('../../assets/images/png/Theter.png'),
   pfpImage: require('../../assets/images/png/PfpImage.png'),
-  plug: require('../../assets/images/png/Plugs.png')
+  comingsoon: require('../../assets/images/png/commingsoon.png'),
+  poster1: require('../../assets/images/png/poster1.png'),
+  poster2: require('../../assets/images/png/poster2.png'),
+  plug: require('../../assets/images/png/Plugs.png'),
 };
 export const images = appImages;

@@ -3,26 +3,43 @@ import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 import Header from '../../shared/Feed/Header';
+import FollowersTab from './FollowersTab';
+import FollowingTab from './FollowingTab';
+import CommunitiesTab from './CommunitiesTab';
 const size = new sizes(height, width);
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ProfileFollowersTab from '../../navigations/ProfileFollowersTab';
+import TopTabNavigator from '../../navigations/TopTabNavigator';
 const FollowersScreen = () => {
+  const tabContent = [
+    {
+      name: 'Followers',
+      content: FollowersTab,
+    },
+    {
+      name: 'Following',
+      content: FollowingTab,
+    },
+    {
+      name: 'Communities',
+      content: CommunitiesTab,
+    },
+  ];
   return (
     <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: appColor.feedBackground,
-       
       }}
     >
       <Header title="Real JC" />
       <View style={styles.marginTop} />
-      <View style={{
-        flex:1,
-        paddingHorizontal:size.getWidthSize(16)
-      }}>
-
-      <ProfileFollowersTab />
+      <View
+        style={{
+          flex: 1,
+          paddingHorizontal: size.getWidthSize(16),
+        }}
+      >
+        <TopTabNavigator components={tabContent} fullRadius={true} />
       </View>
     </SafeAreaView>
   );

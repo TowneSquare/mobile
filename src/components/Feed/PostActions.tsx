@@ -1,26 +1,27 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from "react-native";
-import { useState } from "react";
-import { sizes } from "../../utils";
-import { appColor, fonts } from "../../constants";
-import { useFonts } from "expo-font";
-const { height, width } = Dimensions.get("window");
-import Retweet from "../../../assets/images/svg/Retweet";
-import BookMark from "../../../assets/images/svg/BookMark";
-import LikePost from "../../../assets/images/svg/LikePost";
-import TipIcon from "../../../assets/images/svg/TipIcon";
-import LikedIcon from "../../../assets/images/svg/LikedIcon";
-import Retweeted from "../../../assets/images/svg/Retweeted";
-import BookMarkedIcon from "../../../assets/images/svg/BookMarkedIcon";
-import CommentIcon from "../../../assets/images/svg/CommentIcon";
-import { updateTipBottomSheet } from "../../controller/FeedsController";
-import { useAppDispatch } from "../../controller/hooks";
+import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
+import { useState } from 'react';
+import { sizes } from '../../utils';
+import { appColor, fonts } from '../../constants';
+import { useFonts } from 'expo-font';
+const { height, width } = Dimensions.get('window');
+import Retweet from '../../../assets/images/svg/Retweet';
+import BookMark from '../../../assets/images/svg/BookMark';
+import LikePost from '../../../assets/images/svg/LikePost';
+import TipIcon from '../../../assets/images/svg/TipIcon';
+import LikedIcon from '../../../assets/images/svg/LikedIcon';
+import Retweeted from '../../../assets/images/svg/Retweeted';
+import BookMarkedIcon from '../../../assets/images/svg/BookMarkedIcon';
+import { useNavigation } from '@react-navigation/native';
+import CommentIcon from '../../../assets/images/svg/CommentIcon';
+import { updateTipBottomSheet } from '../../controller/FeedsController';
+import { useAppDispatch } from '../../controller/hooks';
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
 const size = new sizes(height, width);
 interface Props {
@@ -41,6 +42,7 @@ const PostActions = ({
   marginTop,
   showShareIcon,
 }: Props) => {
+  const naviagtion = useNavigation();
   const dispatch = useAppDispatch();
   const [changeLikeTextColor, setlikesTextColor] = useState(false);
   const [changeRetweetTextColor, setRetweetTextColor] = useState(false);
@@ -116,9 +118,9 @@ const PostActions = ({
     };
   });
   let [isLoaded] = useFonts({
-    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -128,7 +130,7 @@ const PostActions = ({
     <View
       style={{
         gap: size.getWidthSize(20),
-        flexDirection: "row",
+        flexDirection: 'row',
         paddingVertical: size.getHeightSize(8),
         paddingHorizontal: paddingHorizontal
           ? size.getWidthSize(paddingHorizontal)
@@ -140,16 +142,19 @@ const PostActions = ({
     >
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "center",
+          flexDirection: 'row',
+          alignItems: 'center',
           gap: size.getWidthSize(2),
         }}
       >
-        <CommentIcon size={size.getHeightSize(24)} />
+        <CommentIcon
+          onPress={() => naviagtion.navigate('SinglePost')}
+          size={size.getHeightSize(24)}
+        />
         <Text
           style={{
             fontSize: size.fontSize(13),
-            fontFamily: "Outfit-Regular",
+            fontFamily: 'Outfit-Regular',
             color: appColor.grayLight,
             lineHeight: size.getHeightSize(16),
           }}
@@ -159,8 +164,8 @@ const PostActions = ({
       </View>
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "center",
+          flexDirection: 'row',
+          alignItems: 'center',
           gap: size.getWidthSize(2),
         }}
       >
@@ -179,8 +184,8 @@ const PostActions = ({
           style={{
             fontSize: size.fontSize(13),
             fontFamily: changeRetweetTextColor
-              ? "Outfit-SemiBold"
-              : "Outfit-Regular",
+              ? 'Outfit-SemiBold'
+              : 'Outfit-Regular',
             color: changeRetweetTextColor
               ? appColor.kSecondaryButtonColor
               : appColor.grayLight,
@@ -192,8 +197,8 @@ const PostActions = ({
       </View>
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "center",
+          flexDirection: 'row',
+          alignItems: 'center',
           gap: size.getWidthSize(2),
           flex: 1,
         }}
@@ -211,8 +216,8 @@ const PostActions = ({
           style={{
             fontSize: size.fontSize(13),
             fontFamily: changeLikeTextColor
-              ? "Outfit-SemiBold"
-              : "Outfit-Regular",
+              ? 'Outfit-SemiBold'
+              : 'Outfit-Regular',
             color: changeLikeTextColor
               ? appColor.kSecondaryButtonColor
               : appColor.grayLight,
@@ -224,7 +229,7 @@ const PostActions = ({
       </View>
       <View
         style={{
-          alignItems: "center",
+          alignItems: 'center',
           gap: size.getWidthSize(2),
         }}
       >
@@ -235,7 +240,7 @@ const PostActions = ({
       </View>
       <View
         style={{
-          alignItems: "center",
+          alignItems: 'center',
           gap: size.getWidthSize(2),
         }}
       >
@@ -246,11 +251,11 @@ const PostActions = ({
             <BookMark size={size.getHeightSize(24)} />
           </Animated.View>
 
-        <Animated.View style={bookmarkfillStyle}>
-          <BookMarkedIcon size={size.getHeightSize(24)} />
-        </Animated.View>
-      </Pressable>
-    </View>
+          <Animated.View style={bookmarkfillStyle}>
+            <BookMarkedIcon size={size.getHeightSize(24)} />
+          </Animated.View>
+        </Pressable>
+      </View>
     </View>
   );
 };

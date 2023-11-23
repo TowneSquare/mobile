@@ -2,6 +2,7 @@ import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
 import SearchContent from '../../components/Search/SearchContent';
 import { useEffect } from 'react';
 import { sizes } from '../../utils';
+import TopTabNavigator from '../../navigations/TopTabNavigator';
 const { height, width } = Dimensions.get('window');
 import { appColor, fonts } from '../../constants';
 import SearchPostSearchField from '../../components/Search/SearchPostSearchField';
@@ -10,8 +11,11 @@ import { Octicons } from '@expo/vector-icons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useFonts } from 'expo-font';
 const size = new sizes(height, width);
+import Posts from './Posts';
+import ForYouTab from './ForYouTab';
+import PeopleTab from './PeopleTab';
+import CommuintiesTab from './CommuintiesTab';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import SearchPostTab from '../../navigations/SearchPostTabBar';
 import { SearchScreenProps } from '../../navigations/NavigationTypes';
 import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
 import { updateSearchFocus } from '../../controller/SearchPost';
@@ -33,7 +37,29 @@ const SearchScreen = ({ navigation }: SearchScreenProps) => {
   if (!isLoaded) {
     return null;
   }
-
+  let tabContent = [
+    {
+      name: 'For you',
+      content: ForYouTab,
+    },
+    {
+      name: 'Posts',
+      content: Posts,
+    },
+    {
+      name: 'People',
+      content: PeopleTab,
+    },
+    {
+      name: 'Communities',
+      content: CommuintiesTab,
+    },
+  ];
+  if (isSearchFiledFocused !== 'hide_for_you_tab') {
+    tabContent = tabContent;
+  } else {
+    tabContent = tabContent.slice(1);
+  }
   return (
     <SafeAreaView
       style={{
@@ -85,7 +111,7 @@ const SearchScreen = ({ navigation }: SearchScreenProps) => {
               </Pressable>
             </Animated.View>
           </View>
-          <SearchPostTab />
+          <TopTabNavigator components={tabContent} fullRadius={false} />
         </>
       ) : undefined}
       {isSearchFiledFocused === 'search_focused' && (

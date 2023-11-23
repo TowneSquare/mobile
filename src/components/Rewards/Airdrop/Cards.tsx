@@ -1,5 +1,6 @@
 import { Text, Dimensions, StyleSheet, Pressable } from 'react-native';
 import React from 'react';
+import TowneSquareLogo from '../../../../assets/images/svg/Reward/TowneSqaureLogo';
 import { appColor } from '../../../constants';
 import { sizes } from '../../../utils';
 import PointsIcon from '../../../../assets/images/svg/Reward/PointsIcon';
@@ -10,12 +11,16 @@ interface Props {
   icon: React.ReactNode;
   title: string;
   price: string;
+  showLogo?: boolean;
   onPress: () => void;
 }
-const Cards = ({ icon, price, title, onPress }: Props) => {
+const Cards = ({ icon, price, title, onPress, showLogo = false }: Props) => {
   return (
     <Pressable onPress={onPress} style={styles.parentContainer}>
       {icon}
+      {showLogo && (
+        <TowneSquareLogo size={size.getHeightSize(20)} style={styles.logo} />
+      )}
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.price}>{price}</Text>
       <PointsIcon size={size.getHeightSize(16)} />
@@ -49,5 +54,10 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(21),
     marginLeft: size.getWidthSize(8),
     marginRight: size.getWidthSize(10),
+  },
+  logo: {
+    position: 'absolute',
+    left: size.getWidthSize(29),
+    bottom: size.getHeightSize(16),
   },
 });

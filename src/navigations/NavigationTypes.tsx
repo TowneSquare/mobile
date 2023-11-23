@@ -10,6 +10,10 @@ declare global {
   }
 }
 
+interface PetraWalletResponse {
+  response?: 'approved' | 'rejected' | 'dismissed' 
+}
+
 type SelectedSuperStarCollectionScreenParameter = {
   [SelectedSuperStarCollectionScreen: string]: {
     title: string;
@@ -21,7 +25,7 @@ type SelectedSuperStarCollectionScreenParameter = {
 };
 export type RootStackParamList = {
   FirstScreen: undefined;
-  ChooseWallet: undefined;
+  ChooseWallet: PetraWalletResponse;
   SignUp: undefined;
   // ConnectSocialsAndVrify: undefined;
   // ConnectSocials: undefined;
@@ -146,7 +150,9 @@ export type RootStackParamList = {
   Bookmarks: undefined;
   TownesquareVerification: undefined;
 };
-
+type ChooseWalletParams = {
+  [ChooseWallet: string]: PetraWalletResponse;
+};
 type NFTOfferParams = {
   [NFTOffer: string]: {
     type: 'myOffer' | 'theirOffer';
@@ -221,7 +227,7 @@ export type FirstScreenProps = {
 };
 export type ChooseWalletProps = {
   navigation: NavigationProp<RootStackParamList, 'ChooseWallet'>;
-  route: RouteProp<ParamListBase, 'ChooseWallet'>;
+  route: RouteProp<ChooseWalletParams, 'ChooseWallet'>;
 };
 export type SignUpProps = {
   navigation: NavigationProp<RootStackParamList, 'SignUp'>;

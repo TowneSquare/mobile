@@ -1,193 +1,145 @@
-import { View, Text, Dimensions, BackHandler } from "react-native";
-import { useState, useRef, useEffect, useCallback, useMemo } from "react";
-import BackButton from "./BackButton";
-import ContinueButton from "./ContinueButton";
-import Customhandler from "./Customhandler";
-import * as Animatable from "react-native-animatable";
-import {
-  updateRenderCount,
-  updateBottomSheet,
-} from "../../controller/BottomSheetController";
-import Info from "../../../assets/images/svg/Info";
-import { useFonts } from "expo-font";
-import { appColor, fonts } from "../../constants";
-import { sizes } from "../../utils";
-import { useAppSelector, useAppDispatch } from "../../controller/hooks";
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetView,
-  useBottomSheetDynamicSnapPoints,
-} from "@gorhom/bottom-sheet";
-const { height, width } = Dimensions.get("window");
-const CompleteSignUpModal = () => {
+import { View, Text, Dimensions, Pressable, StyleSheet } from 'react-native';
+import BackButton from './BackButton';
+import ContinueButton from './ContinueButton';
+import BottomsheetWrapper from '../../shared/BottomsheetWrapper';
+import * as Animatable from 'react-native-animatable';
+import { updateBottomSheet } from '../../controller/BottomSheetController';
+import Info from '../../../assets/images/svg/Info';
+import { appColor } from '../../constants';
+import { sizes } from '../../utils';
+import { useNavigation } from '@react-navigation/native';
+import { useAppSelector, useAppDispatch } from '../../controller/hooks';
+const { height, width } = Dimensions.get('window');
+interface Props {
+  callBack: () => void;
+  buttonText: string;
+  signupstate: 'approved' | 'rejected' | 'dismissed';
+}
+const size = new sizes(height, width);
+const CompleteSignUpModal = ({ callBack, buttonText, signupstate }: Props) => {
   const dispatch = useAppDispatch();
-  const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const size = new sizes(height, width);
-  const initialSnapPoints = useMemo(() => ["CONTENT_HEIGHT"], []);
+  const navigation = useNavigation();
   const isVisible = useAppSelector(
     (state) => state.bottomSheetController.isBottomSheetOpen
   );
-  const renderCount = useAppSelector(
-    (state) => state.bottomSheetController.renderCount
-  );
-  const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
-  useEffect(() => {
-    dispatch(updateRenderCount(0));
-  }, []);
-  useEffect(() => {
-    if (isVisible === true && renderCount > 0) {
-      setBottomSheetOpen(true);
-      bottomSheetRef.current?.expand();
-    } else {
-      bottomSheetRef.current?.close();
-      setBottomSheetOpen(false);
-    }
-  }, [isVisible]);
-  useEffect(() => {
-    const handleBackButton = () => {
-      if (isVisible === true) {
-        dispatch(updateRenderCount(0));
-        dispatch(updateBottomSheet(false));
-        return true;
-      } else {
-        return false;
-      }
-    };
-    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
-    return () => {
-      BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
-    };
-  }, [isVisible]);
-  const {
-    animatedHandleHeight,
-    animatedSnapPoints,
-    animatedContentHeight,
-    handleContentLayout,
-  } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
-  let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
-  });
-
-  const renderBackdrop = useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        pressBehavior={"close"}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        opacity={0.5}
-      />
-    ),
-    []
-  );
   return (
-    <>
-      {!isVisible ? (
-        <></>
-      ) : (
-        <BottomSheet
-          onClose={() => {
-            dispatch(updateRenderCount(0));
-            dispatch(updateBottomSheet(false));
-          }}
-          ref={bottomSheetRef}
-          snapPoints={animatedSnapPoints}
-          handleHeight={animatedHandleHeight}
-          contentHeight={animatedContentHeight}
-          enablePanDownToClose={true}
-          animateOnMount={true}
-          backgroundStyle={{
-            backgroundColor: appColor.kgrayDark2,
-          }}
-          handleComponent={Customhandler}
-          backdropComponent={renderBackdrop}
-        >
-          <BottomSheetView onLayout={handleContentLayout}>
-            <Animatable.View
-              animation={"fadeInUp"}
-              delay={300}
-              easing={"ease-in-out"}
-              duration={400}
-              style={{}}
-            >
-              <Text
-                style={{
-                  textAlign: "center",
-                  color: appColor.kTextColor,
-                  fontFamily: "Outfit-Bold",
-                  fontSize: size.fontSize(29),
-                  marginTop: size.getHeightSize(48),
-                  fontStyle: "normal",
-                  lineHeight: size.getHeightSize(37),
-                }}
-              >
-                Complete Signing in
-              </Text>
-              <Text
-                style={{
-                  textAlign: "center",
-                  color: appColor.kTextColor,
-                  fontFamily: "Outfit-Medium",
-                  marginTop: size.getHeightSize(16),
-                  fontSize: size.fontSize(16),
-                  marginHorizontal: size.getWidthSize(16),
-                  lineHeight: size.getHeightSize(21),
-                  fontStyle: "normal",
-                }}
-              >
-                Connecting your wallet allows you to perform transactions by
-                signing natively in the app.
-              </Text>
+    <BottomsheetWrapper
+      onClose={() => {
+        dispatch(updateBottomSheet(false));
+      }}
+      visibility={isVisible}
+    >
+      <Animatable.View
+        animation={'fadeInUp'}
+        delay={300}
+        easing={'ease-in-out'}
+        duration={400}
+        style={{}}
+      >
+        <Text style={styles.completeSigning}>Complete Signing in</Text>
+        <Text style={styles.connectText}>
+          {signupstate === 'approved'
+            ? 'Sign the transaction in your wallet and complete the Sign in '
+            : 'Connecting your wallet allows you to perform transactions by signing natively in the app.'}
+        </Text>
 
-              <View
-                style={{
-                  paddingVertical: size.getHeightSize(16),
-                  paddingLeft: size.getWidthSize(16),
-                  paddingRight: size.getWidthSize(16),
-                  // height: size.getHeightSize(95),
-                  width: size.getWidthSize(328),
-                  backgroundColor: appColor.kGrayLight3,
-                  alignSelf: "center",
-                  flexDirection: "row",
-                  borderRadius: 8,
-                  marginTop: size.getHeightSize(24),
-                  marginHorizontal: size.getWidthSize(16),
-                }}
-              >
-                <Info />
-                <View
-                  style={{
-                    flexShrink: 1,
-                    width: size.getWidthSize(264),
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: size.fontSize(16),
-                      color: appColor.kTextColor,
-                      textAlign: "left",
-                      paddingLeft: size.getWidthSize(10),
-                      lineHeight: size.getHeightSize(21),
-                      fontFamily: "Outfit-Regular",
-                    }}
-                  >
-                    TowneSquare will not be able to make any changes to your
-                    wallet without your permission.
-                  </Text>
-                </View>
-              </View>
-              <View style={{ height: size.getHeightSize(32) }} />
-              <ContinueButton closeModal navigateTo="SignUp" />
-              <BackButton marginTop={8} closeModal={true} />
-            </Animatable.View>
-          </BottomSheetView>
-        </BottomSheet>
-      )}
-    </>
+        <View style={styles.info}>
+          <Info />
+          <View
+            style={{
+              flexShrink: 1,
+              width: size.getWidthSize(264),
+            }}
+          >
+            <Text style={styles.description}>
+              TowneSquare will not be able to make any changes to your wallet
+              without your permission.
+            </Text>
+          </View>
+        </View>
+        <View style={{ height: size.getHeightSize(32) }} />
+        <Pressable
+          onPress={() => {
+            dispatch(updateBottomSheet(false));
+            callBack();
+            // navigation.navigate(navigateTo as never);
+          }}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>{buttonText}</Text>
+        </Pressable>
+        <BackButton
+          marginTop={8}
+          onPress={() => {
+            dispatch(updateBottomSheet(false));
+            navigation.goBack();
+          }}
+        />
+      </Animatable.View>
+    </BottomsheetWrapper>
   );
 };
 
 export default CompleteSignUpModal;
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: appColor.kWhiteColor,
+    alignSelf: 'center',
+    width: size.getWidthSize(328),
+    borderRadius: 40,
+    // height: size.getHeightSize(48),
+    justifyContent: 'center',
+    marginTop: 8,
+    paddingVertical: size.getHeightSize(12.5),
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: appColor.kButtonTextColor,
+    fontSize: size.fontSize(18),
+    fontFamily: 'Outfit-Medium',
+    fontStyle: 'normal',
+    lineHeight: size.getHeightSize(23),
+    letterSpacing: 0.02,
+  },
+  description: {
+    fontSize: size.fontSize(16),
+    color: appColor.kTextColor,
+    textAlign: 'left',
+    paddingLeft: size.getWidthSize(10),
+    lineHeight: size.getHeightSize(21),
+    fontFamily: 'Outfit-Regular',
+  },
+  info: {
+    paddingVertical: size.getHeightSize(16),
+    paddingLeft: size.getWidthSize(16),
+    paddingRight: size.getWidthSize(16),
+    // height: size.getHeightSize(95),
+    width: size.getWidthSize(328),
+    backgroundColor: appColor.kGrayLight3,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    borderRadius: 8,
+    marginTop: size.getHeightSize(24),
+    marginHorizontal: size.getWidthSize(16),
+  },
+  connectText: {
+    textAlign: 'center',
+    color: appColor.kTextColor,
+    fontFamily: 'Outfit-Medium',
+    marginTop: size.getHeightSize(16),
+    fontSize: size.fontSize(16),
+    marginHorizontal: size.getWidthSize(16),
+    lineHeight: size.getHeightSize(21),
+    fontStyle: 'normal',
+  },
+  completeSigning: {
+    textAlign: 'center',
+    color: appColor.kTextColor,
+    fontFamily: 'Outfit-Bold',
+    fontSize: size.fontSize(29),
+    marginTop: size.getHeightSize(48),
+    fontStyle: 'normal',
+    lineHeight: size.getHeightSize(37),
+  },
+});

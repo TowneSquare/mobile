@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 40,
     paddingHorizontal: size.getWidthSize(16),
+    height: size.getHeightSize(36),
   },
   labelContainer: {
     borderBottomRightRadius: 20,

@@ -1,16 +1,16 @@
-import { View, Text, StyleSheet, Dimensions, Pressable } from 'react-native';
-import React, { useState } from 'react';
-import { appColor } from '../../constants';
-import { sizes } from '../../utils';
-import { useNavigation } from '@react-navigation/native';
-import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import SearchField from '../../shared/Feed/SearchField';
-import { ProfileSendTokenProps } from '../../navigations/NavigationTypes';
-import UserDisplayWithoutFollowButton from '../../shared/Feed/UserDisplayWithoutFollowButton';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import ScrollableBottomSheetWrapper from '../../shared/ScrollableBottomSheetWrapper';
-import { updateSelectUserBottomsheet } from '../../controller/BottomSheetController';
-const { height, width } = Dimensions.get('window');
+import { View, Text, StyleSheet, Dimensions, Pressable } from "react-native";
+import React, { useState } from "react";
+import { appColor } from "../../constants";
+import { sizes } from "../../utils";
+import { useNavigation } from "@react-navigation/native";
+import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import SearchField from "../../shared/Feed/SearchField";
+import { ProfileSendTokenProps } from "../../navigations/NavigationTypes";
+import UserDisplayWithoutFollowButton from "../../shared/Feed/UserDisplayWithoutFollowButton";
+import { useAppSelector, useAppDispatch } from "../../controller/hooks";
+import ScrollableBottomSheetWrapper from "../../shared/ScrollableBottomSheetWrapper";
+import { updateSelectUserBottomsheet } from "../../controller/BottomSheetController";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 interface Props {
   visibility: boolean;
@@ -21,47 +21,47 @@ interface Props {
 const SelectUsersBottomsheet = () => {
   const data = [
     {
-      name: '',
-      username: '',
-      profilePics: '',
+      name: "",
+      username: "",
+      profilePics: "",
     },
     {
-      name: '',
-      username: '',
-      profilePics: '',
+      name: "",
+      username: "",
+      profilePics: "",
     },
     {
-      name: '',
-      username: '',
-      profilePics: '',
+      name: "",
+      username: "",
+      profilePics: "",
     },
     {
-      name: '',
-      username: '',
-      profilePics: '',
+      name: "",
+      username: "",
+      profilePics: "",
     },
     {
-      name: '',
-      username: '',
-      profilePics: '',
+      name: "",
+      username: "",
+      profilePics: "",
     },
     {
-      name: '',
-      username: '',
-      profilePics: '',
+      name: "",
+      username: "",
+      profilePics: "",
     },
     {
-      name: '',
-      username: '',
-      profilePics: '',
+      name: "",
+      username: "",
+      profilePics: "",
     },
     {
-      name: '',
-      username: '',
-      profilePics: '',
+      name: "",
+      username: "",
+      profilePics: "",
     },
   ];
-  const [snapPoints, setSnapPoints] = useState(['67%']);
+  const [snapPoints, setSnapPoints] = useState(["67%"]);
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const selectedUser = useAppSelector(
@@ -81,7 +81,7 @@ const SelectUsersBottomsheet = () => {
     <ScrollableBottomSheetWrapper
       onClose={() => {
         onClose();
-        setSnapPoints(['67%']);
+        setSnapPoints(["67%"]);
       }}
       backdropOpacity={0.7}
       title="Select asset"
@@ -97,23 +97,23 @@ const SelectUsersBottomsheet = () => {
       {selectedUser.name && (
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
+            flexDirection: "row",
+            alignItems: "center",
             paddingHorizontal: size.getWidthSize(16),
             gap: size.getWidthSize(8),
-            justifyContent: 'space-between',
-            width: '100%',
+            justifyContent: "space-between",
+            width: "100%",
           }}
         >
           <UserDisplayWithoutFollowButton
-            data={{ name: 'UsernameX', username: '@jczhang' }}
+            data={{ name: "UsernameX", username: "@jczhang" }}
           />
           <Text
             style={{
               color: appColor.grayLight,
               fontSize: size.fontSize(18),
               lineHeight: size.getHeightSize(23),
-              fontFamily: 'Outfit-Medium',
+              fontFamily: "Outfit-Medium",
               letterSpacing: 0.36,
               paddingRight: size.getWidthSize(8),
             }}
@@ -132,7 +132,7 @@ const SelectUsersBottomsheet = () => {
       />
 
       <BottomSheetScrollView
-        onScroll={() => setSnapPoints(['92%'])}
+        onScroll={() => setSnapPoints(["92%"])}
         contentContainerStyle={{
           paddingBottom: size.getHeightSize(32),
         }}
@@ -159,26 +159,26 @@ const SelectUsersBottomsheet = () => {
                     updateSelectUserBottomsheet({
                       visibility: false,
                       selectedUser: {
-                        name: 'usernameX',
-                        username: '@jczhang',
-                        profilePicsUri: '',
+                        name: "usernameX",
+                        username: "@jczhang",
+                        profilePicsUri: "",
                       },
                     })
                   );
-                  navigation.navigate('ProfileSendToken');
+                  navigation.navigate("ProfileSendToken");
                 }
                 dispatch(
                   updateSelectUserBottomsheet({
                     visibility: false,
                     selectedUser: {
-                      name: 'usernameX',
-                      username: '@jczhang',
-                      profilePicsUri: '',
+                      name: "usernameX",
+                      username: "@jczhang",
+                      profilePicsUri: "",
                     },
                   })
                 );
               }}
-              data={{ name: 'UsernameX', username: '@jczhang' }}
+              data={{ name: "UsernameX", username: "@jczhang" }}
               key={index}
             />
           ))}
@@ -205,35 +205,35 @@ const styles = StyleSheet.create({
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(17),
-    fontFamily: 'Outfit-Regular',
-    fontWeight: '400',
+    fontFamily: "Outfit-Regular",
+    fontWeight: "400",
   },
   dTitle: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(17),
-    fontFamily: 'Outfit-Regular',
-    fontWeight: '400',
+    fontFamily: "Outfit-Regular",
+    fontWeight: "400",
   },
   balance: {
     color: appColor.grayLight,
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
-    fontFamily: 'Outfit-Regular',
-    fontWeight: '400',
+    fontFamily: "Outfit-Regular",
+    fontWeight: "400",
   },
   text: {
     color: appColor.grayLight,
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
   },
   tText: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(20),
     lineHeight: size.getHeightSize(24),
-    fontFamily: 'Outfit-SemiBold',
-    textAlign: 'center',
+    fontFamily: "Outfit-SemiBold",
+    textAlign: "center",
     marginTop: size.getHeightSize(24),
   },
   textInput: {
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: size.getWidthSize(16),
     paddingVertical: size.getHeightSize(8),
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.kTextColor,
     backgroundColor: appColor.kGrayscaleDart,
   },

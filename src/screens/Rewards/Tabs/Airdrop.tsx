@@ -142,6 +142,7 @@ const Airdrop = () => {
             icon={<TradeIcon size={size.getHeightSize(24)} />}
           />
           <Cards
+            showLogo
             onPress={() => {
               navigation.navigate('Airdrops', {
                 type: 'Dex Swap',
@@ -152,6 +153,7 @@ const Airdrop = () => {
             icon={<SwapIcon size={size.getHeightSize(24)} />}
           />
           <Cards
+            showLogo
             onPress={() => {
               navigation.navigate('Airdrops', {
                 type: 'NFT trade',
@@ -162,6 +164,7 @@ const Airdrop = () => {
             icon={<NFTIcon size={size.getHeightSize(24)} />}
           />
           <Cards
+            showLogo
             onPress={() => {
               navigation.navigate('Airdrops', {
                 type: 'Social transaction',

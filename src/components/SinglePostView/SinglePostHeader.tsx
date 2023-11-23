@@ -34,7 +34,7 @@ const SinglePostHeader = ({ username, nickname, timepost, onPress }: Props) => {
         alignItems: 'flex-start',
       }}
     >
-      <ProfilePicture left={-1} top={-4} swipeable />
+      <ProfilePicture left={1} top={-1} swipeable />
 
       <View
         style={{
