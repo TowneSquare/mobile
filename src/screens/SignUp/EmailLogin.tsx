@@ -34,9 +34,10 @@ import {
   updateMetadata,
 } from "../../controller/UserController";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { checkSignup, signup } from "../../api";
+import { checkSignup, signup, updateConnectedSocial } from "../../api";
 import Loader from "../../../assets/svg/Loader";
 import { setLoginSession } from "../../utils/session";
+import Twitter from "../../../assets/images/svg/Twitter";
 
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
@@ -57,6 +58,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     nickNameLength,
     email,
     profilePics,
+    socialInfo,
   } = useAppSelector((state) => ({
     usernameError: state.USER.errors.usernameError,
     nickNameError: state.USER.errors.nicknameError,
@@ -64,6 +66,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     nickNameLength: state.USER.details.Nickname.length,
     email: state.USER.details.email,
     profilePics: state.USER.details.profileImage,
+    socialInfo: state.USER.details.socialInfo,
   }));
   const user = useAppSelector((state) => state.USER);
 
@@ -89,7 +92,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     <EmailContent />,
     <ChooseUsernameContent />,
     <Verify />,
-    <ConnectSocials />,
+    <ConnectSocials magic={magic} />,
     <FindFriends />,
     <ExploreCommunities />,
     <ChooseProfilePics />,
@@ -120,7 +123,6 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
 
         const metadata = await magic.user.getMetadata();
         dispatch(updateMetadata(metadata));
-        console.log(token, accountInfo, metadata);
 
         const res = await checkSignup(token);
         showLoader(false);
@@ -147,7 +149,14 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
       );
 
       if (!res.error && res.success != false) {
-        navigation.navigate("Congratulations");
+        const result = await updateConnectedSocial(
+          res.userId,
+          user.didToken,
+          socialInfo
+        );
+        if (result.success) {
+          navigation.navigate("Congratulations");
+        }
       }
     }
   };

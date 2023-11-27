@@ -34,6 +34,7 @@ interface UserState {
     joinedCommunities: communities[];
     profileImage: any;
     referralCode: string;
+    socialInfo: any;
   };
   errors: {
     nicknameError: boolean;
@@ -80,6 +81,7 @@ const initialState: UserState = {
     joinedCommunities: [],
     profileImage: undefined,
     referralCode: "",
+    socialInfo: {}
   },
   errors: {
     nicknameError: false,
@@ -468,6 +470,9 @@ export const USER = createSlice({
     updateAccountInfo: (state, action: PayloadAction<any>) => {
       state.accountInfo = action.payload;
     },
+    updateSocialconnect: (state, action: PayloadAction<any>) => {
+      state.details.socialInfo = action.payload;
+    },
     updateMetadata: (state, action: PayloadAction<any>) => {
       state.metadata = action.payload;
     },
@@ -514,6 +519,7 @@ export const {
   updateEditProfile,
   updateAccountInfo,
   updateMetadata,
+  updateSocialconnect,
   updateSelectedSuperStar,
   deleteSelectedSuperStar,
   resetSelectedSuperStar,

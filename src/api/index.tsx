@@ -35,7 +35,7 @@ function createCall(path, data = null, headers = {}, method = 'POST') {
       .catch((error) => {
         if (error.code == 400) console.log(error.message);
       });
-}
+  }
 
 export async function checkSignup(token: string) {
   return createCall(`user/checkSignup`, {}, { authorization: token }, 'GET');
@@ -52,5 +52,18 @@ export async function signup(
     'user/signup',
     { issuer, aptosWallet, nickname, username, email },
     { authorization: token }
+  );
+}
+
+export async function updateConnectedSocial(
+  userId: string,
+  token: string,
+  input: any
+) {
+  return createCall(
+    'user/connect-social/'+`${userId}`,
+    input,
+    { authorization: token },
+    "PUT"
   );
 }

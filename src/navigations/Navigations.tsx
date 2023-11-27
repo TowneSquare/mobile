@@ -112,13 +112,9 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
         {() => <FirstScreen {...magicProps} />}
       </Stack.Screen>
 
-      <Stack.Screen
-        name="SignUp"
-        component={SignUp}
-        options={{
-          headerShown: false,
-        }}
-      />
+      <Stack.Screen name="SignUp" options={{ headerShown: false }}>
+        {() => <EmailLogin {...magicProps} />}
+      </Stack.Screen>
       <Stack.Screen
         name="ChooseWallet"
         component={ChooseWallet}

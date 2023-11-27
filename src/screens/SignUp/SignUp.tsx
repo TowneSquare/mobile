@@ -30,13 +30,15 @@ import SelectedCollection from '../../components/SignUp/ChooseProfilePics/Select
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import SignupTransitionBackButton from '../../components/SignUp/SignupTransitionBackButton';
 import { useAppSelector } from '../../controller/hooks';
-import { signup } from '../../api';
+import { signup, updateConnectedSocial } from "../../api";
+import { useNavigation } from '@react-navigation/native';
 const { width, height } = Dimensions.get('window');
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
 let newWidth = width - 2 * PADDING;
 
-const SignUp = ({ navigation }: SignUpProps) => {
+const SignUp = ({ magic }: SignUpProps) => {
+  const navigation = useNavigation();
   const padding = useSafeAreaInsets();
   const {
     usernameError,
@@ -45,6 +47,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
     nickNameLength,
     profilePics,
     referralCode,
+    socialInfo
   } = useAppSelector((state) => ({
     usernameError: state.USER.errors.usernameError,
     nickNameError: state.USER.errors.nicknameError,
@@ -52,12 +55,13 @@ const SignUp = ({ navigation }: SignUpProps) => {
     nickNameLength: state.USER.details.Nickname.length,
     profilePics: state.USER.details.profileImage,
     referralCode: state.USER.details.referralCode,
+    socialInfo: state.USER.details.socialInfo,
   }));
   const views = [
     <ReferralView />,
     <ChooseUsernameContent />,
     <Verify />,
-    <ConnectSocials />,
+    <ConnectSocials magic={magic} />,
     <FindFriends />,
     // <ExploreCommunities />,
     <ChooseProfilePics />,
@@ -81,8 +85,14 @@ const SignUp = ({ navigation }: SignUpProps) => {
         user.details.username,
         user.metadata.email
       );
-      console.log(res)
-      navigation.navigate('Congratulations');
+      const result = await updateConnectedSocial(
+        res.userId,
+        user.didToken,
+        socialInfo
+      );
+      if (result.success) {
+        navigation.navigate("Congratulations");
+      }
     }
   };
 
