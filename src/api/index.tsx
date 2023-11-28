@@ -67,3 +67,25 @@ export async function updateConnectedSocial(
     "PUT"
   );
 }
+
+export async function getSuggestFollowers(
+  token: string,
+) {
+  return createCall(
+    'user/suggested-friends',
+    {},{ authorization: token },
+    "GET"
+  );
+}
+
+export async function updatefollowFriends(
+  token: string,
+  followId: string,
+) {
+  return createCall(
+    'user/follow-friends',
+    {followIds: [followId]},
+    { authorization: token },
+    "POST"
+  );
+}

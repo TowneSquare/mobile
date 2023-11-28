@@ -27,7 +27,6 @@ const ConnectSocials = ({ magic }: { magic: any }) => {
   const dispatch = useAppDispatch();
 
   const handleXConnection = async () => {
-    setXConnected(!isXConected);
     if (!isXConected) {
       const token = await magic.oauth.loginWithPopup({
         provider: "X",
@@ -39,9 +38,9 @@ const ConnectSocials = ({ magic }: { magic: any }) => {
     else {
       dispatch(updateSocialconnect({ twitter: "" }));
     }
+    setXConnected(!isXConected);
   };
   const handleDiscordConnection = async () => {
-    setDiscordConnected(!isDiscordConnected);
 
     if (!isDiscordConnected) {
       const token = await magic.oauth.loginWithPopup({
@@ -54,6 +53,7 @@ const ConnectSocials = ({ magic }: { magic: any }) => {
     } else {
       dispatch(updateSocialconnect({ discord: "" }));
     }
+    setDiscordConnected(!isDiscordConnected);
   };
 
   return (

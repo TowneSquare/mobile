@@ -50,6 +50,8 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
 
   const loaderRef = useRef();
   const [viewIndex, setViewIndex] = useState(0);
+  const [userId, setUserId] = useState("");
+  const [token, setToken] = useState("");
 
   const {
     usernameError,
@@ -93,7 +95,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     <ChooseUsernameContent />,
     <Verify />,
     <ConnectSocials magic={magic} />,
-    <FindFriends />,
+    <FindFriends token={token} />,
     <ExploreCommunities />,
     <ChooseProfilePics />,
   ];
@@ -138,24 +140,27 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
 
     if (newIndex < views.length && flatListRef.current) {
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
-    } else {
-      const res = await signup(
-        user.didToken,
-        user.metadata.issuer,
-        user.accountInfo.address,
-        user.details.Nickname,
-        user.details.username,
-        user.details.email
-      );
+      if (newIndex == 2) {
+        const res = await signup(
+          user.didToken,
+          user.metadata.issuer,
+          user.accountInfo.address,
+          user.details.Nickname,
+          user.details.username,
+          user.details.email
+        );
 
-      if (!res.error && res.success != false) {
+        if (!res.error && res.success != false) {
+          setUserId(res.userId);
+          setToken(user.didToken);
+        }
+      } else if (newIndex == 4) {
         const result = await updateConnectedSocial(
-          res.userId,
+          userId,
           user.didToken,
           socialInfo
         );
         if (result.success) {
-          navigation.navigate("Congratulations");
         }
       }
     }

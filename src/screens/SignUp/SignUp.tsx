@@ -39,6 +39,8 @@ let newWidth = width - 2 * PADDING;
 
 const SignUp = ({ magic }: SignUpProps) => {
   const navigation = useNavigation();
+  const [userId, setUserId] = useState("");
+  const [token, setToken] = useState("");
   const padding = useSafeAreaInsets();
   const {
     usernameError,
@@ -62,7 +64,7 @@ const SignUp = ({ magic }: SignUpProps) => {
     <ChooseUsernameContent />,
     <Verify />,
     <ConnectSocials magic={magic} />,
-    <FindFriends />,
+    <FindFriends token={token} />,
     // <ExploreCommunities />,
     <ChooseProfilePics />,
   ];
@@ -74,24 +76,27 @@ const SignUp = ({ magic }: SignUpProps) => {
   const handleNextSlide = async () => {
     const newIndex = viewIndex + 1;
     if (newIndex < views.length && flatListRef.current) {
-      setViewIndex((previous) => previous + 1);
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
-    } else {
-      const res = await signup(
-        user.didToken,
-        user.metadata.issuer,
-        user.accountInfo.address,
-        user.details.Nickname,
-        user.details.username,
-        user.metadata.email
-      );
-      const result = await updateConnectedSocial(
-        res.userId,
-        user.didToken,
-        socialInfo
-      );
-      if (result.success) {
-        navigation.navigate("Congratulations");
+      if (newIndex == 2) {
+        const res = await signup(
+          user.didToken,
+          user.metadata.issuer,
+          user.accountInfo.address,
+          user.details.Nickname,
+          user.details.username,
+          user.details.email
+        );
+
+        if (!res.error && res.success != false) {
+          setUserId(res.userId);
+          setToken(user.didToken);
+        }
+      } else if (newIndex == 4) {
+        const result = await updateConnectedSocial(
+          userId,
+          user.didToken,
+          socialInfo
+        );
       }
     }
   };
