@@ -7,7 +7,7 @@ import {
   ScrollView,
   SectionList,
 } from "react-native";
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { appColor, fonts } from "../../../constants";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
@@ -18,163 +18,55 @@ import AvatarFriend from "../../../../assets/images/svg/AvatarFriend";
 import Queen from "../../../../assets/images/svg/Queen";
 import Header from "../Header";
 import { useNavigation } from "@react-navigation/native";
+import { useAppDispatch } from '../../../controller/hooks';
+import {
+  updateFollowedFriends
+} from '../../../controller/UserController';
+import { getSuggestFollowers, updatefollowFriends } from "../../../api";
+
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 import Constants from "expo-constants";
 interface Friend {
-  id: number;
+  id: string;
   image: ReactNode;
   name: string;
   username: string;
   verification: string;
 }
 
-const FindFriends = () => {
+const FindFriends = ({ token }: { token: string }) => {
+  const dispatch = useAppDispatch();
   const navigation = useNavigation();
-  const friends: Array<Friend> = [
+  const [following, setFollowers] = useState<Friend[]>([]);
+  
+  const temp_friends: Array<Friend> = [
     {
-      id: 1,
+      id: "abc",
       image: <AvatarFriend />,
       name: "User Name",
       username: "@username1",
       verification: "citizen",
-    },
-    {
-      id: 2,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username2",
-      verification: "verified",
-    },
-    {
-      id: 3,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username3",
-      verification: "citizen",
-    },
-    {
-      id: 4,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username4",
-      verification: "verified",
-    },
-    {
-      id: 5,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username5",
-      verification: "citizen",
-    },
-    {
-      id: 6,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username6",
-      verification: "verified",
-    },
-    {
-      id: 7,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username7",
-      verification: "citizen",
-    },
-    {
-      id: 8,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username8",
-      verification: "citizen",
-    },
-    {
-      id: 9,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username9",
-      verification: "citizen",
-    },
-    {
-      id: 10,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username10",
-      verification: "citizen",
-    },
-    {
-      id: 11,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username11",
-      verification: "citizen",
-    },
-    {
-      id: 12,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username12",
-      verification: "verified",
-    },
-    {
-      id: 13,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username13",
-      verification: "citizen",
-    },
-    {
-      id: 14,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username14",
-      verification: "verified",
-    },
-    {
-      id: 15,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username15",
-      verification: "citizen",
-    },
-    {
-      id: 16,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username16",
-      verification: "verified",
-    },
-    {
-      id: 17,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username17",
-      verification: "citizen",
-    },
-    {
-      id: 18,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username18",
-      verification: "citizen",
-    },
-    {
-      id: 19,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username19",
-      verification: "citizen",
-    },
-    {
-      id: 20,
-      image: <AvatarFriend />,
-      name: "User Name",
-      username: "@username20",
-      verification: "citizen",
-    },
+    }
   ];
+  const [friends, setFriends] = useState<Friend[]>(temp_friends);
 
-  const [following, setFollowers] = useState<Friend[]>([]);
+  useEffect(() => {
+    const updateSuggestFollowers = async () => {
+      const res = await getSuggestFollowers(token);
+      const convertedData: Friend[] = res.map((item, index) => ({
+        id: item.userData._id,
+        image: <AvatarFriend />,
+        name: item.userData.nickname,
+        username: item.userData.username,
+        verification: item.userData.issuer ? "citizen" : ""
+      }));
+      console.log(convertedData, "\n\n\n");
+      setFriends(convertedData);
+    };
+    if (token != "")
+      updateSuggestFollowers();
+  }, [token]);
 
   let [isLoaded] = useFonts({
     "Outfit-Regular": fonts.OUTFIT_REGULAR,
@@ -186,8 +78,13 @@ const FindFriends = () => {
     return null;
   }
   const addFollowers = (follow: Friend) => {
+    const updateSuggestFollowers = async () => {
+      const res = await updatefollowFriends(token, follow.id);
+      console.log(res)
+    }
     const follows = [...following, follow];
     setFollowers(follows);
+    updateSuggestFollowers();
   };
   const removeFollowers = (followerToRemove: Friend) => {
     const filteredFollowers = following.filter(
@@ -253,8 +150,8 @@ const FindFriends = () => {
                   following.length === friends.length
                     ? setFollowers([])
                     : setFollowers(friends);
-                 
-           
+
+
                 }}
                 style={{
                   fontSize: size.fontSize(16),

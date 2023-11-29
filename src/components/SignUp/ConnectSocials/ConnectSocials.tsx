@@ -8,18 +8,51 @@ import XBG from '../../../../assets/images/svg/XBg';
 import Checked from '../../../../assets/images/svg/Checked';
 import Header from '../Header';
 import Link from '../../../../assets/images/svg/Link';
+import * as Linking from 'expo-linking';
+import {
+  updateAccountInfo,
+  updateSocialconnect,
+  updateDidToken,
+  updateMetadata,
+} from '../../../controller/UserController';
+import { useAppDispatch } from '../../../controller/hooks';
+import { updateConnectedSocial } from '../../../api';
 
 const { width, height } = Dimensions.get('window');
 const size = new sizes(height, width);
 
-const ConnectSocials = () => {
+const ConnectSocials = ({ magic }: { magic: any }) => {
   const [isXConected, setXConnected] = useState(false);
   const [isDiscordConnected, setDiscordConnected] = useState(false);
+  const dispatch = useAppDispatch();
 
-  const handleXConnection = () => {
+  const handleXConnection = async () => {
+    if (!isXConected) {
+      const token = await magic.oauth.loginWithPopup({
+        provider: "X",
+        redirectURI: Linking.createURL('EmailLogin'),
+      });
+      const metadata = await magic.user.getMetadata();
+      dispatch(updateSocialconnect({ twitter: metadata.email }));
+    }
+    else {
+      dispatch(updateSocialconnect({ twitter: "" }));
+    }
     setXConnected(!isXConected);
   };
-  const handleDiscordConnection = () => {
+  const handleDiscordConnection = async () => {
+
+    if (!isDiscordConnected) {
+      const token = await magic.oauth.loginWithPopup({
+        provider: "discord",
+        redirectURI: Linking.createURL('EmailLogin'),
+      });
+
+      const metadata = await magic.user.getMetadata();
+      dispatch(updateSocialconnect({ discord: metadata.email }));
+    } else {
+      dispatch(updateSocialconnect({ discord: "" }));
+    }
     setDiscordConnected(!isDiscordConnected);
   };
 

@@ -83,7 +83,6 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
       const res = await checkSignup(token.magic.idToken);
 
       showLoader(false);
-
       if (res.isExist && res.isExist == true) {
         await setLoginSession(res.wallet);
         navigation.navigate('Congratulations');
