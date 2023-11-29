@@ -39,7 +39,7 @@ const SelectedSuperStars = () => {
             {selectedStars[index] ? (
               <>
                 <Image
-                  source={{ uri: selectedStars[index].uri }}
+                  source={{ uri: selectedStars[index].nftImageUrl }}
                   style={{
                     height: '100%',
                     width: '100%',
@@ -48,7 +48,7 @@ const SelectedSuperStars = () => {
                 />
                 <Pressable
                   onPress={() => {
-                    dispatch(deleteSelectedSuperStar(selectedStars[index].id));
+                    dispatch(deleteSelectedSuperStar(selectedStars[index].nftTokenId));
                   }}
                   style={{
                     position: 'absolute',

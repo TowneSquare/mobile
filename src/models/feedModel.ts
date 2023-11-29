@@ -1,8 +1,10 @@
 export enum FeedContent {
   MESSAGE_ONLY = "message only",
   MESSAGE_IMAGE = "messageImage",
+  IMAGE_ONLY = "image_only",
   GIF = "gif",
-  VIDEO = "video",
+  MESSAGE_VIDEO = "message_video",
+  VIDEO_ONLY = "video_only",
   message_EXTERNAL_LINK = "message-external-link",
   NFT_FOR_SALE = "nft-for-sale",
   ATTACHED_NFT = "attached-nft",

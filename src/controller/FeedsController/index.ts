@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface FeedController {
   ReceiveModalState: boolean;
-  ReportingModal: boolean;
+  ReportingModal:{
+    status:boolean,
+    postId:string,
+    userId:string
+  };
   ReportPostModal: boolean;
   ReportUserModal: boolean;
   BlockUserModal: boolean;
@@ -21,7 +25,11 @@ interface FeedController {
 }
 const initialState: FeedController = {
   ReceiveModalState: false,
-  ReportingModal: false,
+  ReportingModal: {
+    status:false,
+    postId:"",
+    userId:""
+  },
   ReportPostModal: false,
   ReportUserModal: false,
   BlockUserModal: false,
@@ -39,6 +47,18 @@ const initialState: FeedController = {
   selectedSwipeablePFPId: '',
   AttachNftType: 'createPost',
 };
+
+// export const reportUser = createAsyncThunk("feed/reportUser",async ({user_id, token}:any) => {
+//   try {
+//     await axios.get(`${BACKEND_URL}user/report/${user_id}`, {
+//       headers:{
+//         Authorization: token,
+//       }
+//     })
+//   } catch (error) {
+    
+//   }
+// })
 export const FeedsSlice = createSlice({
   name: 'FeedsController',
   initialState,
@@ -46,8 +66,10 @@ export const FeedsSlice = createSlice({
     updateReceiveModalState: (state, action: PayloadAction<boolean>) => {
       state.ReceiveModalState = action.payload;
     },
-    updtaeReportingModal: (state, action: PayloadAction<boolean>) => {
-      state.ReportingModal = action.payload;
+    updateReportingModal: (state, action: PayloadAction<{status:boolean, postId:string, userId:string}>) => {
+      state.ReportingModal.status = action.payload.status;
+      state.ReportingModal.postId = action.payload.postId;
+      state.ReportingModal.userId = action.payload.userId
     },
     updateReportPostModal: (state, action: PayloadAction<boolean>) => {
       state.ReportPostModal = action.payload;
@@ -66,7 +88,11 @@ export const FeedsSlice = createSlice({
     },
     resetModals: (state) => {
       state.ReceiveModalState = false;
-      state.ReportingModal = false;
+      state.ReportingModal = {
+        status:false,
+        postId:"",
+        userId:""
+      };
       state.ReportUserModal = false;
       state.BlockUserModal = false;
       state.MyPostPanel = false;
@@ -119,7 +145,7 @@ export const FeedsSlice = createSlice({
 });
 export const {
   updateReceiveModalState,
-  updtaeReportingModal,
+  updateReportingModal,
   updateReportPostModal,
   updateReportUserModal,
   updateBlockUserModal,

@@ -6,6 +6,7 @@ import { SearchFuntion, ExtractTags } from "../../utils/helperFunction";
 import axios from "axios";
 import { BACKEND_URL } from "../../../config/env";
 import { useAppSelector } from "../hooks";
+import { images } from "../../constants";
 
 interface CreatePost {
   message: string;
@@ -23,7 +24,7 @@ export enum POSTSTATE {
   NONE,
   PENDING,
   FULFILLED,
-  REJECTED
+  REJECTED,
 }
 
 interface Customer {
@@ -36,9 +37,19 @@ interface Customer {
   referralCode: string;
 }
 
-interface Comment {
+export interface Comment {
   _id: string;
+  nickname: string;
+  username: string;
   content: string;
+  postId: string;
+  userId: string;
+  createdAt: string;
+}
+
+interface Likes {
+  _id: string;
+  userId: string;
   postId: string;
   createdAt: string;
 }
@@ -46,18 +57,19 @@ export interface PostData {
   _id: string;
   title: string;
   description: string;
-  imageUrl: ImageSourcePropType;
-  videoUrl: string;
+  imageUrls: Array<string>;
+  videoUrls: Array<string>;
   userId: string;
   repost: boolean;
   createdAt: string;
-  likes: Array<string>;
+  likes: Array<Likes>;
   reposts: Array<string>;
   comments: Array<Comment>;
   customer: Customer;
-  originalCustomer:Customer
-  originalPostId:string
-  originalCustomerId:string
+  sellNFTPrice: string;
+  originalCustomer: Customer;
+  originalPostId: string;
+  originalCustomerId: string;
 }
 interface AtMentions {
   name: string;
@@ -72,9 +84,11 @@ interface AptosTags {
   name: string;
   collection?: string;
 }
+
 interface Post {
+  OnlyUserPost: Array<PostData>;
   AllPost: Array<PostData>;
-  PostState: POSTSTATE
+  PostState: POSTSTATE;
   data: AtMentions[];
   filteredAtMentions: AtMentions[];
   postMessage: string;
@@ -101,7 +115,70 @@ interface Post {
   communityPostPrivacy: "public" | "community-only";
 }
 const initialState: Post = {
-  AllPost: [],
+  OnlyUserPost: [],
+  AllPost: [
+    {
+      _id: "6543112773263dcd8d741ba0",
+      title: "",
+      userId: "65372778b8da0e521b8a3587",
+      description: "Test post ",
+      imageUrls: [""],
+      videoUrls: ["https://www.youtube.com/watch?v=EJzB_Fa27ko"],
+      createdAt: "2023-11-02T03:01:59.721Z",
+      sellNFTPrice: "20.4",
+      likes: [
+        {
+          _id: "6560962a233ac36e73bc42ce",
+          userId: "655ab007ce8937ff6d512885",
+          postId: "655df7a347784b1665992617",
+          createdAt: "2023-11-24T12:25:14.173Z",
+        },
+      ],
+      comments: [
+        {
+          username: "pelumi_main",
+          nickname: "chokey",
+          _id: "653878c2a000149cd06b9845",
+          content: "POST comment TEstTest",
+          userId: "65372778b8da0e521b8a3587",
+          postId: "653728bd6171091d6b469bec",
+          createdAt: "2023-10-25T02:09:06.310Z",
+        },
+        {
+          username: "pelumi_second",
+          nickname: "chokey",
+          _id: "653878c2a000149cd06b9845",
+          content: "POST comment TEstTest",
+          userId: "65372778b8da0e521b8a3587",
+          postId: "653728bd6171091d6b469bec",
+          createdAt: "2023-10-25T02:09:06.310Z",
+        },
+      ],
+      customer: {
+        _id: "65372778b8da0e521b8a3587",
+        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        nickname: "test nickname",
+        username: "test12",
+        email: "test@email.com",
+        referralCode: "98N39",
+      },
+      reposts: [],
+      originalCustomer: {
+        _id: "65372778b8da0e521b8a3587",
+        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        nickname: "test nickname",
+        username: "test12",
+        email: "test@email.com",
+        referralCode: "98N39",
+      },
+      repost: false,
+      originalPostId: "65430c7f372dd89672e9214d",
+      originalCustomerId: "65372778b8da0e521b8a3587",
+    },
+  ],
+  //AllPost: [],
   PostState: POSTSTATE.NONE,
   data: atMentionData,
   filteredAtMentions: atMentionData,
@@ -135,22 +212,34 @@ const initialState: Post = {
   communityPostPrivacy: "public",
 };
 
-
 export const createPost = createAsyncThunk(
   "Feed/createPost",
-  async ({ description, imageUrL, videoUrL, token }: any, thunkAPI) => {
+  async (
+    {
+      description,
+      sellNFTPrice,
+      nftTokenId,
+      nftCollection,
+      nftImageUrl,
+      file,
+      token,
+    }: any,
+    thunkAPI
+  ) => {
     try {
       const res = await axios.post(
         `${BACKEND_URL}posts/create`,
         {
           description,
-          imageUrL,
-          videoUrL,
+          sellNFTPrice,
+          nftTokenId,
+          nftCollection,
+          nftImageUrl,
+          file,
         },
         {
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+            'Content-Type': 'multipart/form-data',
             Authorization: token,
           },
         }
@@ -166,11 +255,11 @@ export const getAllPost = createAsyncThunk(
   async (token: string, thunkAPI) => {
     try {
       const response = await axios.get(`${BACKEND_URL}posts/findAll`, {
-        params:{
-          page:"",
-          limit:"",
-          search:"",
-          userId:""
+        params: {
+          page: "",
+          limit: "",
+          search: "",
+          userId: "",
         },
         headers: {
           Accept: "application/json",
@@ -180,13 +269,61 @@ export const getAllPost = createAsyncThunk(
       });
 
       const result = await response.data;
-      console.log(result)
+      return result;
+    } catch (error) {
+      //return thunkAPI.rejectWithValue(error);
+      return [];
+    }
+  }
+);
+
+export const getOnlyUserPost = createAsyncThunk(
+  "getOnlyUserPost",
+  async ({ userId, token }: any) => {
+    try {
+      const response = await axios.get(
+        `${BACKEND_URL}posts/findByUserId/${userId}`,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+      const result = await response.data;
       return result;
     } catch (error) {
       return [];
     }
   }
 );
+
+export const rePost = createAsyncThunk(
+  "feed/repost",
+  async ({ post_id, token }: any) => {
+    try {
+      const response = await axios.get(
+        `${BACKEND_URL}posts/repost/${post_id}`,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+      const result = await response.data;
+      return result;
+    } catch (error) {
+      return
+    }
+  }
+);
+
+
+
+
 
 export const fieldHandlerSlice = createSlice({
   name: "postHandler",
@@ -369,16 +506,25 @@ export const fieldHandlerSlice = createSlice({
     builder.addCase(createPost.fulfilled, (state, action) => {});
     builder.addCase(getAllPost.fulfilled, (state, action) => {
       state.AllPost = action.payload;
-      state.PostState = POSTSTATE.FULFILLED
+      state.PostState = POSTSTATE.FULFILLED;
     });
     builder.addCase(getAllPost.pending, (state, action) => {
-      state.PostState = POSTSTATE.PENDING
+      state.PostState = POSTSTATE.PENDING;
     });
     builder.addCase(getAllPost.rejected, (state, action) => {
-       state.PostState = POSTSTATE.REJECTED
+      state.PostState = POSTSTATE.REJECTED;
       state.AllPost = [...state.AllPost];
-     
-    })
+    });
+    builder.addCase(
+      getOnlyUserPost.fulfilled,
+      (state, action: PayloadAction<Array<PostData>>) => {
+        state.OnlyUserPost = action.payload;
+      }
+    );
+    builder.addCase(getOnlyUserPost.rejected, (state, action) => {
+      state.PostState = POSTSTATE.REJECTED;
+      state.AllPost = [...state.OnlyUserPost];
+    });
   },
 });
 export const {

@@ -4,33 +4,55 @@ import {
   Dimensions,
   Pressable,
   BackHandler,
-} from 'react-native';
-import { useRef, useEffect, useCallback, useMemo } from 'react';
-import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
-import { sizes } from '../../utils';
+} from "react-native";
+import { useRef, useEffect, useCallback, useMemo } from "react";
+import { useFonts } from "expo-font";
+import { appColor, fonts } from "../../constants";
+import { sizes } from "../../utils";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
-} from '@gorhom/bottom-sheet';
-import CustomHandler from './CustomHandler';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+} from "@gorhom/bottom-sheet";
+import CustomHandler from "./CustomHandler";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
 import {
   updateBlockUserModal,
   updateToast,
-} from '../../controller/FeedsController';
-const { height, width } = Dimensions.get('window');
-import BlockIcon from '../../../assets/images/svg/BlockIcon';
+} from "../../controller/FeedsController";
+const { height, width } = Dimensions.get("window");
+import BlockIcon from "../../../assets/images/svg/BlockIcon";
+import { blockUser } from "../../api";
 const size = new sizes(height, width);
 
 const BlockUserModal = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
+  const initialSnapPoints = useMemo(() => ["CONTENT_HEIGHT"], []);
   const dispatch = useAppDispatch();
   const blockModal = useAppSelector(
     (state) => state.FeedsSliceController.BlockUserModal
   );
+  // const token = useAppSelector((state) => state.USER.didToken);
+  // const userId = useAppSelector(
+  //   (state) => state.FeedsSliceController.ReportingModal.userId
+  // );
+
+  const { token, userId } = useAppSelector((state) => ({
+    token: state.USER.didToken,
+    userId: state.FeedsSliceController.ReportingModal.userId,
+  }));
+
+  const BlockUser = async () => {
+    await blockUser(userId, token);
+    dispatch(updateBlockUserModal(false));
+    dispatch(
+      updateToast({
+        displayToast: true,
+        toastMessage: "You have blocked JohnFlock",
+        toastType: "success",
+      })
+    );
+  };
   useEffect(() => {
     if (blockModal === false) {
       bottomSheetRef.current?.close();
@@ -47,9 +69,9 @@ const BlockUserModal = () => {
         return false;
       }
     };
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
     return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+      BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
     };
   }, [blockModal]);
 
@@ -63,7 +85,7 @@ const BlockUserModal = () => {
     (props: any) => (
       <BottomSheetBackdrop
         {...props}
-        pressBehavior={'close'}
+        pressBehavior={"close"}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
         opacity={0.5}
@@ -72,10 +94,10 @@ const BlockUserModal = () => {
     []
   );
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
   });
 
   const closeModal = () => {
@@ -98,13 +120,13 @@ const BlockUserModal = () => {
           backgroundStyle={{
             backgroundColor: appColor.kgrayDark2,
           }}
-          handleComponent={CustomHandler}
+           handleComponent={() => <CustomHandler />}
           backdropComponent={renderBackdrop}
         >
           <BottomSheetView onLayout={handleContentLayout}>
             <BlockIcon
               style={{
-                alignSelf: 'center',
+                alignSelf: "center",
                 marginTop: size.getHeightSize(24),
               }}
             />
@@ -115,19 +137,7 @@ const BlockUserModal = () => {
               You will no longer be able to see this user’s posts and follow or
               mention each other
             </Text>
-            <Pressable
-              onPress={() => {
-                dispatch(updateBlockUserModal(false));
-                dispatch(
-                  updateToast({
-                    displayToast: true,
-                    toastMessage: 'You have blocked JohnFlock',
-                    toastType: 'success',
-                  })
-                );
-              }}
-              style={styles.blockButton}
-            >
+            <Pressable onPress={() => BlockUser()} style={styles.blockButton}>
               <Text style={styles.blockButtonText}>Block User</Text>
             </Pressable>
 
@@ -148,8 +158,8 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(23),
     color: appColor.kTextColor,
     letterSpacing: size.getWidthSize(0.02),
-    fontFamily: 'Outfit-Medium',
-    textAlign: 'center',
+    fontFamily: "Outfit-Medium",
+    textAlign: "center",
     marginBottom: size.getHeightSize(46),
     marginTop: size.getHeightSize(8),
     paddingVertical: size.getHeightSize(4),
@@ -159,8 +169,8 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(23),
     color: appColor.kTextColor,
     letterSpacing: size.getWidthSize(0.02),
-    fontFamily: 'Outfit-Medium',
-    textAlign: 'center',
+    fontFamily: "Outfit-Medium",
+    textAlign: "center",
     paddingVertical: size.getHeightSize(12.5),
   },
   blockButton: {
@@ -174,8 +184,8 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(24),
     color: appColor.kTextColor,
     letterSpacing: size.getWidthSize(0.04),
-    fontFamily: 'Outfit-SemiBold',
-    textAlign: 'center',
+    fontFamily: "Outfit-SemiBold",
+    textAlign: "center",
     marginTop: size.getHeightSize(8),
     marginHorizontal: size.getWidthSize(16),
   },
@@ -183,8 +193,8 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
     color: appColor.kTextColor,
-    fontFamily: 'Outfit-Regular',
-    textAlign: 'center',
+    fontFamily: "Outfit-Regular",
+    textAlign: "center",
     marginTop: size.getHeightSize(8),
     marginHorizontal: size.getWidthSize(16),
   },

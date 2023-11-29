@@ -17,7 +17,7 @@ import InfoBottomSheet from '../../components/Profile/EditProfile/InfoBottomShee
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../shared/Feed/Header';
 import NftBottomSheet from '../../components/Profile/EditProfile/NftBottomSheet';
-import { updateNickname } from '../../controller/UserController';
+import { updateNickname, updateUserBio } from '../../controller/UserController';
 import { updateBio } from '../../controller/UserController';
 import { EditProfileBottomSheetProvider } from '../../context/EditProfileBottomSheetContext';
 const size = new sizes(height, width);
@@ -32,7 +32,13 @@ const EditProfileScreen = () => {
   const nickNameError = useAppSelector(
     (state) => state.USER.errors.nicknameError
   );
+  const token = useAppSelector((state) => state.USER.didToken)
   const [bio, setBio] = useState('');
+
+  const saveProfileUpdate = async () => {
+    await dispatch(updateUserBio({bio, token}))
+    await dispatch(updateBio(bio))
+  }
   return (
     <SafeAreaView
       style={{
@@ -103,7 +109,7 @@ const EditProfileScreen = () => {
             />
           </View>
           <Pressable
-            onPress={() => dispatch(updateBio(bio))}
+            onPress={() => saveProfileUpdate()}
             style={styles.buttonContainer}
           >
             <Text style={styles.save}>Save</Text>

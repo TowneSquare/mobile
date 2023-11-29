@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
-import { useAppDispatch } from '../../controller/hooks';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { useFonts } from 'expo-font';
 import Header from '../../components/Profile/Header';
 import VerificationModal from '../../components/Profile/About/VerificationModal';
@@ -13,7 +13,7 @@ import EditProfileModal from '../../components/Profile/About/EditProfileModal';
 import ProfileTabNavigation from '../../navigations/ProfileTabNavigation';
 import { updateSuperStarBottomSheet } from '../../controller/BottomSheetController';
 
-const title = 'Real JC';
+//const title = 'Real JC';
 
 const size = new sizes(height, width);
 type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
@@ -31,6 +31,7 @@ type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
+  const title = useAppSelector((state) => state.USER.UserData.username)
 
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,

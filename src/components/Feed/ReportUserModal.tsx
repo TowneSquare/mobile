@@ -4,52 +4,55 @@ import {
   Dimensions,
   Pressable,
   BackHandler,
-} from 'react-native';
-import { useRef, useEffect, useCallback, useMemo } from 'react';
-import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
-import { sizes } from '../../utils';
+} from "react-native";
+import { useRef, useEffect, useCallback, useMemo } from "react";
+import { useFonts } from "expo-font";
+import { appColor, fonts } from "../../constants";
+import { sizes } from "../../utils";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
-} from '@gorhom/bottom-sheet';
-import CustomHandler from './CustomHandler';
-import ReportFlag from '../../../assets/images/svg/ReportFlag';
-import { updateToast } from '../../controller/FeedsController';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-import { updateReportUserModal } from '../../controller/FeedsController';
-const { height, width } = Dimensions.get('window');
+} from "@gorhom/bottom-sheet";
+import CustomHandler from "./CustomHandler";
+import ReportFlag from "../../../assets/images/svg/ReportFlag";
+import { updateToast } from "../../controller/FeedsController";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import { updateReportUserModal } from "../../controller/FeedsController";
+import { reportUser } from "../../api";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 
 const ReportUserModal = () => {
   const reportUserModal = useAppSelector(
     (state) => state.FeedsSliceController.ReportUserModal
   );
+  const token = useAppSelector((state) => state.USER.didToken);
+  const userId = useAppSelector(
+    (state) => state.FeedsSliceController.ReportingModal.userId
+  );
 
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
+  const initialSnapPoints = useMemo(() => ["CONTENT_HEIGHT"], []);
   useEffect(() => {
     if (reportUserModal === false) {
       bottomSheetRef.current?.close();
     } else {
       bottomSheetRef.current?.expand();
-      
     }
   }, [reportUserModal]);
   useEffect(() => {
     const handleBackButton = () => {
       if (reportUserModal === true) {
-        
         dispatch(updateReportUserModal(false));
         return true;
       } else {
         return false;
       }
     };
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
     return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+      BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
     };
   }, [reportUserModal]);
   const {
@@ -63,7 +66,7 @@ const ReportUserModal = () => {
     (props: any) => (
       <BottomSheetBackdrop
         {...props}
-        pressBehavior={'close'}
+        pressBehavior={"close"}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
         opacity={0.5}
@@ -71,12 +74,27 @@ const ReportUserModal = () => {
     ),
     []
   );
+
+  console.log(userId, "userId")
+
+  const REPORT_USER = async () => {
+    await reportUser(userId, token);
+    dispatch(
+      updateToast({
+        displayToast: true,
+        toastMessage: "JohnFlock is reported succesfully",
+        toastType: "success",
+      })
+    );
+    dispatch(updateReportUserModal(false));
+  };
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
   });
+
 
   const closeModal = () => {
     dispatch(updateReportUserModal(false));
@@ -98,13 +116,13 @@ const ReportUserModal = () => {
           backgroundStyle={{
             backgroundColor: appColor.kgrayDark2,
           }}
-          handleComponent={()=><CustomHandler/>}
+          handleComponent={() => <CustomHandler />}
           backdropComponent={renderBackdrop}
         >
           <BottomSheetView onLayout={handleContentLayout}>
             <ReportFlag
               style={{
-                alignSelf: 'center',
+                alignSelf: "center",
                 marginTop: size.getHeightSize(24),
               }}
             />
@@ -112,19 +130,7 @@ const ReportUserModal = () => {
               Are you sure you want to report JohnFlock?
             </Text>
 
-            <Pressable
-              onPress={() => {
-                dispatch(
-                  updateToast({
-                    displayToast: true,
-                    toastMessage: 'JohnFlock is reported succesfully',
-                    toastType: 'success',
-                  })
-                );
-                dispatch(updateReportUserModal(false));
-              }}
-              style={styles.reportButton}
-            >
+            <Pressable onPress={() => REPORT_USER()} style={styles.reportButton}>
               <Text style={styles.reportButtonText}>Report User</Text>
             </Pressable>
 
@@ -145,8 +151,8 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(23),
     color: appColor.kTextColor,
     letterSpacing: size.getWidthSize(0.02),
-    fontFamily: 'Outfit-Medium',
-    textAlign: 'center',
+    fontFamily: "Outfit-Medium",
+    textAlign: "center",
     marginBottom: size.getHeightSize(46),
     marginTop: size.getHeightSize(8),
     paddingVertical: size.getHeightSize(4),
@@ -156,8 +162,8 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(23),
     color: appColor.kTextColor,
     letterSpacing: size.getWidthSize(0.02),
-    fontFamily: 'Outfit-Medium',
-    textAlign: 'center',
+    fontFamily: "Outfit-Medium",
+    textAlign: "center",
     paddingVertical: size.getHeightSize(12.5),
   },
   reportButton: {
@@ -171,8 +177,8 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(24),
     color: appColor.kTextColor,
     letterSpacing: size.getWidthSize(0.04),
-    fontFamily: 'Outfit-SemiBold',
-    textAlign: 'center',
+    fontFamily: "Outfit-SemiBold",
+    textAlign: "center",
     marginTop: size.getHeightSize(8),
     marginHorizontal: size.getWidthSize(16),
   },

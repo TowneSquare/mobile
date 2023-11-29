@@ -32,6 +32,11 @@ export const singlePostStyles = StyleSheet.create({
     maxHeight: size.getHeightSize(400),
     borderRadius: 8,
   },
+  videoStyle:{
+    alignSelf: 'center',
+    width: 320,
+    height: 200,
+  },
   linkDescriptionContainer: {
     backgroundColor: appColor.grayDark,
     borderBottomLeftRadius: 8,

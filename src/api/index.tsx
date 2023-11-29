@@ -1,10 +1,14 @@
-import { BACKEND_URL } from '../../config/env';
+import axios from "axios";
+import { BACKEND_URL } from "../../config/env";
+import { PostData } from "../controller/createPost";
+import { useAppSelector } from "../controller/hooks";
 let _headers = {
-  Accept: 'application/json',
-  'Content-Type': 'application/json',
+  Accept: "application/json",
+  "Content-Type": "application/json",
 };
 
-function createCall(path, data = null, headers = {}, method = 'POST') {
+
+function createCall(path, data = null, headers = {}, method = "POST") {
   const merged = {
     ..._headers,
     ...headers,
@@ -16,7 +20,7 @@ function createCall(path, data = null, headers = {}, method = 'POST') {
   }
 
   let strData = JSON.stringify(body);
-  if (method == 'GET')
+  if (method == "GET")
     return fetch(`${BACKEND_URL}${path}`, {
       method: method,
       headers: merged,
@@ -37,9 +41,8 @@ function createCall(path, data = null, headers = {}, method = 'POST') {
       });
 }
 
-
 export async function checkSignup(token: string) {
-  return createCall(`user/checkSignup`, {}, { authorization: token }, 'GET');
+  return createCall(`user/checkSignup`, {}, { authorization: token }, "GET");
 }
 export async function signup(
   token: string,
@@ -50,12 +53,80 @@ export async function signup(
   email: string
 ) {
   return createCall(
-    'user/signup',
+    "user/signup",
     { issuer, aptosWallet, nickname, username, email },
     { authorization: token }
   );
 }
 export async function getAllUser(token: string) {
-  return createCall(`user/getall`, {}, { authorization: token }, 'GET');
+  return createCall(`user/getall`, {}, { authorization: token }, "GET");
 }
 
+export const getPostById = async (token: string, post_id: string) => {
+  try {
+    const res = await axios.get(`${BACKEND_URL}posts/${post_id}`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    const result:PostData = await res.data;
+    return result;
+  } catch (error) {
+
+  }
+};
+
+export const likePost = async (token: string, post_id: string) => {
+  try {
+    const res = await axios.get(`${BACKEND_URL}posts/like${post_id}`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    const result:boolean= await res.data;
+    return result;
+  } catch (error) {
+
+  }
+};
+
+
+export const reportUser = async (user_id:string, token:string) => {
+  try {
+    await axios.get(`${BACKEND_URL}user/report/${user_id}`, {
+      headers:{
+        Authorization: token,
+      }
+    })
+  } catch (error) {
+    
+  }
+}
+
+export const blockUser = async (user_id:string, token:string) => {
+  try {
+    await axios.get(`${BACKEND_URL}user/block/${user_id}`, {
+      headers:{
+        Authorization: token,
+      }
+    })
+  } catch (error) {
+    
+  }
+}
+
+export const reportPost = async (token:string, post_id:string) => {
+  try {
+     await axios.get(`${BACKEND_URL}user/block/${post_id}`, {
+      headers:{
+        Authorization: token,
+      }
+    })
+  } catch (error) {
+    
+  }
+}

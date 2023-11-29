@@ -13,7 +13,7 @@ import Retweeted from "../../../assets/images/svg/Retweeted";
 import BookMarkedIcon from "../../../assets/images/svg/BookMarkedIcon";
 import CommentIcon from "../../../assets/images/svg/CommentIcon";
 import { updateTipBottomSheet } from "../../controller/FeedsController";
-import { useAppDispatch } from "../../controller/hooks";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -21,6 +21,8 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import { likePost } from "../../api";
+import { rePost } from "../../controller/createPost";
 
 const size = new sizes(height, width);
 interface Props {
@@ -31,6 +33,7 @@ interface Props {
   marginBottom?: boolean;
   marginTop?: boolean;
   showShareIcon?: boolean;
+  postId:string
 }
 const PostActions = ({
   noOfComments,
@@ -40,17 +43,21 @@ const PostActions = ({
   marginBottom,
   marginTop,
   showShareIcon,
+  postId
 }: Props) => {
   const dispatch = useAppDispatch();
   const [changeLikeTextColor, setlikesTextColor] = useState(false);
   const [changeRetweetTextColor, setRetweetTextColor] = useState(false);
+  const token = useAppSelector((state) => state.USER.didToken)
   const handleLike = () => {
     liked.value = withSpring(liked.value ? 0 : 1);
     setlikesTextColor((previous) => !previous);
+    likePost(token,postId)
   };
   const handleRetweet = () => {
     retweet.value = withSpring(retweet.value ? 0 : 1);
     setRetweetTextColor((previous) => !previous);
+    dispatch(rePost({token, postId}))
   };
   const handleBookMark = () => {
     bookmark.value = withSpring(bookmark.value ? 0 : 1);

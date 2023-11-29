@@ -25,9 +25,9 @@ const ForYouPosts = () => {
   const dispatch = useAppDispatch();
   const userToken = useAppSelector((state) => state.USER.didToken);
   const AllPost = useAppSelector((state) => state.CreatePostController.AllPost);
-  useEffect(() => {
-    dispatch(getAllPost(userToken));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getAllPost(userToken));
+  // }, []);
 
   console.log(AllPost, 'allpost');
 

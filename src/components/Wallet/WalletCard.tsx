@@ -31,7 +31,7 @@ const WalletCard = ({ APTOS_DOMAIN_NAME }: Props) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
   const profilePics = useAppSelector(
-    (state) => state.USER.details.profileImage
+    (state) => state.USER.UserData.profileImage
   );
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,

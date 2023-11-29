@@ -4,6 +4,7 @@ import {
   RouteProp,
 } from '@react-navigation/native';
 import { ImageSourcePropType } from 'react-native';
+import { PostData } from '../controller/createPost';
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
@@ -16,10 +17,11 @@ interface PetraWalletResponse {
 
 type SelectedSuperStarCollectionScreenParameter = {
   [SelectedSuperStarCollectionScreen: string]: {
-    title: string;
+    title: string,
     nfts: {
-      image: ImageSourcePropType;
-      name: string;
+      nftImageUrl: ImageSourcePropType;
+      nftTokenId: string;
+      nftCollection:string
     }[];
   };
 };
@@ -56,10 +58,11 @@ export type RootStackParamList = {
   SearchPostTab: undefined;
   SuperStarCollectionScreen: undefined;
   SelectedSuperStarCollectionScreen: {
-    title: string;
+    title:string
     nfts: {
-      image: string;
-      name: string;
+      nftImageUrl: string;
+      nftTokenId: string;
+      nftCollection:string
     }[];
   };
   EditProfileScreen: undefined;
@@ -187,11 +190,14 @@ type CreatePostParameter = {
   };
 };
 type SinglePostParameter = {
-  [SinglePost: string]: {
-    username: string;
-    nickname: string;
-  };
+  [SinglePost: string]: PostData
 };
+
+type VideoPlayerParameter = {
+  [VideoPlayer: string]: {
+    videoUrl:string
+  }
+}
 type FollowerScreenParameter = {
   [FollowerScreen: string]: {
     screen: string;

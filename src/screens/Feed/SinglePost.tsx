@@ -28,24 +28,26 @@ const SinglePost = ({ route }: SinglePostProps) => {
   const [replyingTo, setReplyingTo] = useState(false);
   const navigation = useNavigation();
 
-  const data = {
-    id: '9',
-    pfp: '',
-    username: 'Username',
-    nickname: 'username',
-    timepost: '5m',
-    comments: '99k',
-    retweet: '99k',
-    like: '99k',
-    type: 'swap-option-included',
-    content: {
-      message: 'Just joined TowneSquare, a new web3 social platform!',
-      messageTag: 'APT',
-      collectionName: '',
-      logo: '',
-      price: 8.46,
-    },
-  };
+
+
+  // const data = {
+  //   id: '9',
+  //   pfp: '',
+  //   username,
+  //   nickname,
+  //   timepost: '5m',
+  //   comments: '99k',
+  //   retweet: '99k',
+  //   like: '99k',
+  //   type: 'swap-option-included',
+  //   content: {
+  //     message: 'Just joined TowneSquare, a new web3 social platform!',
+  //     messageTag: 'APT',
+  //     collectionName: '',
+  //     logo: '',
+  //     price: 8.46,
+  //   },
+  // };
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -89,15 +91,19 @@ const SinglePost = ({ route }: SinglePostProps) => {
         <View />
       </View>
       <ScrollView contentContainerStyle={styles.scrollView} ref={scrollViewRef}>
-        <SinglePostContent data={data} />
-        <Comments handleCommentButton={handleCommentPress} />
-        <Comments handleCommentButton={handleCommentPress} myPost />
+        <SinglePostContent data={props} />
+        {/* <Comments handleCommentButton={handleCommentPress} />
+        <Comments handleCommentButton={handleCommentPress} myPost /> */}
+        {props.comments.map((comment, index) => (
+          <Comments handleCommentButton={handleCommentPress} CommentData={comment} key={index}/>
+        ))}
       </ScrollView>
 
       <AddCommentTextInput
         showReplyingTo={replyingTo}
         handleBlur={handleBlur}
         textRef={textInputRef}
+        postId={props._id}
       />
       {/* {isAnyModalOpen && <View style={styles.overlay} />} */}
     </SafeAreaView>

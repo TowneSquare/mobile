@@ -7,5 +7,6 @@ export interface communities {
 export interface friends {
   image: ReactNode;
   name: string;
+  _id:string;
   username: string;
 }

@@ -1,4 +1,5 @@
 import { View, Text, Dimensions, Image, StyleSheet } from 'react-native';
+import { useRef } from 'react';
 import { sizes } from '../../utils';
 import { appColor, fonts, images } from '../../constants';
 const { height, width } = Dimensions.get('window');
@@ -27,12 +28,14 @@ import {
 } from '../../models';
 import { Avatar } from 'react-native-elements';
 import { PostData } from '../../controller/createPost';
+import { Video, ResizeMode } from 'expo-av';
 const size = new sizes(height, width);
 interface Props {
   data: PostData;
   shouldPFPSwipe: boolean;
 }
 const Reposted = ({ data, shouldPFPSwipe }: Props) => {
+   const video = useRef(null);
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -93,7 +96,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 maxWidth: size.getWidthSize(67),
               }}
             >
-              @{data.originalCustomer.nickname}
+              @{data?.originalCustomer?.nickname}
             </Text>
             <Text
               style={{
@@ -122,13 +125,17 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
   };
   let content;
   // const type_of_post = data.content as Repost;
-  const contentTypeOfRepost = data.imageUrl
+  const contentTypeOfRepost =data?.videoUrl[0] && data?.description
+    ? FeedContent.MESSAGE_VIDEO
+    : data?.imageUrl[0] && data?.description
     ? FeedContent.MESSAGE_IMAGE
-    : data.videoUrl
-    ? FeedContent.VIDEO
-    : data.repost
-    ? FeedContent.REPOST
-    : FeedContent.MESSAGE_ONLY;
+    : data.videoUrl[0]
+    ? FeedContent.VIDEO_ONLY
+    : data.imageUrl[0]
+    ? FeedContent.IMAGE_ONLY
+    : data?.description
+    ? FeedContent.MESSAGE_ONLY
+    : FeedContent.EMPTY;
   const userPost = data;
   switch (contentTypeOfRepost) {
     case FeedContent.MESSAGE_ONLY:
@@ -142,6 +149,8 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
                 timepost={'2m'} //TODO
+                postId={userPost._id}
+                userId={userPost.customer._id}
               />
               <RepostedHeader />
               <View style={repostStyles.repostContainer}>
@@ -163,6 +172,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 noOfComments={userPost.comments.length}
                 noOfLikes={userPost.likes.length}
                 noOfRetweet={userPost.reposts.length}
+                postId={userPost._id}
               />
             </View>
           </View>
@@ -181,6 +191,8 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
                 timepost={'2m'} //TODO
+                postId={userPost._id}
+                userId={userPost.customer._id}
               />
               <RepostedHeader />
               <View style={repostStyles.repostContainer}>
@@ -207,6 +219,44 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 noOfComments={userPost.comments.length}
                 noOfLikes={userPost.comments.length}
                 noOfRetweet={userPost.reposts.length}
+                postId={userPost._id}
+              />
+            </View>
+          </View>
+        </>
+      );
+      break;
+       case FeedContent.IMAGE_ONLY:
+      // userPost.content = data.content as Message_Image;
+
+      content = (
+        <>
+          <View style={styles.feedContainer}>
+            <ProfilePicture id={data._id} />
+            <View style={styles.subHeading}>
+              <PostHeader
+                username={userPost.customer.username}
+                nickname={userPost.customer.nickname}
+                timepost={'2m'} //TODO
+                postId={userPost._id}
+                userId={userPost.customer._id}
+              />
+              <RepostedHeader />
+              <View style={repostStyles.repostContainer}>
+                <Header />
+                <View style={[styles.mediaContainer, { marginBottom: 0 }]}>
+                  <Image
+                    source={images.feedImage1}
+                    style={[repostStyles.repostImage]}
+                    resizeMode="cover"
+                  />
+                </View>
+              </View>
+              <PostActions
+                noOfComments={userPost.comments.length}
+                noOfLikes={userPost.comments.length}
+                noOfRetweet={userPost.reposts.length}
+                postId={userPost._id}
               />
             </View>
           </View>
@@ -247,7 +297,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
     //   </>
     // );
     // break;
-    case FeedContent.VIDEO:
+    case FeedContent.VIDEO_ONLY:
       // userPost.content = data.content as VIDEO;
       content = (
         <>
@@ -258,6 +308,8 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
                 timepost={'2m'} //TODO
+                postId={userPost._id}
+                userId={userPost.customer._id}
               />
               <RepostedHeader />
               <View style={repostStyles.repostContainer}>
@@ -273,12 +325,87 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                     style={[repostStyles.repostImage]}
                     resizeMode="cover"
                   />
+                 <Video
+                  // source={{
+                  //   uri: userPost.videoUrl[0]
+                  //     ? userPost.videoUrl[0]
+                  //     : Image.resolveAssetSource(images.Aptomingos).uri,
+                  // }}
+                  source={{
+                    uri:"https://www.youtube.com/watch?v=EJzB_Fa27ko"
+                  }}
+                  ref={video}
+                  style={styles.imageStyle}
+                  resizeMode={ResizeMode.CONTAIN}
+                />
                 </View>
               </View>
               <PostActions
                 noOfComments={userPost.comments.length}
                 noOfLikes={userPost.comments.length}
                 noOfRetweet={userPost.reposts.length}
+                postId={userPost._id}
+              />
+            </View>
+          </View>
+        </>
+      );
+      break;
+      case FeedContent.MESSAGE_VIDEO:
+      // userPost.content = data.content as VIDEO;
+      content = (
+        <>
+          <View style={styles.feedContainer}>
+            <ProfilePicture id={data._id} />
+            <View style={styles.subHeading}>
+              <PostHeader
+                username={userPost.customer.username}
+                nickname={userPost.customer.nickname}
+                timepost={'2m'} //TODO
+                postId={userPost._id}
+                userId={userPost.customer._id}
+              />
+              <RepostedHeader />
+              <View style={repostStyles.repostContainer}>
+                <Header />
+                <Text
+                  style={[
+                    styles.message,
+                    {
+                      marginHorizontal: size.getWidthSize(16),
+                    },
+                  ]}
+                >
+                  {userPost.description}
+                </Text>
+                <View
+                  style={[
+                    styles.mediaContainer,
+                    { marginBottom: 0, borderTopRightRadius: 0 },
+                  ]}
+                >
+                 
+                  <Video
+                  // source={{
+                  //   uri: userPost.videoUrl[0]
+                  //     ? userPost.videoUrl[0]
+                  //     : Image.resolveAssetSource(images.Aptomingos).uri,
+                  // }}
+                  source={{
+                    uri:"https://www.youtube.com/watch?v=EJzB_Fa27ko"
+                  }}
+                  ref={video}
+                  style={styles.imageStyle}
+                  useNativeControls
+                  resizeMode={ResizeMode.CONTAIN}
+                />
+                </View>
+              </View>
+              <PostActions
+                noOfComments={userPost.comments.length}
+                noOfLikes={userPost.comments.length}
+                noOfRetweet={userPost.reposts.length}
+                postId={userPost._id}
               />
             </View>
           </View>

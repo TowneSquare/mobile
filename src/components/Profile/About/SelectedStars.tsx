@@ -5,7 +5,7 @@ import SelectedSuperStars from './SelectedSuperStars';
 import { NavigationProp, CommonActions } from '@react-navigation/native';
 import { RootStackParamList } from '../../../navigations/NavigationTypes';
 import { useAppSelector, useAppDispatch } from '../../../controller/hooks';
-import { resetSelectedSuperStar } from '../../../controller/UserController';
+import { resetSelectedSuperStar, setSuperStarsNFT } from '../../../controller/UserController';
 import { updateSelectedSuperStars } from '../../../controller/UserController';
 const { height, width } = Dimensions.get('window');
 
@@ -19,6 +19,7 @@ interface Props {
 const SelectedStars = ({ navigation }: Props) => {
   const dispatch = useAppDispatch();
   const selectedStars = useAppSelector((state) => state.USER.selectedSuperStar);
+  const token = useAppSelector((state) => state.USER.didToken)
   return (
     <View style={styles.view}>
       <Text style={styles.text}>
@@ -41,6 +42,7 @@ const SelectedStars = ({ navigation }: Props) => {
         <Pressable
           onPress={() => {
             dispatch(updateSelectedSuperStars(selectedStars));
+            dispatch(setSuperStarsNFT({token, selectedStars}))
             navigation.dispatch(
               CommonActions.navigate({
                 name: 'DrawerNavigation',
@@ -52,7 +54,7 @@ const SelectedStars = ({ navigation }: Props) => {
                 },
               })
             );
-            dispatch(resetSelectedSuperStar());
+            //dispatch(resetSelectedSuperStar());
           }}
           disabled={selectedStars.length < 1}
           style={[

@@ -5,25 +5,25 @@ import {
   Image,
   StyleSheet,
   Pressable,
-} from 'react-native';
-import { memo } from 'react';
-import { sizes } from '../../utils';
-import { appColor, fonts, images } from '../../constants';
-import { useFonts } from 'expo-font';
-const { height, width } = Dimensions.get('window');
-import Reposted from './Reposted';
-import APT from '../../../assets/images/svg/APT';
-import { Avatar } from 'react-native-elements';
-import ProfilePicture from './SwipeableProfilePicture';
-import { useNavigation } from '@react-navigation/native';
+} from "react-native";
+import { memo, useRef } from "react";
+import { sizes } from "../../utils";
+import { appColor, fonts, images } from "../../constants";
+import { useFonts } from "expo-font";
+const { height, width } = Dimensions.get("window");
+import Reposted from "./Reposted";
+import APT from "../../../assets/images/svg/APT";
+import { Avatar } from "react-native-elements";
+import ProfilePicture from "./SwipeableProfilePicture";
+import { useNavigation } from "@react-navigation/native";
 import {
   UserPost,
   FeedContent,
   SWAP_OPTION_INCLUDED,
   FLOOR_PRICE_INCLUDED,
-} from '../../models';
+} from "../../models";
 const size = new sizes(height, width);
-import PostHeader from './PostHeader';
+import PostHeader from "./PostHeader";
 import {
   Message_Only,
   Message_Image,
@@ -31,15 +31,17 @@ import {
   Message_External_Link,
   VIDEO,
   NFT_FOR_SALE,
-} from '../../models';
-import PostActions from './PostActions';
-import APTMonkey from '../../../assets/images/svg/APTMonkey';
-import { feedStyle } from './FeedsStyles';
-import { PostData } from '../../controller/createPost';
-interface NavigationParameter {
-  username: string;
-  nickname: string;
-}
+} from "../../models";
+import PostActions from "./PostActions";
+import APTMonkey from "../../../assets/images/svg/APTMonkey";
+import { feedStyle } from "./FeedsStyles";
+import { PostData } from "../../controller/createPost";
+import { Video, ResizeMode } from "expo-av";
+import { UserCommentData } from "../../controller/UserController";
+// interface NavigationParameter {
+//   username: string;
+//   nickname: string;
+// }
 interface Props {
   myPost?: boolean;
   data: PostData;
@@ -47,36 +49,37 @@ interface Props {
 }
 const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
   const navigation = useNavigation();
-
+  const videoRef = useRef(null);
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
   }
 
   const handleNavigation = () => {
-    const params: NavigationParameter = {
-      username: data?.customer?.username,
-      nickname: data?.customer?.nickname,
-    };
-    navigation.navigate('SinglePost' as any, params);
+    const params: PostData = data;
+    navigation.navigate("SinglePost" as any, params);
   };
 
   let content;
 
   const type_of_post = data?.repost
     ? FeedContent.REPOST
-    : data?.videoUrl
-    ? FeedContent.VIDEO
-    : data?.imageUrl
+    : data?.videoUrls[0] && data?.description
+    ? FeedContent.MESSAGE_VIDEO
+    : data?.imageUrls[0] && data?.description
     ? FeedContent.MESSAGE_IMAGE
+    : data.videoUrls[0]
+    ? FeedContent.VIDEO_ONLY
+    : data.imageUrls[0]
+    ? FeedContent.IMAGE_ONLY
     : data?.description
     ? FeedContent.MESSAGE_ONLY
     : FeedContent.EMPTY;
-  console.log(type_of_post, 'type of post');
+  console.log(type_of_post, "type of post");
   const userPost = data;
   switch (type_of_post) {
     case FeedContent.MESSAGE_ONLY:
@@ -89,8 +92,10 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
               <PostHeader
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
-                timepost={'2m'} // TODO: fix the post time
+                timepost={"2m"} // TODO: fix the post time
                 myPost={myPost ? myPost : false}
+                postId={userPost._id}
+                userId={userPost.customer._id}
               />
               <Text onPress={handleNavigation} style={styles.message}>
                 {userPost?.description}
@@ -100,8 +105,52 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
                 noOfComments={userPost?.comments?.length}
                 noOfLikes={userPost?.likes?.length}
                 noOfRetweet={userPost?.reposts?.length}
+                postId={userPost._id}
               />
               {/* <ShowThread /> */}
+            </View>
+          </View>
+        </>
+      );
+      break;
+      case FeedContent.IMAGE_ONLY:
+      //userPost.content = data.content as VIDEO;
+      content = (
+        <>
+          <View style={styles.feedContainer}>
+            <View style={[styles.subHeading, { marginLeft: 0 }]}>
+              <PostHeader
+                username={userPost?.customer?.username}
+                nickname={userPost?.customer?.nickname}
+                timepost={"2m"} // TODO: fix the post time
+                myPost={myPost ? myPost : false}
+                postId={userPost._id}
+                userId={userPost.customer._id}
+              />
+              <View
+                style={[
+                  styles.mediaContainer,
+                  {
+                    marginBottom: size.getHeightSize(0),
+                  },
+                ]}
+              >
+                <Image
+                  source={{
+                    uri: userPost.imageUrls[0]
+                      ? userPost.imageUrls[0]
+                      : Image.resolveAssetSource(images.Aptomingos).uri,
+                  }}
+                  style={styles.imageStyle}
+                  resizeMode="cover"
+                />
+              </View>
+              <PostActions
+                noOfComments={userPost.comments.length}
+                noOfLikes={userPost.likes.length}
+                noOfRetweet={userPost.reposts.length}
+                postId={userPost._id}
+              />
             </View>
           </View>
         </>
@@ -124,8 +173,10 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
               <PostHeader
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
-                timepost={'2m'} // TODO: fix the post time
+                timepost={"2m"} // TODO: fix the post time
                 myPost={myPost ? myPost : false}
+                postId={userPost._id}
+                userId={userPost.customer._id}
               />
 
               <Text onPress={handleNavigation} style={styles.message}>
@@ -133,14 +184,27 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
               </Text>
 
               <Pressable
-                onPress={() => navigation.navigate('ViewImageScreen' as never)}
+                onPress={() => navigation.navigate("ViewImageScreen" as never)}
                 style={[
                   styles.mediaContainer,
                   { marginBottom: size.getHeightSize(0) },
                 ]}
               >
+                {/* <Image
+                  source={{
+                    uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
+                      ? userPost.imageUrl[0]
+                      : Image.resolveAssetSource(images.Aptomingos).uri,
+                  }}
+                  style={styles.imageStyle}
+                  resizeMode="contain"
+                /> */}
                 <Image
-                  source={data.imageUrl}
+                  source={{
+                    uri: userPost.imageUrls[0]
+                      ? userPost.imageUrls[0]
+                      : Image.resolveAssetSource(images.Aptomingos).uri,
+                  }}
                   style={styles.imageStyle}
                   resizeMode="cover"
                 />
@@ -149,6 +213,7 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
                 noOfComments={userPost?.comments?.length}
                 noOfLikes={userPost?.likes?.length}
                 noOfRetweet={userPost?.reposts?.length}
+                postId={userPost._id}
               />
 
               {/* <PostActions
@@ -205,7 +270,7 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
     //   </>
     // );
     // break;
-    case FeedContent.VIDEO:
+    case FeedContent.MESSAGE_VIDEO:
       //userPost.content = data.content as VIDEO;
       content = (
         <>
@@ -216,27 +281,118 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
                 onPress={handleNavigation}
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
-                timepost={'2m'} // TODO
+                timepost={"2m"} // TODO
                 myPost={myPost ? myPost : false}
+                postId={userPost._id}
+                userId={userPost.customer._id}
               />
 
+              <Text onPress={handleNavigation} style={styles.message}>
+                {userPost?.description}
+              </Text>
+
               <Pressable
-                onPress={() => navigation.navigate('VideoPlayer' as never)}
+                onPress={() =>
+                  navigation.navigate("VideoPlayer" as any, {
+                    videoUrl:
+                      "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+                  })
+                }
                 style={[
                   styles.mediaContainer,
                   { marginBottom: size.getHeightSize(0) },
                 ]}
               >
-                <Image
-                  source={images.feedImage3}
-                  style={styles.imageStyle}
-                  resizeMode="cover"
+                <Video
+                  // source={{
+                  //   uri: userPost.videoUrl[0]
+                  //     ? userPost.videoUrl[0]
+                  //     : Image.resolveAssetSource(images.Aptomingos).uri,
+                  // }}
+                  source={{
+                    uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+                  }}
+                  ref={videoRef}
+                  useNativeControls
+                  style={communityStyles.video}
+                  resizeMode={ResizeMode.CONTAIN}
+                  shouldPlay={true}
                 />
+                {/* <Image
+                source={images.feedImage2}
+                 style={styles.imageStyle}
+                 resizeMode="cover"
+               /> */}
               </Pressable>
               <PostActions
                 noOfComments={userPost?.comments?.length}
                 noOfLikes={userPost?.likes?.length}
                 noOfRetweet={userPost?.reposts?.length}
+                postId={userPost._id}
+              />
+              {/* <PostActions
+                noOfComments={userPost.comments}
+                noOfLikes={userPost.like}
+                noOfRetweet={userPost.retweet}
+              /> */}
+              {/* <ShowThread /> */}
+            </View>
+          </View>
+        </>
+      );
+      break;
+    case FeedContent.VIDEO_ONLY:
+      //userPost.content = data.content as VIDEO;
+      content = (
+        <>
+          <View style={styles.feedContainer}>
+            <ProfilePicture id={data._id} swipeable={shouldPFPSwipe} />
+            <View style={styles.subHeading}>
+              <PostHeader
+                onPress={handleNavigation}
+                username={userPost?.customer?.username}
+                nickname={userPost?.customer?.nickname}
+                timepost={"2m"} // TODO
+                myPost={myPost ? myPost : false}
+                postId={userPost._id}
+                userId={userPost.customer._id}
+              />
+
+              <Pressable
+                onPress={() => navigation.navigate("VideoPlayer" as never)}
+                style={[
+                  styles.mediaContainer,
+                  { marginBottom: size.getHeightSize(0) },
+                ]}
+              >
+                {/* <Image
+                  source={images.feedImage3}
+                  style={styles.imageStyle}
+                  resizeMode="cover"
+                /> */}
+                <View style={communityStyles.container2}>
+                  <Video
+                    // source={{
+                    //   uri: userPost.videoUrl[0]
+                    //     ? userPost.videoUrl[0]
+                    //     : Image.resolveAssetSource(images.Aptomingos).uri,
+                    // }}
+                    source={{
+                      uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+                    }}
+                    ref={videoRef}
+                    style={communityStyles.video}
+                    resizeMode={ResizeMode.COVER}
+                    isLooping
+                    shouldPlay
+                  />
+                </View>
+              </Pressable>
+              <PostActions
+                noOfComments={userPost?.comments?.length}
+                noOfLikes={userPost?.likes?.length}
+                noOfRetweet={userPost?.reposts?.length}
+                postId={userPost._id}
               />
               {/* <PostActions
                 noOfComments={userPost.comments}
@@ -561,26 +717,36 @@ export default ForYou;
 const styles = StyleSheet.create(feedStyle);
 const communityStyles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(6),
-    alignItems: 'center',
+    alignItems: "center",
+  },
+  container2: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "#ecf0f1",
   },
   postedIn: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.grayLight,
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
   },
   communityName: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.primaryLight,
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
+  },
+  video: {
+    alignSelf: "center",
+    width: 320,
+    height: 200,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    position: 'absolute',
+    backgroundColor: "rgba(0,0,0,0.7)",
+    position: "absolute",
     top: 0,
     bottom: 0,
     left: 0,

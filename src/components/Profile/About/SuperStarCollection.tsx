@@ -14,49 +14,59 @@ import { RootStackParamList } from '../../../navigations/NavigationTypes';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {
-  collection: { image?: any; Name?: string; id?: number };
+  collection: { nftImageUrl?: any; nftCollection?: string; nftTokenId?: number };
   navigation: NavigationProp<RootStackParamList, 'SuperStarCollectionScreen'>;
 }
 const data = [
   {
-    image: images.aptosMonkey6,
-    name: 'Aptos Monkeys #8961',
+    nftImageUrl: images.aptosMonkey6,
+    nftTokenId: 'Aptos Monkeys #8961',
+    nftCollection: "AptosMonkeys"
   },
   {
-    image: images.aptosMonkey2,
-    name: 'Aptos Monkeys #8962',
+    nftImageUrl: images.aptosMonkey2,
+    nftTokenId: 'Aptos Monkeys #8962',
+    nftCollection: "Aptos Monkeys"
   },
   {
-    image: images.aptosMonkey3,
-    name: 'Aptos Monkeys #8963',
+    nftImageUrl: images.aptosMonkey3,
+    nftTokenId: 'Aptos Monkeys #8963',
+    nftCollection:"Aptos Monkey"
   },
   {
-    image: images.aptosMonkey4,
-    name: 'Aptos Monkeys #8964',
+    nftImageUrl: images.aptosMonkey4,
+    nftTokenId: 'Aptos Monkeys #8964',
+    nftCollection:"Aptos Monkey"
   },
   {
-    image: images.aptosMonkey5,
-    name: 'Aptos Monkeys #8965',
+    nftImageUrl: images.aptosMonkey5,
+    nftTokenId: 'Aptos Monkeys #8965',
+    nftCollection:"Aptos Monkey"
   },
   {
-    image: images.aptosMonkey6,
-    name: 'Aptos Monkeys #8966',
+    nftImageUrl: images.aptosMonkey6,
+    nftTokenId: 'Aptos Monkeys #8966',
+    nftCollection:"Aptos Monkey"
   },
   {
-    image: images.aptosMonkey3,
-    name: 'Aptos Monkeys #8967',
+    nftImageUrl: images.aptosMonkey3,
+    nftTokenId: 'Aptos Monkeys #8967',
+    nftCollection:"Aptos Monkey"
   },
   {
-    image: images.aptosMonkey2,
-    name: 'Aptos Monkeys #8968',
+    nftImageUrl: images.aptosMonkey2,
+    nftTokenId: 'Aptos Monkeys #8968',
+    nftCollection:"Aptos Monkey"
   },
   {
-    image: images.aptosMonkey3,
-    name: 'Aptos Monkeys #8969',
+    nftImageUrl: images.aptosMonkey3,
+    nftTokenId: 'Aptos Monkeys #8969',
+    nftCollection:"Aptos Monkey"
   },
   {
-    image: images.aptosMonkey4,
-    name: 'Aptos Monkeys #89610',
+    nftImageUrl: images.aptosMonkey4,
+    nftTokenId: 'Aptos Monkeys #89610',
+    nftCollection:"Aptos Monkey"
   },
 ];
 const SuperStarCollection = ({ collection, navigation }: Props) => {
@@ -70,21 +80,21 @@ const SuperStarCollection = ({ collection, navigation }: Props) => {
       onPress={() => {
         navigation.navigate('SelectedSuperStarCollectionScreen', {
           nfts: data,
-          title: 'Aptos Monkeys',
+         title:"Aptos Monkey"
         });
       }}
       style={styles.imageContainer}
     >
       <Image
-        source={{ uri: Image.resolveAssetSource(collection.image).uri }}
+        source={{ uri: Image.resolveAssetSource(collection.nftImageUrl).uri }}
         resizeMode="cover"
         style={styles.imageStyle}
       />
       <View style={styles.nameContainer}>
-        <Text style={styles.name}>{collection.Name}</Text>
+        <Text style={styles.name}>{collection.nftCollection}</Text>
       </View>
       <View style={styles.idContainer}>
-        <Text style={styles.id}>{collection.id}</Text>
+        <Text style={styles.id}>{collection.nftTokenId}</Text>
       </View>
     </Pressable>
   );

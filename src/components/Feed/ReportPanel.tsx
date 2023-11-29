@@ -19,9 +19,8 @@ import CustomHandler from './CustomHandler';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import Flag from '../../../assets/images/svg/Flag';
 import Block from '../../../assets/images/svg/Block';
-
 import {
-  updtaeReportingModal,
+  updateReportingModal,
   updateReportPostModal,
   updateReportUserModal,
   updateBlockUserModal,
@@ -36,7 +35,7 @@ const ReportPanel = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
   useEffect(() => {
-    if (reportModal === false) {
+    if (reportModal.status === false) {
       bottomSheetRef.current?.close();
     } else {
       bottomSheetRef.current?.expand();
@@ -44,8 +43,8 @@ const ReportPanel = () => {
   }, [reportModal]);
   useEffect(() => {
     const handleBackButton = () => {
-      if (reportModal === true) {
-        dispatch(updtaeReportingModal(false));
+      if (reportModal.status === true) {
+        dispatch(updateReportingModal({status:false, postId:"", userId:""}));
         return true;
       } else {
         return false;
@@ -82,7 +81,7 @@ const ReportPanel = () => {
   });
   const closeModal = () => {
     bottomSheetRef.current?.close();
-    dispatch(updtaeReportingModal(false));
+    dispatch(updateReportingModal({status:false, postId:"", userId:""}));
   };
 
   return (
@@ -101,7 +100,7 @@ const ReportPanel = () => {
           backgroundStyle={{
             backgroundColor: appColor.kgrayDark2,
           }}
-          handleComponent={CustomHandler}
+           handleComponent={() => <CustomHandler />}
           backdropComponent={renderBackdrop}
         >
           <BottomSheetView onLayout={handleContentLayout}>
