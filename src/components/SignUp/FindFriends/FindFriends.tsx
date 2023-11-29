@@ -61,7 +61,6 @@ const FindFriends = ({ token }: { token: string }) => {
         username: item.userData.username,
         verification: item.userData.issuer ? "citizen" : ""
       }));
-      console.log(convertedData, "\n\n\n");
       setFriends(convertedData);
     };
     if (token != "")
@@ -80,7 +79,6 @@ const FindFriends = ({ token }: { token: string }) => {
   const addFollowers = (follow: Friend) => {
     const updateSuggestFollowers = async () => {
       const res = await updatefollowFriends(token, follow.id);
-      console.log(res)
     }
     const follows = [...following, follow];
     setFollowers(follows);
