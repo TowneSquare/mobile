@@ -89,3 +89,17 @@ export async function updatefollowFriends(
     "POST"
   );
 }
+
+export async function uploadProfileImage(
+  token: string,
+  profileImage: any
+) {
+  return fetch(`${BACKEND_URL}`+'user/upload-profile-photo', {
+    method: 'PUT',
+    headers: { authorization: token, 'Content-Type': 'multipart/form-data' },
+    body: profileImage,
+  }).then((resp) => resp.json())
+    .catch((error) => {
+      if (error.code == 400) console.log(error.message);
+    });
+}

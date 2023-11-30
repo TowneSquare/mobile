@@ -30,7 +30,7 @@ import SelectedCollection from '../../components/SignUp/ChooseProfilePics/Select
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import SignupTransitionBackButton from '../../components/SignUp/SignupTransitionBackButton';
 import { useAppSelector } from '../../controller/hooks';
-import { signup, updateConnectedSocial } from "../../api";
+import { signup, updateConnectedSocial, uploadProfileImage } from "../../api";
 import { useNavigation } from '@react-navigation/native';
 const { width, height } = Dimensions.get('window');
 const size = new sizes(height, width);
@@ -73,6 +73,21 @@ const SignUp = ({ magic }: SignUpProps) => {
   const [viewIndex, setViewIndex] = useState(0);
   const user = useAppSelector((state) => state.USER);
 
+  const createFormData = () => {
+    const data = new FormData();
+
+    data.append("file", {
+      name: user.details.username,
+      type: 'Image/' + get_url_extension(profilePics),
+      uri: profilePics
+    } as any);
+    return data;
+  };
+
+  function get_url_extension(url) {
+    return url.split(/[#?]/)[0].split('.').pop().trim();
+  }
+  
   const handleNextSlide = async () => {
     const newIndex = viewIndex + 1;
     if (newIndex < views.length && flatListRef.current) {
@@ -97,6 +112,11 @@ const SignUp = ({ magic }: SignUpProps) => {
           user.didToken,
           socialInfo
         );
+      }
+    }else{
+      const res = await uploadProfileImage(user.didToken, createFormData());
+      if (res.profileUrl != null) {
+        navigation.navigate("Congratulations");
       }
     }
   };

@@ -34,7 +34,7 @@ import {
   updateMetadata,
 } from "../../controller/UserController";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { checkSignup, signup, updateConnectedSocial } from "../../api";
+import { checkSignup, signup, updateConnectedSocial, uploadProfileImage } from "../../api";
 import Loader from "../../../assets/svg/Loader";
 import { setLoginSession } from "../../utils/session";
 import Twitter from "../../../assets/images/svg/Twitter";
@@ -111,6 +111,21 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
       (loaderRef.current as any).setNativeProps({ style: { display: "none" } });
   };
 
+  const createFormData = () => {
+    const data = new FormData();
+
+    data.append("file", {
+      name: user.details.username,
+      type: 'Image/' + get_url_extension(profilePics),
+      uri: profilePics
+    } as any);
+    return data;
+  };
+
+  function get_url_extension(url) {
+    return url.split(/[#?]/)[0].split('.').pop().trim();
+  }
+
   const handleNextSlide = async () => {
     setViewIndex((previous) => previous + 1);
     const newIndex = viewIndex + 1;
@@ -162,6 +177,11 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
         );
         if (result.success) {
         }
+      }
+    } else {
+      const res = await uploadProfileImage(user.didToken, createFormData());
+      if (res.profileUrl != null) {
+        navigation.navigate("Congratulations");
       }
     }
   };
