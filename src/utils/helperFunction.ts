@@ -22,3 +22,7 @@ export function ExtractTags(sentence: string): string[] {
   });
   return tags;
 }
+
+export const getTime = (time:string) => {
+  
+}

@@ -14,7 +14,6 @@ import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { getAllPost, POSTSTATE } from '../../controller/createPost';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor } from '../../constants';
-import { useEffect } from 'react';
 import { FlashList } from '@shopify/flash-list';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
@@ -29,8 +28,7 @@ const ForYouPosts = () => {
   //   dispatch(getAllPost(userToken));
   // }, []);
 
-  console.log(AllPost, 'allpost');
-
+  console.log(AllPost, "" )
   const EmptyComponent = () => {
     return (
       <SafeAreaView
@@ -97,7 +95,7 @@ const ForYouPosts = () => {
         data={AllPost}
         renderItem={({ item }) => <ForYou data={item} shouldPFPSwipe />}
         keyExtractor={(item, index) => index.toString()}
-        estimatedItemSize={200}
+        estimatedItemSize={500}
         onRefresh={() => {
           dispatch(getAllPost(userToken));
         }}

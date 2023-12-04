@@ -9,7 +9,9 @@ import CommunitiesTab from './CommunitiesTab';
 const size = new sizes(height, width);
 import { SafeAreaView } from 'react-native-safe-area-context';
 import TopTabNavigator from '../../navigations/TopTabNavigator';
+import { useAppSelector } from '../../controller/hooks';
 const FollowersScreen = () => {
+  const title = useAppSelector((state) => state.USER.UserData.username)
   const tabContent = [
     {
       name: 'Followers',
@@ -31,7 +33,7 @@ const FollowersScreen = () => {
         backgroundColor: appColor.feedBackground,
       }}
     >
-      <Header title="Real JC" />
+      <Header title={title}/>
       <View style={styles.marginTop} />
       <View
         style={{

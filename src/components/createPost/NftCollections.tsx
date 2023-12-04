@@ -14,18 +14,19 @@ import { useNavigation } from '@react-navigation/native';
 import { sizes } from '../../utils';
 const size = new sizes(height, width);
 import { useAppSelector } from '../../controller/hooks';
-interface NftCollection {
-  image?: any;
-  Name?: string;
-  id?: number;
-}
+import { NftCollection } from '../../controller/UserController';
+// interface NftCollection {
+//   nftImageUrl?: any;
+//   nftCollection?: string;
+//   nftTokenId?: number;
+// }
 interface Props {
   callBack?: () => {};
 }
 const NftCollections = ({ callBack }: Props) => {
   const navigation = useNavigation();
   const collections = useAppSelector(
-    (state) => state.bottomSheetController.listOfNftCollections
+    (state) => state.USER.NFTCollections
   );
   let [isLoaded] = useFonts({
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
@@ -45,7 +46,7 @@ const NftCollections = ({ callBack }: Props) => {
       >
         {
           <Image
-            source={collection.image}
+            source={collection.Collectionimage}
             resizeMode="cover"
             style={{
               width: size.getWidthSize(140),
@@ -57,17 +58,18 @@ const NftCollections = ({ callBack }: Props) => {
           <Text style={styles.collectionName}>{collection.Name}</Text>
         </View>
         <View style={styles.collectionIdContainer}>
-          <Text style={styles.collectionIdText}>{collection.id}</Text>
+          <Text style={styles.collectionIdText}>{collection.collections.length}</Text>
         </View>
       </Pressable>
     );
   };
+  
   return (
     <FlatList
       data={collections}
       renderItem={({ item }) => Nft(item)}
       numColumns={2}
-      keyExtractor={(item) => item.id?.toString()}
+      keyExtractor={(item) => item.id.toString()}
       contentContainerStyle={styles.contentContainer}
       columnWrapperStyle={styles.columnWrapper}
     />

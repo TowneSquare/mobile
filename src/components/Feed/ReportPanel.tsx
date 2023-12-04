@@ -40,7 +40,7 @@ const ReportPanel = () => {
     } else {
       bottomSheetRef.current?.expand();
     }
-  }, [reportModal]);
+  }, [reportModal.status]);
   useEffect(() => {
     const handleBackButton = () => {
       if (reportModal.status === true) {
@@ -54,7 +54,7 @@ const ReportPanel = () => {
     return () => {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
-  }, [reportModal]);
+  }, [reportModal.status]);
   const {
     animatedHandleHeight,
     animatedSnapPoints,
@@ -86,7 +86,7 @@ const ReportPanel = () => {
 
   return (
     <>
-      {!reportModal ? (
+      {!reportModal.status ? (
         <></>
       ) : (
         <BottomSheet

@@ -77,7 +77,7 @@ const About = ({ route }) => {
     | "myProfile"
     | "theirProfile";
   const { selectedSuperStars, bio, profilePics } = useAppSelector((state) => ({
-    bio: state.USER.bio,
+    bio: state.USER.UserData.bio,
     selectedSuperStars: state.USER.selectedSuperStars,
     profilePics: state.USER.UserData.profileImage,
   }));
@@ -106,9 +106,9 @@ const About = ({ route }) => {
   const NICKNAME = USERDATA.username || "jczhang";
   const APTOS_DOMAIN_NAME = "jczhang.apt";
   const DATE = "03/07/2023";
-  const FOLLOWING = USERDATA.following.length || "2,499";
-  const FOLLOWERS = USERDATA.followers.length || "28,872";
-  const POST = USERDATA.posts.length || "189";
+  const FOLLOWING = USERDATA.following.length || "0";
+  const FOLLOWERS = USERDATA.followers.length || "0";
+  const POST = USERDATA.posts.length || "0";
   const COMMUNITIES = "22";
 
   // const onlyUserPost = UserPosts.filter(
@@ -144,11 +144,11 @@ const About = ({ route }) => {
   };
 
   console.log(USERDATA.posts
-      .filter((userpost) => userpost.imageUrl[0] || userpost.videoUrl), "media")
+      .filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls), "media")
 
   const Media = () => {
     return USERDATA.posts
-      .filter((userpost) => userpost.imageUrl[0] || userpost.videoUrl[0])
+      .filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0])
       .map((userpost) => (
         <ForYou
           key={userpost._id}

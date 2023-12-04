@@ -4,7 +4,7 @@ import { appColor, fonts } from '../../constants';
 import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
 import { useAppDispatch } from '../../controller/hooks';
-import { updtaeReportingModal } from '../../controller/FeedsController';
+import { updateReportingModal } from '../../controller/FeedsController';
 import Feather from '@expo/vector-icons/Feather';
 import ProfilePicture from '../Feed/SwipeableProfilePicture';
 const size = new sizes(height, width);
@@ -12,9 +12,11 @@ interface Props {
   username: string;
   nickname: string;
   timepost: string;
+  postId:string
+  userId:string
   onPress?: () => void;
 }
-const SinglePostHeader = ({ username, nickname, timepost, onPress }: Props) => {
+const SinglePostHeader = ({ username, nickname, timepost, postId, userId ,onPress }: Props) => {
   const dispatch = useAppDispatch();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -25,7 +27,9 @@ const SinglePostHeader = ({ username, nickname, timepost, onPress }: Props) => {
     return null;
   }
   const showModal = () => {
-    dispatch(updtaeReportingModal(true));
+    dispatch(updateReportingModal({
+      status:true, postId, userId
+    }));
   };
   return (
     <View

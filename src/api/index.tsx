@@ -1,12 +1,21 @@
 import axios from "axios";
 import { BACKEND_URL } from "../../config/env";
-import { PostData } from "../controller/createPost";
+import { Customer, PostData } from "../controller/createPost";
 import { useAppSelector } from "../controller/hooks";
 let _headers = {
   Accept: "application/json",
   "Content-Type": "application/json",
 };
 
+
+
+export interface FollowingProps {
+  _id: string;
+  fromUserId: string;
+  toUserId: string;
+  isFollowing: boolean;
+  customerInfo: Customer;
+}
 
 function createCall(path, data = null, headers = {}, method = "POST") {
   const merged = {
@@ -71,11 +80,9 @@ export const getPostById = async (token: string, post_id: string) => {
         Authorization: token,
       },
     });
-    const result:PostData = await res.data;
+    const result: PostData = await res.data;
     return result;
-  } catch (error) {
-
-  }
+  } catch (error) {}
 };
 
 export const likePost = async (token: string, post_id: string) => {
@@ -87,46 +94,61 @@ export const likePost = async (token: string, post_id: string) => {
         Authorization: token,
       },
     });
-    const result:boolean= await res.data;
+    const result: boolean = await res.data;
     return result;
-  } catch (error) {
-
-  }
+  } catch (error) {}
 };
 
-
-export const reportUser = async (user_id:string, token:string) => {
+export const reportUser = async (user_id: string, token: string) => {
   try {
     await axios.get(`${BACKEND_URL}user/report/${user_id}`, {
-      headers:{
+      headers: {
         Authorization: token,
-      }
-    })
-  } catch (error) {
-    
-  }
-}
+      },
+    });
+  } catch (error) {}
+};
 
-export const blockUser = async (user_id:string, token:string) => {
+export const blockUser = async (user_id: string, token: string) => {
   try {
     await axios.get(`${BACKEND_URL}user/block/${user_id}`, {
-      headers:{
+      headers: {
         Authorization: token,
-      }
-    })
-  } catch (error) {
-    
-  }
-}
+      },
+    });
+  } catch (error) {}
+};
 
-export const reportPost = async (token:string, post_id:string) => {
+export const reportPost = async (token: string, post_id: string) => {
   try {
-     await axios.get(`${BACKEND_URL}user/block/${post_id}`, {
-      headers:{
+    await axios.get(`${BACKEND_URL}user/block/${post_id}`, {
+      headers: {
         Authorization: token,
-      }
-    })
-  } catch (error) {
-    
-  }
-}
+      },
+    });
+  } catch (error) {}
+};
+
+export const getFollowings = async (token: string) => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}user/followings`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    const result: FollowingProps[] = response.data;
+    return result;
+  } catch (error) {}
+};
+
+export const getFollowers = async (token: string) => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}user/followers`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    const result = response.data;
+    return result;
+  } catch (error) {}
+};

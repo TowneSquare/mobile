@@ -64,6 +64,8 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
                 timepost={"2d"}
+                postId={userPost._id}
+                userId={userPost.customer._id}
               />
 
               <Text style={styles.message}>{userPost.description}</Text>
@@ -90,6 +92,8 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
                 timepost={"2d"}
+                postId={userPost._id}
+                userId={userPost.customer._id}
               />
 
               <Text style={styles.message}>{userPost.description}</Text>
@@ -170,6 +174,8 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
                 timepost={"2d"}
+                postId={userPost._id}
+                userId={userPost.customer._id}
               />
               <Text style={styles.message}>{userPost.description}</Text>
               <View
@@ -219,6 +225,8 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
                 timepost={"2d"}
+                 postId={userPost._id}
+                userId={userPost.customer._id}
               />
               <View
                 style={[
@@ -263,6 +271,8 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
                 timepost={"2d"}
+                 postId={userPost._id}
+                userId={userPost.customer._id}
               />
               <View
                 style={[

@@ -11,6 +11,7 @@ import { appColor, images } from '../../constants';
 import Offer from '../../../assets/images/svg/Offer';
 import { sizes } from '../../utils';
 import Clip from '../../../assets/images/svg/Clip';
+import { useAppSelector } from '../../controller/hooks';
 
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
@@ -20,6 +21,11 @@ interface Props {
   handleModalState: () => void;
 }
 const AttachNft = ({ callBack, handlePress, handleModalState }: Props) => {
+  const {price, collectionName,nftTokenId } = useAppSelector((state) => ({
+    price:state.CreatePostController.posts.nft.sellNFTPrice,
+    collectionName: state.CreatePostController.posts.nft.nftCollection,
+    nftTokenId: state.CreatePostController.posts.nft.nftTokenId
+  }))
   return (
     <>
       <View
@@ -36,7 +42,7 @@ const AttachNft = ({ callBack, handlePress, handleModalState }: Props) => {
           />
         </View>
       </View>
-      <Text style={styles.name}>Aptomingos #9022</Text>
+      <Text style={styles.name}>{`${collectionName} ${nftTokenId}`}</Text>
 
       <View
         style={{

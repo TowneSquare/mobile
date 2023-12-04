@@ -14,9 +14,10 @@ interface CreatePost {
   community: "Aptos" | "Aptos Monkeys" | null;
   media: string;
   nft: {
-    name: string;
-    id: string;
-    price?: number;
+    nftCollection?: string;
+    nftImageUrl?: string;
+    nftTokenId?: string;
+    sellNFTPrice?: string;
   } | null;
 }
 
@@ -27,7 +28,7 @@ export enum POSTSTATE {
   REJECTED,
 }
 
-interface Customer {
+export interface Customer {
   _id: string;
   issuer: string;
   aptosWallet: string;
@@ -35,6 +36,8 @@ interface Customer {
   username: string;
   email: string;
   referralCode: string;
+  profileImage: string;
+  createdAt: string;
 }
 
 export interface Comment {
@@ -59,6 +62,9 @@ export interface PostData {
   description: string;
   imageUrls: Array<string>;
   videoUrls: Array<string>;
+  nftImageUrl: string;
+  nftCollection: string;
+  nftTokenId: string;
   userId: string;
   repost: boolean;
   createdAt: string;
@@ -125,7 +131,78 @@ const initialState: Post = {
       imageUrls: [""],
       videoUrls: ["https://www.youtube.com/watch?v=EJzB_Fa27ko"],
       createdAt: "2023-11-02T03:01:59.721Z",
-      sellNFTPrice: "20.4",
+      sellNFTPrice: "",
+      nftImageUrl: "",
+      nftCollection: "",
+      nftTokenId: "",
+      likes: [
+        {
+          _id: "6560962a233ac36e73bc42ce",
+          userId: "655ab007ce8937ff6d512885",
+          postId: "655df7a347784b1665992617",
+          createdAt: "2023-11-24T12:25:14.173Z",
+        },
+      ],
+      comments: [
+        {
+          username: "pelumi_main",
+          nickname: "chokey",
+          _id: "653878c2a000149cd06b9845",
+          content: "POST comment TEstTest",
+          userId: "65372778b8da0e521b8a3587",
+          postId: "653728bd6171091d6b469bec",
+          createdAt: "2023-10-25T02:09:06.310Z",
+        },
+        {
+          username: "pelumi_second",
+          nickname: "chokey",
+          _id: "653878c2a000149cd06b9845",
+          content: "POST comment TEstTest",
+          userId: "65372778b8da0e521b8a3587",
+          postId: "653728bd6171091d6b469bec",
+          createdAt: "2023-10-25T02:09:06.310Z",
+        },
+      ],
+      customer: {
+        _id: "655ab007ce8937ff6d512885",
+        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        nickname: "test nickname",
+        username: "test12",
+        email: "test@email.com",
+        referralCode: "98N39",
+        profileImage: "",
+        createdAt: "",
+      },
+      reposts: [],
+      originalCustomer: {
+        _id: "65372778b8da0e521b8a3587",
+        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        nickname: "test nickname",
+        username: "test12",
+        email: "test@email.com",
+        referralCode: "98N39",
+        profileImage: "",
+        createdAt: "",
+      },
+      repost: false,
+      originalPostId: "65430c7f372dd89672e9214d",
+      originalCustomerId: "65372778b8da0e521b8a3587",
+    },
+    {
+      _id: "6543112773263dcd8d741ba0",
+      title: "",
+      userId: "65372778b8da0e521b8a3587",
+      description: "Test post ",
+      imageUrls: [""],
+      videoUrls: [""],
+      createdAt: "2023-11-02T03:01:59.721Z",
+      sellNFTPrice: "",
+      nftImageUrl:
+        "https://imageio.forbes.com/specials-images/imageserve/6170e01f8d7639b95a7f2eeb/Sotheby-s-NFT-Natively-Digital-1-2-sale-Bored-Ape-Yacht-Club--8817-by-Yuga-Labs/0x0.png",
+      nftCollection: "APtomingos",
+      nftTokenId: "Aptomingo #123",
       likes: [
         {
           _id: "6560962a233ac36e73bc42ce",
@@ -162,6 +239,8 @@ const initialState: Post = {
         username: "test12",
         email: "test@email.com",
         referralCode: "98N39",
+        profileImage: "",
+        createdAt: "",
       },
       reposts: [],
       originalCustomer: {
@@ -172,6 +251,8 @@ const initialState: Post = {
         username: "test12",
         email: "test@email.com",
         referralCode: "98N39",
+        profileImage: "",
+        createdAt: "",
       },
       repost: false,
       originalPostId: "65430c7f372dd89672e9214d",
@@ -239,7 +320,7 @@ export const createPost = createAsyncThunk(
         },
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
             Authorization: token,
           },
         }
@@ -316,14 +397,10 @@ export const rePost = createAsyncThunk(
       const result = await response.data;
       return result;
     } catch (error) {
-      return
+      return;
     }
   }
 );
-
-
-
-
 
 export const fieldHandlerSlice = createSlice({
   name: "postHandler",
@@ -475,14 +552,24 @@ export const fieldHandlerSlice = createSlice({
     },
     updatePostNft: (
       state,
-      action: PayloadAction<{ name: string; id: string; price?: number } | null>
+      action: PayloadAction<{
+        nftCollection: string;
+        nftImageUrl?: string;
+        nftTokenId: string;
+        sellNFTPrice?: string;
+      } | null>
     ) => {
       state.posts.nft = action.payload;
     },
 
     updateAptPrice: (
       state,
-      action: PayloadAction<{ name: string; id: string; price?: number }>
+      action: PayloadAction<{
+        nftCollection: string;
+        nftImageUrl: string;
+        nftTokenId: string;
+        sellNFTPrice?: string;
+      }>
     ) => {
       state.posts.nft = action.payload;
     },

@@ -97,15 +97,14 @@ const CreatePost = ({ route }: CreatePostProps) => {
         <Pressable
           onPress={() => {
             navigation.dispatch(StackActions.pop(1));
-            dispatch(clearPostData());
             dispatch(
               createPost({
                 description: textInput,
-                sellNFTPrice: "",
-                nftTokenId: "",
-                nftCollection: "",
-                nftImageUrl: "",
-                file: "",
+                sellNFTPrice: nft.sellNFTPrice,
+                nftTokenId: nft.nftTokenId,
+                nftCollection: nft.nftCollection,
+                nftImageUrl: nft.nftImageUrl,
+                file: media,
               })
             );
             dispatch(
@@ -115,6 +114,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
                 toastType: "success",
               })
             );
+            dispatch(clearPostData());
           }}
           style={styles.publishButton}
         >

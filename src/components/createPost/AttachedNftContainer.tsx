@@ -19,9 +19,15 @@ import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 const size = new sizes(height, width);
 import RemoveAttachment from '../../../assets/images/svg/RemoveAttachment';
 const AttachedNftContainer = () => {
-  const price = useAppSelector(
-    (state) => state.CreatePostController.posts.nft.price
-  );
+  // const price = useAppSelector(
+  //   (state) => state.CreatePostController.posts.nft.sellNFTPrice
+  // );
+
+  const {price, collectionName,nftTokenId } = useAppSelector((state) => ({
+    price:state.CreatePostController.posts.nft.sellNFTPrice,
+    collectionName: state.CreatePostController.posts.nft.nftCollection,
+    nftTokenId: state.CreatePostController.posts.nft.nftTokenId
+  }))
   const dispatch = useAppDispatch();
   return (
     <View style={styles.container}>
@@ -39,9 +45,9 @@ const AttachedNftContainer = () => {
                 rounded
                 source={images.collectionImage}
               />
-              <Text style={styles.name}>Aptomingos</Text>
+              <Text style={styles.name}>{collectionName}</Text>
             </View>
-            <Text style={styles.id}>Aptomingos #9280</Text>
+            <Text style={styles.id}>{`${collectionName} ${nftTokenId}`}</Text>
           </View>
         )}
       </View>
@@ -60,9 +66,9 @@ const AttachedNftContainer = () => {
               rounded
               source={images.collectionImage}
             />
-            <Text style={styles.name}>Aptomingos</Text>
+           <Text style={styles.name}>{collectionName}</Text>
           </View>
-          <Text style={styles.id}>Aptomingos #9280</Text>
+          <Text style={styles.id}>{`${collectionName} ${nftTokenId}`}</Text>
         </View>
       )}
       {price && (

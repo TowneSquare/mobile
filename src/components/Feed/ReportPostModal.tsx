@@ -127,14 +127,7 @@ const ReportPostModal = () => {
             </Text>
             <Pressable
               onPress={() => {
-                dispatch(
-                  updateToast({
-                    displayToast: true,
-                    toastMessage: "Post is reported succesfully",
-                    toastType: "success",
-                  })
-                );
-                dispatch(updateReportPostModal(false));
+                ReportPost()
               }}
               style={styles.reportButton}
             >

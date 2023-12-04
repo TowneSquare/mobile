@@ -3,18 +3,30 @@ import { useState } from 'react';
 const { height, width } = Dimensions.get('window');
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { followUser } from '../../controller/UserController';
 const size = new sizes(height, width);
 interface Props {
   isFollowing: boolean;
+  toUserId:string
 }
-const FollowButton = ({ isFollowing }: Props) => {
+const FollowButton = ({ isFollowing, toUserId }: Props) => {
   const [follow, setFollow] = useState(isFollowing);
+  const dispatch = useAppDispatch()
+  const token = useAppSelector((state) => state.USER.didToken)
+  const toUserIds = [toUserId]
   const handleFollow = () => {
-    setFollow((previous) => !previous);
+    setFollow(true);
+    dispatch(followUser({toUserIds,token}))
   };
+
+  const handleUnFollow = () => {
+    setFollow(false)
+  }
+ 
   return (
     <Pressable
-      onPress={handleFollow}
+      onPress={follow ? handleUnFollow : handleFollow}
       style={follow ? styles.followingButton : styles.followButton}
     >
       <Text style={styles.followText}>{follow ? 'Following' : 'Follow'}</Text>

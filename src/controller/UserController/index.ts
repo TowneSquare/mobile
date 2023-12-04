@@ -25,6 +25,13 @@ export interface NftCollection {
   id: number;
 }
 
+export interface EditProfileProps {
+  username: string;
+  nickname: string;
+  bio: string;
+  token: string;
+}
+
 export interface PostInfo {
   _id: string;
   description: string;
@@ -54,6 +61,7 @@ export interface UserCommentData {
 export interface UserData {
   _id: string;
   profileImage: string;
+  bio: string;
   issuer: string;
   aptosWallet: string;
   nickname: string;
@@ -91,7 +99,6 @@ interface UserState {
     nftTokenId: string;
     nftCollection: string;
   }[];
-  bio: string;
   theirProfileBottomSheet: boolean;
 }
 
@@ -103,8 +110,8 @@ interface signUpRequest {
 }
 
 interface followRequest {
-  fromUserId: string;
   toUserIds: string[];
+  token:string
 }
 const initialState: UserState = {
   UserData: {
@@ -114,74 +121,150 @@ const initialState: UserState = {
     nickname: "TO1",
     username: "TOTO1",
     email: "to@town.com",
+    bio: `🖇️ Love everything about blockchain \n🌍3 web3 Native \n 👀 Always on a lookout for blue chips`,
     referralCode: "E1HFN",
     createdAt: "2023-11-20T01:01:59.418Z",
     profileImage:
       "https://townesquare-media.s3.amazonaws.com/20231124T025800.147Z_28i87s00i6s.jpg",
     followers: [],
     following: [],
-    posts: [
-      {
-        _id: "6543112773263dcd8d741ba0",
-        title: "",
-        userId: "65372778b8da0e521b8a3587",
-        description: "Test post ",
-        imageUrls: [""],
-        videoUrls: ["https://www.youtube.com/watch?v=EJzB_Fa27ko"],
-        createdAt: "2023-11-02T03:01:59.721Z",
-        sellNFTPrice: "20.4",
-        likes: [
-          {
-            _id: "6560962a233ac36e73bc42ce",
-            userId: "655ab007ce8937ff6d512885",
-            postId: "655df7a347784b1665992617",
-            createdAt: "2023-11-24T12:25:14.173Z",
-          },
-        ],
-        comments: [
-          {
-            username: "pelumi_main",
-            nickname: "chokey",
-            _id: "653878c2a000149cd06b9845",
-            content: "POST comment TEstTest",
-            userId: "65372778b8da0e521b8a3587",
-            postId: "653728bd6171091d6b469bec",
-            createdAt: "2023-10-25T02:09:06.310Z",
-          },
-          {
-            username: "pelumi_second",
-            nickname: "chokey",
-            _id: "653878c2a000149cd06b9845",
-            content: "POST comment TEstTest",
-            userId: "65372778b8da0e521b8a3587",
-            postId: "653728bd6171091d6b469bec",
-            createdAt: "2023-10-25T02:09:06.310Z",
-          },
-        ],
-        customer: {
-          _id: "65372778b8da0e521b8a3587",
-          issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-          aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-          nickname: "test nickname",
-          username: "test12",
-          email: "test@email.com",
-          referralCode: "98N39",
+    posts:  [
+    {
+      _id: "655df7a347784b1665992617",
+      title: "",
+      userId: "65372778b8da0e521b8a3587",
+      description: "Test post ",
+      imageUrls: [""],
+      videoUrls: ["https://www.youtube.com/watch?v=EJzB_Fa27ko"],
+      createdAt: "2023-11-02T03:01:59.721Z",
+      sellNFTPrice: "",
+      nftImageUrl: "",
+      nftCollection: "",
+      nftTokenId: "",
+      likes: [
+        {
+          _id: "6560962a233ac36e73bc42ce",
+          userId: "655ab007ce8937ff6d512885",
+          postId: "655df7a347784b1665992617",
+          createdAt: "2023-11-24T12:25:14.173Z",
         },
-        reposts: [],
-        originalCustomer: {
-          _id: "65372778b8da0e521b8a3587",
-          issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-          aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-          nickname: "test nickname",
-          username: "test12",
-          email: "test@email.com",
-          referralCode: "98N39",
+      ],
+      comments: [
+        {
+          username: "pelumi_main",
+          nickname: "chokey",
+          _id: "653878c2a000149cd06b9845",
+          content: "POST comment TEstTest",
+          userId: "65372778b8da0e521b8a3587",
+          postId: "653728bd6171091d6b469bec",
+          createdAt: "2023-10-25T02:09:06.310Z",
         },
-        repost: false,
-        originalPostId: "65430c7f372dd89672e9214d",
-        originalCustomerId: "65372778b8da0e521b8a3587",
+        {
+          username: "pelumi_second",
+          nickname: "chokey",
+          _id: "653878c2a000149cd06b9845",
+          content: "POST comment TEstTest",
+          userId: "65372778b8da0e521b8a3587",
+          postId: "653728bd6171091d6b469bec",
+          createdAt: "2023-10-25T02:09:06.310Z",
+        },
+      ],
+      customer: {
+        _id: "65372778b8da0e521b8a3587",
+        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        nickname: "test nickname",
+        username: "test12",
+        email: "test@email.com",
+        referralCode: "98N39",
+        profileImage: "",
+        createdAt: "",
       },
-    ],
+      reposts: [],
+      originalCustomer: {
+        _id: "65372778b8da0e521b8a3587",
+        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        nickname: "test nickname",
+        username: "test12",
+        email: "test@email.com",
+        referralCode: "98N39",
+        profileImage: "",
+        createdAt: "",
+      },
+      repost: false,
+      originalPostId: "65430c7f372dd89672e9214d",
+      originalCustomerId: "65372778b8da0e521b8a3587",
+    },
+    {
+      _id: "6543112773263dcd8d741ba0",
+      title: "",
+      userId: "65372778b8da0e521b8a3587",
+      description: "Test post ",
+      imageUrls: [""],
+      videoUrls: [""],
+      createdAt: "2023-11-02T03:01:59.721Z",
+      sellNFTPrice: "",
+      nftImageUrl:
+        "https://imageio.forbes.com/specials-images/imageserve/6170e01f8d7639b95a7f2eeb/Sotheby-s-NFT-Natively-Digital-1-2-sale-Bored-Ape-Yacht-Club--8817-by-Yuga-Labs/0x0.png",
+      nftCollection: "APtomingos",
+      nftTokenId: "Aptomingo #123",
+      likes: [
+        {
+          _id: "6560962a233ac36e73bc42ce",
+          userId: "655ab007ce8937ff6d512885",
+          postId: "655df7a347784b1665992617",
+          createdAt: "2023-11-24T12:25:14.173Z",
+        },
+      ],
+      comments: [
+        {
+          username: "pelumi_main",
+          nickname: "chokey",
+          _id: "653878c2a000149cd06b9845",
+          content: "POST comment TEstTest",
+          userId: "65372778b8da0e521b8a3587",
+          postId: "653728bd6171091d6b469bec",
+          createdAt: "2023-10-25T02:09:06.310Z",
+        },
+        {
+          username: "pelumi_second",
+          nickname: "chokey",
+          _id: "653878c2a000149cd06b9845",
+          content: "POST comment TEstTest",
+          userId: "65372778b8da0e521b8a3587",
+          postId: "653728bd6171091d6b469bec",
+          createdAt: "2023-10-25T02:09:06.310Z",
+        },
+      ],
+      customer: {
+        _id: "65372778b8da0e521b8a3587",
+        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        nickname: "test nickname",
+        username: "test12",
+        email: "test@email.com",
+        referralCode: "98N39",
+        profileImage: "",
+        createdAt: "",
+      },
+      reposts: [],
+      originalCustomer: {
+        _id: "65372778b8da0e521b8a3587",
+        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        nickname: "test nickname",
+        username: "test12",
+        email: "test@email.com",
+        referralCode: "98N39",
+        profileImage: "",
+        createdAt: "",
+      },
+      repost: false,
+      originalPostId: "65430c7f372dd89672e9214d",
+      originalCustomerId: "65372778b8da0e521b8a3587",
+    },
+  ],
     groups: [],
     superstars: {
       _id: "6563f507f07bc47317331a30",
@@ -515,7 +598,7 @@ const initialState: UserState = {
   accountInfo: undefined,
   selectedSuperStars: [],
   selectedSuperStar: [],
-  bio: `🖇️ Love everything about blockchain \n🌍3 web3 Native \n 👀 Always on a lookout for blue chips`,
+
   theirProfileBottomSheet: false,
 };
 
@@ -537,18 +620,24 @@ export const signUp = createAsyncThunk(
   }
 );
 
-export const follow = createAsyncThunk(
+export const followUser = createAsyncThunk(
   "User/follow",
-  async (followRequest: followRequest, thunkAPI) => {
-    const { fromUserId, toUserIds } = followRequest;
+  async (followRequest: followRequest) => {
+    const { toUserIds, token } = followRequest;
     try {
-      const res = await axios.post(`${process.env.BASE_URL}/follow-friends`, {
-        fromUserId: fromUserId,
-        toUserIds: toUserIds,
+      const res = await axios.post(`${BACKEND_URL}user/follow-friends`, {
+        followsIds: toUserIds
+      },
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
       });
       return res.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      //return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -604,18 +693,20 @@ export const getAptosName = createAsyncThunk(
   }
 );
 
-export const updateUserBio = createAsyncThunk(
-  "User/updateBio",
-  async ({ bio, token }: any) => {
+export const editProfile = createAsyncThunk(
+  "User/EditProfile",
+  async ({ bio, nickname, username, token }: EditProfileProps) => {
     try {
-      await axios.post(
+      await axios.put(
         `${BACKEND_URL}user/update_bio`,
         {
           bio,
+          nickname,
+          username,
         },
         {
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "multipart/form-data",
             Authorization: token,
           },
         }
@@ -623,6 +714,18 @@ export const updateUserBio = createAsyncThunk(
     } catch (error) {}
   }
 );
+
+export const deletePost = createAsyncThunk("",async ({postId, token}:any) => {
+  try {
+    await axios.delete(`${BACKEND_URL}/posts/${postId}`, {
+      headers:{
+        Authorization:token
+      }
+    })
+  } catch (error) {
+    
+  }
+})
 export const USER = createSlice({
   name: "User",
   initialState,
@@ -731,7 +834,7 @@ export const USER = createSlice({
       state.selectedSuperStar = [];
     },
     updateBio: (state, action: PayloadAction<string>) => {
-      state.bio = action.payload;
+      state.UserData.bio = action.payload;
     },
     updateTheirProfileBottomSheet: (state, action: PayloadAction<boolean>) => {
       state.theirProfileBottomSheet = action.payload;

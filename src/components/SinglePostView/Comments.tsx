@@ -44,6 +44,9 @@ const Comments = ({ CommentData, myPost }: Props) => {
       videoUrls: ["https://www.youtube.com/watch?v=EJzB_Fa27ko"],
       createdAt: "2023-11-02T03:01:59.721Z",
       sellNFTPrice: "20.4",
+      nftCollection:"",
+      nftImageUrl:"",
+      nftTokenId:'',
       likes: [
         {
           _id: "6560962a233ac36e73bc42ce",
@@ -80,6 +83,8 @@ const Comments = ({ CommentData, myPost }: Props) => {
         username: "test12",
         email: "test@email.com",
         referralCode: "98N39",
+        profileImage:"",
+        createdAt:""
       },
       reposts: [],
       originalCustomer: {
@@ -90,6 +95,8 @@ const Comments = ({ CommentData, myPost }: Props) => {
         username: "test12",
         email: "test@email.com",
         referralCode: "98N39",
+        profileImage:"",
+        createdAt:""
       },
       repost: false,
       originalPostId: "65430c7f372dd89672e9214d",
@@ -105,6 +112,9 @@ const Comments = ({ CommentData, myPost }: Props) => {
       videoUrls: ["https://www.youtube.com/watch?v=EJzB_Fa27ko"],
       createdAt: "2023-11-02T03:01:59.721Z",
       sellNFTPrice: "20.4",
+      nftCollection:'',
+      nftTokenId:"",
+      nftImageUrl:"",
       likes: [
         {
           _id: "6560962a233ac36e73bc42ce",
@@ -141,6 +151,8 @@ const Comments = ({ CommentData, myPost }: Props) => {
         username: "test12",
         email: "test@email.com",
         referralCode: "98N39",
+        profileImage:"",
+        createdAt:""
       },
       reposts: [],
       originalCustomer: {
@@ -151,6 +163,8 @@ const Comments = ({ CommentData, myPost }: Props) => {
         username: "test12",
         email: "test@email.com",
         referralCode: "98N39",
+        profileImage:"",
+        createdAt:""
       },
       repost: false,
       originalPostId: "65430c7f372dd89672e9214d",

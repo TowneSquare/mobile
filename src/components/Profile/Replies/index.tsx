@@ -92,8 +92,8 @@ const Replies = memo(
                   nickname={userPost?.customer?.nickname}
                   timepost={"2m"} // TODO: fix the post time
                   myPost={myPost ? myPost : false}
-                   postId={userPost._id}
-                userId={userPost.customer._id}
+                  postId={userPost._id}
+                  userId={userPost.customer._id}
                 />
                 <Text onPress={handleNavigation} style={styles.message}>
                   {data.content}
@@ -130,8 +130,8 @@ const Replies = memo(
                   nickname={userPost?.customer?.nickname}
                   timepost={"2m"} // TODO: fix the post time
                   myPost={myPost ? myPost : false}
-                   postId={userPost?._id}
-                userId={userPost?.customer?._id}
+                  postId={postId}
+                  userId={userPost?.customer?._id}
                 />
 
                 <Text onPress={handleNavigation} style={styles.message}>
@@ -236,8 +236,8 @@ const Replies = memo(
                   nickname={userPost?.customer?.nickname}
                   timepost={"2m"} // TODO
                   myPost={myPost ? myPost : false}
-                   postId={userPost._id}
-                    userId={userPost.customer._id}
+                  postId={postId}
+                  userId={userPost?.customer?._id}
                 />
 
                 <Text onPress={handleNavigation} style={styles.message}>
@@ -307,8 +307,8 @@ const Replies = memo(
                   nickname={userPost?.customer?.nickname}
                   timepost={"2m"} // TODO
                   myPost={myPost ? myPost : false}
-                   postId={userPost._id}
-                userId={userPost.customer._id}
+                  postId={postId}
+                  userId={userPost?.customer?._id}
                 />
 
                 <Pressable

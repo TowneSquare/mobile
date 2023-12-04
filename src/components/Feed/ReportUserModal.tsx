@@ -75,7 +75,6 @@ const ReportUserModal = () => {
     []
   );
 
-  console.log(userId, "userId")
 
   const REPORT_USER = async () => {
     await reportUser(userId, token);
