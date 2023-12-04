@@ -23,6 +23,7 @@ import {
   updateSelectedCollection,
   updateSelectedRender,
   updateNftOpen,
+  updateUploadImageModalOpen,
   updateNftRender,
 } from '../../../controller/BottomSheetController';
 import Customhandler from '../Customhandler';
@@ -155,6 +156,7 @@ const SelectedCollection = () => {
           onPress={() => {
             dispatch(updateSelectedRender(0));
             dispatch(updateSelectedCollection(false));
+            dispatch(updateUploadImageModalOpen(false));
             setSnap('67%');
           }}
           disabled={typeof profilePics === 'undefined' ? true : false}
@@ -199,7 +201,7 @@ const SelectedCollection = () => {
             onPress={() => {
               dispatch(updateSelectedRender(0));
               dispatch(updateSelectedCollection(false));
-              dispatch(updateNftRender(1));
+              dispatch(updateNftRender(0));
               dispatch(updateNftOpen(true));
               setSnap('67%');
             }}

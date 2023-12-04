@@ -99,7 +99,19 @@ export async function uploadProfileImage(
     headers: { authorization: token, 'Content-Type': 'multipart/form-data' },
     body: profileImage,
   }).then((resp) => resp.json())
-    .catch((error) => {
-      if (error.code == 400) console.log(error.message);
-    });
+  .catch((error) => {
+    if (error.code == 400) console.log(error.message);
+  });
+}
+
+export async function uploadNFTProfileImage(
+  token: string,
+  imageUrl: string,
+) {
+  return createCall(
+    'user/nft-profile-photo',
+    { url : imageUrl },
+    { authorization: token },
+    "POST"
+  );
 }

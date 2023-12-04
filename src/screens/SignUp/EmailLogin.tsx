@@ -32,9 +32,16 @@ import {
   updateAccountInfo,
   updateDidToken,
   updateMetadata,
+  getNftList,
 } from "../../controller/UserController";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { checkSignup, signup, updateConnectedSocial, uploadProfileImage } from "../../api";
+import {
+  checkSignup,
+  signup,
+  updateConnectedSocial,
+  uploadProfileImage,
+  uploadNFTProfileImage
+} from "../../api";
 import Loader from "../../../assets/svg/Loader";
 import { setLoginSession } from "../../utils/session";
 import Twitter from "../../../assets/images/svg/Twitter";
@@ -169,6 +176,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
           setUserId(res.userId);
           setToken(user.didToken);
         }
+        dispatch(getNftList({ walletAddress: "0xb52363ed75f496448b691d33125bd1a866cf35a0132626074f59d4e07bb80234" }))
       } else if (newIndex == 4) {
         const result = await updateConnectedSocial(
           userId,
@@ -179,9 +187,18 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
         }
       }
     } else {
-      const res = await uploadProfileImage(user.didToken, createFormData());
-      if (res.profileUrl != null) {
-        navigation.navigate("Congratulations");
+      const hasHttps = profilePics.includes("https://");
+      if(hasHttps){
+        console.log(hasHttps);
+        const res = await uploadNFTProfileImage(user.didToken, profilePics);
+        if (res.success) {
+          navigation.navigate("Congratulations");
+        }
+      }else{
+        const res = await uploadProfileImage(user.didToken, createFormData());
+        if (res.profileUrl != null) {
+          navigation.navigate("Congratulations");
+        }
       }
     }
   };

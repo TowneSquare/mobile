@@ -2,7 +2,7 @@ import { images } from "./../../constants/images";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { ImageSourcePropType } from "react-native";
 import { communities, friends } from "./models";
-import { didToken } from "../../../config/env";
+import { didToken, BACKEND_URL } from "../../../config/env";
 import axios from "axios";
 
 export interface collection {
@@ -18,10 +18,9 @@ export interface selectedCollection {
   id: number;
 }
 export interface NftCollection {
-  Collectionimage?: any;
-  collections: collection[];
-  Name: string;
   id: number;
+  name: string;
+  image: string;
 }
 interface UserState {
   details: {
@@ -46,7 +45,7 @@ interface UserState {
   accountInfo: any;
   metadata: any;
   editProfile: boolean;
-  NFTCollections: NftCollection[];
+  listOfNft: NftCollection[];
   selectedSuperStars: {
     uri: string;
     id: string;
@@ -64,6 +63,10 @@ interface signUpRequest {
   nickname: string;
   username: string;
   email: string;
+}
+
+interface getNFTRequest {
+  walletAddress: string;
 }
 
 interface followRequest {
@@ -91,250 +94,14 @@ const initialState: UserState = {
   },
   didToken: didToken,
   editProfile: false,
-  NFTCollections: [
-    {
-      Collectionimage: images.NftCollection1,
-      collections: [
-        {
-          image: images.pinnedNFT,
-          id: 1,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_1,
-          id: 2,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_2,
-          id: 3,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_3,
-          id: 4,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_4,
-          id: 5,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_5,
-          id: 6,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_6,
-          id: 7,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_7,
-          id: 8,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_8,
-          id: 9,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_9,
-          id: 10,
-          isSelected: false,
-        },
-      ],
-      Name: "Aptomingos",
-      id: 1,
-    },
-    {
-      Collectionimage: images.NftCollection2,
-      collections: [
-        {
-          image: images.pinnedNFT_10,
-          id: 1,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_11,
-          id: 2,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_12,
-          id: 3,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_13,
-          id: 4,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_14,
-          id: 5,
-          isSelected: false,
-        },
-      ],
-      Name: "Aptos Monkey",
-      id: 2,
-    },
-    {
-      Collectionimage: images.NftCollection3,
-      collections: [
-        {
-          image: images.pinnedNFT_15,
-          id: 1,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_16,
-          id: 2,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_17,
-          id: 3,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_18,
-          id: 4,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_19,
-          id: 5,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_20,
-          id: 6,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_21,
-          id: 7,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_22,
-          id: 8,
-          isSelected: false,
-        },
-      ],
-      Name: "Aptomingos",
-      id: 3,
-    },
-    {
-      Collectionimage: images.NftCollection1,
-      collections: [
-        {
-          image: images.pinnedNFT_23,
-          id: 1,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_24,
-          id: 2,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_25,
-          id: 3,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_26,
-          id: 4,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_27,
-          id: 5,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_28,
-          id: 6,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_29,
-          id: 7,
-          isSelected: false,
-        },
-      ],
-      Name: "Aptos Monkey",
-      id: 5,
-    },
-    {
-      Collectionimage: images.NftCollection2,
-      collections: [
-        {
-          image: images.pinnedNFT_30,
-          id: 1,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_31,
-          id: 2,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_32,
-          id: 3,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_33,
-          id: 4,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_34,
-          id: 5,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_35,
-          id: 6,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_36,
-          id: 7,
-          isSelected: false,
-        },
-      ],
-      Name: "Aptomingos",
-      id: 6,
-    },
-    {
-      Collectionimage: images.NftCollection3,
-      collections: [
-        {
-          image: images.pinnedNFT_37,
-          id: 1,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_38,
-          id: 2,
-          isSelected: false,
-        },
-        {
-          image: images.pinnedNFT_40,
-          id: 3,
-          isSelected: false,
-        },
-      ],
-      Name: "Aptos Monkey lorem Ipsumdalr",
-      id: 7,
-    },
-  ],
+  listOfNft:
+    [
+      {
+        image: "",
+        id: 1,
+        name: "NFT"
+      },
+    ],
   accountInfo: undefined,
   metadata: undefined,
   selectedSuperStars: [],
@@ -357,6 +124,51 @@ export const signUp = createAsyncThunk(
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
+    }
+  }
+  );
+  
+  export const getNftList = createAsyncThunk(
+    "User/getNFT",
+    async ( getNFTRequest : getNFTRequest, thunkAPI) => {
+    const { walletAddress } = getNFTRequest;
+    try {
+      const bodydata = {
+        wallet: walletAddress,
+        limit: 1,
+        offset: 1
+      }
+      const result = await axios.post(`${BACKEND_URL}activity/get_nft_list`, bodydata);
+      const tokenIds: string[] = result.data.result.map((item, index) => item.token_data_id_hash);
+      const res = await axios.post(`${BACKEND_URL}activity/get_nft_metadadta`, { ids: tokenIds });
+      const fetchPromises = res.data.map((item, index) => {
+        const imageExtensions = /\.(jpe?g|png|gif|bmp|tiff|webp|svgz?|ico)$/i;
+        const hasImageExtension = imageExtensions.test(item.metadata_uri);
+        if (hasImageExtension) {
+          return Promise.resolve({
+            id: index + 1,
+            name: item.name,
+            image: item.metadata_uri,
+          });
+        } else {
+          return fetch(item.metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
+            .then(response => response.json())
+            .then(data => ({
+              id: index + 1,
+              name: data.name,
+              image: data.image,
+            }))
+            .catch(error => {
+              return thunkAPI.rejectWithValue(error);
+            });
+        }
+      });
+      const metadataList = await Promise.all(fetchPromises);
+
+      thunkAPI.dispatch(updatelistOfNft(metadataList));
+      
+    } catch (error) {
+      console.error(error);
     }
   }
 );
@@ -454,6 +266,9 @@ export const USER = createSlice({
     updateProfileImage: (state, action: PayloadAction<string>) => {
       state.details.profileImage = action.payload;
     },
+    updatelistOfNft: (state, action: PayloadAction<NftCollection[]>) => {
+      state.listOfNft = action.payload;
+    },
     updateDidToken: (state, action: PayloadAction<string>) => {
       state.didToken = action.payload;
     },
@@ -510,6 +325,7 @@ export const {
   updateEmail,
   updateUsername,
   updateFollowedFriends,
+  updatelistOfNft,
   updateJoinedCommunities,
   updateNicknameError,
   updateUsernameError,

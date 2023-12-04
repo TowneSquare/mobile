@@ -22,6 +22,8 @@ import {
 import {
   updateUploadImageModalOpen,
   updateUploadModalRenderCount,
+  updateSelectedCollection,
+  updateSelectedRender,
   updateNftOpen,
   updateNftRender,
 } from '../../../controller/BottomSheetController';
@@ -41,8 +43,10 @@ import {
 import { updateProfileImage } from '../../../controller/UserController';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-
-const UploadImageModal = () => {
+interface Props {
+  callBack?: () => void;
+}
+const UploadImageModal = ({ callBack }: Props) => {
   const [bottomSheetOpen, setBottomSheetOpen] = useState<boolean>(false);
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
@@ -191,10 +195,14 @@ const UploadImageModal = () => {
           <Pressable
             disabled={collectionLength === 0}
             onPress={() => {
-              dispatch(updateUploadModalRenderCount(0));
-              dispatch(updateUploadImageModalOpen(false));
-              dispatch(updateNftRender(1));
-              dispatch(updateNftOpen(true));
+              if (callBack) {
+                callBack();
+              } else {
+                dispatch(updateNftRender(0));
+                dispatch(updateNftOpen(false));
+                dispatch(updateSelectedRender(1));
+                dispatch(updateSelectedCollection(true));
+              }
             }}
             style={[
               styles.container,

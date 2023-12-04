@@ -20,49 +20,10 @@ const ProfilePicsCollection = () => {
   const profilePicture = useAppSelector(
     (state) => state.bottomSheetController.profilePics
   );
+  const profilePics = useAppSelector(
+    (state) => state.USER.listOfNft
+  );
   const dispatch = useAppDispatch();
-  const profilePics = [
-    {
-      image: images.Aptomingos,
-      Name: '#928098098',
-      id: 1,
-    },
-    {
-      image: images.Aptomingos,
-      Name: '#928098098',
-      id: 2,
-    },
-    {
-      image: images.Aptomingos,
-      Name: '#928098098',
-      id: 3,
-    },
-    {
-      image: images.Aptomingos,
-      Name: '#928098098',
-      id: 5,
-    },
-    {
-      image: images.Aptomingos,
-      Name: '#928098098',
-      id: 6,
-    },
-    {
-      image: images.Aptomingos,
-      Name: '#928098098',
-      id: 7,
-    },
-    {
-      image: images.Aptomingos,
-      Name: '#928098098',
-      id: 8,
-    },
-    {
-      image: images.Aptomingos,
-      Name: '#928098098',
-      id: 9,
-    },
-  ];
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
   });
@@ -100,20 +61,22 @@ const ProfilePicsCollection = () => {
             batch(() => {
               dispatch(updateProfilePics(profile));
               dispatch(
-                updateProfileImage(Image.resolveAssetSource(profile.image).uri)
+                updateProfileImage(Image.resolveAssetSource({ uri: profile.image }).uri)
               );
             });
           }}
           key={profile.id}
         >
-          <Image
-            style={{
-              width: size.getWidthSize(140),
-              height: size.getHeightSize(140),
-            }}
-            source={profile.image}
-            resizeMode="cover"
-          />
+          {profile.image && (
+            <Image
+              style={{
+                width: size.getWidthSize(140),
+                height: size.getHeightSize(140),
+              }}
+              source={{ uri: profile.image }}
+              resizeMode="cover"
+            />
+          )}
           <View
             style={{
               width: size.getWidthSize(124),
@@ -143,7 +106,7 @@ const ProfilePicsCollection = () => {
                 lineHeight: size.getHeightSize(18),
               }}
             >
-              {profile.Name}
+              {profile.name}
             </Text>
           </View>
         </Pressable>
