@@ -5,114 +5,41 @@ import {
   StyleSheet,
   Image,
   Pressable,
-} from 'react-native';
-import React from 'react';
-import { sizes } from '../../utils';
-import { appColor, images } from '../../constants';
-import { ChatClass } from '../../utils/ChatUtils';
-import ActionButton from '../../shared/ActionButton';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import CharReplyIcon from '../../../assets/images/svg/ChatReplyIcon';
-import { Avatar } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
-import ChatTipIcon from '../../../assets/images/svg/ChatTipIcon';
+} from "react-native";
+import React from "react";
+import { sizes } from "../../utils";
+import { appColor, images } from "../../constants";
+import { ChatClass } from "../../utils/ChatUtils";
+import ActionButton from "../../shared/ActionButton";
+import {
+  ChatNftOffer,
+  ChatDate,
+  ChatGif,
+  ChatImage,
+  ChatNftAtachment,
+  ChatText,
+  ChatVideo,
+} from "../../models/conversationModel";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import CharReplyIcon from "../../../assets/images/svg/ChatReplyIcon";
+import { Avatar } from "react-native-elements";
+import { useNavigation } from "@react-navigation/native";
+import ChatTipIcon from "../../../assets/images/svg/ChatTipIcon";
 dayjs.extend(relativeTime);
-const { height, width } = Dimensions.get('window');
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 
-type ChatText = {
-  id: string;
-  message: {
-    messageType: 'text';
-    text: string;
-    createdAt: string;
-  };
-  user: {
-    id: string;
-    name: string;
-  };
-};
-
-type ChatImage = {
-  id: string;
-  message: {
-    messageType: 'image';
-    imageUri: string;
-    createdAt: string;
-  };
-  user: {
-    id: string;
-    name: string;
-  };
-};
-type ChatVideo = {
-  id: string;
-  message: {
-    messageType: 'video';
-    imageUri: string;
-    createdAt: string;
-  };
-  user: {
-    id: string;
-    name: string;
-  };
-};
-type ChatGif = {
-  id: string;
-  message: {
-    messageType: 'gif';
-    imageUri: string;
-    createdAt: string;
-  };
-  user: {
-    id: string;
-    name: string;
-  };
-};
-type ChatNftAtachment = {
-  id: string;
-  message: {
-    messageType: 'nft';
-    imageUri: string;
-    createdAt: string;
-    collectionImageUri: string;
-    collectionName: string;
-    collectionId: string;
-  };
-  user: {
-    id: string;
-    name: string;
-  };
-};
-type ChatNftOffer = {
-  id: string;
-  message: {
-    messageType: 'nftOffer';
-    imageUri: string;
-    createdAt: string;
-    collectionImageUri: string;
-    collectionName: string;
-    collectionId: string;
-    price: string;
-    offeredBy: string;
-    activeOffer: string;
-  };
-  user: {
-    id: string;
-    name: string;
-  };
-};
 type ChatReplied = {
   id: string;
   message: {
-    messageType: 'replied';
-    reply: 'nft' | 'text' | 'image' | 'video' | 'gif' | 'nftOffer';
+    messageType: "replied";
+    reply: "nft" | "text" | "image" | "video" | "gif" | "nftOffer";
   };
   replied: {
     id: string;
     message: {
-      messageType: 'text' | 'video' | 'NFT' | 'GIF' | 'NFT Offer' | 'Image';
+      messageType: "text" | "video" | "NFT" | "GIF" | "NFT Offer" | "Image";
       text: string;
       createdAt: string;
     };
@@ -131,7 +58,7 @@ type ChatReplied = {
 type Funds = {
   id: string;
   message: {
-    messageType: 'funds';
+    messageType: "funds";
     createdAt: string;
     amount: string;
   };
@@ -154,23 +81,28 @@ interface Props {
   data: Data;
   chatUtilsInstance: ChatClass;
 }
+// 0x0c75ecaf74545a882e32e3c1f07c016f759814137aa15398bcb19ee6c7925ca3'
 const GetContent = ({ data, chatUtilsInstance }: Props) => {
   let { id, user, message } = data as Data;
   const navigation = useNavigation();
   switch (message.messageType) {
-    case 'text':
+    case "text":
       const urlPattern = /(https?:\/\/[^\s]+)/g;
       const texts = message.text.split(urlPattern);
+      // console.log(user.id);
       return (
         <View style={{}}>
           <View
             style={[
-              user.id !== '1' ? styles.messageContainer : styles.container,
+              user.id !==
+              "0x0c75ecaf74545a882e32e3c1f07c016f759814137aa15398bcb19ee6c7925ca3"
+                ? styles.messageContainer
+                : styles.container,
             ]}
           >
             <Text>
               {texts.map((text, index) =>
-                text === '' ? (
+                text === "" ? (
                   <></>
                 ) : urlPattern.test(text) ? (
                   <Text
@@ -188,43 +120,43 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
           </View>
         </View>
       );
-    case 'image':
+    case "image":
       return (
         <View>
-          <View style={user.id !== '1' ? styles.imageView2 : styles.imageView}>
+          <View style={user.id !== "1" ? styles.imageView2 : styles.imageView}>
             <Image
               source={images.feedImage1}
-              style={user.id !== '1' ? styles.imageStyle2 : styles.imageStyle}
+              style={user.id !== "1" ? styles.imageStyle2 : styles.imageStyle}
               resizeMode="cover"
             />
           </View>
         </View>
       );
-    case 'video':
+    case "video":
       return (
         <View>
-          <View style={user.id !== '1' ? styles.videoView : styles.videoView2}>
+          <View style={user.id !== "1" ? styles.videoView : styles.videoView2}>
             <Image
               source={images.feedImage3}
-              style={user.id !== '1' ? styles.videoStyle : styles.videoStyle2}
+              style={user.id !== "1" ? styles.videoStyle : styles.videoStyle2}
               resizeMode="cover"
             />
           </View>
         </View>
       );
-    case 'gif':
+    case "gif":
       return (
         <View>
-          <View style={user.id !== '1' ? styles.imageView2 : styles.imageView}>
+          <View style={user.id !== "1" ? styles.imageView2 : styles.imageView}>
             <Image
               source={images.feedImage2}
-              style={user.id !== '1' ? styles.imageStyle2 : styles.imageStyle}
+              style={user.id !== "1" ? styles.imageStyle2 : styles.imageStyle}
               resizeMode="cover"
             />
           </View>
         </View>
       );
-    case 'nft':
+    case "nft":
       return (
         <View
           style={{
@@ -240,16 +172,16 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
           >
             <Image
               source={images.feedImage5}
-              style={{ width: '100%', height: '100%', borderRadius: 8 }}
+              style={{ width: "100%", height: "100%", borderRadius: 8 }}
               resizeMode="cover"
             />
           </View>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
+              flexDirection: "row",
+              alignItems: "center",
               gap: size.getWidthSize(4),
-              alignSelf: 'flex-start',
+              alignSelf: "flex-start",
             }}
           >
             <Avatar
@@ -261,9 +193,9 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
               style={{
                 color: appColor.kTextColor,
                 fontSize: size.fontSize(14),
-                fontFamily: 'Outfit-Regular',
+                fontFamily: "Outfit-Regular",
                 lineHeight: size.getHeightSize(18),
-                textAlign: 'left',
+                textAlign: "left",
               }}
             >
               Aptomingos
@@ -273,34 +205,34 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
             style={{
               color: appColor.kTextColor,
               fontSize: size.fontSize(16),
-              fontFamily: 'Outfit-Medium',
+              fontFamily: "Outfit-Medium",
               lineHeight: size.getHeightSize(21),
-              textAlign: 'left',
+              textAlign: "left",
             }}
           >
             Aptomingos #9280
           </Text>
         </View>
       );
-    case 'nftOffer':
+    case "nftOffer":
       return (
         <View>
           <View
-            style={user.id !== '1' ? styles.nftOfferView : styles.nftOfferView2}
+            style={user.id !== "1" ? styles.nftOfferView : styles.nftOfferView2}
           >
             <Image
               source={images.siothian}
               style={
-                user.id !== '1' ? styles.nftOfferImage2 : styles.nftOfferImage
+                user.id !== "1" ? styles.nftOfferImage2 : styles.nftOfferImage
               }
               resizeMode="cover"
             />
             <View
               style={{
-                position: 'absolute',
+                position: "absolute",
                 paddingVertical: size.getHeightSize(8),
                 paddingHorizontal: size.getWidthSize(16),
-                backgroundColor: '#00000070',
+                backgroundColor: "#00000070",
                 width: size.getWidthSize(264),
                 bottom: 0,
               }}
@@ -309,7 +241,7 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
                 style={{
                   color: appColor.kTextColor,
                   fontSize: size.fontSize(14),
-                  fontFamily: 'Outfit-SemiBold',
+                  fontFamily: "Outfit-SemiBold",
                   lineHeight: size.getHeightSize(18),
                 }}
               >
@@ -317,8 +249,8 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
               </Text>
               <View
                 style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
+                  flexDirection: "row",
+                  alignItems: "center",
                   gap: size.getWidthSize(4),
                 }}
               >
@@ -331,7 +263,7 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
                   style={{
                     color: appColor.kTextColor,
                     fontSize: size.fontSize(14),
-                    fontFamily: 'Outfit-Regular',
+                    fontFamily: "Outfit-Regular",
                     lineHeight: size.getHeightSize(18),
                   }}
                 >
@@ -346,9 +278,9 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
               paddingHorizontal: size.getWidthSize(16),
               borderBottomLeftRadius: 8,
               borderBottomRightRadius: 8,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
               backgroundColor: appColor.grayDark,
               width: size.getWidthSize(264),
             }}
@@ -362,7 +294,7 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
                 style={{
                   color: appColor.kTextColor,
                   fontSize: size.fontSize(14),
-                  fontFamily: 'Outfit-Regular',
+                  fontFamily: "Outfit-Regular",
                   lineHeight: size.getHeightSize(18),
                 }}
               >
@@ -372,7 +304,7 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
                 style={{
                   color: appColor.kTextColor,
                   fontSize: size.fontSize(20),
-                  fontFamily: 'Outfit-SemiBold',
+                  fontFamily: "Outfit-SemiBold",
                   lineHeight: size.getHeightSize(24),
                   letterSpacing: 0.4,
                 }}
@@ -382,16 +314,16 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
             </View>
             <Pressable
               onPress={() => {
-                navigation.navigate('NFTOffer', {
-                  type: user.id === '1' ? 'myOffer' : 'theirOffer',
+                navigation.navigate("NFTOffer", {
+                  type: user.id === "1" ? "myOffer" : "theirOffer",
                 });
               }}
               style={{
                 backgroundColor: appColor.kSecondaryButtonColor,
                 paddingVertical: size.getHeightSize(7),
                 paddingHorizontal: size.getWidthSize(24),
-                justifyContent: 'center',
-                alignItems: 'center',
+                justifyContent: "center",
+                alignItems: "center",
                 borderRadius: 40,
               }}
             >
@@ -399,7 +331,7 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
                 style={{
                   color: appColor.kTextColor,
                   fontSize: size.fontSize(16),
-                  fontFamily: 'Outfit-Medium',
+                  fontFamily: "Outfit-Medium",
                   lineHeight: size.getHeightSize(20),
                   letterSpacing: 0.32,
                 }}
@@ -410,8 +342,8 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
           </View>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
+              flexDirection: "row",
+              alignItems: "center",
               paddingHorizontal: size.getWidthSize(8),
               paddingVertical: size.getHeightSize(6),
               width: size.getWidthSize(264),
@@ -427,7 +359,7 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
                 style={{
                   color: appColor.kGrayscale,
                   fontSize: size.fontSize(11),
-                  fontFamily: 'Outfit-SemiBold',
+                  fontFamily: "Outfit-SemiBold",
                   lineHeight: size.getHeightSize(14),
                   letterSpacing: 0.44,
                 }}
@@ -436,8 +368,8 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
               </Text>
               <View
                 style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
+                  flexDirection: "row",
+                  alignItems: "center",
                   gap: size.getWidthSize(4),
                 }}
               >
@@ -450,7 +382,7 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
                   style={{
                     color: appColor.kTextColor,
                     fontSize: size.fontSize(14),
-                    fontFamily: 'Outfit-SemiBold',
+                    fontFamily: "Outfit-SemiBold",
                     lineHeight: size.getHeightSize(18),
                   }}
                 >
@@ -461,13 +393,13 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
             <View>
               <View
                 style={{
-                  alignItems: 'flex-end',
+                  alignItems: "flex-end",
                 }}
               >
                 <View
                   style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
+                    flexDirection: "row",
+                    alignItems: "center",
                     gap: size.getWidthSize(4),
                   }}
                 >
@@ -476,9 +408,9 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
                     style={{
                       color: appColor.kGrayscale,
                       fontSize: size.fontSize(11),
-                      fontFamily: 'Outfit-SemiBold',
+                      fontFamily: "Outfit-SemiBold",
                       lineHeight: size.getHeightSize(14),
-                      textAlign: 'right',
+                      textAlign: "right",
                       letterSpacing: 0.44,
                     }}
                   >
@@ -490,7 +422,7 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
                   style={{
                     color: appColor.kTextColor,
                     fontSize: size.fontSize(14),
-                    fontFamily: 'Outfit-SemiBold',
+                    fontFamily: "Outfit-SemiBold",
                     lineHeight: size.getHeightSize(18),
                   }}
                 >
@@ -501,7 +433,7 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
           </View>
         </View>
       );
-    case 'replied':
+    case "replied":
       const replyData = data;
       let {
         id: chatId,
@@ -513,38 +445,38 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
       return (
         <View>
           <View
-            style={usr.id === '1' ? styles.repliedView1 : styles.repliedView2}
+            style={usr.id === "1" ? styles.repliedView1 : styles.repliedView2}
           >
             <View
               style={
-                user.id === '1' ? styles.myReplyView : styles.theirReplyView
+                user.id === "1" ? styles.myReplyView : styles.theirReplyView
               }
             >
               <View
                 style={{
-                  flexDirection: 'row',
-                  alignItems: 'flex-start',
+                  flexDirection: "row",
+                  alignItems: "flex-start",
                   gap: size.getWidthSize(4),
                   paddingVertical: size.getHeightSize(10),
                   paddingHorizontal: size.getWidthSize(14),
-                  justifyContent: 'space-between',
+                  justifyContent: "space-between",
                 }}
               >
                 <View style={styles.replyToContainer}>
                   <View style={styles.replyToView}>
                     <CharReplyIcon size={size.getHeightSize(20)} />
                     <Text numberOfLines={1} style={styles.replyTo}>
-                      Reply to{' '}
+                      Reply to{" "}
                       <Text
                         style={{
-                          fontFamily: 'Outfit-SemiBold',
+                          fontFamily: "Outfit-SemiBold",
                         }}
                       >
                         UsernameX
                       </Text>
                     </Text>
                   </View>
-                  {message.reply !== 'text' ? (
+                  {message.reply !== "text" ? (
                     <Text style={styles.messageText}>
                       {taggedReply.message.messageType}
                     </Text>
@@ -554,7 +486,7 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
                     </Text>
                   )}
                 </View>
-                {message.reply !== 'text' && (
+                {message.reply !== "text" && (
                   <View style={styles.mediaView}>
                     <Image
                       source={images.siothian}
@@ -565,7 +497,7 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
               </View>
               <View
                 style={
-                  user.id === '1' ? styles.myReplyView2 : styles.theirReplyView2
+                  user.id === "1" ? styles.myReplyView2 : styles.theirReplyView2
                 }
               >
                 <Text style={styles.replyText}>
@@ -576,7 +508,7 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
           </View>
         </View>
       );
-    case 'funds':
+    case "funds":
       let {
         id: fundsChatId,
         message: fundMessage,
@@ -586,7 +518,7 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
         <View>
           <View
             style={[
-              user.id !== '1'
+              user.id !== "1"
                 ? styles.theirFundsContainer
                 : styles.fundsContainer,
             ]}
@@ -595,25 +527,25 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
               <View
                 style={{
                   gap: size.getHeightSize(5),
-                  flexDirection: 'row',
-                  alignItems: 'center',
+                  flexDirection: "row",
+                  alignItems: "center",
                 }}
               >
                 <Text
                   style={{
-                    fontFamily: 'Outfit-Regular',
+                    fontFamily: "Outfit-Regular",
                     color: appColor.kTextColor,
                     fontSize: size.fontSize(13),
                     lineHeight: size.getHeightSize(16),
                   }}
                 >
-                  {user.id === '1' ? 'You sent' : ' You received'}
+                  {user.id === "1" ? "You sent" : " You received"}
                 </Text>
                 <ChatTipIcon size={size.getHeightSize(16)} />
               </View>
               <Text
                 style={{
-                  fontFamily: 'Outfit-SemiBold',
+                  fontFamily: "Outfit-SemiBold",
                   color: appColor.kTextColor,
                   fontSize: size.fontSize(20),
                   lineHeight: size.getHeightSize(24),
@@ -630,18 +562,18 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
                 paddingVertical: size.getHeightSize(8),
                 backgroundColor: appColor.kWhiteColor,
                 borderRadius: 40,
-                alignItems: 'center',
-                justifyContent: 'center',
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
               <Text
                 style={{
                   color: appColor.kButtonTextColor,
                   letterSpacing: 0.32,
-                  fontFamily: 'Outfit-Medium',
+                  fontFamily: "Outfit-Medium",
                   fontSize: size.fontSize(16),
                   lineHeight: size.getHeightSize(20),
-                  textAlign: 'center',
+                  textAlign: "center",
                 }}
               >
                 View details
@@ -658,16 +590,16 @@ const styles = StyleSheet.create({
   timeStamp: {
     color: appColor.grayLight,
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     lineHeight: size.getHeightSize(18),
-    textAlign: 'right',
+    textAlign: "right",
   },
   message: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     lineHeight: size.getHeightSize(24),
-    textAlign: 'left',
+    textAlign: "left",
   },
   container: {
     paddingVertical: size.getHeightSize(10),
@@ -679,9 +611,9 @@ const styles = StyleSheet.create({
   },
   view1: {
     gap: size.getHeightSize(8),
-    alignSelf: 'flex-start',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignSelf: "flex-start",
+    flexDirection: "row",
+    alignItems: "flex-start",
     paddingHorizontal: size.getWidthSize(16),
   },
   view2: {
@@ -689,19 +621,19 @@ const styles = StyleSheet.create({
     gap: size.getHeightSize(6),
   },
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: size.getWidthSize(4),
   },
   name: {
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(21),
   },
   username: {
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.kgrayColor,
     lineHeight: size.getHeightSize(18),
     flex: 1,
@@ -714,27 +646,27 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
     borderTopRightRadius: 8,
     backgroundColor: appColor.grayDark,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   dateContainer: {
     marginVertical: size.getHeightSize(16),
     marginHorizontal: size.getWidthSize(16),
   },
   view3: {
-    alignSelf: 'center',
-    width: '100%',
+    alignSelf: "center",
+    width: "100%",
     height: size.getHeightSize(1),
-    backgroundColor: '#293056',
-    justifyContent: 'center',
+    backgroundColor: "#293056",
+    justifyContent: "center",
   },
   absolute: {
-    alignSelf: 'center',
-    position: 'absolute',
+    alignSelf: "center",
+    position: "absolute",
   },
   date: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     lineHeight: size.getHeightSize(20),
     backgroundColor: appColor.feedBackground,
     paddingHorizontal: size.getWidthSize(24),
@@ -743,7 +675,7 @@ const styles = StyleSheet.create({
   timeStamp2: {
     color: appColor.grayLight,
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     lineHeight: size.getHeightSize(18),
   },
   imageView: {
@@ -782,38 +714,38 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     borderTopRightRadius: 8,
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   videoStyle2: {
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     borderTopLeftRadius: 8,
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   imageStyle: {
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     borderTopLeftRadius: 8,
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   imageStyle2: {
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     borderTopRightRadius: 8,
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   nftOfferImage: {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
     borderTopLeftRadius: 8,
   },
   nftOfferImage2: {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
     borderTopRightRadius: 8,
   },
   nftOfferView: {
@@ -827,17 +759,17 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 8,
   },
   repliedView1: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: size.getWidthSize(4),
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   repliedView2: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: size.getWidthSize(4),
     borderTopRightRadius: 8,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     // alignSelf: 'flex-end',
   },
   theirReplyView: {
@@ -856,12 +788,12 @@ const styles = StyleSheet.create({
   replyText: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     lineHeight: size.getHeightSize(18),
   },
   imageStyle3: {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
     borderRadius: 8,
   },
   mediaView: {
@@ -872,25 +804,25 @@ const styles = StyleSheet.create({
   mediaText: {
     color: appColor.kGrayscale,
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     lineHeight: size.getHeightSize(18),
   },
   messageText: {
     color: appColor.kGrayscale,
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     lineHeight: size.getHeightSize(18),
   },
   replyTo: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     lineHeight: size.getHeightSize(18),
     maxWidth: size.getWidthSize(152),
   },
   replyToView: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: size.getWidthSize(8),
   },
   replyToContainer: {
@@ -928,9 +860,9 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     backgroundColor: appColor.primaryLight,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     gap: size.getWidthSize(8),
     width: size.getWidthSize(280),
   },
@@ -942,10 +874,10 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
     borderTopRightRadius: 8,
     backgroundColor: appColor.grayDark,
-    alignSelf: 'flex-start',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    alignSelf: "flex-start",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     gap: size.getWidthSize(8),
     width: size.getWidthSize(280),
   },
