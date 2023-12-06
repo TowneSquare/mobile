@@ -5,34 +5,81 @@ import {
   Dimensions,
   StyleSheet,
   Pressable,
-} from 'react-native';
-import React, { useState, useRef } from 'react';
-import ConversationHeader from '../../components/DM/ConversationHeader';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../constants';
-import ChatTextInput, { ComponentRef } from '../../components/DM/ChatTextInput';
-import { conversationData } from '../../utils/messageData';
-import DeleteConversationBottomsheet from '../../components/DM/DeleteConversationBottomsheet';
-import { ChatClass } from '../../utils/ChatUtils';
-import Messages from '../../components/DM/Messages';
-import { sizes } from '../../utils';
-import DeleteChatBottomsheet from '../../components/DM/DeleteChatBottomsheet';
-import MoreBottomsheet from '../../components/DM/MoreBottomsheet';
-import { ConversationProps } from '../../navigations/NavigationTypes';
-import UnblockUserBottomsheet from '../../components/DM/UnblockUserBottomsheet';
-import BlockUserBottomsheet from '../../components/DM/BlockUserBottomsheet';
-
-const { height, width } = Dimensions.get('window');
+  RefreshControl,
+  TouchableOpacity,
+} from "react-native";
+import Loader from "../../../assets/svg/Loader";
+import React, { useState, useRef, useEffect } from "react";
+import ConversationHeader from "../../components/DM/ConversationHeader";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { appColor } from "../../constants";
+import ChatTextInput, { ComponentRef } from "../../components/DM/ChatTextInput";
+import { conversationData } from "../../utils/messageData";
+import DeleteConversationBottomsheet from "../../components/DM/DeleteConversationBottomsheet";
+import { ChatClass } from "../../utils/ChatUtils";
+import { io } from "socket.io-client";
+import Messages from "../../components/DM/Messages";
+import { sizes } from "../../utils";
+import { useAppSelector, useAppDispatch } from "../../controller/hooks";
+import DeleteChatBottomsheet from "../../components/DM/DeleteChatBottomsheet";
+import MoreBottomsheet from "../../components/DM/MoreBottomsheet";
+import { ConversationProps } from "../../navigations/NavigationTypes";
+import UnblockUserBottomsheet from "../../components/DM/UnblockUserBottomsheet";
+import BlockUserBottomsheet from "../../components/DM/BlockUserBottomsheet";
+import { connectSocket } from "../../controller/initializesocket";
+import { nanoid } from "@reduxjs/toolkit";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const Conversation = ({ navigation }: ConversationProps) => {
+  const socket = useAppSelector((state) => state.socket.socket);
+  const dispatch = useAppDispatch();
+  const [message, setMessage] = useState([]);
+  useEffect(() => {
+    if (socket) {
+      socket.emit("getchat", "userId1234");
+      socket.on("message", (message) => {
+        let conversation = [];
+        for (const res of message) {
+          const transformedResponse = {
+            id: nanoid(),
+            message: {
+              messageType: "text",
+              text: res.text,
+            },
+            read: false,
+            createdAt: res.timestamp,
+            user: {
+              id: res.author.address,
+              name: "",
+            },
+          };
+          conversation.push(transformedResponse);
+        }
+        setMessage(conversation);
+      });
+      socket.on("disconnect", () => {
+        console.log("Disconnected from server");
+      });
+    } else {
+      dispatch(connectSocket());
+    }
+  }, [socket]);
+
   const chatInputRef = useRef<ComponentRef>();
   const [showReplying, setShowReplyVisibility] = useState(false);
-  const chatUtils = new ChatClass(conversationData);
+  const chatUtils = new ChatClass(message);
 
   showReplying && chatInputRef.current?.focusTextInput();
   const data = chatUtils.generateItems();
+  const sortedConversation =
+    chatUtils.sortMessagesBasedOnConsecutiveUserId(data);
+  // console.log(sortedConversation);
+  // console.log("====sorted conversation====");
   const [showMoreBottomSheet, setMoreBottomsheetVisibility] = useState(false);
-  const [showDeleteConversationBottomSheet,setDeleteConversationBottomSheetVisibility] = useState(false);
+  const [
+    showDeleteConversationBottomSheet,
+    setDeleteConversationBottomSheetVisibility,
+  ] = useState(false);
   const [showUnblocksheet, setUnblockVisibility] = useState(false);
   const [showBlockUserBottomsheet, setBlockUserVisibility] = useState(false);
   const [blocked, blockUser] = useState(false);
@@ -53,17 +100,37 @@ const Conversation = ({ navigation }: ConversationProps) => {
       <ConversationHeader
         moreIconCallBack={() => setMoreBottomsheetVisibility(true)}
       />
+      {sortedConversation.length < 1 && (
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Loader />
+        </TouchableOpacity>
+      )}
       <View
         style={{
           flex: 1,
         }}
       >
         <FlatList
+          inverted
           contentContainerStyle={{
             gap: size.getHeightSize(8),
           }}
+          style={{
+            flex: 1,
+          }}
           data={data}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <Messages
               chatUtilsInstance={chatUtils}
               data={item}
@@ -149,8 +216,8 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(18),
     lineHeight: size.getHeightSize(23),
     color: appColor.primaryLight,
-    fontFamily: 'Outfit-Medium',
-    textAlign: 'center',
+    fontFamily: "Outfit-Medium",
+    textAlign: "center",
     letterSpacing: 0.36,
   },
   blockView: {
