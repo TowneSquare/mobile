@@ -113,7 +113,7 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
       </Stack.Screen>
 
       <Stack.Screen name="SignUp" options={{ headerShown: false }}>
-        {() => <EmailLogin {...magicProps} />}
+        {() => <SignUp {...magicProps} />}
       </Stack.Screen>
       <Stack.Screen
         name="ChooseWallet"
