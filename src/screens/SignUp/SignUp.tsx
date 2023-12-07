@@ -87,7 +87,10 @@ const SignUp = ({ magic }: SignUpProps) => {
   function get_url_extension(url) {
     return url.split(/[#?]/)[0].split('.').pop().trim();
   }
-  
+  const skipUploadImage = async () => {
+    navigation.navigate("Congratulations");
+  }
+
   const handleNextSlide = async () => {
     const newIndex = viewIndex + 1;
     if (newIndex < views.length && flatListRef.current) {
@@ -320,7 +323,7 @@ const SignUp = ({ magic }: SignUpProps) => {
                 handlePreviousSlide();
               }}
               index={viewIndex}
-              next={handleNextSlide}
+              next={skipUploadImage}
             />
           </View>
         </KeyboardAwareScrollView>

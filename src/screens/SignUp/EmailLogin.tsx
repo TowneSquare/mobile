@@ -126,6 +126,9 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     return url.split(/[#?]/)[0].split('.').pop().trim();
   }
 
+  const skipUploadImage = async () => {
+        navigation.navigate("Congratulations");
+  }
   const handleNextSlide = async () => {
     setViewIndex((previous) => previous + 1);
     const newIndex = viewIndex + 1;
@@ -353,7 +356,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
                 handlePreviousSlide();
               }}
               index={viewIndex}
-              next={handleNextSlide}
+              next={skipUploadImage}
             />
           </View>
         </KeyboardAwareScrollView>
