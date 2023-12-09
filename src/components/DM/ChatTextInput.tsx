@@ -91,7 +91,7 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
   };
   const dispatch = useAppDispatch();
   const sendText = async () => {
-    socket.emit("sendmessage", text);
+    socket.emit("fromrecipient", text);
     setText("");
   };
   return (

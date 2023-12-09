@@ -1,10 +1,10 @@
-import { BACKEND_URL } from '../../config/env';
+import { BACKEND_URL } from "../../config/env";
 let _headers = {
-  Accept: 'application/json',
-  'Content-Type': 'application/json',
+  Accept: "application/json",
+  "Content-Type": "application/json",
 };
 
-function createCall(path, data = null, headers = {}, method = 'POST') {
+function createCall(path, data = null, headers = {}, method = "POST") {
   const merged = {
     ..._headers,
     ...headers,
@@ -16,7 +16,7 @@ function createCall(path, data = null, headers = {}, method = 'POST') {
   }
 
   let strData = JSON.stringify(body);
-  if (method == 'GET')
+  if (method == "GET")
     return fetch(`${BACKEND_URL}${path}`, {
       method: method,
       headers: merged,
@@ -35,10 +35,10 @@ function createCall(path, data = null, headers = {}, method = 'POST') {
       .catch((error) => {
         if (error.code == 400) console.log(error.message);
       });
-  }
+}
 
 export async function checkSignup(token: string) {
-  return createCall(`user/checkSignup`, {}, { authorization: token }, 'GET');
+  return createCall(`user/checkSignup`, {}, { authorization: token }, "GET");
 }
 export async function signup(
   token: string,
@@ -49,7 +49,7 @@ export async function signup(
   email: string
 ) {
   return createCall(
-    'user/signup',
+    "user/signup",
     { issuer, aptosWallet, nickname, username, email },
     { authorization: token }
   );
@@ -61,44 +61,38 @@ export async function updateConnectedSocial(
   input: any
 ) {
   return createCall(
-    'user/connect-social/'+`${userId}`,
+    "user/connect-social/" + `${userId}`,
     input,
     { authorization: token },
     "PUT"
   );
 }
 
-export async function getSuggestFollowers(
-  token: string,
-) {
+export async function getSuggestFollowers(token: string) {
   return createCall(
-    'user/suggested-friends',
-    {},{ authorization: token },
+    "user/suggested-friends",
+    {},
+    { authorization: token },
     "GET"
   );
 }
 
-export async function updatefollowFriends(
-  token: string,
-  followId: string,
-) {
+export async function updatefollowFriends(token: string, followId: string) {
   return createCall(
-    'user/follow-friends',
-    {followIds: [followId]},
+    "user/follow-friends",
+    { followIds: [followId] },
     { authorization: token },
     "POST"
   );
 }
 
-export async function uploadProfileImage(
-  token: string,
-  profileImage: any
-) {
-  return fetch(`${BACKEND_URL}`+'user/upload-profile-photo', {
-    method: 'PUT',
-    headers: { authorization: token, 'Content-Type': 'multipart/form-data' },
+export async function uploadProfileImage(token: string, profileImage: any) {
+  return fetch(`${BACKEND_URL}` + "user/upload-profile-photo", {
+    method: "PUT",
+    headers: { authorization: token, "Content-Type": "multipart/form-data" },
     body: profileImage,
-  }).then((resp) => resp.json())
+  })
+    .then((resp) => resp.json())
     .catch((error) => {
       if (error.code == 400) console.log(error.message);
     });

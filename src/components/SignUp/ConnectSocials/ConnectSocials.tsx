@@ -1,59 +1,62 @@
-import { View, Text, Pressable, Dimensions, StyleSheet } from 'react-native';
-import { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { sizes } from '../../../utils';
-import { appColor } from '../../../constants';
-import DiscordBG from '../../../../assets/images/svg/DiscordBG';
-import XBG from '../../../../assets/images/svg/XBg';
-import Checked from '../../../../assets/images/svg/Checked';
-import Header from '../Header';
-import Link from '../../../../assets/images/svg/Link';
-import * as Linking from 'expo-linking';
+import { View, Text, Pressable, Dimensions, StyleSheet } from "react-native";
+import { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { sizes } from "../../../utils";
+import { appColor } from "../../../constants";
+import DiscordBG from "../../../../assets/images/svg/DiscordBG";
+import XBG from "../../../../assets/images/svg/XBg";
+import Checked from "../../../../assets/images/svg/Checked";
+import Header from "../Header";
+import Link from "../../../../assets/images/svg/Link";
+import * as Linking from "expo-linking";
 import {
   updateAccountInfo,
   updateSocialconnect,
   updateDidToken,
   updateMetadata,
-} from '../../../controller/UserController';
-import { useAppDispatch } from '../../../controller/hooks';
-import { updateConnectedSocial } from '../../../api';
+  disableContinueButton,
+} from "../../../controller/UserController";
+import { useAppDispatch } from "../../../controller/hooks";
+import { updateConnectedSocial } from "../../../api";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 
 const ConnectSocials = ({ magic }: { magic: any }) => {
   const [isXConected, setXConnected] = useState(false);
   const [isDiscordConnected, setDiscordConnected] = useState(false);
   const dispatch = useAppDispatch();
-
   const handleXConnection = async () => {
     if (!isXConected) {
+      dispatch(disableContinueButton(true));
       const token = await magic.oauth.loginWithPopup({
-        provider: "X",
-        redirectURI: Linking.createURL('EmailLogin'),
+        provider: "twitter",
+        redirectURI: Linking.createURL("SignUp"),
       });
       const metadata = await magic.user.getMetadata();
       dispatch(updateSocialconnect({ twitter: metadata.email }));
-    }
-    else {
+      token ? setXConnected(true) : setXConnected(false);
+    } else {
+      setXConnected(false);
       dispatch(updateSocialconnect({ twitter: "" }));
     }
-    setXConnected(!isXConected);
+    dispatch(disableContinueButton(false));
   };
   const handleDiscordConnection = async () => {
-
     if (!isDiscordConnected) {
+      dispatch(disableContinueButton(true));
       const token = await magic.oauth.loginWithPopup({
         provider: "discord",
-        redirectURI: Linking.createURL('EmailLogin'),
+        redirectURI: Linking.createURL("SignUp"),
       });
-
       const metadata = await magic.user.getMetadata();
       dispatch(updateSocialconnect({ discord: metadata.email }));
+      token ? setDiscordConnected(true) : setDiscordConnected(false);
     } else {
       dispatch(updateSocialconnect({ discord: "" }));
+      setDiscordConnected(false);
     }
-    setDiscordConnected(!isDiscordConnected);
+    dispatch(disableContinueButton(true));
   };
 
   return (
@@ -67,16 +70,16 @@ const ConnectSocials = ({ magic }: { magic: any }) => {
       <View
         style={{
           width: size.getWidthSize(328),
-          alignSelf: 'center',
-          justifyContent: 'center',
+          alignSelf: "center",
+          justifyContent: "center",
           gap: size.getHeightSize(16),
           flex: 1,
         }}
       >
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
+            flexDirection: "row",
+            alignItems: "center",
           }}
         >
           <XBG size={size.getHeightSize(45)} />
@@ -95,8 +98,8 @@ const ConnectSocials = ({ magic }: { magic: any }) => {
         </View>
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
+            flexDirection: "row",
+            alignItems: "center",
           }}
         >
           <DiscordBG />
@@ -125,17 +128,17 @@ export default ConnectSocials;
 const styles = StyleSheet.create({
   socialText: {
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     paddingLeft: size.getWidthSize(16),
     color: appColor.kTextColor,
     flex: 1,
     lineHeight: size.getHeightSize(16),
-    fontStyle: 'normal',
+    fontStyle: "normal",
   },
   button: {
     backgroundColor: appColor.kSecondaryButtonColor,
     borderRadius: 40,
-    justifyContent: 'center',
+    justifyContent: "center",
     height: size.getHeightSize(38),
     // width: size.getWidthSize(100),
     paddingHorizontal: size.getWidthSize(16),
@@ -143,26 +146,26 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-Medium',
-    textAlign: 'center',
+    fontFamily: "Outfit-Medium",
+    textAlign: "center",
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(18),
   },
   isConnected: {
     paddingVertical: size.getHeightSize(10),
-    justifyContent: 'center',
-    flexDirection: 'row',
+    justifyContent: "center",
+    flexDirection: "row",
     width: size.getWidthSize(113),
     height: size.getHeightSize(38),
     gap: size.getWidthSize(8),
-    alignItems: 'center',
+    alignItems: "center",
   },
   isConnectedText: {
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-SemiBold',
-    textAlign: 'center',
+    fontFamily: "Outfit-SemiBold",
+    textAlign: "center",
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(18),
-    fontStyle: 'normal',
+    fontStyle: "normal",
   },
 });

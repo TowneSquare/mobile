@@ -57,6 +57,7 @@ interface UserState {
   }[];
   bio: string;
   theirProfileBottomSheet: boolean;
+  isSignUpContinueButtonDisable: boolean;
 }
 
 interface signUpRequest {
@@ -81,7 +82,7 @@ const initialState: UserState = {
     joinedCommunities: [],
     profileImage: undefined,
     referralCode: "",
-    socialInfo: {}
+    socialInfo: {},
   },
   errors: {
     nicknameError: false,
@@ -341,6 +342,7 @@ const initialState: UserState = {
   selectedSuperStar: [],
   bio: `🖇️ Love everything about blockchain \n🌍3 web3 Native \n 👀 Always on a lookout for blue chips`,
   theirProfileBottomSheet: false,
+  isSignUpContinueButtonDisable: false,
 };
 
 export const signUp = createAsyncThunk(
@@ -496,6 +498,12 @@ export const USER = createSlice({
     updateTheirProfileBottomSheet: (state, action: PayloadAction<boolean>) => {
       state.theirProfileBottomSheet = action.payload;
     },
+    disableContinueButton: (
+      state,
+      action: PayloadAction<boolean>
+    ) => {
+      state.isSignUpContinueButtonDisable = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(signUp.fulfilled, (state, action) => {
@@ -527,5 +535,6 @@ export const {
   updateTheirProfileBottomSheet,
   updateSelectedSuperStars,
   updateReferralCode,
+  disableContinueButton,
 } = USER.actions;
 export default USER.reducer;

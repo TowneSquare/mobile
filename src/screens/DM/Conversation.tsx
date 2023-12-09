@@ -61,6 +61,7 @@ const Conversation = ({ navigation }: ConversationProps) => {
         console.log("Disconnected from server");
       });
     } else {
+      console.log("===reconnecting===");
       dispatch(connectSocket());
     }
   }, [socket]);
