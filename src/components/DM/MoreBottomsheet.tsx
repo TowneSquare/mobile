@@ -8,10 +8,12 @@ import ChatDeleteConversationIcon from '../../../assets/images/svg/ChatDeleteCon
 import ChatReportUserIcon from '../../../assets/images/svg/ChatReportUserIcon';
 import ChatBlockUser from '../../../assets/images/svg/ChatBlockUser';
 import { appColor } from '../../constants';
+import { useNavigation } from '@react-navigation/native';
 import { updateReportUserModal } from '../../controller/FeedsController';
 import { useAppDispatch } from '../../controller/hooks';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
+
 interface Props {
   visibility: boolean;
   onClose: () => void;
@@ -27,6 +29,7 @@ const MoreBottomsheet = ({
   onDeleteChat,
   onDeleteConversation,
 }: Props) => {
+  const navigation = useNavigation();
   const dispatch = useAppDispatch();
   return (
     <BottomsheetWrapper
@@ -44,7 +47,13 @@ const MoreBottomsheet = ({
           <ChatMuteIcon size={size.getHeightSize(24)} />
           <Text style={styles.text}>Mute Notifications</Text>
         </Pressable>
-        <Pressable style={styles.view}>
+        <Pressable
+          onPress={() => {
+            onClose();
+            navigation.navigate('TheirProfileScreen');
+          }}
+          style={styles.view}
+        >
           <ChatViewProfileIcon size={size.getHeightSize(24)} />
           <Text style={styles.text}>View profile</Text>
         </Pressable>
