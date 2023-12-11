@@ -186,6 +186,7 @@ const About = ({ route }) => {
     <SafeAreaView
       style={{
         backgroundColor: appColor.feedBackground,
+        flex: 1,
       }}
     >
       <ScrollView>

@@ -87,6 +87,7 @@ interface UserState {
   };
   didToken: string;
   accountInfo: any;
+  metadata: any;
   editProfile: boolean;
   NFTCollections: NftCollection[];
   selectedSuperStars: {
@@ -100,6 +101,8 @@ interface UserState {
     nftCollection: string;
   }[];
   theirProfileBottomSheet: boolean;
+  isSignUpContinueButtonDisable: boolean;
+  socialInfo:any
 }
 
 interface signUpRequest {
@@ -596,9 +599,12 @@ const initialState: UserState = {
     },
   ],
   accountInfo: undefined,
+  metadata: undefined,
+  socialInfo:undefined,
   selectedSuperStars: [],
   selectedSuperStar: [],
   theirProfileBottomSheet: false,
+  isSignUpContinueButtonDisable: false,
 };
 
 export const signUp = createAsyncThunk(
@@ -814,6 +820,12 @@ export const USER = createSlice({
     updateAccountInfo: (state, action: PayloadAction<any>) => {
       state.accountInfo = action.payload;
     },
+    updateSocialconnect: (state, action: PayloadAction<any>) => {
+      state.socialInfo = action.payload;
+    },
+    updateMetadata: (state, action: PayloadAction<any>) => {
+      state.metadata = action.payload;
+    },
     updateSelectedSuperStar: (
       state,
       action: PayloadAction<{
@@ -837,6 +849,12 @@ export const USER = createSlice({
     },
     updateTheirProfileBottomSheet: (state, action: PayloadAction<boolean>) => {
       state.theirProfileBottomSheet = action.payload;
+    },
+    disableContinueButton: (
+      state,
+      action: PayloadAction<boolean>
+    ) => {
+      state.isSignUpContinueButtonDisable = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -866,6 +884,8 @@ export const {
   updateProfileImage,
   updateEditProfile,
   updateAccountInfo,
+  updateMetadata,
+  updateSocialconnect,
   updateSelectedSuperStar,
   deleteSelectedSuperStar,
   resetSelectedSuperStar,
@@ -873,5 +893,6 @@ export const {
   updateTheirProfileBottomSheet,
   updateSelectedSuperStars,
   updateReferralCode,
+  disableContinueButton,
 } = USER.actions;
 export default USER.reducer;

@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { getAllPost, POSTSTATE } from '../../controller/createPost';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor } from '../../constants';
+import { useEffect } from 'react';
 import { FlashList } from '@shopify/flash-list';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';

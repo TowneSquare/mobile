@@ -33,7 +33,7 @@ const TransitionBackButton = ({ action, index, next }: Props) => {
     >
       <Text
         onPress={() => {
-          index === 6 ? next() : action();
+          index === 5 ? next() : action();
         }}
         style={{
           fontStyle: "normal",
@@ -41,12 +41,11 @@ const TransitionBackButton = ({ action, index, next }: Props) => {
           color: appColor.kTextColor,
           fontSize: size.fontSize(18),
           fontFamily: "Outfit-Medium",
-
           lineHeight: size.getHeightSize(23),
           letterSpacing: 0.02,
         }}
       >
-        {index=== 6 ? "I'll do it later" : "Back"}
+        {index === 5 ? "I'll do it later" : "Back"}
       </Text>
     </View>
   );

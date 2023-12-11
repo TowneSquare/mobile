@@ -223,6 +223,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                   ]}
                 >
                   {userPost.description}
+                  {userPost.description}
                 </Text>
                 <View style={[styles.mediaContainer, { marginBottom: 0 }]}>
                   <Image

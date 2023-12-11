@@ -1,22 +1,22 @@
-import * as React from "react"
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
+import * as React from "react";
+import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg";
 const SendIcon = (props: SvgProps) => (
-  <Svg
-    width={24}
-    height={25}
-    fill="none"
-    {...props}
-  >
-    <G fill="#fff" fillRule="evenodd" clipPath="url(#a)" clipRule="evenodd">
-      <Path d="M12 4.5a8 8 0 1 0 0 16 8 8 0 0 0 0-16Zm-10 8c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10-10-4.477-10-10Z" />
-      <Path d="M7.25 12.5a1 1 0 0 1 1-1h7.5a1 1 0 1 1 0 2h-7.5a1 1 0 0 1-1-1Z" />
-      <Path d="M12.043 8.793a1 1 0 0 1 1.414 0l3 3a1 1 0 0 1 0 1.414l-3 3a1 1 0 0 1-1.414-1.414l2.293-2.293-2.293-2.293a1 1 0 0 1 0-1.414Z" />
+  <Svg width={24} height={25} viewBox="0 0 24 25" fill="none" {...props}>
+    <G
+      clipPath="url(#clip0_3244_26534)"
+      stroke="#B882FF"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <Path d="M12 21.5a9 9 0 100-18 9 9 0 000 18zM8.25 12.5h7.5" />
+      <Path d="M12.75 9.5l3 3-3 3" />
     </G>
     <Defs>
-      <ClipPath id="a">
-        <Path fill="#fff" d="M0 .5h24v24H0z" />
+      <ClipPath id="clip0_3244_26534">
+        <Path fill="#fff" transform="translate(0 .5)" d="M0 0H24V24H0z" />
       </ClipPath>
     </Defs>
   </Svg>
-)
-export default SendIcon
+);
+export default SendIcon;

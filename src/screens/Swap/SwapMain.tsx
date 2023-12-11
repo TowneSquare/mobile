@@ -1,4 +1,4 @@
-import React, { useState,  } from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../shared/Feed/Header';
 import { Dimensions, Pressable, Text, View, StyleSheet } from 'react-native';

@@ -14,7 +14,13 @@ import { Avatar } from 'react-native-elements';
 import { appColor, images } from '../../constants';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-
+import {
+  ChatText,
+  ChatDate,
+  Data,
+  SortedChat,
+  DataWithoutChatDate,
+} from '../../models/conversationModel';
 import { ChatClass } from '../../utils/ChatUtils';
 dayjs.extend(relativeTime);
 import {
@@ -23,94 +29,7 @@ import {
 } from 'react-native-gesture-handler';
 import GetContent from '../../components/DM/GetContent';
 import SwipeArrowIcon from '../../../assets/images/svg/SwipeArrowIcon';
-
-type ChatText = {
-  id: string;
-  message: {
-    messageType: 'text';
-    text: string;
-    createdAt: string;
-  };
-  user: {
-    id: string;
-    name: string;
-  };
-};
-type ChatDate = {
-  dateType: string;
-  date: string;
-  id: string;
-};
-
-type ChatImage = {
-  id: string;
-  message: {
-    messageType: 'image';
-    imageUri: string;
-    createdAt: string;
-  };
-  user: {
-    id: string;
-    name: string;
-  };
-};
-type ChatVideo = {
-  id: string;
-  message: {
-    messageType: 'video';
-    imageUri: string;
-    createdAt: string;
-  };
-  user: {
-    id: string;
-    name: string;
-  };
-};
-type ChatGif = {
-  id: string;
-  message: {
-    messageType: 'gif';
-    imageUri: string;
-    createdAt: string;
-  };
-  user: {
-    id: string;
-    name: string;
-  };
-};
-type ChatNftAtachment = {
-  id: string;
-  message: {
-    messageType: 'nft';
-    imageUri: string;
-    createdAt: string;
-    collectionImageUri: string;
-    collectionName: string;
-    collectionId: string;
-  };
-  user: {
-    id: string;
-    name: string;
-  };
-};
-type ChatNftOffer = {
-  id: string;
-  message: {
-    messageType: 'nftOffer';
-    imageUri: string;
-    createdAt: string;
-    collectionImageUri: string;
-    collectionName: string;
-    collectionId: string;
-    price: string;
-    offeredBy: string;
-    activeOffer: string;
-  };
-  user: {
-    id: string;
-    name: string;
-  };
-};
+import { useNavigation } from '@react-navigation/native';
 type State = {
   backgroundColor: '#222222' | 'transparent';
   messageId: string;
@@ -122,28 +41,20 @@ type Action = {
     messageId: string;
   };
 };
-type Data =
-  | ChatText
-  | ChatDate
-  | ChatImage
-  | ChatVideo
-  | ChatGif
-  | ChatNftAtachment
-  | ChatNftOffer;
+
 interface Props {
   data: ChatText | ChatDate;
   showReplyingTo: () => void;
   chatUtilsInstance: ChatClass;
   onProfilePictureLongPress: () => void;
 }
-function isText(data: Data): data is ChatText {
-  return (data as ChatText).message !== undefined;
-}
 
 function isDate(data: Data): data is ChatDate {
   return (data as ChatDate).dateType !== undefined;
 }
-
+function isSortedType(data: Data): data is SortedChat {
+  return 'sortedType' in data === true;
+}
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
@@ -155,16 +66,17 @@ const reducer = (state: State, action: Action) => {
   }
 };
 const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
+  const navigation = useNavigation();
   const swipeRef = useRef<Swipeable>();
   const [selected, dispatch] = useReducer(reducer, {
     backgroundColor: 'transparent',
     messageId: '',
   });
 
-//   const trans = dragX.interpolate({
-//     inputRange: [0, 50, 100, 101],
-//     outputRange: [-16, 34, 84, 83],
-//   });
+  //   const trans = dragX.interpolate({
+  //     inputRange: [0, 50, 100, 101],
+  //     outputRange: [-16, 34, 84, 83],
+  //   });
   const leftSwipe = (progress, dragX) => {
     const trans = dragX.interpolate({
       inputRange: [0, 50, 100, 101],
@@ -187,150 +99,340 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
       </Animated.View>
     );
   };
-  const { id, user } = data as Exclude<Data, ChatDate>;
   let content: JSX.Element;
-  if (isText(data)) {
-    const {
-      id,
-      message: { createdAt, messageType, text },
-      user,
-    } = data;
-    if (user.id === '1') {
-      content = (
-        <View
-          style={{
-            backgroundColor:
-              id === selected.messageId
-                ? selected.backgroundColor
-                : 'transparent',
-            paddingVertical: size.getHeightSize(8),
-          }}
-        >
-          <Swipeable
-            ref={swipeRef}
-            onEnded={() => {
-              dispatch({
-                type: 'ChangeBGColor',
-                payload: {
-                  bgColor: 'transparent',
-                  messageId: '',
-                },
-              });
-            }}
-            friction={2}
-            renderLeftActions={leftSwipe}
-            rightThreshold={40}
-            onFailed={() => {}}
-            onSwipeableOpen={() => {}}
-            onBegan={() => {}}
-            onSwipeableWillOpen={() => {
-              showReplyingTo();
-              swipeRef.current.close();
-              dispatch({
-                type: 'ChangeBGColor',
-                payload: {
-                  bgColor: 'transparent',
-                  messageId: '',
-                },
-              });
-            }}
-            onActivated={(
-              event: HandlerStateChangeEvent<Record<string, unknown>>
-            ) => {
-              const state = event.nativeEvent.state;
-              state === 4 &&
-                dispatch({
-                  type: 'ChangeBGColor',
-                  payload: {
-                    bgColor: '#222222',
-                    messageId: id,
-                  },
-                });
-            }}
-          >
+
+  if (!isDate(data)) {
+    if (isSortedType(data)) {
+      const contents = data.content;
+      contents.map((messageContent, index) => {
+        const { id, user } = messageContent;
+        if (
+          user.id ===
+          '0x872db391f94ef5a2bfda2faae90121a0b496866d69aaf7d8334c90fc50197e6d'
+        ) {
+          // console.log(messageContent);
+          // console.log("====date here====");
+          content = (
             <View
               style={{
-                gap: size.getHeightSize(6),
-                alignSelf: 'flex-end',
-                paddingRight: size.getWidthSize(8),
-                paddingLeft: size.getWidthSize(64),
+                backgroundColor:
+                  id === selected.messageId
+                    ? selected.backgroundColor
+                    : 'transparent',
+                paddingVertical: size.getHeightSize(8),
               }}
             >
-              <GetContent data={data} chatUtilsInstance={chatUtilsInstance} />
-              <Text style={styles.timeStamp}>Friday 18:40pm</Text>
+              <Swipeable
+                ref={swipeRef}
+                onEnded={() => {
+                  dispatch({
+                    type: 'ChangeBGColor',
+                    payload: {
+                      bgColor: 'transparent',
+                      messageId: '',
+                    },
+                  });
+                }}
+                friction={2}
+                renderLeftActions={leftSwipe}
+                rightThreshold={40}
+                onFailed={() => {}}
+                onSwipeableOpen={() => {}}
+                onBegan={() => {}}
+                onSwipeableWillOpen={() => {
+                  showReplyingTo();
+                  swipeRef.current.close();
+                  dispatch({
+                    type: 'ChangeBGColor',
+                    payload: {
+                      bgColor: 'transparent',
+                      messageId: '',
+                    },
+                  });
+                }}
+                onActivated={(
+                  event: HandlerStateChangeEvent<Record<string, unknown>>
+                ) => {
+                  const state = event.nativeEvent.state;
+                  state === 4 &&
+                    dispatch({
+                      type: 'ChangeBGColor',
+                      payload: {
+                        bgColor: '#222222',
+                        messageId: id,
+                      },
+                    });
+                }}
+              >
+                <View
+                  style={{
+                    gap: size.getHeightSize(6),
+                    alignSelf: 'flex-end',
+                    paddingRight: size.getWidthSize(8),
+                    paddingLeft: size.getWidthSize(64),
+                  }}
+                >
+                  <GetContent
+                    data={messageContent}
+                    chatUtilsInstance={chatUtilsInstance}
+                  />
+                  {messageContent.createdAt && (
+                    <Text style={styles.timeStamp}>
+                      {' '}
+                      {new Date(messageContent.createdAt).toLocaleTimeString(
+                        'en-US',
+                        {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        }
+                      )}
+                    </Text>
+                  )}
+                </View>
+              </Swipeable>
             </View>
-          </Swipeable>
-        </View>
-      );
+          );
+        } else {
+          content = (
+            <View
+              style={{
+                backgroundColor:
+                  id === selected.messageId
+                    ? selected.backgroundColor
+                    : 'transparent',
+                paddingVertical: size.getHeightSize(8),
+              }}
+            >
+              <Swipeable
+                ref={swipeRef}
+                onEnded={() => {
+                  dispatch({
+                    type: 'ChangeBGColor',
+                    payload: {
+                      bgColor: 'transparent',
+                      messageId: '',
+                    },
+                  });
+                }}
+                friction={3}
+                renderLeftActions={leftSwipe}
+                rightThreshold={0}
+                onFailed={() => {}}
+                onSwipeableOpen={() => {}}
+                onBegan={() => {}}
+                onSwipeableWillOpen={() => {
+                  showReplyingTo();
+                  swipeRef.current.close();
+                  dispatch({
+                    type: 'ChangeBGColor',
+                    payload: {
+                      bgColor: 'transparent',
+                      messageId: '',
+                    },
+                  });
+                }}
+                onActivated={(
+                  event: HandlerStateChangeEvent<Record<string, unknown>>
+                ) => {
+                  const state = event.nativeEvent.state;
+                  state === 4 &&
+                    dispatch({
+                      type: 'ChangeBGColor',
+                      payload: {
+                        bgColor: '#222222',
+                        messageId: id,
+                      },
+                    });
+                }}
+              >
+                <View style={styles.view1}>
+                  <Avatar
+                    source={images.pfpImage}
+                    size={size.getHeightSize(40)}
+                    rounded
+                  />
+                  <View style={styles.view2}>
+                    <GetContent
+                      data={messageContent}
+                      chatUtilsInstance={chatUtilsInstance}
+                    />
+                    {messageContent.createdAt && (
+                      <Text style={styles.timeStamp}>
+                        {new Date(messageContent.createdAt).toLocaleTimeString(
+                          'en-US',
+                          {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          }
+                        )}
+                      </Text>
+                    )}
+                  </View>
+                </View>
+              </Swipeable>
+            </View>
+          );
+        }
+      });
+      return content;
     } else {
-      content = (
-        <View
-          style={{
-            backgroundColor:
-              id === selected.messageId
-                ? selected.backgroundColor
-                : 'transparent',
-            paddingVertical: size.getHeightSize(8),
-          }}
-        >
-          <Swipeable
-            ref={swipeRef}
-            onEnded={() => {
-              dispatch({
-                type: 'ChangeBGColor',
-                payload: {
-                  bgColor: 'transparent',
-                  messageId: '',
-                },
-              });
+      const {
+        id,
+        message: { messageType, text },
+        user,
+      } = data;
+      if (
+        user.id ===
+        '0x872db391f94ef5a2bfda2faae90121a0b496866d69aaf7d8334c90fc50197e6d'
+      ) {
+        content = (
+          <View
+            style={{
+              backgroundColor:
+                id === selected.messageId
+                  ? selected.backgroundColor
+                  : 'transparent',
+              paddingVertical: size.getHeightSize(8),
             }}
-            friction={3}
-            renderLeftActions={leftSwipe}
-            rightThreshold={40}
-            onFailed={() => {}}
-            onSwipeableOpen={() => {}}
-            onBegan={() => {}}
-            onSwipeableWillOpen={() => {
-              showReplyingTo();
-              swipeRef.current.close();
-              dispatch({
-                type: 'ChangeBGColor',
-                payload: {
-                  bgColor: 'transparent',
-                  messageId: '',
-                },
-              });
-            }}
-            onActivated={(
-              event: HandlerStateChangeEvent<Record<string, unknown>>
-            ) => {
-              const state = event.nativeEvent.state;
-              state === 4 &&
+          >
+            <Swipeable
+              ref={swipeRef}
+              onEnded={() => {
                 dispatch({
                   type: 'ChangeBGColor',
                   payload: {
-                    bgColor: '#222222',
-                    messageId: id,
+                    bgColor: 'transparent',
+                    messageId: '',
                   },
                 });
-            }}
-          >
-            <View style={styles.view1}>
-              <Avatar
-                source={images.pfpImage}
-                size={size.getHeightSize(40)}
-                rounded
-              />
-              <View style={styles.view2}>
+              }}
+              friction={2}
+              renderLeftActions={leftSwipe}
+              rightThreshold={40}
+              onFailed={() => {}}
+              onSwipeableOpen={() => {}}
+              onBegan={() => {}}
+              onSwipeableWillOpen={() => {
+                showReplyingTo();
+                swipeRef.current.close();
+                dispatch({
+                  type: 'ChangeBGColor',
+                  payload: {
+                    bgColor: 'transparent',
+                    messageId: '',
+                  },
+                });
+              }}
+              onActivated={(
+                event: HandlerStateChangeEvent<Record<string, unknown>>
+              ) => {
+                const state = event.nativeEvent.state;
+                state === 4 &&
+                  dispatch({
+                    type: 'ChangeBGColor',
+                    payload: {
+                      bgColor: '#222222',
+                      messageId: id,
+                    },
+                  });
+              }}
+            >
+              <View
+                style={{
+                  gap: size.getHeightSize(6),
+                  alignSelf: 'flex-end',
+                  paddingRight: size.getWidthSize(8),
+                  paddingLeft: size.getWidthSize(64),
+                }}
+              >
                 <GetContent data={data} chatUtilsInstance={chatUtilsInstance} />
-                <Text numberOfLines={1} style={styles.timeStamp2}>
-                  Friday 18:40pm
+                <Text style={styles.timeStamp}>
+                  {' '}
+                  {new Date(data.createdAt).toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
                 </Text>
               </View>
-            </View>
-          </Swipeable>
-        </View>
-      );
+            </Swipeable>
+          </View>
+        );
+      } else {
+        content = (
+          <View
+            style={{
+              backgroundColor:
+                id === selected.messageId
+                  ? selected.backgroundColor
+                  : 'transparent',
+              paddingVertical: size.getHeightSize(8),
+            }}
+          >
+            <Swipeable
+              ref={swipeRef}
+              onEnded={() => {
+                dispatch({
+                  type: 'ChangeBGColor',
+                  payload: {
+                    bgColor: 'transparent',
+                    messageId: '',
+                  },
+                });
+              }}
+              friction={3}
+              renderLeftActions={leftSwipe}
+              rightThreshold={0}
+              onFailed={() => {}}
+              onSwipeableOpen={() => {}}
+              onBegan={() => {}}
+              onSwipeableWillOpen={() => {
+                showReplyingTo();
+                swipeRef.current.close();
+                dispatch({
+                  type: 'ChangeBGColor',
+                  payload: {
+                    bgColor: 'transparent',
+                    messageId: '',
+                  },
+                });
+              }}
+              onActivated={(
+                event: HandlerStateChangeEvent<Record<string, unknown>>
+              ) => {
+                const state = event.nativeEvent.state;
+                state === 4 &&
+                  dispatch({
+                    type: 'ChangeBGColor',
+                    payload: {
+                      bgColor: '#222222',
+                      messageId: id,
+                    },
+                  });
+              }}
+            >
+              <View style={styles.view1}>
+                <Avatar
+                  source={images.pfpImage}
+                  size={size.getHeightSize(40)}
+                  rounded
+                />
+                <View style={styles.view2}>
+                  <GetContent
+                    data={data}
+                    chatUtilsInstance={chatUtilsInstance}
+                  />
+                  <Text numberOfLines={1} style={styles.timeStamp2}>
+                    {new Date(data.createdAt).toLocaleTimeString('en-US', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                  </Text>
+                </View>
+              </View>
+            </Swipeable>
+          </View>
+        );
+      }
     }
   } else if (isDate(data)) {
     const { date } = data;

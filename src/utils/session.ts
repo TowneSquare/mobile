@@ -13,7 +13,8 @@ export const getLoginSession = async () => {
   try {
     const data = await AsyncStorage.getItem(SessionKey);
     const session = JSON.parse(data);
-
+    console.log(session)
+    
     if (session) {
       if (session.expiresAt > Date.now()) {
         return session;
@@ -26,4 +27,3 @@ export const getLoginSession = async () => {
     return undefined;
   }
 };
-//

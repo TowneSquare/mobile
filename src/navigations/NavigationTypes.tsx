@@ -237,6 +237,7 @@ export type ChooseWalletProps = {
 };
 export type SignUpProps = {
   navigation: NavigationProp<RootStackParamList, 'SignUp'>;
+  magic: any;
   route: RouteProp<ParamListBase, 'SignUp'>;
 };
 // export type ConnectSocialsAndVrifyProps = {

@@ -87,7 +87,7 @@ const SwapBox = ({ onOpenAssetSheet }: Props) => {
             style={[styles.textInput]}
           />
           <Pressable onPress={onOpenAssetSheet} style={styles.dropDown}>
-          <UsdcIcon size={size.getHeightSize(24)} />
+            <UsdcIcon size={size.getHeightSize(24)} />
             <Text style={styles.APT}>USDC</Text>
             <MaterialIcons
               name="arrow-drop-down"
@@ -157,8 +157,6 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(29),
     lineHeight: size.getHeightSize(37),
     fontFamily: 'Outfit-Regular',
-    paddingTop: size.getHeightSize(8),
-    paddingBottom: size.getHeightSize(8),
     color: appColor.kTextColor,
     maxHeight: size.getHeightSize(45),
     flex: 1,

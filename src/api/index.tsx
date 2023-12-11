@@ -66,6 +66,50 @@ export async function signup(
     { authorization: token }
   );
 }
+
+export async function updateConnectedSocial(
+  userId: string,
+  token: string,
+  input: any
+) {
+  return createCall(
+    "user/connect-social/" + `${userId}`,
+    input,
+    { authorization: token },
+    "PUT"
+  );
+}
+
+export async function getSuggestFollowers(token: string) {
+  return createCall(
+    "user/suggested-friends",
+    {},
+    { authorization: token },
+    "GET"
+  );
+}
+
+export async function updatefollowFriends(token: string, followId: string) {
+  return createCall(
+    "user/follow-friends",
+    { followIds: [followId] },
+    { authorization: token },
+    "POST"
+  );
+}
+
+export async function uploadProfileImage(token: string, profileImage: any) {
+  return fetch(`${BACKEND_URL}` + "user/upload-profile-photo", {
+    method: "PUT",
+    headers: { authorization: token, "Content-Type": "multipart/form-data" },
+    body: profileImage,
+  })
+    .then((resp) => resp.json())
+    .catch((error) => {
+      if (error.code == 400) console.log(error.message);
+    });
+}
+
 export async function getAllUser(token: string) {
   return createCall(`user/getall`, {}, { authorization: token }, "GET");
 }

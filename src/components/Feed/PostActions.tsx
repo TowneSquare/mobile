@@ -25,6 +25,7 @@ import { likePost } from "../../api";
 import { Likes, Reposts, rePost } from "../../controller/createPost";
 import { getUserInfo } from "../../api";
 import { UserData } from "../../controller/UserController";
+import { useNavigation } from '@react-navigation/native';
 
 const size = new sizes(height, width);
 interface Props {
@@ -49,6 +50,7 @@ const PostActions = ({
   postId,
   userId,
 }: Props) => {
+  const naviagtion = useNavigation();
   const dispatch = useAppDispatch();
   const [changeLikeTextColor, setlikesTextColor] = useState(false);
   const [changeRetweetTextColor, setRetweetTextColor] = useState(false);
@@ -418,7 +420,10 @@ const PostActions = ({
           gap: size.getWidthSize(2),
         }}
       >
-        <CommentIcon size={size.getHeightSize(24)} />
+        <CommentIcon
+          onPress={() => naviagtion.navigate('SinglePost')}
+          size={size.getHeightSize(24)}
+        />
         <Text
           style={{
             fontSize: size.fontSize(13),

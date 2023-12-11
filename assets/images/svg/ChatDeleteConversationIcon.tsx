@@ -1,39 +1,28 @@
-import * as React from 'react';
-import Svg, { G, Path, Defs, ClipPath, SvgProps } from 'react-native-svg';
+import * as React from "react";
+import Svg, { G, Path, Defs, ClipPath, SvgProps } from "react-native-svg";
 
 function ChatDeleteConversationIcon(props: SvgProps) {
   return (
     <Svg
       width={props.size}
       height={props.size}
-      viewBox="0 0 60 60"
+      viewBox="0 0 24 24"
       fill="none"
       {...props}
     >
-      <G clipPath="url(#clip0_1507_33050)" fill="#fff">
-        <Path
-          opacity={0.2}
-          d="M46.875 13.125V48.75A1.875 1.875 0 0145 50.625H15a1.875 1.875 0 01-1.875-1.875V13.125h33.75z"
-        />
-        <Path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M7.875 13.125a1.5 1.5 0 011.5-1.5h41.25a1.5 1.5 0 010 3H9.375a1.5 1.5 0 01-1.5-1.5zM24.375 22.875a1.5 1.5 0 011.5 1.5v15a1.5 1.5 0 01-3 0v-15a1.5 1.5 0 011.5-1.5zM35.625 22.875a1.5 1.5 0 011.5 1.5v15a1.5 1.5 0 01-3 0v-15a1.5 1.5 0 011.5-1.5z"
-        />
-        <Path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M13.125 11.625a1.5 1.5 0 011.5 1.5V48.75a.375.375 0 00.375.375h30a.375.375 0 00.375-.375V13.125a1.5 1.5 0 013 0V48.75A3.375 3.375 0 0145 52.125H15a3.375 3.375 0 01-3.375-3.375V13.125a1.5 1.5 0 011.5-1.5z"
-        />
-        <Path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M20.663 5.663a5.25 5.25 0 013.712-1.538h11.25a5.25 5.25 0 015.25 5.25v3.75a1.5 1.5 0 01-3 0v-3.75a2.25 2.25 0 00-2.25-2.25h-11.25a2.25 2.25 0 00-2.25 2.25v3.75a1.5 1.5 0 01-3 0v-3.75a5.25 5.25 0 011.538-3.712z"
-        />
+      <G
+        clipPath="url(#clip0_3244_19464)"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        fill="#fff"
+      >
+        <Path d="M3 6a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6zM9.75 9.75a.75.75 0 01.75.75v6a.75.75 0 01-1.5 0v-6a.75.75 0 01.75-.75zM14.25 9.75a.75.75 0 01.75.75v6a.75.75 0 01-1.5 0v-6a.75.75 0 01.75-.75z" />
+        <Path d="M5.25 5.25A.75.75 0 016 6v14.25h12V6a.75.75 0 011.5 0v14.25a1.5 1.5 0 01-1.5 1.5H6a1.5 1.5 0 01-1.5-1.5V6a.75.75 0 01.75-.75z" />
+        <Path d="M8.159 2.909A2.25 2.25 0 019.75 2.25h4.5A2.25 2.25 0 0116.5 4.5V6A.75.75 0 0115 6V4.5a.75.75 0 00-.75-.75h-4.5A.75.75 0 009 4.5V6a.75.75 0 01-1.5 0V4.5c0-.597.237-1.169.659-1.591z" />
       </G>
       <Defs>
-        <ClipPath id="clip0_1507_33050">
-          <Path fill="#fff" d="M0 0H60V60H0z" />
+        <ClipPath id="clip0_3244_19464">
+          <Path fill="#fff" d="M0 0H24V24H0z" />
         </ClipPath>
       </Defs>
     </Svg>

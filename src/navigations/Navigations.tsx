@@ -22,6 +22,7 @@ import EditProfileScreen from '../screens/Profile/EditProfileScreen';
 import TheirProfileScreen from '../screens/Profile/TheirProfileScreen';
 import SearchScreen from '../screens/SearchPost/SearchScreen';
 // import SearchPostTab from './SearchPostTabBar';
+// import SearchPostTab from './SearchPostTabBar';
 import SelectedSuperStarCollectionScreen from '../screens/Profile/SelectedSuperStarCollectionScreen';
 import FollowersScreen from '../screens/Profile/FollowersScreen';
 import Congratulations from '../screens/SignUp/Congratulations';
@@ -112,13 +113,9 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
         {() => <FirstScreen {...magicProps} />}
       </Stack.Screen>
 
-      <Stack.Screen
-        name="SignUp"
-        component={SignUp}
-        options={{
-          headerShown: false,
-        }}
-      />
+      <Stack.Screen name="SignUp" options={{ headerShown: false }}>
+        {() => <SignUp {...magicProps} />}
+      </Stack.Screen>
       <Stack.Screen
         name="ChooseWallet"
         component={ChooseWallet}
