@@ -55,8 +55,7 @@ const swipeableDimensions = ButtonHeight - 2 * ButtonPadding;
 const h_wave_range = swipeableDimensions + 2 * ButtonPadding;
 const h_swipe_range = ButtonWidth - 2 * ButtonPadding - swipeableDimensions;
 const ProfilePicture = ({ PFPsize, swipeable, userId, profileImageUri }: Props) => {
-  let longPressTimer: any;
-  const LONG_PRESS_DURATION = 500;
+  
   const [showSwipe, setShowSwipe] = useState(false);
   const [userData, setUserData] = useState<UserData>({
     _id: "655ab007ce8937ff6d512885",
@@ -286,10 +285,12 @@ const ProfilePicture = ({ PFPsize, swipeable, userId, profileImageUri }: Props) 
       },
     ],
   },)
+  let longPressTimer: any;
+  const LONG_PRESS_DURATION = 500;
   const navigation = useNavigation();
   const fadeAnim = useRef(new RNAnimated.Value(0)).current;
   const X = useSharedValue(0);
-  const longPressDuration = 1000;
+  //const longPressDuration = 1000;
   const interpolateXInput = [0, h_swipe_range];
   const token = useAppSelector((state) => state.USER.didToken)
   const getUser = async () => {
@@ -366,6 +367,7 @@ const ProfilePicture = ({ PFPsize, swipeable, userId, profileImageUri }: Props) 
       },
     })
   ).current;
+  
   const handleShortPress = () => {
     console.log('========');
     setShowSwipe((previous) => {
