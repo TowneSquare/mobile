@@ -55,6 +55,8 @@ const swipeableDimensions = ButtonHeight - 2 * ButtonPadding;
 const h_wave_range = swipeableDimensions + 2 * ButtonPadding;
 const h_swipe_range = ButtonWidth - 2 * ButtonPadding - swipeableDimensions;
 const ProfilePicture = ({ PFPsize, swipeable, userId, profileImageUri }: Props) => {
+  let longPressTimer: any;
+  const LONG_PRESS_DURATION = 500;
   const [showSwipe, setShowSwipe] = useState(false);
   const [userData, setUserData] = useState<UserData>({
     _id: "655ab007ce8937ff6d512885",
@@ -329,19 +331,26 @@ const ProfilePicture = ({ PFPsize, swipeable, userId, profileImageUri }: Props) 
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderGrant: () => {
-        swipeable && setShowSwipe(true);
-        RNAnimated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: false,
-        }).start();
+        longPressTimer = setTimeout(() => {
+          swipeable && setShowSwipe(true);
+          RNAnimated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: false,
+          }).start();
+        }, LONG_PRESS_DURATION);
       },
       onPanResponderMove: (_, gestureState) => {
-        let newValue: number;
-
         X.value = Math.max(0, Math.min(gestureState.dx, h_swipe_range));
       },
       onPanResponderRelease: (_, gestureState) => {
+        clearTimeout(longPressTimer);
+        if (
+          gestureState.moveX === gestureState.x0 &&
+          gestureState.moveY === gestureState.y0
+        ) {
+          handleShortPress();
+        }
         if (X.value > size.getWidthSize(235)) {
           setShowSwipe(false);
           dispatch(updateTipBottomSheet({
@@ -351,16 +360,22 @@ const ProfilePicture = ({ PFPsize, swipeable, userId, profileImageUri }: Props) 
             wallet:userData.aptosWallet,
             nickname:userData.nickname
           }));
-          // X.value = 0;
         } else {
           setShowSwipe(false);
-          // X.value = withSpring(0);
-          // dispatch(updateTipBottomSheet(false));
-          // runOnJS(setShowSwipe)(false);
         }
       },
     })
   ).current;
+  const handleShortPress = () => {
+    console.log('========');
+    setShowSwipe((previous) => {
+      if (previous) {
+        return false;
+      } else {
+        navigation.navigate('TheirProfileScreen');
+      }
+    });
+  };
 
   return (
     <>
