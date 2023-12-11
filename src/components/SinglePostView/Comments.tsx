@@ -6,7 +6,7 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { sizes } from "../../utils";
 import { appColor, fonts } from "../../constants";
 
@@ -20,90 +20,93 @@ const { height, width } = Dimensions.get("window");
 import SinglePostCommentHeader from "./SinglePostCommentHeader";
 import { Comment, PostData } from "../../controller/createPost";
 import { useAppSelector } from "../../controller/hooks";
-import { getPostById } from "../../api";
+import { getPostById, likePost } from "../../api";
 import { images } from "../../constants";
 import AddCommentTextInput from "./AddCommentTextInput";
+import { getPostTime } from "../../utils/helperFunction";
+import SubComments from "./SubComments";
+import { useAppDispatch } from "../../controller/hooks";
 const size = new sizes(height, width);
 interface Props {
-  handleCommentButton?: () => void;
+  handleCommentButton: ( username:string) => void;
   myPost?: boolean;
   CommentData: Comment;
 }
 
-const Comments = ({ CommentData, myPost }: Props) => {
-  const [likes, setLikes] = useState<string[]>([]);
+const Comments = ({ CommentData, handleCommentButton }: Props) => {
   const scrollViewRef = useRef<ScrollView>(null);
   const textInputRef = useRef<TextInput>(null);
   const [replyingTo, setReplyingTo] = useState(false);
-  const [comment, setComment] = useState<PostData>( {
-      _id: "6543112773263dcd8d741ba0",
-      title: "",
-      userId: "65372778b8da0e521b8a3587",
-      description: "Test post ",
-      imageUrls: [""],
-      videoUrls: ["https://www.youtube.com/watch?v=EJzB_Fa27ko"],
-      createdAt: "2023-11-02T03:01:59.721Z",
-      sellNFTPrice: "20.4",
-      nftCollection:"",
-      nftImageUrl:"",
-      nftTokenId:'',
-      likes: [
-        {
-          _id: "6560962a233ac36e73bc42ce",
-          userId: "655ab007ce8937ff6d512885",
-          postId: "655df7a347784b1665992617",
-          createdAt: "2023-11-24T12:25:14.173Z",
-        },
-      ],
-      comments: [
-        {
-          username: "pelumi_main",
-          nickname: "chokey",
-          _id: "653878c2a000149cd06b9845",
-          content: "POST comment TEstTest",
-          userId: "65372778b8da0e521b8a3587",
-          postId: "653728bd6171091d6b469bec",
-          createdAt: "2023-10-25T02:09:06.310Z",
-        },
-        {
-          username: "pelumi_second",
-          nickname: "chokey",
-          _id: "653878c2a000149cd06b9845",
-          content: "POST comment TEstTest",
-          userId: "65372778b8da0e521b8a3587",
-          postId: "653728bd6171091d6b469bec",
-          createdAt: "2023-10-25T02:09:06.310Z",
-        },
-      ],
-      customer: {
-        _id: "65372778b8da0e521b8a3587",
-        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        nickname: "test nickname",
-        username: "test12",
-        email: "test@email.com",
-        referralCode: "98N39",
-        profileImage:"",
-        createdAt:""
+  
+  const [comment, setComment] = useState<PostData>({
+    _id: "6543112773263dcd8d741ba0",
+    title: "",
+    userId: "65372778b8da0e521b8a3587",
+    description: "Test post ",
+    imageUrls: [""],
+    videoUrls: ["https://www.youtube.com/watch?v=EJzB_Fa27ko"],
+    createdAt: "2023-11-02T03:01:59.721Z",
+    sellNFTPrice: "20.4",
+    nftCollection: "",
+    nftImageUrl: "",
+    nftTokenId: "",
+    likes: [
+      {
+        _id: "6560962a233ac36e73bc42ce",
+        userId: "655ab007ce8937ff6d512885",
+        postId: "655df7a347784b1665992617",
+        createdAt: "2023-11-24T12:25:14.173Z",
       },
-      reposts: [],
-      originalCustomer: {
-        _id: "65372778b8da0e521b8a3587",
-        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        nickname: "test nickname",
-        username: "test12",
-        email: "test@email.com",
-        referralCode: "98N39",
-        profileImage:"",
-        createdAt:""
+    ],
+    comments: [
+      {
+        username: "pelumi_main",
+        nickname: "chokey",
+        _id: "653878c2a000149cd06b9845",
+        content: "POST comment TEstTest",
+        userId: "65372778b8da0e521b8a3587",
+        postId: "653728bd6171091d6b469bec",
+        createdAt: "2023-10-25T02:09:06.310Z",
       },
-      repost: false,
-      originalPostId: "65430c7f372dd89672e9214d",
-      originalCustomerId: "65372778b8da0e521b8a3587",
-    },);
+      {
+        username: "pelumi_second",
+        nickname: "chokey",
+        _id: "653878c2a000149cd06b9845",
+        content: "POST comment TEstTest",
+        userId: "65372778b8da0e521b8a3587",
+        postId: "653728bd6171091d6b469bec",
+        createdAt: "2023-10-25T02:09:06.310Z",
+      },
+    ],
+    customer: {
+      _id: "65372778b8da0e521b8a3587",
+      issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+      aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+      nickname: "test nickname",
+      username: "test12",
+      email: "test@email.com",
+      referralCode: "98N39",
+      profileImage: "",
+      createdAt: "",
+    },
+    reposts: [],
+    originalCustomer: {
+      _id: "65372778b8da0e521b8a3587",
+      issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+      aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+      nickname: "test nickname",
+      username: "test12",
+      email: "test@email.com",
+      referralCode: "98N39",
+      profileImage: "",
+      createdAt: "",
+    },
+    repost: false,
+    originalPostId: "65430c7f372dd89672e9214d",
+    originalCustomerId: "65372778b8da0e521b8a3587",
+  });
   const [subComment, setSubComment] = useState<PostData[]>([
-     {
+    {
       _id: "6543112773263dcd8d741ba0",
       title: "",
       userId: "65372778b8da0e521b8a3587",
@@ -112,9 +115,9 @@ const Comments = ({ CommentData, myPost }: Props) => {
       videoUrls: ["https://www.youtube.com/watch?v=EJzB_Fa27ko"],
       createdAt: "2023-11-02T03:01:59.721Z",
       sellNFTPrice: "20.4",
-      nftCollection:'',
-      nftTokenId:"",
-      nftImageUrl:"",
+      nftCollection: "",
+      nftTokenId: "",
+      nftImageUrl: "",
       likes: [
         {
           _id: "6560962a233ac36e73bc42ce",
@@ -151,8 +154,8 @@ const Comments = ({ CommentData, myPost }: Props) => {
         username: "test12",
         email: "test@email.com",
         referralCode: "98N39",
-        profileImage:"",
-        createdAt:""
+        profileImage: "",
+        createdAt: "",
       },
       reposts: [],
       originalCustomer: {
@@ -163,15 +166,25 @@ const Comments = ({ CommentData, myPost }: Props) => {
         username: "test12",
         email: "test@email.com",
         referralCode: "98N39",
-        profileImage:"",
-        createdAt:""
+        profileImage: "",
+        createdAt: "",
       },
       repost: false,
       originalPostId: "65430c7f372dd89672e9214d",
       originalCustomerId: "65372778b8da0e521b8a3587",
     },
   ]);
-  const didToken = useAppSelector((state) => state.USER.didToken);
+  const { didToken, user } = useAppSelector((state) => ({
+    didToken: state.USER.didToken,
+    user: state.USER.UserData._id,
+  }));
+  const [likes, setLikes] = useState<boolean>();
+  const [noOflikes, setnoOflikes] = useState(comment?.likes?.length);
+
+
+  useMemo(() => {
+    setLikes(comment.likes.some((like) => like.userId == user));
+  }, [comment.likes]);
 
   const getCommentDetails = async () => {
     const result = await getPostById(didToken, CommentData.postId);
@@ -185,16 +198,16 @@ const Comments = ({ CommentData, myPost }: Props) => {
     );
   };
 
-  const handleCommentPress = () => {
-    textInputRef.current?.focus();
-    setReplyingTo(true);
-    textInputRef.current?.clear();
-    if (scrollViewRef.current) {
-      const commentIndex = 4;
-      const yOffset = commentIndex * 100;
-      scrollViewRef.current.scrollTo({ y: yOffset, animated: true });
-    }
-  };
+  // const handleCommentPress = () => {
+  //   textInputRef.current?.focus();
+  //   setReplyingTo(true);
+  //   textInputRef.current?.clear();
+  //   if (scrollViewRef.current) {
+  //     const commentIndex = 4;
+  //     const yOffset = commentIndex * 100;
+  //     scrollViewRef.current.scrollTo({ y: yOffset, animated: true });
+  //   }
+  // };
 
   const handleBlur = () => {
     setReplyingTo(false);
@@ -203,16 +216,18 @@ const Comments = ({ CommentData, myPost }: Props) => {
 
   // useEffect(() => {
   //   getCommentDetails();
-  // }, []);
+  // }, []);  //@un-comment
 
-  const handleLike = (postId: string) => {
-    if (likes.includes(postId)) {
-      const filteredId = likes.filter((like) => {
-        return like !== postId;
-      });
-      setLikes(filteredId);
-    } else setLikes([...likes, postId]);
+  const handleCommentLike = async () => {
+    setLikes(!likes);
+    if (likes) {
+      setnoOflikes(noOflikes - 1);
+    } else {
+      setnoOflikes(noOflikes + 1);
+    }
+    await likePost(didToken, CommentData?.postId);
   };
+
 
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -223,10 +238,11 @@ const Comments = ({ CommentData, myPost }: Props) => {
   if (!isLoaded) {
     return null;
   }
-
+  const timepost = getPostTime(CommentData.createdAt);
+  const myPost = CommentData.userId == user;
   return (
     <View style={styles.commentContainer}>
-      <ProfilePicture />
+      <ProfilePicture profileImage={comment.customer.profileImage} />
       <View
         style={{
           flex: 1,
@@ -235,79 +251,47 @@ const Comments = ({ CommentData, myPost }: Props) => {
         <View>
           <PostHeader
             maxWidth={77}
-            username={CommentData.username}
-            nickname={CommentData.nickname}
-            timepost="2min"
+            username={CommentData?.username}
+            nickname={CommentData?.nickname}
+            timepost={timepost}
             myPost={myPost}
-            postId={CommentData.postId}
-            userId={CommentData.userId}
+            postId={CommentData?.postId}
+            userId={CommentData?.userId}
           />
-          <Text style={styles.comment}>{CommentData.content}</Text>
-          <Text style={styles.readMore}>Read More</Text>
+          <Text style={styles.comment}>{CommentData?.content}</Text>
+          {/* <Text style={styles.readMore}>Read More</Text> */}
           <View style={styles.reactionContainer}>
             <View style={styles.reactionContent}>
               <AddComment
                 size={size.getHeightSize(24)}
-                onPress={handleCommentPress}
+                onPress={() => {
+                  handleCommentButton(CommentData.username)
+                }}
               />
               <Text style={styles.reactionText}>
-                {comment?.comments.length}
+                {comment?.comments?.length}
               </Text>
             </View>
             <View style={styles.reactionContent}>
-              {likes.includes("1") ? (
+              {likes ? (
                 <LikedIcon
                   size={size.getHeightSize(24)}
-                  onPress={() => handleLike("1")}
+                  onPress={() => handleCommentLike()}
                 />
               ) : (
                 <LikePost
                   size={size.getHeightSize(24)}
-                  onPress={() => handleLike("1")}
+                  onPress={() => handleCommentLike()}
                 />
               )}
-              <Text style={styles.reactionText}>{comment.likes.length}</Text>
+              <Text style={styles.reactionText}>{noOflikes}</Text>
             </View>
           </View>
         </View>
-        {/* <AddCommentTextInput
-        showReplyingTo={replyingTo}
-        handleBlur={handleBlur}
-        textRef={textInputRef}
-      /> */}
+        
         {/* Sub Comment */}
         {subComment.map((subComment, index) => (
-          <View key={index} style={styles.repliedCommentContainer}>
-            <ProfilePicture PFPsize={18} />
-            <View>
-              <SinglePostCommentHeader
-                maxWidth={77}
-                username={subComment.customer.username}
-                nickname={subComment.customer.nickname}
-                timepost="2min"
-              />
-              <Text
-                style={[styles.comment, { maxWidth: size.getWidthSize(262) }]}
-              >
-                {subComment.description}
-              </Text>
-
-              <View style={styles.reactionContent}>
-                {subComment.likes.some(like => like.userId === subComment.userId) ? (
-                  <LikedIcon
-                    size={size.getHeightSize(24)}
-                    onPress={() => handleLike("2")}
-                  />
-                ) : (
-                  <LikePost
-                    size={size.getHeightSize(24)}
-                    onPress={() => handleLike("2")}
-                  />
-                )}
-                <Text style={styles.reactionText}>{subComment.likes.length}</Text>
-              </View>
-            </View>
-          </View>
+          <SubComments subComment={subComment} key={index}/>
         ))}
         {/*  */}
         {/* <View style={styles.repliedCommentContainer}>
@@ -338,7 +322,7 @@ const Comments = ({ CommentData, myPost }: Props) => {
               )}
               <Text style={styles.reactionText}>4</Text>
             </View>
-          </View>
+          </View>x
         </View> */}
       </View>
     </View>

@@ -5,16 +5,25 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
-} from 'react-native';
-import { appColor } from '../../constants';
-import WalletCard from '../../components/Wallet/WalletCard';
-import { images } from '../../constants';
-import { sizes } from '../../utils';
-import Token from '../../components/Wallet/Token';
-import Transaction from '../../components/Wallet/Transaction';
-const { height, width } = Dimensions.get('window');
+} from "react-native";
+import { appColor } from "../../constants";
+import WalletCard from "../../components/Wallet/WalletCard";
+import { images } from "../../constants";
+import { sizes } from "../../utils";
+import Token from "../../components/Wallet/Token";
+import Transaction from "../../components/Wallet/Transaction";
+import { useMemo } from "react";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import { getAptosName } from "../../controller/UserController";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const Wallet = () => {
+  const dispatch = useAppDispatch();
+  const { APTOS_DOMAIN_NAME, address } = useAppSelector((state) => ({
+    APTOS_DOMAIN_NAME: state.USER.aptosName,
+    address: state.USER.UserData.aptosWallet,
+  }));
+  useMemo(() => dispatch(getAptosName({address})), [address]);
   return (
     <SafeAreaView
       style={{
@@ -22,10 +31,12 @@ const Wallet = () => {
         backgroundColor: appColor.feedBackground,
       }}
     >
-      <ScrollView contentContainerStyle={{
-        paddingBottom:size.getHeightSize(42)
-      }}>
-        <WalletCard APTOS_DOMAIN_NAME="jczhang.apt" />
+      <ScrollView
+        contentContainerStyle={{
+          paddingBottom: size.getHeightSize(42),
+        }}
+      >
+        <WalletCard APTOS_DOMAIN_NAME={APTOS_DOMAIN_NAME || "UNAVAILABLE"}  WALLET_ADDRESS={address}/>
         <Text style={styles.text}>Token</Text>
         <Token
           name="APT"
@@ -92,7 +103,7 @@ const styles = StyleSheet.create({
   text: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(20),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     lineHeight: size.getHeightSize(24),
     letterSpacing: 0.4,
     marginTop: size.getHeightSize(24),

@@ -1,10 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface FeedController {
   ReceiveModalState: boolean;
-  ReportingModal:{
-    status:boolean,
-    postId:string,
-    userId:string
+  ReportingModal: {
+    status: boolean;
+    postId: string;
+    userId: string;
   };
   ReportPostModal: boolean;
   ReportUserModal: boolean;
@@ -14,21 +14,27 @@ interface FeedController {
   showToast: {
     displayToast: boolean;
     toastMessage: string;
-    toastType: 'success' | 'info';
-    position?: 'top' | 'bottom';
-    alignItems?: 'center' | 'flex-start' | 'flex-end' | 'stretch' | 'baseline';
+    toastType: "success" | "info";
+    position?: "top" | "bottom";
+    alignItems?: "center" | "flex-start" | "flex-end" | "stretch" | "baseline";
   };
   currentTab: string;
-  tipBottomSheet: boolean;
+  tipBottomSheet: {
+    status: boolean;
+    profileImage: string;
+    username: string;
+    wallet: string;
+    nickname:string
+  };
   selectedSwipeablePFPId: string;
-  AttachNftType: 'createPost' | 'DM';
+  AttachNftType: "createPost" | "DM";
 }
 const initialState: FeedController = {
   ReceiveModalState: false,
   ReportingModal: {
-    status:false,
-    postId:"",
-    userId:""
+    status: false,
+    postId: "",
+    userId: "",
   },
   ReportPostModal: false,
   ReportUserModal: false,
@@ -37,15 +43,21 @@ const initialState: FeedController = {
   DeleteMyPostPanel: false,
   showToast: {
     displayToast: false,
-    toastMessage: '',
-    toastType: 'success',
-    position: 'top',
-    alignItems: 'center',
+    toastMessage: "",
+    toastType: "success",
+    position: "top",
+    alignItems: "center",
   },
-  currentTab: 'feed',
-  tipBottomSheet: false,
-  selectedSwipeablePFPId: '',
-  AttachNftType: 'createPost',
+  currentTab: "feed",
+  tipBottomSheet: {
+    status: false,
+    profileImage: "",
+    username: "",
+    wallet: "",
+    nickname:''
+  },
+  selectedSwipeablePFPId: "",
+  AttachNftType: "createPost",
 };
 
 // export const reportUser = createAsyncThunk("feed/reportUser",async ({user_id, token}:any) => {
@@ -56,20 +68,23 @@ const initialState: FeedController = {
 //       }
 //     })
 //   } catch (error) {
-    
+
 //   }
 // })
 export const FeedsSlice = createSlice({
-  name: 'FeedsController',
+  name: "FeedsController",
   initialState,
   reducers: {
     updateReceiveModalState: (state, action: PayloadAction<boolean>) => {
       state.ReceiveModalState = action.payload;
     },
-    updateReportingModal: (state, action: PayloadAction<{status:boolean, postId:string, userId:string}>) => {
+    updateReportingModal: (
+      state,
+      action: PayloadAction<{ status: boolean; postId: string; userId: string }>
+    ) => {
       state.ReportingModal.status = action.payload.status;
       state.ReportingModal.postId = action.payload.postId;
-      state.ReportingModal.userId = action.payload.userId
+      state.ReportingModal.userId = action.payload.userId;
     },
     updateReportPostModal: (state, action: PayloadAction<boolean>) => {
       state.ReportPostModal = action.payload;
@@ -89,9 +104,9 @@ export const FeedsSlice = createSlice({
     resetModals: (state) => {
       state.ReceiveModalState = false;
       state.ReportingModal = {
-        status:false,
-        postId:"",
-        userId:""
+        status: false,
+        postId: "",
+        userId: "",
       };
       state.ReportUserModal = false;
       state.BlockUserModal = false;
@@ -103,14 +118,14 @@ export const FeedsSlice = createSlice({
       action: PayloadAction<{
         displayToast: boolean;
         toastMessage: string;
-        toastType: 'success' | 'info';
-        position?: 'top' | 'bottom';
+        toastType: "success" | "info";
+        position?: "top" | "bottom";
         alignItems?:
-          | 'center'
-          | 'flex-start'
-          | 'flex-end'
-          | 'stretch'
-          | 'baseline';
+          | "center"
+          | "flex-start"
+          | "flex-end"
+          | "stretch"
+          | "baseline";
       }>
     ) => {
       state.showToast.displayToast = action.payload.displayToast;
@@ -121,15 +136,24 @@ export const FeedsSlice = createSlice({
     },
     resetToast: (state) => {
       state.showToast.displayToast = false;
-      state.showToast.toastMessage = '';
-      state.showToast.toastType = 'success';
-      state.showToast.position = 'top';
-      state.showToast.alignItems = 'center';
+      state.showToast.toastMessage = "";
+      state.showToast.toastType = "success";
+      state.showToast.position = "top";
+      state.showToast.alignItems = "center";
     },
     updateCurrentTab: (state, action: PayloadAction<string>) => {
       state.currentTab = action.payload;
     },
-    updateTipBottomSheet: (state, action: PayloadAction<boolean>) => {
+    updateTipBottomSheet: (
+      state,
+      action: PayloadAction<{
+        status: boolean;
+        profileImage: string;
+        username: string;
+        wallet: string;
+        nickname:string
+      }>
+    ) => {
       state.tipBottomSheet = action.payload;
     },
     updateSelectedSwipeablePFPId: (state, action: PayloadAction<string>) => {
@@ -137,7 +161,7 @@ export const FeedsSlice = createSlice({
     },
     updateAttachNftType: (
       state,
-      action: PayloadAction<'DM' | 'createPost'>
+      action: PayloadAction<"DM" | "createPost">
     ) => {
       state.AttachNftType = action.payload;
     },

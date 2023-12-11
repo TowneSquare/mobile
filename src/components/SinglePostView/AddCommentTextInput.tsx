@@ -23,20 +23,22 @@ interface Props {
   textRef: any;
   handleBlur: () => void;
   showReplyingTo: boolean;
-  username?: string;
   postId: string;
 }
 const AddCommentTextInput = ({
   textRef,
   handleBlur,
   showReplyingTo,
-  username,
   postId,
 }: Props) => {
   const [height, setHeight] = useState(0);
   const [borderRadius, setBorderRadius] = useState(40);
   const [text, setText] = useState("");
-  const token = useAppSelector((state) => state.USER.didToken)
+  const [addingComment, setAddingComment] = useState(false);
+  const token = useAppSelector((state) => state.USER.didToken);
+  const username = useAppSelector(
+    (state) => state.CreatePostController.CommentReplyData.username
+  );
 
   useEffect(() => {
     if (height > size.getHeightSize(73)) {
@@ -70,23 +72,26 @@ const AddCommentTextInput = ({
     setHeight(newHeight);
   };
 
-  const addComment = async (
-    imageUrls: Array<string>,
-    videoUrls: Array<string>
-  ) => {
+  const addComment = async () => {
     try {
-      axios.post(`${BACKEND_URL}posts/comment/${postId}`, {
-        content: text,
-        imageUrls,
-        videoUrls,
-      }, {
-        headers: {
+      setAddingComment(true);
+      axios.post(
+        `${BACKEND_URL}posts/comment/${postId}`,
+        {
+          content: text,
+        },
+        {
+          headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
             Authorization: token,
           },
-      });
-    } catch (error) {}
+        }
+      );
+      setAddingComment(false);
+    } catch (error) {
+      setAddingComment(false);
+    }
   };
   return (
     <>
@@ -98,7 +103,7 @@ const AddCommentTextInput = ({
         {showReplyingTo && (
           <View style={styles.replyingTo}>
             <Text style={styles.replyingToText}>Replying to</Text>
-            <Text style={styles.username}>@Username1</Text>
+            <Text style={styles.username}>{`@{${username}`}</Text>
           </View>
         )}
 
@@ -118,7 +123,7 @@ const AddCommentTextInput = ({
           {text.length >= 1 ? (
             <SendButtonActive
               onPress={() => {
-                addComment([""], [""]);
+                addComment();
               }}
               size={size.getHeightSize(24)}
             />

@@ -124,7 +124,6 @@ const About = ({ route }) => {
       <ForYou
         key={userpost._id}
         data={userpost}
-        myPost
         shouldPFPSwipe={false}
       />
     ));
@@ -143,8 +142,6 @@ const About = ({ route }) => {
     ));
   };
 
-  console.log(USERDATA.posts
-      .filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls), "media")
 
   const Media = () => {
     return USERDATA.posts
@@ -153,7 +150,6 @@ const About = ({ route }) => {
         <ForYou
           key={userpost._id}
           data={userpost}
-          myPost
           shouldPFPSwipe={false}
         />
       ));
@@ -236,7 +232,7 @@ const About = ({ route }) => {
               <ProfileTipIcon
                 size={size.getHeightSize(24)}
                 onPress={() => {
-                  dispatch(updateTipBottomSheet(true));
+                  //dispatch(updateTipBottomSheet(true));
                 }}
               />
             </View>

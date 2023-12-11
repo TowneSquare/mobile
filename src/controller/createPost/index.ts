@@ -50,10 +50,18 @@ export interface Comment {
   createdAt: string;
 }
 
-interface Likes {
+export interface Likes {
   _id: string;
   userId: string;
   postId: string;
+  createdAt: string;
+}
+
+export interface Reposts {
+  _id: string;
+  postId: string;
+  customerId: string;
+  originalPostId: string;
   createdAt: string;
 }
 export interface PostData {
@@ -69,7 +77,7 @@ export interface PostData {
   repost: boolean;
   createdAt: string;
   likes: Array<Likes>;
-  reposts: Array<string>;
+  reposts: Array<Reposts>;
   comments: Array<Comment>;
   customer: Customer;
   sellNFTPrice: string;
@@ -119,6 +127,9 @@ interface Post {
   posts: Partial<CreatePost>;
   priceModal: boolean;
   communityPostPrivacy: "public" | "community-only";
+  CommentReplyData: {
+    username:string
+  }
 }
 const initialState: Post = {
   OnlyUserPost: [],
@@ -129,7 +140,7 @@ const initialState: Post = {
       userId: "65372778b8da0e521b8a3587",
       description: "Test post ",
       imageUrls: [""],
-      videoUrls: ["https://www.youtube.com/watch?v=EJzB_Fa27ko"],
+      videoUrls: ["https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"],
       createdAt: "2023-11-02T03:01:59.721Z",
       sellNFTPrice: "",
       nftImageUrl: "",
@@ -138,10 +149,22 @@ const initialState: Post = {
       likes: [
         {
           _id: "6560962a233ac36e73bc42ce",
-          userId: "655ab007ce8937ff6d512885",
+          userId: "655ab007ce8937ff6d512887",
           postId: "655df7a347784b1665992617",
           createdAt: "2023-11-24T12:25:14.173Z",
         },
+        {
+          _id: "6560962a233ac36e73bc42ce",
+          userId: "655ab007ce8937ff6d512887",
+          postId: "655df7a347784b1665992617",
+          createdAt: "2023-11-24T12:25:14.173Z",
+        },
+        //   {
+        //   _id: "6560962a233ac36e73bc42ce",
+        //   userId: "655ab007ce8937ff6d512887",
+        //   postId: "655df7a347784b1665992617",
+        //   createdAt: "2023-11-24T12:25:14.173Z",
+        // },
       ],
       comments: [
         {
@@ -174,7 +197,22 @@ const initialState: Post = {
         profileImage: "",
         createdAt: "",
       },
-      reposts: [],
+      reposts: [
+        {
+          _id: "6570a9166460587de2c1a9c9",
+          postId: "6570a9166460587de2c1a9c8",
+          customerId: "655ab007ce8937ff6d512885",
+          originalPostId: "65649c452b47b41b4f22ffd0",
+          createdAt: "2023-12-06T17:02:14.813Z",
+        },
+         {
+          _id: "6570a9166460587de2c1a9c9",
+          postId: "6570a9166460587de2c1a9c8",
+          customerId: "655ab007ce8937ff6d512886",
+          originalPostId: "65649c452b47b41b4f22ffd0",
+          createdAt: "2023-12-06T17:02:14.813Z",
+        },
+      ],
       originalCustomer: {
         _id: "65372778b8da0e521b8a3587",
         issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
@@ -196,7 +234,7 @@ const initialState: Post = {
       userId: "65372778b8da0e521b8a3587",
       description: "Test post ",
       imageUrls: [""],
-      videoUrls: [""],
+      videoUrls: ["https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"],
       createdAt: "2023-11-02T03:01:59.721Z",
       sellNFTPrice: "",
       nftImageUrl:
@@ -291,6 +329,9 @@ const initialState: Post = {
   },
   priceModal: false,
   communityPostPrivacy: "public",
+  CommentReplyData:{
+    username:""
+  }
 };
 
 export const createPost = createAsyncThunk(
@@ -561,7 +602,9 @@ export const fieldHandlerSlice = createSlice({
     ) => {
       state.posts.nft = action.payload;
     },
-
+    updateCommentReplyData:(state, action:PayloadAction<{username:string}>) => {
+      state.CommentReplyData = action.payload
+    },
     updateAptPrice: (
       state,
       action: PayloadAction<{
@@ -638,5 +681,6 @@ export const {
   updateAptPrice,
   clearPostData,
   updateCommunityPostPrivacy,
+  updateCommentReplyData
 } = fieldHandlerSlice.actions;
 export default fieldHandlerSlice.reducer;

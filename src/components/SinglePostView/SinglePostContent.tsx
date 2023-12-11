@@ -26,6 +26,7 @@ import PostActions from "../Feed/PostActions";
 import APTMonkey from "../../../assets/images/svg/APTMonkey";
 import { PostData } from "../../controller/createPost";
 import { Video, ResizeMode } from "expo-av";
+import { getPostTime } from "../../utils/helperFunction";
 
 const SinglePostContent = ({ data }: { data: PostData }) => {
   const videoRef = useRef(null);
@@ -40,18 +41,23 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
 
   const type_of_post = data?.repost
     ? FeedContent.REPOST
-    : data?.videoUrls && data?.description
+    : data?.videoUrls[0] && data?.description
     ? FeedContent.MESSAGE_VIDEO
-    : data?.imageUrls && data?.description
+    : data?.imageUrls[0] && data?.description
     ? FeedContent.MESSAGE_IMAGE
-    : data.videoUrls
+    : data.videoUrls[0]
     ? FeedContent.VIDEO_ONLY
-    : data.imageUrls
+    : data.imageUrls[0]
     ? FeedContent.IMAGE_ONLY
+    : data?.nftImageUrl && data?.sellNFTPrice
+    ? FeedContent.NFT_FOR_SALE
+    : data?.nftImageUrl && !data.sellNFTPrice
+    ? FeedContent.ATTACHED_NFT
     : data?.description
     ? FeedContent.MESSAGE_ONLY
     : FeedContent.EMPTY;
   const userPost = data;
+  const timepost = getPostTime(data.createdAt)
   let content;
   switch (type_of_post) {
     case FeedContent.MESSAGE_ONLY:
@@ -63,7 +69,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               <SinglePostHeader
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
-                timepost={"2d"}
+                timepost={timepost}
                 postId={userPost._id}
                 userId={userPost.customer._id}
               />
@@ -72,9 +78,10 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
 
               <PostActions
                 noOfComments={userPost.comments.length}
-                noOfLikes={userPost.likes.length}
-                noOfRetweet={userPost.reposts.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
                 postId={userPost._id}
+                 userId={userPost.customer._id}
               />
             </View>
           </View>
@@ -91,7 +98,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               <SinglePostHeader
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
-                timepost={"2d"}
+                timepost={timepost}
                 postId={userPost._id}
                 userId={userPost.customer._id}
               />
@@ -118,9 +125,10 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               </View>
               <PostActions
                 noOfComments={userPost.comments.length}
-                noOfLikes={userPost.likes.length}
-                noOfRetweet={userPost.reposts.length}
+               Likes={userPost?.likes}
+                Repost={userPost?.reposts}
                 postId={userPost._id}
+                 userId={userPost.customer._id}
               />
             </View>
           </View>
@@ -173,7 +181,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               <SinglePostHeader
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
-                timepost={"2d"}
+                timepost={timepost}
                 postId={userPost._id}
                 userId={userPost.customer._id}
               />
@@ -193,7 +201,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                   //     : Image.resolveAssetSource(images.Aptomingos).uri,
                   // }}
                   source={{
-                    uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+                    uri: userPost.videoUrls[0],
                   }}
                   ref={videoRef}
                   style={{
@@ -206,9 +214,10 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               </View>
               <PostActions
                 noOfComments={userPost.comments.length}
-                noOfLikes={userPost.likes.length}
-                noOfRetweet={userPost.reposts.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
                 postId={userPost._id}
+                 userId={userPost.customer._id}
               />
             </View>
           </View>
@@ -224,7 +233,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               <SinglePostHeader
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
-                timepost={"2d"}
+                timepost={timepost}
                  postId={userPost._id}
                 userId={userPost.customer._id}
               />
@@ -243,7 +252,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                   //     : Image.resolveAssetSource(images.Aptomingos).uri,
                   // }}
                   source={{
-                    uri: "https://www.youtube.com/watch?v=EJzB_Fa27ko",
+                    uri: userPost.videoUrls[0],
                   }}
                   ref={videoRef}
                   style={styles.imageStyle}
@@ -252,9 +261,10 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               </View>
               <PostActions
                 noOfComments={userPost.comments.length}
-                noOfLikes={userPost.likes.length}
-                noOfRetweet={userPost.reposts.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
                 postId={userPost._id}
+                 userId={userPost.customer._id}
               />
             </View>
           </View>
@@ -270,7 +280,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               <SinglePostHeader
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
-                timepost={"2d"}
+               timepost={timepost}
                  postId={userPost._id}
                 userId={userPost.customer._id}
               />
@@ -294,120 +304,137 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               </View>
               <PostActions
                 noOfComments={userPost.comments.length}
-                noOfLikes={userPost.likes.length}
-                noOfRetweet={userPost.reposts.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
                 postId={userPost._id}
+                 userId={userPost.customer._id}
               />
             </View>
           </View>
         </>
       );
       break;
-    // case FeedContent.NFT_FOR_SALE:
-    //   const nftContent = data.content as NFT_FOR_SALE;
-    //   content = (
-    //     <>
-    //       <View style={styles.feedContainer}>
-    //         <View style={[styles.subHeading, { marginLeft: 0 }]}>
-    //           <SinglePostHeader
-    //             username={userPost.username}
-    //             nickname={userPost.nickname}
-    //             timepost={userPost.timepost}
-    //           />
-    //           <Text style={styles.message}>{nftContent.message}</Text>
-    //           <View style={[styles.mediaContainer]}>
-    //             <Image
-    //               source={images.test}
-    //               style={[
-    //                 styles.imageStyle,
-    //                 { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 },
-    //               ]}
-    //               resizeMode="cover"
-    //             />
-    //           </View>
-    //           <View style={styles.nftcollectionContainer}>
-    //             <View style={styles.collectionInfo}>
-    //               <Image source={images.collectionImage} />
-    //               <Text style={styles.collectionName}>
-    //                 {nftContent.collectionName}
-    //               </Text>
-    //             </View>
+    case FeedContent.NFT_FOR_SALE:
+      //const nftContent = data.content as NFT_FOR_SALE;
+      content = (
+        <>
+          <View style={styles.feedContainer}>
+            <View style={[styles.subHeading, { marginLeft: 0 }]}>
+             <SinglePostHeader
+                username={userPost.customer.username}
+                nickname={userPost.customer.nickname}
+               timepost={timepost}
+                 postId={userPost._id}
+                userId={userPost.customer._id}
+              />
+              <Text style={styles.message}>{userPost.description}</Text>
+              <View style={[styles.mediaContainer]}>
+                <Image
+                  source={{
+                    uri: userPost.nftImageUrl,
+                  }}
+                  style={{
+                    alignSelf: "center",
+                    width: "100%",
+                    height: size.getHeightSize(200),
+                  }}
+                  resizeMode="cover"
+                  //loadingIndicatorSource={images.Aptomingos}
+                />
+              </View>
+              <View style={styles.nftcollectionContainer}>
+                <View style={styles.collectionInfo}>
+                  <Image source={{uri:userPost.nftImageUrl}} />
+                  <Text style={styles.collectionName}>
+                    {userPost.nftCollection}
+                  </Text>
+                </View>
 
-    //             <Text style={styles.collectionId}>
-    //               {nftContent.collectionName} {nftContent.collectionId}
-    //             </Text>
-    //           </View>
-    //           <View style={[styles.nftCollection, { marginBottom: 0 }]}>
-    //             <View style={styles.collectionPriceContainer}>
-    //               <Text style={styles.price}>Price</Text>
-    //               <Text style={styles.amount}>{nftContent.price} APT</Text>
-    //             </View>
-    //             <View style={styles.button}>
-    //               <Text style={styles.buttonText}>Buy now</Text>
-    //             </View>
-    //           </View>
-    //           <PostActions
-    //             noOfComments={userPost.comments}
-    //             noOfLikes={userPost.like}
-    //             noOfRetweet={userPost.retweet}
-    //           />
-    //         </View>
-    //       </View>
-    //     </>
-    //   );
-    //   break;
-    // case FeedContent.ATTACHED_NFT:
-    //   const attachedNftContent = data.content as NFT_FOR_SALE;
-    //   content = (
-    //     <>
-    //       <View style={styles.feedContainer}>
-    //         <View style={[styles.subHeading, { marginLeft: 0 }]}>
-    //           <SinglePostHeader
-    //             username={userPost.username}
-    //             nickname={userPost.nickname}
-    //             timepost={userPost.timepost}
-    //           />
-    //           <View
-    //             style={[
-    //               styles.mediaContainer,
-    //               {
-    //                 marginBottom: size.getHeightSize(0),
-    //               },
-    //             ]}
-    //           >
-    //             <Image
-    //               source={images.feedImage5}
-    //               style={[
-    //                 styles.imageStyle,
-    //                 { borderBottomRightRadius: 0, borderBottomLeftRadius: 0 },
-    //               ]}
-    //               resizeMode="cover"
-    //             />
-    //           </View>
-    //           <View style={styles.attachedNftContainer}>
-    //             <View style={styles.collectionInfo}>
-    //               <Image source={images.collectionImage} />
-    //               <Text style={styles.collectionName}>
-    //                 {attachedNftContent.collectionName}
-    //               </Text>
-    //             </View>
+                <Text style={styles.collectionId}>
+                  {userPost.nftCollection}  {userPost.nftTokenId}
+                </Text>
+              </View>
+              <View style={[styles.nftCollection, { marginBottom: 0 }]}>
+                <View style={styles.collectionPriceContainer}>
+                  <Text style={styles.price}>Price</Text>
+                  <Text style={styles.amount}>{userPost.sellNFTPrice} APT</Text>
+                </View>
+                <View style={styles.button}>
+                  <Text style={styles.buttonText}>Buy now</Text>
+                </View>
+              </View>
+              <PostActions
+                noOfComments={userPost.comments.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
+                postId={userPost._id}
+                 userId={userPost.customer._id}
+              />
+            </View>
+          </View>
+        </>
+      );
+      break;
+    case FeedContent.ATTACHED_NFT:
+      //const attachedNftContent = data.content as NFT_FOR_SALE;
+      content = (
+        <>
+          <View style={styles.feedContainer}>
+            <View style={[styles.subHeading, { marginLeft: 0 }]}>
+              <SinglePostHeader
+                username={userPost.customer.username}
+                nickname={userPost.customer.nickname}
+               timepost={timepost}
+                 postId={userPost._id}
+                userId={userPost.customer._id}
+              />
+              <View
+                style={[
+                  styles.mediaContainer,
+                  {
+                    marginBottom: size.getHeightSize(0),
+                  },
+                ]}
+              >
+                <Image
+                  source={{
+                    uri: userPost.nftImageUrl,
+                  }}
+                  style={{
+                    alignSelf: "center",
+                    width: "100%",
+                    height: size.getHeightSize(200),
+                  }}
+                  resizeMode="cover"
+                  //loadingIndicatorSource={images.Aptomingos}
+                />
+              </View>
+              <View style={styles.attachedNftContainer}>
+                <View style={styles.collectionInfo}>
+                  <Image source={{uri: userPost.nftImageUrl}} />
+                  <Text style={styles.collectionName}>
+                    {userPost.nftCollection}
+                  </Text>
+                </View>
 
-    //             <Text style={styles.collectionId}>
-    //               {attachedNftContent.collectionName}
-    //               {attachedNftContent.collectionId}
-    //             </Text>
-    //           </View>
+                <Text style={styles.collectionId}>
+                  {userPost.nftCollection}
+                  {userPost.nftTokenId}
+                </Text>
+              </View>
 
-    //           <PostActions
-    //             noOfComments={userPost.comments}
-    //             noOfLikes={userPost.like}
-    //             noOfRetweet={userPost.retweet}
-    //           />
-    //         </View>
-    //       </View>
-    //     </>
-    //   );
-    //   break;
+              <PostActions
+                noOfComments={userPost.comments.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
+                postId={userPost._id}
+                 userId={userPost.customer._id}
+              />
+            </View>
+          </View>
+        </>
+      );
+      break;
     // case FeedContent.SWAP_OPTION_INCLUDED:
     //   const swapContent = data.content as SWAP_OPTION_INCLUDED;
     //   content = (

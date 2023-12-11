@@ -21,12 +21,14 @@ import { useNavigation } from '@react-navigation/native';
 import { SinglePostProps } from '../../navigations/NavigationTypes';
 import SinglePostContent from '../../components/SinglePostView/SinglePostContent';
 import { useAppDispatch } from '../../controller/hooks';
+import { updateCommentReplyData } from '../../controller/createPost';
 const SinglePost = ({ route }: SinglePostProps) => {
   const props = route.params;
   const scrollViewRef = useRef<ScrollView>(null);
   const textInputRef = useRef<TextInput>(null);
   const [replyingTo, setReplyingTo] = useState(false);
   const navigation = useNavigation();
+  const dispatch = useAppDispatch()
 
 
 
@@ -57,10 +59,11 @@ const SinglePost = ({ route }: SinglePostProps) => {
     return null;
   }
 
-  const handleCommentPress = () => {
+  const handleCommentPress = (username:string) => {
     textInputRef.current?.focus();
     setReplyingTo(true);
     textInputRef.current?.clear();
+    dispatch(updateCommentReplyData({username}))
     if (scrollViewRef.current) {
       const commentIndex = 4;
       const yOffset = commentIndex * 100;

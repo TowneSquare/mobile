@@ -9,14 +9,15 @@ const size = new sizes(height, width);
 import { useNavigation } from '@react-navigation/native';
 interface Props {
   PFPsize?: number;
+  profileImage:string
 }
 
-const ProfilePicture = ({ PFPsize }: Props) => {
+const ProfilePicture = ({ PFPsize, profileImage }: Props) => {
   const navigation = useNavigation();
   return (
     <Pressable onPress={() => navigation.navigate('TheirProfileScreen')}>
       <Avatar
-        source={images.profileImage}
+        source={{uri:profileImage}}
         rounded
         size={PFPsize ? size.getHeightSize(PFPsize) : size.getHeightSize(40)}
       />

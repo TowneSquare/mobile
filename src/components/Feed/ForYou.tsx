@@ -38,20 +38,20 @@ import { feedStyle } from "./FeedsStyles";
 import { PostData } from "../../controller/createPost";
 import { Video, ResizeMode } from "expo-av";
 import { UserCommentData } from "../../controller/UserController";
-import { useAppSelector } from "../../controller/hooks"; 
+import { useAppSelector } from "../../controller/hooks";
+import { getPostTime } from "../../utils/helperFunction";
 // interface NavigationParameter {
 //   username: string;
 //   nickname: string;
 // }
 interface Props {
-  myPost?: boolean;
   data: PostData;
   shouldPFPSwipe: boolean;
 }
-const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
+const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
   const navigation = useNavigation();
   const videoRef = useRef(null);
-  const userId = useAppSelector((state) => state.USER.UserData._id)
+  const userId = useAppSelector((state) => state.USER.UserData._id);
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
     "Outfit-Medium": fonts.OUTFIT_NORMAL,
@@ -65,8 +65,8 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
     const params: PostData = data;
     navigation.navigate("SinglePost" as any, params);
   };
-  const myPost = userId == data.customer._id
-  console.log(myPost, "boolean")
+  const myPost = userId == data?.customer?._id;
+  const timePost = getPostTime(data.createdAt);
   let content;
 
   const type_of_post = data?.repost
@@ -75,13 +75,13 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
     ? FeedContent.MESSAGE_VIDEO
     : data?.imageUrls[0] && data?.description
     ? FeedContent.MESSAGE_IMAGE
-    : data.videoUrls[0]
+    : data?.videoUrls[0]
     ? FeedContent.VIDEO_ONLY
-    : data.imageUrls[0]
+    : data?.imageUrls[0]
     ? FeedContent.IMAGE_ONLY
     : data?.nftImageUrl && data?.sellNFTPrice
     ? FeedContent.NFT_FOR_SALE
-    : data?.nftImageUrl && !data.sellNFTPrice
+    : data?.nftImageUrl && !data?.sellNFTPrice
     ? FeedContent.ATTACHED_NFT
     : data?.description
     ? FeedContent.MESSAGE_ONLY
@@ -93,12 +93,16 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture id={data?._id} swipeable={shouldPFPSwipe} />
+            <ProfilePicture
+              profileImageUri={userPost.customer.profileImage}
+              userId={userPost?.customer._id}
+              swipeable={shouldPFPSwipe}
+            />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
-                timepost={"2m"} // TODO: fix the post time
+                timepost={timePost}
                 myPost={myPost ? myPost : false}
                 postId={userPost._id}
                 userId={userPost.customer._id}
@@ -109,9 +113,10 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
 
               <PostActions
                 noOfComments={userPost?.comments?.length}
-                noOfLikes={userPost?.likes?.length}
-                noOfRetweet={userPost?.reposts?.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
                 postId={userPost._id}
+                userId={userPost.customer._id}
               />
               {/* <ShowThread /> */}
             </View>
@@ -124,11 +129,16 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
+            <ProfilePicture
+              profileImageUri={userPost?.customer?.profileImage}
+              userId={userPost?.customer._id}
+              swipeable={shouldPFPSwipe}
+            />
             <View style={[styles.subHeading, { marginLeft: 0 }]}>
               <PostHeader
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
-                timepost={"2m"} // TODO: fix the post time
+                timepost={timePost}
                 myPost={myPost ? myPost : false}
                 postId={userPost._id}
                 userId={userPost.customer._id}
@@ -153,9 +163,10 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
               </View>
               <PostActions
                 noOfComments={userPost.comments.length}
-                noOfLikes={userPost.likes.length}
-                noOfRetweet={userPost.reposts.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
                 postId={userPost._id}
+                userId={userPost.customer._id}
               />
             </View>
           </View>
@@ -167,7 +178,11 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture id={data._id} swipeable={shouldPFPSwipe} />
+            <ProfilePicture
+              profileImageUri={userPost?.customer?.profileImage}
+              userId={userPost?.customer._id}
+              swipeable={shouldPFPSwipe}
+            />
             <View style={styles.subHeading}>
               {/* <PostHeader
                 username={userPost.customer.username}
@@ -179,7 +194,7 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
               <PostHeader
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
-                timepost={"2m"} // TODO: fix the post time
+                timepost={timePost}
                 myPost={myPost ? myPost : false}
                 postId={userPost._id}
                 userId={userPost.customer._id}
@@ -217,9 +232,10 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
               </Pressable>
               <PostActions
                 noOfComments={userPost?.comments?.length}
-                noOfLikes={userPost?.likes?.length}
-                noOfRetweet={userPost?.reposts?.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
                 postId={userPost._id}
+                userId={userPost.customer._id}
               />
 
               {/* <PostActions
@@ -281,13 +297,17 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture id={data._id} swipeable={shouldPFPSwipe} />
+            <ProfilePicture
+              profileImageUri={userPost.customer.profileImage}
+              userId={userPost?.customer._id}
+              swipeable={shouldPFPSwipe}
+            />
             <View style={styles.subHeading}>
               <PostHeader
                 onPress={handleNavigation}
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
-                timepost={"2m"} // TODO
+                timepost={timePost}
                 myPost={myPost ? myPost : false}
                 postId={userPost._id}
                 userId={userPost.customer._id}
@@ -300,8 +320,7 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
               <Pressable
                 onPress={() =>
                   navigation.navigate("VideoPlayer" as any, {
-                    videoUrl:
-                      "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+                    videoUrl: data.videoUrls[0],
                   })
                 }
                 style={[
@@ -316,7 +335,7 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
                   //     : Image.resolveAssetSource(images.Aptomingos).uri,
                   // }}
                   source={{
-                    uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+                    uri: data.videoUrls[0],
                   }}
                   ref={videoRef}
                   useNativeControls
@@ -332,9 +351,10 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
               </Pressable>
               <PostActions
                 noOfComments={userPost?.comments?.length}
-                noOfLikes={userPost?.likes?.length}
-                noOfRetweet={userPost?.reposts?.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
                 postId={userPost._id}
+                userId={userPost.customer._id}
               />
               {/* <PostActions
                 noOfComments={userPost.comments}
@@ -352,13 +372,17 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture id={data._id} swipeable={shouldPFPSwipe} />
+            <ProfilePicture
+              profileImageUri={userPost.customer.profileImage}
+              userId={userPost?.customer._id}
+              swipeable={shouldPFPSwipe}
+            />
             <View style={styles.subHeading}>
               <PostHeader
                 onPress={handleNavigation}
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
-                timepost={"2m"} // TODO
+                timepost={timePost}
                 myPost={myPost ? myPost : false}
                 postId={userPost._id}
                 userId={userPost.customer._id}
@@ -384,7 +408,7 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
                     //     : Image.resolveAssetSource(images.Aptomingos).uri,
                     // }}
                     source={{
-                      uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+                      uri: data.videoUrls[0],
                     }}
                     ref={videoRef}
                     style={communityStyles.video}
@@ -396,9 +420,10 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
               </Pressable>
               <PostActions
                 noOfComments={userPost?.comments?.length}
-                noOfLikes={userPost?.likes?.length}
-                noOfRetweet={userPost?.reposts?.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
                 postId={userPost._id}
+                userId={userPost.customer._id}
               />
               {/* <PostActions
                 noOfComments={userPost.comments}
@@ -479,13 +504,17 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture id={data._id} swipeable={shouldPFPSwipe} />
+            <ProfilePicture
+              profileImageUri={userPost?.customer?.profileImage}
+              userId={userPost?.customer._id}
+              swipeable={shouldPFPSwipe}
+            />
             <View style={styles.subHeading}>
               <PostHeader
                 onPress={handleNavigation}
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
-                timepost={"2m"} // TODO
+                timepost={timePost}
                 myPost={myPost ? myPost : false}
                 postId={userPost._id}
                 userId={userPost.customer._id}
@@ -502,19 +531,23 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
                 ]}
               >
                 <Image
-                  source={images.feedImage5}
-                  style={[
-                    styles.imageStyle,
-                    { borderBottomRightRadius: 0, borderBottomLeftRadius: 0 },
-                  ]}
+                  source={{
+                    uri: userPost.nftImageUrl,
+                  }}
+                  style={{
+                    alignSelf: "center",
+                    width: "100%",
+                    height: size.getHeightSize(200),
+                  }}
                   resizeMode="cover"
+                  loadingIndicatorSource={images.Aptomingos}
                 />
                 <View style={[styles.nftcollectionContainer, {}]}>
                   <View style={styles.collectionInfo}>
                     <Avatar
                       size={size.getHeightSize(16)}
                       rounded
-                      source={images.collectionImage}
+                      source={{ uri: userPost.nftImageUrl }}
                     />
                     <Text style={styles.collectionName}>
                       {data.nftCollection}
@@ -543,9 +576,10 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
               /> */}
               <PostActions
                 noOfComments={userPost?.comments?.length}
-                noOfLikes={userPost?.likes?.length}
-                noOfRetweet={userPost?.reposts?.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
                 postId={userPost._id}
+                userId={userPost.customer._id}
               />
             </View>
           </View>
@@ -557,13 +591,17 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture id={data._id} swipeable={shouldPFPSwipe} />
+            <ProfilePicture
+              profileImageUri={userPost?.customer?.profileImage}
+              userId={userPost?.customer._id}
+              swipeable={shouldPFPSwipe}
+            />
             <View style={styles.subHeading}>
               <PostHeader
                 onPress={handleNavigation}
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
-                timepost={"2m"} // TODO
+                timepost={timePost}
                 myPost={myPost ? myPost : false}
                 postId={userPost._id}
                 userId={userPost.customer._id}
@@ -577,14 +615,21 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
                 ]}
               >
                 <Image
-                  source={images.feedImage5}
-                  style={[styles.imageStyle]}
+                  source={{
+                    uri: userPost.nftImageUrl,
+                  }}
+                  style={{
+                    alignSelf: "center",
+                    width: "100%",
+                    height: size.getHeightSize(200),
+                  }}
                   resizeMode="cover"
+                  loadingIndicatorSource={images.Aptomingos}
                 />
               </View>
               <View style={styles.attachedNftContainer}>
                 <View style={styles.collectionInfo}>
-                  <Image source={images.collectionImage} />
+                  <Image source={{ uri: data.nftImageUrl }} />
                   <Text style={styles.collectionName}>
                     {data.nftCollection}
                   </Text>
@@ -603,9 +648,10 @@ const ForYou = memo(({ data,shouldPFPSwipe }: Props) => {
               /> */}
               <PostActions
                 noOfComments={userPost?.comments?.length}
-                noOfLikes={userPost?.likes?.length}
-                noOfRetweet={userPost?.reposts?.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
                 postId={userPost._id}
+                userId={userPost.customer._id}
               />
               {/* <ShowThread /> */}
             </View>

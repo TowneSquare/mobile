@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import BarCode from '../../../assets/images/svg/Barcode';
 import { images, fonts } from '../../constants';
 import { updateLogoutBottomSheetVisibility } from '../../controller/BottomSheetController';
-import { useAppDispatch } from '../../controller/hooks';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import TowneSquareIcon from '../../../assets/images/svg/TowneSquareIcon';
 import SettingsIcon from '../../../assets/images/svg/SettingsIcon';
 import CalendarIcon from '../../../assets/images/svg/CalendarIcon';
@@ -20,6 +20,13 @@ import Constants from 'expo-constants';
 const FeedDrawerContent = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
+  const {username,nickname,followers,following,aptosName} = useAppSelector((state) => ({
+    username:state.USER.UserData.username,
+    nickname:state.USER.UserData.nickname,
+    followers: state.USER.UserData.followers,
+    following:state.USER.UserData.following,
+    aptosName: state.USER.aptosName
+  }) )
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -61,7 +68,7 @@ const FeedDrawerContent = () => {
               fontFamily: 'Outfit-SemiBold',
             }}
           >
-            @realjczhang
+            {`@${nickname}`}
           </Text>
           <Text
             style={{
@@ -71,7 +78,7 @@ const FeedDrawerContent = () => {
               fontFamily: 'Outfit-Regular',
             }}
           >
-            jczhang.apt
+            {username}
           </Text>
         </View>
         <BarCode
@@ -97,11 +104,11 @@ const FeedDrawerContent = () => {
         </View> */}
         <View style={styles.tagContainer}>
           <Text style={styles.tagText}>Following</Text>
-          <Text style={styles.tagSubText}>72K</Text>
+          <Text style={styles.tagSubText}>{following.length}</Text>
         </View>
         <View style={styles.tagContainer}>
           <Text style={styles.tagText}>Followers</Text>
-          <Text style={styles.tagSubText}>24K</Text>
+          <Text style={styles.tagSubText}>{followers.length}</Text>
         </View>
       </View>
       <View

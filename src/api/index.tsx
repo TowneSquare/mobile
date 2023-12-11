@@ -2,12 +2,11 @@ import axios from "axios";
 import { BACKEND_URL } from "../../config/env";
 import { Customer, PostData } from "../controller/createPost";
 import { useAppSelector } from "../controller/hooks";
+import { UserData } from "../controller/UserController";
 let _headers = {
   Accept: "application/json",
   "Content-Type": "application/json",
 };
-
-
 
 export interface FollowingProps {
   _id: string;
@@ -149,6 +148,18 @@ export const getFollowers = async (token: string) => {
       },
     });
     const result = response.data;
+    return result;
+  } catch (error) {}
+};
+
+export const getUserInfo = async (userId: string, token: string) => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}user/${userId}`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    const result:UserData = response.data;
     return result;
   } catch (error) {}
 };

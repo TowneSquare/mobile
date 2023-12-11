@@ -135,7 +135,7 @@ const initialState: UserState = {
       userId: "65372778b8da0e521b8a3587",
       description: "Test post ",
       imageUrls: [""],
-      videoUrls: ["https://www.youtube.com/watch?v=EJzB_Fa27ko"],
+      videoUrls: ["https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"],
       createdAt: "2023-11-02T03:01:59.721Z",
       sellNFTPrice: "",
       nftImageUrl: "",
@@ -202,7 +202,7 @@ const initialState: UserState = {
       userId: "65372778b8da0e521b8a3587",
       description: "Test post ",
       imageUrls: [""],
-      videoUrls: [""],
+      videoUrls: ["https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"],
       createdAt: "2023-11-02T03:01:59.721Z",
       sellNFTPrice: "",
       nftImageUrl:
@@ -319,8 +319,8 @@ const initialState: UserState = {
       {
         _id: "655bfe3a45ec78b4b2d04863",
         content: "Test Content",
-        imageUrls: ["https://image.com/image1", "https://image.com/image2"],
-        videoUrls: ["https://video.com/video1", "https://video.com/video2"],
+        imageUrls: [""],
+        videoUrls: ["https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"],
         userId: "655ab007ce8937ff6d512885",
         postId: "655ab012ce8937ff6d512886",
         createdAt: "2023-11-21T00:47:54.262Z",
@@ -598,7 +598,6 @@ const initialState: UserState = {
   accountInfo: undefined,
   selectedSuperStars: [],
   selectedSuperStar: [],
-
   theirProfileBottomSheet: false,
 };
 
@@ -715,7 +714,7 @@ export const editProfile = createAsyncThunk(
   }
 );
 
-export const deletePost = createAsyncThunk("",async ({postId, token}:any) => {
+export const deletePost = createAsyncThunk("user/deletePost",async ({postId, token}:any) => {
   try {
     await axios.delete(`${BACKEND_URL}/posts/${postId}`, {
       headers:{

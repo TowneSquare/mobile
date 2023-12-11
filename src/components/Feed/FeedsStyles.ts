@@ -32,6 +32,7 @@ export const feedStyle = StyleSheet.create({
     borderRadius: 8,
     width: '100%',
     maxHeight: size.getHeightSize(400),
+    alignSelf:"center"
   },
   linkDescriptionContainer: {
     backgroundColor: appColor.grayDark,
