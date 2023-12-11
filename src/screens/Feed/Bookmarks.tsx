@@ -5,6 +5,7 @@ import { sizes } from '../../utils';
 import { UserPosts } from '../../components/Feed/DuumyData';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor } from '../../constants';
+import { useAppSelector } from '../../controller/hooks';
 import Header from '../../shared/Feed/Header';
 import ForYou from '../../components/Feed/ForYou';
 
@@ -12,6 +13,7 @@ const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
 const Bookmarks = () => {
+  const ALLPOST = useAppSelector((state) => state.CreatePostController.AllPost )
   return (
     <SafeAreaView
       style={{
@@ -21,9 +23,9 @@ const Bookmarks = () => {
     >
       <Header title="Bookmarks" />
       <FlashList
-        data={UserPosts}
+        data={ALLPOST}
         renderItem={({ item }) => <ForYou data={item} shouldPFPSwipe />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         estimatedItemSize={200}
       />
     </SafeAreaView>
