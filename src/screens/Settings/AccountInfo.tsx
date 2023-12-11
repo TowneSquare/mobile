@@ -5,9 +5,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor } from '../../constants';
 import Header from '../../shared/Feed/Header';
 import MagicIcon from '../../../assets/images/svg/Settings/MagicIcon';
+import { useAppSelector } from '../../controller/hooks';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const AccountInfo = () => {
+  const {username, nickname,walletAddress,email} = useAppSelector((state) => ({
+    username: state.USER.UserData.username,
+    nickname:state.USER.UserData.nickname,
+    walletAddress: state.USER.UserData.aptosWallet,
+    email: state.USER.UserData.email
+  }))
   return (
     <SafeAreaView
       style={{
@@ -18,11 +25,11 @@ const AccountInfo = () => {
       <Header title="Account info" />
       <View style={[styles.view, { paddingTop: size.getHeightSize(8) }]}>
         <Text style={styles.leadingText}>DISPLAY NAME</Text>
-        <Text style={styles.text}>RCJack</Text>
+        <Text style={styles.text}>{nickname}</Text>
       </View>
       <View style={styles.view}>
         <Text style={styles.leadingText}>USERNAME</Text>
-        <Text style={styles.text}>@rjjack</Text>
+        <Text style={styles.text}>{`@${username}`}</Text>
       </View>
       <View style={styles.view}>
         <Text style={styles.leadingText}>CONNECTED WALLET</Text>
@@ -44,13 +51,13 @@ const AccountInfo = () => {
         >
           <Text style={styles.leadingText}>ADDRESS</Text>
           <Text style={styles.text}>
-            0x4184CED912A14E6AD2Ad4F4Cb3026aC866153c4d
+            {walletAddress}
           </Text>
         </View>
       </View>
       <View style={styles.view}>
         <Text style={styles.leadingText}>EMAIL</Text>
-        <Text style={styles.text}>johnmarx@gmail.com</Text>
+        <Text style={styles.text}>{email}</Text>
       </View>
     </SafeAreaView>
   );
