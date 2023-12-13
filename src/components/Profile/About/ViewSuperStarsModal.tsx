@@ -9,7 +9,6 @@ import {
   Modal,
   Animated,
   ScrollView,
-  BackHandler,
 } from 'react-native';
 import { appColor } from '../../../constants';
 import AntDesign from '@expo/vector-icons/AntDesign';
