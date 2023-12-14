@@ -68,7 +68,6 @@ export const message = [
   },
   {
     id: '6',
-
     type: {
       messageType: 'text',
       text: "Just forgot to mention, I've sent you the link I was talking about earlier. Lmk what do you think 🤩🤩🤩",
