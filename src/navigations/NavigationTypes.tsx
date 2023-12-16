@@ -11,7 +11,8 @@ declare global {
 }
 
 interface PetraWalletResponse {
-  response?: 'approved' | 'rejected' | 'dismissed' 
+  response?: 'approved' | 'rejected' | 'dismissed';
+  data?: string
 }
 
 type SelectedSuperStarCollectionScreenParameter = {
@@ -152,6 +153,7 @@ export type RootStackParamList = {
 };
 type ChooseWalletParams = {
   [ChooseWallet: string]: PetraWalletResponse;
+  
 };
 type NFTOfferParams = {
   [NFTOffer: string]: {

@@ -3,6 +3,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { StyleSheet, View } from "react-native";
 import InitializeSocket from "./src/utils/InitializeSocket";
 import { NavigationContainer } from "@react-navigation/native";
+import 'react-native-get-random-values'
 import Navigations from "./src/navigations/Navigations";
 import { Provider } from "react-redux";
 import { store } from "./src/controller/store";

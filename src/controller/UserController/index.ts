@@ -4,6 +4,7 @@ import { ImageSourcePropType } from "react-native";
 import { communities, friends } from "./models";
 import { didToken } from "../../../config/env";
 import axios from "axios";
+import { BoxKeyPair } from "tweetnacl";
 
 export interface collection {
   image: ImageSourcePropType;
@@ -45,6 +46,7 @@ interface UserState {
   didToken: string;
   accountInfo: any;
   metadata: any;
+  keys: BoxKeyPair | undefined;
   editProfile: boolean;
   NFTCollections: NftCollection[];
   selectedSuperStars: {
@@ -338,6 +340,7 @@ const initialState: UserState = {
   ],
   accountInfo: undefined,
   metadata: undefined,
+  keys: undefined,
   selectedSuperStars: [],
   selectedSuperStar: [],
   bio: `🖇️ Love everything about blockchain \n🌍3 web3 Native \n 👀 Always on a lookout for blue chips`,
@@ -478,6 +481,9 @@ export const USER = createSlice({
     updateMetadata: (state, action: PayloadAction<any>) => {
       state.metadata = action.payload;
     },
+    updateKeys: (state, action: PayloadAction<BoxKeyPair>) => {
+      state.keys = action.payload
+    },
     updateSelectedSuperStar: (
       state,
       action: PayloadAction<{ uri: string; id: string }>
@@ -498,10 +504,7 @@ export const USER = createSlice({
     updateTheirProfileBottomSheet: (state, action: PayloadAction<boolean>) => {
       state.theirProfileBottomSheet = action.payload;
     },
-    disableContinueButton: (
-      state,
-      action: PayloadAction<boolean>
-    ) => {
+    disableContinueButton: (state, action: PayloadAction<boolean>) => {
       state.isSignUpContinueButtonDisable = action.payload;
     },
   },
@@ -527,6 +530,7 @@ export const {
   updateEditProfile,
   updateAccountInfo,
   updateMetadata,
+  updateKeys,
   updateSocialconnect,
   updateSelectedSuperStar,
   deleteSelectedSuperStar,
