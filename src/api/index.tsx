@@ -97,3 +97,14 @@ export async function uploadProfileImage(token: string, profileImage: any) {
       if (error.code == 400) console.log(error.message);
     });
 }
+
+export async function getTokenBywalletaddress(wallet: string) {
+  return fetch(`${BACKEND_URL}health/${wallet}`, {
+    method: "GET",
+    headers: { "Content-Type": "multipart/form-data" },
+  })
+    .then((resp) => resp.json())
+    .catch((error) => {
+      if (error.code == 400) console.log(error.message);
+    });
+}

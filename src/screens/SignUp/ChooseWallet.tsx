@@ -25,6 +25,13 @@ import BackButton from "../../components/SignUp/BackButton";
 import { ChooseWalletProps } from "../../navigations/NavigationTypes";
 import { box } from "tweetnacl";
 import { updateKeys } from "../../controller/UserController";
+import {
+  updateAccountInfo,
+  updateDidToken,
+} from "../../controller/UserController";
+import {
+  getTokenBywalletaddress
+} from '../../api';
 
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
@@ -39,24 +46,35 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
   const keys = useAppSelector((state) => state.USER.keys);
 
   useEffect(() => {
-    if (!keys) dispatch(updateKeys(box.keyPair()));
-  }, []);
+    const fetchData = async () => {
+      if (!keys) {
+        dispatch(updateKeys(box.keyPair()));
+      }
 
-  if (selectedWallet === "petra" && response === "approved" && data) {
-    const bufferObj = Buffer.from(data, "base64");
-    const jsonString = bufferObj.toString("utf8");
-    const obj = JSON.parse(jsonString);
-    console.log(obj);
+      if (selectedWallet === "petra" && response === "approved" && data) {
+        try {
+          const bufferObj = Buffer.from(data, "base64");
+          const jsonString = bufferObj.toString("utf8");
+          const obj = JSON.parse(jsonString);
+          const res = await getTokenBywalletaddress(obj?.address);
+          dispatch(updateAccountInfo({ address: obj?.address }));
+          dispatch(updateDidToken(res?.token));
+          dispatch(updateBottomSheet(true));
+          dispatch(
+            updateToast({
+              toastType: "success",
+              displayToast: true,
+              toastMessage: "You have successfully connected your wallet",
+            })
+          );
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    };
 
-    dispatch(updateBottomSheet(true));
-    dispatch(
-      updateToast({
-        toastType: "success",
-        displayToast: true,
-        toastMessage: "You have successfully connected your wallet",
-      })
-    );
-  }
+    fetchData();
+  }, [data, dispatch, keys, response, selectedWallet]);
 
   return (
     <>
