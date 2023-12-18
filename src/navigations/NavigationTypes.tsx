@@ -5,6 +5,7 @@ import {
 } from '@react-navigation/native';
 import { ImageSourcePropType } from 'react-native';
 import { PostData } from '../controller/createPost';
+import { UserData } from '../controller/UserController';
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
@@ -71,7 +72,7 @@ export type RootStackParamList = {
     screen: 'Following' | 'Followers' | 'Communities';
   };
   TheirProfileScreen: {
-    username: string;
+    userData:UserData
   };
 
   CreateCommunityScreen: undefined;
@@ -153,6 +154,12 @@ export type RootStackParamList = {
   Bookmarks: undefined;
   TownesquareVerification: undefined;
 };
+
+type TheirProfileParams = {
+  [TheirProfileScreen:string]:{
+    userData:UserData
+  }
+}
 type ChooseWalletParams = {
   [ChooseWallet: string]: PetraWalletResponse;
 };
@@ -375,7 +382,7 @@ export type FollowersScreenProps = {
 export type TheirProfileScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'TheirProfileScreen'>;
   magic: any;
-  route: RouteProp<RootStackParamList, 'TheirProfileScreen'>;
+  route: RouteProp<TheirProfileParams, 'TheirProfileScreen'>;
 };
 export type CreateCommunityScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'CreateCommunityScreen'>;

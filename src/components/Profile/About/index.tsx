@@ -17,7 +17,6 @@ import { sizes } from "../../../utils";
 import Info from "../../../../assets/images/svg/Info";
 import MessageIcon from "../../../../assets/images/svg/MessageIcon";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { UserPosts } from "../../Feed/DuumyData";
 import ForYou from "../../Feed/ForYou";
 import { useNavigation } from "@react-navigation/native";
 import { useAppSelector, useAppDispatch } from "../../../controller/hooks";
@@ -78,7 +77,7 @@ const About = ({ route }) => {
     | "theirProfile";
   const { selectedSuperStars, bio, profilePics } = useAppSelector((state) => ({
     bio: state.USER.UserData.bio,
-    selectedSuperStars: state.USER.selectedSuperStars,
+    selectedSuperStars: state.USER.UserData.superstars,
     profilePics: state.USER.UserData.profileImage,
   }));
   const dispatch = useAppDispatch();
@@ -121,11 +120,7 @@ const About = ({ route }) => {
 
   const Posts = () => {
     return USERDATA.posts.map((userpost) => (
-      <ForYou
-        key={userpost._id}
-        data={userpost}
-        shouldPFPSwipe={false}
-      />
+      <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
     ));
   };
 
@@ -142,16 +137,11 @@ const About = ({ route }) => {
     ));
   };
 
-
   const Media = () => {
     return USERDATA.posts
       .filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0])
       .map((userpost) => (
-        <ForYou
-          key={userpost._id}
-          data={userpost}
-          shouldPFPSwipe={false}
-        />
+        <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
       ));
   };
 
@@ -284,7 +274,7 @@ const About = ({ route }) => {
 
             {typeOfProfile === "theirProfile" ? (
               <></>
-            ) : selectedSuperStars.length > 0 ? (
+            ) : selectedSuperStars.nftInfoArray.length > 0 ? (
               <Pressable
                 onPress={() => {
                   navigate("SuperStarCollectionScreen");
@@ -296,7 +286,7 @@ const About = ({ route }) => {
               <></>
             )}
           </View>
-          {selectedSuperStars.length > 0 ? (
+          {selectedSuperStars.nftInfoArray.length > 0 ? (
             <>
               <ScrollView
                 style={{
@@ -307,14 +297,14 @@ const About = ({ route }) => {
                   paddingRight: size.getWidthSize(10),
                 }}
               >
-                {selectedSuperStars.map((item) => (
+                {selectedSuperStars.nftInfoArray.map((item) => (
                   <Pressable
                     onPress={() => {
                       useDispatch({
                         type: "SHOW",
                         payload: {
                           showSuperStarModal: true,
-                          imageUri: item.nftTokenId,
+                          imageUri: item.nftImageUrl,
                         },
                       });
                     }}
@@ -333,8 +323,6 @@ const About = ({ route }) => {
                 ))}
               </ScrollView>
             </>
-          ) : typeOfProfile === "theirProfile" ? (
-            <></>
           ) : (
             <View style={styles.setNft}>
               <View style={{}}>

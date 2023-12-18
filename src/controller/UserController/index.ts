@@ -58,6 +58,12 @@ export interface UserCommentData {
   postInfo: PostInfo;
 }
 
+export interface NFTInfoArray {
+  nftTokenId:string
+  nftImageUrl:string
+  nftCollection:string
+}
+
 export interface UserData {
   _id: string;
   profileImage: string;
@@ -74,7 +80,12 @@ export interface UserData {
   groups: Array<communities>;
   comments: Array<UserCommentData>;
   createdAt: string;
-  superstars: any;
+  superstars: {
+    _id:string
+    nftInfoArray: NFTInfoArray[]
+    customerId:string
+    createdAt:string
+  };
 }
 interface UserState {
   UserData: UserData;
@@ -102,7 +113,8 @@ interface UserState {
   }[];
   theirProfileBottomSheet: boolean;
   isSignUpContinueButtonDisable: boolean;
-  socialInfo:any
+  socialInfo: any;
+  BookMarks: PostData[];
 }
 
 interface signUpRequest {
@@ -114,7 +126,7 @@ interface signUpRequest {
 
 interface followRequest {
   toUserIds: string[];
-  token:string
+  token: string;
 }
 const initialState: UserState = {
   UserData: {
@@ -130,144 +142,155 @@ const initialState: UserState = {
     profileImage:
       "https://townesquare-media.s3.amazonaws.com/20231124T025800.147Z_28i87s00i6s.jpg",
     followers: [],
-    following: [],
-    posts:  [
-    {
-      _id: "655df7a347784b1665992617",
-      title: "",
-      userId: "65372778b8da0e521b8a3587",
-      description: "Test post ",
-      imageUrls: [""],
-      videoUrls: ["https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"],
-      createdAt: "2023-11-02T03:01:59.721Z",
-      sellNFTPrice: "",
-      nftImageUrl: "",
-      nftCollection: "",
-      nftTokenId: "",
-      likes: [
-        {
-          _id: "6560962a233ac36e73bc42ce",
-          userId: "655ab007ce8937ff6d512885",
-          postId: "655df7a347784b1665992617",
-          createdAt: "2023-11-24T12:25:14.173Z",
-        },
-      ],
-      comments: [
-        {
-          username: "pelumi_main",
-          nickname: "chokey",
-          _id: "653878c2a000149cd06b9845",
-          content: "POST comment TEstTest",
-          userId: "65372778b8da0e521b8a3587",
-          postId: "653728bd6171091d6b469bec",
-          createdAt: "2023-10-25T02:09:06.310Z",
-        },
-        {
-          username: "pelumi_second",
-          nickname: "chokey",
-          _id: "653878c2a000149cd06b9845",
-          content: "POST comment TEstTest",
-          userId: "65372778b8da0e521b8a3587",
-          postId: "653728bd6171091d6b469bec",
-          createdAt: "2023-10-25T02:09:06.310Z",
-        },
-      ],
-      customer: {
-        _id: "65372778b8da0e521b8a3587",
-        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        nickname: "test nickname",
-        username: "test12",
-        email: "test@email.com",
-        referralCode: "98N39",
-        profileImage: "",
-        createdAt: "",
+    following: [
+      {
+        _id: "655d71b07123f56056b546d8",
+        fromUserId: "655ab007ce8937ff6d512885",
+        toUserId: "653730c76171091d6b469bf2",
       },
-      reposts: [],
-      originalCustomer: {
-        _id: "65372778b8da0e521b8a3587",
-        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        nickname: "test nickname",
-        username: "test12",
-        email: "test@email.com",
-        referralCode: "98N39",
-        profileImage: "",
-        createdAt: "",
+      {
+        _id: "655d71ff7123f56056b546d9",
+        fromUserId: "655ab007ce8937ff6d512885",
+        toUserId: "65517b59c40bc87fe2ac38f8",
       },
-      repost: false,
-      originalPostId: "65430c7f372dd89672e9214d",
-      originalCustomerId: "65372778b8da0e521b8a3587",
-    },
-    {
-      _id: "6543112773263dcd8d741ba0",
-      title: "",
-      userId: "65372778b8da0e521b8a3587",
-      description: "Test post ",
-      imageUrls: [""],
-      videoUrls: ["https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"],
-      createdAt: "2023-11-02T03:01:59.721Z",
-      sellNFTPrice: "",
-      nftImageUrl:
-        "https://imageio.forbes.com/specials-images/imageserve/6170e01f8d7639b95a7f2eeb/Sotheby-s-NFT-Natively-Digital-1-2-sale-Bored-Ape-Yacht-Club--8817-by-Yuga-Labs/0x0.png",
-      nftCollection: "APtomingos",
-      nftTokenId: "Aptomingo #123",
-      likes: [
-        {
-          _id: "6560962a233ac36e73bc42ce",
-          userId: "655ab007ce8937ff6d512885",
-          postId: "655df7a347784b1665992617",
-          createdAt: "2023-11-24T12:25:14.173Z",
+    ],
+    posts: [
+      {
+        _id: "655df7a347784b1665992617",
+        title: "",
+        userId: "65372778b8da0e521b8a3587",
+        description: "Test post ",
+        imageUrls: [""],
+        videoUrls: ["https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"],
+        createdAt: "2023-11-02T03:01:59.721Z",
+        sellNFTPrice: "",
+        nftImageUrl: "",
+        nftCollection: "",
+        nftTokenId: "",
+        likes: [
+          {
+            _id: "6560962a233ac36e73bc42ce",
+            userId: "655ab007ce8937ff6d512885",
+            postId: "655df7a347784b1665992617",
+            createdAt: "2023-11-24T12:25:14.173Z",
+          },
+        ],
+        comments: [
+          {
+            username: "pelumi_main",
+            nickname: "chokey",
+            _id: "653878c2a000149cd06b9845",
+            content: "POST comment TEstTest",
+            userId: "65372778b8da0e521b8a3587",
+            postId: "653728bd6171091d6b469bec",
+            createdAt: "2023-10-25T02:09:06.310Z",
+          },
+          {
+            username: "pelumi_second",
+            nickname: "chokey",
+            _id: "653878c2a000149cd06b9845",
+            content: "POST comment TEstTest",
+            userId: "65372778b8da0e521b8a3587",
+            postId: "653728bd6171091d6b469bec",
+            createdAt: "2023-10-25T02:09:06.310Z",
+          },
+        ],
+        customer: {
+          _id: "65372778b8da0e521b8a3587",
+          issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+          aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+          nickname: "test nickname",
+          username: "test12",
+          email: "test@email.com",
+          referralCode: "98N39",
+          profileImage: "",
+          createdAt: "",
         },
-      ],
-      comments: [
-        {
-          username: "pelumi_main",
-          nickname: "chokey",
-          _id: "653878c2a000149cd06b9845",
-          content: "POST comment TEstTest",
-          userId: "65372778b8da0e521b8a3587",
-          postId: "653728bd6171091d6b469bec",
-          createdAt: "2023-10-25T02:09:06.310Z",
+        reposts: [],
+        originalCustomer: {
+          _id: "65372778b8da0e521b8a3587",
+          issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+          aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+          nickname: "test nickname",
+          username: "test12",
+          email: "test@email.com",
+          referralCode: "98N39",
+          profileImage: "",
+          createdAt: "",
         },
-        {
-          username: "pelumi_second",
-          nickname: "chokey",
-          _id: "653878c2a000149cd06b9845",
-          content: "POST comment TEstTest",
-          userId: "65372778b8da0e521b8a3587",
-          postId: "653728bd6171091d6b469bec",
-          createdAt: "2023-10-25T02:09:06.310Z",
-        },
-      ],
-      customer: {
-        _id: "65372778b8da0e521b8a3587",
-        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        nickname: "test nickname",
-        username: "test12",
-        email: "test@email.com",
-        referralCode: "98N39",
-        profileImage: "",
-        createdAt: "",
+        repost: false,
+        originalPostId: "65430c7f372dd89672e9214d",
+        originalCustomerId: "65372778b8da0e521b8a3587",
       },
-      reposts: [],
-      originalCustomer: {
-        _id: "65372778b8da0e521b8a3587",
-        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        nickname: "test nickname",
-        username: "test12",
-        email: "test@email.com",
-        referralCode: "98N39",
-        profileImage: "",
-        createdAt: "",
+      {
+        _id: "6543112773263dcd8d741ba0",
+        title: "",
+        userId: "65372778b8da0e521b8a3587",
+        description: "Test post ",
+        imageUrls: [""],
+        videoUrls: ["https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"],
+        createdAt: "2023-11-02T03:01:59.721Z",
+        sellNFTPrice: "",
+        nftImageUrl:
+          "https://imageio.forbes.com/specials-images/imageserve/6170e01f8d7639b95a7f2eeb/Sotheby-s-NFT-Natively-Digital-1-2-sale-Bored-Ape-Yacht-Club--8817-by-Yuga-Labs/0x0.png",
+        nftCollection: "APtomingos",
+        nftTokenId: "Aptomingo #123",
+        likes: [
+          {
+            _id: "6560962a233ac36e73bc42ce",
+            userId: "655ab007ce8937ff6d512885",
+            postId: "655df7a347784b1665992617",
+            createdAt: "2023-11-24T12:25:14.173Z",
+          },
+        ],
+        comments: [
+          {
+            username: "pelumi_main",
+            nickname: "chokey",
+            _id: "653878c2a000149cd06b9845",
+            content: "POST comment TEstTest",
+            userId: "65372778b8da0e521b8a3587",
+            postId: "653728bd6171091d6b469bec",
+            createdAt: "2023-10-25T02:09:06.310Z",
+          },
+          {
+            username: "pelumi_second",
+            nickname: "chokey",
+            _id: "653878c2a000149cd06b9845",
+            content: "POST comment TEstTest",
+            userId: "65372778b8da0e521b8a3587",
+            postId: "653728bd6171091d6b469bec",
+            createdAt: "2023-10-25T02:09:06.310Z",
+          },
+        ],
+        customer: {
+          _id: "65372778b8da0e521b8a3587",
+          issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+          aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+          nickname: "test nickname",
+          username: "test12",
+          email: "test@email.com",
+          referralCode: "98N39",
+          profileImage: "",
+          createdAt: "",
+        },
+        reposts: [],
+        originalCustomer: {
+          _id: "65372778b8da0e521b8a3587",
+          issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+          aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+          nickname: "test nickname",
+          username: "test12",
+          email: "test@email.com",
+          referralCode: "98N39",
+          profileImage: "",
+          createdAt: "",
+        },
+        repost: false,
+        originalPostId: "65430c7f372dd89672e9214d",
+        originalCustomerId: "65372778b8da0e521b8a3587",
       },
-      repost: false,
-      originalPostId: "65430c7f372dd89672e9214d",
-      originalCustomerId: "65372778b8da0e521b8a3587",
-    },
-  ],
+    ],
     groups: [],
     superstars: {
       _id: "6563f507f07bc47317331a30",
@@ -600,11 +623,107 @@ const initialState: UserState = {
   ],
   accountInfo: undefined,
   metadata: undefined,
-  socialInfo:undefined,
+  socialInfo: undefined,
   selectedSuperStars: [],
   selectedSuperStar: [],
   theirProfileBottomSheet: false,
   isSignUpContinueButtonDisable: false,
+  BookMarks: [
+    {
+      _id: "6543112773263dcd8d741ba0",
+      title: "",
+      userId: "65372778b8da0e521b8a3587",
+      description: "Test post ",
+      imageUrls: [""],
+      videoUrls: ["https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"],
+      createdAt: "2023-11-02T03:01:59.721Z",
+      sellNFTPrice: "",
+      nftImageUrl: "",
+      nftCollection: "",
+      nftTokenId: "",
+      likes: [
+        {
+          _id: "6560962a233ac36e73bc42ce",
+          userId: "655ab007ce8937ff6d512887",
+          postId: "655df7a347784b1665992617",
+          createdAt: "2023-11-24T12:25:14.173Z",
+        },
+        {
+          _id: "6560962a233ac36e73bc42ce",
+          userId: "655ab007ce8937ff6d512887",
+          postId: "655df7a347784b1665992617",
+          createdAt: "2023-11-24T12:25:14.173Z",
+        },
+        //   {
+        //   _id: "6560962a233ac36e73bc42ce",
+        //   userId: "655ab007ce8937ff6d512887",
+        //   postId: "655df7a347784b1665992617",
+        //   createdAt: "2023-11-24T12:25:14.173Z",
+        // },
+      ],
+      comments: [
+        {
+          username: "pelumi_main",
+          nickname: "chokey",
+          _id: "653878c2a000149cd06b9845",
+          content: "POST comment TEstTest",
+          userId: "65372778b8da0e521b8a3587",
+          postId: "653728bd6171091d6b469bec",
+          createdAt: "2023-10-25T02:09:06.310Z",
+        },
+        {
+          username: "pelumi_second",
+          nickname: "chokey",
+          _id: "653878c2a000149cd06b9845",
+          content: "POST comment TEstTest",
+          userId: "65372778b8da0e521b8a3587",
+          postId: "653728bd6171091d6b469bec",
+          createdAt: "2023-10-25T02:09:06.310Z",
+        },
+      ],
+      customer: {
+        _id: "655ab007ce8937ff6d512885",
+        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        nickname: "test nickname",
+        username: "test12",
+        email: "test@email.com",
+        referralCode: "98N39",
+        profileImage: "",
+        createdAt: "",
+      },
+      reposts: [
+        {
+          _id: "6570a9166460587de2c1a9c9",
+          postId: "6570a9166460587de2c1a9c8",
+          customerId: "655ab007ce8937ff6d512885",
+          originalPostId: "65649c452b47b41b4f22ffd0",
+          createdAt: "2023-12-06T17:02:14.813Z",
+        },
+        {
+          _id: "6570a9166460587de2c1a9c9",
+          postId: "6570a9166460587de2c1a9c8",
+          customerId: "655ab007ce8937ff6d512886",
+          originalPostId: "65649c452b47b41b4f22ffd0",
+          createdAt: "2023-12-06T17:02:14.813Z",
+        },
+      ],
+      originalCustomer: {
+        _id: "65372778b8da0e521b8a3587",
+        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        nickname: "test nickname",
+        username: "test12",
+        email: "test@email.com",
+        referralCode: "98N39",
+        profileImage: "",
+        createdAt: "",
+      },
+      repost: false,
+      originalPostId: "65430c7f372dd89672e9214d",
+      originalCustomerId: "65372778b8da0e521b8a3587",
+    },
+  ],
 };
 
 export const signUp = createAsyncThunk(
@@ -630,16 +749,19 @@ export const followUser = createAsyncThunk(
   async (followRequest: followRequest) => {
     const { toUserIds, token } = followRequest;
     try {
-      const res = await axios.post(`${BACKEND_URL}user/follow-friends`, {
-        followsIds: toUserIds
-      },
-      {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: token,
+      const res = await axios.post(
+        `${BACKEND_URL}user/follow-friends`,
+        {
+          followsIds: toUserIds,
         },
-      });
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
       return res.data;
     } catch (error) {
       //return thunkAPI.rejectWithValue(error);
@@ -720,17 +842,49 @@ export const editProfile = createAsyncThunk(
   }
 );
 
-export const deletePost = createAsyncThunk("user/deletePost",async ({postId, token}:any) => {
-  try {
-    await axios.delete(`${BACKEND_URL}/posts/${postId}`, {
-      headers:{
-        Authorization:token
-      }
-    })
-  } catch (error) {
-    
+export const deletePost = createAsyncThunk(
+  "user/deletePost",
+  async ({ postId, token }: any) => {
+    try {
+      await axios.delete(`${BACKEND_URL}posts/${postId}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+    } catch (error) {}
   }
-})
+);
+
+export const getUserBookmark = createAsyncThunk(
+  "user/getUserBookmark",
+  async ({ token }: any) => {
+    try {
+      const response = await axios.get(
+        `${BACKEND_URL}posts/get_bookmark_post`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      const result = response.data;
+      return result;
+    } catch (error) {}
+  }
+);
+
+export const bookMarkPost = createAsyncThunk(
+  "user/bookmarkPost",
+  async ({ token, postId }: any) => {
+    try {
+      await axios.get(`${BACKEND_URL}posts/bookmark/${postId}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+    } catch (error) {}
+  }
+);
 export const USER = createSlice({
   name: "User",
   initialState,
@@ -850,10 +1004,7 @@ export const USER = createSlice({
     updateTheirProfileBottomSheet: (state, action: PayloadAction<boolean>) => {
       state.theirProfileBottomSheet = action.payload;
     },
-    disableContinueButton: (
-      state,
-      action: PayloadAction<boolean>
-    ) => {
+    disableContinueButton: (state, action: PayloadAction<boolean>) => {
       state.isSignUpContinueButtonDisable = action.payload;
     },
   },
@@ -867,6 +1018,9 @@ export const USER = createSlice({
     });
     builder.addCase(getAptosName.fulfilled, (state, action) => {
       state.aptosName = action.payload;
+    });
+    builder.addCase(getUserBookmark.fulfilled, (state, action) => {
+      state.BookMarks = action.payload;
     });
   },
 });

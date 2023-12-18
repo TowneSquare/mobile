@@ -24,8 +24,8 @@ import Animated, {
 import { likePost } from "../../api";
 import { Likes, Reposts, rePost } from "../../controller/createPost";
 import { getUserInfo } from "../../api";
-import { UserData } from "../../controller/UserController";
-import { useNavigation } from '@react-navigation/native';
+import { UserData, bookMarkPost } from "../../controller/UserController";
+import { useNavigation } from "@react-navigation/native";
 
 const size = new sizes(height, width);
 interface Props {
@@ -54,6 +54,7 @@ const PostActions = ({
   const dispatch = useAppDispatch();
   const [changeLikeTextColor, setlikesTextColor] = useState(false);
   const [changeRetweetTextColor, setRetweetTextColor] = useState(false);
+
   const token = useAppSelector((state) => state.USER.didToken);
   const [userData, setUserData] = useState<UserData>({
     _id: "655ab007ce8937ff6d512885",
@@ -283,19 +284,22 @@ const PostActions = ({
       },
     ],
   });
-  const [noOflikes, setNoOflikes] = useState<number>(Likes.length);
-  const [noOfrepost, setNoOfrepost] = useState<number>(Repost.length);
+  const [noOflikes, setNoOflikes] = useState<number>(Likes?.length);
+  const [noOfrepost, setNoOfrepost] = useState<number>(Repost?.length);
   const getUser = async () => {
     const result = await getUserInfo(userId, token);
     setUserData(result);
   };
 
   const user = useAppSelector((state) => state.USER.UserData._id);
+  const BookMarks = useAppSelector((state) => state.USER.BookMarks);
 
   // useEffect(() => {
   //   getUser()
   // }, []) @un-comment
   const retweet = useSharedValue(0);
+  const bookmark = useSharedValue(0);
+  const liked = useSharedValue(0);
   const handleLike = async () => {
     liked.value = withSpring(liked.value ? 0 : 1);
     setNoOflikes(liked.value ? noOflikes - 1 : noOflikes + 1);
@@ -310,11 +314,11 @@ const PostActions = ({
   };
   const handleBookMark = () => {
     bookmark.value = withSpring(bookmark.value ? 0 : 1);
+    dispatch(bookMarkPost({ token, postId }));
   };
-  const liked = useSharedValue(0);
 
   const checkedLikedPost = () => {
-    if (Likes.some((like) => like.userId == user)) {
+    if (Likes?.some((like) => like.userId == user)) {
       liked.value = withSpring(1);
     } else {
       liked.value = withSpring(0);
@@ -322,14 +326,24 @@ const PostActions = ({
   };
 
   const checkRetweetPost = () => {
-    if (Repost.some((repost) => repost.customerId == user)) {
+    if (Repost?.some((repost) => repost.customerId == user)) {
       retweet.value = withSpring(1);
     } else {
       retweet.value = withSpring(0);
     }
   };
+
+  const ckeckBookmarkPost = () => {
+    if (BookMarks?.some((bookmark) => bookmark._id == postId)) {
+      bookmark.value = withSpring(1);
+    } else {
+      bookmark.value = withSpring(0);
+    }
+  };
+
   useMemo(() => checkRetweetPost(), [Repost?.length]);
   useMemo(() => checkedLikedPost(), [Likes?.length]);
+  useMemo(() => ckeckBookmarkPost(), [BookMarks?.length]);
 
   const outlineStyle = useAnimatedStyle(() => {
     return {
@@ -350,7 +364,7 @@ const PostActions = ({
       opacity: liked.value,
     };
   });
-  const bookmark = useSharedValue(0);
+
   const bookmarkoutlineStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -421,7 +435,7 @@ const PostActions = ({
         }}
       >
         <CommentIcon
-          onPress={() => naviagtion.navigate('SinglePost')}
+          onPress={() => naviagtion.navigate("SinglePost")}
           size={size.getHeightSize(24)}
         />
         <Text
@@ -533,7 +547,6 @@ const PostActions = ({
           >
             <BookMark size={size.getHeightSize(24)} />
           </Animated.View>
-
           <Animated.View style={bookmarkfillStyle}>
             <BookMarkedIcon size={size.getHeightSize(24)} />
           </Animated.View>

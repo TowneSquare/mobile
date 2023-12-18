@@ -5,8 +5,8 @@ export interface communities {
   message?: string;
 }
 export interface friends {
-  image: ReactNode;
-  name: string;
-  _id:string;
-  username: string;
+  
+ fromUserId:string
+  toUserId:string;
+  _id:string
 }
