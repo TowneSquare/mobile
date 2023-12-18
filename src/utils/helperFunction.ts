@@ -51,3 +51,7 @@ const getMonth = (index:number):string => {
   const MONTHS = ['Jan', 'Feb','Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   return MONTHS[index]
 }
+
+export const getCreatedTime = (time:string) => {
+    return `${new Date(time).getDate()}/${new Date(time).getMonth()}/${new Date(time).getUTCFullYear()}`
+}

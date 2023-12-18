@@ -7,7 +7,7 @@ import {
   ScrollView,
   Pressable,
 } from "react-native";
-import { useReducer, useState } from "react";
+import { useReducer, useState, useMemo, useEffect } from "react";
 import { appColor } from "../../constants";
 import SuperStarBottomSheet from "../../components/Profile/About/SuperStarBottomSheet";
 import Header from "../../components/Profile/Header";
@@ -31,6 +31,10 @@ import { updateTipBottomSheet } from "../../controller/FeedsController";
 import ViewSuperStarsModal from "../../components/Profile/About/ViewSuperStarsModal";
 import ForYou from "../../components/Feed/ForYou";
 import Replies from "../../components/Profile/Replies";
+import { getCreatedTime } from "../../utils/helperFunction";
+import axios from "axios";
+import { APTOS_NAME_URL } from "../../../config/env";
+import { getUserAptosName } from "../../api";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 
@@ -68,6 +72,7 @@ const selectedSuperStarsReducer = (
 const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
   const dispatch = useAppDispatch();
   const [view, setView] = useState<number>(2);
+  const [aptosName, setAptosName] = useState<string>("unavailable");
   const { userData } = route.params;
   const userFollowing = useAppSelector(
     (state) => state.USER.UserData.following
@@ -75,14 +80,31 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
   const title = "Real JC";
   const COMMUNITIES = "10";
   const APTOS_DOMAIN_NAME = "";
+
+
   const following = userFollowing.some(
     (following) => following._id == userData._id
   );
-  console.log(following, userData._id, "follow");
   const [superStarModal, useDispatch] = useReducer(selectedSuperStarsReducer, {
     showSuperStarModal: false,
     imageUri: "",
   });
+
+  const getUserAptosName = async ( address:string) => {
+  try {
+    const res = await axios.get(`${APTOS_NAME_URL}${address}`);
+    const aptosName: string = res?.data;
+    setAptosName(aptosName)
+  } catch (error) {
+    setAptosName("unavailable∏")
+    return "unavailable";
+  }
+};
+
+  // useMemo( () => {
+  //  getUserAptosName(userData?.aptosWallet)
+  // }, [userData?.aptosWallet])
+  
 
   const Posts = () => {
     return userData.posts.map((userpost) => (
@@ -136,8 +158,8 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
         <ProfileCard
           NAME={userData.username}
           NICKNAME={userData.nickname}
-          APTOS_DOMAIN_NAME={APTOS_DOMAIN_NAME}
-          DATE={""}
+          APTOS_DOMAIN_NAME={aptosName}
+          DATE={getCreatedTime(userData.createdAt)}
           COMMUNITIES={COMMUNITIES}
           FOLLOWERS={userData.followers.length.toString()}
           FOLLOWING={userData.following.length.toString()}

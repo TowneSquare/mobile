@@ -32,6 +32,7 @@ import { getOnlyUserPost } from "../../../controller/createPost";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 import Replies from "../Replies";
+import { getCreatedTime } from "../../../utils/helperFunction";
 
 type SuperStarReducerState = {
   showSuperStarModal: boolean;
@@ -104,7 +105,7 @@ const About = ({ route }) => {
   const NAME = USERDATA.username || "Real JC";
   const NICKNAME = USERDATA.username || "jczhang";
   const APTOS_DOMAIN_NAME = "jczhang.apt";
-  const DATE = "03/07/2023";
+  const DATE = getCreatedTime(USERDATA.createdAt);
   const FOLLOWING = USERDATA.following.length || "0";
   const FOLLOWERS = USERDATA.followers.length || "0";
   const POST = USERDATA.posts.length || "0";

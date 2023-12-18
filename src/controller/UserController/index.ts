@@ -106,11 +106,6 @@ interface UserState {
     nftTokenId: string;
     nftCollection: string;
   }[];
-  selectedSuperStar: {
-    nftImageUrl: string;
-    nftTokenId: string;
-    nftCollection: string;
-  }[];
   theirProfileBottomSheet: boolean;
   isSignUpContinueButtonDisable: boolean;
   socialInfo: any;
@@ -625,7 +620,6 @@ const initialState: UserState = {
   metadata: undefined,
   socialInfo: undefined,
   selectedSuperStars: [],
-  selectedSuperStar: [],
   theirProfileBottomSheet: false,
   isSignUpContinueButtonDisable: false,
   BookMarks: [
@@ -816,7 +810,9 @@ export const getAptosName = createAsyncThunk(
       const res = await axios.get(`${APTOS_NAME_URL}${address}`);
       const aptosName: string = res.data;
       return aptosName;
-    } catch (error) {}
+    } catch (error) {
+      return "unavailable"
+    }
   }
 );
 
@@ -988,15 +984,15 @@ export const USER = createSlice({
         nftCollection: string;
       }>
     ) => {
-      state.selectedSuperStar = [...state.selectedSuperStar, action.payload];
+      state.selectedSuperStars = [...state.selectedSuperStars, action.payload];
     },
     deleteSelectedSuperStar: (state, action: PayloadAction<string>) => {
-      state.selectedSuperStar = state.selectedSuperStar.filter(
-        (obj) => obj["nftTokenId"] !== action.payload
+      state.selectedSuperStars = state.selectedSuperStars.filter(
+        (obj) => obj["nftTokenId"]  !== action.payload
       );
     },
     resetSelectedSuperStar: (state) => {
-      state.selectedSuperStar = [];
+      state.selectedSuperStars = state.UserData.superstars.nftInfoArray;
     },
     updateBio: (state, action: PayloadAction<string>) => {
       state.UserData.bio = action.payload;

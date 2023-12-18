@@ -24,7 +24,7 @@ const SelectedSuperStarCollectionScreen = ({
   navigation,
   route,
 }: SelectedSuperStarCollectionScreenProps) => {
-  const selected = useAppSelector((state) => state.USER.selectedSuperStar);
+  const selected = useAppSelector((state) => state.USER.selectedSuperStars);
   const dispatch = useAppDispatch();
   const {title, nfts} = route.params;
   return (

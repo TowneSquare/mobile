@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BACKEND_URL } from "../../config/env";
+import { BACKEND_URL, APTOS_NAME_URL } from "../../config/env";
 import { Customer, PostData } from "../controller/createPost";
 import { useAppSelector } from "../controller/hooks";
 import { UserData } from "../controller/UserController";
@@ -203,7 +203,17 @@ export const getUserInfo = async (userId: string, token: string) => {
         Authorization: token,
       },
     });
-    const result:UserData = response.data;
+    const result: UserData = response.data;
     return result;
   } catch (error) {}
+};
+
+export const getUserAptosName = async ( address:string) => {
+  try {
+    const res = await axios.get(`${APTOS_NAME_URL}${address}`);
+    const aptosName: string = res.data;
+    return aptosName;
+  } catch (error) {
+    return "unavailable";
+  }
 };
