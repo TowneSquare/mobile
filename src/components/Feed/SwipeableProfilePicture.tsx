@@ -309,12 +309,11 @@ const ProfilePicture = ({
 
   //useMemo(() => getUser(), [userId])  @un-comment
 
-  
   const dispatch = useAppDispatch();
   const handleShortPress = () => {
     console.log("========");
     navigation.navigate("TheirProfileScreen", {
-      userData
+      userData,
     });
 
     setShowSwipe((previous) => {
@@ -369,8 +368,11 @@ const ProfilePicture = ({
   // ).current;
 
   const onLongPress = () => {
-    console.log("longPress");
-    setShowSwipe(true);
+    if (swipeable) {
+      console.log("Cannot tip yourself");
+    } else {
+      setShowSwipe(true);
+    }
   };
 
   const offset = useSharedValue(0);
@@ -403,12 +405,8 @@ const ProfilePicture = ({
         })
       );
       setShowSwipe(false);
-      offset.value = 0
+      offset.value = 0;
     });
-
-  const animatedStyles = useAnimatedStyle(() => ({
-    transform: [{ translateX: offset.value }],
-  }));
 
   const AnimatedStyles = {
     swipeable: useAnimatedStyle(() => {
@@ -538,7 +536,9 @@ const ProfilePicture = ({
                 style={[styles.colorWave, AnimatedStyles.colorWave]}
               ></Animated.View>
               <GestureDetector gesture={pan}>
-                <Animated.View style={[styles.swipeable, AnimatedStyles.swipeable]}>
+                <Animated.View
+                  style={[styles.swipeable, AnimatedStyles.swipeable]}
+                >
                   <Image
                     source={{
                       uri: profileImageUri

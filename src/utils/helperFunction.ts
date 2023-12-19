@@ -55,3 +55,5 @@ const getMonth = (index:number):string => {
 export const getCreatedTime = (time:string) => {
     return `${new Date(time).getDate()}/${new Date(time).getMonth()}/${new Date(time).getUTCFullYear()}`
 }
+
+

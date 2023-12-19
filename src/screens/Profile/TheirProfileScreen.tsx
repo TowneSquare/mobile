@@ -35,6 +35,7 @@ import { getCreatedTime } from "../../utils/helperFunction";
 import axios from "axios";
 import { APTOS_NAME_URL } from "../../../config/env";
 import { getUserAptosName } from "../../api";
+import { followUser, unFollowUser } from "../../controller/UserController";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 
@@ -72,39 +73,53 @@ const selectedSuperStarsReducer = (
 const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
   const dispatch = useAppDispatch();
   const [view, setView] = useState<number>(2);
+
   const [aptosName, setAptosName] = useState<string>("unavailable");
   const { userData } = route.params;
-  const userFollowing = useAppSelector(
-    (state) => state.USER.UserData.following
-  );
+  const { userFollowing, token } = useAppSelector((state) => ({
+    userFollowing: state.USER.UserData.following,
+    token: state.USER.didToken,
+  }));
+
   const title = "Real JC";
   const COMMUNITIES = "10";
   const APTOS_DOMAIN_NAME = "";
-
-
-  const following = userFollowing.some(
-    (following) => following._id == userData._id
+  const [following, setFollowing] = useState(
+    userFollowing.some((following) => following._id == userData._id)
   );
+  const userId = userData?._id;
+  const handleFollow = () => {
+    setFollowing(true);
+    dispatch(followUser({ toUserIds: [userId], token }));
+  };
+
+  const handleUnFollow = () => {
+    setFollowing(false);
+    dispatch(unFollowUser({ token, userId }));
+  };
+
+  // const following = userFollowing.some(
+  //   (following) => following._id == userData._id
+  // );
   const [superStarModal, useDispatch] = useReducer(selectedSuperStarsReducer, {
     showSuperStarModal: false,
     imageUri: "",
   });
 
-  const getUserAptosName = async ( address:string) => {
-  try {
-    const res = await axios.get(`${APTOS_NAME_URL}${address}`);
-    const aptosName: string = res?.data;
-    setAptosName(aptosName)
-  } catch (error) {
-    setAptosName("unavailable∏")
-    return "unavailable";
-  }
-};
+  const getUserAptosName = async (address: string) => {
+    try {
+      const res = await axios.get(`${APTOS_NAME_URL}${address}`);
+      const aptosName: string = res?.data;
+      setAptosName(aptosName);
+    } catch (error) {
+      setAptosName("unavailable∏");
+      return "unavailable";
+    }
+  };
 
   // useMemo( () => {
   //  getUserAptosName(userData?.aptosWallet)
   // }, [userData?.aptosWallet])
-  
 
   const Posts = () => {
     return userData.posts.map((userpost) => (
@@ -167,7 +182,7 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
         />
         <View style={styles.view}>
           <Pressable
-            onPress={() => {}}
+            onPress={following ? handleUnFollow : handleFollow}
             style={[
               styles.followView,
               {

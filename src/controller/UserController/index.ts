@@ -1,3 +1,4 @@
+
 import { PostData } from "./../createPost/index";
 import { images } from "./../../constants/images";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
@@ -762,6 +763,21 @@ export const followUser = createAsyncThunk(
     }
   }
 );
+
+export const unFollowUser = createAsyncThunk('User/Unfollow',async ({token, followId}:any) => {
+  try {
+    await axios.post(`${BACKEND_URL}user/unfollow-friends`, {
+      followId
+    }, {
+      headers:{
+        'Content-Type': 'application/x-www-form-urlencoded',
+         Authorization: token,
+      }
+    })
+  } catch (error) {
+    
+  }
+})
 
 export const getUserData = createAsyncThunk(
   "User/getUserData",
