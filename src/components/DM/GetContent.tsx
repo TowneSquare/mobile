@@ -95,7 +95,7 @@ const GetContent = ({ data, chatUtilsInstance }: Props) => {
           <View
             style={[
               user.id !==
-              "0x0c75ecaf74545a882e32e3c1f07c016f759814137aa15398bcb19ee6c7925ca3"
+              "0x872db391f94ef5a2bfda2faae90121a0b496866d69aaf7d8334c90fc50197e6d"
                 ? styles.messageContainer
                 : styles.container,
             ]}

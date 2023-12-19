@@ -6,7 +6,9 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import PosterDownloadView from '../../components/Rewards/PosterDownloadView';
 import { appColor } from '../../constants';
+import DownloadPoster from '../../components/Rewards/DownloadPoster';
 import { sizes } from '../../utils';
 import * as Clipboard from 'expo-clipboard';
 import Header from '../../shared/Feed/Header';
@@ -19,10 +21,11 @@ import ShareCodeIcon from '../../../assets/images/svg/Reward/ShareCodeIcon';
 import { updateRewardBottomsheetVisibility } from '../../controller/RewardController';
 import Poster1 from '../../components/Rewards/Poster1';
 import Poster2 from '../../components/Rewards/Poster2';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useReducer, useRef } from 'react';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const ShareReferralCode = () => {
+  
   const generateReferralCode = (): string => {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let code = '';
@@ -34,6 +37,8 @@ const ShareReferralCode = () => {
   const scrollViewRef = useRef<ScrollView>(null);
   const dispatch = useAppDispatch();
   const [referralCode, setReferralCode] = useState(generateReferralCode());
+  const [showDownloadPostalModal, setDownloadPostalVisibility] =
+    useState(false);
   useEffect(() => {
     const interval = setInterval(() => {
       setReferralCode(generateReferralCode());
@@ -108,8 +113,14 @@ const ShareReferralCode = () => {
           }}
           horizontal
         >
-          <Poster1 referralCode={referralCode} />
-          <Poster2 referralCode={referralCode} />
+          <Poster1
+            onPress={() => setDownloadPostalVisibility(true)}
+            referralCode={referralCode}
+          />
+          <Poster2
+            onPress={() => setDownloadPostalVisibility(true)}
+            referralCode={referralCode}
+          />
         </ScrollView>
       </View>
 
@@ -137,6 +148,11 @@ const ShareReferralCode = () => {
           <InfoIcon size={size.getHeightSize(24)} />
         </View>
       </View>
+      <DownloadPoster
+        visibility={showDownloadPostalModal}
+        close={() => setDownloadPostalVisibility(false)}
+        children={<PosterDownloadView referralCode={referralCode} />}
+      />
     </SafeAreaView>
   );
 };

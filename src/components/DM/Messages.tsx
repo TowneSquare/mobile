@@ -5,39 +5,39 @@ import {
   StyleSheet,
   Pressable,
   Animated,
-} from "react-native";
-import { useRef, useReducer } from "react";
-const { height, width } = Dimensions.get("window");
-import { sizes } from "../../utils";
+} from 'react-native';
+import { useRef, useReducer } from 'react';
+const { height, width } = Dimensions.get('window');
+import { sizes } from '../../utils';
 const size = new sizes(height, width);
-import { Avatar } from "react-native-elements";
-import { appColor, images } from "../../constants";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
+import { Avatar } from 'react-native-elements';
+import { appColor, images } from '../../constants';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import {
   ChatText,
   ChatDate,
   Data,
   SortedChat,
   DataWithoutChatDate,
-} from "../../models/conversationModel";
-import { ChatClass } from "../../utils/ChatUtils";
+} from '../../models/conversationModel';
+import { ChatClass } from '../../utils/ChatUtils';
 dayjs.extend(relativeTime);
 import {
   HandlerStateChangeEvent,
   Swipeable,
-} from "react-native-gesture-handler";
-import GetContent from "../../components/DM/GetContent";
-import SwipeArrowIcon from "../../../assets/images/svg/SwipeArrowIcon";
-
+} from 'react-native-gesture-handler';
+import GetContent from '../../components/DM/GetContent';
+import SwipeArrowIcon from '../../../assets/images/svg/SwipeArrowIcon';
+import { useNavigation } from '@react-navigation/native';
 type State = {
-  backgroundColor: "#222222" | "transparent";
+  backgroundColor: '#222222' | 'transparent';
   messageId: string;
 };
 type Action = {
-  type: "ChangeBGColor";
+  type: 'ChangeBGColor';
   payload: {
-    bgColor: "#222222" | "transparent";
+    bgColor: '#222222' | 'transparent';
     messageId: string;
   };
 };
@@ -53,12 +53,12 @@ function isDate(data: Data): data is ChatDate {
   return (data as ChatDate).dateType !== undefined;
 }
 function isSortedType(data: Data): data is SortedChat {
-  return "sortedType" in data === true;
+  return 'sortedType' in data === true;
 }
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
-    case "ChangeBGColor":
+    case 'ChangeBGColor':
       return {
         backgroundColor: action.payload.bgColor,
         messageId: action.payload.messageId,
@@ -66,10 +66,11 @@ const reducer = (state: State, action: Action) => {
   }
 };
 const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
+  const navigation = useNavigation();
   const swipeRef = useRef<Swipeable>();
   const [selected, dispatch] = useReducer(reducer, {
-    backgroundColor: "transparent",
-    messageId: "",
+    backgroundColor: 'transparent',
+    messageId: '',
   });
 
   //   const trans = dragX.interpolate({
@@ -86,13 +87,13 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
       <Animated.View
         style={{
           transform: [{ translateX: trans }],
-          justifyContent: "center",
+          justifyContent: 'center',
         }}
       >
         <SwipeArrowIcon
           size={size.getHeightSize(24)}
           style={{
-            alignSelf: "flex-end",
+            alignSelf: 'flex-end',
           }}
         />
       </Animated.View>
@@ -107,7 +108,7 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
         const { id, user } = messageContent;
         if (
           user.id ===
-          "0x0c75ecaf74545a882e32e3c1f07c016f759814137aa15398bcb19ee6c7925ca3"
+          '0x872db391f94ef5a2bfda2faae90121a0b496866d69aaf7d8334c90fc50197e6d'
         ) {
           // console.log(messageContent);
           // console.log("====date here====");
@@ -117,7 +118,7 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                 backgroundColor:
                   id === selected.messageId
                     ? selected.backgroundColor
-                    : "transparent",
+                    : 'transparent',
                 paddingVertical: size.getHeightSize(8),
               }}
             >
@@ -125,10 +126,10 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                 ref={swipeRef}
                 onEnded={() => {
                   dispatch({
-                    type: "ChangeBGColor",
+                    type: 'ChangeBGColor',
                     payload: {
-                      bgColor: "transparent",
-                      messageId: "",
+                      bgColor: 'transparent',
+                      messageId: '',
                     },
                   });
                 }}
@@ -142,10 +143,10 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                   showReplyingTo();
                   swipeRef.current.close();
                   dispatch({
-                    type: "ChangeBGColor",
+                    type: 'ChangeBGColor',
                     payload: {
-                      bgColor: "transparent",
-                      messageId: "",
+                      bgColor: 'transparent',
+                      messageId: '',
                     },
                   });
                 }}
@@ -155,9 +156,9 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                   const state = event.nativeEvent.state;
                   state === 4 &&
                     dispatch({
-                      type: "ChangeBGColor",
+                      type: 'ChangeBGColor',
                       payload: {
-                        bgColor: "#222222",
+                        bgColor: '#222222',
                         messageId: id,
                       },
                     });
@@ -166,7 +167,7 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                 <View
                   style={{
                     gap: size.getHeightSize(6),
-                    alignSelf: "flex-end",
+                    alignSelf: 'flex-end',
                     paddingRight: size.getWidthSize(8),
                     paddingLeft: size.getWidthSize(64),
                   }}
@@ -177,12 +178,12 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                   />
                   {messageContent.createdAt && (
                     <Text style={styles.timeStamp}>
-                      {" "}
+                      {' '}
                       {new Date(messageContent.createdAt).toLocaleTimeString(
-                        "en-US",
+                        'en-US',
                         {
-                          hour: "2-digit",
-                          minute: "2-digit",
+                          hour: '2-digit',
+                          minute: '2-digit',
                         }
                       )}
                     </Text>
@@ -198,7 +199,7 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                 backgroundColor:
                   id === selected.messageId
                     ? selected.backgroundColor
-                    : "transparent",
+                    : 'transparent',
                 paddingVertical: size.getHeightSize(8),
               }}
             >
@@ -206,10 +207,10 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                 ref={swipeRef}
                 onEnded={() => {
                   dispatch({
-                    type: "ChangeBGColor",
+                    type: 'ChangeBGColor',
                     payload: {
-                      bgColor: "transparent",
-                      messageId: "",
+                      bgColor: 'transparent',
+                      messageId: '',
                     },
                   });
                 }}
@@ -223,10 +224,10 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                   showReplyingTo();
                   swipeRef.current.close();
                   dispatch({
-                    type: "ChangeBGColor",
+                    type: 'ChangeBGColor',
                     payload: {
-                      bgColor: "transparent",
-                      messageId: "",
+                      bgColor: 'transparent',
+                      messageId: '',
                     },
                   });
                 }}
@@ -236,9 +237,9 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                   const state = event.nativeEvent.state;
                   state === 4 &&
                     dispatch({
-                      type: "ChangeBGColor",
+                      type: 'ChangeBGColor',
                       payload: {
-                        bgColor: "#222222",
+                        bgColor: '#222222',
                         messageId: id,
                       },
                     });
@@ -258,10 +259,10 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                     {messageContent.createdAt && (
                       <Text style={styles.timeStamp}>
                         {new Date(messageContent.createdAt).toLocaleTimeString(
-                          "en-US",
+                          'en-US',
                           {
-                            hour: "2-digit",
-                            minute: "2-digit",
+                            hour: '2-digit',
+                            minute: '2-digit',
                           }
                         )}
                       </Text>
@@ -282,7 +283,7 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
       } = data;
       if (
         user.id ===
-        "0x0c75ecaf74545a882e32e3c1f07c016f759814137aa15398bcb19ee6c7925ca3"
+        '0x872db391f94ef5a2bfda2faae90121a0b496866d69aaf7d8334c90fc50197e6d'
       ) {
         content = (
           <View
@@ -290,7 +291,7 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
               backgroundColor:
                 id === selected.messageId
                   ? selected.backgroundColor
-                  : "transparent",
+                  : 'transparent',
               paddingVertical: size.getHeightSize(8),
             }}
           >
@@ -298,10 +299,10 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
               ref={swipeRef}
               onEnded={() => {
                 dispatch({
-                  type: "ChangeBGColor",
+                  type: 'ChangeBGColor',
                   payload: {
-                    bgColor: "transparent",
-                    messageId: "",
+                    bgColor: 'transparent',
+                    messageId: '',
                   },
                 });
               }}
@@ -315,10 +316,10 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                 showReplyingTo();
                 swipeRef.current.close();
                 dispatch({
-                  type: "ChangeBGColor",
+                  type: 'ChangeBGColor',
                   payload: {
-                    bgColor: "transparent",
-                    messageId: "",
+                    bgColor: 'transparent',
+                    messageId: '',
                   },
                 });
               }}
@@ -328,9 +329,9 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                 const state = event.nativeEvent.state;
                 state === 4 &&
                   dispatch({
-                    type: "ChangeBGColor",
+                    type: 'ChangeBGColor',
                     payload: {
-                      bgColor: "#222222",
+                      bgColor: '#222222',
                       messageId: id,
                     },
                   });
@@ -339,17 +340,17 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
               <View
                 style={{
                   gap: size.getHeightSize(6),
-                  alignSelf: "flex-end",
+                  alignSelf: 'flex-end',
                   paddingRight: size.getWidthSize(8),
                   paddingLeft: size.getWidthSize(64),
                 }}
               >
                 <GetContent data={data} chatUtilsInstance={chatUtilsInstance} />
                 <Text style={styles.timeStamp}>
-                  {" "}
-                  {new Date(data.createdAt).toLocaleTimeString("en-US", {
-                    hour: "2-digit",
-                    minute: "2-digit",
+                  {' '}
+                  {new Date(data.createdAt).toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
                   })}
                 </Text>
               </View>
@@ -363,7 +364,7 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
               backgroundColor:
                 id === selected.messageId
                   ? selected.backgroundColor
-                  : "transparent",
+                  : 'transparent',
               paddingVertical: size.getHeightSize(8),
             }}
           >
@@ -371,10 +372,10 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
               ref={swipeRef}
               onEnded={() => {
                 dispatch({
-                  type: "ChangeBGColor",
+                  type: 'ChangeBGColor',
                   payload: {
-                    bgColor: "transparent",
-                    messageId: "",
+                    bgColor: 'transparent',
+                    messageId: '',
                   },
                 });
               }}
@@ -388,10 +389,10 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                 showReplyingTo();
                 swipeRef.current.close();
                 dispatch({
-                  type: "ChangeBGColor",
+                  type: 'ChangeBGColor',
                   payload: {
-                    bgColor: "transparent",
-                    messageId: "",
+                    bgColor: 'transparent',
+                    messageId: '',
                   },
                 });
               }}
@@ -401,9 +402,9 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                 const state = event.nativeEvent.state;
                 state === 4 &&
                   dispatch({
-                    type: "ChangeBGColor",
+                    type: 'ChangeBGColor',
                     payload: {
-                      bgColor: "#222222",
+                      bgColor: '#222222',
                       messageId: id,
                     },
                   });
@@ -421,9 +422,9 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                     chatUtilsInstance={chatUtilsInstance}
                   />
                   <Text numberOfLines={1} style={styles.timeStamp2}>
-                    {new Date(data.createdAt).toLocaleTimeString("en-US", {
-                      hour: "2-digit",
-                      minute: "2-digit",
+                    {new Date(data.createdAt).toLocaleTimeString('en-US', {
+                      hour: '2-digit',
+                      minute: '2-digit',
                     })}
                   </Text>
                 </View>
@@ -440,7 +441,7 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
         <View style={styles.view3}>
           <View style={styles.absolute}>
             <Text style={styles.date}>
-              {chatUtilsInstance.getDisplayDate(date.split("-"))}
+              {chatUtilsInstance.getDisplayDate(date.split('-'))}
             </Text>
           </View>
         </View>
@@ -455,16 +456,16 @@ const styles = StyleSheet.create({
   timeStamp: {
     color: appColor.grayLight,
     fontSize: size.fontSize(14),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     lineHeight: size.getHeightSize(18),
-    textAlign: "right",
+    textAlign: 'right',
   },
   message: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     lineHeight: size.getHeightSize(24),
-    textAlign: "left",
+    textAlign: 'left',
   },
   container: {
     paddingVertical: size.getHeightSize(10),
@@ -476,9 +477,9 @@ const styles = StyleSheet.create({
   },
   view1: {
     gap: size.getHeightSize(8),
-    alignSelf: "flex-start",
-    flexDirection: "row",
-    alignItems: "flex-start",
+    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
     paddingRight: size.getWidthSize(32),
     paddingLeft: size.getWidthSize(8),
   },
@@ -487,19 +488,19 @@ const styles = StyleSheet.create({
     gap: size.getHeightSize(6),
   },
   row: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: size.getWidthSize(4),
   },
   name: {
     fontSize: size.fontSize(16),
-    fontFamily: "Outfit-SemiBold",
+    fontFamily: 'Outfit-SemiBold',
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(21),
   },
   username: {
     fontSize: size.fontSize(14),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     color: appColor.kgrayColor,
     lineHeight: size.getHeightSize(18),
     flex: 1,
@@ -518,20 +519,20 @@ const styles = StyleSheet.create({
     marginHorizontal: size.getWidthSize(16),
   },
   view3: {
-    alignSelf: "center",
-    width: "100%",
+    alignSelf: 'center',
+    width: '100%',
     height: size.getHeightSize(1),
-    backgroundColor: "#293056",
-    justifyContent: "center",
+    backgroundColor: '#293056',
+    justifyContent: 'center',
   },
   absolute: {
-    alignSelf: "center",
-    position: "absolute",
+    alignSelf: 'center',
+    position: 'absolute',
   },
   date: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     lineHeight: size.getHeightSize(20),
     backgroundColor: appColor.feedBackground,
     paddingHorizontal: size.getWidthSize(24),
@@ -540,7 +541,7 @@ const styles = StyleSheet.create({
   timeStamp2: {
     color: appColor.grayLight,
     fontSize: size.fontSize(14),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     lineHeight: size.getHeightSize(18),
   },
 });

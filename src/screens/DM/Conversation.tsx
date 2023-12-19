@@ -7,28 +7,28 @@ import {
   Pressable,
   RefreshControl,
   TouchableOpacity,
-} from "react-native";
-import Loader from "../../../assets/svg/Loader";
-import React, { useState, useRef, useEffect } from "react";
-import ConversationHeader from "../../components/DM/ConversationHeader";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { appColor } from "../../constants";
-import ChatTextInput, { ComponentRef } from "../../components/DM/ChatTextInput";
-import { conversationData } from "../../utils/messageData";
-import DeleteConversationBottomsheet from "../../components/DM/DeleteConversationBottomsheet";
-import { ChatClass } from "../../utils/ChatUtils";
-import { io } from "socket.io-client";
-import Messages from "../../components/DM/Messages";
-import { sizes } from "../../utils";
-import { useAppSelector, useAppDispatch } from "../../controller/hooks";
-import DeleteChatBottomsheet from "../../components/DM/DeleteChatBottomsheet";
-import MoreBottomsheet from "../../components/DM/MoreBottomsheet";
-import { ConversationProps } from "../../navigations/NavigationTypes";
-import UnblockUserBottomsheet from "../../components/DM/UnblockUserBottomsheet";
-import BlockUserBottomsheet from "../../components/DM/BlockUserBottomsheet";
-import { connectSocket } from "../../controller/initializesocket";
-import { nanoid } from "@reduxjs/toolkit";
-const { height, width } = Dimensions.get("window");
+} from 'react-native';
+import Loader from '../../../assets/svg/Loader';
+import React, { useState, useRef, useEffect } from 'react';
+import ConversationHeader from '../../components/DM/ConversationHeader';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { appColor } from '../../constants';
+import ChatTextInput, { ComponentRef } from '../../components/DM/ChatTextInput';
+import { conversationData } from '../../utils/messageData';
+import DeleteConversationBottomsheet from '../../components/DM/DeleteConversationBottomsheet';
+import { ChatClass } from '../../utils/ChatUtils';
+import { io } from 'socket.io-client';
+import Messages from '../../components/DM/Messages';
+import { sizes } from '../../utils';
+import { useAppSelector, useAppDispatch } from '../../controller/hooks';
+import DeleteChatBottomsheet from '../../components/DM/DeleteChatBottomsheet';
+import MoreBottomsheet from '../../components/DM/MoreBottomsheet';
+import { ConversationProps } from '../../navigations/NavigationTypes';
+import UnblockUserBottomsheet from '../../components/DM/UnblockUserBottomsheet';
+import BlockUserBottomsheet from '../../components/DM/BlockUserBottomsheet';
+import { connectSocket } from '../../controller/initializesocket';
+import { nanoid } from '@reduxjs/toolkit';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Conversation = ({ navigation }: ConversationProps) => {
   const socket = useAppSelector((state) => state.socket.socket);
@@ -36,31 +36,32 @@ const Conversation = ({ navigation }: ConversationProps) => {
   const [message, setMessage] = useState([]);
   useEffect(() => {
     if (socket) {
-      socket.emit("getchat", "userId1234");
-      socket.on("message", (message) => {
+      socket.emit('getchat', 'userId1234');
+      socket.on('message', (message) => {
         let conversation = [];
         for (const res of message) {
           const transformedResponse = {
             id: nanoid(),
             message: {
-              messageType: "text",
+              messageType: 'text',
               text: res.text,
             },
             read: false,
             createdAt: res.timestamp,
             user: {
               id: res.author.address,
-              name: "",
+              name: '',
             },
           };
           conversation.push(transformedResponse);
         }
         setMessage(conversation);
       });
-      socket.on("disconnect", () => {
-        console.log("Disconnected from server");
+      socket.on('disconnect', () => {
+        console.log('Disconnected from server');
       });
     } else {
+      console.log('===reconnecting===');
       dispatch(connectSocket());
     }
   }, [socket]);
@@ -100,31 +101,29 @@ const Conversation = ({ navigation }: ConversationProps) => {
       <ConversationHeader
         moreIconCallBack={() => setMoreBottomsheetVisibility(true)}
       />
-      {sortedConversation.length < 1 && (
-        <TouchableOpacity
-          style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Loader />
-        </TouchableOpacity>
-      )}
+
       <View
         style={{
           flex: 1,
         }}
       >
         <FlatList
+          ListEmptyComponent={
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Loader />
+            </View>
+          }
           inverted
           contentContainerStyle={{
             gap: size.getHeightSize(8),
+            ...(data.length === 0
+              ? { flex: 1, justifyContent: 'center', alignItems: 'center' }
+              : {}),
           }}
           style={{
             flex: 1,
@@ -216,8 +215,8 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(18),
     lineHeight: size.getHeightSize(23),
     color: appColor.primaryLight,
-    fontFamily: "Outfit-Medium",
-    textAlign: "center",
+    fontFamily: 'Outfit-Medium',
+    textAlign: 'center',
     letterSpacing: 0.36,
   },
   blockView: {

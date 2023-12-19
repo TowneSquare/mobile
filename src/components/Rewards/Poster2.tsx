@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   View,
+  Pressable,
 } from 'react-native';
 
 import { appColor, images } from '../../constants';
@@ -16,10 +17,11 @@ const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {
   referralCode: string;
+  onPress: () => void;
 }
-const Poster2 = ({ referralCode }: Props) => {
+const Poster2 = ({ referralCode,onPress }: Props) => {
   return (
-    <View style={styles.view}>
+    <Pressable onPress={onPress} style={styles.view}>
       <ImageBackground source={images.poster2} style={styles.backgroundImage}>
         <View
           style={{
@@ -113,7 +115,7 @@ const Poster2 = ({ referralCode }: Props) => {
           />
         </View>
       </ImageBackground>
-    </View>
+    </Pressable>
   );
 };
 

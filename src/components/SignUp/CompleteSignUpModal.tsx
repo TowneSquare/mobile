@@ -73,7 +73,7 @@ const CompleteSignUpModal = ({ callBack, buttonText, signupstate }: Props) => {
           marginTop={8}
           onPress={() => {
             dispatch(updateBottomSheet(false));
-            navigation.goBack();
+            
           }}
         />
       </Animatable.View>
