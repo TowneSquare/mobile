@@ -19,7 +19,7 @@ interface Props {
   referralCode: string;
   onPress: () => void;
 }
-const Poster2 = ({ referralCode,onPress }: Props) => {
+const Poster2 = ({ referralCode, onPress }: Props) => {
   return (
     <Pressable onPress={onPress} style={styles.view}>
       <ImageBackground source={images.poster2} style={styles.backgroundImage}>
@@ -86,7 +86,7 @@ const Poster2 = ({ referralCode,onPress }: Props) => {
         <View
           style={{
             flexDirection: 'row',
-            alignItems: 'center',
+            alignItems: 'flex-end',
             justifyContent: 'space-between',
             marginBottom: size.getHeightSize(4.29),
           }}
@@ -109,10 +109,17 @@ const Poster2 = ({ referralCode,onPress }: Props) => {
               marginRight: size.getWidthSize(4.15),
             }}
           />
-          <AppleStoreIcon
-            width={size.getWidthSize(43.6)}
-            height={size.getHeightSize(12.94)}
-          />
+          <View
+            style={{
+              gap: size.getHeightSize(1.17),
+            }}
+          >
+            <Text style={styles.comingsoon}>COMING SOON</Text>
+            <AppleStoreIcon
+              width={size.getWidthSize(43.6)}
+              height={size.getHeightSize(12.94)}
+            />
+          </View>
         </View>
       </ImageBackground>
     </Pressable>
@@ -218,5 +225,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Outfit-Medium',
     color: appColor.kTextColor,
     lineHeight: size.getHeightSize(11),
+  },
+  comingsoon: {
+    fontSize: size.fontSize(3.6),
+    fontFamily: 'Outfit-Medium',
+    color: appColor.kTextColor,
+    lineHeight: size.getHeightSize(5),
+    textAlign: 'center',
+    letterSpacing: 0.036,
   },
 });

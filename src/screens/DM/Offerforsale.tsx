@@ -211,7 +211,9 @@ const Offerforsale = ({ navigation }: OfferforsaleProps) => {
               </View>
 
               <View style={styles.cancelButton}>
-                <Text style={styles.cancelText}>Cancel</Text>
+                <Text onPress={navigation.goBack} style={styles.cancelText}>
+                  Cancel
+                </Text>
               </View>
             </View>
           </View>

@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../shared/Feed/Header';
-import { Dimensions, Pressable, Text, View, StyleSheet } from 'react-native';
+import {
+  Dimensions,
+  Pressable,
+  Text,
+  View,
+  StyleSheet,
+  Keyboard,
+} from 'react-native';
 import { sizes } from '../../utils/size';
 import { appColor } from '../../constants';
 import SwapBox from '../../components/SinglePostView/SwapBox';
@@ -37,8 +44,11 @@ function SwapMain() {
     setshowdetails(!showdetails);
   };
   const handleSend = () => {
-    setBottomsheetvisibility(true);
-    setTransactionStatus('loading');
+    Keyboard.dismiss();
+ setTimeout(()=>{
+  setBottomsheetvisibility(true);
+  setTransactionStatus('loading');
+ },100)
     setTimeout(() => {
       setTransactionStatus('success');
       setBottomsheetvisibility(false);
@@ -138,7 +148,7 @@ function SwapMain() {
           }
           fontColor={appColor.kTextColor}
           buttonBackgroundColor={appColor.kSecondaryButtonColor}
-          disable={!fromAmount || fromAmount > balance}
+          disable={!fromAmount || parseFloat(fromAmount) > parseFloat(balance)}
         />
       </View>
 

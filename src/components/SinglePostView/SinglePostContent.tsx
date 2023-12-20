@@ -1,4 +1,11 @@
-import { View, Text, Dimensions, Image, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+} from 'react-native';
 import { sizes } from '../../utils';
 import { fonts, images } from '../../constants';
 import { useFonts } from 'expo-font';
@@ -22,8 +29,10 @@ import {
   NFT_FOR_SALE,
 } from '../../models';
 import PostActions from '../Feed/PostActions';
+import { useNavigation } from '@react-navigation/native';
 import APTMonkey from '../../../assets/images/svg/APTMonkey';
 const SinglePostContent = ({ data }: { data: UserPost }) => {
+  const navigation = useNavigation();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -364,9 +373,12 @@ const SinglePostContent = ({ data }: { data: UserPost }) => {
                   </Text>
                 </View>
 
-                <View style={styles.button}>
+                <Pressable
+                  onPress={() => navigation.navigate('SwapMain')}
+                  style={styles.button}
+                >
                   <Text style={styles.buttonText}>Swap APT</Text>
-                </View>
+                </Pressable>
               </View>
               <PostActions
                 noOfComments={userPost.comments}

@@ -112,6 +112,13 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
               }}
             >
               <RemoveIcon
+                onPress={() => {
+                  dispatch(
+                    updateSelectUserBottomsheet({
+                      visibility: true,
+                    })
+                  );
+                }}
                 style={{
                   position: 'absolute',
                   left: size.getWidthSize(89),

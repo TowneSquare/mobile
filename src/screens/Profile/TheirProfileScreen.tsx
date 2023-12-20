@@ -3,16 +3,20 @@ import SuperStarBottomSheet from '../../components/Profile/About/SuperStarBottom
 import Header from '../../components/Profile/Header';
 import { useAppDispatch } from '../../controller/hooks';
 import TheirProfileBottomSheet from '../../components/Profile/About/TheirProfileBottomSheet';
-import ProfileTabNavigation from '../../navigations/ProfileTabNavigation';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { updateSuperStarBottomSheet } from '../../controller/BottomSheetController';
 import BlockUserModal from '../../components/Feed/BlockUserModal';
+import About from '../../components/Profile/About';
 import ReportPanel from '../../components/Feed/ReportPanel';
 import ReportPostModal from '../../components/Feed/ReportPostModal';
 import ReportUserModal from '../../components/Feed/ReportUserModal';
 const TheirProfileScreen = () => {
   const dispatch = useAppDispatch();
-
+  const route = {
+    params: {
+      typeOfProfile: 'theirProfile',
+    },
+  };
   const title = 'Real JC';
   return (
     <SafeAreaView
@@ -22,7 +26,7 @@ const TheirProfileScreen = () => {
       }}
     >
       <Header title={title} typeOfProfile="theirProfile" />
-      <ProfileTabNavigation typeOfProfile="theirProfile" />
+      <About route={route} />
       <TheirProfileBottomSheet />
       <SuperStarBottomSheet
         handleVisibility={() => {

@@ -66,15 +66,7 @@ const SwapBox = ({ onOpenAssetSheet }: Props) => {
           </Text>
         </View>
       </View>
-      <ReSwap
-        size={size.getHeightSize(46)}
-        style={{
-          position: 'absolute',
-          top: size.getHeightSize(111),
-          zIndex: 1,
-          left: size.getWidthSize(137),
-        }}
-      />
+
       <View style={styles.container2}>
         <Text style={styles.text}>To</Text>
         <View style={styles.row}>
@@ -102,6 +94,15 @@ const SwapBox = ({ onOpenAssetSheet }: Props) => {
           </Text>
         </View>
       </View>
+      <ReSwap
+        size={size.getHeightSize(46)}
+        style={{
+          position: 'absolute',
+          top: size.getHeightSize(111),
+
+          left: size.getWidthSize(137),
+        }}
+      />
     </View>
   );
 };

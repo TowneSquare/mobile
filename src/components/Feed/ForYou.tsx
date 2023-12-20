@@ -478,9 +478,9 @@ const ForYou = memo(({ data, myPost, shouldPFPSwipe }: Props) => {
     //               </Text>
     //             </View>
 
-    //             <View style={styles.button}>
+    //             <Pressable    onPress={() => navigation.navigate('SwapMain')} style={styles.button}>
     //               <Text style={styles.buttonText}>Swap APT</Text>
-    //             </View>
+    //             </Pressable>
     //           </View>
     //           {/* <PostActions
     //             noOfComments={userPost.comments.length}

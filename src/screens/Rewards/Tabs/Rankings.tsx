@@ -5,21 +5,33 @@ import {
   StyleSheet,
   FlatList,
   Pressable,
-  Animated,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import React, { useState } from 'react';
 import { sizes } from '../../../utils';
 import { appColor } from '../../../constants';
+import { useFocusEffect } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Earners from '../../../components/Rewards/UserDisplay/Earners';
 import { ranks } from '../../../utils/Rank.dummy';
+
 import MyEarning from '../../../components/Rewards/UserDisplay/MyRank';
+import useBackHandler from '../../../hooks/useBackhandler';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Rankings = () => {
   const [showDropdown, setDropdown] = useState(false);
   const [filterIndex, setFilterIndex] = useState(0);
   const filters = ['24h', '7 days', '30 days', 'All time'];
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => setDropdown(false);
+    }, [])
+  );
+  useBackHandler(() => {
+    setDropdown(false);
+    return true;
+  });
   return (
     <View
       style={{
@@ -29,6 +41,7 @@ const Rankings = () => {
     >
       <View style={styles.view}>
         <Text style={styles.earners}>Top 500 Earners</Text>
+
         <Pressable
           onPress={() => {
             setDropdown((previous) => !previous);
@@ -82,15 +95,16 @@ const Rankings = () => {
         }}
       >
         <FlatList
+          onScroll={() => setDropdown(false)}
           contentContainerStyle={{
             gap: size.getHeightSize(4),
             paddingHorizontal: size.getWidthSize(4),
           }}
           data={ranks}
-          renderItem={({ item }) => Earners(item)}
+          renderItem={({ item }) => Earners(item, () => setDropdown(false))}
         />
       </View>
-      <MyEarning name="" rank={9900} username="" />
+      <MyEarning name="" rank={9900} username="" callBack={()=>setDropdown(false)}/>
     </View>
   );
 };

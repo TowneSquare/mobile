@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, Pressable, StyleSheet } from 'react-native';
 import React from 'react';
 import { appColor, images } from '../../../constants';
 import { sizes } from '../../../utils';
@@ -10,10 +10,11 @@ interface Props {
   username: string;
   name: string;
   rank: number;
+  callBack?: () => void;
 }
-const MyRank = ({ name, rank, username }: Props) => {
+const MyRank = ({ callBack, name, rank, username }: Props) => {
   return (
-    <View style={styles.view}>
+    <Pressable onPress={() => callBack?.()} style={styles.view}>
       <View style={styles.numberView}>
         <Text style={styles.numberText}>{rank}</Text>
       </View>
@@ -34,7 +35,7 @@ const MyRank = ({ name, rank, username }: Props) => {
         </View>
       </View>
       <Text style={styles.reward}>$3,921.99</Text>
-    </View>
+    </Pressable>
   );
 };
 

@@ -8,30 +8,21 @@ import { useFonts } from 'expo-font';
 import Header from '../../components/Profile/Header';
 import VerificationModal from '../../components/Profile/About/VerificationModal';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { DrawerActions } from '@react-navigation/native';
 import SuperStarBottomSheet from '../../components/Profile/About/SuperStarBottomSheet';
 import EditProfileModal from '../../components/Profile/About/EditProfileModal';
 import ProfileTabNavigation from '../../navigations/ProfileTabNavigation';
 import { updateSuperStarBottomSheet } from '../../controller/BottomSheetController';
-
+import { useNavigation } from '@react-navigation/native';
 const title = 'Real JC';
 
 const size = new sizes(height, width);
-type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
-// export const tabBar = (props: any) => (
-//   <MaterialTabBar
-//     {...props}
-//     indicatorStyle={styles.focusedTab}
-//     tabStyle={styles.tabStyle}
-//     labelStyle={{ fontSize: size.fontSize(15), fontFamily: 'Outfit-Bold' }}
-//     activeColor={appColor.kWhiteColor}
-//     inactiveColor={appColor.kWhiteColor}
-//     contentContainerStyle={{ borderRadius: 40 }}
-//   />
-// );
-
 const Profile = () => {
+  const navigation = useNavigation();
   const dispatch = useAppDispatch();
-
+  const openDrawer = () => {
+    navigation.dispatch(DrawerActions.openDrawer());
+  };
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -48,7 +39,11 @@ const Profile = () => {
       }}
     >
       <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
-      <Header title={title} typeOfProfile="myProfile" />
+      <Header
+        onMoreIconPress={openDrawer}
+        title={title}
+        typeOfProfile="myProfile"
+      />
       <ProfileTabNavigation typeOfProfile="myProfile" />
       <SuperStarBottomSheet
         handleVisibility={() => {

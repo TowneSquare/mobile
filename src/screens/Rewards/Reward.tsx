@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 import Rankings from './Tabs/Rankings';
@@ -34,7 +34,6 @@ const RewardTab = () => {
         <Text style={styles.headerText}>Rewards</Text>
       </View>
       <TopTabNavigator components={tabContent} fullRadius={false} />
-     
     </SafeAreaView>
   );
 };

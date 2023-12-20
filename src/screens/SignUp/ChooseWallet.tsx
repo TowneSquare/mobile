@@ -40,47 +40,29 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
       })
     );
   }
-
+  const handleWalletConnect = (wallet: Wallet) => {
+    setSelectedWallet(wallet);
+    dispatch(updateBottomSheet(true));
+  };
   return (
     <>
       <StatusBar style="light" />
       <ImageBackground
-        style={{
-          flex: 1,
-          width: '100%',
-          height: '100%',
-          alignItems: 'center',
-        }}
+        style={styles.bgImage}
         resizeMode="cover"
         source={images.ChooseWallet}
       >
-        <View
-          style={{
-            width: '100%',
-            height: '100%',
-
-            alignItems: 'center',
-            paddingTop: size.getHeightSize(72),
-          }}
-        >
+        <View style={styles.view1}>
           <Text style={styles.text1}>Choose your wallet</Text>
           <View
             style={{
               height: size.getHeightSize(108),
             }}
           />
-          <View
-            style={{
-              height: size.getHeightSize(312),
-              justifyContent: 'space-between',
-              width: size.getWidthSize(359),
-              alignItems: 'center',
-            }}
-          >
+          <View style={styles.view2}>
             <Pressable
               onPress={() => {
-                setSelectedWallet('pontem');
-                dispatch(updateBottomSheet(true));
+                handleWalletConnect('pontem');
               }}
               style={[styles.wallet, { paddingRight: size.getWidthSize(13) }]}
             >
@@ -96,8 +78,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
             </Pressable>
             <Pressable
               onPress={() => {
-                setSelectedWallet('rise');
-                dispatch(updateBottomSheet(true));
+                handleWalletConnect('rise');
               }}
               style={[styles.wallet, { paddingRight: size.getWidthSize(13) }]}
             >
@@ -113,8 +94,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
             </Pressable>
             <Pressable
               onPress={() => {
-                setSelectedWallet('petra');
-                dispatch(updateBottomSheet(true));
+                handleWalletConnect('petra');
               }}
               style={[styles.wallet, { paddingRight: size.getWidthSize(13) }]}
             >
@@ -163,7 +143,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
         <CompleteSignUpModal
           signupstate={petraWalletConnection}
           callBack={() => {
-            if (petraWalletConnection) {
+            if (petraWalletConnection === 'approved') {
               dispatch(
                 updateToast({
                   toastType: 'success',
@@ -230,5 +210,23 @@ const styles = StyleSheet.create({
     fontFamily: 'Outfit-Regular',
     textAlign: 'center',
     lineHeight: size.getHeightSize(18),
+  },
+  bgImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+  },
+  view1: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    paddingTop: size.getHeightSize(72),
+  },
+  view2: {
+    height: size.getHeightSize(312),
+    justifyContent: 'space-between',
+    width: size.getWidthSize(359),
+    alignItems: 'center',
   },
 });
