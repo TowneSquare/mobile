@@ -69,11 +69,11 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
   } = useAppSelector((state) => ({
     usernameError: state.USER.errors.usernameError,
     nickNameError: state.USER.errors.nicknameError,
-    userNameLength: state.USER.details.username.length,
-    nickNameLength: state.USER.details.Nickname.length,
-    email: state.USER.details.email,
-    profilePics: state.USER.details.profileImage,
-    socialInfo: state.USER.details.socialInfo,
+    userNameLength: state.USER.UserData.username.length,
+    nickNameLength: state.USER.UserData.nickname.length,
+    email: state.USER.UserData.email,
+    profilePics: state.USER.UserData.profileImage,
+    socialInfo: state.USER.socialInfo,
   }));
   const user = useAppSelector((state) => state.USER);
 
@@ -122,7 +122,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     const data = new FormData();
 
     data.append('file', {
-      name: user.details.username,
+      name: user.UserData.username,
       type: 'Image/' + get_url_extension(profilePics),
       uri: profilePics,
     } as any);
@@ -175,9 +175,9 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
           user.didToken,
           user.metadata.issuer,
           user.accountInfo.address,
-          user.details.Nickname,
-          user.details.username,
-          user.details.email
+          user.UserData.nickname,
+          user.UserData.username,
+          user.UserData.email
         );
 
         if (!res.error && res.success != false) {

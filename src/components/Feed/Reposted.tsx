@@ -129,9 +129,8 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
   let content;
 
   // const type_of_post = data.content as Repost;
-  const contentTypeOfRepost = data?.repost
-    ? FeedContent.REPOST
-    : data?.videoUrls[0] && data?.description
+  const contentTypeOfRepost = 
+    data?.videoUrls[0] && data?.description
     ? FeedContent.MESSAGE_VIDEO
     : data?.imageUrls[0] && data?.description
     ? FeedContent.MESSAGE_IMAGE

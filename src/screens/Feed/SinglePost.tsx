@@ -97,7 +97,7 @@ const SinglePost = ({ route }: SinglePostProps) => {
         <SinglePostContent data={props} />
         {/* <Comments handleCommentButton={handleCommentPress} />
         <Comments handleCommentButton={handleCommentPress} myPost /> */}
-        {props.comments.map((comment, index) => (
+        {props?.comments.map((comment, index) => (
           <Comments handleCommentButton={handleCommentPress} CommentData={comment} key={index}/>
         ))}
       </ScrollView>

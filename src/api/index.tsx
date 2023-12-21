@@ -114,7 +114,10 @@ export async function getAllUser(token: string) {
   return createCall(`user/getall`, {}, { authorization: token }, "GET");
 }
 
-export const getPostById = async (token: string, post_id: string) => {
+export const getPostById = async (
+  token: string,
+  post_id: string
+): Promise<PostData> => {
   try {
     const res = await axios.get(`${BACKEND_URL}posts/${post_id}`, {
       headers: {
@@ -124,8 +127,80 @@ export const getPostById = async (token: string, post_id: string) => {
       },
     });
     const result: PostData = await res.data;
-    return result;
-  } catch (error) {}
+    return {
+      _id: result._id,
+      title: result.title || "",
+      description: result.description,
+      imageUrls: result.imageUrls || [],
+      videoUrls: result.videoUrls || [],
+      nftImageUrl: result.nftImageUrl,
+      nftCollection: result.nftCollection,
+      nftTokenId: result.nftTokenId,
+      userId: result.userId,
+      repost: result.repost,
+      createdAt: result.createdAt,
+      likes: result.likes,
+      reposts: result.reposts,
+      comments: result.comments,
+      customer: {
+        _id: result.customer._id,
+        issuer: result.customer.issuer || "",
+        aptosWallet: result.customer.aptosWallet,
+        nickname: result.customer.nickname,
+        username: result.customer.username,
+        email: result.customer.email || "",
+        referralCode: result.customer.referralCode || "",
+        profileImage: result.customer.profileImage || "",
+        createdAt: result.createdAt,
+      },
+      sellNFTPrice: result.sellNFTPrice,
+      originalCustomer: result.originalCustomer,
+      originalPostId: result.originalPostId,
+      originalCustomerId: result.originalCustomerId,
+    };
+  } catch (error) {
+    return {
+      _id: "",
+      title: "",
+      description: "",
+      imageUrls: [],
+      videoUrls: [],
+      nftImageUrl: "",
+      nftCollection: "",
+      nftTokenId: "",
+      userId: "",
+      repost: false,
+      createdAt: "",
+      likes: [],
+      reposts: [],
+      comments: [],
+      customer: {
+        _id: "",
+        issuer: "",
+        aptosWallet: "",
+        nickname: "",
+        username: "",
+        email: "",
+        referralCode: "",
+        profileImage: "",
+        createdAt: "",
+      },
+      sellNFTPrice: "",
+      originalCustomer: {
+        _id: "",
+        issuer: "",
+        aptosWallet: "",
+        nickname: "",
+        username: "",
+        email: "",
+        referralCode: "",
+        profileImage: "",
+        createdAt: "",
+      },
+      originalPostId: "",
+      originalCustomerId: "",
+    };
+  }
 };
 
 export const likePost = async (token: string, post_id: string) => {
@@ -208,7 +283,7 @@ export const getUserInfo = async (userId: string, token: string) => {
   } catch (error) {}
 };
 
-export const getUserAptosName = async ( address:string) => {
+export const getUserAptosName = async (address: string) => {
   try {
     const res = await axios.get(`${APTOS_NAME_URL}${address}`);
     const aptosName: string = res.data;

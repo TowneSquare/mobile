@@ -305,9 +305,10 @@ const ProfilePicture = ({
   const getUser = async () => {
     const result = await getUserInfo(userId, token);
     setUserData(result);
+    console.log(result, "result")
   };
 
-  //useMemo(() => getUser(), [userId])  @un-comment
+  //useMemo(() => getUser(), [userId]) 
 
   const dispatch = useAppDispatch();
   const handleShortPress = () => {

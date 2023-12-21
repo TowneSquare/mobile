@@ -28,7 +28,7 @@ import SubComments from "./SubComments";
 import { useAppDispatch } from "../../controller/hooks";
 const size = new sizes(height, width);
 interface Props {
-  handleCommentButton: ( username:string) => void;
+  handleCommentButton: (username: string) => void;
   myPost?: boolean;
   CommentData: Comment;
 }
@@ -37,143 +37,9 @@ const Comments = ({ CommentData, handleCommentButton }: Props) => {
   const scrollViewRef = useRef<ScrollView>(null);
   const textInputRef = useRef<TextInput>(null);
   const [replyingTo, setReplyingTo] = useState(false);
-  
-  const [comment, setComment] = useState<PostData>({
-    _id: "6543112773263dcd8d741ba0",
-    title: "",
-    userId: "65372778b8da0e521b8a3587",
-    description: "Test post ",
-    imageUrls: [""],
-    videoUrls: ["https://www.youtube.com/watch?v=EJzB_Fa27ko"],
-    createdAt: "2023-11-02T03:01:59.721Z",
-    sellNFTPrice: "20.4",
-    nftCollection: "",
-    nftImageUrl: "",
-    nftTokenId: "",
-    likes: [
-      {
-        _id: "6560962a233ac36e73bc42ce",
-        userId: "655ab007ce8937ff6d512885",
-        postId: "655df7a347784b1665992617",
-        createdAt: "2023-11-24T12:25:14.173Z",
-      },
-    ],
-    comments: [
-      {
-        username: "pelumi_main",
-        nickname: "chokey",
-        _id: "653878c2a000149cd06b9845",
-        content: "POST comment TEstTest",
-        userId: "65372778b8da0e521b8a3587",
-        postId: "653728bd6171091d6b469bec",
-        createdAt: "2023-10-25T02:09:06.310Z",
-      },
-      {
-        username: "pelumi_second",
-        nickname: "chokey",
-        _id: "653878c2a000149cd06b9845",
-        content: "POST comment TEstTest",
-        userId: "65372778b8da0e521b8a3587",
-        postId: "653728bd6171091d6b469bec",
-        createdAt: "2023-10-25T02:09:06.310Z",
-      },
-    ],
-    customer: {
-      _id: "65372778b8da0e521b8a3587",
-      issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-      aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-      nickname: "test nickname",
-      username: "test12",
-      email: "test@email.com",
-      referralCode: "98N39",
-      profileImage: "",
-      createdAt: "",
-    },
-    reposts: [],
-    originalCustomer: {
-      _id: "65372778b8da0e521b8a3587",
-      issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-      aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-      nickname: "test nickname",
-      username: "test12",
-      email: "test@email.com",
-      referralCode: "98N39",
-      profileImage: "",
-      createdAt: "",
-    },
-    repost: false,
-    originalPostId: "65430c7f372dd89672e9214d",
-    originalCustomerId: "65372778b8da0e521b8a3587",
-  });
-  const [subComment, setSubComment] = useState<PostData[]>([
-    {
-      _id: "6543112773263dcd8d741ba0",
-      title: "",
-      userId: "65372778b8da0e521b8a3587",
-      description: "Test post ",
-      imageUrls: [""],
-      videoUrls: ["https://www.youtube.com/watch?v=EJzB_Fa27ko"],
-      createdAt: "2023-11-02T03:01:59.721Z",
-      sellNFTPrice: "20.4",
-      nftCollection: "",
-      nftTokenId: "",
-      nftImageUrl: "",
-      likes: [
-        {
-          _id: "6560962a233ac36e73bc42ce",
-          userId: "655ab007ce8937ff6d512885",
-          postId: "655df7a347784b1665992617",
-          createdAt: "2023-11-24T12:25:14.173Z",
-        },
-      ],
-      comments: [
-        {
-          username: "pelumi_main",
-          nickname: "chokey",
-          _id: "653878c2a000149cd06b9845",
-          content: "POST comment TEstTest",
-          userId: "65372778b8da0e521b8a3587",
-          postId: "653728bd6171091d6b469bec",
-          createdAt: "2023-10-25T02:09:06.310Z",
-        },
-        {
-          username: "pelumi_second",
-          nickname: "chokey",
-          _id: "653878c2a000149cd06b9845",
-          content: "POST comment TEstTest",
-          userId: "65372778b8da0e521b8a3587",
-          postId: "653728bd6171091d6b469bec",
-          createdAt: "2023-10-25T02:09:06.310Z",
-        },
-      ],
-      customer: {
-        _id: "65372778b8da0e521b8a3587",
-        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        nickname: "test nickname",
-        username: "test12",
-        email: "test@email.com",
-        referralCode: "98N39",
-        profileImage: "",
-        createdAt: "",
-      },
-      reposts: [],
-      originalCustomer: {
-        _id: "65372778b8da0e521b8a3587",
-        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-        nickname: "test nickname",
-        username: "test12",
-        email: "test@email.com",
-        referralCode: "98N39",
-        profileImage: "",
-        createdAt: "",
-      },
-      repost: false,
-      originalPostId: "65430c7f372dd89672e9214d",
-      originalCustomerId: "65372778b8da0e521b8a3587",
-    },
-  ]);
+
+  const [comment, setComment] = useState<PostData>();
+  const [subComment, setSubComment] = useState<PostData[]>([]);
   const { didToken, user } = useAppSelector((state) => ({
     didToken: state.USER.didToken,
     user: state.USER.UserData._id,
@@ -181,22 +47,21 @@ const Comments = ({ CommentData, handleCommentButton }: Props) => {
   const [likes, setLikes] = useState<boolean>();
   const [noOflikes, setnoOflikes] = useState(comment?.likes?.length);
 
-
-  useMemo(() => {
-    setLikes(comment.likes.some((like) => like.userId == user));
-  }, [comment.likes]);
-
   const getCommentDetails = async () => {
-    const result = await getPostById(didToken, CommentData.postId);
+    const result = await getPostById(didToken, CommentData?.postId);
     setComment(result);
     setSubComment(
       await Promise.all(
-        comment.comments.map(
+        comment?.comments?.map(
           async (subComment) => await getPostById(didToken, subComment._id)
         )
       )
     );
   };
+
+  useMemo(() => {
+    setLikes(comment?.likes?.some((like) => like?.userId == user));
+  }, [comment?.likes]);
 
   // const handleCommentPress = () => {
   //   textInputRef.current?.focus();
@@ -214,9 +79,9 @@ const Comments = ({ CommentData, handleCommentButton }: Props) => {
     textInputRef.current?.clear();
   };
 
-  // useEffect(() => {
-  //   getCommentDetails();
-  // }, []);  //@un-comment
+  useEffect(() => {
+    getCommentDetails();
+  }, []);
 
   const handleCommentLike = async () => {
     setLikes(!likes);
@@ -227,7 +92,6 @@ const Comments = ({ CommentData, handleCommentButton }: Props) => {
     }
     await likePost(didToken, CommentData?.postId);
   };
-
 
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -240,9 +104,10 @@ const Comments = ({ CommentData, handleCommentButton }: Props) => {
   }
   const timepost = getPostTime(CommentData.createdAt);
   const myPost = CommentData.userId == user;
+  console.log(CommentData, "comment")
   return (
     <View style={styles.commentContainer}>
-      <ProfilePicture profileImage={comment.customer.profileImage} />
+      <ProfilePicture profileImage={comment?.customer?.profileImage} />
       <View
         style={{
           flex: 1,
@@ -265,7 +130,7 @@ const Comments = ({ CommentData, handleCommentButton }: Props) => {
               <AddComment
                 size={size.getHeightSize(24)}
                 onPress={() => {
-                  handleCommentButton(CommentData.username)
+                  handleCommentButton(CommentData.username);
                 }}
               />
               <Text style={styles.reactionText}>
@@ -288,10 +153,10 @@ const Comments = ({ CommentData, handleCommentButton }: Props) => {
             </View>
           </View>
         </View>
-        
+
         {/* Sub Comment */}
-        {subComment.map((subComment, index) => (
-          <SubComments subComment={subComment} key={index}/>
+        {subComment?.map((subComment, index) => (
+          <SubComments subComment={subComment} key={index} />
         ))}
         {/*  */}
         {/* <View style={styles.repliedCommentContainer}>

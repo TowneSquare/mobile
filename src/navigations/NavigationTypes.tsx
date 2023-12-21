@@ -43,8 +43,12 @@ export type RootStackParamList = {
   EmailLogin: undefined;
   EditProfile: undefined;
   SetNFTs: undefined;
-  ViewImageScreen: undefined;
-  VideoPlayer: undefined;
+  ViewImageScreen: {
+    postData:PostData
+  };
+  VideoPlayer:{
+    postData:PostData
+  };
   SinglePost: undefined;
   Notifications: undefined;
   CreatePost: {
@@ -160,6 +164,12 @@ type TheirProfileParams = {
     userData:UserData
   }
 }
+
+type ViewImageScreenParams = {
+  [ViewImageScreen: string]:{
+    postData:PostData
+  }
+}
 type ChooseWalletParams = {
   [ChooseWallet: string]: PetraWalletResponse;
 };
@@ -210,11 +220,11 @@ type FollowerScreenParameter = {
     screen: string;
   };
 };
-type TheirProfileParameter = {
-  [TheirProfile: string]: {
-    username: string;
-  };
-};
+// type TheirProfileParameter = {
+//   [TheirProfile: string]: {
+//     username: string;
+//   };
+// };
 
 type DEXParameter = {
   [DEX: string]: {
@@ -310,7 +320,7 @@ export type SinglePostProps = {
 export type ViewImageScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'ViewImageScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, 'VideoPlayer'>;
+  route: RouteProp<ViewImageScreenParams, 'ViewImageScreen'>;
 };
 export type VideoPlayerProps = {
   navigation: NavigationProp<RootStackParamList, 'VideoPlayer'>;

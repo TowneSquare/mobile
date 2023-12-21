@@ -18,7 +18,7 @@ interface CreatePost {
     nftImageUrl?: string;
     nftTokenId?: string;
     sellNFTPrice?: string;
-  } | null;
+  };
 }
 
 export enum POSTSTATE {
@@ -128,8 +128,8 @@ interface Post {
   priceModal: boolean;
   communityPostPrivacy: "public" | "community-only";
   CommentReplyData: {
-    username:string
-  }
+    username: string;
+  };
 }
 const initialState: Post = {
   OnlyUserPost: [],
@@ -205,7 +205,7 @@ const initialState: Post = {
           originalPostId: "65649c452b47b41b4f22ffd0",
           createdAt: "2023-12-06T17:02:14.813Z",
         },
-         {
+        {
           _id: "6570a9166460587de2c1a9c9",
           postId: "6570a9166460587de2c1a9c8",
           customerId: "655ab007ce8937ff6d512886",
@@ -325,13 +325,18 @@ const initialState: Post = {
     media: "",
     tags: [],
     community: null,
-    nft: null,
+    nft: {
+      nftCollection: "",
+      nftImageUrl: "",
+      nftTokenId: "",
+      sellNFTPrice: "",
+    },
   },
   priceModal: false,
   communityPostPrivacy: "public",
-  CommentReplyData:{
-    username:""
-  }
+  CommentReplyData: {
+    username: "",
+  },
 };
 
 export const createPost = createAsyncThunk(
@@ -374,12 +379,12 @@ export const createPost = createAsyncThunk(
 
 export const getAllPost = createAsyncThunk(
   "Feed/FindAll",
-  async (token: string, thunkAPI) => {
+  async (token: string, thunkAPI): Promise<PostData[]> => {
     try {
       const response = await axios.get(`${BACKEND_URL}posts/findAll`, {
         params: {
-          page: "",
-          limit: "",
+          page: 1,
+          limit: 20,
           search: "",
           userId: "",
         },
@@ -390,8 +395,42 @@ export const getAllPost = createAsyncThunk(
         },
       });
 
-      const result = await response.data;
-      return result;
+      const result: PostData[] = await response.data;
+      if (result.length > 0) {
+        return result.map((res) => {
+          return {
+            _id: res._id,
+            title: res.title || "",
+            description: res.description,
+            imageUrls: res.imageUrls || [],
+            videoUrls: res.videoUrls || [],
+            nftImageUrl: res.nftImageUrl,
+            nftCollection: res.nftCollection,
+            nftTokenId: res.nftTokenId,
+            userId: res.userId,
+            repost: res.repost,
+            createdAt: res.createdAt,
+            likes: res.likes,
+            reposts: res.reposts,
+            comments: res.comments,
+            customer: {
+              _id: res.customer._id,
+              issuer: res.customer.issuer || "",
+              aptosWallet: res.customer.aptosWallet,
+              nickname: res.customer.nickname,
+              username: res.customer.username,
+              email: res.customer.email || "",
+              referralCode: res.customer.referralCode || "",
+              profileImage: res.customer.profileImage || "",
+              createdAt: res.createdAt,
+            },
+            sellNFTPrice: res.sellNFTPrice,
+            originalCustomer: res.originalCustomer,
+            originalPostId: res.originalPostId,
+            originalCustomerId: res.originalCustomerId,
+          };
+        });
+      }
     } catch (error) {
       //return thunkAPI.rejectWithValue(error);
       return [];
@@ -593,17 +632,28 @@ export const fieldHandlerSlice = createSlice({
     },
     updatePostNft: (
       state,
-      action: PayloadAction<{
-        nftCollection: string;
-        nftImageUrl?: string;
-        nftTokenId: string;
-        sellNFTPrice?: string;
-      } | null>
+      action: PayloadAction<
+        | {
+            nftCollection: string;
+            nftImageUrl?: string;
+            nftTokenId: string;
+            sellNFTPrice?: string;
+          }
+        | {
+            nftCollection: "";
+            nftImageUrl: "";
+            nftTokenId: "";
+            sellNFTPrice: "";
+          }
+      >
     ) => {
       state.posts.nft = action.payload;
     },
-    updateCommentReplyData:(state, action:PayloadAction<{username:string}>) => {
-      state.CommentReplyData = action.payload
+    updateCommentReplyData: (
+      state,
+      action: PayloadAction<{ username: string }>
+    ) => {
+      state.CommentReplyData = action.payload;
     },
     updateAptPrice: (
       state,
@@ -612,7 +662,12 @@ export const fieldHandlerSlice = createSlice({
         nftImageUrl: string;
         nftTokenId: string;
         sellNFTPrice?: string;
-      }>
+      }  | {
+            nftCollection: "";
+            nftImageUrl: "";
+            nftTokenId: "";
+            sellNFTPrice: "";
+          }>
     ) => {
       state.posts.nft = action.payload;
     },
@@ -622,7 +677,12 @@ export const fieldHandlerSlice = createSlice({
         media: null,
         tags: [],
         community: null,
-        nft: null,
+        nft: {
+          nftCollection: "",
+          nftImageUrl: "",
+          nftTokenId: "",
+          sellNFTPrice: "",
+        },
       };
     },
     updateCommunityPostPrivacy: (
@@ -681,6 +741,6 @@ export const {
   updateAptPrice,
   clearPostData,
   updateCommunityPostPrivacy,
-  updateCommentReplyData
+  updateCommentReplyData,
 } = fieldHandlerSlice.actions;
 export default fieldHandlerSlice.reducer;

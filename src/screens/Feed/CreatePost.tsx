@@ -83,6 +83,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
     return null;
   }
 
+  console.log(nft, "nft")
   return (
     <SafeAreaView
       style={{
@@ -136,7 +137,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
             flex: 1,
           }}
         >
-          {nft && <AttachedNftContainer />}
+          {nft.nftImageUrl && <AttachedNftContainer />}
           {media && <Media />}
           {shouldShowSwapApt && <SwapPost />}
           {shouldShowAptMonkey && <FloorPricePost />}

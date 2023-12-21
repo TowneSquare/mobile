@@ -294,9 +294,9 @@ const PostActions = ({
   const user = useAppSelector((state) => state.USER.UserData._id);
   const BookMarks = useAppSelector((state) => state.USER.BookMarks);
 
-  // useEffect(() => {
-  //   getUser()
-  // }, []) @un-comment
+  useEffect(() => {
+    getUser()
+  }, [])
   const retweet = useSharedValue(0);
   const bookmark = useSharedValue(0);
   const liked = useSharedValue(0);

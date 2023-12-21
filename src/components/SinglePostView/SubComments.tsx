@@ -32,7 +32,7 @@ const SubComments = ({ subComment }: props) => {
   const [noOflikes, setnoOflikes] = useState(subComment?.likes?.length);
 
   useMemo(() => {
-    setLikes(subComment.likes.some((like) => like.userId == user));
+    setLikes(subComment?.likes?.some((like) => like.userId == user));
   }, [subComment.likes]);
 
   const handleCommentLike = async () => {
@@ -46,7 +46,7 @@ const SubComments = ({ subComment }: props) => {
   };
   return (
     <View style={styles.repliedCommentContainer}>
-      <ProfilePicture profileImage={subComment.customer.profileImage} PFPsize={18} />
+      <ProfilePicture profileImage={subComment?.customer?.profileImage} PFPsize={18} />
       <View>
         <SinglePostCommentHeader
           maxWidth={77}

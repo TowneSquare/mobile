@@ -1,22 +1,24 @@
-import { View, Dimensions, Pressable, Image } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor, fonts, images } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import { AntDesign } from '@expo/vector-icons';
-import { sizes } from '../../utils';
-import Constants from 'expo-constants';
-import { useNavigation } from '@react-navigation/native';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
+import { View, Dimensions, Pressable, Image } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { appColor, fonts, images } from "../../constants";
+import { StatusBar } from "expo-status-bar";
+import { AntDesign } from "@expo/vector-icons";
+import { sizes } from "../../utils";
+import Constants from "expo-constants";
+import { useNavigation } from "@react-navigation/native";
+const { height, width } = Dimensions.get("window");
+import { useFonts } from "expo-font";
 const size = new sizes(height, width);
-import PostActions from '../../components/Feed/PostActions';
-const ViewImageScreen = () => {
+import PostActions from "../../components/Feed/PostActions";
+import { ViewImageScreenProps } from "../../navigations/NavigationTypes";
+const ViewImageScreen = ({ route }: ViewImageScreenProps) => {
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
+  const { postData } = route.params;
   if (!isLoaded) {
     return null;
   }
@@ -31,9 +33,9 @@ const ViewImageScreen = () => {
       <Pressable
         style={{
           height: size.getHeightSize(102 - Constants.statusBarHeight),
-          alignItems: 'flex-start',
+          alignItems: "flex-start",
           paddingBottom: size.getHeightSize(12),
-          justifyContent: 'flex-end',
+          justifyContent: "flex-end",
           paddingHorizontal: size.getWidthSize(16),
         }}
         onPress={navigation.goBack}
@@ -47,15 +49,15 @@ const ViewImageScreen = () => {
       <View style={{ flex: 1 }} />
       <View
         style={{
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <Image
-          source={images.feedImage1}
+          source={{ uri: postData.imageUrls[0] }}
           resizeMode="cover"
           style={{
-            width: '100%',
+            width: "100%",
             height: size.heightSize(347),
           }}
         />
@@ -67,10 +69,12 @@ const ViewImageScreen = () => {
         }}
       >
         <PostActions
-          noOfComments={'99k'}
-          noOfLikes={'99k'}
-          noOfRetweet={'99k'}
+          noOfComments={postData.comments.length}
+          Likes={postData?.likes}
+          Repost={postData?.reposts}
           paddingHorizontal={16}
+          postId={postData?._id}
+          userId={postData?.userId}
           showShareIcon
         />
       </View>

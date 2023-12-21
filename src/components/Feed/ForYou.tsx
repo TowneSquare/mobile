@@ -87,6 +87,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     ? FeedContent.MESSAGE_ONLY
     : FeedContent.EMPTY;
   const userPost = data;
+
   switch (type_of_post) {
     case FeedContent.MESSAGE_ONLY:
       // userPost.content = data.content as Message_Only;
@@ -94,7 +95,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
-              profileImageUri={userPost.customer.profileImage}
+              profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               swipeable={myPost}
             />
@@ -151,15 +152,30 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                   },
                 ]}
               >
-                <Image
-                  source={{
-                    uri: userPost.imageUrls[0]
-                      ? userPost.imageUrls[0]
-                      : Image.resolveAssetSource(images.Aptomingos).uri,
-                  }}
-                  style={styles.imageStyle}
-                  resizeMode="cover"
-                />
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("ViewImageScreen", {
+                      postData: userPost,
+                    })
+                  }
+                  style={[
+                    styles.mediaContainer,
+                    { marginBottom: size.getHeightSize(0) },
+                  ]}
+                >
+                  <Image
+                    source={{
+                      uri: userPost.imageUrls[0],
+                    }}
+                    style={{
+                      alignSelf: "center",
+                      width: "100%",
+                      height: size.getHeightSize(200),
+                    }}
+                    resizeMode="cover"
+                    loadingIndicatorSource={images.Aptomingos}
+                  />
+                </Pressable>
               </View>
               <PostActions
                 noOfComments={userPost.comments.length}
@@ -184,12 +200,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
               swipeable={myPost}
             />
             <View style={styles.subHeading}>
-              {/* <PostHeader
-                username={userPost.customer.username}
-                nickname={userPost.customer.nickname}
-                timepost={userPost.timepost}
-                myPost={myPost ? myPost : false}
-              /> */}
+              
 
               <PostHeader
                 username={userPost?.customer?.username}
@@ -205,29 +216,27 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
               </Text>
 
               <Pressable
-                onPress={() => navigation.navigate("ViewImageScreen" as never)}
+                onPress={() =>
+                  navigation.navigate("ViewImageScreen", {
+                    postData: userPost,
+                  })
+                }
                 style={[
                   styles.mediaContainer,
                   { marginBottom: size.getHeightSize(0) },
                 ]}
               >
-                {/* <Image
-                  source={{
-                    uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
-                      ? userPost.imageUrl[0]
-                      : Image.resolveAssetSource(images.Aptomingos).uri,
-                  }}
-                  style={styles.imageStyle}
-                  resizeMode="contain"
-                /> */}
                 <Image
                   source={{
-                    uri: userPost.imageUrls[0]
-                      ? userPost.imageUrls[0]
-                      : Image.resolveAssetSource(images.Aptomingos).uri,
+                    uri: userPost.imageUrls[0],
                   }}
-                  style={styles.imageStyle}
+                  style={{
+                    alignSelf: "center",
+                    width: "100%",
+                    height: size.getHeightSize(200),
+                  }}
                   resizeMode="cover"
+                  loadingIndicatorSource={images.Aptomingos}
                 />
               </Pressable>
               <PostActions
@@ -309,7 +318,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 nickname={userPost?.customer?.nickname}
                 timepost={timePost}
                 myPost={myPost ? myPost : false}
-                postId={userPost._id}
+                postId={userPost?._id}
                 userId={userPost.customer._id}
               />
 
@@ -329,11 +338,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 ]}
               >
                 <Video
-                  // source={{
-                  //   uri: userPost.videoUrl[0]
-                  //     ? userPost.videoUrl[0]
-                  //     : Image.resolveAssetSource(images.Aptomingos).uri,
-                  // }}
+                 
                   source={{
                     uri: data.videoUrls[0],
                   }}
@@ -343,11 +348,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                   resizeMode={ResizeMode.CONTAIN}
                   shouldPlay={true}
                 />
-                {/* <Image
-                source={images.feedImage2}
-                 style={styles.imageStyle}
-                 resizeMode="cover"
-               /> */}
+               
               </Pressable>
               <PostActions
                 noOfComments={userPost?.comments?.length}
@@ -356,12 +357,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 postId={userPost._id}
                 userId={userPost.customer._id}
               />
-              {/* <PostActions
-                noOfComments={userPost.comments}
-                noOfLikes={userPost.like}
-                noOfRetweet={userPost.retweet}
-              /> */}
-              {/* <ShowThread /> */}
+              
             </View>
           </View>
         </>

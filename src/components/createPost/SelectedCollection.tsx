@@ -117,7 +117,7 @@ const SelectedCollection = () => {
             collection.id.toString()
           );
         }}
-        key={collection.id}
+       
         style={styles.collection}
       >
         {
