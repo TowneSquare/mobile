@@ -126,7 +126,7 @@ const PostHeader = ({
                 lineHeight: size.getHeightSize(21),
               }}
             >
-              {truncateText(myPost ? "MyAccountName" : username, 15)}
+              {truncateText(username, 15)}
             </Text>
             <Queen />
           </View>
@@ -144,7 +144,7 @@ const PostHeader = ({
               //   : undefined,
             }}
           >
-            @{myPost ? "myaccountName" : nickname}
+            @{nickname}
             <Text
               style={{
                 color: appColor.grayLight,

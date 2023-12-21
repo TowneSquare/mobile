@@ -30,7 +30,7 @@ const SinglePost = ({ route }: SinglePostProps) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch()
 
-
+console.log(props, "props")
 
   // const data = {
   //   id: '9',
@@ -106,7 +106,7 @@ const SinglePost = ({ route }: SinglePostProps) => {
         showReplyingTo={replyingTo}
         handleBlur={handleBlur}
         textRef={textInputRef}
-        postId={props._id}
+        postId={props?._id}
       />
       {/* {isAnyModalOpen && <View style={styles.overlay} />} */}
     </SafeAreaView>

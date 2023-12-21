@@ -15,8 +15,9 @@ interface Props {
   postId:string
   userId:string
   onPress?: () => void;
+  profileImageUri:string
 }
-const SinglePostHeader = ({ username, nickname, timepost, postId, userId ,onPress }: Props) => {
+const SinglePostHeader = ({ username, nickname, timepost, postId, userId ,profileImageUri, onPress }: Props) => {
   const dispatch = useAppDispatch();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -38,7 +39,7 @@ const SinglePostHeader = ({ username, nickname, timepost, postId, userId ,onPres
         alignItems: 'flex-start',
       }}
     >
-      <ProfilePicture left={1} top={-1} swipeable />
+      <ProfilePicture profileImageUri={profileImageUri}  userId={userId} />
 
       <View
         style={{

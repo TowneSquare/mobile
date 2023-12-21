@@ -271,7 +271,10 @@ export const getFollowers = async (token: string) => {
   } catch (error) {}
 };
 
-export const getUserInfo = async (userId: string, token: string) => {
+export const getUserInfo = async (
+  userId: string,
+  token: string
+): Promise<UserData> => {
   try {
     const response = await axios.get(`${BACKEND_URL}user/${userId}`, {
       headers: {
@@ -279,7 +282,24 @@ export const getUserInfo = async (userId: string, token: string) => {
       },
     });
     const result: UserData = response.data;
-    return result;
+    return {
+      _id: result._id,
+      profileImage: result.profileImage,
+      bio: result.bio,
+      issuer: result.issuer,
+      aptosWallet: result.aptosWallet,
+      nickname: result.nickname,
+      username: result.username,
+      email: result.email,
+      referralCode: result.referralCode,
+      followers: result.followers,
+      following: result.following,
+      posts: result.posts,
+      groups: result.groups || [],
+      comments: result.comments || [],
+      createdAt: result.createdAt,
+      superstars: result.superstars,
+    };
   } catch (error) {}
 };
 

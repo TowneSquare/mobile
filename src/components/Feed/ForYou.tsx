@@ -66,7 +66,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     navigation.navigate("SinglePost" as any, params);
   };
   const myPost = userId == data?.customer?._id;
-  const timePost = getPostTime(data.createdAt);
+  const timePost = getPostTime(data?.createdAt);
   let content;
 
   const type_of_post = data?.repost
@@ -87,7 +87,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     ? FeedContent.MESSAGE_ONLY
     : FeedContent.EMPTY;
   const userPost = data;
-
+console.log(data, "for you")
   switch (type_of_post) {
     case FeedContent.MESSAGE_ONLY:
       // userPost.content = data.content as Message_Only;

@@ -14,14 +14,6 @@ import {
   FLOOR_PRICE_INCLUDED,
 } from "../../models";
 const size = new sizes(height, width);
-import {
-  Message_Only,
-  Message_Image,
-  GIF,
-  Message_External_Link,
-  VIDEO,
-  NFT_FOR_SALE,
-} from "../../models";
 import PostActions from "../Feed/PostActions";
 import APTMonkey from "../../../assets/images/svg/APTMonkey";
 import { PostData } from "../../controller/createPost";
@@ -39,49 +31,49 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
     return null;
   }
 
-  const type_of_post = data?.repost
-    ? FeedContent.REPOST
-    : data?.videoUrls[0] && data?.description
-    ? FeedContent.MESSAGE_VIDEO
-    : data?.imageUrls[0] && data?.description
-    ? FeedContent.MESSAGE_IMAGE
-    : data.videoUrls[0]
-    ? FeedContent.VIDEO_ONLY
-    : data.imageUrls[0]
-    ? FeedContent.IMAGE_ONLY
-    : data?.nftImageUrl && data?.sellNFTPrice
-    ? FeedContent.NFT_FOR_SALE
-    : data?.nftImageUrl && !data.sellNFTPrice
-    ? FeedContent.ATTACHED_NFT
-    : data?.description
-    ? FeedContent.MESSAGE_ONLY
-    : FeedContent.EMPTY;
-  const userPost = data;
-  const timepost = getPostTime(data.createdAt)
+  const type_of_post =
+    data?.videoUrls[0] && data?.description
+      ? FeedContent.MESSAGE_VIDEO
+      : data?.imageUrls[0] && data?.description
+      ? FeedContent.MESSAGE_IMAGE
+      : data?.videoUrls[0]
+      ? FeedContent.VIDEO_ONLY
+      : data?.imageUrls[0]
+      ? FeedContent.IMAGE_ONLY
+      : data?.nftImageUrl && data?.sellNFTPrice
+      ? FeedContent.NFT_FOR_SALE
+      : data?.nftImageUrl && !data?.sellNFTPrice
+      ? FeedContent.ATTACHED_NFT
+      : data?.description
+      ? FeedContent.MESSAGE_ONLY
+      : FeedContent.EMPTY;
+  console.log(type_of_post, "SPContent", data, );
+  const userPost: PostData = data;
+  const timepost = getPostTime(data?.createdAt);
   let content;
   switch (type_of_post) {
     case FeedContent.MESSAGE_ONLY:
-      // userPost.content = data.content as Message_Only;
       content = (
         <>
           <View style={styles.feedContainer}>
             <View style={[styles.subHeading, { marginLeft: 0 }]}>
               <SinglePostHeader
-                username={userPost.customer.username}
-                nickname={userPost.customer.nickname}
+                username={userPost?.customer?.username}
+                nickname={userPost?.customer?.nickname}
                 timepost={timepost}
-                postId={userPost._id}
-                userId={userPost.customer._id}
+                postId={userPost?._id}
+                userId={userPost?.customer._id}
+                profileImageUri={userPost.customer.profileImage}
               />
 
               <Text style={styles.message}>{userPost.description}</Text>
 
               <PostActions
-                noOfComments={userPost.comments.length}
+                noOfComments={userPost?.comments?.length}
                 Likes={userPost?.likes}
                 Repost={userPost?.reposts}
-                postId={userPost._id}
-                 userId={userPost.customer._id}
+                postId={userPost?._id}
+                userId={userPost?.customer?._id}
               />
             </View>
           </View>
@@ -96,11 +88,12 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
           <View style={styles.feedContainer}>
             <View style={[styles.subHeading, { marginLeft: 0 }]}>
               <SinglePostHeader
-                username={userPost.customer.username}
-                nickname={userPost.customer.nickname}
+                username={userPost?.customer?.username}
+                nickname={userPost?.customer?.nickname}
                 timepost={timepost}
-                postId={userPost._id}
-                userId={userPost.customer._id}
+                postId={userPost?._id}
+                userId={userPost?.customer?._id}
+                profileImageUri={userPost.customer.profileImage}
               />
 
               <Text style={styles.message}>{userPost.description}</Text>
@@ -115,20 +108,23 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               >
                 <Image
                   source={{
-                    uri: userPost.imageUrls[0]
-                      ? userPost.imageUrls[0]
-                      : Image.resolveAssetSource(images.Aptomingos).uri,
+                    uri: userPost.imageUrls[0],
                   }}
-                  style={styles.imageStyle}
-                  resizeMode="contain"
+                  style={{
+                    alignSelf: "center",
+                    width: "100%",
+                    height: size.getHeightSize(200),
+                  }}
+                  resizeMode="cover"
+                  loadingIndicatorSource={images.Aptomingos}
                 />
               </View>
               <PostActions
                 noOfComments={userPost.comments.length}
-               Likes={userPost?.likes}
+                Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost._id}
-                 userId={userPost.customer._id}
+                userId={userPost.customer._id}
               />
             </View>
           </View>
@@ -184,6 +180,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 timepost={timepost}
                 postId={userPost._id}
                 userId={userPost.customer._id}
+                profileImageUri={userPost.customer.profileImage}
               />
               <Text style={styles.message}>{userPost.description}</Text>
               <View
@@ -217,7 +214,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost._id}
-                 userId={userPost.customer._id}
+                userId={userPost.customer._id}
               />
             </View>
           </View>
@@ -234,8 +231,9 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
                 timepost={timepost}
-                 postId={userPost._id}
+                postId={userPost._id}
                 userId={userPost.customer._id}
+                profileImageUri={userPost.customer.profileImage}
               />
               <View
                 style={[
@@ -264,7 +262,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost._id}
-                 userId={userPost.customer._id}
+                userId={userPost.customer._id}
               />
             </View>
           </View>
@@ -280,9 +278,10 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               <SinglePostHeader
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
-               timepost={timepost}
-                 postId={userPost._id}
+                timepost={timepost}
+                postId={userPost._id}
                 userId={userPost.customer._id}
+                profileImageUri={userPost.customer.profileImage}
               />
               <View
                 style={[
@@ -307,7 +306,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost._id}
-                 userId={userPost.customer._id}
+                userId={userPost.customer._id}
               />
             </View>
           </View>
@@ -320,12 +319,13 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
         <>
           <View style={styles.feedContainer}>
             <View style={[styles.subHeading, { marginLeft: 0 }]}>
-             <SinglePostHeader
+              <SinglePostHeader
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
-               timepost={timepost}
-                 postId={userPost._id}
+                timepost={timepost}
+                postId={userPost._id}
                 userId={userPost.customer._id}
+                profileImageUri={userPost.customer.profileImage}
               />
               <Text style={styles.message}>{userPost.description}</Text>
               <View style={[styles.mediaContainer]}>
@@ -344,14 +344,14 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               </View>
               <View style={styles.nftcollectionContainer}>
                 <View style={styles.collectionInfo}>
-                  <Image source={{uri:userPost.nftImageUrl}} />
+                  <Image source={{ uri: userPost.nftImageUrl }} />
                   <Text style={styles.collectionName}>
                     {userPost.nftCollection}
                   </Text>
                 </View>
 
                 <Text style={styles.collectionId}>
-                  {userPost.nftCollection}  {userPost.nftTokenId}
+                  {userPost.nftCollection} {userPost.nftTokenId}
                 </Text>
               </View>
               <View style={[styles.nftCollection, { marginBottom: 0 }]}>
@@ -368,7 +368,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost._id}
-                 userId={userPost.customer._id}
+                userId={userPost.customer._id}
               />
             </View>
           </View>
@@ -384,9 +384,10 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               <SinglePostHeader
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
-               timepost={timepost}
-                 postId={userPost._id}
+                timepost={timepost}
+                postId={userPost._id}
                 userId={userPost.customer._id}
+                profileImageUri={userPost.customer.profileImage}
               />
               <View
                 style={[
@@ -411,7 +412,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               </View>
               <View style={styles.attachedNftContainer}>
                 <View style={styles.collectionInfo}>
-                  <Image source={{uri: userPost.nftImageUrl}} />
+                  <Image source={{ uri: userPost.nftImageUrl }} />
                   <Text style={styles.collectionName}>
                     {userPost.nftCollection}
                   </Text>
@@ -428,7 +429,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost._id}
-                 userId={userPost.customer._id}
+                userId={userPost.customer._id}
               />
             </View>
           </View>

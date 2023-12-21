@@ -35,25 +35,35 @@ import { clearPostData, createPost } from "../../controller/createPost";
 import { ScrollView } from "react-native-gesture-handler";
 import { CreatePostProps } from "../../navigations/NavigationTypes";
 import { message } from "../../utils/messageData";
+import axios from "axios";
+import { BACKEND_URL } from "../../../config/env";
 const CreatePost = ({ route }: CreatePostProps) => {
   const whichPost = route.params.whichPost;
   const [
     showCommunityPostPrivacyBottomSheet,
     setShowCommunityPostPrivacyBottomSheet,
   ] = useState(false);
-  const { showAtMentions, showHashTags, showAPTPanel, showApt, media, nft } =
-    useAppSelector((state) => ({
-      showAtMentions: state.CreatePostController.showAtMentionContainer,
-      showHashTags: state.CreatePostController.showHashTags,
-      showAPTPanel: state.CreatePostController.showAptosPanel,
-      showApt: state.CreatePostController.posts.community,
-      message: state.CreatePostController.posts.message,
-      media: state.CreatePostController.posts.media,
-      tags: state.CreatePostController.posts.tags,
-      community: state.CreatePostController.posts.community,
-      nft: state.CreatePostController.posts.nft,
-      post: state.CreatePostController.posts,
-    }));
+  const {
+    showAtMentions,
+    showHashTags,
+    showAPTPanel,
+    showApt,
+    media,
+    nft,
+    token,
+  } = useAppSelector((state) => ({
+    showAtMentions: state.CreatePostController.showAtMentionContainer,
+    showHashTags: state.CreatePostController.showHashTags,
+    showAPTPanel: state.CreatePostController.showAptosPanel,
+    showApt: state.CreatePostController.posts.community,
+    message: state.CreatePostController.posts.message,
+    media: state.CreatePostController.posts.media,
+    tags: state.CreatePostController.posts.tags,
+    community: state.CreatePostController.posts.community,
+    nft: state.CreatePostController.posts.nft,
+    post: state.CreatePostController.posts,
+    token: state.USER.didToken,
+  }));
 
   const textInput = useAppSelector(
     (state) => state.CreatePostController.inputText
@@ -78,12 +88,56 @@ const CreatePost = ({ route }: CreatePostProps) => {
     "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
   });
 
-  console.log(textInput, "message");
   if (!isLoaded) {
     return null;
   }
 
-  console.log(nft, "nft")
+  const createPost = async (
+    description: string,
+    sellNFTPrice: string,
+    nftTokenId: string,
+    nftCollection: string,
+    nftImageUrl: string,
+    file: string,
+    token: string
+  ) => {
+    try {
+      const res = await axios.post(
+        `${BACKEND_URL}posts/create`,
+        {
+          description,
+          sellNFTPrice,
+          nftTokenId,
+          nftCollection,
+          nftImageUrl,
+          file,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: token,
+          },
+        }
+      );
+      dispatch(
+        updateToast({
+          displayToast: true,
+          toastMessage: "Post is published successfully",
+          toastType: "success",
+        })
+      );
+    } catch (error) {
+      console.log(error?.response?.data);
+      dispatch(
+        updateToast({
+          displayToast: true,
+          toastMessage: "Something went wrong while posting please try again",
+          toastType: "info",
+        })
+      );
+    }
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -96,24 +150,16 @@ const CreatePost = ({ route }: CreatePostProps) => {
           Cancel
         </Text>
         <Pressable
-          onPress={() => {
+          onPress={async () => {
             navigation.dispatch(StackActions.pop(1));
-            dispatch(
-              createPost({
-                description: textInput,
-                sellNFTPrice: nft.sellNFTPrice,
-                nftTokenId: nft.nftTokenId,
-                nftCollection: nft.nftCollection,
-                nftImageUrl: nft.nftImageUrl,
-                file: media,
-              })
-            );
-            dispatch(
-              updateToast({
-                displayToast: true,
-                toastMessage: "Post is published successfully",
-                toastType: "success",
-              })
+            await createPost(
+              textInput,
+              nft.sellNFTPrice,
+              nft.nftTokenId,
+              nft.nftCollection,
+              nft.nftImageUrl,
+              media,
+              token
             );
             dispatch(clearPostData());
           }}
