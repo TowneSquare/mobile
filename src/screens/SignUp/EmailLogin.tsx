@@ -101,7 +101,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     <EmailContent />,
     <ChooseUsernameContent />,
     <Verify />,
-    <ConnectSocials magic={magic} />,
+    <ConnectSocials magic={magic} signMethod = {"EmailLogin"} />,
     <FindFriends token={token} />,
     // <ExploreCommunities />,
     <ChooseProfilePics />,
@@ -179,7 +179,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
           user.details.username,
           user.details.email
         );
-
+        
         if (!res.error && res.success != false) {
           setUserId(res.userId);
           setToken(user.didToken);
