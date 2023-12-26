@@ -22,20 +22,24 @@ import { updateConnectedSocial } from "../../../api";
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 
-const ConnectSocials = ({ magic }: { magic: any }) => {
+const ConnectSocials = ({ magic, signMethod }: { magic: any, signMethod: string }) => {
   const [isXConected, setXConnected] = useState(false);
   const [isDiscordConnected, setDiscordConnected] = useState(false);
   const dispatch = useAppDispatch();
   const handleXConnection = async () => {
     if (!isXConected) {
       dispatch(disableContinueButton(true));
-      const token = await magic.oauth.loginWithPopup({
-        provider: "twitter",
-        redirectURI: Linking.createURL("SignUp"),
-      });
-      const metadata = await magic.user.getMetadata();
-      dispatch(updateSocialconnect({ twitter: metadata.email }));
-      token ? setXConnected(true) : setXConnected(false);
+      try {
+        const token = await magic.oauth.loginWithPopup({
+          provider: "twitter",
+          redirectURI: Linking.createURL(signMethod),
+        });
+        const metadata = await magic.user.getMetadata();
+        dispatch(updateSocialconnect({ twitter: metadata.email }));
+        token ? setXConnected(true) : setXConnected(false);
+      } catch {
+        dispatch(disableContinueButton(false));
+      }
     } else {
       setXConnected(false);
       dispatch(updateSocialconnect({ twitter: "" }));
@@ -45,18 +49,22 @@ const ConnectSocials = ({ magic }: { magic: any }) => {
   const handleDiscordConnection = async () => {
     if (!isDiscordConnected) {
       dispatch(disableContinueButton(true));
-      const token = await magic.oauth.loginWithPopup({
-        provider: "discord",
-        redirectURI: Linking.createURL("SignUp"),
-      });
-      const metadata = await magic.user.getMetadata();
-      dispatch(updateSocialconnect({ discord: metadata.email }));
-      token ? setDiscordConnected(true) : setDiscordConnected(false);
+      try {
+        const token = await magic.oauth.loginWithPopup({
+          provider: "discord",
+          redirectURI: Linking.createURL(signMethod),
+        });
+        const metadata = await magic.user.getMetadata();
+        dispatch(updateSocialconnect({ discord: metadata.email }));
+        token ? setDiscordConnected(true) : setDiscordConnected(false);
+      } catch {
+        dispatch(disableContinueButton(false));
+      }
     } else {
       dispatch(updateSocialconnect({ discord: "" }));
       setDiscordConnected(false);
     }
-    dispatch(disableContinueButton(true));
+    dispatch(disableContinueButton(false));
   };
 
   return (

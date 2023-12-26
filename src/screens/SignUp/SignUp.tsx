@@ -68,7 +68,7 @@ const SignUp = ({ magic }: SignUpProps) => {
     <ReferralView />,
     <ChooseUsernameContent />,
     <Verify />,
-    <ConnectSocials magic={magic} />,
+    <ConnectSocials magic={magic} signMethod = {"SignUp"} />,
     <FindFriends token={token} />,
     // <ExploreCommunities />,
     <ChooseProfilePics />,
