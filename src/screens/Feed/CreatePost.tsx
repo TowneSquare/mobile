@@ -8,7 +8,7 @@ import {
 } from "react-native";
 const { height, width } = Dimensions.get("window");
 import { useFonts } from "expo-font";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { appColor, fonts, images } from "../../constants";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HashTags from "../../components/createPost/HashTags";
@@ -37,7 +37,19 @@ import { CreatePostProps } from "../../navigations/NavigationTypes";
 import { message } from "../../utils/messageData";
 import axios from "axios";
 import { BACKEND_URL } from "../../../config/env";
+// import {
+//   Aptos,
+//   AptosConfig,
+//   InputSubmitTransactionData,
+//   Network,
+// } from "@aptos-labs/ts-sdk";
+// import {
+//   useWallet,
+//   InputTransactionData,
+// } from "@aptos-labs/wallet-adapter-react";
 const CreatePost = ({ route }: CreatePostProps) => {
+  //const aptosConfig = new AptosConfig();
+  // const aptos = new Aptos();
   const whichPost = route.params.whichPost;
   const [
     showCommunityPostPrivacyBottomSheet,
@@ -81,16 +93,34 @@ const CreatePost = ({ route }: CreatePostProps) => {
     !showAPTPanel && !showAtMentions && !showHashTags;
   const navigation = useNavigation();
 
+  // const { account } = useWallet();
+
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
     "Outfit-Medium": fonts.OUTFIT_NORMAL,
     "Outfit-Regular": fonts.OUTFIT_REGULAR,
     "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
   });
+  // const get = async () => {
+  //   const result = await aptos.getOwnedDigitalAssets({
+  //     ownerAddress: `0x3bc474f3c3c37c9cdb6643c04e5004e5e03b17b1a4200ef807cd990f65b0e194`,
+  //   });
+  //   console.log(result, "nft");
+  // };
+  // useEffect(() => {
+  //   get();
+  // }, []);
 
   if (!isLoaded) {
     return null;
   }
+
+  // const transaction: InputTransactionData = {
+  //   data: {
+  //     function: `0x3::token_coin_swap::list_token_for_swap`,
+  //     functionArguments: [],
+  //   },
+  // };
 
   const createPost = async (
     description: string,
