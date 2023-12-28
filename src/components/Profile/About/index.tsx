@@ -28,8 +28,11 @@ import FollowIcon from '../../../../assets/images/svg/FollowIcon';
 import { updateTipBottomSheet } from '../../../controller/FeedsController';
 const Tab = createMaterialTopTabNavigator();
 import ViewSuperStarsModal from './ViewSuperStarsModal';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { firestoreDB } from '../../../../config/firebase.config';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
+import { ChatsModel } from '../../../models/chats';
 
 type SuperStarReducerState = {
   showSuperStarModal: boolean;
@@ -137,6 +140,40 @@ const About = ({ route }) => {
     following && navigate('FollowersScreen', { screen: 'Following' });
     follow((previous) => !previous);
   };
+  const createChat = async () => {
+    let id = `${Date.now()}`;
+    const _doc: ChatsModel = {
+      _id: id,
+      user: {
+        _id: id,
+        name: 'RealJC',
+      },
+      chatName: 'RealJC Test3',
+      lastMessage: {
+        text: 'Here is last message3',
+        createdAt: Date.now(),
+        user: {
+          _id: id,
+          name: 'RealJC2',
+        },
+      },
+      unreadCount: 0,
+    };
+    const chatRef = doc(firestoreDB, 'chats', id);
+    getDoc(chatRef).then((docSnapshot) => {
+      if (docSnapshot.exists()) {
+        return navigate('Conversation');
+      } else {
+        setDoc(chatRef, _doc)
+          .then(() => {
+            navigate('Conversation');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
+  };
   return (
     <SafeAreaView
       style={{
@@ -182,7 +219,7 @@ const About = ({ route }) => {
               </Text>
             </Pressable>
             <View style={styles.iconView}>
-              <MessageIcon />
+              <MessageIcon onPress={createChat} />
             </View>
             <View style={styles.iconView}>
               <ProfileTipIcon

@@ -6,20 +6,16 @@ import { Avatar } from 'react-native-elements';
 const { height, width } = Dimensions.get('window');
 import GreyBadge from '../../../assets/images/svg/GreyBadge';
 import { useNavigation } from '@react-navigation/native';
-type Data = {
-  name: string;
-  text: string;
-  time: string;
-  noOfUnreadMessages: number;
-};
+import { ChatsModel } from '../../models/chats';
+import { formatTimestamp } from '../../utils/ChatUtils';
 interface Props {
-  data: Partial<Data>;
+  data: ChatsModel;
 }
 
 const size = new sizes(height, width);
 const Chat = ({ data }: Props) => {
   const navigation = useNavigation();
-  const { name, noOfUnreadMessages, text, time } = data;
+
   return (
     <Pressable
       onPress={() => navigation.navigate('Conversation')}
@@ -35,20 +31,21 @@ const Chat = ({ data }: Props) => {
       >
         <View style={styles.container}>
           <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
-            {name}
+            {data.chatName}
           </Text>
           <GreyBadge style={{ flex: 1 }} size={size.getHeightSize(18)} />
           <Text
             style={[
               styles.time,
               {
-                color: noOfUnreadMessages
-                  ? appColor.primaryLight
-                  : appColor.grayLight,
+                color:
+                  data.unreadCount > 0
+                    ? appColor.primaryLight
+                    : appColor.grayLight,
               },
             ]}
           >
-            {time}
+            {formatTimestamp(data.lastMessage.createdAt)}
           </Text>
         </View>
         <View
@@ -59,9 +56,9 @@ const Chat = ({ data }: Props) => {
           }}
         >
           <Text numberOfLines={1} style={styles.text}>
-            {text}
+            {data.lastMessage.text}
           </Text>
-          {noOfUnreadMessages && (
+          {data.unreadCount > 0 && (
             <View
               style={{
                 alignSelf: 'flex-end',
@@ -73,7 +70,7 @@ const Chat = ({ data }: Props) => {
                 alignItems: 'center',
               }}
             >
-              <Text style={styles.unread}>{noOfUnreadMessages}</Text>
+              <Text style={styles.unread}>{data.unreadCount}</Text>
             </View>
           )}
         </View>

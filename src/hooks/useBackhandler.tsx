@@ -7,7 +7,6 @@ const useBackHandler = (backAction: () => boolean): void => {
       'hardwareBackPress',
       backAction
     );
-
     return () => backHandler.remove();
   }, [backAction]);
 };

@@ -148,5 +148,6 @@ const appImages = {
   poster1: require('../../assets/images/png/poster1.png'),
   poster2: require('../../assets/images/png/poster2.png'),
   plug: require('../../assets/images/png/Plugs.png'),
+  defaultAvatar: require('../../assets/images/png/Defaultavatar.png'),
 };
 export const images = appImages;

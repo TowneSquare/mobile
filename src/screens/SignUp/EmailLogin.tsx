@@ -140,7 +140,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
         showLoader(true);
         const token = await magic.auth.loginWithEmailOTP({ email });
         dispatch(updateDidToken(token));
-
+        console.log(token);
         const accountInfo = await magic.aptos.getAccountInfo();
         dispatch(updateAccountInfo(accountInfo));
 
@@ -162,6 +162,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
         }
       } catch (e) {
         showLoader(false);
+        console.log(e);
         return;
       }
     }

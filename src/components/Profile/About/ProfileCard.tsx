@@ -364,6 +364,7 @@ const styles = StyleSheet.create({
   imageShadow: {
     width: size.getHeightSize(84),
     borderRadius: 200,
-    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

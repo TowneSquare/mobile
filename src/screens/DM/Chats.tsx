@@ -1,10 +1,15 @@
 import { View, Text, Dimensions, StyleSheet, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor, images } from '../../constants';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { sizes } from '../../utils';
 import HorizontalMoreIcon from '../../../assets/images/svg/HorizontalMoreIcon';
 import Chat from '../../components/DM/Chat';
+import { ChatsModel } from '../../models/chats';
+import { collection, orderBy, query, onSnapshot } from 'firebase/firestore';
+import { firestoreDB } from '../../../config/firebase.config';
 const { height, width } = Dimensions.get('window');
+
 const size = new sizes(height, width);
 interface Data {
   text: string;
@@ -51,7 +56,28 @@ const data: Data[] = [
   },
 ];
 const Chats = () => {
- 
+  const [chats, setChats] = useState<ChatsModel[]>(null);
+  const [isLoading, setisLoading] = useState(true);
+  useEffect(() => {
+    const chatQuery = query(
+      collection(firestoreDB, 'chats'),
+      orderBy('_id', 'desc')
+    );
+    const unsubscribe = onSnapshot(
+      chatQuery,
+      (querySnapshot) => {
+        const chatRooms = querySnapshot.docs.map(
+          (doc) => doc.data() as ChatsModel
+        );
+        setChats(chatRooms);
+        setisLoading(false);
+      },
+      (error) => {
+        console.error('Error in onSnapshot', error);
+      }
+    );
+    return () => unsubscribe();
+  }, []);
   return (
     <SafeAreaView
       style={{
@@ -68,7 +94,11 @@ const Chats = () => {
           }}
         />
       </View>
-      <FlatList data={data} renderItem={({ item }) => <Chat data={item} />} />
+      <FlatList
+        ListEmptyComponent={() => <Text>Empty</Text>}
+        data={chats}
+        renderItem={({ item }) => <Chat data={item} />}
+      />
     </SafeAreaView>
   );
 };

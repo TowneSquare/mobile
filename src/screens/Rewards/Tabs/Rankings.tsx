@@ -29,8 +29,12 @@ const Rankings = () => {
     }, [])
   );
   useBackHandler(() => {
-    setDropdown(false);
-    return true;
+    if (showDropdown === true) {
+      setDropdown(false);
+      return true;
+    } else {
+      return false;
+    }
   });
   return (
     <View
@@ -104,7 +108,12 @@ const Rankings = () => {
           renderItem={({ item }) => Earners(item, () => setDropdown(false))}
         />
       </View>
-      <MyEarning name="" rank={9900} username="" callBack={()=>setDropdown(false)}/>
+      <MyEarning
+        name=""
+        rank={9900}
+        username=""
+        callBack={() => setDropdown(false)}
+      />
     </View>
   );
 };
