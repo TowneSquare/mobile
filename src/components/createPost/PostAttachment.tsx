@@ -29,7 +29,7 @@ const PostAttachment = () => {
     attachedNft: state.CreatePostController.posts.nft,
   }));
   const disabled =
-    (mediaValue && mediaValue.length > 1) || attachedNft !== null;
+    (mediaValue && mediaValue.length > 1) || attachedNft.nftImageUrl ;
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,

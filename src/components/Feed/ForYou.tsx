@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Pressable,
 } from "react-native";
-import { memo, useRef } from "react";
+import { memo, useRef, useEffect } from "react";
 import { sizes } from "../../utils";
 import { appColor, fonts, images } from "../../constants";
 import { useFonts } from "expo-font";
@@ -67,6 +67,10 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
   };
   const myPost = userId == data?.customer?._id;
   const timePost = getPostTime(data?.createdAt);
+  // useEffect(() => {
+  //   const timePost = getPostTime(data?.createdAt);
+  // }, [])
+  
   let content;
 
   const type_of_post = data?.repost
@@ -602,6 +606,9 @@ console.log(data, "for you")
                 postId={userPost._id}
                 userId={userPost.customer._id}
               />
+              <Text onPress={handleNavigation} style={styles.message}>
+                {data.description}
+              </Text>
               <View
                 style={[
                   styles.mediaContainer,

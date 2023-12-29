@@ -26,10 +26,9 @@ const ForYouPosts = () => {
   const userToken = useAppSelector((state) => state.USER.didToken);
   const AllPost = useAppSelector((state) => state.CreatePostController.AllPost);
   useEffect(() => {
-    console.log("all", userToken)
     dispatch(getAllPost(userToken));
   }, []); 
- console.log(AllPost.length, "all_post")
+ 
   const EmptyComponent = () => {
     return (
       <SafeAreaView

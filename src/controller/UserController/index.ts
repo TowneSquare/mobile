@@ -74,6 +74,7 @@ export interface UserData {
   nickname: string;
   username: string;
   email: string;
+  badge:Array<string>;
   referralCode: string;
   followers: Array<friends>;
   following: Array<friends>;
@@ -138,6 +139,7 @@ const initialState: UserState = {
     profileImage:
       "https://townesquare-media.s3.amazonaws.com/20231124T025800.147Z_28i87s00i6s.jpg",
     followers: [],
+    badge:[],
     following: [
       {
         _id: "655d71b07123f56056b546d8",

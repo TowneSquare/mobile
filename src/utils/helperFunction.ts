@@ -27,11 +27,15 @@ export const getPostTime = (time: string):string => {
   const currentTime = Math.floor(new Date().getTime()/1000.0)
   const postCreationTime = Math.floor(new Date(time).getTime()/1000.0)
   const timeElapsed = currentTime - postCreationTime
+  console.log(timeElapsed)
   if(timeElapsed == 0){
     return 'Just now'
   } else if(timeElapsed <= 59){
     return `${timeElapsed}s`
-  } else if(timeElapsed >= 3600 && timeElapsed <= 86400){
+  } else if(timeElapsed > 59 && timeElapsed <= 3600){
+    return `${Math.floor(timeElapsed/60)}m`
+  }
+  else if(timeElapsed >= 3600 && timeElapsed <= 86400){
     return `${Math.floor(timeElapsed/3600)}h`
   }else if(timeElapsed > 86400 && timeElapsed <= 604800){
     return `${Math.floor(timeElapsed/86400)}d`

@@ -122,25 +122,17 @@ const CreatePost = ({ route }: CreatePostProps) => {
   //   },
   // };
 
-  const createPost = async (
-    description: string,
-    sellNFTPrice: string,
-    nftTokenId: string,
-    nftCollection: string,
-    nftImageUrl: string,
-    file: string,
-    token: string
-  ) => {
+  const createPost = async () => {
     try {
       const res = await axios.post(
         `${BACKEND_URL}posts/create`,
         {
-          description,
-          sellNFTPrice,
-          nftTokenId,
-          nftCollection,
-          nftImageUrl,
-          file,
+          description: textInput,
+          sellNFTPrice: nft.sellNFTPrice,
+          nftTokenId: nft.nftTokenId,
+          nftCollection: nft.nftCollection,
+          nftImageUrl: nft.nftImageUrl,
+          file: media,
         },
         {
           headers: {
@@ -157,7 +149,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
         })
       );
     } catch (error) {
-      console.log(error?.response?.data);
+      console.log(error?.response?.data, "eror message");
       dispatch(
         updateToast({
           displayToast: true,
@@ -167,7 +159,6 @@ const CreatePost = ({ route }: CreatePostProps) => {
       );
     }
   };
-
   return (
     <SafeAreaView
       style={{
@@ -182,15 +173,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
         <Pressable
           onPress={async () => {
             navigation.dispatch(StackActions.pop(1));
-            await createPost(
-              textInput,
-              nft.sellNFTPrice,
-              nft.nftTokenId,
-              nft.nftCollection,
-              nft.nftImageUrl,
-              media,
-              token
-            );
+            createPost();
             dispatch(clearPostData());
           }}
           style={styles.publishButton}

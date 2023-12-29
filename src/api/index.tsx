@@ -291,6 +291,7 @@ export const getUserInfo = async (
       nickname: result.nickname,
       username: result.username,
       email: result.email,
+      badge: result.badge,
       referralCode: result.referralCode,
       followers: result.followers,
       following: result.following,

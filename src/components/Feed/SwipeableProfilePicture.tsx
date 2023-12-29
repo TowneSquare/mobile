@@ -80,6 +80,7 @@ const ProfilePicture = ({
       "https://townesquare-media.s3.amazonaws.com/20231124T025800.147Z_28i87s00i6s.jpg",
     followers: [],
     following: [],
+    badge:[],
     posts: [
       {
         _id: "655df7a347784b1665992617",

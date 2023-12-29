@@ -47,7 +47,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
       : data?.description
       ? FeedContent.MESSAGE_ONLY
       : FeedContent.EMPTY;
-  console.log(type_of_post, "SPContent", data, );
+ 
   const userPost: PostData = data;
   const timepost = getPostTime(data?.createdAt);
   let content;
@@ -389,6 +389,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 userId={userPost.customer._id}
                 profileImageUri={userPost.customer.profileImage}
               />
+               <Text style={styles.message}>{userPost.description}</Text>
               <View
                 style={[
                   styles.mediaContainer,

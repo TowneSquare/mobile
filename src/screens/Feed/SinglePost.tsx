@@ -30,7 +30,7 @@ const SinglePost = ({ route }: SinglePostProps) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch()
 
-console.log(props, "props")
+
 
   // const data = {
   //   id: '9',
