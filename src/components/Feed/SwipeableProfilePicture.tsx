@@ -306,7 +306,7 @@ const ProfilePicture = ({
   const getUser = async () => {
     const result = await getUserInfo(userId, token);
     setUserData(result);
-    console.log(result, "result")
+    //console.log(result, "result")
   };
 
   //useMemo(() => getUser(), [userId]) 
