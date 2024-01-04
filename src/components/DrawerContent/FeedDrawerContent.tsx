@@ -21,10 +21,10 @@ const FeedDrawerContent = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
   const {username,nickname,followers,following,aptosName} = useAppSelector((state) => ({
-    username:state.USER.UserData.username,
-    nickname:state.USER.UserData.nickname,
-    followers: state.USER.UserData.followers,
-    following:state.USER.UserData.following,
+    username:state.USER.UserData?.username,
+    nickname:state.USER.UserData?.nickname,
+    followers: state.USER.UserData?.followers,
+    following:state.USER.UserData?.following,
     aptosName: state.USER.aptosName
   }) )
   let [isLoaded] = useFonts({
@@ -104,11 +104,11 @@ const FeedDrawerContent = () => {
         </View> */}
         <View style={styles.tagContainer}>
           <Text style={styles.tagText}>Following</Text>
-          <Text style={styles.tagSubText}>{following.length}</Text>
+          <Text style={styles.tagSubText}>{following?.length}</Text>
         </View>
         <View style={styles.tagContainer}>
           <Text style={styles.tagText}>Followers</Text>
-          <Text style={styles.tagSubText}>{followers.length}</Text>
+          <Text style={styles.tagSubText}>{followers?.length}</Text>
         </View>
       </View>
       <View

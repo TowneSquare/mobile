@@ -31,7 +31,7 @@ type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
-  const title = useAppSelector((state) => state.USER.UserData.username)
+  const title = useAppSelector((state) => state.USER.UserData?.username)
 
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,

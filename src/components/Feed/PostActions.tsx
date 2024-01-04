@@ -21,8 +21,8 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { likePost } from "../../api";
-import { Likes, Reposts, rePost } from "../../controller/createPost";
+import { getPostById, likePost } from "../../api";
+import { Likes, PostData, Reposts, rePost } from "../../controller/createPost";
 import { getUserInfo } from "../../api";
 import { UserData, bookMarkPost } from "../../controller/UserController";
 import { useNavigation } from "@react-navigation/native";
@@ -38,6 +38,7 @@ interface Props {
   showShareIcon?: boolean;
   postId: string;
   userId: string;
+  handleNavigation?: () => {};
 }
 const PostActions = ({
   noOfComments,
@@ -70,7 +71,7 @@ const PostActions = ({
       "https://townesquare-media.s3.amazonaws.com/20231124T025800.147Z_28i87s00i6s.jpg",
     followers: [],
     following: [],
-    badge:[],
+    badge: [],
     posts: [
       {
         _id: "655df7a347784b1665992617",
@@ -285,19 +286,27 @@ const PostActions = ({
       },
     ],
   });
+  const [postData, setPostData] = useState<PostData>();
   const [noOflikes, setNoOflikes] = useState<number>(Likes?.length);
   const [noOfrepost, setNoOfrepost] = useState<number>(Repost?.length);
   const getUser = async () => {
     const result = await getUserInfo(userId, token);
     setUserData(result);
   };
+  const getPostData = async () => {
+    try {
+      const res = await getPostById(token, postId);
+      setPostData(res);
+    } catch (error) {}
+  };
 
   const user = useAppSelector((state) => state.USER.UserData._id);
   const BookMarks = useAppSelector((state) => state.USER.BookMarks);
 
   useEffect(() => {
-    getUser()
-  }, [])
+    getUser();
+    getPostData();
+  }, [postId]);
   const retweet = useSharedValue(0);
   const bookmark = useSharedValue(0);
   const liked = useSharedValue(0);
@@ -436,7 +445,7 @@ const PostActions = ({
         }}
       >
         <CommentIcon
-          onPress={() => naviagtion.navigate("SinglePost")}
+          onPress={() => naviagtion.navigate("SinglePost" as any, postData)}
           size={size.getHeightSize(24)}
         />
         <Text

@@ -87,7 +87,10 @@ const About = ({ route }) => {
   const userId = useAppSelector((state) => state.USER.UserData._id);
   const USERDATA = useAppSelector((state) => state.USER.UserData);
 
-  //useMemo(() => dispatch(getUserData({userId:userId, token:token})), [])
+  useMemo(() => {
+    dispatch(getUserData({ userId: "658e89ff83d916e7f200f1f6", token: token }));
+    console.log("memo - runnning")
+  }, [userId]);
   // useEffect(() => {
   //   dispatch(getUserData({token, userId}))
   // }, [])

@@ -51,7 +51,7 @@ interface Props {
 const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
   const navigation = useNavigation();
   const videoRef = useRef(null);
-  const userId = useAppSelector((state) => state.USER.UserData._id);
+  const userId = useAppSelector((state) => state.USER.UserData?._id);
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
     "Outfit-Medium": fonts.OUTFIT_NORMAL,

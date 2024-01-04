@@ -1,4 +1,3 @@
-
 import { PostData } from "./../createPost/index";
 import { images } from "./../../constants/images";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
@@ -60,9 +59,9 @@ export interface UserCommentData {
 }
 
 export interface NFTInfoArray {
-  nftTokenId:string
-  nftImageUrl:string
-  nftCollection:string
+  nftTokenId: string;
+  nftImageUrl: string;
+  nftCollection: string;
 }
 
 export interface UserData {
@@ -74,7 +73,7 @@ export interface UserData {
   nickname: string;
   username: string;
   email: string;
-  badge:Array<string>;
+  badge: Array<string>;
   referralCode: string;
   followers: Array<friends>;
   following: Array<friends>;
@@ -83,10 +82,10 @@ export interface UserData {
   comments: Array<UserCommentData>;
   createdAt: string;
   superstars: {
-    _id:string
-    nftInfoArray: NFTInfoArray[]
-    customerId:string
-    createdAt:string
+    _id: string;
+    nftInfoArray: NFTInfoArray[];
+    customerId: string;
+    createdAt: string;
   };
 }
 interface UserState {
@@ -127,7 +126,7 @@ interface followRequest {
 }
 const initialState: UserState = {
   UserData: {
-    _id: "655ab007ce8937ff6d512885",
+    _id: "658e89ff83d916e7f200f1f6",
     issuer: "did:ethr:0x8880807e9188a75767c647374d83272d031a0b42",
     aptosWallet: "0x8880807e9188a75767c647374d83272d031a0b42",
     nickname: "TO1",
@@ -139,7 +138,7 @@ const initialState: UserState = {
     profileImage:
       "https://townesquare-media.s3.amazonaws.com/20231124T025800.147Z_28i87s00i6s.jpg",
     followers: [],
-    badge:[],
+    badge: [],
     following: [
       {
         _id: "655d71b07123f56056b546d8",
@@ -766,24 +765,29 @@ export const followUser = createAsyncThunk(
   }
 );
 
-export const unFollowUser = createAsyncThunk('User/Unfollow',async ({token, followId}:any) => {
-  try {
-    await axios.post(`${BACKEND_URL}user/unfollow-friends`, {
-      followId
-    }, {
-      headers:{
-        'Content-Type': 'application/x-www-form-urlencoded',
-         Authorization: token,
-      }
-    })
-  } catch (error) {
-    
+export const unFollowUser = createAsyncThunk(
+  "User/Unfollow",
+  async ({ token, followId }: any) => {
+    try {
+      await axios.post(
+        `${BACKEND_URL}user/unfollow-friends`,
+        {
+          followId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: token,
+          },
+        }
+      );
+    } catch (error) {}
   }
-})
+);
 
 export const getUserData = createAsyncThunk(
   "User/getUserData",
-  async ({ userId, token }: any, thunkAPI) => {
+  async ({ userId, token }: any): Promise<UserData> => {
     try {
       const res = await axios.get(`${BACKEND_URL}user/${userId}`, {
         headers: {
@@ -793,9 +797,50 @@ export const getUserData = createAsyncThunk(
         },
       });
       const userData: UserData = res.data;
-      return userData;
+      return {
+        _id: userData._id,
+        issuer: userData.issuer,
+        profileImage: userData.profileImage || "",
+        bio: userData.bio || "",
+        aptosWallet: userData.aptosWallet || "",
+        nickname: userData.nickname || "",
+        username: userData.username || "",
+        email: userData.email || "",
+        badge: userData.badge || [],
+        referralCode: userData.referralCode || "",
+        followers: userData.followers || [],
+        following: userData.following || [],
+        posts: userData.posts || [],
+        groups: userData.groups || [],
+        comments: userData.comments || [],
+        createdAt: userData.createdAt || "",
+        superstars: userData.superstars,
+      };
     } catch (error) {
-      //return thunkAPI.rejectWithValue(error);
+      return {
+        _id: "",
+        issuer: "",
+        profileImage: "",
+        bio: "",
+        aptosWallet: "",
+        nickname: "",
+        username: "",
+        email: "",
+        badge: [],
+        referralCode: "",
+        followers: [],
+        following: [],
+        posts: [],
+        groups: [],
+        comments: [],
+        createdAt: "",
+        superstars: {
+          _id: "",
+          nftInfoArray: [],
+          customerId: "",
+          createdAt: "",
+        },
+      };
     }
   }
 );
@@ -829,7 +874,7 @@ export const getAptosName = createAsyncThunk(
       const aptosName: string = res.data;
       return aptosName;
     } catch (error) {
-      return "unavailable"
+      return "unavailable";
     }
   }
 );
@@ -1006,7 +1051,7 @@ export const USER = createSlice({
     },
     deleteSelectedSuperStar: (state, action: PayloadAction<string>) => {
       state.selectedSuperStars = state.selectedSuperStars.filter(
-        (obj) => obj["nftTokenId"]  !== action.payload
+        (obj) => obj["nftTokenId"] !== action.payload
       );
     },
     resetSelectedSuperStar: (state) => {
@@ -1029,6 +1074,32 @@ export const USER = createSlice({
     });
     builder.addCase(getUserData.fulfilled, (state, action) => {
       state.UserData = action.payload;
+    });
+    builder.addCase(getUserData.rejected, (state, action) => {
+      state.UserData = {
+        _id: "",
+        issuer: "",
+        profileImage: "",
+        bio: "",
+        aptosWallet: "",
+        nickname: "",
+        username: "",
+        email: "",
+        badge: [],
+        referralCode: "",
+        followers: [],
+        following: [],
+        posts: [],
+        groups: [],
+        comments: [],
+        createdAt: "",
+        superstars: {
+          _id: "",
+          nftInfoArray: [],
+          customerId: "",
+          createdAt: "",
+        },
+      };
     });
     builder.addCase(getAptosName.fulfilled, (state, action) => {
       state.aptosName = action.payload;

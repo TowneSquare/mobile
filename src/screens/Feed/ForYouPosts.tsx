@@ -28,6 +28,8 @@ const ForYouPosts = () => {
   useEffect(() => {
     dispatch(getAllPost(userToken));
   }, []); 
+
+  console.log(AllPost, "allpost")
  
   const EmptyComponent = () => {
     return (
