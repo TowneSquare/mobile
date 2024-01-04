@@ -83,8 +83,7 @@ const Chats = () => {
       style={{
         flex: 1,
         backgroundColor: appColor.feedBackground,
-      }}
-    >
+      }}>
       <View style={styles.header}>
         <HorizontalMoreIcon size={size.getHeightSize(24)} />
         <Text style={styles.headerText}>Messages</Text>
@@ -97,8 +96,8 @@ const Chats = () => {
       <FlatList
         ListEmptyComponent={() => <Text>Empty</Text>}
         data={chats}
-        renderItem={({ item }) => <Chat data={item} />}
-      />
+        renderItem={({ item }) => <Chat data={item} />} 
+        />
     </SafeAreaView>
   );
 };
@@ -112,7 +111,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     zIndex: 2,
   },
-
   header: {
     flexDirection: 'row',
     alignItems: 'center',

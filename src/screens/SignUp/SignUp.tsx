@@ -14,7 +14,7 @@ import {
 } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { appColor, fonts } from "../../constants";
-import { sizes } from "../../utils";
+import { setLoginSession, sizes } from "../../utils";
 import ReferralView from "../../components/SignUp/Referral/ReferralView";
 import TranslationForwardButton from "../../components/SignUp/TranslationForwardButton";
 import Verify from "../../components/SignUp/ConnectSocialsAndVerify/Verify";
@@ -31,7 +31,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import SignupTransitionBackButton from "../../components/SignUp/SignupTransitionBackButton";
 import { useAppSelector } from "../../controller/hooks";
 import Loader from "../../../assets/svg/Loader";
-import { signup, updateConnectedSocial, uploadProfileImage } from "../../api";
+import { checkSignup, signup, updateConnectedSocial, uploadProfileImage } from "../../api";
 import { useNavigation } from "@react-navigation/native";
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
@@ -42,6 +42,7 @@ const SignUp = ({ magic }: SignUpProps) => {
   const navigation = useNavigation();
   const [userId, setUserId] = useState("");
   const [token, setToken] = useState("");
+  const loaderRef = useRef();
   const padding = useSafeAreaInsets();
   const {
     usernameError,
@@ -67,7 +68,7 @@ const SignUp = ({ magic }: SignUpProps) => {
     <ReferralView />,
     <ChooseUsernameContent />,
     <Verify />,
-    <ConnectSocials magic={magic} />,
+    <ConnectSocials magic={magic} signMethod = {"SignUp"} />,
     <FindFriends token={token} />,
     // <ExploreCommunities />,
     <ChooseProfilePics />,
@@ -89,15 +90,40 @@ const SignUp = ({ magic }: SignUpProps) => {
     return url.split(/[#?]/)[0].split(".").pop().trim();
   }
 
+  const showLoader = (show = true) => {
+    if (loaderRef.current && show)
+      (loaderRef.current as any).setNativeProps({ style: { display: 'flex' } });
+
+    if (loaderRef.current && !show)
+      (loaderRef.current as any).setNativeProps({ style: { display: 'none' } });
+  };
+
+
   const handleNextSlide = async () => {
     const newIndex = viewIndex + 1;
+
+    if (viewIndex == 0) {
+      try {
+        showLoader(true);
+        const res = await checkSignup(user.didToken)
+        if (res.isExist && res.isExist == true) {
+          await setLoginSession(res.wallet);
+          navigation.navigate('Congratulations');
+        }
+      } catch (e) {
+        showLoader(false);
+        return;
+      }
+    }
+
     if (newIndex < views.length && flatListRef.current) {
       setViewIndex((previous) => previous + 1);
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
       if (newIndex == 2) {
+        const issuer = user.metadata !== undefined ? user.metadata.issuer : "";
         const res = await signup(
           user.didToken,
-          user.metadata.issuer,
+          issuer,
           user.accountInfo.address,
           user.details.Nickname,
           user.details.username,

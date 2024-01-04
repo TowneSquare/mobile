@@ -101,7 +101,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     <EmailContent />,
     <ChooseUsernameContent />,
     <Verify />,
-    <ConnectSocials magic={magic} />,
+    <ConnectSocials magic={magic} signMethod = {"EmailLogin"} />,
     <FindFriends token={token} />,
     // <ExploreCommunities />,
     <ChooseProfilePics />,
@@ -140,7 +140,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
         showLoader(true);
         const token = await magic.auth.loginWithEmailOTP({ email });
         dispatch(updateDidToken(token));
-        console.log(token);
+
         const accountInfo = await magic.aptos.getAccountInfo();
         dispatch(updateAccountInfo(accountInfo));
 
@@ -162,7 +162,6 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
         }
       } catch (e) {
         showLoader(false);
-        console.log(e);
         return;
       }
     }
@@ -180,7 +179,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
           user.details.username,
           user.details.email
         );
-
+        
         if (!res.error && res.success != false) {
           setUserId(res.userId);
           setToken(user.didToken);
