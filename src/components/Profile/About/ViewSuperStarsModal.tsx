@@ -9,8 +9,8 @@ import {
   Modal,
   Animated,
   ScrollView,
-  BackHandler,
 } from 'react-native';
+import { BlurView } from 'expo-blur';
 import { appColor } from '../../../constants';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { sizes } from '../../../utils';
@@ -88,6 +88,7 @@ const ViewSuperStarsModal = ({ imageUri, visibility, close }: Props) => {
       style={{}}
       visible={visibility}
     >
+      
       <View style={styles.container}>
         <AntDesign
           name="arrowleft"

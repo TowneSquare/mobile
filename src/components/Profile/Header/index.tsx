@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  Pressable,
-  Dimensions,
-} from 'react-native';
+import { StyleSheet, View, Text, Pressable, Dimensions } from 'react-native';
 import { appColor, fonts } from '../../../constants';
 import { useFonts } from 'expo-font';
 import { useAppDispatch } from '../../../controller/hooks';
@@ -24,11 +18,17 @@ type Props = {
   description?: string;
   height?: number;
   typeOfProfile: 'myProfile' | 'theirProfile';
+  onMoreIconPress?: () => void;
 };
 
 export const HEADER_HEIGHT = 130;
 
-export const Header = ({ title, height, typeOfProfile }: Props) => {
+export const Header = ({
+  title,
+  height,
+  onMoreIconPress,
+  typeOfProfile,
+}: Props) => {
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -48,7 +48,7 @@ export const Header = ({ title, height, typeOfProfile }: Props) => {
   return (
     <View style={[styles.root, { height: size.getHeightSize(64) }]}>
       {typeOfProfile === 'myProfile' ? (
-        <Threelines />
+        <Threelines onPress={() => onMoreIconPress?.()} />
       ) : (
         <AntDesign
           name="arrowleft"

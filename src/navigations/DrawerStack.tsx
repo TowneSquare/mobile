@@ -14,19 +14,32 @@ import CommunityDrawerContent from '../components/DrawerContent/CommunityDrawerC
 import { useAppSelector } from '../controller/hooks';
 import ChannelChat from '../screens/Community/CreateChannel/ChannelChat';
 const { height, width } = Dimensions.get('window');
-
+type tabs = 'Main' | 'UserProfile' | 'Reward' | 'Chats' | 'Community';
 const size = new sizes(height, width);
 const DrawerNavigation = () => {
   const currentTab = useAppSelector(
     (state) => state.FeedsSliceController.currentTab
   );
-  const memoizedCurrentTab = useMemo(() => currentTab, [currentTab]);
+
+  const memoizedCurrentTab = useMemo(() => currentTab, [currentTab]) as tabs;
   const Drawer = createDrawerNavigator();
   const getWidthDrawer = () => {
-    if (memoizedCurrentTab === 'Main') {
+    if (memoizedCurrentTab === 'Main' || memoizedCurrentTab === 'UserProfile') {
       return size.getWidthSize(298);
     } else if (memoizedCurrentTab === 'Community') {
       return size.getWidthSize(312);
+    }
+  };
+  const shoulddisableSwipe = (tab: tabs) => {
+    switch (tab) {
+      case 'Chats':
+        return false;
+      case 'Community':
+        return false;
+      case 'Reward':
+        return false;
+      default:
+        return true;
     }
   };
   return (
@@ -36,9 +49,13 @@ const DrawerNavigation = () => {
         drawerStyle: {
           width: getWidthDrawer(),
         },
+        swipeEnabled: shoulddisableSwipe(memoizedCurrentTab),
       }}
       drawerContent={(props: any) => {
-        if (memoizedCurrentTab === 'Main') {
+        if (
+          memoizedCurrentTab === 'Main' ||
+          memoizedCurrentTab === 'UserProfile'
+        ) {
           return <FeedDrawerContent {...props} />;
         } else if (memoizedCurrentTab === 'Community') {
           return <CommunityDrawerContent {...props} />;

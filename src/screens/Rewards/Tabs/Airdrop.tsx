@@ -76,10 +76,13 @@ const Airdrop = () => {
             </Text>
           </View>
         </View>
-        <View style={styles.shareRow}>
+        <Pressable
+          onPress={() => navigation.navigate('ShareReferralCode')}
+          style={styles.shareRow}
+        >
           <ShareIcon size={size.getHeightSize(24)} />
           <Text style={styles.shareText}>Share my referral code</Text>
-        </View>
+        </Pressable>
         <Pressable
           onPress={() => navigation.navigate('MyRefferals')}
           style={styles.row1}

@@ -1,13 +1,11 @@
 import { View, Text, Dimensions, Pressable, StyleSheet } from 'react-native';
 import BackButton from './BackButton';
-import ContinueButton from './ContinueButton';
 import BottomsheetWrapper from '../../shared/BottomsheetWrapper';
 import * as Animatable from 'react-native-animatable';
 import { updateBottomSheet } from '../../controller/BottomSheetController';
 import Info from '../../../assets/images/svg/Info';
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
-import { useNavigation } from '@react-navigation/native';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 const { height, width } = Dimensions.get('window');
 interface Props {
@@ -18,8 +16,6 @@ interface Props {
 const size = new sizes(height, width);
 const CompleteSignUpModal = ({ callBack, buttonText, signupstate }: Props) => {
   const dispatch = useAppDispatch();
-
-  const navigation = useNavigation();
   const isVisible = useAppSelector(
     (state) => state.bottomSheetController.isBottomSheetOpen
   );
@@ -63,7 +59,6 @@ const CompleteSignUpModal = ({ callBack, buttonText, signupstate }: Props) => {
           onPress={() => {
             dispatch(updateBottomSheet(false));
             callBack();
-            // navigation.navigate(navigateTo as never);
           }}
           style={styles.button}
         >
@@ -73,7 +68,6 @@ const CompleteSignUpModal = ({ callBack, buttonText, signupstate }: Props) => {
           marginTop={8}
           onPress={() => {
             dispatch(updateBottomSheet(false));
-            navigation.goBack();
           }}
         />
       </Animatable.View>

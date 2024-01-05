@@ -6,6 +6,7 @@ import {
   Image,
   Pressable,
   Animated,
+  BackHandler,
 } from 'react-native';
 import { useContext, useState, useEffect } from 'react';
 const { height, width } = Dimensions.get('window');
@@ -14,13 +15,17 @@ import { sizes } from '../../utils';
 import { appColor, images } from '../../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import useBackHandler from '../../hooks/useBackhandler';
 import { useNavigation } from '@react-navigation/native';
 const size = new sizes(height, width);
 
 const AttachNft = () => {
-  const { isModalVisible, handleModalState } = useContext(
-    SelectedCollectionContext
-  );
+  const { handleModalState } = useContext(SelectedCollectionContext);
+  useBackHandler(() => {
+    handleModalState();
+    return true;
+  });
+
   const navigation = useNavigation();
   return (
     <SafeAreaView

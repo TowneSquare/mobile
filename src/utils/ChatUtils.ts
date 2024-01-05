@@ -1,12 +1,12 @@
-import moment from "moment";
+import moment from 'moment';
 import {
   Data,
   ChatDate,
   ChatText,
   DataWithoutChatDate,
-} from "../models/conversationModel";
+} from '../models/conversationModel';
 
-import { nanoid } from "@reduxjs/toolkit";
+import { nanoid } from '@reduxjs/toolkit';
 export class ChatClass {
   private message: Array<any> = [];
   constructor(message: any[]) {
@@ -14,7 +14,7 @@ export class ChatClass {
   }
   private groupedDays() {
     return this.message.reduce((acc, el, i) => {
-      const messageDay = moment(el.createdAt).format("YYYY-MM-DD");
+      const messageDay = moment(el.createdAt).format('YYYY-MM-DD');
       if (acc[messageDay]) {
         return { ...acc, [messageDay]: acc[messageDay].concat([el]) };
       }
@@ -30,7 +30,7 @@ export class ChatClass {
   generateItems() {
     const days = this.groupedDays();
     const sortedDays = Object.keys(days).sort(
-      (x, y) => moment(y, "YYYY-MM-DD").unix() - moment(x, "YYYY-MM-DD").unix()
+      (x, y) => moment(y, 'YYYY-MM-DD').unix() - moment(x, 'YYYY-MM-DD').unix()
     );
     const items = sortedDays.reduce((acc, date) => {
       const sortedMessages = days[date].sort((x, y) => {
@@ -38,7 +38,7 @@ export class ChatClass {
       });
       return acc.concat([
         ...sortedMessages,
-        { dateType: "day", date, id: date },
+        { dateType: 'day', date, id: date },
       ]);
     }, []);
     return items;
@@ -56,7 +56,7 @@ export class ChatClass {
           if (currentGroup.length > 0) {
             if (currentGroup.length > 1) {
               sortedConversation.push({
-                sortedType: "sorted",
+                sortedType: 'sorted',
                 content: currentGroup,
                 id: nanoid(),
               });
@@ -71,7 +71,7 @@ export class ChatClass {
         if (currentGroup.length > 0) {
           if (currentGroup.length > 1) {
             sortedConversation.push({
-              sortedType: "sorted",
+              sortedType: 'sorted',
               content: currentGroup,
               id: nanoid(),
             });
@@ -86,7 +86,7 @@ export class ChatClass {
     if (currentGroup.length > 0) {
       if (currentGroup.length > 1) {
         sortedConversation.push({
-          sortedType: "sorted",
+          sortedType: 'sorted',
           content: currentGroup,
           id: nanoid(),
         });
@@ -95,7 +95,7 @@ export class ChatClass {
       }
     }
     sortedConversation.forEach((group) => {
-      if (group.sortedType === "sorted") {
+      if (group.sortedType === 'sorted') {
         for (let i = group.content.length - 1; i > 0; i--) {
           const currentCreatedAt = new Date(group.content[i].createdAt);
           const previousCreatedAt = new Date(group.content[i - 1].createdAt);
@@ -123,11 +123,38 @@ export class ChatClass {
     const diff: number = today.getTime() - compDate.getTime();
 
     if (compDate.getTime() === today.getTime()) {
-      return "Today";
+      return 'Today';
     } else if (diff <= 24 * 60 * 60 * 1000) {
-      return "Yesterday";
+      return 'Yesterday';
     } else {
       return compDate.toDateString();
     }
+  }
+}
+
+export function formatTimestamp(timestamp: number) {
+  const date = new Date(timestamp);
+  const now = new Date();
+  const sameDay =
+    now.getDate() === date.getDate() &&
+    now.getMonth() === date.getMonth() &&
+    now.getFullYear() === date.getFullYear();
+
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
+  const isYesterday =
+    yesterday.getDate() === date.getDate() &&
+    yesterday.getMonth() === date.getMonth() &&
+    yesterday.getFullYear() === date.getFullYear();
+
+  if (sameDay) {
+    return date.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    }); // returns "HH:MM"
+  } else if (isYesterday) {
+    return 'Yesterday';
+  } else {
+    return date.toLocaleDateString(); // returns "MM/DD/YYYY"
   }
 }

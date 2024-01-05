@@ -27,6 +27,12 @@ import Aptos from "../../../assets/images/svg/Aptos";
 import { updateTipBottomSheet } from "../../controller/FeedsController";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
+enum STATUS {
+  idle,
+  loading,
+  success,
+}
+
 const TipBottomSheet = () => {
   const dispatch = useAppDispatch();
   // const visibility = useAppSelector(
@@ -43,9 +49,9 @@ const TipBottomSheet = () => {
     })
   );
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const initialSnapPoints = useMemo(() => ["CONTENT_HEIGHT"], []);
-  const [tip, setTip] = useState<string | undefined>("0.1");
-  const [loading, setLoading] = useState<"loading" | "idle" | "succes">("idle");
+  const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
+  const [tip, setTip] = useState<string | undefined>('0.1');
+  const [tipStatus, setTipStatus] = useState<STATUS>(STATUS.idle);
   const renderBackdrop = useCallback(
     (props: any) => (
       <BottomSheetBackdrop
@@ -91,12 +97,16 @@ const TipBottomSheet = () => {
     handleContentLayout,
   } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
   const startLoading = () => {
-    setLoading("loading");
+    setTipStatus(STATUS.loading);
     setTimeout(() => {
-      setLoading("succes");
+      setTipStatus(STATUS.success);
     }, 4000);
   };
-
+  function onClose() {
+    dispatch(updateTipBottomSheet(false));
+    setTip('0.1');
+    setTipStatus(STATUS.idle);
+  }
   return (
     <>
       {!visibility ? (
@@ -142,56 +152,65 @@ const TipBottomSheet = () => {
             >
               <Avatar source={{uri:profileImage}} size={size.getHeightSize(84)} />
             </View>
-            <Text style={styles.name}>{`Tip ${username}`}</Text>
-            <Text style={styles.username}>{`@${nickname}`}</Text>
-            <Text style={styles.description}>
-              {`Show support to ${username} and make their day.`}
-            </Text>
-            <View
-              style={{
-                opacity: loading === "loading" ? 0.5 : 1,
-              }}
-            >
-              <View style={styles.inputContainer}>
-                <BottomSheetTextInput
-                  value={tip}
-                  style={styles.textInput}
-                  cursorColor={appColor.primaryLight}
-                  placeholderTextColor={appColor.kGrayLight3}
-                  onChangeText={(text) => setTip(text)}
-                  keyboardType="numeric"
-                />
-                <Aptos />
-                <Text style={styles.APT}>APT</Text>
+            <Text style={styles.name}>Tip FakeJC</Text>
+            <Text style={styles.username}>@jcgangbang</Text>
+            {tipStatus !== STATUS.success && (
+              <Text style={styles.description}>
+                Show support to FakeJC and make their day.
+              </Text>
+            )}
+            {tipStatus !== STATUS.success && (
+              <View
+                style={{
+                  opacity: tipStatus === STATUS.loading ? 0.5 : 1,
+                }}
+              >
+                <View style={styles.inputContainer}>
+                  <BottomSheetTextInput
+                    value={tip}
+                    editable={tipStatus !== STATUS.loading}
+                    style={styles.textInput}
+                    cursorColor={appColor.primaryLight}
+                    placeholderTextColor={appColor.kGrayLight3}
+                    onChangeText={(text) => setTip(text)}
+                    keyboardType="numeric"
+                  />
+                  <Aptos />
+                  <Text style={styles.APT}>APT</Text>
+                </View>
+                <View style={styles.rowContainer}>
+                  <Pressable
+                    onPress={() => setTip('0.1')}
+                    style={tip === '0.1' ? styles.row : styles.idleContainer}
+                  >
+                    <Text
+                      style={tip === '0.1' ? styles.text2 : styles.idleText}
+                    >
+                      0.1 APT
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => setTip('0.5')}
+                    style={tip === '0.5' ? styles.row : styles.idleContainer}
+                  >
+                    <Text
+                      style={tip === '0.5' ? styles.text2 : styles.idleText}
+                    >
+                      0.5 APT
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => setTip('1')}
+                    style={tip === '1' ? styles.row : styles.idleContainer}
+                  >
+                    <Text style={tip === '1' ? styles.text2 : styles.idleText}>
+                      1 APT
+                    </Text>
+                  </Pressable>
+                </View>
               </View>
-              <View style={styles.rowContainer}>
-                <Pressable
-                  onPress={() => setTip("0.1")}
-                  style={tip === "0.1" ? styles.row : styles.idleContainer}
-                >
-                  <Text style={tip === "0.1" ? styles.text2 : styles.idleText}>
-                    0.1 APT
-                  </Text>
-                </Pressable>
-                <Pressable
-                  onPress={() => setTip("0.5")}
-                  style={tip === "0.5" ? styles.row : styles.idleContainer}
-                >
-                  <Text style={tip === "0.5" ? styles.text2 : styles.idleText}>
-                    0.5 APT
-                  </Text>
-                </Pressable>
-                <Pressable
-                  onPress={() => setTip("1")}
-                  style={tip === "1" ? styles.row : styles.idleContainer}
-                >
-                  <Text style={tip === "1" ? styles.text2 : styles.idleText}>
-                    I APT
-                  </Text>
-                </Pressable>
-              </View>
-            </View>
-            {loading === "loading" && (
+            )}
+            {tipStatus === STATUS.loading && (
               <Animatable.View
                 animation="slideInUp"
                 duration={500}
@@ -203,7 +222,7 @@ const TipBottomSheet = () => {
                 </Text>
               </Animatable.View>
             )}
-            {loading === "succes" && (
+            {tipStatus === STATUS.success && (
               <View style={styles.sentView}>
                 <SuccesGreenIcon size={size.getHeightSize(24)} />
                 <Text style={styles.sentText}>
@@ -213,14 +232,16 @@ const TipBottomSheet = () => {
               </View>
             )}
             <View style={styles.buttonView}>
-              {loading === "loading" || loading === "succes" ? (
+              {tipStatus === STATUS.loading || tipStatus === STATUS.success ? (
                 <Animatable.View>
                   <Pressable
-                    onPress={startLoading}
+                    onPress={() => {
+                      tipStatus === STATUS.success ? onClose() : startLoading();
+                    }}
                     style={styles.sendTipButton}
-                    disabled={loading === "loading" || loading === "succes"}
+                    disabled={tipStatus === STATUS.loading}
                   >
-                    {loading === "loading" ? (
+                    {tipStatus === STATUS.loading ? (
                       <ActivityIndicator
                         size={"small"}
                         color={appColor.kWhiteColor}
@@ -235,7 +256,7 @@ const TipBottomSheet = () => {
                   <Text style={styles.tipText}>{`Send tip (${tip} APT)`}</Text>
                 </Pressable>
               )}
-              {loading !== "succes" && (
+              {tipStatus !== STATUS.success && (
                 <View style={styles.cancelButton}>
                   <Text
                     onPress={() =>
@@ -433,6 +454,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: appColor.grayDark,
     marginBottom: size.getHeightSize(32),
+    marginTop: size.getHeightSize(16),
   },
   sentText: {
     fontSize: size.fontSize(16),

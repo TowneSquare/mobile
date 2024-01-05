@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
 import React from 'react';
 import { appColor, images } from '../../../constants';
 import { sizes } from '../../../utils';
@@ -21,7 +21,7 @@ const locations = Array.from(
   { length: numberOfColors },
   (_, index) => index * stepSize
 );
-const Earners = ({ name, rank, username }: Props) => {
+const Earners = ({ name, rank, username }: Props, onPress?: () => void) => {
   let content: JSX.Element;
   switch (rank) {
     case 1:
@@ -223,7 +223,7 @@ const Earners = ({ name, rank, username }: Props) => {
         </View>
       );
   }
-  return content;
+  return <Pressable onPress={() => onPress?.()}>{content}</Pressable>;
 };
 
 export default Earners;

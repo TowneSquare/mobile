@@ -5,9 +5,14 @@ import {
   Pressable,
   StyleSheet,
   View,
+  ToastAndroid,
 } from 'react-native';
+import * as Sharing from 'expo-sharing';
+import PosterDownloadView from '../../components/Rewards/PosterDownloadView';
 import { appColor } from '../../constants';
-import { sizes } from '../../utils';
+import { StatusBar } from 'expo-status-bar';
+import DownloadPoster from '../../components/Rewards/DownloadPoster';
+import { sizes, generateReferralCode } from '../../utils';
 import * as Clipboard from 'expo-clipboard';
 import Header from '../../shared/Feed/Header';
 import CopyIcon from '../../../assets/images/svg/Reward/CopyIcon';
@@ -15,24 +20,50 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import PointsIcon from '../../../assets/images/svg/Reward/PointsIcon';
 import InfoIcon from '../../../assets/images/svg/InfoIcon';
 import { useAppDispatch } from '../../controller/hooks';
+import ViewShot from 'react-native-view-shot';
 import ShareCodeIcon from '../../../assets/images/svg/Reward/ShareCodeIcon';
 import { updateRewardBottomsheetVisibility } from '../../controller/RewardController';
 import Poster1 from '../../components/Rewards/Poster1';
 import Poster2 from '../../components/Rewards/Poster2';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useReducer, useRef } from 'react';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
+type PosterState = {
+  visibility: boolean;
+  posterToShow: 'poster1' | 'poster2';
+};
+type PosterAction = {
+  type: 'show' | 'hide';
+  payload?: 'poster1' | 'poster2';
+};
+const posterReducer = (state: PosterState, action: PosterAction) => {
+  switch (action.type) {
+    case 'show':
+      return {
+        visibility: true,
+        posterToShow: action.payload,
+      };
+    case 'hide':
+      return {
+        visibility: false,
+        posterToShow: action.payload,
+      };
+    default:
+      return state;
+  }
+};
 const ShareReferralCode = () => {
-  const generateReferralCode = (): string => {
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let code = '';
-    for (let i = 0; i < 5; i++) {
-      code += letters.charAt(Math.floor(Math.random() * letters.length));
-    }
-    return code;
-  };
+  const [selectedPoster, posterDispatch] = useReducer(posterReducer, {
+    visibility: false,
+    posterToShow: 'poster1',
+  });
+  const viewShotRef1 = useRef<ViewShot>(null);
+  const viewShotRef2 = useRef<ViewShot>(null);
+  const posterCount = 2;
   const scrollViewRef = useRef<ScrollView>(null);
   const dispatch = useAppDispatch();
+  const [currentPoster, setCurrentPoster] = useState(0);
+  const [onMount, setOnmount] = useState(true);
   const [referralCode, setReferralCode] = useState(generateReferralCode());
   useEffect(() => {
     const interval = setInterval(() => {
@@ -40,21 +71,44 @@ const ShareReferralCode = () => {
     }, 30000);
     return () => clearInterval(interval);
   }, []);
-  useEffect(() => {
-    scrollViewRef.current.scrollTo({
-      x: size.getWidthSize(width),
-      animated: true,
-    });
 
-    const timeout = setTimeout(() => {
-      scrollViewRef.current.scrollTo({ x: 0, animated: true });
-    }, 30000);
-    return () => {
-      clearTimeout(timeout);
-    };
+  useEffect(() => {
+    if (onMount) {
+      const posterWidth = size.getWidthSize(width);
+      scrollViewRef.current.scrollTo({
+        x: currentPoster * posterWidth,
+        animated: true,
+      });
+      setOnmount(false);
+    } else {
+      let nextPoster = currentPoster + 1;
+      if (nextPoster >= posterCount) {
+        nextPoster = 0;
+      }
+      setCurrentPoster(nextPoster);
+      const posterWidth = size.getWidthSize(width);
+      scrollViewRef.current.scrollTo({
+        x: nextPoster * posterWidth,
+        animated: true,
+      });
+    }
   }, [referralCode]);
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(referralCode);
+    ToastAndroid.show('copied!', ToastAndroid.SHORT);
+  };
+  const handleShare = async () => {
+    let uri: string;
+    if (currentPoster === 0) {
+      uri = await viewShotRef1.current.capture();
+    } else if (currentPoster === 1) {
+      uri = await viewShotRef2.current.capture();
+    }
+    await Sharing.shareAsync(uri, {
+      mimeType: 'image/jpeg',
+      dialogTitle: 'Share this image',
+      UTI: 'image/jpeg',
+    });
   };
   return (
     <SafeAreaView
@@ -63,6 +117,14 @@ const ShareReferralCode = () => {
         backgroundColor: appColor.feedBackground,
       }}
     >
+      <StatusBar
+        style="light"
+        backgroundColor={
+          selectedPoster.visibility
+            ? appColor.feedBackground
+            : appColor.signUpBackground
+        }
+      />
       <Header title="Share referral code" />
       <View
         style={{
@@ -107,9 +169,33 @@ const ShareReferralCode = () => {
             marginHorizontal: size.getWidthSize(16),
           }}
           horizontal
+          onScroll={({ nativeEvent }) => {
+            const currentPage = Math.round(nativeEvent.contentOffset.x / width);
+            setCurrentPoster(currentPage);
+          }}
         >
-          <Poster1 referralCode={referralCode} />
-          <Poster2 referralCode={referralCode} />
+          <ViewShot ref={viewShotRef1} options={{ format: 'png', quality: 1 }}>
+            <Poster1
+              onPress={() =>
+                posterDispatch({
+                  payload: 'poster1',
+                  type: 'show',
+                })
+              }
+              referralCode={referralCode}
+            />
+          </ViewShot>
+          <ViewShot ref={viewShotRef2} options={{ format: 'png', quality: 1 }}>
+            <Poster2
+              onPress={() =>
+                posterDispatch({
+                  payload: 'poster2',
+                  type: 'show',
+                })
+              }
+              referralCode={referralCode}
+            />
+          </ViewShot>
         </ScrollView>
       </View>
 
@@ -125,10 +211,10 @@ const ShareReferralCode = () => {
           <Text style={styles.referalCode}>{referralCode.toUpperCase()}</Text>
           <CopyIcon size={size.getHeightSize(24)} />
         </Pressable>
-        <View style={styles.shareButton}>
+        <Pressable onPress={handleShare} style={styles.shareButton}>
           <ShareCodeIcon size={size.getHeightSize(24)} />
           <Text style={styles.shareText}>Share</Text>
-        </View>
+        </Pressable>
         <View style={styles.view5}>
           <Text style={styles.commision}>
             Your commision rate{' '}
@@ -137,6 +223,20 @@ const ShareReferralCode = () => {
           <InfoIcon size={size.getHeightSize(24)} />
         </View>
       </View>
+      <DownloadPoster
+        visibility={selectedPoster.visibility}
+        close={() =>
+          posterDispatch({
+            type: 'hide',
+          })
+        }
+        children={
+          <PosterDownloadView
+            posterToDownload={selectedPoster.posterToShow}
+            referralCode={referralCode}
+          />
+        }
+      />
     </SafeAreaView>
   );
 };
