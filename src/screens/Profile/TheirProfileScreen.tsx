@@ -117,9 +117,9 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
     }
   };
 
-  // useMemo( () => {
-  //  getUserAptosName(userData?.aptosWallet)
-  // }, [userData?.aptosWallet])
+  useMemo( () => {
+   getUserAptosName(userData?.aptosWallet)
+  }, [userData?.aptosWallet])
 
   const Posts = () => {
     return userData.posts.map((userpost) => (

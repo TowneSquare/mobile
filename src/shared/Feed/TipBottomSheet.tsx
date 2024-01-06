@@ -39,18 +39,17 @@ const TipBottomSheet = () => {
   //   (state) => state.FeedsSliceController.tipBottomSheet.status
   // );
 
-  const { visibility, username, profileImage, wallet, nickname } = useAppSelector(
-    (state) => ({
+  const { visibility, username, profileImage, wallet, nickname } =
+    useAppSelector((state) => ({
       visibility: state.FeedsSliceController.tipBottomSheet.status,
       username: state.FeedsSliceController.tipBottomSheet.username,
       profileImage: state.FeedsSliceController.tipBottomSheet.profileImage,
       wallet: state.FeedsSliceController.tipBottomSheet.wallet,
-      nickname: state.FeedsSliceController.tipBottomSheet.nickname
-    })
-  );
+      nickname: state.FeedsSliceController.tipBottomSheet.nickname,
+    }));
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
-  const [tip, setTip] = useState<string | undefined>('0.1');
+  const initialSnapPoints = useMemo(() => ["CONTENT_HEIGHT"], []);
+  const [tip, setTip] = useState<string | undefined>("0.1");
   const [tipStatus, setTipStatus] = useState<STATUS>(STATUS.idle);
   const renderBackdrop = useCallback(
     (props: any) => (
@@ -76,7 +75,7 @@ const TipBottomSheet = () => {
             profileImage: "",
             username: "",
             wallet: "",
-            nickname:''
+            nickname: "",
           })
         );
         return true;
@@ -103,8 +102,16 @@ const TipBottomSheet = () => {
     }, 4000);
   };
   function onClose() {
-    dispatch(updateTipBottomSheet(false));
-    setTip('0.1');
+    dispatch(
+      updateTipBottomSheet({
+        status: false,
+        profileImage: "",
+        username: "",
+        wallet: "",
+        nickname: "",
+      })
+    );
+    setTip("0.1");
     setTipStatus(STATUS.idle);
   }
   return (
@@ -113,19 +120,7 @@ const TipBottomSheet = () => {
         <></>
       ) : (
         <BottomSheet
-          onClose={() => {
-            dispatch(
-              updateTipBottomSheet({
-                status: false,
-                profileImage: "",
-                username: "",
-                wallet: "",
-                nickname:''
-              })
-            );
-            setTip("0.1");
-            setLoading("idle");
-          }}
+          onClose={onClose}
           ref={bottomSheetRef}
           snapPoints={animatedSnapPoints}
           handleHeight={animatedHandleHeight}
@@ -150,7 +145,10 @@ const TipBottomSheet = () => {
                 marginTop: size.getHeightSize(24),
               }}
             >
-              <Avatar source={{uri:profileImage}} size={size.getHeightSize(84)} />
+              <Avatar
+                source={{ uri: profileImage }}
+                size={size.getHeightSize(84)}
+              />
             </View>
             <Text style={styles.name}>Tip FakeJC</Text>
             <Text style={styles.username}>@jcgangbang</Text>
@@ -180,30 +178,30 @@ const TipBottomSheet = () => {
                 </View>
                 <View style={styles.rowContainer}>
                   <Pressable
-                    onPress={() => setTip('0.1')}
-                    style={tip === '0.1' ? styles.row : styles.idleContainer}
+                    onPress={() => setTip("0.1")}
+                    style={tip === "0.1" ? styles.row : styles.idleContainer}
                   >
                     <Text
-                      style={tip === '0.1' ? styles.text2 : styles.idleText}
+                      style={tip === "0.1" ? styles.text2 : styles.idleText}
                     >
                       0.1 APT
                     </Text>
                   </Pressable>
                   <Pressable
-                    onPress={() => setTip('0.5')}
-                    style={tip === '0.5' ? styles.row : styles.idleContainer}
+                    onPress={() => setTip("0.5")}
+                    style={tip === "0.5" ? styles.row : styles.idleContainer}
                   >
                     <Text
-                      style={tip === '0.5' ? styles.text2 : styles.idleText}
+                      style={tip === "0.5" ? styles.text2 : styles.idleText}
                     >
                       0.5 APT
                     </Text>
                   </Pressable>
                   <Pressable
-                    onPress={() => setTip('1')}
-                    style={tip === '1' ? styles.row : styles.idleContainer}
+                    onPress={() => setTip("1")}
+                    style={tip === "1" ? styles.row : styles.idleContainer}
                   >
-                    <Text style={tip === '1' ? styles.text2 : styles.idleText}>
+                    <Text style={tip === "1" ? styles.text2 : styles.idleText}>
                       1 APT
                     </Text>
                   </Pressable>
@@ -266,7 +264,7 @@ const TipBottomSheet = () => {
                           profileImage: "",
                           username: "",
                           wallet: "",
-                          nickname:""
+                          nickname: "",
                         })
                       )
                     }

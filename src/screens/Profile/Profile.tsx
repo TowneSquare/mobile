@@ -14,6 +14,7 @@ import EditProfileModal from '../../components/Profile/About/EditProfileModal';
 import ProfileTabNavigation from '../../navigations/ProfileTabNavigation';
 import { updateSuperStarBottomSheet } from '../../controller/BottomSheetController';
 import { useNavigation } from '@react-navigation/native';
+
 const title = 'Real JC';
 
 const size = new sizes(height, width);
@@ -31,6 +32,9 @@ const Profile = () => {
   if (!isLoaded) {
     return null;
   }
+
+ 
+  
   return (
     <SafeAreaView
       style={{

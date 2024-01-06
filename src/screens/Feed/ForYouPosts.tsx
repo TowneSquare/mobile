@@ -27,9 +27,10 @@ const ForYouPosts = () => {
   const AllPost = useAppSelector((state) => state.CreatePostController.AllPost);
   useEffect(() => {
     dispatch(getAllPost(userToken));
+    
   }, []); 
 
-  console.log(AllPost, "allpost")
+
  
   const EmptyComponent = () => {
     return (

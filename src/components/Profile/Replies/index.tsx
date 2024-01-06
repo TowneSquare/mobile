@@ -1,4 +1,4 @@
-import { memo, useRef, useMemo, useState } from "react";
+import { memo, useRef, useMemo, useState, useEffect } from "react";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 import { fonts } from "../../../constants";
@@ -22,6 +22,7 @@ import { UserCommentData } from "../../../controller/UserController";
 import { getPostById } from "../../../api";
 import { useAppDispatch, useAppSelector } from "../../../controller/hooks";
 import { PostData } from "../../../controller/createPost";
+import { getPostTime } from "../../../utils/helperFunction";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 
@@ -39,14 +40,19 @@ const Replies = memo(
     const dispatch = useAppDispatch();
     const [userPost, setUserPost] = useState<PostData>();
     const token = useAppSelector((state) => state.USER.didToken);
-    const postId = data.postId;
+    const postId = data?.postId;
 
     const getPost = async () => {
-      const result = await getPostById(token, postId);
-      setUserPost(result);
+      try {
+        const result = await getPostById(token, postId);
+        console.log(result, "resulttt");
+        setUserPost(result);
+      } catch (error) {
+        console.log(error)
+      }
     };
 
-    //useMemo(() => getPost(), [data.postId]);
+    useMemo(() => getPost(), [data.postId]);
 
     let [isLoaded] = useFonts({
       "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -63,6 +69,9 @@ const Replies = memo(
       const params: any = userPost;
       navigation.navigate("SinglePost" as any, params);
     };
+
+    console.log(userPost, "checking--2");
+    const timePost = getPostTime(data?.createdAt);
 
     let content;
 
@@ -85,15 +94,20 @@ const Replies = memo(
         content = (
           <>
             <View style={styles.feedContainer}>
-              <ProfilePicture id={data?._id} swipeable={shouldPFPSwipe} />
+              <ProfilePicture
+                profileImageUri={userPost?.customer?.profileImage}
+                userId={data?.userId}
+                swipeable={myPost}
+              />
               <View style={styles.subHeading}>
                 <PostHeader
-                  username={userPost?.customer?.username}
-                  nickname={userPost?.customer?.nickname}
-                  timepost={"2m"} // TODO: fix the post time
+                  onPress={handleNavigation}
+                  username={""}
+                  nickname={""}
+                  timepost={timePost}
                   myPost={myPost ? myPost : false}
-                  postId={userPost._id}
-                  userId={userPost.customer._id}
+                  postId={data._id}
+                  userId={data?.userId}
                 />
                 <Text onPress={handleNavigation} style={styles.message}>
                   {data.content}
@@ -101,9 +115,10 @@ const Replies = memo(
 
                 <PostActions
                   noOfComments={userPost?.comments?.length}
-                  noOfLikes={userPost?.likes?.length}
-                  noOfRetweet={userPost?.reposts?.length}
-                  postId={postId}
+                  Likes={userPost?.likes}
+                  Repost={userPost?.reposts}
+                  postId={userPost._id}
+                  userId={userPost.customer._id}
                 />
                 {/* <ShowThread /> */}
               </View>
@@ -116,7 +131,11 @@ const Replies = memo(
         content = (
           <>
             <View style={styles.feedContainer}>
-              <ProfilePicture id={data._id} swipeable={shouldPFPSwipe} />
+              <ProfilePicture
+                profileImageUri={userPost?.customer?.profileImage}
+                userId={data?.userId}
+                swipeable={myPost}
+              />
               <View style={styles.subHeading}>
                 {/* <PostHeader
                 username={userPost.customer.username}
@@ -125,13 +144,14 @@ const Replies = memo(
                 myPost={myPost ? myPost : false}
               /> */}
 
-                <PostHeader
-                  username={userPost?.customer?.username}
-                  nickname={userPost?.customer?.nickname}
-                  timepost={"2m"} // TODO: fix the post time
+                 <PostHeader
+                  onPress={handleNavigation}
+                  username={""}
+                  nickname={""}
+                  timepost={timePost}
                   myPost={myPost ? myPost : false}
-                  postId={postId}
-                  userId={userPost?.customer?._id}
+                  postId={data._id}
+                  userId={data?.userId}
                 />
 
                 <Text onPress={handleNavigation} style={styles.message}>
@@ -164,9 +184,10 @@ const Replies = memo(
                 </Pressable>
                 <PostActions
                   noOfComments={userPost?.comments?.length}
-                  noOfLikes={userPost?.likes?.length}
-                  noOfRetweet={userPost?.reposts?.length}
-                  postId={postId}
+                  Likes={userPost?.likes}
+                  Repost={userPost?.reposts}
+                  postId={userPost._id}
+                  userId={userPost.customer._id}
                 />
 
                 {/* <PostActions
@@ -228,13 +249,17 @@ const Replies = memo(
         content = (
           <>
             <View style={styles.feedContainer}>
-              <ProfilePicture id={data._id} swipeable={shouldPFPSwipe} />
+              <ProfilePicture
+                profileImageUri={userPost?.customer?.profileImage}
+                userId={data?.userId}
+                swipeable={myPost}
+              />
               <View style={styles.subHeading}>
                 <PostHeader
                   onPress={handleNavigation}
                   username={userPost?.customer?.username}
                   nickname={userPost?.customer?.nickname}
-                  timepost={"2m"} // TODO
+                  timepost={timePost}
                   myPost={myPost ? myPost : false}
                   postId={postId}
                   userId={userPost?.customer?._id}
@@ -279,9 +304,10 @@ const Replies = memo(
                 </Pressable>
                 <PostActions
                   noOfComments={userPost?.comments?.length}
-                  noOfLikes={userPost?.likes?.length}
-                  noOfRetweet={userPost?.reposts?.length}
-                  postId={postId}
+                  Likes={userPost?.likes}
+                  Repost={userPost?.reposts}
+                  postId={userPost._id}
+                  userId={userPost.customer._id}
                 />
                 {/* <PostActions
                 noOfComments={userPost.comments}
@@ -299,13 +325,17 @@ const Replies = memo(
         content = (
           <>
             <View style={styles.feedContainer}>
-              <ProfilePicture id={data._id} swipeable={shouldPFPSwipe} />
+              <ProfilePicture
+                profileImageUri={userPost?.customer?.profileImage}
+                userId={data?.userId}
+                swipeable={myPost}
+              />
               <View style={styles.subHeading}>
                 <PostHeader
                   onPress={handleNavigation}
                   username={userPost?.customer?.username}
                   nickname={userPost?.customer?.nickname}
-                  timepost={"2m"} // TODO
+                  timepost={timePost} 
                   myPost={myPost ? myPost : false}
                   postId={postId}
                   userId={userPost?.customer?._id}
@@ -343,9 +373,10 @@ const Replies = memo(
                 </Pressable>
                 <PostActions
                   noOfComments={userPost?.comments?.length}
-                  noOfLikes={userPost?.likes?.length}
-                  noOfRetweet={userPost?.reposts?.length}
-                  postId={postId}
+                  Likes={userPost?.likes}
+                  Repost={userPost?.reposts}
+                  postId={userPost._id}
+                  userId={userPost.customer._id}
                 />
                 {/* <PostActions
                 noOfComments={userPost.comments}

@@ -3,6 +3,7 @@ import { BACKEND_URL, APTOS_NAME_URL } from "../../config/env";
 import { Customer, PostData } from "../controller/createPost";
 import { useAppSelector } from "../controller/hooks";
 import { UserData } from "../controller/UserController";
+import { friends } from "../controller/UserController/models";
 let _headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
@@ -135,7 +136,7 @@ export const getPostById = async (
       reposts: result.reposts,
       comments: result.comments,
       customer: {
-        _id: result.customer._id,
+        _id: result.customer._id || "",
         issuer: result.customer.issuer || "",
         aptosWallet: result.customer.aptosWallet,
         nickname: result.customer.nickname,
@@ -246,7 +247,7 @@ export const getFollowings = async (token: string) => {
         Authorization: token,
       },
     });
-    const result: FollowingProps[] = response.data;
+    const result: friends[] = response.data;
     return result;
   } catch (error) {}
 };

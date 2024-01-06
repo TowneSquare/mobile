@@ -63,7 +63,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 timepost={timepost}
                 postId={userPost?._id}
                 userId={userPost?.customer._id}
-                profileImageUri={userPost.customer.profileImage}
+                profileImageUri={userPost?.customer.profileImage}
               />
 
               <Text style={styles.message}>{userPost.description}</Text>

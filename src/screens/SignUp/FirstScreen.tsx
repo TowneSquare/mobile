@@ -262,24 +262,24 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
             }}
             style={styles.socials}
           >
-            <X width={size.getWidthSize(26)} height={size.getHeightSize(24)} />
+            <Twitter
+              width={size.getWidthSize(26)}
+              height={size.getHeightSize(24)}
+            />
           </Pressable>
           <Pressable onPress={() => loginDiscord()} style={styles.socials}>
-            <Discord
-              width={size.getWidthSize(30)}
-              height={size.getHeightSize(28)}
-            />
+            <Discord size={size.getHeightSize(28)} />
           </Pressable>
           <Pressable onPress={() => loginApple()} style={styles.socials}>
             <Apple
-              height={size.getHeightSize(26)}
+              height={size.getHeightSize(28)}
               width={size.getWidthSize(24)}
             />
           </Pressable>
           <Pressable onPress={() => loginGoogle()} style={styles.socials}>
             <Google
-              width={size.getWidthSize(28)}
-              height={size.getHeightSize(26)}
+              height={size.getHeightSize(24)}
+              width={size.getWidthSize(24)}
             />
           </Pressable>
           <Pressable

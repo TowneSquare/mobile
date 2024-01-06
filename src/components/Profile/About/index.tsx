@@ -92,11 +92,8 @@ const About = ({ route }) => {
 
   useMemo(() => {
     dispatch(getUserData({ userId: "658e89ff83d916e7f200f1f6", token: token }));
-    console.log("memo - runnning")
   }, [userId]);
-  // useEffect(() => {
-  //   dispatch(getUserData({token, userId}))
-  // }, [])
+ 
 
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -117,35 +114,43 @@ const About = ({ route }) => {
   const POST = USERDATA.posts.length || "0";
   const COMMUNITIES = "22";
 
-  // const onlyUserPost = UserPosts.filter(
-  //   (userPost) => userPost.nickname == NICKNAME
-  // );
+ useEffect(() => {
+    dispatch(getOnlyUserPost({userId, token}))
+ }, [userId, token])
+ 
 
   const onlyUserPost = useAppSelector(
     (state) => state.CreatePostController.OnlyUserPost
   );
 
   const Posts = () => {
-    return USERDATA.posts.map((userpost) => (
+    return onlyUserPost.map((userpost) => (
       <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
     ));
   };
 
+  
+
   const UserReplies = () => {
     return USERDATA.comments.map((userpost) => (
-      <Replies
-        key={userpost._id}
-        data={userpost}
-        nickname={USERDATA.nickname}
-        username={USERDATA.username}
-        myPost
-        shouldPFPSwipe={false}
-      />
+      // <Replies
+      //   key={userpost._id}
+      //   data={userpost}
+      //   nickname={USERDATA.nickname}
+      //   username={USERDATA.username}
+      //   myPost
+      //   shouldPFPSwipe={false}
+      // />
+      <View>
+        <Text>Changes in Progress</Text>
+      </View>
     ));
   };
 
+  console.log(onlyUserPost.filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0]), onlyUserPost, "media")
+
   const Media = () => {
-    return USERDATA.posts
+    return onlyUserPost
       .filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0])
       .map((userpost) => (
         <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
@@ -315,7 +320,7 @@ const About = ({ route }) => {
 
             {typeOfProfile === "theirProfile" ? (
               <></>
-            ) : selectedSuperStars.nftInfoArray.length > 0 ? (
+            ) : selectedSuperStars?.nftInfoArray?.length > 0 ? (
               <Pressable
                 onPress={() => {
                   navigate("SuperStarCollectionScreen");
@@ -327,7 +332,7 @@ const About = ({ route }) => {
               <></>
             )}
           </View>
-          {selectedSuperStars.nftInfoArray.length > 0 ? (
+          {selectedSuperStars?.nftInfoArray.length > 0 ? (
             <>
               <ScrollView
                 style={{
