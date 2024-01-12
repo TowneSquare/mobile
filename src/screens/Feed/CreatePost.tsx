@@ -5,54 +5,81 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Pressable,
-} from 'react-native';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { useState } from 'react';
-import { appColor, fonts, images } from '../../constants';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import HashTags from '../../components/createPost/HashTags';
-import { sizes } from '../../utils';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import CreatePostCommunityIcon from '../../../assets/images/svg/CreatePostCommunityIcon';
-import CreatePostAptosIcon from '../../../assets/images/svg/CreatePostAptosIcon';
-import { updateToast } from '../../controller/FeedsController';
-import AtMention from '../../components/createPost/AtMention';
-import FieldInput from '../../components/createPost/FieldInput';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import PostAttachment from '../../components/createPost/PostAttachment';
-import AttachedNftContainer from '../../components/createPost/AttachedNftContainer';
+} from "react-native";
+const { height, width } = Dimensions.get("window");
+import { useFonts } from "expo-font";
+import { useState, useEffect } from "react";
+import { appColor, fonts, images } from "../../constants";
+import { SafeAreaView } from "react-native-safe-area-context";
+import HashTags from "../../components/createPost/HashTags";
+import { sizes } from "../../utils";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import CreatePostCommunityIcon from "../../../assets/images/svg/CreatePostCommunityIcon";
+import CreatePostAptosIcon from "../../../assets/images/svg/CreatePostAptosIcon";
+import { updateToast } from "../../controller/FeedsController";
+import AtMention from "../../components/createPost/AtMention";
+import FieldInput from "../../components/createPost/FieldInput";
+import { useAppSelector, useAppDispatch } from "../../controller/hooks";
+import PostAttachment from "../../components/createPost/PostAttachment";
+import AttachedNftContainer from "../../components/createPost/AttachedNftContainer";
 const size = new sizes(height, width);
-import CommunityPostPrivacyBottomSheet from '../../components/Community/CreatePost/CommunityPostPrivacyBottomSheet';
-import SwapPost from '../../components/createPost/SwapPost';
-import FloorPricePost from '../../components/createPost/FloorPricePost';
-import AptosPanel from '../../components/createPost/AptosPanel';
-import Media from '../../components/createPost/Media';
-import GifBottomSheet from '../../components/createPost/GifBottomSheet';
-import { Avatar } from 'react-native-elements';
-import { useNavigation, StackActions } from '@react-navigation/native';
-import { clearPostData } from '../../controller/createPost';
-import { ScrollView } from 'react-native-gesture-handler';
-import { CreatePostProps } from '../../navigations/NavigationTypes';
+import CommunityPostPrivacyBottomSheet from "../../components/Community/CreatePost/CommunityPostPrivacyBottomSheet";
+import SwapPost from "../../components/createPost/SwapPost";
+import FloorPricePost from "../../components/createPost/FloorPricePost";
+import AptosPanel from "../../components/createPost/AptosPanel";
+import Media from "../../components/createPost/Media";
+import GifBottomSheet from "../../components/createPost/GifBottomSheet";
+import { Avatar } from "react-native-elements";
+import { useNavigation, StackActions } from "@react-navigation/native";
+import { clearPostData, createPost } from "../../controller/createPost";
+import { ScrollView } from "react-native-gesture-handler";
+import { CreatePostProps } from "../../navigations/NavigationTypes";
+import { message } from "../../utils/messageData";
+import axios from "axios";
+import { BACKEND_URL } from "../../../config/env";
+// import {
+//   Aptos,
+//   AptosConfig,
+//   InputSubmitTransactionData,
+//   Network,
+// } from "@aptos-labs/ts-sdk";
+// import {
+//   useWallet,
+//   InputTransactionData,
+// } from "@aptos-labs/wallet-adapter-react";
 const CreatePost = ({ route }: CreatePostProps) => {
+  //const aptosConfig = new AptosConfig();
+  // const aptos = new Aptos();
   const whichPost = route.params.whichPost;
   const [
     showCommunityPostPrivacyBottomSheet,
     setShowCommunityPostPrivacyBottomSheet,
   ] = useState(false);
-  const { showAtMentions, showHashTags, showAPTPanel, showApt, media, nft } =
-    useAppSelector((state) => ({
-      showAtMentions: state.CreatePostController.showAtMentionContainer,
-      showHashTags: state.CreatePostController.showHashTags,
-      showAPTPanel: state.CreatePostController.showAptosPanel,
-      showApt: state.CreatePostController.posts.community,
-      message: state.CreatePostController.posts.message,
-      media: state.CreatePostController.posts.media,
-      tags: state.CreatePostController.posts.tags,
-      community: state.CreatePostController.posts.community,
-      nft: state.CreatePostController.posts.nft,
-      post: state.CreatePostController.posts,
-    }));
+  const {
+    showAtMentions,
+    showHashTags,
+    showAPTPanel,
+    showApt,
+    media,
+    nft,
+    token,
+  } = useAppSelector((state) => ({
+    showAtMentions: state.CreatePostController.showAtMentionContainer,
+    showHashTags: state.CreatePostController.showHashTags,
+    showAPTPanel: state.CreatePostController.showAptosPanel,
+    showApt: state.CreatePostController.posts.community,
+    message: state.CreatePostController.posts.message,
+    media: state.CreatePostController.posts.media,
+    tags: state.CreatePostController.posts.tags,
+    community: state.CreatePostController.posts.community,
+    nft: state.CreatePostController.posts.nft,
+    post: state.CreatePostController.posts,
+    token: state.USER.didToken,
+  }));
+
+  const textInput = useAppSelector(
+    (state) => state.CreatePostController.inputText
+  );
   const dispatch = useAppDispatch();
   const postPrivacy = useAppSelector(
     (state) => state.CreatePostController.communityPostPrivacy
@@ -60,22 +87,78 @@ const CreatePost = ({ route }: CreatePostProps) => {
   const shouldShowAptosPanel = showAPTPanel;
   const shouldShowAtMention = showAtMentions;
   const shouldShowHashTags = showHashTags;
-  const shouldShowSwapApt = showApt === 'Aptos';
-  const shouldShowAptMonkey = showApt === 'Aptos Monkeys';
+  const shouldShowSwapApt = showApt === "Aptos";
+  const shouldShowAptMonkey = showApt === "Aptos Monkeys";
   const shouldShowPostAttachment =
     !showAPTPanel && !showAtMentions && !showHashTags;
   const navigation = useNavigation();
 
+  // const { account } = useWallet();
+
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
   });
+  // const get = async () => {
+  //   const result = await aptos.getOwnedDigitalAssets({
+  //     ownerAddress: `0x3bc474f3c3c37c9cdb6643c04e5004e5e03b17b1a4200ef807cd990f65b0e194`,
+  //   });
+  //   console.log(result, "nft");
+  // };
+  // useEffect(() => {
+  //   get();
+  // }, []);
+
   if (!isLoaded) {
     return null;
   }
 
+  // const transaction: InputTransactionData = {
+  //   data: {
+  //     function: `0x3::token_coin_swap::list_token_for_swap`,
+  //     functionArguments: [],
+  //   },
+  // };
+
+  const createPost = async () => {
+    try {
+      const res = await axios.post(
+        `${BACKEND_URL}posts/create`,
+        {
+          description: textInput,
+          sellNFTPrice: nft.sellNFTPrice,
+          nftTokenId: nft.nftTokenId,
+          nftCollection: nft.nftCollection,
+          nftImageUrl: nft.nftImageUrl,
+          file: media,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: token,
+          },
+        }
+      );
+      dispatch(
+        updateToast({
+          displayToast: true,
+          toastMessage: "Post is published successfully",
+          toastType: "success",
+        })
+      );
+    } catch (error) {
+      console.log(error?.response?.data, "eror message");
+      dispatch(
+        updateToast({
+          displayToast: true,
+          toastMessage: "Something went wrong while posting please try again",
+          toastType: "info",
+        })
+      );
+    }
+  };
   return (
     <SafeAreaView
       style={{
@@ -88,17 +171,10 @@ const CreatePost = ({ route }: CreatePostProps) => {
           Cancel
         </Text>
         <Pressable
-          onPress={() => {
+          onPress={async () => {
             navigation.dispatch(StackActions.pop(1));
-
+            createPost();
             dispatch(clearPostData());
-            dispatch(
-              updateToast({
-                displayToast: true,
-                toastMessage: 'Post is published successfully',
-                toastType: 'success',
-              })
-            );
           }}
           style={styles.publishButton}
         >
@@ -120,7 +196,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
             flex: 1,
           }}
         >
-          {nft && <AttachedNftContainer />}
+          {nft.nftImageUrl && <AttachedNftContainer />}
           {media && <Media />}
           {shouldShowSwapApt && <SwapPost />}
           {shouldShowAptMonkey && <FloorPricePost />}
@@ -140,13 +216,13 @@ const CreatePost = ({ route }: CreatePostProps) => {
         )}
         {shouldShowPostAttachment && (
           <>
-            {whichPost === 'communityPost' && (
+            {whichPost === "communityPost" && (
               <Pressable
                 onPress={() => setShowCommunityPostPrivacyBottomSheet(true)}
                 style={styles.privacyPost}
               >
                 <CreatePostAptosIcon size={size.getHeightSize(24)} />
-                {postPrivacy === 'public' ? (
+                {postPrivacy === "public" ? (
                   <Text style={styles.typeOfPost}>Public</Text>
                 ) : (
                   <Text style={styles.typeOfPost}>Community only</Text>
@@ -179,19 +255,19 @@ const CreatePost = ({ route }: CreatePostProps) => {
 export default CreatePost;
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: size.getWidthSize(16),
     height: size.getHeightSize(64),
     backgroundColor: appColor.kgrayDark2,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     paddingVertical: size.getHeightSize(12),
   },
   cancel: {
     color: appColor.kSecondaryButtonColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(20),
-    fontFamily: 'Outfit-Medium',
+    fontFamily: "Outfit-Medium",
     letterSpacing: 0.04,
     minWidth: size.getWidthSize(51),
   },
@@ -207,28 +283,28 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(20),
     letterSpacing: 0.02,
-    fontFamily: 'Outfit-Medium',
-    textAlign: 'center',
+    fontFamily: "Outfit-Medium",
+    textAlign: "center",
   },
 
   fieldInputContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(8),
     marginHorizontal: size.getWidthSize(16),
     marginTop: size.getHeightSize(8),
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
   },
   tagConatiners: {
     maxHeight: size.getHeightSize(260),
     backgroundColor: appColor.kgrayDark2,
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
-    width: '100%',
+    width: "100%",
   },
   toastText: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     lineHeight: size.getHeightSize(18),
   },
   toastContainer: {
@@ -240,33 +316,33 @@ const styles = StyleSheet.create({
     borderColor: appColor.kGrayLight3,
   },
   toastRow: {
-    alignItems: 'flex-start',
-    flexDirection: 'row',
+    alignItems: "flex-start",
+    flexDirection: "row",
     marginHorizontal: size.getWidthSize(16),
     gap: size.getWidthSize(4),
     marginVertical: size.getHeightSize(16),
     width: size.getWidthSize(286),
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   absolutePosition: {
-    width: '100%',
+    width: "100%",
   },
   typeOfPost: {
     color: appColor.primaryLight,
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     lineHeight: size.getHeightSize(21),
   },
   privacyPost: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: size.getHeightSize(8),
     paddingHorizontal: size.getWidthSize(16),
     borderRadius: 40,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     marginBottom: size.getHeightSize(16),
     gap: size.getWidthSize(8),
-    backgroundColor: 'rgba(184, 130, 255, 0.30)',
+    backgroundColor: "rgba(184, 130, 255, 0.30)",
     marginLeft: size.getWidthSize(16),
   },
 });

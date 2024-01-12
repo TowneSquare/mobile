@@ -5,28 +5,40 @@ import {
   TextInput,
   Animated,
   StyleSheet,
-} from 'react-native';
-import { useState, useEffect, useRef } from 'react';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
-import SendButton from '../../../assets/images/svg/SendButton';
-import SendButtonActive from '../../../assets/images/svg/SendButtonActive';
-import { sizes } from '../../utils';
+  Pressable,
+} from "react-native";
+import { useState, useEffect, useRef } from "react";
+const { height, width } = Dimensions.get("window");
+import { useFonts } from "expo-font";
+import { appColor, fonts } from "../../constants";
+import SendButton from "../../../assets/images/svg/SendButton";
+import SendButtonActive from "../../../assets/images/svg/SendButtonActive";
+import { sizes } from "../../utils";
+import axios from "axios";
+import { BACKEND_URL } from "../../../config/env";
+import { useAppSelector } from "../../controller/hooks";
+
 const size = new sizes(height, width);
 interface Props {
   textRef: any;
   handleBlur: () => void;
   showReplyingTo: boolean;
+  postId: string;
 }
 const AddCommentTextInput = ({
   textRef,
   handleBlur,
   showReplyingTo,
+  postId,
 }: Props) => {
   const [height, setHeight] = useState(0);
   const [borderRadius, setBorderRadius] = useState(40);
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
+  const [addingComment, setAddingComment] = useState(false);
+  const token = useAppSelector((state) => state.USER.didToken);
+  const username = useAppSelector(
+    (state) => state.CreatePostController.CommentReplyData.username
+  );
 
   useEffect(() => {
     if (height > size.getHeightSize(73)) {
@@ -37,9 +49,9 @@ const AddCommentTextInput = ({
   }, [height]);
   const borderRadiusValue = useRef(new Animated.Value(0)).current;
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -59,6 +71,28 @@ const AddCommentTextInput = ({
     const newHeight = Math.ceil(event.nativeEvent.contentSize.height);
     setHeight(newHeight);
   };
+
+  const addComment = async () => {
+    try {
+      setAddingComment(true);
+      axios.post(
+        `${BACKEND_URL}posts/comment/${postId}`,
+        {
+          content: text,
+        },
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+      setAddingComment(false);
+    } catch (error) {
+      setAddingComment(false);
+    }
+  };
   return (
     <>
       <View
@@ -69,14 +103,14 @@ const AddCommentTextInput = ({
         {showReplyingTo && (
           <View style={styles.replyingTo}>
             <Text style={styles.replyingToText}>Replying to</Text>
-            <Text style={styles.username}>@Username1</Text>
+            <Text style={styles.username}>{`@{${username}`}</Text>
           </View>
         )}
 
         <View style={styles.inputContainer}>
           <TextInput
             ref={textRef}
-            placeholder={showReplyingTo ? 'Write a reply' : 'Write a comment'}
+            placeholder={showReplyingTo ? "Write a reply" : "Write a comment"}
             placeholderTextColor={appColor.kgrayTextColor}
             cursorColor={appColor.klightPurple}
             multiline
@@ -87,7 +121,12 @@ const AddCommentTextInput = ({
             style={[{ borderRadius: borderRadius }, styles.textInput]}
           />
           {text.length >= 1 ? (
-            <SendButtonActive size={size.getHeightSize(24)} />
+            <SendButtonActive
+              onPress={() => {
+                addComment();
+              }}
+              size={size.getHeightSize(24)}
+            />
           ) : (
             <SendButton size={size.getHeightSize(24)} />
           )}
@@ -107,20 +146,20 @@ const AddCommentTextInput = ({
 export default AddCommentTextInput;
 const styles = StyleSheet.create({
   replyingTo: {
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: appColor.kgrayDark2,
     paddingHorizontal: size.getWidthSize(16),
     paddingTop: size.getHeightSize(8),
     gap: size.getWidthSize(2),
   },
   replyingToText: {
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.kGrayscale,
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
   },
   username: {
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
@@ -129,9 +168,9 @@ const styles = StyleSheet.create({
     backgroundColor: appColor.kgrayDark2,
     paddingVertical: size.getHeightSize(8),
     paddingHorizontal: size.getWidthSize(16),
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(16),
-    alignItems: 'center',
+    alignItems: "center",
   },
   textInput: {
     borderWidth: 1,
@@ -139,7 +178,7 @@ const styles = StyleSheet.create({
     width: size.getWidthSize(288),
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(24),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     paddingHorizontal: size.getWidthSize(16),
     paddingTop: size.getHeightSize(8),
     paddingBottom: size.getHeightSize(8),
@@ -148,7 +187,7 @@ const styles = StyleSheet.create({
     backgroundColor: appColor.feedBackground,
   },
   errorText: {
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.kErrorText,
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),

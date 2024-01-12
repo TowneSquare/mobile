@@ -44,7 +44,7 @@ const SelectedCollectionBottomSheet = () => {
   const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
   const [snapPoint, setSnap] = useState('67%');
   const profilePics = useAppSelector(
-    (state) => state.USER.details.profileImage
+    (state) => state.USER.UserData.profileImage
   );
   const renderBackdrop = useCallback(
     (props: any) => (

@@ -21,31 +21,35 @@ import { useNavigation } from '@react-navigation/native';
 import { SinglePostProps } from '../../navigations/NavigationTypes';
 import SinglePostContent from '../../components/SinglePostView/SinglePostContent';
 import { useAppDispatch } from '../../controller/hooks';
+import { updateCommentReplyData } from '../../controller/createPost';
 const SinglePost = ({ route }: SinglePostProps) => {
   const props = route.params;
   const scrollViewRef = useRef<ScrollView>(null);
   const textInputRef = useRef<TextInput>(null);
   const [replyingTo, setReplyingTo] = useState(false);
   const navigation = useNavigation();
+  const dispatch = useAppDispatch()
 
-  const data = {
-    id: '9',
-    pfp: '',
-    username: 'Username',
-    nickname: 'username',
-    timepost: '5m',
-    comments: '99k',
-    retweet: '99k',
-    like: '99k',
-    type: 'swap-option-included',
-    content: {
-      message: 'Just joined TowneSquare, a new web3 social platform!',
-      messageTag: 'APT',
-      collectionName: '',
-      logo: '',
-      price: 8.46,
-    },
-  };
+
+
+  // const data = {
+  //   id: '9',
+  //   pfp: '',
+  //   username,
+  //   nickname,
+  //   timepost: '5m',
+  //   comments: '99k',
+  //   retweet: '99k',
+  //   like: '99k',
+  //   type: 'swap-option-included',
+  //   content: {
+  //     message: 'Just joined TowneSquare, a new web3 social platform!',
+  //     messageTag: 'APT',
+  //     collectionName: '',
+  //     logo: '',
+  //     price: 8.46,
+  //   },
+  // };
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -55,10 +59,11 @@ const SinglePost = ({ route }: SinglePostProps) => {
     return null;
   }
 
-  const handleCommentPress = () => {
+  const handleCommentPress = (username:string) => {
     textInputRef.current?.focus();
     setReplyingTo(true);
     textInputRef.current?.clear();
+    dispatch(updateCommentReplyData({username}))
     if (scrollViewRef.current) {
       const commentIndex = 4;
       const yOffset = commentIndex * 100;
@@ -89,15 +94,19 @@ const SinglePost = ({ route }: SinglePostProps) => {
         <View />
       </View>
       <ScrollView contentContainerStyle={styles.scrollView} ref={scrollViewRef}>
-        <SinglePostContent data={data} />
-        <Comments handleCommentButton={handleCommentPress} />
-        <Comments handleCommentButton={handleCommentPress} myPost />
+        <SinglePostContent data={props} />
+        {/* <Comments handleCommentButton={handleCommentPress} />
+        <Comments handleCommentButton={handleCommentPress} myPost /> */}
+        {props?.comments.map((comment, index) => (
+          <Comments handleCommentButton={handleCommentPress} CommentData={comment} key={index}/>
+        ))}
       </ScrollView>
 
       <AddCommentTextInput
         showReplyingTo={replyingTo}
         handleBlur={handleBlur}
         textRef={textInputRef}
+        postId={props?._id}
       />
       {/* {isAnyModalOpen && <View style={styles.overlay} />} */}
     </SafeAreaView>

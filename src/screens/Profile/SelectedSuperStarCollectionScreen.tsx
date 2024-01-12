@@ -24,9 +24,9 @@ const SelectedSuperStarCollectionScreen = ({
   navigation,
   route,
 }: SelectedSuperStarCollectionScreenProps) => {
-  const selected = useAppSelector((state) => state.USER.selectedSuperStar);
+  const selected = useAppSelector((state) => state.USER.selectedSuperStars);
   const dispatch = useAppDispatch();
-  const { nfts, title } = route.params;
+  const {title, nfts} = route.params;
   return (
     <SafeAreaView
       style={{
@@ -46,19 +46,21 @@ const SelectedSuperStarCollectionScreen = ({
             {nfts.map((collection, index) => (
               <>
                 <Pressable
+                  key={index}
                   disabled={
                     selected.length === 6 ||
                     selected.some(
                       (obj) =>
-                        obj.hasOwnProperty('id') &&
-                        obj['id'] === collection.name
+                        obj.hasOwnProperty('nftTokenId') &&
+                        obj['nftTokenId'] === collection.nftTokenId
                     )
                   }
                   onPress={() => {
                     dispatch(
                       updateSelectedSuperStar({
-                        uri: Image.resolveAssetSource(collection.image).uri,
-                        id: collection.name,
+                        nftImageUrl: Image.resolveAssetSource(collection.nftImageUrl).uri,
+                        nftTokenId: collection.nftTokenId,
+                        nftCollection: collection.nftCollection
                       })
                     );
                   }}
@@ -67,15 +69,15 @@ const SelectedSuperStarCollectionScreen = ({
                   <View style={styles.imageContainer}>
                     <Image
                       source={{
-                        uri: Image.resolveAssetSource(collection.image).uri,
+                        uri: Image.resolveAssetSource(collection.nftImageUrl).uri,
                       }}
                       resizeMode="cover"
                       style={styles.imageStyle}
                     />
                     {selected.some(
                       (obj) =>
-                        obj.hasOwnProperty('id') &&
-                        obj['id'] === collection.name
+                        obj.hasOwnProperty('nftTokenId') &&
+                        obj['nftTokenId'] === collection.nftTokenId
                     ) && (
                       <View
                         style={{
@@ -92,7 +94,7 @@ const SelectedSuperStarCollectionScreen = ({
                       </View>
                     )}
                   </View>
-                  <Text style={styles.name}>{collection.name}</Text>
+                  <Text style={styles.name}>{collection.nftTokenId}</Text>
                 </Pressable>
               </>
             ))}

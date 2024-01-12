@@ -44,7 +44,7 @@ const ProfileCard = ({
 }: Props) => {
   const navigation = useNavigation();
   const profilePics = useAppSelector(
-    (state) => state.USER.details.profileImage
+    (state) => state.USER.UserData.profileImage
   );
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -175,7 +175,7 @@ const ProfileCard = ({
                         ? profilePics
                         : Image.resolveAssetSource(images.profilepicture).uri,
                     }}
-                    resizeMode="cover"
+                    resizeMode="center"
                   />
                 </LinearGradient>
 

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "TowneSquare",
-    "slug": "TowneSquare",
+    "slug": "townesquare",
     "scheme": "townesquare",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,9 +10,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -27,7 +25,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "fde1a842-16d1-47e7-a064-87974daf80de"
+        "projectId": "71a48255-fc2a-4387-84c6-f217978c4e60"
       }
     },
     "packagerOpts": {

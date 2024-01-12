@@ -1,16 +1,17 @@
-import { View, Text, Dimensions, Image, StyleSheet } from 'react-native';
-import { sizes } from '../../utils';
-import { appColor, fonts, images } from '../../constants';
-const { height, width } = Dimensions.get('window');
-import Queen from '../../../assets/images/svg/Queen';
-import APTMonkey from '../../../assets/images/svg/APTMonkey';
-import APT from '../../../assets//images/svg/APT';
-import PostHeader from './PostHeader';
-import PostActions from './PostActions';
-import { feedStyle } from './FeedsStyles';
-import { useFonts } from 'expo-font';
-import RepostedHeader from './RepostedHeader';
-import ProfilePicture from './SwipeableProfilePicture';
+import { View, Text, Dimensions, Image, StyleSheet } from "react-native";
+import { useRef } from "react";
+import { sizes } from "../../utils";
+import { appColor, fonts, images } from "../../constants";
+const { height, width } = Dimensions.get("window");
+import Queen from "../../../assets/images/svg/Queen";
+import APTMonkey from "../../../assets/images/svg/APTMonkey";
+import APT from "../../../assets//images/svg/APT";
+import PostHeader from "./PostHeader";
+import PostActions from "./PostActions";
+import { feedStyle } from "./FeedsStyles";
+import { useFonts } from "expo-font";
+import RepostedHeader from "./RepostedHeader";
+import ProfilePicture from "./SwipeableProfilePicture";
 import {
   UserPost,
   FeedContent,
@@ -24,30 +25,35 @@ import {
   NFT_FOR_SALE,
   Repost,
   ATTACHED_NFT,
-} from '../../models';
-import { Avatar } from 'react-native-elements';
-import { PostData } from '../../controller/createPost';
+} from "../../models";
+import { Avatar } from "react-native-elements";
+import { PostData } from "../../controller/createPost";
+import { Video, ResizeMode } from "expo-av";
+import { getPostTime } from "../../utils/helperFunction";
 const size = new sizes(height, width);
 interface Props {
   data: PostData;
   shouldPFPSwipe: boolean;
 }
 const Reposted = ({ data, shouldPFPSwipe }: Props) => {
+  const video = useRef(null);
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
   }
+
+  const timePost = getPostTime(data.createdAt);
 
   const Header = () => {
     return (
       <>
         <View
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             marginHorizontal: size.getWidthSize(12),
             marginTop: size.getHeightSize(16),
             marginBottom: size.getHeightSize(8),
@@ -61,10 +67,10 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
           />
           <View
             style={{
-              flexDirection: 'row',
+              flexDirection: "row",
               gap: size.getWidthSize(4),
               width: size.getWidthSize(214),
-              alignItems: 'center',
+              alignItems: "center",
               flex: 1,
             }}
           >
@@ -74,7 +80,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
               style={{
                 fontSize: size.fontSize(16),
                 color: appColor.kTextColor,
-                fontFamily: 'Outfit-Medium',
+                fontFamily: "Outfit-Medium",
                 lineHeight: size.getHeightSize(21),
                 maxWidth: size.getWidthSize(74),
               }}
@@ -89,18 +95,18 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 color: appColor.grayLight,
                 fontSize: size.fontSize(14),
                 lineHeight: size.getHeightSize(18),
-                fontFamily: 'Outfit-Regular',
+                fontFamily: "Outfit-Regular",
                 maxWidth: size.getWidthSize(67),
               }}
             >
-              @{data.originalCustomer.nickname}
+              @{data?.originalCustomer?.nickname}
             </Text>
             <Text
               style={{
                 color: appColor.grayLight,
                 fontSize: size.fontSize(14),
                 lineHeight: size.getHeightSize(18),
-                fontFamily: 'Outfit-Bold',
+                fontFamily: "Outfit-Bold",
               }}
             >
               •
@@ -110,10 +116,10 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 color: appColor.grayLight,
                 fontSize: size.fontSize(14),
                 lineHeight: size.getHeightSize(18),
-                fontFamily: 'Outfit-Regular',
+                fontFamily: "Outfit-Regular",
               }}
             >
-              {'2m'} //TODO
+              {timePost}
             </Text>
           </View>
         </View>
@@ -121,14 +127,24 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
     );
   };
   let content;
+
   // const type_of_post = data.content as Repost;
-  const contentTypeOfRepost = data.imageUrl
+  const contentTypeOfRepost = 
+    data?.videoUrls[0] && data?.description
+    ? FeedContent.MESSAGE_VIDEO
+    : data?.imageUrls[0] && data?.description
     ? FeedContent.MESSAGE_IMAGE
-    : data.videoUrl
-    ? FeedContent.VIDEO
-    : data.repost
-    ? FeedContent.REPOST
-    : FeedContent.MESSAGE_ONLY;
+    : data.videoUrls[0]
+    ? FeedContent.VIDEO_ONLY
+    : data.imageUrls[0]
+    ? FeedContent.IMAGE_ONLY
+    : data?.nftImageUrl && data?.sellNFTPrice
+    ? FeedContent.NFT_FOR_SALE
+    : data?.nftImageUrl && !data.sellNFTPrice
+    ? FeedContent.ATTACHED_NFT
+    : data?.description
+    ? FeedContent.MESSAGE_ONLY
+    : FeedContent.EMPTY;
   const userPost = data;
   switch (contentTypeOfRepost) {
     case FeedContent.MESSAGE_ONLY:
@@ -136,12 +152,17 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture id={data._id} />
+            <ProfilePicture
+              profileImageUri={userPost?.customer?.profileImage}
+              userId={userPost?.customer._id}
+            />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
-                timepost={'2m'} //TODO
+                timepost={timePost}
+                postId={userPost._id}
+                userId={userPost.customer._id}
               />
               <RepostedHeader />
               <View style={repostStyles.repostContainer}>
@@ -161,8 +182,10 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
 
               <PostActions
                 noOfComments={userPost.comments.length}
-                noOfLikes={userPost.likes.length}
-                noOfRetweet={userPost.reposts.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
+                postId={userPost._id}
+                 userId={userPost.customer._id}
               />
             </View>
           </View>
@@ -175,12 +198,17 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture id={data._id} />
+            <ProfilePicture
+              profileImageUri={userPost?.customer?.profileImage}
+              userId={userPost?.customer._id}
+            />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
-                timepost={'2m'} //TODO
+                timepost={timePost}
+                postId={userPost._id}
+                userId={userPost.customer._id}
               />
               <RepostedHeader />
               <View style={repostStyles.repostContainer}>
@@ -194,10 +222,11 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                   ]}
                 >
                   {userPost.description}
+                  {userPost.description}
                 </Text>
                 <View style={[styles.mediaContainer, { marginBottom: 0 }]}>
                   <Image
-                    source={images.feedImage1}
+                    source={{ uri: userPost.imageUrls[0] }}
                     style={[repostStyles.repostImage]}
                     resizeMode="cover"
                   />
@@ -205,8 +234,51 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
               </View>
               <PostActions
                 noOfComments={userPost.comments.length}
-                noOfLikes={userPost.comments.length}
-                noOfRetweet={userPost.reposts.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
+                postId={userPost._id}
+                 userId={userPost.customer._id}
+              />
+            </View>
+          </View>
+        </>
+      );
+      break;
+    case FeedContent.IMAGE_ONLY:
+      // userPost.content = data.content as Message_Image;
+
+      content = (
+        <>
+          <View style={styles.feedContainer}>
+            <ProfilePicture
+              profileImageUri={userPost?.customer?.profileImage}
+              userId={userPost?.customer._id}
+            />
+            <View style={styles.subHeading}>
+              <PostHeader
+                username={userPost.customer.username}
+                nickname={userPost.customer.nickname}
+                timepost={timePost}
+                postId={userPost._id}
+                userId={userPost.customer._id}
+              />
+              <RepostedHeader />
+              <View style={repostStyles.repostContainer}>
+                <Header />
+                <View style={[styles.mediaContainer, { marginBottom: 0 }]}>
+                  <Image
+                    source={{ uri: userPost.imageUrls[0] }}
+                    style={[repostStyles.repostImage]}
+                    resizeMode="cover"
+                  />
+                </View>
+              </View>
+              <PostActions
+                noOfComments={userPost.comments.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
+                postId={userPost._id}
+                 userId={userPost.customer._id}
               />
             </View>
           </View>
@@ -247,17 +319,22 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
     //   </>
     // );
     // break;
-    case FeedContent.VIDEO:
+    case FeedContent.VIDEO_ONLY:
       // userPost.content = data.content as VIDEO;
       content = (
         <>
           <View style={styles.feedContainer}>
-            <ProfilePicture id={data._id} />
+            <ProfilePicture
+              profileImageUri={userPost?.customer?.profileImage}
+              userId={userPost?.customer._id}
+            />
             <View style={styles.subHeading}>
               <PostHeader
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
-                timepost={'2m'} //TODO
+                timepost={timePost}
+                postId={userPost._id}
+                userId={userPost.customer._id}
               />
               <RepostedHeader />
               <View style={repostStyles.repostContainer}>
@@ -273,12 +350,91 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                     style={[repostStyles.repostImage]}
                     resizeMode="cover"
                   />
+                  <Video
+                    // source={{
+                    //   uri: userPost.videoUrl[0]
+                    //     ? userPost.videoUrl[0]
+                    //     : Image.resolveAssetSource(images.Aptomingos).uri,
+                    // }}
+                    source={{
+                      uri: data.videoUrls[0],
+                    }}
+                    ref={video}
+                    style={styles.imageStyle}
+                    resizeMode={ResizeMode.CONTAIN}
+                  />
                 </View>
               </View>
               <PostActions
                 noOfComments={userPost.comments.length}
-                noOfLikes={userPost.comments.length}
-                noOfRetweet={userPost.reposts.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
+                postId={userPost._id}
+                 userId={userPost.customer._id}
+              />
+            </View>
+          </View>
+        </>
+      );
+      break;
+    case FeedContent.MESSAGE_VIDEO:
+      // userPost.content = data.content as VIDEO;
+      content = (
+        <>
+          <View style={styles.feedContainer}>
+            <ProfilePicture
+              profileImageUri={userPost?.customer?.profileImage}
+              userId={userPost?.customer._id}
+            />
+            <View style={styles.subHeading}>
+              <PostHeader
+                username={userPost.customer.username}
+                nickname={userPost.customer.nickname}
+                timepost={timePost}
+                postId={userPost._id}
+                userId={userPost.customer._id}
+              />
+              <RepostedHeader />
+              <View style={repostStyles.repostContainer}>
+                <Header />
+                <Text
+                  style={[
+                    styles.message,
+                    {
+                      marginHorizontal: size.getWidthSize(16),
+                    },
+                  ]}
+                >
+                  {userPost.description}
+                </Text>
+                <View
+                  style={[
+                    styles.mediaContainer,
+                    { marginBottom: 0, borderTopRightRadius: 0 },
+                  ]}
+                >
+                  <Video
+                    // source={{
+                    //   uri: userPost.videoUrl[0]
+                    //     ? userPost.videoUrl[0]
+                    //     : Image.resolveAssetSource(images.Aptomingos).uri,
+                    // }}
+                    source={{
+                      uri: data.videoUrls[0],
+                    }}
+                    ref={video}
+                    style={styles.imageStyle}
+                    useNativeControls
+                    resizeMode={ResizeMode.CONTAIN}
+                  />
+                </View>
+              </View>
+              <PostActions
+                noOfComments={userPost.comments.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
+                postId={userPost._id}
+                 userId={userPost.customer._id}
               />
             </View>
           </View>
@@ -345,129 +501,156 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
     // );
     // break;
 
-    // case FeedContent.NFT_FOR_SALE:
-    // const nftContent = data.content as NFT_FOR_SALE;
-    // content = (
-    //   <>
-    //     <View style={styles.feedContainer}>
-    //       <ProfilePicture swipeable={shouldPFPSwipe} />
-    //       <View style={styles.subHeading}>
-    //         <PostHeader
-    //           username={userPost.username}
-    //           nickname={userPost.nickname}
-    //           timepost={userPost.timepost}
-    //         />
-    //         <RepostedHeader />
-    //         <View style={repostStyles.repostContainer}>
-    //           <Header />
-    //           <Text style={[styles.message, repostStyles.repostText]}>
-    //             {nftContent.message}
-    //           </Text>
-    //           <View
-    //             style={[
-    //               styles.mediaContainer,
-    //               {
-    //                 marginBottom: size.getHeightSize(0),
-    //               },
-    //             ]}
-    //           >
-    //             <Image
-    //               source={images.feedImage5}
-    //               style={[repostStyles.repostImage]}
-    //               resizeMode="cover"
-    //             />
-    //             <View style={[styles.nftcollectionContainer]}>
-    //               <View style={styles.collectionInfo}>
-    //                 <Image source={images.collectionImage} />
-    //                 <Text style={styles.collectionName}>
-    //                   {nftContent.collectionName}
-    //                 </Text>
-    //               </View>
+    case FeedContent.NFT_FOR_SALE:
+      //const nftContent = data.content as NFT_FOR_SALE;
+      content = (
+        <>
+          <View style={styles.feedContainer}>
+            <ProfilePicture
+              profileImageUri={userPost?.customer?.profileImage}
+              userId={userPost?.customer._id}
+            />
+            <View style={styles.subHeading}>
+              <PostHeader
+                username={userPost.customer.username}
+                nickname={userPost.customer.nickname}
+                timepost={timePost}
+                postId={userPost._id}
+                userId={userPost.customer._id}
+              />
+              <RepostedHeader />
+              <View style={repostStyles.repostContainer}>
+                <Header />
+                <Text style={[styles.message, repostStyles.repostText]}>
+                  {data.description}
+                </Text>
+                <View
+                  style={[
+                    styles.mediaContainer,
+                    {
+                      marginBottom: size.getHeightSize(0),
+                    },
+                  ]}
+                >
+                  <Image
+                    source={{
+                      uri: userPost.nftImageUrl,
+                    }}
+                    style={{
+                      alignSelf: "center",
+                      width: "100%",
+                      height: size.getHeightSize(200),
+                    }}
+                    resizeMode="cover"
+                    loadingIndicatorSource={images.Aptomingos}
+                  />
+                  <View style={[styles.nftcollectionContainer]}>
+                    <View style={styles.collectionInfo}>
+                      <Image source={{ uri: data.nftImageUrl }} />
+                      <Text style={styles.collectionName}>
+                        {data.nftCollection}
+                      </Text>
+                    </View>
 
-    //               <Text style={styles.collectionId}>
-    //                 {nftContent.collectionName} {nftContent.collectionId}
-    //               </Text>
-    //             </View>
-    //           </View>
+                    <Text style={styles.collectionId}>
+                      {data.nftCollection} {data.nftTokenId}
+                    </Text>
+                  </View>
+                </View>
 
-    //           <View style={[styles.nftCollection, { marginBottom: 0 }]}>
-    //             <View style={styles.collectionPriceContainer}>
-    //               <Text style={styles.price}>Price</Text>
-    //               <Text style={styles.amount}>{nftContent.price} APT</Text>
-    //             </View>
-    //             <View style={styles.button}>
-    //               <Text style={styles.buttonText}>Buy now</Text>
-    //             </View>
-    //           </View>
-    //         </View>
-    //         <PostActions
-    //           noOfComments={userPost.comments}
-    //           noOfLikes={userPost.like}
-    //           noOfRetweet={userPost.retweet}
-    //         />
-    //       </View>
-    //     </View>
-    //   </>
-    // );
-    // break;
-    // case FeedContent.ATTACHED_NFT:
-    //   const attachedNftContent = data.content as ATTACHED_NFT;
-    //   content = (
-    //     <>
-    //       <View style={styles.feedContainer}>
-    //         <ProfilePicture swipeable={shouldPFPSwipe} />
-    //         <View style={styles.subHeading}>
-    //           <PostHeader
-    //             username={userPost.username}
-    //             nickname={userPost.nickname}
-    //             timepost={userPost.timepost}
-    //           />
-    //           <RepostedHeader />
-    //           <View style={repostStyles.repostContainer}>
-    //             <Header />
-    //             <View
-    //               style={[
-    //                 styles.mediaContainer,
-    //                 {
-    //                   marginBottom: size.getHeightSize(8),
-    //                 },
-    //               ]}
-    //             >
-    //               <Image
-    //                 source={images.feedImage5}
-    //                 style={[styles.imageStyle, { borderRadius: 0 }]}
-    //                 resizeMode="cover"
-    //               />
-    //             </View>
-    //             <View
-    //               style={[
-    //                 styles.attachedNftContainer,
-    //                 { marginBottom: size.getHeightSize(8) },
-    //               ]}
-    //             >
-    //               <View style={styles.collectionInfo}>
-    //                 <Image source={images.collectionImage} />
-    //                 <Text style={styles.collectionName}>
-    //                   {attachedNftContent.collectionName}
-    //                 </Text>
-    //               </View>
+                <View style={[styles.nftCollection, { marginBottom: 0 }]}>
+                  <View style={styles.collectionPriceContainer}>
+                    <Text style={styles.price}>Price</Text>
+                    <Text style={styles.amount}>{data.sellNFTPrice} APT</Text>
+                  </View>
+                  <View style={styles.button}>
+                    <Text style={styles.buttonText}>Buy now</Text>
+                  </View>
+                </View>
+              </View>
+              <PostActions
+                noOfComments={userPost.comments.length}
+                Likes={userPost?.likes}
+                Repost={userPost?.reposts}
+                postId={userPost._id}
+                 userId={userPost.customer._id}
+              />
+            </View>
+          </View>
+        </>
+      );
+      break;
+    case FeedContent.ATTACHED_NFT:
+      //const attachedNftContent = data.content as ATTACHED_NFT;
+      content = (
+        <>
+          <View style={styles.feedContainer}>
+            <ProfilePicture
+              profileImageUri={userPost?.customer?.profileImage}
+              userId={userPost?.customer._id}
+            />
+            <View style={styles.subHeading}>
+              <PostHeader
+                username={userPost.customer.username}
+                nickname={userPost.customer.nickname}
+                timepost={timePost}
+                postId={userPost._id}
+                userId={userPost.customer._id}
+              />
+              <RepostedHeader />
+              <View style={repostStyles.repostContainer}>
+                <Header />
+                <View
+                  style={[
+                    styles.mediaContainer,
+                    {
+                      marginBottom: size.getHeightSize(8),
+                    },
+                  ]}
+                >
+                  <Image
+                    source={{
+                      uri: userPost.nftImageUrl,
+                    }}
+                    style={{
+                      alignSelf: "center",
+                      width: "100%",
+                      height: size.getHeightSize(200),
+                    }}
+                    resizeMode="cover"
+                    loadingIndicatorSource={images.Aptomingos}
+                  />
+                </View>
+                <View
+                  style={[
+                    styles.attachedNftContainer,
+                    { marginBottom: size.getHeightSize(8) },
+                  ]}
+                >
+                  <View style={styles.collectionInfo}>
+                    <Image source={{ uri: userPost.nftImageUrl }} />
+                    <Text style={styles.collectionName}>
+                      {data.nftCollection}
+                    </Text>
+                  </View>
 
-    //               <Text style={styles.collectionId}>
-    //                 {attachedNftContent.collectionName}
-    //                 {attachedNftContent.collectionId}
-    //               </Text>
-    //             </View>
-    //           </View>
-    //           <PostActions
-    //             noOfComments={userPost.comments}
-    //             noOfLikes={userPost.like}
-    //             noOfRetweet={userPost.retweet}
-    //           />
-    //         </View>
-    //       </View>
-    //     </>
-    //   );
-    //   break;
+                  <Text style={styles.collectionId}>
+                    {data.nftCollection} {data.nftTokenId}
+                  </Text>
+                </View>
+              </View>
+              <PostActions
+                noOfComments={userPost.comments.length}
+               Likes={userPost?.likes}
+                Repost={userPost?.reposts}
+                postId={userPost._id}
+                 userId={userPost.customer._id}
+              />
+            </View>
+          </View>
+        </>
+      );
+      break;
     // // case FeedContent.SWAP_OPTION_INCLUDED:
     //   const swapContent = data.content as SWAP_OPTION_INCLUDED;
     //   content = (
@@ -587,21 +770,21 @@ export default Reposted;
 const styles = StyleSheet.create(feedStyle);
 const repostStyles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: size.getWidthSize(6),
-    alignItems: 'center',
+    alignItems: "center",
   },
   postedIn: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.grayLight,
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
   },
   communityName: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.primaryLight,
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
   },
   repostContainer: {
     borderWidth: size.getWidthSize(0.5),
@@ -619,12 +802,12 @@ const repostStyles = StyleSheet.create({
     marginBottom: size.getHeightSize(0),
   },
   swapContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderTopWidth: 1,
     borderColor: appColor.kGrayLight3,
     borderRadius: 8,
     marginTop: size.getHeightSize(8),
-    alignItems: 'center',
+    alignItems: "center",
     paddingHorizontal: size.getWidthSize(16),
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
@@ -632,7 +815,7 @@ const repostStyles = StyleSheet.create({
   repostImage: {
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
-    width: '100%',
+    width: "100%",
     maxHeight: size.getHeightSize(400),
   },
 });

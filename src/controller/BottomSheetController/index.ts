@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { images } from '../../constants';
 interface NftCollection {
-  image?: any;
-  Name?: string;
-  id?: number;
+  nftImageUrl?: any;
+  nftCollection?: string;
+  nftTokenId?: number;
 }
 
 interface initialStateProps {
@@ -55,44 +55,44 @@ const initialState: initialStateProps = {
   },
   listOfNftCollections: [
     {
-      image: images.NftCollection1,
-      Name: 'Aptos Monkey lorem Ipsumdalr',
-      id: 1,
+      nftImageUrl: images.NftCollection1,
+      nftCollection: 'Aptos Monkey lorem Ipsumdalr',
+      nftTokenId: 1,
     },
     {
-      image: images.NftCollection2,
-      Name: 'Aptomingos',
-      id: 2,
+      nftImageUrl: images.NftCollection2,
+      nftCollection: 'Aptomingos',
+      nftTokenId: 2,
     },
     {
-      image: images.superStar2,
-      Name: 'Aptos Monkey lorem Ipsumdalr',
-      id: 3,
+      nftImageUrl: images.superStar2,
+      nftCollection: 'Aptos Monkey lorem Ipsumdalr',
+      nftTokenId: 3,
     },
     {
-      image: images.NftCollection2,
-      Name: 'Aptomingos',
-      id: 4,
+      nftImageUrl: images.NftCollection2,
+      nftCollection: 'Aptomingos',
+      nftTokenId: 4,
     },
     {
-      image: images.superStar1,
-      Name: 'Aptos Monkey lorem Ipsumdalr',
-      id: 5,
+      nftImageUrl: images.superStar1,
+      nftCollection: 'Aptos Monkey lorem Ipsumdalr',
+      nftTokenId: 5,
     },
     {
-      image: images.NftCollection2,
-      Name: 'Aptomingos',
-      id: 6,
+      nftImageUrl: images.NftCollection2,
+      nftCollection: 'Aptomingos',
+      nftTokenId: 6,
     },
     {
-      image: images.NftCollection1,
-      Name: 'Aptos Monkey lorem Ipsumdalr',
-      id: 7,
+      nftImageUrl: images.NftCollection1,
+      nftCollection: 'Aptos Monkey lorem Ipsumdalr',
+      nftTokenId: 7,
     },
     {
-      image: images.NftCollection2,
-      Name: 'Aptomingos',
-      id: 8,
+      nftImageUrl: images.NftCollection2,
+      nftCollection: 'Aptomingos',
+      nftTokenId: 8,
     },
   ],
   superStarBottomSheet: false,

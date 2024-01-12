@@ -1,23 +1,35 @@
-import { Text, Pressable, Dimensions, StyleSheet } from 'react-native';
-import { useState } from 'react';
-const { height, width } = Dimensions.get('window');
-import { appColor } from '../../constants';
-import { sizes } from '../../utils';
+import { Text, Pressable, Dimensions, StyleSheet } from "react-native";
+import { useState } from "react";
+const { height, width } = Dimensions.get("window");
+import { appColor } from "../../constants";
+import { sizes } from "../../utils";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import { followUser, unFollowUser } from "../../controller/UserController";
 const size = new sizes(height, width);
 interface Props {
   isFollowing: boolean;
+  toUserId: string;
 }
-const FollowButton = ({ isFollowing }: Props) => {
+const FollowButton = ({ isFollowing, toUserId }: Props) => {
   const [follow, setFollow] = useState(isFollowing);
+  const dispatch = useAppDispatch();
+  const token = useAppSelector((state) => state.USER.didToken);
+  const toUserIds = [toUserId];
   const handleFollow = () => {
-    setFollow((previous) => !previous);
+    setFollow(true);
+    dispatch(followUser({ toUserIds, token }));
+  };
+
+  const handleUnFollow = () => {
+    setFollow(false);
+    dispatch(unFollowUser({ token, followId: toUserId }));
   };
   return (
     <Pressable
-      onPress={handleFollow}
+      onPress={follow ? handleUnFollow : handleFollow}
       style={follow ? styles.followingButton : styles.followButton}
     >
-      <Text style={styles.followText}>{follow ? 'Following' : 'Follow'}</Text>
+      <Text style={styles.followText}>{follow ? "Following" : "Follow"}</Text>
     </Pressable>
   );
 };
@@ -29,7 +41,7 @@ const styles = StyleSheet.create({
     paddingVertical: size.getHeightSize(4),
     backgroundColor: appColor.kSecondaryButtonColor,
     borderRadius: 40,
-    justifyContent: 'center',
+    justifyContent: "center",
     minHeight: size.getHeightSize(34),
   },
   followingButton: {
@@ -37,8 +49,8 @@ const styles = StyleSheet.create({
     paddingVertical: size.getHeightSize(4),
     backgroundColor: appColor.kGrayLight3,
     borderRadius: 40,
-    
-    justifyContent: 'center',
+
+    justifyContent: "center",
     minHeight: size.getHeightSize(34),
   },
   followText: {
@@ -46,7 +58,7 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(20),
     letterSpacing: 0.32,
-    fontFamily: 'Outfit-Medium',
-    textAlign: 'center',
+    fontFamily: "Outfit-Medium",
+    textAlign: "center",
   },
 });

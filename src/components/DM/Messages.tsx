@@ -5,14 +5,19 @@ import {
   StyleSheet,
   Pressable,
   Animated,
+  ActivityIndicator,
 } from 'react-native';
 import { useRef, useReducer } from 'react';
 const { height, width } = Dimensions.get('window');
 import { sizes } from '../../utils';
+import { useContext } from 'react';
+import { ChatDmContext } from '../../context/ChatContext';
 const size = new sizes(height, width);
 import { Avatar } from 'react-native-elements';
 import { appColor, images } from '../../constants';
+import { Timestamp } from '@firebase/firestore';
 import dayjs from 'dayjs';
+import { useAppSelector } from '../../controller/hooks';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import {
   ChatText,
@@ -29,7 +34,7 @@ import {
 } from 'react-native-gesture-handler';
 import GetContent from '../../components/DM/GetContent';
 import SwipeArrowIcon from '../../../assets/images/svg/SwipeArrowIcon';
-import { useNavigation } from '@react-navigation/native';
+
 type State = {
   backgroundColor: '#222222' | 'transparent';
   messageId: string;
@@ -56,6 +61,28 @@ function isSortedType(data: Data): data is SortedChat {
   return 'sortedType' in data === true;
 }
 
+function getTimeStamp(createdAt: Timestamp, uid: string) {
+  if (createdAt) {
+    const jsDate: Date = createdAt.toDate();
+    const formattedTime: string = jsDate.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+
+    return <Text style={styles.timeStamp}>{formattedTime}</Text>;
+  } else {
+    return (
+      <View style={styles.sendingView}>
+        <Text style={styles.sendingText}>Sending...</Text>
+        <ActivityIndicator
+          size={size.getHeightSize(16)}
+          color={appColor.primaryLight}
+        />
+      </View>
+    );
+  }
+}
+
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'ChangeBGColor':
@@ -66,17 +93,32 @@ const reducer = (state: State, action: Action) => {
   }
 };
 const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
-  const navigation = useNavigation();
+  const { setReplyingToMessage } = useContext(ChatDmContext);
+  const uid = useAppSelector((state) => state.USER.UserData._id);
   const swipeRef = useRef<Swipeable>();
   const [selected, dispatch] = useReducer(reducer, {
     backgroundColor: 'transparent',
     messageId: '',
   });
 
-  //   const trans = dragX.interpolate({
-  //     inputRange: [0, 50, 100, 101],
-  //     outputRange: [-16, 34, 84, 83],
-  //   });
+  const updateReplyText = (data) => {
+    if (data.message.messageType == 'text') {
+      setReplyingToMessage({
+        id: data.id,
+        message: data.message.text,
+        sender: data.user.name,
+        type: data.message.messageType,
+      });
+    } else if (data.message.messageType == 'replied') {
+      setReplyingToMessage({
+        id: data.id,
+        message: data.message.reply,
+        sender: data.user.name,
+        type: 'text',
+      });
+    }
+  };
+
   const leftSwipe = (progress, dragX) => {
     const trans = dragX.interpolate({
       inputRange: [0, 50, 100, 101],
@@ -104,14 +146,11 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
   if (!isDate(data)) {
     if (isSortedType(data)) {
       const contents = data.content;
+      // console.log(content);
       contents.map((messageContent, index) => {
         const { id, user } = messageContent;
-        if (
-          user.id ===
-          '0x872db391f94ef5a2bfda2faae90121a0b496866d69aaf7d8334c90fc50197e6d'
-        ) {
-          // console.log(messageContent);
-          // console.log("====date here====");
+
+        if (user._id === '12345') {
           content = (
             <View
               style={{
@@ -173,21 +212,12 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                   }}
                 >
                   <GetContent
+                    uid={uid}
                     data={messageContent}
                     chatUtilsInstance={chatUtilsInstance}
                   />
-                  {messageContent.createdAt && (
-                    <Text style={styles.timeStamp}>
-                      {' '}
-                      {new Date(messageContent.createdAt).toLocaleTimeString(
-                        'en-US',
-                        {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        }
-                      )}
-                    </Text>
-                  )}
+                  {messageContent.createdAt &&
+                    getTimeStamp(data.createdAt, uid)}
                 </View>
               </Swipeable>
             </View>
@@ -253,20 +283,12 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                   />
                   <View style={styles.view2}>
                     <GetContent
+                      uid={uid}
                       data={messageContent}
                       chatUtilsInstance={chatUtilsInstance}
                     />
-                    {messageContent.createdAt && (
-                      <Text style={styles.timeStamp}>
-                        {new Date(messageContent.createdAt).toLocaleTimeString(
-                          'en-US',
-                          {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          }
-                        )}
-                      </Text>
-                    )}
+                    {messageContent.createdAt &&
+                      getTimeStamp(data.createdAt, uid)}
                   </View>
                 </View>
               </Swipeable>
@@ -281,10 +303,9 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
         message: { messageType, text },
         user,
       } = data;
-      if (
-        user.id ===
-        '0x872db391f94ef5a2bfda2faae90121a0b496866d69aaf7d8334c90fc50197e6d'
-      ) {
+      // console.log('=====data======');
+      // console.log(data);
+      if (user._id === '12345') {
         content = (
           <View
             style={{
@@ -310,11 +331,12 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
               renderLeftActions={leftSwipe}
               rightThreshold={40}
               onFailed={() => {}}
-              onSwipeableOpen={() => {}}
+              onSwipeableOpen={(event) => {}}
               onBegan={() => {}}
-              onSwipeableWillOpen={() => {
+              onSwipeableWillOpen={(event) => {
+                updateReplyText(data);
                 showReplyingTo();
-                swipeRef.current.close();
+                if (data.message.messageType) swipeRef.current.close();
                 dispatch({
                   type: 'ChangeBGColor',
                   payload: {
@@ -345,14 +367,12 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                   paddingLeft: size.getWidthSize(64),
                 }}
               >
-                <GetContent data={data} chatUtilsInstance={chatUtilsInstance} />
-                <Text style={styles.timeStamp}>
-                  {' '}
-                  {new Date(data.createdAt).toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </Text>
+                <GetContent
+                  uid={uid}
+                  data={data}
+                  chatUtilsInstance={chatUtilsInstance}
+                />
+                {getTimeStamp(data.createdAt, uid)}
               </View>
             </Swipeable>
           </View>
@@ -387,6 +407,7 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
               onBegan={() => {}}
               onSwipeableWillOpen={() => {
                 showReplyingTo();
+                updateReplyText(data);
                 swipeRef.current.close();
                 dispatch({
                   type: 'ChangeBGColor',
@@ -418,14 +439,12 @@ const Messages = ({ data, showReplyingTo, chatUtilsInstance }: Props) => {
                 />
                 <View style={styles.view2}>
                   <GetContent
+                    uid={uid}
                     data={data}
                     chatUtilsInstance={chatUtilsInstance}
                   />
                   <Text numberOfLines={1} style={styles.timeStamp2}>
-                    {new Date(data.createdAt).toLocaleTimeString('en-US', {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
+                    {getTimeStamp(data.createdAt, uid)}
                   </Text>
                 </View>
               </View>
@@ -539,6 +558,18 @@ const styles = StyleSheet.create({
     paddingVertical: size.getHeightSize(8),
   },
   timeStamp2: {
+    color: appColor.grayLight,
+    fontSize: size.fontSize(14),
+    fontFamily: 'Outfit-Regular',
+    lineHeight: size.getHeightSize(18),
+  },
+  sendingView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: size.getWidthSize(2),
+    alignSelf: 'flex-end',
+  },
+  sendingText: {
     color: appColor.grayLight,
     fontSize: size.fontSize(14),
     fontFamily: 'Outfit-Regular',

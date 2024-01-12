@@ -27,10 +27,11 @@ const ForYouPosts = () => {
   const AllPost = useAppSelector((state) => state.CreatePostController.AllPost);
   useEffect(() => {
     dispatch(getAllPost(userToken));
-  }, []);
+    
+  }, []); 
 
-  console.log(AllPost, 'allpost');
 
+ 
   const EmptyComponent = () => {
     return (
       <SafeAreaView
@@ -97,7 +98,7 @@ const ForYouPosts = () => {
         data={AllPost}
         renderItem={({ item }) => <ForYou data={item} shouldPFPSwipe />}
         keyExtractor={(item, index) => index.toString()}
-        estimatedItemSize={200}
+        estimatedItemSize={500}
         onRefresh={() => {
           dispatch(getAllPost(userToken));
         }}

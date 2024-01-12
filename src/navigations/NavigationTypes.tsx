@@ -4,6 +4,8 @@ import {
   RouteProp,
 } from '@react-navigation/native';
 import { ImageSourcePropType } from 'react-native';
+import { PostData } from '../controller/createPost';
+import { UserData } from '../controller/UserController';
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
@@ -11,15 +13,16 @@ declare global {
 }
 
 interface PetraWalletResponse {
-  response?: 'approved' | 'rejected' | 'dismissed' 
+  response?: 'approved' | 'rejected' | 'dismissed';
 }
 
 type SelectedSuperStarCollectionScreenParameter = {
   [SelectedSuperStarCollectionScreen: string]: {
     title: string;
     nfts: {
-      image: ImageSourcePropType;
-      name: string;
+      nftImageUrl: ImageSourcePropType;
+      nftTokenId: string;
+      nftCollection: string;
     }[];
   };
 };
@@ -40,8 +43,12 @@ export type RootStackParamList = {
   EmailLogin: undefined;
   EditProfile: undefined;
   SetNFTs: undefined;
-  ViewImageScreen: undefined;
-  VideoPlayer: undefined;
+  ViewImageScreen: {
+    postData: PostData;
+  };
+  VideoPlayer: {
+    postData: PostData;
+  };
   SinglePost: undefined;
   Notifications: undefined;
   CreatePost: {
@@ -58,8 +65,9 @@ export type RootStackParamList = {
   SelectedSuperStarCollectionScreen: {
     title: string;
     nfts: {
-      image: string;
-      name: string;
+      nftImageUrl: string;
+      nftTokenId: string;
+      nftCollection: string;
     }[];
   };
   EditProfileScreen: undefined;
@@ -68,7 +76,7 @@ export type RootStackParamList = {
     screen: 'Following' | 'Followers' | 'Communities';
   };
   TheirProfileScreen: {
-    username: string;
+    userData: UserData;
   };
 
   CreateCommunityScreen: undefined;
@@ -116,7 +124,9 @@ export type RootStackParamList = {
   Channels: undefined;
   BannedMember: undefined;
   ChannelChat: undefined;
-  Conversation: undefined;
+  Conversation: {
+    chatId: string;
+  };
   SendToken: undefined;
   TokenSuccess: {
     popNo: number;
@@ -149,6 +159,18 @@ export type RootStackParamList = {
   AccountSettings: undefined;
   Bookmarks: undefined;
   TownesquareVerification: undefined;
+};
+
+type TheirProfileParams = {
+  [TheirProfileScreen: string]: {
+    userData: UserData;
+  };
+};
+
+type ViewImageScreenParams = {
+  [ViewImageScreen: string]: {
+    postData: PostData;
+  };
 };
 type ChooseWalletParams = {
   [ChooseWallet: string]: PetraWalletResponse;
@@ -187,9 +209,12 @@ type CreatePostParameter = {
   };
 };
 type SinglePostParameter = {
-  [SinglePost: string]: {
-    username: string;
-    nickname: string;
+  [SinglePost: string]: PostData;
+};
+
+type VideoPlayerParameter = {
+  [VideoPlayer: string]: {
+    videoUrl: string;
   };
 };
 type FollowerScreenParameter = {
@@ -197,11 +222,11 @@ type FollowerScreenParameter = {
     screen: string;
   };
 };
-type TheirProfileParameter = {
-  [TheirProfile: string]: {
-    username: string;
-  };
-};
+// type TheirProfileParameter = {
+//   [TheirProfile: string]: {
+//     username: string;
+//   };
+// };
 
 type DEXParameter = {
   [DEX: string]: {
@@ -218,6 +243,11 @@ type AirdropParameter = {
       | 'Dex Swap'
       | 'NFT trade'
       | 'Social transaction';
+  };
+};
+type ConversationParameter = {
+  [Conversation: string]: {
+    chatId: string;
   };
 };
 export type FirstScreenProps = {
@@ -297,7 +327,7 @@ export type SinglePostProps = {
 export type ViewImageScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'ViewImageScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, 'VideoPlayer'>;
+  route: RouteProp<ViewImageScreenParams, 'ViewImageScreen'>;
 };
 export type VideoPlayerProps = {
   navigation: NavigationProp<RootStackParamList, 'VideoPlayer'>;
@@ -369,7 +399,7 @@ export type FollowersScreenProps = {
 export type TheirProfileScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'TheirProfileScreen'>;
   magic: any;
-  route: RouteProp<RootStackParamList, 'TheirProfileScreen'>;
+  route: RouteProp<TheirProfileParams, 'TheirProfileScreen'>;
 };
 export type CreateCommunityScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'CreateCommunityScreen'>;
@@ -552,7 +582,7 @@ export type BannedMemberProps = {
 export type ConversationProps = {
   navigation: NavigationProp<RootStackParamList, 'Conversation'>;
   magic: any;
-  route: RouteProp<ParamListBase, 'Conversation'>;
+  route: RouteProp<ConversationParameter, 'Conversation'>;
 };
 export type SendTokenProps = {
   navigation: NavigationProp<RootStackParamList, 'SendToken'>;

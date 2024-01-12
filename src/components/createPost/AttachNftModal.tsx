@@ -76,12 +76,6 @@ const AttachNftModal = () => {
               callBack={() => {
                 handleModalState();
                 navigation.dispatch(StackActions.pop(2));
-                dispatch(
-                  updatePostNft({
-                    name: 'Aptomingos',
-                    id: 'Aptomingos #9280',
-                  })
-                );
               }}
               handleModalState={handleModalState}
               handlePress={handlePress}

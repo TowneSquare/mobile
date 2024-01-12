@@ -14,7 +14,7 @@ const size = new sizes(height, width);
 import { EditProfilePictureContext } from '../../../context/EditProfileBottomSheetContext';
 const ProfileImage = () => {
   const profilePics = useAppSelector(
-    (state) => state.USER.details.profileImage
+    (state) => state.USER.UserData.profileImage
   );
   const { setProfilePictureBottomSheet } = useContext(
     EditProfilePictureContext

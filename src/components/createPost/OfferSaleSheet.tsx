@@ -19,7 +19,7 @@ import BottomSheet, {
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
-import { useAppDispatch } from '../../controller/hooks';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import CustomHandler from '../Feed/CustomHandler';
 import {
   updateShowPriceModal,
@@ -39,6 +39,12 @@ const OfferSaleSheet = ({ isVisible }: Props) => {
   const [royalties, setRoyalties] = useState(0);
   const dispatch = useAppDispatch();
   const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
+  const { collectionName,nftTokenId, nftImageUrl } = useAppSelector((state) => ({
+    price:state.CreatePostController.posts.nft.sellNFTPrice,
+    collectionName: state.CreatePostController.posts.nft.nftCollection,
+    nftTokenId: state.CreatePostController.posts.nft.nftTokenId,
+    nftImageUrl: state.CreatePostController.posts.nft.nftImageUrl
+  }))
 
   // hooks
   const { bottom: safeBottomArea } = useSafeAreaInsets();
@@ -126,7 +132,7 @@ const OfferSaleSheet = ({ isVisible }: Props) => {
       keyboardBehavior="interactive"
     >
       <BottomSheetView onLayout={handleContentLayout}>
-        <Text style={styles.collectionName}>Aptomingos #9022</Text>
+        <Text style={styles.collectionName}>{`${collectionName} ${nftTokenId}`}</Text>
         <View style={styles.details}>
           <Text style={styles.floorPrice}>Floor price</Text>
           <Text style={styles.amount}>90 APT</Text>
@@ -190,9 +196,10 @@ const OfferSaleSheet = ({ isVisible }: Props) => {
             batch(() => {
               dispatch(
                 updateAptPrice({
-                  name: 'Aptomingos',
-                  id: 'Aptomingos #9280',
-                  price: Number(listingPrice),
+                  nftCollection: collectionName,
+                  nftTokenId,
+                  sellNFTPrice: listingPrice,
+                  nftImageUrl
                 })
               );
               dispatch(updateShowPriceModal(false));

@@ -1,4 +1,4 @@
-import { View, Dimensions, StyleSheet, Image, Pressable } from 'react-native';
+import { View, Dimensions, StyleSheet, Image, Pressable, Alert } from 'react-native';
 const { height, width } = Dimensions.get('window');
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
@@ -12,6 +12,15 @@ import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import { updateToast } from '../../controller/FeedsController';
 import { updateMedia, updateGifBottomSheet } from '../../controller/createPost';
 import { updateAttachNftType } from '../../controller/FeedsController';
+import {
+  launchImageLibraryAsync,
+  MediaTypeOptions,
+  launchCameraAsync,
+  useCameraPermissions,
+  PermissionStatus,
+  useMediaLibraryPermissions,
+  MediaLibraryPermissionResponse,
+} from "expo-image-picker";
 const size = new sizes(height, width);
 const PostAttachment = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +29,7 @@ const PostAttachment = () => {
     attachedNft: state.CreatePostController.posts.nft,
   }));
   const disabled =
-    (mediaValue && mediaValue.length > 1) || attachedNft !== null;
+    (mediaValue && mediaValue.length > 1) || attachedNft.nftImageUrl ;
   const navigation = useNavigation();
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -28,6 +37,82 @@ const PostAttachment = () => {
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
+
+  const [cameraPermissionInformation, requestPermission] =
+    useCameraPermissions();
+
+  const [mediaPermissionStatus, requestMediaPermission] =
+    useMediaLibraryPermissions();
+
+    async function verifyPermission() {
+    if (cameraPermissionInformation?.status === PermissionStatus.UNDETERMINED) {
+      const permissionResponse = await requestPermission();
+
+      return permissionResponse.granted;
+    }
+    if (cameraPermissionInformation?.status === PermissionStatus.DENIED) {
+      Alert.alert(
+        "Insufficient permission!",
+        "You need to grant camera access to use this app"
+      );
+      return false;
+    }
+    return true;
+  }
+
+  const MediaLibraryPermission = async () => {
+    if (mediaPermissionStatus.status === PermissionStatus.UNDETERMINED) {
+      const permissionResponse = await requestMediaPermission();
+
+      return permissionResponse.status;
+    }
+
+    if (mediaPermissionStatus?.status === PermissionStatus.DENIED) {
+      Alert.alert(
+        "Insufficient permission!",
+        "You need to grant media access to use this app"
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const pickImageOrVideo = async () => {
+    const hasPermission = await MediaLibraryPermission();
+    if (!hasPermission) {
+      return;
+    }
+
+    let result = await launchImageLibraryAsync({
+      mediaTypes: MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      // setImage(result.assets[0].uri);
+      dispatch(updateMedia(result.assets[0].uri));
+    }
+  };
+
+  const takeVideoOrImage = async () => {
+    const hasPermission = await verifyPermission();
+    if (!hasPermission) {
+      return;
+    }
+    let result = await launchCameraAsync({
+      mediaTypes: MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      // setImage(result.assets[0].uri);
+      dispatch(updateMedia(result.assets[0].uri));
+    }
+  };
   if (!isLoaded) {
     return null;
   }
@@ -44,18 +129,30 @@ const PostAttachment = () => {
     >
       <Pressable
         onPress={() => {
-          dispatch(
-            disabled
-              ? updateToast({
+          // dispatch(
+          //   disabled
+          //     ? updateToast({
+          //         displayToast: true,
+          //         toastMessage:
+          //           'Remove the attached NFT in order to add images, videos, GIFs or other NFTs.',
+          //         toastType: 'info',
+          //         position: 'bottom',
+          //         alignItems: 'flex-start',
+          //       })
+          //     : updateMedia(Image.resolveAssetSource(images.feedImage2).uri)
+          // );
+          disabled
+            ? dispatch(
+                updateToast({
                   displayToast: true,
                   toastMessage:
-                    'Remove the attached NFT in order to add images, videos, GIFs or other NFTs.',
-                  toastType: 'info',
-                  position: 'bottom',
-                  alignItems: 'flex-start',
+                    "Remove the attached NFT in order to add images, videos, GIFs or other NFTs.",
+                  toastType: "info",
+                  position: "bottom",
+                  alignItems: "flex-start",
                 })
-              : updateMedia(Image.resolveAssetSource(images.feedImage2).uri)
-          );
+              )
+            : takeVideoOrImage();
         }}
         style={styles.iconContainer}
       >
@@ -68,18 +165,18 @@ const PostAttachment = () => {
       <Pressable
         style={styles.iconContainer}
         onPress={() => {
-          dispatch(
-            disabled
-              ? updateToast({
+          disabled
+            ? dispatch(
+                updateToast({
                   displayToast: true,
                   toastMessage:
-                    'Remove the attached NFT in order to add images, videos, GIFs or other NFTs.',
-                  toastType: 'info',
-                  position: 'bottom',
-                  alignItems: 'flex-start',
+                    "Remove the attached NFT in order to add images, videos, GIFs or other NFTs.",
+                  toastType: "info",
+                  position: "bottom",
+                  alignItems: "flex-start",
                 })
-              : updateMedia(Image.resolveAssetSource(images.feedImage1).uri)
-          );
+              )
+            : pickImageOrVideo();
         }}
       >
         <PostImage
@@ -127,7 +224,7 @@ const PostAttachment = () => {
             );
           } else {
             dispatch(updateAttachNftType('createPost')),
-              navigation.navigate('NftCollectionScreen');
+            navigation.navigate('NftCollectionScreen');
           }
         }}
       >

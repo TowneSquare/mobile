@@ -26,13 +26,12 @@ import { updateReceiveModalState } from '../../controller/FeedsController';
 const size = new sizes(height, width);
 interface Props {
   APTOS_DOMAIN_NAME: string;
+  WALLET_ADDRESS:string
 }
-const WalletCard = ({ APTOS_DOMAIN_NAME }: Props) => {
+const WalletCard = ({ APTOS_DOMAIN_NAME, WALLET_ADDRESS }: Props) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
-  const profilePics = useAppSelector(
-    (state) => state.USER.details.profileImage
-  );
+  
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
@@ -149,7 +148,7 @@ const WalletCard = ({ APTOS_DOMAIN_NAME }: Props) => {
                 >
                   {APTOS_DOMAIN_NAME}
                 </Text>
-                <Text style={styles.address}>0x4184CED...1584CE3c4d</Text>
+                <Text style={styles.address}>{`${WALLET_ADDRESS.slice(0,9)}....${WALLET_ADDRESS.slice(35)}`}</Text>
               </View>
             </LinearGradient>
           </View>

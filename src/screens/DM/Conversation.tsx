@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Loader from '../../../assets/svg/Loader';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import ConversationHeader from '../../components/DM/ConversationHeader';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor } from '../../constants';
@@ -17,8 +17,8 @@ import ChatTextInput, { ComponentRef } from '../../components/DM/ChatTextInput';
 import { conversationData } from '../../utils/messageData';
 import DeleteConversationBottomsheet from '../../components/DM/DeleteConversationBottomsheet';
 import { ChatClass } from '../../utils/ChatUtils';
-import { io } from 'socket.io-client';
 import Messages from '../../components/DM/Messages';
+import ChatContext from '../../context/ChatContext';
 import { sizes } from '../../utils';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import DeleteChatBottomsheet from '../../components/DM/DeleteChatBottomsheet';
@@ -26,45 +26,54 @@ import MoreBottomsheet from '../../components/DM/MoreBottomsheet';
 import { ConversationProps } from '../../navigations/NavigationTypes';
 import UnblockUserBottomsheet from '../../components/DM/UnblockUserBottomsheet';
 import BlockUserBottomsheet from '../../components/DM/BlockUserBottomsheet';
-import { connectSocket } from '../../controller/initializesocket';
-import { nanoid } from '@reduxjs/toolkit';
+import {
+  collection,
+  query,
+  orderBy,
+  onSnapshot,
+  startAfter,
+  limit,
+  getDocs,
+  doc,
+  updateDoc,
+  getDoc,
+} from 'firebase/firestore';
+import { firestoreDB } from '../../../config/firebase.config';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-const Conversation = ({ navigation }: ConversationProps) => {
-  const socket = useAppSelector((state) => state.socket.socket);
+const Conversation = ({
+  navigation,
+  route: {
+    params: { chatId },
+  },
+}: ConversationProps) => {
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState([]);
-  useEffect(() => {
-    if (socket) {
-      socket.emit('getchat', 'userId1234');
-      socket.on('message', (message) => {
-        let conversation = [];
-        for (const res of message) {
-          const transformedResponse = {
-            id: nanoid(),
-            message: {
-              messageType: 'text',
-              text: res.text,
-            },
-            read: false,
-            createdAt: res.timestamp,
-            user: {
-              id: res.author.address,
-              name: '',
-            },
-          };
-          conversation.push(transformedResponse);
-        }
-        setMessage(conversation);
-      });
-      socket.on('disconnect', () => {
-        console.log('Disconnected from server');
-      });
-    } else {
-      console.log('===reconnecting===');
-      dispatch(connectSocket());
-    }
-  }, [socket]);
+  const MESSAGE_LIMIT = 10;
+  const lastDocRef = useRef(null);
+  useEffect(() => {}, []);
+  useLayoutEffect(() => {
+    const msgCollectionRef = collection(
+      firestoreDB,
+      `chats/${chatId}/messages`
+    );
+
+    const msgQuery = query(msgCollectionRef, orderBy('createdAt', 'desc'));
+    const unsubscribe = onSnapshot(msgQuery, (querySnap) => {
+      const updatedMessages = querySnap.docs.map((doc) => doc.data());
+      updatedMessages
+        .filter((message) => !message.read) // Only consider unread messages
+        .forEach((unreadMessage) => {
+          markMessageAsRead(chatId, unreadMessage.id, '12345');
+        });
+      setMessage(updatedMessages);
+
+      // console.log('======updated message========');
+      // console.log(updatedMessages);
+    });
+
+    return unsubscribe;
+  }, []);
 
   const chatInputRef = useRef<ComponentRef>();
   const [showReplying, setShowReplyVisibility] = useState(false);
@@ -82,6 +91,7 @@ const Conversation = ({ navigation }: ConversationProps) => {
     setDeleteConversationBottomSheetVisibility,
   ] = useState(false);
   const [showUnblocksheet, setUnblockVisibility] = useState(false);
+  const [lastVisible, setLastVisible] = useState(null);
   const [showBlockUserBottomsheet, setBlockUserVisibility] = useState(false);
   const [blocked, blockUser] = useState(false);
   const [showDeleteChatBottomsheet, setDeleteChatVisibility] = useState(false);
@@ -91,6 +101,55 @@ const Conversation = ({ navigation }: ConversationProps) => {
   const setVisibilityFalse = () => {
     setShowReplyVisibility(false);
   };
+  const loadMoreMessages = async () => {
+    if (lastVisible) {
+      const msgCollectionRef = collection(
+        firestoreDB,
+        `chats/${chatId}/messages`
+      );
+
+      const nextMsgQuery = query(
+        msgCollectionRef,
+        orderBy('createdAt', 'desc'),
+        startAfter(lastVisible),
+        limit(MESSAGE_LIMIT)
+      );
+
+      const querySnap = await getDocs(nextMsgQuery);
+      const newMessages = querySnap.docs.map((doc) => doc.data());
+
+      // Set the last visible document for the next pagination
+      if (querySnap.docs.length > 0) {
+        setLastVisible(querySnap.docs[querySnap.docs.length - 1]);
+      }
+
+      // Append new messages to the existing ones
+      setMessage((prevMessages) => [...prevMessages, ...newMessages]);
+
+      console.log('======loaded more messages========');
+      console.log(newMessages);
+    }
+  };
+  const markMessageAsRead = async (chatId, messageId, currentUserId) => {
+    const messageRef = doc(
+      firestoreDB,
+      `chats/${chatId}/messages/${messageId}`
+    );
+
+    try {
+      const messageDoc = await getDoc(messageRef);
+      const messageData = messageDoc.data();
+      // Check if the message was sent by the other person
+      if (messageData.user._id !== currentUserId) {
+        await updateDoc(messageRef, {
+          read: true,
+        });
+        console.log('Message marked as read successfully');
+      }
+    } catch (error) {
+      console.error('Error marking message as read:', error);
+    }
+  };
   return (
     <SafeAreaView
       style={{
@@ -98,113 +157,116 @@ const Conversation = ({ navigation }: ConversationProps) => {
         backgroundColor: appColor.feedBackground,
       }}
     >
-      <ConversationHeader
-        moreIconCallBack={() => setMoreBottomsheetVisibility(true)}
-      />
+      <ChatContext>
+        <ConversationHeader
+          moreIconCallBack={() => setMoreBottomsheetVisibility(true)}
+        />
 
-      <View
-        style={{
-          flex: 1,
-        }}
-      >
-        <FlatList
-          ListEmptyComponent={
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Loader />
-            </View>
-          }
-          inverted
-          contentContainerStyle={{
-            gap: size.getHeightSize(8),
-            ...(data.length === 0
-              ? { flex: 1, justifyContent: 'center', alignItems: 'center' }
-              : {}),
-          }}
+        <View
           style={{
             flex: 1,
           }}
-          data={data}
-          renderItem={({ item, index }) => (
-            <Messages
-              chatUtilsInstance={chatUtils}
-              data={item}
-              showReplyingTo={setVisibilityTrue}
-              onProfilePictureLongPress={() => {}}
-            />
-          )}
-          keyExtractor={(item) => item.id.toString()}
-        />
-      </View>
-      {blocked ? (
-        <Pressable
-          onPress={() => setUnblockVisibility(true)}
-          style={styles.blockView}
         >
-          <Text style={styles.block}>Unblock UsernameX</Text>
-        </Pressable>
-      ) : (
-        <ChatTextInput
-          ref={chatInputRef}
-          dismissShowReplyingTo={setVisibilityFalse}
-          message=""
-          replyType="text"
-          username=""
-          showReplying={showReplying}
+          <FlatList
+            ListEmptyComponent={
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                {/* <Loader /> */}
+              </View>
+            }
+            inverted
+            contentContainerStyle={{
+              gap: size.getHeightSize(8),
+              ...(data.length === 0
+                ? { flex: 1, justifyContent: 'center', alignItems: 'center' }
+                : {}),
+            }}
+            style={{
+              flex: 1,
+            }}
+            data={data}
+            renderItem={({ item, index }) => (
+              <Messages
+                chatUtilsInstance={chatUtils}
+                data={item}
+                showReplyingTo={setVisibilityTrue}
+                onProfilePictureLongPress={() => {}}
+              />
+            )}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        </View>
+        {blocked ? (
+          <Pressable
+            onPress={() => setUnblockVisibility(true)}
+            style={styles.blockView}
+          >
+            <Text style={styles.block}>Unblock UsernameX</Text>
+          </Pressable>
+        ) : (
+          <ChatTextInput
+            ref={chatInputRef}
+            dismissShowReplyingTo={setVisibilityFalse}
+            message=""
+            replyType="text"
+            username=""
+            showReplying={showReplying}
+            chatId={chatId}
+          />
+        )}
+        <MoreBottomsheet
+          onDeleteChat={() => {
+            setDeleteChatVisibility(true);
+          }}
+          visibility={showMoreBottomSheet}
+          onClose={() => setMoreBottomsheetVisibility(false)}
+          onDeleteConversation={() => {
+            setMoreBottomsheetVisibility(false);
+            setDeleteConversationBottomSheetVisibility(true);
+          }}
+          onBlockUser={() => {
+            setMoreBottomsheetVisibility(false);
+            setBlockUserVisibility(true);
+          }}
         />
-      )}
-      <MoreBottomsheet
-        onDeleteChat={() => {
-          setDeleteChatVisibility(true);
-        }}
-        visibility={showMoreBottomSheet}
-        onClose={() => setMoreBottomsheetVisibility(false)}
-        onDeleteConversation={() => {
-          setMoreBottomsheetVisibility(false);
-          setDeleteConversationBottomSheetVisibility(true);
-        }}
-        onBlockUser={() => {
-          setMoreBottomsheetVisibility(false);
-          setBlockUserVisibility(true);
-        }}
-      />
-      <DeleteConversationBottomsheet
-        callBack={() => {
-          setDeleteConversationBottomSheetVisibility(false);
-          navigation.goBack();
-        }}
-        onClose={() => {
-          setDeleteConversationBottomSheetVisibility(false);
-        }}
-        visibility={showDeleteConversationBottomSheet}
-      />
-      <BlockUserBottomsheet
-        visibility={showBlockUserBottomsheet}
-        onClose={() => setBlockUserVisibility(false)}
-        callBack={() => {
-          blockUser(true);
-        }}
-      />
-      <UnblockUserBottomsheet
-        visibility={showUnblocksheet}
-        onClose={() => setUnblockVisibility(false)}
-        callBack={() => {
-          blockUser(false);
-          setUnblockVisibility(false);
-        }}
-      />
-      <DeleteChatBottomsheet
-        visibility={showDeleteChatBottomsheet}
-        callBack={() => {
-          setDeleteChatVisibility(false);
-          navigation.goBack();
-        }}
-        onClose={() => setDeleteChatVisibility(false)}
-      />
+        <DeleteConversationBottomsheet
+          callBack={() => {
+            setDeleteConversationBottomSheetVisibility(false);
+            navigation.goBack();
+          }}
+          onClose={() => {
+            setDeleteConversationBottomSheetVisibility(false);
+          }}
+          visibility={showDeleteConversationBottomSheet}
+        />
+        <BlockUserBottomsheet
+          visibility={showBlockUserBottomsheet}
+          onClose={() => setBlockUserVisibility(false)}
+          callBack={() => {
+            blockUser(true);
+          }}
+        />
+        <UnblockUserBottomsheet
+          visibility={showUnblocksheet}
+          onClose={() => setUnblockVisibility(false)}
+          callBack={() => {
+            blockUser(false);
+            setUnblockVisibility(false);
+          }}
+        />
+        <DeleteChatBottomsheet
+          visibility={showDeleteChatBottomsheet}
+          callBack={() => {
+            setDeleteChatVisibility(false);
+            navigation.goBack();
+          }}
+          onClose={() => setDeleteChatVisibility(false)}
+        />
+      </ChatContext>
     </SafeAreaView>
   );
 };
