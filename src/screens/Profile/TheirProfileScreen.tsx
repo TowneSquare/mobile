@@ -35,8 +35,17 @@ import { getCreatedTime } from "../../utils/helperFunction";
 import axios from "axios";
 import { APTOS_NAME_URL } from "../../../config/env";
 import { getUserAptosName } from "../../api";
-import { followUser, unFollowUser } from "../../controller/UserController";
+import {
+  followUser,
+  getUserData,
+  unFollowUser,
+} from "../../controller/UserController";
+import { UserData } from "../../controller/UserController";
 const { height, width } = Dimensions.get("window");
+import { getUserInfo } from "../../api";
+import { PostData } from "../../controller/createPost";
+import { useQuery } from "react-query";
+import { BACKEND_URL } from "../../../config/env";
 const size = new sizes(height, width);
 
 type SuperStarReducerState = {
@@ -73,38 +82,59 @@ const selectedSuperStarsReducer = (
 const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
   const dispatch = useAppDispatch();
   const [view, setView] = useState<number>(2);
-
+  const { userId, username, nickname } = route.params;
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [aptosName, setAptosName] = useState<string>("unavailable");
-  const { userData } = route.params;
-  const { userFollowing, token } = useAppSelector((state) => ({
+
+  const { userFollowing, token, user } = useAppSelector((state) => ({
     userFollowing: state.USER.UserData.following,
     token: state.USER.didToken,
+    user: state.USER.UserData._id,
   }));
 
-  const title = "Real JC";
+  const title = username;
   const COMMUNITIES = "10";
   const APTOS_DOMAIN_NAME = "";
+  const fetchUserInfo = async (): Promise<UserData> => {
+    return await axios
+      .get(`${BACKEND_URL}user/${userId}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => response.data);
+  };
+
+  function useUserInfo() {
+    return useQuery({ queryKey: ["userInfo"], queryFn: fetchUserInfo });
+  }
+  const userInfo = useUserInfo();
   const [following, setFollowing] = useState(
-    userFollowing.some((following) => following._id == userData._id)
+    userFollowing.some((following) => following.toUserId == userInfo.data?._id)
   );
-  const userId = userData?._id;
+
   const handleFollow = () => {
     setFollowing(true);
     dispatch(followUser({ toUserIds: [userId], token }));
+    dispatch(getUserData({ userId: user, token }));
   };
 
   const handleUnFollow = () => {
     setFollowing(false);
-    dispatch(unFollowUser({ token, userId }));
+    dispatch(unFollowUser({ token, followId:userId }));
+    dispatch(getUserData({ userId: user, token }));
   };
 
-  // const following = userFollowing.some(
-  //   (following) => following._id == userData._id
-  // );
   const [superStarModal, useDispatch] = useReducer(selectedSuperStarsReducer, {
     showSuperStarModal: false,
     imageUri: "",
   });
+
+  console.log(userFollowing, "userFollowing");
+
+  // const following = userFollowing.some(
+  //     (following) => following._id == userInfo.data._id
+  //   );
 
   const getUserAptosName = async (address: string) => {
     try {
@@ -112,28 +142,67 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
       const aptosName: string = res?.data;
       setAptosName(aptosName);
     } catch (error) {
-      setAptosName("unavailable∏");
+      setAptosName("unavailable");
       return "unavailable";
     }
   };
 
   useMemo( () => {
-   getUserAptosName(userData?.aptosWallet)
-  }, [userData?.aptosWallet])
+   //getUserAptosName(userInfo.data?.aptosWallet)
+   dispatch(getUserData({ userId: user, token }));
+  }, [userInfo.data?.aptosWallet])
+
+  const POST = () => {
+    if (userInfo?.data?.posts?.length == 0) {
+      return [];
+    }
+    return userInfo?.data?.posts.map((res) => ({
+      _id: res?._id,
+      title: res?.title || "",
+      description: res?.description,
+      imageUrls: res?.imageUrls || [],
+      videoUrls: res?.videoUrls || [],
+      nftImageUrl: res?.nftImageUrl,
+      nftCollection: res?.nftCollection,
+      nftTokenId: res?.nftTokenId,
+      userId: res?.userId,
+      repost: res?.repost,
+      createdAt: res?.createdAt,
+      likes: res?.likes,
+      reposts: res?.reposts,
+      comments: res?.comments,
+      customer: {
+        _id: res?.customer?._id,
+        issuer: res?.customer?.issuer || "",
+        aptosWallet: res?.customer?.aptosWallet,
+        nickname: res?.customer?.nickname,
+        username: res?.customer?.username,
+        email: res?.customer?.email || "",
+        referralCode: res?.customer?.referralCode || "",
+        profileImage: res?.customer?.profileImage || "",
+        createdAt: res?.createdAt,
+      },
+      sellNFTPrice: res?.sellNFTPrice,
+      originalCustomer: res?.originalCustomer,
+      originalPostId: res?.originalPostId,
+      originalCustomerId: res?.originalCustomerId,
+    }));
+  };
 
   const Posts = () => {
-    return userData.posts.map((userpost) => (
+    return POST()?.map((userpost) => (
       <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
     ));
   };
 
+  console.log(userInfo.isFetched, userInfo?.data?.createdAt, "theirProile");
   const UserReplies = () => {
-    return userData.comments.map((userpost) => (
+    return userInfo.data?.comments.map((userpost) => (
       <Replies
         key={userpost._id}
         data={userpost}
-        nickname={userData.nickname}
-        username={userData.username}
+        nickname={userInfo.data?.nickname}
+        username={userInfo.data?.username}
         myPost
         shouldPFPSwipe={false}
       />
@@ -141,7 +210,7 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
   };
 
   const Media = () => {
-    return userData.posts
+    return POST()
       .filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0])
       .map((userpost) => (
         <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
@@ -169,166 +238,171 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
     >
       <Header title={title} typeOfProfile="theirProfile" />
       {/* <ProfileTabNavigation typeOfProfile="theirProfile" /> */}
-      <ScrollView>
-        <ProfileCard
-          NAME={userData.username}
-          NICKNAME={userData.nickname}
-          APTOS_DOMAIN_NAME={aptosName}
-          DATE={getCreatedTime(userData.createdAt)}
-          COMMUNITIES={COMMUNITIES}
-          FOLLOWERS={userData.followers.length.toString()}
-          FOLLOWING={userData.following.length.toString()}
-          POST={userData.posts.length.toString()}
-        />
-        <View style={styles.view}>
-          <Pressable
-            onPress={following ? handleUnFollow : handleFollow}
-            style={[
-              styles.followView,
-              {
-                backgroundColor: following
-                  ? appColor.kGrayLight3
-                  : appColor.kSecondaryButtonColor,
-                paddingHorizontal: following
-                  ? size.getWidthSize(13.5)
-                  : size.getWidthSize(25),
-              },
-            ]}
-          >
-            {following ? (
-              <CheckedIcon size={size.getHeightSize(24)} />
-            ) : (
-              <FollowIcon size={size.getHeightSize(24)} />
-            )}
-            <Text style={styles.followText}>
-              {following ? "Following" : "Follow"}
+      {userInfo.isSuccess ? (
+        <ScrollView>
+          <ProfileCard
+            NAME={username}
+            NICKNAME={nickname}
+            APTOS_DOMAIN_NAME={aptosName}
+            DATE={getCreatedTime(userInfo.data?.createdAt)}
+            COMMUNITIES={COMMUNITIES}
+            FOLLOWERS={userInfo.data?.followers?.length.toString()}
+            FOLLOWING={userInfo.data?.following?.length.toString()}
+            POST={userInfo.data?.posts?.length.toString()}
+            profileImageUri={userInfo?.data.profileImage}
+          />
+          <View style={styles.view}>
+            <Pressable
+              onPress={following ? handleUnFollow : handleFollow}
+              style={[
+                styles.followView,
+                {
+                  backgroundColor: following
+                    ? appColor.kGrayLight3
+                    : appColor.kSecondaryButtonColor,
+                  paddingHorizontal: following
+                    ? size.getWidthSize(13.5)
+                    : size.getWidthSize(25),
+                },
+              ]}
+            >
+              {following ? (
+                <CheckedIcon size={size.getHeightSize(24)} />
+              ) : (
+                <FollowIcon size={size.getHeightSize(24)} />
+              )}
+              <Text style={styles.followText}>
+                {following ? "Following" : "Follow"}
+              </Text>
+            </Pressable>
+            <View style={styles.iconView}>
+              <MessageIcon />
+            </View>
+            <View style={styles.iconView}>
+              <ProfileTipIcon
+                size={size.getHeightSize(24)}
+                onPress={() => {
+                  dispatch(
+                    updateTipBottomSheet({
+                      status: true,
+                      profileImage: userInfo.data?.profileImage,
+                      username: userInfo.data?.username,
+                      wallet: userInfo.data?.aptosWallet,
+                      nickname: userInfo.data?.nickname,
+                    })
+                  );
+                }}
+              />
+            </View>
+          </View>
+          <View style={styles.aboutDiv}>
+            <Text
+              style={[
+                styles.aboutHeader,
+                { marginBottom: size.getHeightSize(12) },
+              ]}
+            >
+              About
             </Text>
-          </Pressable>
-          <View style={styles.iconView}>
-            <MessageIcon />
+            <View>
+              <Text style={styles.aboutText}>{userInfo.data?.bio}</Text>
+            </View>
           </View>
-          <View style={styles.iconView}>
-            <ProfileTipIcon
-              size={size.getHeightSize(24)}
+          {userInfo.data?.superstars?.nftInfoArray.length > 0 ? (
+            <>
+              <ScrollView
+                style={{
+                  marginLeft: size.getWidthSize(16),
+                }}
+                horizontal={true}
+                contentContainerStyle={{
+                  paddingRight: size.getWidthSize(10),
+                }}
+              >
+                {userInfo?.data?.superstars.nftInfoArray.map((item, index) => (
+                  <Pressable
+                    onPress={() => {
+                      useDispatch({
+                        type: "SHOW",
+                        payload: {
+                          showSuperStarModal: true,
+                          imageUri: item.nftImageUrl,
+                        },
+                      });
+                    }}
+                    key={index}
+                  >
+                    <Image
+                      style={{
+                        marginRight: size.getWidthSize(6),
+                        width: size.getHeightSize(130),
+                        height: size.getHeightSize(130),
+                        borderRadius: 8,
+                      }}
+                      source={{ uri: item.nftImageUrl }}
+                    />
+                  </Pressable>
+                ))}
+              </ScrollView>
+            </>
+          ) : (
+            <></>
+          )}
+          <View style={styles.tabView}>
+            <Pressable
+              style={view == 2 ? styles.focusedTab : styles.tab}
               onPress={() => {
-                dispatch(
-                  updateTipBottomSheet({
-                    status: true,
-                    profileImage: userData.profileImage,
-                    username: userData.username,
-                    wallet: userData.aptosWallet,
-                    nickname: userData.nickname,
-                  })
-                );
-              }}
-            />
-          </View>
-        </View>
-        <View style={styles.aboutDiv}>
-          <Text
-            style={[
-              styles.aboutHeader,
-              { marginBottom: size.getHeightSize(12) },
-            ]}
-          >
-            About
-          </Text>
-          <View>
-            <Text style={styles.aboutText}>{userData?.bio}</Text>
-          </View>
-        </View>
-        {userData.superstars.nftInfoArray.length > 0 ? (
-          <>
-            <ScrollView
-              style={{
-                marginLeft: size.getWidthSize(16),
-              }}
-              horizontal={true}
-              contentContainerStyle={{
-                paddingRight: size.getWidthSize(10),
+                setView(2);
               }}
             >
-              {userData.superstars.nftInfoArray.map((item, index) => (
-                <Pressable
-                  onPress={() => {
-                    useDispatch({
-                      type: "SHOW",
-                      payload: {
-                        showSuperStarModal: true,
-                        imageUri: item.nftImageUrl,
-                      },
-                    });
-                  }}
-                  key={index}
-                >
-                  <Image
-                    style={{
-                      marginRight: size.getWidthSize(6),
-                      width: size.getHeightSize(130),
-                      height: size.getHeightSize(130),
-                      borderRadius: 8,
-                    }}
-                    source={{ uri: item.nftImageUrl }}
-                  />
-                </Pressable>
-              ))}
-            </ScrollView>
-          </>
-        ) : (
-          <></>
-        )}
-        <View style={styles.tabView}>
-          <Pressable
-            style={view == 2 ? styles.focusedTab : styles.tab}
-            onPress={() => {
-              setView(2);
+              <Text style={view == 2 ? styles.focusedtabText : styles.tabText}>
+                Posts
+              </Text>
+            </Pressable>
+            <Pressable
+              style={view == 1 ? styles.focusedTab : styles.tab}
+              onPress={() => {
+                setView(1);
+              }}
+            >
+              <Text style={view == 1 ? styles.focusedtabText : styles.tabText}>
+                Replies
+              </Text>
+            </Pressable>
+            <Pressable
+              style={view == 0 ? styles.focusedTab : styles.tab}
+              onPress={() => setView(0)}
+            >
+              <Text style={view == 0 ? styles.focusedtabText : styles.tabText}>
+                Media
+              </Text>
+            </Pressable>
+          </View>
+          <View>{POST_MEDIA_REPLIES()}</View>
+          <TheirProfileBottomSheet />
+          <SuperStarBottomSheet
+            handleVisibility={() => {
+              dispatch(updateSuperStarBottomSheet(false));
             }}
-          >
-            <Text style={view == 2 ? styles.focusedtabText : styles.tabText}>
-              Posts
-            </Text>
-          </Pressable>
-          <Pressable
-            style={view == 1 ? styles.focusedTab : styles.tab}
-            onPress={() => {
-              setView(1);
-            }}
-          >
-            <Text style={view == 1 ? styles.focusedtabText : styles.tabText}>
-              Replies
-            </Text>
-          </Pressable>
-          <Pressable
-            style={view == 0 ? styles.focusedTab : styles.tab}
-            onPress={() => setView(0)}
-          >
-            <Text style={view == 0 ? styles.focusedtabText : styles.tabText}>
-              Media
-            </Text>
-          </Pressable>
-        </View>
-        <View>{POST_MEDIA_REPLIES()}</View>
-        <TheirProfileBottomSheet />
-        <SuperStarBottomSheet
-          handleVisibility={() => {
-            dispatch(updateSuperStarBottomSheet(false));
-          }}
-          typeOfProfile="theirProfile"
-        />
-        <ReportUserModal />
-        <ReportPanel />
-        <ReportPostModal />
-        <BlockUserModal />
-        <ViewSuperStarsModal
-          visibility={superStarModal.showSuperStarModal}
-          close={() =>
-            useDispatch({
-              type: "CLOSE",
-            })
-          }
-          imageUri={superStarModal.imageUri}
-        />
-      </ScrollView>
+            typeOfProfile="theirProfile"
+          />
+          <ReportUserModal />
+          <ReportPanel />
+          <ReportPostModal />
+          <BlockUserModal />
+          <ViewSuperStarsModal
+            visibility={superStarModal.showSuperStarModal}
+            close={() =>
+              useDispatch({
+                type: "CLOSE",
+              })
+            }
+            imageUri={superStarModal.imageUri}
+          />
+        </ScrollView>
+      ) : (
+        <></>
+      )}
     </SafeAreaView>
   );
 };

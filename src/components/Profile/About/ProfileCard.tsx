@@ -30,6 +30,7 @@ interface Props {
   FOLLOWERS: string;
   COMMUNITIES: string;
   POST: string;
+  profileImageUri:string
 }
 
 const ProfileCard = ({
@@ -41,6 +42,7 @@ const ProfileCard = ({
   FOLLOWERS,
   FOLLOWING,
   POST,
+  profileImageUri
 }: Props) => {
   const navigation = useNavigation();
   const profilePics = useAppSelector(
@@ -171,8 +173,8 @@ const ProfileCard = ({
                   <Image
                     style={styles.image}
                     source={{
-                      uri: profilePics
-                        ? profilePics
+                      uri: profileImageUri
+                        ? profileImageUri
                         : Image.resolveAssetSource(images.profilepicture).uri,
                     }}
                     resizeMode="center"

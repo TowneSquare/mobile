@@ -36,6 +36,8 @@ const size = new sizes(height, width);
 import { ChatsModel } from '../../../models/chats';
 import Replies from "../Replies";
 import { getCreatedTime } from "../../../utils/helperFunction";
+import { NotifyOnChangeProps } from '@tanstack/query-core'
+import { useFocusEffect } from '@react-navigation/native'
 
 type SuperStarReducerState = {
   showSuperStarModal: boolean;
@@ -91,7 +93,7 @@ const About = ({ route }) => {
   const USERDATA = useAppSelector((state) => state.USER.UserData);
 
   useMemo(() => {
-    dispatch(getUserData({ userId: "658e89ff83d916e7f200f1f6", token: token }));
+    dispatch(getUserData({ userId, token: token }));
   }, [userId]);
  
 
@@ -235,6 +237,7 @@ const About = ({ route }) => {
           FOLLOWERS={FOLLOWERS.toString()}
           FOLLOWING={FOLLOWING.toString()}
           POST={POST.toString()}
+          profileImageUri={profilePics}
         />
 
         {typeOfProfile === "theirProfile" && (

@@ -88,6 +88,7 @@ const AddCommentTextInput = ({
           },
         }
       );
+      console.log("addComments", postId)
       setAddingComment(false);
     } catch (error) {
       setAddingComment(false);
