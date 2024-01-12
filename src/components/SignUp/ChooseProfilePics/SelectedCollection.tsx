@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  Pressable,
-  BackHandler,
-} from 'react-native';
+import { View, Text, Dimensions, Pressable, BackHandler } from 'react-native';
 import { useRef, useState, useEffect } from 'react';
 import * as Animatable from 'react-native-animatable';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
@@ -38,7 +32,6 @@ const SelectedCollection = () => {
     renderCount: state.bottomSheetController.selectedRender,
     profilePics: state.USER.details.profileImage,
   }));
-
   useEffect(() => {
     dispatch(updateSelectedRender(0));
   }, []);

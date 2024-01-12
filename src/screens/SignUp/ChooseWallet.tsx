@@ -5,26 +5,26 @@ import {
   ImageBackground,
   StyleSheet,
   Pressable,
-} from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import Petra from "../../../assets/images/svg/Petra";
-import { updateBottomSheet } from "../../controller/BottomSheetController";
-import Pontem from "../../../assets/images/svg/Pontem";
-import { useAppDispatch } from "../../controller/hooks";
-import { updateToast } from "../../controller/FeedsController";
-import Fewcha from "../../../assets/images/svg/Fewcha";
-import Rise from "../../../assets/images/svg/Rise";
-import Martian from "../../../assets/images/svg/Martian";
-import { appColor, images } from "../../constants";
-import { StatusBar } from "expo-status-bar";
-import CompleteSignUpModal from "../../components/SignUp/CompleteSignUpModal";
-import { sizes } from "../../utils";
-import { handlWalletConnect } from "../../utils/connectWallet";
-import { useState } from "react";
-import BackButton from "../../components/SignUp/BackButton";
-import LetGoButton from "../../components/SignUp/LetGoButton";
-import { ChooseWalletProps } from "../../navigations/NavigationTypes";
-const { height, width } = Dimensions.get("window");
+} from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import Petra from '../../../assets/images/svg/Petra';
+import { updateBottomSheet } from '../../controller/BottomSheetController';
+import Pontem from '../../../assets/images/svg/Pontem';
+import { useAppDispatch } from '../../controller/hooks';
+import { updateToast } from '../../controller/FeedsController';
+import Fewcha from '../../../assets/images/svg/Fewcha';
+import Rise from '../../../assets/images/svg/Rise';
+import Martian from '../../../assets/images/svg/Martian';
+import { appColor, images } from '../../constants';
+import { StatusBar } from 'expo-status-bar';
+import CompleteSignUpModal from '../../components/SignUp/CompleteSignUpModal';
+import { sizes } from '../../utils';
+import { handlWalletConnect } from '../../utils/connectWallet';
+import { useState } from 'react';
+import BackButton from '../../components/SignUp/BackButton';
+import LetGoButton from '../../components/SignUp/LetGoButton';
+import { ChooseWalletProps } from '../../navigations/NavigationTypes';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 type Wallet = "pontem" | "rise" | "petra";
 const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {

@@ -8,6 +8,7 @@ import { BACKEND_URL } from "../../../config/env";
 import { useAppSelector } from "../hooks";
 import { images } from "../../constants";
 
+
 interface CreatePost {
   message: string;
   tags: string[];

@@ -5,6 +5,7 @@ import {
   ChatText,
   DataWithoutChatDate,
 } from '../models/conversationModel';
+import { Timestamp } from 'firebase/firestore';
 
 import { nanoid } from '@reduxjs/toolkit';
 export class ChatClass {
@@ -14,7 +15,9 @@ export class ChatClass {
   }
   private groupedDays() {
     return this.message.reduce((acc, el, i) => {
-      const messageDay = moment(el.createdAt).format('YYYY-MM-DD');
+      const messageDay = moment(el.createdAt?.toDate().toISOString()).format(
+        'YYYY-MM-DD'
+      );
       if (acc[messageDay]) {
         return { ...acc, [messageDay]: acc[messageDay].concat([el]) };
       }
@@ -50,7 +53,7 @@ export class ChatClass {
     let currentGroup = [];
     conversationData.forEach((currentMessage) => {
       if (this.isNotDate(currentMessage)) {
-        if (currentMessage.user.id === currentUserId) {
+        if (currentMessage.user._id === currentUserId) {
           currentGroup.push(currentMessage);
         } else {
           if (currentGroup.length > 0) {
@@ -64,7 +67,7 @@ export class ChatClass {
               sortedConversation.push(currentGroup[0]);
             }
           }
-          currentUserId = currentMessage.user.id;
+          currentUserId = currentMessage.user._id;
           currentGroup = [currentMessage];
         }
       } else {
@@ -132,29 +135,51 @@ export class ChatClass {
   }
 }
 
-export function formatTimestamp(timestamp: number) {
-  const date = new Date(timestamp);
-  const now = new Date();
-  const sameDay =
-    now.getDate() === date.getDate() &&
-    now.getMonth() === date.getMonth() &&
-    now.getFullYear() === date.getFullYear();
+export function formatTimestamp(timestamp: Timestamp) {
+  if (timestamp) {
+    const date: Date = timestamp.toDate();
+    const now = new Date();
+    const sameDay =
+      now.getDate() === date.getDate() &&
+      now.getMonth() === date.getMonth() &&
+      now.getFullYear() === date.getFullYear();
 
-  const yesterday = new Date(now);
-  yesterday.setDate(yesterday.getDate() - 1);
-  const isYesterday =
-    yesterday.getDate() === date.getDate() &&
-    yesterday.getMonth() === date.getMonth() &&
-    yesterday.getFullYear() === date.getFullYear();
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+    const isYesterday =
+      yesterday.getDate() === date.getDate() &&
+      yesterday.getMonth() === date.getMonth() &&
+      yesterday.getFullYear() === date.getFullYear();
 
-  if (sameDay) {
-    return date.toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    }); // returns "HH:MM"
-  } else if (isYesterday) {
-    return 'Yesterday';
-  } else {
-    return date.toLocaleDateString(); // returns "MM/DD/YYYY"
-  }
+    if (sameDay) {
+      return date.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      }); // returns "HH:MM"
+    } else if (isYesterday) {
+      return 'Yesterday';
+    } else {
+      return date.toLocaleDateString(); // returns "MM/DD/YYYY"
+    }
+  } else return '';
 }
+export const createUniqueChatId = (user1Id: string, user2Id: string) => {
+  // Sort the user IDs to ensure consistency
+  const sortedUserIds = [user1Id, user2Id].sort();
+
+  // Concatenate the sorted user IDs
+  const concatenatedIds = sortedUserIds.join('_');
+
+  // Use a hash function (e.g., simple string hash) to create a unique identifier
+  const hashCode = (str) => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+    }
+    return hash;
+  };
+
+  // Return the hash code as the unique identifier
+  return hashCode(concatenatedIds).toString();
+};

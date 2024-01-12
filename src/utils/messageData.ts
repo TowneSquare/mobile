@@ -96,6 +96,23 @@ export const conversationData = [
       text: 'What do you mean by that sorry?',
     },
     read: false,
+    readAt: null, // timestamp when the message was read
+    deliveredAt: null, // timestamp when the message was delivered
+    createdAt: '2022-12-01T12:48:00.000Z',
+    user: {
+      id: '1',
+      name: 'Vadim',
+    },
+    replyTo: null, // id of the message this is a reply to, if any
+    attachments: [], // array of any attachments, like images or files
+  },
+  {
+    id: '1',
+    message: {
+      messageType: 'text',
+      text: 'What do you mean by that sorry?',
+    },
+    read: false,
     createdAt: '2022-12-01T12:48:00.000Z',
     user: {
       id: '1',

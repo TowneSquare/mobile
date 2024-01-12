@@ -121,7 +121,7 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
 
   const handleUnFollow = () => {
     setFollowing(false);
-    dispatch(unFollowUser({ token, followId:userId }));
+    dispatch(unFollowUser({ token, followId: userId }));
     dispatch(getUserData({ userId: user, token }));
   };
 
@@ -147,10 +147,15 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
     }
   };
 
-  useMemo( () => {
-   //getUserAptosName(userInfo.data?.aptosWallet)
-   dispatch(getUserData({ userId: user, token }));
-  }, [userInfo.data?.aptosWallet])
+  useEffect(() => {
+    //getUserAptosName(userInfo.data?.aptosWallet)
+    dispatch(getUserData({ userId: user, token }));
+    setFollowing(
+      userFollowing.some(
+        (following) => following.toUserId == userInfo.data?._id
+      )
+    );
+  }, []);
 
   const POST = () => {
     if (userInfo?.data?.posts?.length == 0) {

@@ -18,7 +18,11 @@ const Chat = ({ data }: Props) => {
 
   return (
     <Pressable
-      onPress={() => navigation.navigate('Conversation')}
+      onPress={() =>
+        navigation.navigate('Conversation', {
+          chatId: data._id,
+        })
+      }
       style={styles.parentContainer}
     >
       <Avatar source={images.pfpImage} size={size.getHeightSize(40)} rounded />
@@ -39,7 +43,7 @@ const Chat = ({ data }: Props) => {
               styles.time,
               {
                 color:
-                  data.unreadCount > 0
+                  data.unreadMessagesCount > 0
                     ? appColor.primaryLight
                     : appColor.grayLight,
               },
@@ -58,7 +62,7 @@ const Chat = ({ data }: Props) => {
           <Text numberOfLines={1} style={styles.text}>
             {data.lastMessage.text}
           </Text>
-          {data.unreadCount > 0 && (
+          {data.unreadMessagesCount > 0 && (
             <View
               style={{
                 alignSelf: 'flex-end',
@@ -70,7 +74,7 @@ const Chat = ({ data }: Props) => {
                 alignItems: 'center',
               }}
             >
-              <Text style={styles.unread}>{data.unreadCount}</Text>
+              <Text style={styles.unread}>{data.unreadMessagesCount}</Text>
             </View>
           )}
         </View>

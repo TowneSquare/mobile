@@ -1,14 +1,17 @@
+import { Timestamp } from 'firebase/firestore';
+
 export type ChatText = {
   id: string;
-  createdAt: string;
+  createdAt: Timestamp;
   message: {
-    messageType: "text";
+    messageType: 'text';
     text: string;
   };
   user: {
-    id: string;
+    _id: string;
     name: string;
   };
+  read: boolean;
 };
 export type ChatDate = {
   dateType: string;
@@ -20,11 +23,11 @@ export type ChatImage = {
   id: string;
   createdAt: string;
   message: {
-    messageType: "image";
+    messageType: 'image';
     imageUri: string;
   };
   user: {
-    id: string;
+    _id: string;
     name: string;
   };
 };
@@ -33,11 +36,11 @@ export type ChatVideo = {
   id: string;
   createdAt: string;
   message: {
-    messageType: "video";
+    messageType: 'video';
     imageUri: string;
   };
   user: {
-    id: string;
+    _id: string;
     name: string;
   };
 };
@@ -46,11 +49,11 @@ export type ChatGif = {
   id: string;
   createdAt: string;
   message: {
-    messageType: "gif";
+    messageType: 'gif';
     imageUri: string;
   };
   user: {
-    id: string;
+    _id: string;
     name: string;
   };
 };
@@ -58,14 +61,14 @@ export type ChatNftAtachment = {
   id: string;
   createdAt: string;
   message: {
-    messageType: "nft";
+    messageType: 'nft';
     imageUri: string;
     collectionImageUri: string;
     collectionName: string;
     collectionId: string;
   };
   user: {
-    id: string;
+    _id: string;
     name: string;
   };
 };
@@ -73,7 +76,7 @@ export type ChatNftOffer = {
   id: string;
   createdAt: string;
   message: {
-    messageType: "nftOffer";
+    messageType: 'nftOffer';
 
     collectionImageUri: string;
     collectionName: string;
@@ -83,7 +86,7 @@ export type ChatNftOffer = {
     activeOffer: string;
   };
   user: {
-    id: string;
+    _id: string;
     name: string;
   };
 };

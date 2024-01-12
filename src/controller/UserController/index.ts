@@ -755,7 +755,7 @@ export const followUser = createAsyncThunk(
       );
      
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      //return thunkAPI.rejectWithValue(error);
     }
   }
 );

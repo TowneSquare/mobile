@@ -18,15 +18,18 @@ import { useEffect } from "react";
 import { FlashList } from "@shopify/flash-list";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
+import { getUserData } from "../../controller/UserController";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const ForYouPosts = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const userToken = useAppSelector((state) => state.USER.didToken);
+   const user = useAppSelector((state) => state.USER.UserData._id);
   const AllPost = useAppSelector((state) => state.CreatePostController.AllPost);
   useEffect(() => {
     dispatch(getAllPost(userToken));
+    
   }, []);
 
   const EmptyComponent = () => {

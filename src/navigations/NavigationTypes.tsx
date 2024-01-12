@@ -23,6 +23,7 @@ type SelectedSuperStarCollectionScreenParameter = {
       nftImageUrl: ImageSourcePropType;
       nftTokenId: string;
       nftCollection: string;
+      
     }[];
   };
 };
@@ -52,6 +53,7 @@ export type RootStackParamList = {
   EmailLogin: undefined;
   EditProfile: undefined;
   SetNFTs: undefined;
+  
   ViewImageScreen: {
     postData: PostData;
   };
@@ -77,6 +79,7 @@ export type RootStackParamList = {
       nftImageUrl: string;
       nftTokenId: string;
       nftCollection: string;
+      
     }[];
   };
   EditProfileScreen: undefined;
@@ -135,7 +138,9 @@ export type RootStackParamList = {
   Channels: undefined;
   BannedMember: undefined;
   ChannelChat: undefined;
-  Conversation: undefined;
+  Conversation: {
+    chatId: string;
+  };
   SendToken: undefined;
   TokenSuccess: {
     popNo: number;
@@ -215,6 +220,8 @@ type SinglePostParameter = {
   [SinglePost: string]: PostData;
 };
 
+
+
 type VideoPlayerParameter = {
   [VideoPlayer: string]: {
     videoUrl: string;
@@ -225,6 +232,11 @@ type FollowerScreenParameter = {
     screen: string;
   };
 };
+// type TheirProfileParameter = {
+//   [TheirProfile: string]: {
+//     username: string;
+//   };
+// };
 // type TheirProfileParameter = {
 //   [TheirProfile: string]: {
 //     username: string;
@@ -246,6 +258,11 @@ type AirdropParameter = {
       | "Dex Swap"
       | "NFT trade"
       | "Social transaction";
+  };
+};
+type ConversationParameter = {
+  [Conversation: string]: {
+    chatId: string;
   };
 };
 export type FirstScreenProps = {
@@ -583,7 +600,8 @@ export type BannedMemberProps = {
 export type ConversationProps = {
   navigation: NavigationProp<RootStackParamList, "Conversation">;
   magic: any;
-  route: RouteProp<ParamListBase, "Conversation">;
+  route: RouteProp<ConversationParameter, 'Conversation'>;
+ 
 };
 export type SendTokenProps = {
   navigation: NavigationProp<RootStackParamList, "SendToken">;

@@ -88,6 +88,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     ? FeedContent.MESSAGE_ONLY
     : FeedContent.EMPTY;
   const userPost = data;
+  console.log(data, "for you");
   switch (type_of_post) {
     case FeedContent.MESSAGE_ONLY:
       content = (

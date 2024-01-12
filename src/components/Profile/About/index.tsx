@@ -29,15 +29,15 @@ const Tab = createMaterialTopTabNavigator();
 import ViewSuperStarsModal from "./ViewSuperStarsModal";
 import { getUserData } from "../../../controller/UserController";
 import { getOnlyUserPost } from "../../../controller/createPost";
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { firestoreDB } from '../../../../config/firebase.config';
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { firestoreDB } from "../../../../config/firebase.config";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
-import { ChatsModel } from '../../../models/chats';
+import { ChatsModel } from "../../../models/chats";
 import Replies from "../Replies";
 import { getCreatedTime } from "../../../utils/helperFunction";
-import { NotifyOnChangeProps } from '@tanstack/query-core'
-import { useFocusEffect } from '@react-navigation/native'
+import { NotifyOnChangeProps } from "@tanstack/query-core";
+import { useFocusEffect } from "@react-navigation/native";
 
 type SuperStarReducerState = {
   showSuperStarModal: boolean;
@@ -95,7 +95,6 @@ const About = ({ route }) => {
   useMemo(() => {
     dispatch(getUserData({ userId, token: token }));
   }, [userId]);
- 
 
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -116,10 +115,9 @@ const About = ({ route }) => {
   const POST = USERDATA.posts.length || "0";
   const COMMUNITIES = "22";
 
- useEffect(() => {
-    dispatch(getOnlyUserPost({userId, token}))
- }, [userId, token])
- 
+  useEffect(() => {
+    dispatch(getOnlyUserPost({ userId, token }));
+  }, [userId, token]);
 
   const onlyUserPost = useAppSelector(
     (state) => state.CreatePostController.OnlyUserPost
@@ -130,8 +128,6 @@ const About = ({ route }) => {
       <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
     ));
   };
-
-  
 
   const UserReplies = () => {
     return USERDATA.comments.map((userpost) => (
@@ -149,7 +145,13 @@ const About = ({ route }) => {
     ));
   };
 
-  console.log(onlyUserPost.filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0]), onlyUserPost, "media")
+  console.log(
+    onlyUserPost.filter(
+      (userpost) => userpost.imageUrls[0] || userpost.videoUrls[0]
+    ),
+    onlyUserPost,
+    "media"
+  );
 
   const Media = () => {
     return onlyUserPost
@@ -188,31 +190,31 @@ const About = ({ route }) => {
   };
   const createChat = async () => {
     let id = `${Date.now()}`;
-    const _doc: ChatsModel = {
+    const _doc = {
       _id: id,
       user: {
         _id: id,
-        name: 'RealJC',
+        name: "RealJC",
       },
-      chatName: 'RealJC Test3',
+      chatName: "RealJC Test3",
       lastMessage: {
-        text: 'Here is last message3',
+        text: "Here is last message3",
         createdAt: Date.now(),
-        user: {
+        sender: {
           _id: id,
-          name: 'RealJC2',
+          name: "RealJC2",
         },
       },
       unreadCount: 0,
     };
-    const chatRef = doc(firestoreDB, 'chats', id);
+    const chatRef = doc(firestoreDB, "chats", id);
     getDoc(chatRef).then((docSnapshot) => {
       if (docSnapshot.exists()) {
-        return navigate('Conversation');
+        return navigate("Conversation");
       } else {
         setDoc(chatRef, _doc)
           .then(() => {
-            navigate('Conversation');
+            navigate("Conversation");
           })
           .catch((err) => {
             console.log(err);
@@ -239,7 +241,6 @@ const About = ({ route }) => {
           POST={POST.toString()}
           profileImageUri={profilePics}
         />
-
         {typeOfProfile === "theirProfile" && (
           <View style={styles.view}>
             <Pressable
@@ -277,8 +278,8 @@ const About = ({ route }) => {
               />
             </View>
           </View>
-        )}
-
+        )}{" "}
+        */
         <View style={styles.aboutDiv}>
           <Text
             style={[
@@ -391,7 +392,6 @@ const About = ({ route }) => {
             </View>
           )}
         </View>
-
         <View style={styles.tabView}>
           <Pressable
             style={view == 2 ? styles.focusedTab : styles.tab}

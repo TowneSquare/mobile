@@ -18,6 +18,8 @@ import React, {
   forwardRef,
 } from 'react';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { useContext } from 'react';
+import { ChatDmContext } from '../../context/ChatContext';
 import IdleChatSendButton from '../../../assets/images/svg/IdleChatSendButton';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import ChatTipIcon from '../../../assets/images/svg/ChatTipIcon';
@@ -32,7 +34,16 @@ import PostCamera from '../../../assets/images/svg/PostCamera';
 import PostGif from '../../../assets/images/svg/PostGif';
 import PostImage from '../../../assets/images/svg/PostImage';
 import PostNft from '../../../assets/images/svg/PostNft';
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  doc,
+  updateDoc,
+  setDoc,
+} from 'firebase/firestore';
 
+import { firestoreDB } from '../../../config/firebase.config';
 import { updateAttachNftType } from '../../controller/FeedsController';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
@@ -42,14 +53,16 @@ interface Props extends TextInputProps {
   message: string;
   dismissShowReplyingTo: () => void;
   replyType: 'text' | 'media';
+  chatId: string;
 }
 export type ComponentRef = {
   focusTextInput: () => void;
 };
 const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
-  { showReplying, dismissShowReplyingTo, replyType },
+  { showReplying, dismissShowReplyingTo, replyType, chatId },
   ref
 ) => {
+  const { replyingToMessage, setReplyingToMessage } = useContext(ChatDmContext);
   const socket = useAppSelector((state) => state.socket.socket);
   const inputRef = useRef<TextInput>();
   const [height, setHeight] = useState(0);
@@ -90,9 +103,109 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
     setBorderRadius(newBorderRadius);
   };
   const dispatch = useAppDispatch();
-  const sendText = async () => {
-    socket.emit('fromrecipient', text);
+  const myId = useAppSelector((state) => state.USER.UserData._id);
+  const sendMessage = async () => {
+    // Clear the text input
     setText('');
+    try {
+      const timestamp = serverTimestamp();
+      const id = `${Date.now()}`;
+      const _doc = {
+        id,
+        createdAt: timestamp,
+        message: {
+          messageType: 'text',
+          text: text.trim(),
+        },
+        user: {
+          _id: '12345',
+          name: 'username',
+        },
+        read: false,
+      };
+      console.log('========adding doc=========');
+      const msgCollectionRef = doc(
+        firestoreDB,
+        'chats',
+        chatId,
+        'messages',
+        id
+      );
+      await setDoc(msgCollectionRef, _doc);
+
+      // console.log('Message added with ID: ', messageRef.id);
+
+      // Update the 'lastMessage' field in the 'chats' collection
+      const chatRef = doc(firestoreDB, 'chats', chatId);
+      await updateDoc(chatRef, {
+        lastMessage: {
+          text: text.trim(),
+          createdAt: timestamp,
+          sender: {
+            _id: '12345',
+            name: 'username',
+          },
+        },
+      });
+
+      console.log('Chat updated with last message.');
+    } catch (err) {
+      console.warn('Error sending message: ', err);
+    }
+  };
+  const sendReply = async () => {
+    setText('');
+    dismissShowReplyingTo();
+    try {
+      const timestamp = serverTimestamp();
+      const id = `${Date.now()}`;
+
+      const _doc = {
+        id,
+        createdAt: timestamp,
+        message: {
+          messageType: 'replied',
+          reply: text.trim(),
+        },
+        replied: {
+          id: replyingToMessage.id,
+          message: {
+            messageType: replyingToMessage.type,
+            text: replyingToMessage.message,
+          },
+        },
+        user: {
+          _id: '12345',
+          name: 'username',
+        },
+        read: false,
+      };
+
+      const msgCollectionRef = doc(
+        firestoreDB,
+        'chats',
+        chatId,
+        'messages',
+        id
+      );
+      await setDoc(msgCollectionRef, _doc);
+
+      // Update the 'lastMessage' field in the 'chats' collection
+      const chatRef = doc(firestoreDB, 'chats', chatId);
+      await updateDoc(chatRef, {
+        lastMessage: {
+          text: text.trim(),
+          createdAt: timestamp,
+          sender: {
+            _id: '6789',
+            name: 'username',
+          },
+        },
+      });
+      // ...
+    } catch (error) {
+      // Handle error
+    }
   };
   return (
     <View>
@@ -108,15 +221,14 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
                     fontFamily: 'Outfit-SemiBold',
                   }}
                 >
-                  [Username]
+                  {replyingToMessage.sender}
                 </Text>
               </Text>
             </View>
 
             {replyType === 'text' ? (
               <Text numberOfLines={1} style={styles.message}>
-                Hey man, just wanted to say I am readlly hdhfhdf
-                hfhdfhfhfdhdfhfhdfhdfhfh
+                {replyingToMessage.message}
               </Text>
             ) : (
               <Text numberOfLines={1} style={styles.message}>
@@ -215,7 +327,12 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
           style={[{ borderRadius: borderRadius, flex: 1 }, styles.textInput]}
         />
         {text.length >= 1 ? (
-          <SendButtonActive onPress={sendText} size={size.getHeightSize(24)} />
+          <SendButtonActive
+            onPress={() => {
+              showReplying ? sendReply() : sendMessage();
+            }}
+            size={size.getHeightSize(24)}
+          />
         ) : (
           <IdleChatSendButton size={size.getHeightSize(24)} />
         )}
