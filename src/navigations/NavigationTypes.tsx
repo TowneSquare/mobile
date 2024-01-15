@@ -126,6 +126,7 @@ export type RootStackParamList = {
   ChannelChat: undefined;
   Conversation: {
     chatId: string;
+    name: string;
   };
   SendToken: undefined;
   TokenSuccess: {
@@ -248,6 +249,7 @@ type AirdropParameter = {
 type ConversationParameter = {
   [Conversation: string]: {
     chatId: string;
+    name: string;
   };
 };
 export type FirstScreenProps = {

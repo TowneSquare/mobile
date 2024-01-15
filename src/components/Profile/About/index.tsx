@@ -89,7 +89,7 @@ const About = ({ route }) => {
   const token = useAppSelector((state) => state.USER.didToken);
   const userId = useAppSelector((state) => state.USER.UserData._id);
   const USERDATA = useAppSelector((state) => state.USER.UserData);
-console.log(`This is my ID ${userId}`)
+
   useMemo(() => {
     dispatch(getUserData({ userId: "658e89ff83d916e7f200f1f6", token: token }));
   }, [userId]);
@@ -147,7 +147,7 @@ console.log(`This is my ID ${userId}`)
     ));
   };
 
-  // console.log(onlyUserPost.filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0]), onlyUserPost, "media")
+  console.log(onlyUserPost.filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0]), onlyUserPost, "media")
 
   const Media = () => {
     return onlyUserPost
@@ -186,7 +186,7 @@ console.log(`This is my ID ${userId}`)
   };
   const createChat = async () => {
     let id = `${Date.now()}`;
-    const _doc = {
+    const _doc: ChatsModel = {
       _id: id,
       user: {
         _id: id,
@@ -196,7 +196,7 @@ console.log(`This is my ID ${userId}`)
       lastMessage: {
         text: 'Here is last message3',
         createdAt: Date.now(),
-        sender: {
+        user: {
           _id: id,
           name: 'RealJC2',
         },
@@ -237,7 +237,7 @@ console.log(`This is my ID ${userId}`)
           POST={POST.toString()}
         />
 
-        {/* {typeOfProfile === "theirProfile" && (
+        {typeOfProfile === "theirProfile" && (
           <View style={styles.view}>
             <Pressable
               onPress={handleFollow}
@@ -274,7 +274,7 @@ console.log(`This is my ID ${userId}`)
               />
             </View>
           </View>
-        )} */}
+        )}
 
         <View style={styles.aboutDiv}>
           <Text

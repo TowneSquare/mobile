@@ -209,11 +209,14 @@ const TheirProfileScreen = ({ route, navigation }: TheirProfileScreenProps) => {
     getDoc(chatRef).then((docSnapshot) => {
       if (docSnapshot.exists()) {
         console.log(`SnapshotId:${docSnapshot.id}`);
-        return navigate('Conversation', { chatId: docSnapshot.id });
+        return navigate('Conversation', {
+          chatId: docSnapshot.id,
+          name: docSnapshot.data().chatName,
+        });
       } else {
         setDoc(chatRef, _doc)
           .then(() => {
-            navigate('Conversation', { chatId: id });
+            navigate('Conversation', { chatId: id, name: userData.username });
           })
           .catch((err) => {
             console.log(err);

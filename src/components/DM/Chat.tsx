@@ -21,6 +21,7 @@ const Chat = ({ data }: Props) => {
       onPress={() =>
         navigation.navigate('Conversation', {
           chatId: data._id,
+          name: data.chatName,
         })
       }
       style={styles.parentContainer}

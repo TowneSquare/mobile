@@ -5,39 +5,39 @@ import {
   ImageBackground,
   StyleSheet,
   Pressable,
-} from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import Petra from '../../../assets/images/svg/Petra';
-import { updateBottomSheet } from '../../controller/BottomSheetController';
-import Pontem from '../../../assets/images/svg/Pontem';
-import { useAppDispatch } from '../../controller/hooks';
-import { updateToast } from '../../controller/FeedsController';
-import Fewcha from '../../../assets/images/svg/Fewcha';
-import Rise from '../../../assets/images/svg/Rise';
-import Martian from '../../../assets/images/svg/Martian';
-import { appColor, images } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import CompleteSignUpModal from '../../components/SignUp/CompleteSignUpModal';
-import { sizes } from '../../utils';
-import { handlWalletConnect } from '../../utils/connectWallet';
-import { useState } from 'react';
-import BackButton from '../../components/SignUp/BackButton';
-import LetGoButton from '../../components/SignUp/LetGoButton';
-import { ChooseWalletProps } from '../../navigations/NavigationTypes';
-const { height, width } = Dimensions.get('window');
+} from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import Petra from "../../../assets/images/svg/Petra";
+import { updateBottomSheet } from "../../controller/BottomSheetController";
+import Pontem from "../../../assets/images/svg/Pontem";
+import { useAppDispatch } from "../../controller/hooks";
+import { updateToast } from "../../controller/FeedsController";
+import Fewcha from "../../../assets/images/svg/Fewcha";
+import Rise from "../../../assets/images/svg/Rise";
+import Martian from "../../../assets/images/svg/Martian";
+import { appColor, images } from "../../constants";
+import { StatusBar } from "expo-status-bar";
+import CompleteSignUpModal from "../../components/SignUp/CompleteSignUpModal";
+import { sizes } from "../../utils";
+import { handlWalletConnect } from "../../utils/connectWallet";
+import { useState } from "react";
+import BackButton from "../../components/SignUp/BackButton";
+import LetGoButton from "../../components/SignUp/LetGoButton";
+import { ChooseWalletProps } from "../../navigations/NavigationTypes";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
-type Wallet = 'pontem' | 'rise' | 'petra';
+type Wallet = "pontem" | "rise" | "petra";
 const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
   const [selectedWallet, setSelectedWallet] = useState<Wallet>(undefined);
   const petraWalletConnection = route.params?.response;
   const dispatch = useAppDispatch();
-  if (selectedWallet === 'petra' && petraWalletConnection === 'approved') {
+  if (selectedWallet === "petra" && petraWalletConnection === "approved") {
     dispatch(updateBottomSheet(true));
     dispatch(
       updateToast({
-        toastType: 'success',
+        toastType: "success",
         displayToast: true,
-        toastMessage: 'You have successfully connected your wallet',
+        toastMessage: "You have successfully connected your wallet",
       })
     );
   }
@@ -60,11 +60,11 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
               height: size.getHeightSize(108),
             }}
           />
-          {/* <LetGoButton navigateTo="DrawerNavigation" /> */}
+          <LetGoButton navigateTo="DrawerNavigation" />
           <View style={styles.view2}>
             <Pressable
               onPress={() => {
-                handleWalletConnect('pontem');
+                handleWalletConnect("pontem");
               }}
               style={[styles.wallet, { paddingRight: size.getWidthSize(13) }]}
             >
@@ -80,7 +80,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
             </Pressable>
             <Pressable
               onPress={() => {
-                handleWalletConnect('rise');
+                handleWalletConnect("rise");
               }}
               style={[styles.wallet, { paddingRight: size.getWidthSize(13) }]}
             >
@@ -96,7 +96,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
             </Pressable>
             <Pressable
               onPress={() => {
-                handleWalletConnect('petra');
+                handleWalletConnect("petra");
               }}
               style={[styles.wallet, { paddingRight: size.getWidthSize(13) }]}
             >
@@ -145,23 +145,23 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
         <CompleteSignUpModal
           signupstate={petraWalletConnection}
           callBack={() => {
-            if (petraWalletConnection === 'approved') {
+            if (petraWalletConnection === "approved") {
               dispatch(
                 updateToast({
-                  toastType: 'success',
+                  toastType: "success",
                   displayToast: true,
-                  toastMessage: 'You have successfully signed in!',
+                  toastMessage: "You have successfully signed in!",
                 })
               );
-              navigation.navigate('SignUp');
+              navigation.navigate("SignUp");
             } else {
               handlWalletConnect(selectedWallet);
             }
           }}
           buttonText={
-            selectedWallet === 'petra' && petraWalletConnection === 'approved'
-              ? 'Sign in and continue'
-              : 'Connect wallet'
+            selectedWallet === "petra" && petraWalletConnection === "approved"
+              ? "Sign in and continue"
+              : "Connect wallet"
           }
         />
       </ImageBackground>
@@ -174,10 +174,10 @@ const styles = StyleSheet.create({
   text1: {
     marginTop: size.getHeightSize(72),
     color: appColor.kTextColor,
-    fontStyle: 'normal',
+    fontStyle: "normal",
     fontSize: size.fontSize(32),
-    fontFamily: 'Outfit-Bold',
-    textAlign: 'center',
+    fontFamily: "Outfit-Bold",
+    textAlign: "center",
     lineHeight: size.getHeightSize(40),
   },
   wallet: {
@@ -186,49 +186,49 @@ const styles = StyleSheet.create({
     height: size.getHeightSize(56),
     width: size.getWidthSize(327),
     backgroundColor: appColor.kGrayLight3,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     borderRadius: 40,
-    alignItems: 'center',
-    display: 'flex',
+    alignItems: "center",
+    display: "flex",
     paddingRight: size.getWidthSize(23),
   },
   rows: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   leadingText: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-SemiBold',
-    textAlign: 'center',
+    fontFamily: "Outfit-SemiBold",
+    textAlign: "center",
     lineHeight: size.getHeightSize(21),
-    fontStyle: 'normal',
+    fontStyle: "normal",
     marginLeft: size.getWidthSize(8),
   },
   text: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
-    fontFamily: 'Outfit-Regular',
-    textAlign: 'center',
+    fontFamily: "Outfit-Regular",
+    textAlign: "center",
     lineHeight: size.getHeightSize(18),
   },
   bgImage: {
     flex: 1,
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
   },
   view1: {
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
     paddingTop: size.getHeightSize(72),
   },
   view2: {
     height: size.getHeightSize(312),
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     width: size.getWidthSize(359),
-    alignItems: 'center',
+    alignItems: "center",
   },
 });
