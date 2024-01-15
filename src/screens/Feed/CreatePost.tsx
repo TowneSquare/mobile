@@ -122,6 +122,28 @@ const CreatePost = ({ route }: CreatePostProps) => {
   //   },
   // };
 
+ var photo = {
+    uri: media,
+    type: 'image/jpeg',
+    name: 'photo.jpg',
+};
+
+  const createFormData = (uri:any) => {
+    const fileName = uri.split("/").pop();
+    const fileType = fileName.split(".").pop();
+    const formData = new FormData();
+
+    // formData.append("image", {
+    //   name: fileName,
+    //   uri,
+    //   type: `image/${fileType}`,
+    // });
+    formData.append('name',fileName)
+    formData.append('type', fileType)
+    formData.append('uri', media)
+    return formData;
+  };
+
   const createPost = async () => {
     try {
       const res = await axios.post(
@@ -132,7 +154,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
           nftTokenId: nft.nftTokenId,
           nftCollection: nft.nftCollection,
           nftImageUrl: nft.nftImageUrl,
-          file: media,
+          file: createFormData(media),
         },
         {
           headers: {
@@ -159,6 +181,8 @@ const CreatePost = ({ route }: CreatePostProps) => {
       );
     }
   };
+
+  //console.log(media.split('/').pop(), "image alone")
   return (
     <SafeAreaView
       style={{

@@ -19,9 +19,11 @@ import APTMonkey from "../../../assets/images/svg/APTMonkey";
 import { PostData } from "../../controller/createPost";
 import { Video, ResizeMode } from "expo-av";
 import { getPostTime } from "../../utils/helperFunction";
+import { useAppSelector } from "../../controller/hooks";
 
 const SinglePostContent = ({ data }: { data: PostData }) => {
   const videoRef = useRef(null);
+  const userId = useAppSelector((state) => state.USER.UserData?._id);
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
     "Outfit-Medium": fonts.OUTFIT_NORMAL,
@@ -30,7 +32,8 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
   if (!isLoaded) {
     return null;
   }
-
+  
+  const myPost = userId == data?.userId;
   const type_of_post =
     data?.videoUrls[0] && data?.description
       ? FeedContent.MESSAGE_VIDEO
@@ -47,7 +50,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
       : data?.description
       ? FeedContent.MESSAGE_ONLY
       : FeedContent.EMPTY;
- 
+
   const userPost: PostData = data;
   const timepost = getPostTime(data?.createdAt);
   let content;
@@ -60,10 +63,12 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               <SinglePostHeader
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
+                wallet={userPost?.customer?.aptosWallet}
                 timepost={timepost}
                 postId={userPost?._id}
                 userId={userPost?.customer._id}
                 profileImageUri={userPost?.customer.profileImage}
+                myPost={myPost}
               />
 
               <Text style={styles.message}>{userPost.description}</Text>
@@ -91,9 +96,11 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
                 timepost={timepost}
+                wallet={userPost?.customer?.aptosWallet}
                 postId={userPost?._id}
                 userId={userPost?.customer?._id}
                 profileImageUri={userPost.customer.profileImage}
+                myPost={myPost}
               />
 
               <Text style={styles.message}>{userPost.description}</Text>
@@ -178,9 +185,11 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
                 timepost={timepost}
+                wallet={userPost?.customer?.aptosWallet}
                 postId={userPost._id}
                 userId={userPost.customer._id}
                 profileImageUri={userPost.customer.profileImage}
+                myPost={myPost}
               />
               <Text style={styles.message}>{userPost.description}</Text>
               <View
@@ -230,10 +239,12 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               <SinglePostHeader
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
+                wallet={userPost?.customer?.aptosWallet}
                 timepost={timepost}
                 postId={userPost._id}
                 userId={userPost.customer._id}
                 profileImageUri={userPost.customer.profileImage}
+                myPost={myPost}
               />
               <View
                 style={[
@@ -279,9 +290,11 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 username={userPost.customer.username}
                 nickname={userPost.customer.nickname}
                 timepost={timepost}
+                wallet={userPost?.customer?.aptosWallet}
                 postId={userPost._id}
                 userId={userPost.customer._id}
                 profileImageUri={userPost.customer.profileImage}
+                myPost={myPost}
               />
               <View
                 style={[
@@ -324,8 +337,10 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 nickname={userPost.customer.nickname}
                 timepost={timepost}
                 postId={userPost._id}
+                wallet={userPost?.customer?.aptosWallet}
                 userId={userPost.customer._id}
                 profileImageUri={userPost.customer.profileImage}
+                myPost={myPost}
               />
               <Text style={styles.message}>{userPost.description}</Text>
               <View style={[styles.mediaContainer]}>
@@ -387,9 +402,11 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 timepost={timepost}
                 postId={userPost._id}
                 userId={userPost.customer._id}
+                wallet={userPost?.customer?.aptosWallet}
                 profileImageUri={userPost.customer.profileImage}
+                myPost={myPost}
               />
-               <Text style={styles.message}>{userPost.description}</Text>
+              <Text style={styles.message}>{userPost.description}</Text>
               <View
                 style={[
                   styles.mediaContainer,

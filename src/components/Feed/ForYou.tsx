@@ -57,6 +57,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     "Outfit-Medium": fonts.OUTFIT_NORMAL,
     "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
+
   if (!isLoaded) {
     return null;
   }
@@ -65,12 +66,8 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     const params: PostData = data;
     navigation.navigate("SinglePost" as any, params);
   };
-  const myPost = userId == data?.customer?._id;
+  const myPost = userId == data?.userId;
   const timePost = getPostTime(data?.createdAt);
-  // useEffect(() => {
-  //   const timePost = getPostTime(data?.createdAt);
-  // }, [])
-  
   let content;
 
   const type_of_post = data?.repost
@@ -91,10 +88,9 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     ? FeedContent.MESSAGE_ONLY
     : FeedContent.EMPTY;
   const userPost = data;
-console.log(data, "for you")
+  console.log(data, "for you");
   switch (type_of_post) {
     case FeedContent.MESSAGE_ONLY:
-      // userPost.content = data.content as Message_Only;
       content = (
         <>
           <View style={styles.feedContainer}>
@@ -102,6 +98,8 @@ console.log(data, "for you")
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               swipeable={myPost}
+              username={userPost?.customer?.username}
+              nickname={userPost?.customer?.nickname}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -130,7 +128,6 @@ console.log(data, "for you")
       );
       break;
     case FeedContent.IMAGE_ONLY:
-      //userPost.content = data.content as VIDEO;
       content = (
         <>
           <View style={styles.feedContainer}>
@@ -138,6 +135,8 @@ console.log(data, "for you")
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               swipeable={myPost}
+              username={userPost?.customer?.username}
+              nickname={userPost?.customer?.nickname}
             />
             <View style={[styles.subHeading, { marginLeft: 0 }]}>
               <PostHeader
@@ -202,10 +201,10 @@ console.log(data, "for you")
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               swipeable={myPost}
+              username={userPost?.customer?.username}
+              nickname={userPost?.customer?.nickname}
             />
             <View style={styles.subHeading}>
-              
-
               <PostHeader
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
@@ -311,9 +310,11 @@ console.log(data, "for you")
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
-              profileImageUri={userPost.customer.profileImage}
+              profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               swipeable={myPost}
+              username={userPost?.customer?.username}
+              nickname={userPost?.customer?.nickname}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -342,7 +343,6 @@ console.log(data, "for you")
                 ]}
               >
                 <Video
-                 
                   source={{
                     uri: data.videoUrls[0],
                   }}
@@ -352,7 +352,6 @@ console.log(data, "for you")
                   resizeMode={ResizeMode.CONTAIN}
                   shouldPlay={true}
                 />
-               
               </Pressable>
               <PostActions
                 noOfComments={userPost?.comments?.length}
@@ -361,7 +360,6 @@ console.log(data, "for you")
                 postId={userPost._id}
                 userId={userPost.customer._id}
               />
-              
             </View>
           </View>
         </>
@@ -373,9 +371,11 @@ console.log(data, "for you")
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
-              profileImageUri={userPost.customer.profileImage}
+              profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               swipeable={myPost}
+              username={userPost?.customer?.username}
+              nickname={userPost?.customer?.nickname}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -508,6 +508,8 @@ console.log(data, "for you")
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               swipeable={myPost}
+              username={userPost?.customer?.username}
+              nickname={userPost?.customer?.nickname}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -595,6 +597,8 @@ console.log(data, "for you")
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               swipeable={myPost}
+              username={userPost?.customer?.username}
+              nickname={userPost?.customer?.nickname}
             />
             <View style={styles.subHeading}>
               <PostHeader

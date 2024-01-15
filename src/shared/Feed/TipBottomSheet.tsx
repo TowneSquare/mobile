@@ -150,11 +150,11 @@ const TipBottomSheet = () => {
                 size={size.getHeightSize(84)}
               />
             </View>
-            <Text style={styles.name}>Tip FakeJC</Text>
-            <Text style={styles.username}>@jcgangbang</Text>
+            <Text style={styles.name}>{username}</Text>
+            <Text style={styles.username}>@{nickname}</Text>
             {tipStatus !== STATUS.success && (
               <Text style={styles.description}>
-                Show support to FakeJC and make their day.
+                {`Show support to ${username} and make their day`}
               </Text>
             )}
             {tipStatus !== STATUS.success && (

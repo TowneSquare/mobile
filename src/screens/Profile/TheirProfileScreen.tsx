@@ -6,43 +6,46 @@ import {
   Dimensions,
   ScrollView,
   Pressable,
-} from 'react-native';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { firestoreDB } from '../../../config/firebase.config';
-import { useReducer, useState, useMemo, useEffect } from 'react';
-import { appColor } from '../../constants';
-import { serverTimestamp } from 'firebase/firestore';
-import SuperStarBottomSheet from '../../components/Profile/About/SuperStarBottomSheet';
-import Header from '../../components/Profile/Header';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-import TheirProfileBottomSheet from '../../components/Profile/About/TheirProfileBottomSheet';
-import ProfileTabNavigation from '../../navigations/ProfileTabNavigation';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { updateSuperStarBottomSheet } from '../../controller/BottomSheetController';
-import BlockUserModal from '../../components/Feed/BlockUserModal';
-import ReportPanel from '../../components/Feed/ReportPanel';
-import ReportPostModal from '../../components/Feed/ReportPostModal';
-import ReportUserModal from '../../components/Feed/ReportUserModal';
-import CheckedIcon from '../../../assets/images/svg/CheckedIcon';
-import FollowIcon from '../../../assets/images/svg/FollowIcon';
-import MessageIcon from '../../../assets/images/svg/MessageIcon';
-import ProfileTipIcon from '../../../assets/images/svg/ProfileTipIcon';
-import ProfileCard from '../../components/Profile/About/ProfileCard';
-import { sizes } from '../../utils';
-import { TheirProfileScreenProps } from '../../navigations/NavigationTypes';
-import { updateTipBottomSheet } from '../../controller/FeedsController';
-import ViewSuperStarsModal from '../../components/Profile/About/ViewSuperStarsModal';
-import ForYou from '../../components/Feed/ForYou';
-import Replies from '../../components/Profile/Replies';
-import { getCreatedTime } from '../../utils/helperFunction';
-import axios from 'axios';
-import { APTOS_NAME_URL } from '../../../config/env';
-import { getUserAptosName } from '../../api';
-import { followUser, unFollowUser } from '../../controller/UserController';
-import { useNavigation } from '@react-navigation/native';
-import { ChatsModel } from '../../models/chats';
-import { createUniqueChatId } from '../../utils/ChatUtils';
-const { height, width } = Dimensions.get('window');
+} from "react-native";
+import { useReducer, useState, useMemo, useEffect } from "react";
+import { appColor } from "../../constants";
+import SuperStarBottomSheet from "../../components/Profile/About/SuperStarBottomSheet";
+import Header from "../../components/Profile/Header";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import TheirProfileBottomSheet from "../../components/Profile/About/TheirProfileBottomSheet";
+import ProfileTabNavigation from "../../navigations/ProfileTabNavigation";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { updateSuperStarBottomSheet } from "../../controller/BottomSheetController";
+import BlockUserModal from "../../components/Feed/BlockUserModal";
+import ReportPanel from "../../components/Feed/ReportPanel";
+import ReportPostModal from "../../components/Feed/ReportPostModal";
+import ReportUserModal from "../../components/Feed/ReportUserModal";
+import CheckedIcon from "../../../assets/images/svg/CheckedIcon";
+import FollowIcon from "../../../assets/images/svg/FollowIcon";
+import MessageIcon from "../../../assets/images/svg/MessageIcon";
+import ProfileTipIcon from "../../../assets/images/svg/ProfileTipIcon";
+import ProfileCard from "../../components/Profile/About/ProfileCard";
+import { sizes } from "../../utils";
+import { TheirProfileScreenProps } from "../../navigations/NavigationTypes";
+import { updateTipBottomSheet } from "../../controller/FeedsController";
+import ViewSuperStarsModal from "../../components/Profile/About/ViewSuperStarsModal";
+import ForYou from "../../components/Feed/ForYou";
+import Replies from "../../components/Profile/Replies";
+import { getCreatedTime } from "../../utils/helperFunction";
+import axios from "axios";
+import { APTOS_NAME_URL } from "../../../config/env";
+import { getUserAptosName } from "../../api";
+import {
+  followUser,
+  getUserData,
+  unFollowUser,
+} from "../../controller/UserController";
+import { UserData } from "../../controller/UserController";
+const { height, width } = Dimensions.get("window");
+import { getUserInfo } from "../../api";
+import { PostData } from "../../controller/createPost";
+import { useQuery } from "react-query";
+import { BACKEND_URL } from "../../../config/env";
 const size = new sizes(height, width);
 
 type SuperStarReducerState = {
@@ -50,7 +53,7 @@ type SuperStarReducerState = {
   imageUri: string;
 };
 type SuperStarReducerAction = {
-  type: 'SHOW' | 'CLOSE';
+  type: "SHOW" | "CLOSE";
   payload?: {
     showSuperStarModal: boolean;
     imageUri: string;
@@ -61,94 +64,150 @@ const selectedSuperStarsReducer = (
   action: SuperStarReducerAction
 ) => {
   switch (action.type) {
-    case 'SHOW':
+    case "SHOW":
       return {
         showSuperStarModal: action.payload.showSuperStarModal,
         imageUri: action.payload.imageUri,
       };
-    case 'CLOSE':
+    case "CLOSE":
       return {
         showSuperStarModal: false,
-        imageUri: '',
+        imageUri: "",
       };
 
     default:
       return state;
   }
 };
-const TheirProfileScreen = ({ route, navigation }: TheirProfileScreenProps) => {
+const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
   const dispatch = useAppDispatch();
   const [view, setView] = useState<number>(2);
-  const { navigate } = useNavigation();
+  const { userId, username, nickname } = route.params;
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [aptosName, setAptosName] = useState<string>("unavailable");
 
-  const [aptosName, setAptosName] = useState<string>('unavailable');
-  const { userData } = route.params;
-
-  console.log(`=======user data=========`);
-  console.log(userData._id);
-  const { userFollowing, token } = useAppSelector((state) => ({
+  const { userFollowing, token, user } = useAppSelector((state) => ({
     userFollowing: state.USER.UserData.following,
     token: state.USER.didToken,
+    user: state.USER.UserData._id,
   }));
 
-  const title = 'Real JC';
-  const COMMUNITIES = '10';
-  const APTOS_DOMAIN_NAME = '';
+  const title = username;
+  const COMMUNITIES = "10";
+  const APTOS_DOMAIN_NAME = "";
+  const fetchUserInfo = async (): Promise<UserData> => {
+    return await axios
+      .get(`${BACKEND_URL}user/${userId}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => response.data);
+  };
+
+  function useUserInfo() {
+    return useQuery({ queryKey: ["userInfo"], queryFn: fetchUserInfo });
+  }
+  const userInfo = useUserInfo();
   const [following, setFollowing] = useState(
-    userFollowing.some((following) => following._id == userData._id)
+    userFollowing.some((following) => following.toUserId == userInfo.data?._id)
   );
-  const userId = userData?._id;
+
   const handleFollow = () => {
     setFollowing(true);
     dispatch(followUser({ toUserIds: [userId], token }));
+    dispatch(getUserData({ userId: user, token }));
   };
 
   const handleUnFollow = () => {
     setFollowing(false);
-    dispatch(unFollowUser({ token, userId }));
+    dispatch(unFollowUser({ token, followId: userId }));
+    dispatch(getUserData({ userId: user, token }));
   };
 
-  // const following = userFollowing.some(
-  //   (following) => following._id == userData._id
-  // );
   const [superStarModal, useDispatch] = useReducer(selectedSuperStarsReducer, {
     showSuperStarModal: false,
-    imageUri: '',
+    imageUri: "",
   });
 
-  // const getUserAptosName = async (address: string) => {
-  //   try {
-  //     const res = await axios.get(`${APTOS_NAME_URL}${address}`);
-  //     console.log('=====response=======')
-  //     console.log(res.data)
-  //     const aptosName: string = res?.data;
-  //     console.log(`=======Aptos name ===========`);
-  //     console.log(aptosName);
-  //     setAptosName(aptosName);
-  //   } catch (error) {
-  //     setAptosName('unavailable∏');
-  //     return 'unavailable';
-  //   }
-  // };
-  const myId = useAppSelector((state) => state.USER.UserData._id);
-  const profile = useAppSelector((state) => state.USER.UserData);
-  useMemo(() => {
-    getUserAptosName(userData?.aptosWallet);
-  }, [userData?.aptosWallet]);
+  console.log(userFollowing, "userFollowing");
+
+  // const following = userFollowing.some(
+  //     (following) => following._id == userInfo.data._id
+  //   );
+
+  const getUserAptosName = async (address: string) => {
+    try {
+      const res = await axios.get(`${APTOS_NAME_URL}${address}`);
+      const aptosName: string = res?.data;
+      setAptosName(aptosName);
+    } catch (error) {
+      setAptosName("unavailable");
+      return "unavailable";
+    }
+  };
+
+  useEffect(() => {
+    //getUserAptosName(userInfo.data?.aptosWallet)
+    dispatch(getUserData({ userId: user, token }));
+    setFollowing(
+      userFollowing.some(
+        (following) => following.toUserId == userInfo.data?._id
+      )
+    );
+  }, []);
+
+  const POST = () => {
+    if (userInfo?.data?.posts?.length == 0) {
+      return [];
+    }
+    return userInfo?.data?.posts.map((res) => ({
+      _id: res?._id,
+      title: res?.title || "",
+      description: res?.description,
+      imageUrls: res?.imageUrls || [],
+      videoUrls: res?.videoUrls || [],
+      nftImageUrl: res?.nftImageUrl,
+      nftCollection: res?.nftCollection,
+      nftTokenId: res?.nftTokenId,
+      userId: res?.userId,
+      repost: res?.repost,
+      createdAt: res?.createdAt,
+      likes: res?.likes,
+      reposts: res?.reposts,
+      comments: res?.comments,
+      customer: {
+        _id: res?.customer?._id,
+        issuer: res?.customer?.issuer || "",
+        aptosWallet: res?.customer?.aptosWallet,
+        nickname: res?.customer?.nickname,
+        username: res?.customer?.username,
+        email: res?.customer?.email || "",
+        referralCode: res?.customer?.referralCode || "",
+        profileImage: res?.customer?.profileImage || "",
+        createdAt: res?.createdAt,
+      },
+      sellNFTPrice: res?.sellNFTPrice,
+      originalCustomer: res?.originalCustomer,
+      originalPostId: res?.originalPostId,
+      originalCustomerId: res?.originalCustomerId,
+    }));
+  };
 
   const Posts = () => {
-    return userData.posts.map((userpost) => (
+    return POST()?.map((userpost) => (
       <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
     ));
   };
 
+  console.log(userInfo.isFetched, userInfo?.data?.createdAt, "theirProile");
   const UserReplies = () => {
-    return userData.comments.map((userpost) => (
+    return userInfo.data?.comments.map((userpost) => (
       <Replies
         key={userpost._id}
         data={userpost}
-        nickname={userData.nickname}
-        username={userData.username}
+        nickname={userInfo.data?.nickname}
+        username={userInfo.data?.username}
         myPost
         shouldPFPSwipe={false}
       />
@@ -156,7 +215,7 @@ const TheirProfileScreen = ({ route, navigation }: TheirProfileScreenProps) => {
   };
 
   const Media = () => {
-    return userData.posts
+    return POST()
       .filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0])
       .map((userpost) => (
         <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
@@ -174,56 +233,6 @@ const TheirProfileScreen = ({ route, navigation }: TheirProfileScreenProps) => {
       return Media();
     }
   };
-  const createChat = async () => {
-    const timestamp = serverTimestamp();
-    // let id = createUniqueChatId('6789', '12345');
-
-    let id = '12345_6789';
-    // let id = `${userData._id}_${myId}`;
-    const _doc = {
-      _id: id,
-      members: [
-        {
-          _id: '6789',
-          name: userData.username,
-        },
-        {
-          _id: '12345',
-          name: profile.username,
-        },
-      ],
-      memberIds: ['6789', '12345'],
-      chatName: userData.username,
-      lastMessage: {
-        text: '',
-        createdAt: timestamp,
-        sender: {
-          _id: '',
-          name: '',
-        },
-      },
-
-      unreadCount: 2,
-    };
-    const chatRef = doc(firestoreDB, 'chats', id);
-    getDoc(chatRef).then((docSnapshot) => {
-      if (docSnapshot.exists()) {
-        console.log(`SnapshotId:${docSnapshot.id}`);
-        return navigate('Conversation', {
-          chatId: docSnapshot.id,
-          name: docSnapshot.data().chatName,
-        });
-      } else {
-        setDoc(chatRef, _doc)
-          .then(() => {
-            navigate('Conversation', { chatId: id, name: userData.username });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    });
-  };
 
   return (
     <SafeAreaView
@@ -234,166 +243,171 @@ const TheirProfileScreen = ({ route, navigation }: TheirProfileScreenProps) => {
     >
       <Header title={title} typeOfProfile="theirProfile" />
       {/* <ProfileTabNavigation typeOfProfile="theirProfile" /> */}
-      <ScrollView>
-        <ProfileCard
-          NAME={userData.username}
-          NICKNAME={userData.nickname}
-          APTOS_DOMAIN_NAME={'aptosName'}
-          DATE={getCreatedTime(userData.createdAt)}
-          COMMUNITIES={COMMUNITIES}
-          FOLLOWERS={userData.followers.length.toString()}
-          FOLLOWING={userData.following.length.toString()}
-          POST={userData.posts.length.toString()}
-        />
-        <View style={styles.view}>
-          <Pressable
-            onPress={following ? handleUnFollow : handleFollow}
-            style={[
-              styles.followView,
-              {
-                backgroundColor: following
-                  ? appColor.kGrayLight3
-                  : appColor.kSecondaryButtonColor,
-                paddingHorizontal: following
-                  ? size.getWidthSize(13.5)
-                  : size.getWidthSize(25),
-              },
-            ]}
-          >
-            {following ? (
-              <CheckedIcon size={size.getHeightSize(24)} />
-            ) : (
-              <FollowIcon size={size.getHeightSize(24)} />
-            )}
-            <Text style={styles.followText}>
-              {following ? 'Following' : 'Follow'}
+      {userInfo.isSuccess ? (
+        <ScrollView>
+          <ProfileCard
+            NAME={username}
+            NICKNAME={nickname}
+            APTOS_DOMAIN_NAME={aptosName}
+            DATE={getCreatedTime(userInfo.data?.createdAt)}
+            COMMUNITIES={COMMUNITIES}
+            FOLLOWERS={userInfo.data?.followers?.length.toString()}
+            FOLLOWING={userInfo.data?.following?.length.toString()}
+            POST={userInfo.data?.posts?.length.toString()}
+            profileImageUri={userInfo?.data.profileImage}
+          />
+          <View style={styles.view}>
+            <Pressable
+              onPress={following ? handleUnFollow : handleFollow}
+              style={[
+                styles.followView,
+                {
+                  backgroundColor: following
+                    ? appColor.kGrayLight3
+                    : appColor.kSecondaryButtonColor,
+                  paddingHorizontal: following
+                    ? size.getWidthSize(13.5)
+                    : size.getWidthSize(25),
+                },
+              ]}
+            >
+              {following ? (
+                <CheckedIcon size={size.getHeightSize(24)} />
+              ) : (
+                <FollowIcon size={size.getHeightSize(24)} />
+              )}
+              <Text style={styles.followText}>
+                {following ? "Following" : "Follow"}
+              </Text>
+            </Pressable>
+            <View style={styles.iconView}>
+              <MessageIcon />
+            </View>
+            <View style={styles.iconView}>
+              <ProfileTipIcon
+                size={size.getHeightSize(24)}
+                onPress={() => {
+                  dispatch(
+                    updateTipBottomSheet({
+                      status: true,
+                      profileImage: userInfo.data?.profileImage,
+                      username: userInfo.data?.username,
+                      wallet: userInfo.data?.aptosWallet,
+                      nickname: userInfo.data?.nickname,
+                    })
+                  );
+                }}
+              />
+            </View>
+          </View>
+          <View style={styles.aboutDiv}>
+            <Text
+              style={[
+                styles.aboutHeader,
+                { marginBottom: size.getHeightSize(12) },
+              ]}
+            >
+              About
             </Text>
-          </Pressable>
-          <View style={styles.iconView}>
-            <MessageIcon onPress={createChat} />
+            <View>
+              <Text style={styles.aboutText}>{userInfo.data?.bio}</Text>
+            </View>
           </View>
-          <View style={styles.iconView}>
-            <ProfileTipIcon
-              size={size.getHeightSize(24)}
+          {userInfo.data?.superstars?.nftInfoArray.length > 0 ? (
+            <>
+              <ScrollView
+                style={{
+                  marginLeft: size.getWidthSize(16),
+                }}
+                horizontal={true}
+                contentContainerStyle={{
+                  paddingRight: size.getWidthSize(10),
+                }}
+              >
+                {userInfo?.data?.superstars.nftInfoArray.map((item, index) => (
+                  <Pressable
+                    onPress={() => {
+                      useDispatch({
+                        type: "SHOW",
+                        payload: {
+                          showSuperStarModal: true,
+                          imageUri: item.nftImageUrl,
+                        },
+                      });
+                    }}
+                    key={index}
+                  >
+                    <Image
+                      style={{
+                        marginRight: size.getWidthSize(6),
+                        width: size.getHeightSize(130),
+                        height: size.getHeightSize(130),
+                        borderRadius: 8,
+                      }}
+                      source={{ uri: item.nftImageUrl }}
+                    />
+                  </Pressable>
+                ))}
+              </ScrollView>
+            </>
+          ) : (
+            <></>
+          )}
+          <View style={styles.tabView}>
+            <Pressable
+              style={view == 2 ? styles.focusedTab : styles.tab}
               onPress={() => {
-                dispatch(
-                  updateTipBottomSheet({
-                    status: true,
-                    profileImage: userData.profileImage,
-                    username: userData.username,
-                    wallet: userData.aptosWallet,
-                    nickname: userData.nickname,
-                  })
-                );
-              }}
-            />
-          </View>
-        </View>
-        <View style={styles.aboutDiv}>
-          <Text
-            style={[
-              styles.aboutHeader,
-              { marginBottom: size.getHeightSize(12) },
-            ]}
-          >
-            About
-          </Text>
-          <View>
-            <Text style={styles.aboutText}>{userData?.bio}</Text>
-          </View>
-        </View>
-        {userData.superstars.nftInfoArray.length > 0 ? (
-          <>
-            <ScrollView
-              style={{
-                marginLeft: size.getWidthSize(16),
-              }}
-              horizontal={true}
-              contentContainerStyle={{
-                paddingRight: size.getWidthSize(10),
+                setView(2);
               }}
             >
-              {userData.superstars.nftInfoArray.map((item, index) => (
-                <Pressable
-                  onPress={() => {
-                    useDispatch({
-                      type: 'SHOW',
-                      payload: {
-                        showSuperStarModal: true,
-                        imageUri: item.nftImageUrl,
-                      },
-                    });
-                  }}
-                  key={index}
-                >
-                  <Image
-                    style={{
-                      marginRight: size.getWidthSize(6),
-                      width: size.getHeightSize(130),
-                      height: size.getHeightSize(130),
-                      borderRadius: 8,
-                    }}
-                    source={{ uri: item.nftImageUrl }}
-                  />
-                </Pressable>
-              ))}
-            </ScrollView>
-          </>
-        ) : (
-          <></>
-        )}
-        <View style={styles.tabView}>
-          <Pressable
-            style={view == 2 ? styles.focusedTab : styles.tab}
-            onPress={() => {
-              setView(2);
+              <Text style={view == 2 ? styles.focusedtabText : styles.tabText}>
+                Posts
+              </Text>
+            </Pressable>
+            <Pressable
+              style={view == 1 ? styles.focusedTab : styles.tab}
+              onPress={() => {
+                setView(1);
+              }}
+            >
+              <Text style={view == 1 ? styles.focusedtabText : styles.tabText}>
+                Replies
+              </Text>
+            </Pressable>
+            <Pressable
+              style={view == 0 ? styles.focusedTab : styles.tab}
+              onPress={() => setView(0)}
+            >
+              <Text style={view == 0 ? styles.focusedtabText : styles.tabText}>
+                Media
+              </Text>
+            </Pressable>
+          </View>
+          <View>{POST_MEDIA_REPLIES()}</View>
+          <TheirProfileBottomSheet />
+          <SuperStarBottomSheet
+            handleVisibility={() => {
+              dispatch(updateSuperStarBottomSheet(false));
             }}
-          >
-            <Text style={view == 2 ? styles.focusedtabText : styles.tabText}>
-              Posts
-            </Text>
-          </Pressable>
-          <Pressable
-            style={view == 1 ? styles.focusedTab : styles.tab}
-            onPress={() => {
-              setView(1);
-            }}
-          >
-            <Text style={view == 1 ? styles.focusedtabText : styles.tabText}>
-              Replies
-            </Text>
-          </Pressable>
-          <Pressable
-            style={view == 0 ? styles.focusedTab : styles.tab}
-            onPress={() => setView(0)}
-          >
-            <Text style={view == 0 ? styles.focusedtabText : styles.tabText}>
-              Media
-            </Text>
-          </Pressable>
-        </View>
-        <View>{POST_MEDIA_REPLIES()}</View>
-        <TheirProfileBottomSheet />
-        <SuperStarBottomSheet
-          handleVisibility={() => {
-            dispatch(updateSuperStarBottomSheet(false));
-          }}
-          typeOfProfile="theirProfile"
-        />
-        <ReportUserModal />
-        <ReportPanel />
-        <ReportPostModal />
-        <BlockUserModal />
-        <ViewSuperStarsModal
-          visibility={superStarModal.showSuperStarModal}
-          close={() =>
-            useDispatch({
-              type: 'CLOSE',
-            })
-          }
-          imageUri={superStarModal.imageUri}
-        />
-      </ScrollView>
+            typeOfProfile="theirProfile"
+          />
+          <ReportUserModal />
+          <ReportPanel />
+          <ReportPostModal />
+          <BlockUserModal />
+          <ViewSuperStarsModal
+            visibility={superStarModal.showSuperStarModal}
+            close={() =>
+              useDispatch({
+                type: "CLOSE",
+              })
+            }
+            imageUri={superStarModal.imageUri}
+          />
+        </ScrollView>
+      ) : (
+        <></>
+      )}
     </SafeAreaView>
   );
 };
@@ -403,25 +417,25 @@ const styles = StyleSheet.create({
     backgroundColor: appColor.kgrayDark2,
     marginTop: 15,
     borderRadius: 40,
-    borderColor: 'white',
+    borderColor: "white",
     padding: 15,
   },
   text: {
     color: appColor.kGrayscale,
-    fontFamily: 'Outfit-Bold',
+    fontFamily: "Outfit-Bold",
     paddingLeft: 5,
   },
 
   view2Box: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   view2TextUp: {
-    fontFamily: 'Outfit-Bold',
+    fontFamily: "Outfit-Bold",
     color: appColor.kTextColor,
   },
   view2TextDown: {
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.kGrayscale,
   },
   aboutDiv: {
@@ -430,13 +444,13 @@ const styles = StyleSheet.create({
   },
   aboutHeader: {
     color: appColor.kTextColor,
-    fontFamily: 'Outfit-Bold',
+    fontFamily: "Outfit-Bold",
     fontSize: size.fontSize(20),
     lineHeight: size.getHeightSize(24),
   },
   aboutText: {
     color: appColor.kTextColor,
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(20),
   },
@@ -444,30 +458,30 @@ const styles = StyleSheet.create({
     backgroundColor: appColor.kSecondaryButtonColor,
     flex: 1,
     paddingVertical: size.getHeightSize(8),
-    justifyContent: 'center',
+    justifyContent: "center",
     marginHorizontal: size.getWidthSize(4),
     borderRadius: 40,
     minHeight: size.getHeightSize(36),
   },
   focusedtabText: {
     color: appColor.kTextColor,
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(20),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
   },
   tabText: {
     color: appColor.kTextColor,
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
   },
   tab: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     flex: 1,
     paddingVertical: size.getHeightSize(8),
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingHorizontal: size.getWidthSize(4),
     borderRadius: 40,
   },
@@ -475,31 +489,31 @@ const styles = StyleSheet.create({
     height: size.getHeightAndWidth(140),
     width: size.getHeightAndWidth(140),
     borderRadius: 200,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   image: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     borderRadius: 50,
   },
   superStarView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginHorizontal: size.getWidthSize(16),
   },
   edit: {
     color: appColor.kSecondaryButtonColor,
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
   },
   setNft: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: size.getHeightSize(16),
     paddingHorizontal: size.getWidthSize(16),
-    justifyContent: 'space-between',
-    borderStyle: 'dashed',
+    justifyContent: "space-between",
+    borderStyle: "dashed",
     borderColor: appColor.kGrayLight3,
     borderWidth: 1,
     borderRadius: 8,
@@ -507,25 +521,25 @@ const styles = StyleSheet.create({
   },
   setNftText: {
     color: appColor.kGrayscale,
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     fontSize: size.fontSize(14),
   },
   setNftButton: {
     backgroundColor: appColor.kWhiteColor,
     borderRadius: 30,
     paddingHorizontal: size.getWidthSize(16),
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   setNftButtonText: {
-    textAlign: 'center',
-    fontFamily: 'Outfit-Medium',
+    textAlign: "center",
+    fontFamily: "Outfit-Medium",
     fontSize: size.fontSize(16),
     color: appColor.kGrayscaleDart,
     letterSpacing: 0.32,
     lineHeight: size.getHeightSize(20),
   },
   tabView: {
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: appColor.kgrayDark2,
     borderRadius: 40,
     marginTop: size.getHeightSize(32),
@@ -533,21 +547,21 @@ const styles = StyleSheet.create({
     width: size.getWidthSize(344),
     paddingVertical: size.getHeightSize(4),
     marginBottom: size.getHeightSize(8),
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   view: {
     paddingHorizontal: size.getWidthSize(42),
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: size.getHeightSize(24),
-    alignSelf: 'center',
+    alignSelf: "center",
     gap: size.getWidthSize(16),
   },
   followView: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: size.getHeightSize(4),
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: appColor.kSecondaryButtonColor,
     borderRadius: 40,
     gap: size.getWidthSize(8),
@@ -555,21 +569,21 @@ const styles = StyleSheet.create({
     minHeight: size.getHeightSize(34),
   },
   followText: {
-    textAlign: 'center',
-    fontFamily: 'Outfit-Medium',
+    textAlign: "center",
+    fontFamily: "Outfit-Medium",
     fontSize: size.fontSize(16),
     color: appColor.kWhiteColor,
     letterSpacing: 0.32,
     lineHeight: size.getHeightSize(20),
   },
   iconView: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: size.getHeightSize(4),
-    alignItems: 'center',
+    alignItems: "center",
     backgroundColor: appColor.kWhiteColor,
     borderRadius: 40,
     gap: size.getWidthSize(8),
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingHorizontal: size.getWidthSize(16),
   },
 });
