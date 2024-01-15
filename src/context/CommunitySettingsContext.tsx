@@ -1,4 +1,4 @@
-
+import { View, Text } from 'react-native';
 import React, { ReactNode, createContext, useContext, useReducer, useState } from 'react';
 export type CommunityDetailsType = {
   selectedCryptoAsset: {

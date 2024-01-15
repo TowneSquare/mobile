@@ -44,7 +44,7 @@ const size = new sizes(height, width);
 const Conversation = ({
   navigation,
   route: {
-    params: { chatId },
+    params: { chatId, name },
   },
 }: ConversationProps) => {
   const dispatch = useAppDispatch();
@@ -159,6 +159,7 @@ const Conversation = ({
     >
       <ChatContext>
         <ConversationHeader
+          name={name}
           moreIconCallBack={() => setMoreBottomsheetVisibility(true)}
         />
 
