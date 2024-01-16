@@ -41,8 +41,9 @@ const NFTCollections = ({ callBack }: Props) => {
             paddingHorizontal: size.getWidthSize(16),
           }}
         >
-          {collections.map((collection) => (
+          {collections.map((collection, index) => (
             <Pressable
+              key={index}
               style={{
                 marginBottom: size.getHeightSize(16),
                 overflow: 'hidden',
@@ -60,11 +61,11 @@ const NFTCollections = ({ callBack }: Props) => {
                   dispatch(updateSelectedCollection(true));
                 }
               }}
-              key={collection.id}
+              
             >
               {
                 <Image
-                  source={collection.image}
+                  source={collection.nftImageUrl}
                   resizeMode="cover"
                   style={{
                     width: size.getWidthSize(140),
@@ -98,7 +99,7 @@ const NFTCollections = ({ callBack }: Props) => {
                     textAlign: 'left',
                   }}
                 >
-                  {collection.Name}
+                  {collection.nftCollection}
                 </Text>
               </View>
               <View
@@ -123,7 +124,7 @@ const NFTCollections = ({ callBack }: Props) => {
                     lineHeight: size.getHeightSize(18),
                   }}
                 >
-                  {collection.id}
+                  {collection.nftTokenId}
                 </Text>
               </View>
             </Pressable>

@@ -122,31 +122,47 @@ const CreatePost = ({ route }: CreatePostProps) => {
   //   },
   // };
 
- var photo = {
+  var photo = {
     uri: media,
-    type: 'image/jpeg',
-    name: 'photo.jpg',
-};
-
-  const createFormData = (uri:any) => {
-    const fileName = uri.split("/").pop();
-    const fileType = fileName.split(".").pop();
-    const formData = new FormData();
-
-    // formData.append("image", {
-    //   name: fileName,
-    //   uri,
-    //   type: `image/${fileType}`,
-    // });
-    formData.append('name',fileName)
-    formData.append('type', fileType)
-    formData.append('uri', media)
-    return formData;
+    type: "image/jpeg",
+    name: "photo.jpg",
   };
+
+  // const createFormData = (uri:any) => {
+  //   const fileName = uri.split("/").pop();
+  //   const fileType = fileName.split(".").pop();
+  //   const formData = new FormData();
+
+  //   // formData.append("image", {
+  //   //   name: fileName,
+  //   //   uri,
+  //   //   type: `image/${fileType}`,
+  //   // });
+  //   formData.append('name',fileName)
+  //   formData.append('type', fileType)
+  //   formData.append('uri', media)
+  //   return formData;
+  // };
+
+  const createFormData = () => {
+    const data = new FormData();
+    data.append("file", {
+      name: media?.split("/").pop(),
+      type: "Image/" + get_url_extension(media),
+      uri:media
+    } as any);
+    console.log(data, "data")
+    return data || "";
+  };
+  function get_url_extension(url: string) {
+    return url?.split(/[#?]/)[0].split(".").pop().trim();
+  }
+
+  console.log(createFormData(), media, "fileee")
 
   const createPost = async () => {
     try {
-      const res = await axios.post(
+      await axios.post(
         `${BACKEND_URL}posts/create`,
         {
           description: textInput,
@@ -154,7 +170,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
           nftTokenId: nft.nftTokenId,
           nftCollection: nft.nftCollection,
           nftImageUrl: nft.nftImageUrl,
-          file: createFormData(media),
+          file: createFormData(),
         },
         {
           headers: {
@@ -170,8 +186,9 @@ const CreatePost = ({ route }: CreatePostProps) => {
           toastType: "success",
         })
       );
+      dispatch(clearPostData());
     } catch (error) {
-      console.log(error?.response?.data, "eror message");
+      console.log(error, "error message");
       dispatch(
         updateToast({
           displayToast: true,
@@ -198,7 +215,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
           onPress={async () => {
             navigation.dispatch(StackActions.pop(1));
             createPost();
-            dispatch(clearPostData());
+            
           }}
           style={styles.publishButton}
         >

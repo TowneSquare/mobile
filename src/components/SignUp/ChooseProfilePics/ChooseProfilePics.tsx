@@ -31,7 +31,7 @@ const ChooseProfilePics = () => {
   const dispatch = useAppDispatch();
   const { profilePics, uploadImageModal, NftModal, selectedCollectionModal } =
     useAppSelector((state) => ({
-      profilePics: state.USER.details.profileImage,
+      profilePics: state.USER.UserData.profileImage,
       uploadImageModal: state.bottomSheetController.uploadImageModalOpen,
       NftModal: state.bottomSheetController.NftModalOpen,
       selectedCollectionModal:
