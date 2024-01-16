@@ -12,9 +12,10 @@ const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {
   moreIconCallBack: () => void;
+  name?: string;
 }
 
-const ConversationHeader = ({ moreIconCallBack }: Props) => {
+const ConversationHeader = ({ moreIconCallBack, name }: Props) => {
   const navigation = useNavigation();
   return (
     <View style={styles.view}>
@@ -34,10 +35,10 @@ const ConversationHeader = ({ moreIconCallBack }: Props) => {
               gap: size.getWidthSize(4),
             }}
           >
-            <Text style={styles.name}>UsernameX</Text>
+            <Text style={styles.name}>{name ? name : 'Real JC'}</Text>
             <GreyBadge size={size.getHeightSize(18)} />
           </View>
-          <Text style={styles.username}>@jczhang</Text>
+          <Text style={styles.username}>@TO1</Text>
         </View>
       </View>
       <Feather
