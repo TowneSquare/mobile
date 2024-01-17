@@ -145,13 +145,7 @@ const About = ({ route }) => {
     ));
   };
 
-  console.log(
-    onlyUserPost.filter(
-      (userpost) => userpost.imageUrls[0] || userpost.videoUrls[0]
-    ),
-    onlyUserPost,
-    "media"
-  );
+ 
 
   const Media = () => {
     return onlyUserPost
@@ -278,8 +272,7 @@ const About = ({ route }) => {
               />
             </View>
           </View>
-        )}{" "}
-        */
+        )}
         <View style={styles.aboutDiv}>
           <Text
             style={[
