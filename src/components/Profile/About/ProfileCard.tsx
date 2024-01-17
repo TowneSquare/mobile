@@ -255,12 +255,12 @@ const ProfileCard = ({
           <Text style={styles.view2TextDown}>Post</Text>
         </Pressable>
         <Pressable
-          onPress={() =>
-            navigation.navigate('FollowersScreen', { screen: 'Communities' })
-          }
+         onPress={() => {
+          // navigation.navigate('FollowersScreen', { screen: 'Communities' })
+        }}
           style={styles.view2Box}
         >
-          <Text style={styles.view2TextUp}>{COMMUNITIES}</Text>
+          {/* <Text style={styles.view2TextUp}>{COMMUNITIES}</Text> */}
           <Text style={styles.view2TextDown}>Communities</Text>
         </Pressable>
       </View>

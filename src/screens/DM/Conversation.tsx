@@ -11,12 +11,13 @@ import {
 import Loader from '../../../assets/svg/Loader';
 import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import ConversationHeader from '../../components/DM/ConversationHeader';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor } from '../../constants';
 import ChatTextInput, { ComponentRef } from '../../components/DM/ChatTextInput';
 import { conversationData } from '../../utils/messageData';
 import DeleteConversationBottomsheet from '../../components/DM/DeleteConversationBottomsheet';
-import { ChatClass } from '../../utils/ChatUtils';
+import { ChatClass, chatTakePhoto, chatPickImage } from '../../utils/ChatUtils';
 import Messages from '../../components/DM/Messages';
 import ChatContext from '../../context/ChatContext';
 import { sizes } from '../../utils';
@@ -39,6 +40,7 @@ import {
   getDoc,
 } from 'firebase/firestore';
 import { firestoreDB } from '../../../config/firebase.config';
+
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Conversation = ({
@@ -51,7 +53,7 @@ const Conversation = ({
   const [message, setMessage] = useState([]);
   const MESSAGE_LIMIT = 10;
   const lastDocRef = useRef(null);
-  useEffect(() => {}, []);
+
   useLayoutEffect(() => {
     const msgCollectionRef = collection(
       firestoreDB,
@@ -74,7 +76,8 @@ const Conversation = ({
 
     return unsubscribe;
   }, []);
-
+  console.log('====message====');
+  console.log(message[0]);
   const chatInputRef = useRef<ComponentRef>();
   const [showReplying, setShowReplyVisibility] = useState(false);
   const chatUtils = new ChatClass(message);

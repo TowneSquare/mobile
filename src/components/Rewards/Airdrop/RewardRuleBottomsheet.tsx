@@ -33,7 +33,7 @@ const RewardRuleBottomsheet = () => {
       </Text>
       <Text style={[styles.text, { marginTop: size.getHeightSize(24) }]}>
         Each NFT that you hold gives you{' '}
-        <Text style={{ fontFamily: 'Outfit-Bold' }}>50 TS Points</Text>
+        <Text style={{ fontFamily: 'Outfit-Bold' }}>50 Cred Points </Text>
         per day.
       </Text>
       <Text style={[styles.text, { marginTop: size.getHeightSize(24) }]}>

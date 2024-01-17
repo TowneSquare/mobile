@@ -26,23 +26,19 @@ const PointsonholdBottomsheet = () => {
         become “active” by doing one of the following actions in the app after
         signup:
       </Text>
-      <Text
-        style={[
-          styles.text,
-          {
-            marginLeft: size.getWidthSize(4),
-            marginTop: size.getHeightSize(24),
-          },
-        ]}
-      >
-        • Buy or sell an NFT
-      </Text>
-      <Text style={[styles.text, { marginLeft: size.getWidthSize(4) }]}>
-        • Swap tokens
-      </Text>
-      <Text style={[styles.text, { marginLeft: size.getWidthSize(4) }]}>
-        • Send tokens to another user
-      </Text>
+      <View style={[styles.row, { marginTop: size.getHeightSize(24) }]}>
+        <Text style={styles.text}>•</Text>
+        <Text style={styles.text2}>Buy or sell an NFT</Text>
+      </View>
+      <View style={[styles.row]}>
+        <Text style={styles.text}>•</Text>
+        <Text style={[styles.text2]}>Swap tokens</Text>
+      </View>
+      <View style={[styles.row]}>
+        <Text style={styles.text}>•</Text>
+        <Text style={[styles.text2]}>Send tokens to another user</Text>
+      </View>
+
       <View style={{ height: size.getHeightSize(48) }} />
     </BottomsheetWrapper>
   );
@@ -64,5 +60,18 @@ const styles = StyleSheet.create({
     lineHeight: size.getHeightSize(21),
     color: appColor.kTextColor,
     fontFamily: 'Outfit-Regular',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: size.getWidthSize(8),
+    paddingLeft: size.getWidthSize(8),
+  },
+  text2: {
+    fontSize: size.fontSize(16),
+    lineHeight: size.getHeightSize(21),
+    color: appColor.kTextColor,
+    fontFamily: 'Outfit-Regular',
+    flex: 1,
   },
 });

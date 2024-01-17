@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Image,
   Pressable,
+  Linking,
 } from 'react-native';
 import React from 'react';
 import { sizes } from '../../utils';
@@ -88,8 +89,10 @@ const GetContent = ({ data, uid, chatUtilsInstance }: Props) => {
   const navigation = useNavigation();
   switch (message.messageType) {
     case 'text':
-      const urlPattern = /(https?:\/\/[^\s]+)/g;
-      const texts = message.text.split(urlPattern);
+      const urlPattern =
+        /(https?:\/\/[^\s]+)|((www\.)?[^\s]+\.(com|ng|[a-z]{2,})\b)/g;
+      const parts = message.text.split(urlPattern);
+      const urls = message.text.match(urlPattern);
       // console.log(user.id);
       return (
         <View style={{}}>
@@ -99,21 +102,37 @@ const GetContent = ({ data, uid, chatUtilsInstance }: Props) => {
             ]}
           >
             <Text>
-              {texts.map((text, index) =>
-                text === '' ? (
-                  <></>
-                ) : urlPattern.test(text) ? (
+              {message.text.split(' ').map((part, index) => {
+                return urlPattern.test(part) ? (
                   <Text
+                    key={index}
+                    onPress={() => {
+                      if (part.startsWith('https://')) {
+                        Linking.openURL(part);
+                      } else {
+                        Linking.openURL('https://' + part);
+                      }
+                    }}
                     style={{
-                      color: appColor.primaryLight,
+                      color:
+                        user._id === '12345'
+                          ? appColor.kTextColor
+                          : appColor.primaryLight,
+                      fontSize: size.fontSize(16),
+                      fontFamily: 'Outfit-Regular',
+                      lineHeight: size.getHeightSize(24),
+                      textAlign: 'left',
+                      textDecorationLine: 'underline',
                     }}
                   >
-                    {text}
+                    {part}
                   </Text>
                 ) : (
-                  <Text style={styles.message}>{text}</Text>
-                )
-              )}
+                  <Text key={index} style={styles.message}>
+                    {' ' + part + ' '}
+                  </Text>
+                );
+              })}
             </Text>
           </View>
         </View>
@@ -121,10 +140,12 @@ const GetContent = ({ data, uid, chatUtilsInstance }: Props) => {
     case 'image':
       return (
         <View>
-          <View style={user._id !== uid ? styles.imageView2 : styles.imageView}>
+          <View
+            style={user._id !== '12345' ? styles.imageView2 : styles.imageView}
+          >
             <Image
-              source={images.feedImage1}
-              style={user._id !== uid ? styles.imageStyle2 : styles.imageStyle}
+              source={{ uri: message.imageUri }}
+              style={user._id !== '12345' ? styles.imageStyle2 : styles.imageStyle}
               resizeMode="cover"
             />
           </View>
@@ -607,11 +628,11 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingVertical: size.getHeightSize(10),
-    paddingHorizontal: size.getWidthSize(14),
+    paddingHorizontal: size.getWidthSize(13.5),
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
-    backgroundColor: appColor.primaryLight,
+    backgroundColor: appColor.kSecondaryButtonColor,
   },
   view1: {
     gap: size.getHeightSize(8),
@@ -644,7 +665,7 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     paddingVertical: size.getHeightSize(10),
-    paddingHorizontal: size.getWidthSize(14),
+    paddingHorizontal: size.getWidthSize(13.5),
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,

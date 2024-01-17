@@ -5,25 +5,25 @@ import {
   Dimensions,
   StyleSheet,
   Pressable,
-} from "react-native";
-import { appColor, fonts } from "../../../constants";
-import { StatusBar } from "expo-status-bar";
-import { useFonts } from "expo-font";
-const { height, width } = Dimensions.get("window");
-import { sizes } from "../../../utils";
-import { Entypo } from "@expo/vector-icons";
-import { useAppDispatch, useAppSelector } from "../../../controller/hooks";
-import Header from "../Header";
-import User from "../../../../assets/images/svg/User";
+} from 'react-native';
+import { appColor, fonts } from '../../../constants';
+import { StatusBar } from 'expo-status-bar';
+import { useFonts } from 'expo-font';
+const { height, width } = Dimensions.get('window');
+import { sizes } from '../../../utils';
+import { Entypo } from '@expo/vector-icons';
+import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
+import Header from '../Header';
+import User from '../../../../assets/images/svg/User';
 import {
   updateUploadImageModalOpen,
   updateUploadModalRenderCount,
   updateProfilePics,
-} from "../../../controller/BottomSheetController";
-import RemoveAttachment from "../../../../assets/images/svg/RemoveAttachment";
-import { updateProfileImage } from "../../../controller/UserController";
-import tinycolor from "tinycolor2";
-import { batch } from "react-redux";
+} from '../../../controller/BottomSheetController';
+import RemoveAttachment from '../../../../assets/images/svg/RemoveAttachment';
+import { updateProfileImage } from '../../../controller/UserController';
+import tinycolor from 'tinycolor2';
+import { batch } from 'react-redux';
 
 const size = new sizes(height, width);
 
@@ -31,7 +31,7 @@ const ChooseProfilePics = () => {
   const dispatch = useAppDispatch();
   const { profilePics, uploadImageModal, NftModal, selectedCollectionModal } =
     useAppSelector((state) => ({
-      profilePics: state.USER.details.profileImage,
+      profilePics: state.USER.UserData.profileImage,
       uploadImageModal: state.bottomSheetController.uploadImageModalOpen,
       NftModal: state.bottomSheetController.NftModalOpen,
       selectedCollectionModal:
@@ -39,9 +39,9 @@ const ChooseProfilePics = () => {
     }));
 
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -119,7 +119,7 @@ const ChooseProfilePics = () => {
                   dispatch(
                     updateProfilePics({
                       image: undefined,
-                      name: "",
+                      name: '',
                       id: 0,
                     })
                   );
@@ -127,7 +127,7 @@ const ChooseProfilePics = () => {
                 });
               }}
               style={{
-                position: "absolute",
+                position: 'absolute',
                 left: size.getWidthSize(257),
               }}
             >
@@ -143,19 +143,19 @@ const ChooseProfilePics = () => {
             style={{
               height: size.getHeightAndWidth(160),
               width: size.getHeightAndWidth(160),
-              alignItems: "center",
+              alignItems: 'center',
               backgroundColor:
                 uploadImageModal || NftModal || selectedCollectionModal
                   ? appColor.kGrayscaleWithOPacity
                   : appColor.kGrayLight3,
-              alignSelf: "center",
+              alignSelf: 'center',
               borderRadius: 200,
               borderWidth: 3,
               borderColor:
                 uploadImageModal || NftModal || selectedCollectionModal
                   ? appColor.kWhiteColorWithOpacity
                   : appColor.kWhiteColor,
-              justifyContent: "center",
+              justifyContent: 'center',
             }}
           >
             <Entypo
@@ -171,7 +171,7 @@ const ChooseProfilePics = () => {
         )}
         {
           <Text style={styles.looksAmazing}>
-            {profilePics ? "Looks Amazing!" : ""}
+            {profilePics ? 'Looks Amazing!' : ''}
           </Text>
         }
       </View>
@@ -182,20 +182,20 @@ const ChooseProfilePics = () => {
 export default ChooseProfilePics;
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
-    justifyContent: "center",
-    alignSelf: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   imageContainer: {
     height: size.getHeightAndWidth(160),
     width: size.getHeightAndWidth(160),
 
     borderRadius: 200,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   image: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
     borderRadius: 50,
   },
   overlay: {
@@ -203,28 +203,28 @@ const styles = StyleSheet.create({
     // backgroundColor: 'rgba(0, 0, 0, 0.5)', // Opacity color
   },
   laterText: {
-    fontStyle: "normal",
-    textAlign: "center",
+    fontStyle: 'normal',
+    textAlign: 'center',
     color: appColor.kTextColor,
     fontSize: size.fontSize(18),
-    fontFamily: "Outfit-Medium",
+    fontFamily: 'Outfit-Medium',
     lineHeight: size.getHeightSize(23),
     letterSpacing: 0.02,
   },
   laterContainer: {
-    alignSelf: "center",
+    alignSelf: 'center',
     width: size.getWidthSize(328),
     borderRadius: 40,
     height: size.getHeightSize(48),
-    justifyContent: "center",
+    justifyContent: 'center',
     marginVertical: size.getHeightSize(16),
     marginHorizontal: size.getWidthSize(16),
   },
   looksAmazing: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(22),
-    fontFamily: "Outfit-Regular",
-    textAlign: "center",
+    fontFamily: 'Outfit-Regular',
+    textAlign: 'center',
     marginTop: size.getHeightSize(16),
     lineHeight: size.getHeightSize(21),
   },

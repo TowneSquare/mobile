@@ -153,6 +153,7 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
                 alignItems: 'center',
                 gap: size.getWidthSize(8),
                 marginTop: size.getHeightSize(32),
+                width: '100%',
               }}
             >
               <TextInput
@@ -165,6 +166,7 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
                 style={[
                   styles.textInput,
                   {
+                    flex: 1,
                     borderColor:
                       amount > balance
                         ? appColor.kErrorText
@@ -185,26 +187,12 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
                 />
               </Pressable>
             </View>
-            <View style={styles.balanceRow}>
-              <Text
-                style={[
-                  styles.balance,
-                  {
-                    color:
-                      amount > balance
-                        ? appColor.kErrorText
-                        : appColor.grayLight,
-                  },
-                ]}
-              >
-                Available balance:
-              </Text>
-              {balance === undefined ? (
-                <ActivityIndicator
-                  size={size.getHeightSize(16)}
-                  color={appColor.primaryLight}
-                />
-              ) : (
+            <View
+              style={{
+                width: '100%',
+              }}
+            >
+              <View style={styles.balanceRow}>
                 <Text
                   style={[
                     styles.balance,
@@ -216,43 +204,68 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
                     },
                   ]}
                 >
-                  30 APT
+                  Available balance:
                 </Text>
-              )}
-            </View>
-            <View style={styles.view}>
-              <View style={styles.row}>
-                <Text style={styles.rowText}>Recipent gets</Text>
-                <Text style={[styles.rowText, { color: appColor.kTextColor }]}>
-                  {amount ? `${amount} USDC` : '-'}
+                {balance === undefined ? (
+                  <ActivityIndicator
+                    size={size.getHeightSize(16)}
+                    color={appColor.primaryLight}
+                  />
+                ) : (
+                  <Text
+                    style={[
+                      styles.balance,
+                      {
+                        color:
+                          amount > balance
+                            ? appColor.kErrorText
+                            : appColor.grayLight,
+                      },
+                    ]}
+                  >
+                    30 APT
+                  </Text>
+                )}
+              </View>
+              <View style={styles.view}>
+                <View style={styles.row}>
+                  <Text style={styles.rowText}>Recipent gets</Text>
+                  <Text
+                    style={[styles.rowText, { color: appColor.kTextColor }]}
+                  >
+                    {amount ? `${amount} USDC` : '-'}
+                  </Text>
+                </View>
+                <View style={styles.row}>
+                  <Text style={styles.rowText}>Service fee</Text>
+                  <Text
+                    style={[styles.rowText, { color: appColor.kTextColor }]}
+                  >
+                    0.15%
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.row2}>
+                <Text
+                  style={[styles.rowText, { fontFamily: 'Outfit-SemiBold' }]}
+                >
+                  Total
+                </Text>
+                <Text
+                  style={[
+                    styles.rowText,
+                    {
+                      fontFamily: 'Outfit-SemiBold',
+                      color: appColor.kTextColor,
+                    },
+                  ]}
+                >
+                  {amount
+                    ? `${parseFloat(amount) + 0.0015 * parseFloat(amount)} USDC`
+                    : '-'}
                 </Text>
               </View>
-              <View style={styles.row}>
-                <Text style={styles.rowText}>Service fee</Text>
-                <Text style={[styles.rowText, { color: appColor.kTextColor }]}>
-                  0.15%
-                </Text>
-              </View>
             </View>
-            <View style={styles.row2}>
-              <Text style={[styles.rowText, { fontFamily: 'Outfit-SemiBold' }]}>
-                Total
-              </Text>
-              <Text
-                style={[
-                  styles.rowText,
-                  {
-                    fontFamily: 'Outfit-SemiBold',
-                    color: appColor.kTextColor,
-                  },
-                ]}
-              >
-                {amount
-                  ? `${parseFloat(amount) + 0.0015 * parseFloat(amount)} USDC`
-                  : '-'}
-              </Text>
-            </View>
-
             <View style={{ height: size.getHeightSize(220) }} />
             <View
               style={{
@@ -400,11 +413,10 @@ const styles = StyleSheet.create({
   view: {
     marginTop: size.getHeightSize(32),
     gap: size.getHeightSize(16),
-    paddingHorizontal: size.widthSize(8),
     paddingBottom: size.getHeightSize(16),
     borderBottomWidth: 1,
     borderBottomColor: appColor.kWhiteColor,
-    width: '100%',
+    marginHorizontal: size.getWidthSize(8),
   },
   balanceRow: {
     marginTop: size.getHeightSize(12),
@@ -412,7 +424,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: size.getWidthSize(5),
     alignSelf: 'flex-start',
-    marginLeft: size.getWidthSize(8),
+    marginHorizontal: size.getWidthSize(8),
   },
   dropDown: {
     flexDirection: 'row',
@@ -425,6 +437,8 @@ const styles = StyleSheet.create({
     paddingVertical: size.getHeightSize(8),
     backgroundColor: 'rgba(255, 255, 255, 0.10)',
     minHeight: size.getHeightSize(48),
+    width: size.getWidthSize(136),
+    justifyContent: 'space-between',
   },
   textInput: {
     width: size.getWidthSize(184),

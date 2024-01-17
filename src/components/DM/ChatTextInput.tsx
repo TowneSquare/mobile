@@ -8,6 +8,7 @@ import {
   Image,
   TextInputProps,
   Pressable,
+  Alert,
 } from 'react-native';
 import React, {
   useRef,
@@ -17,7 +18,15 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from 'react';
+import { updateToast } from '../../controller/FeedsController';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import {
+  launchImageLibraryAsync,
+  MediaTypeOptions,
+  launchCameraAsync,
+  useCameraPermissions,
+  PermissionStatus,
+} from 'expo-image-picker';
 import { useContext } from 'react';
 import { ChatDmContext } from '../../context/ChatContext';
 import IdleChatSendButton from '../../../assets/images/svg/IdleChatSendButton';
@@ -25,6 +34,12 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import ChatTipIcon from '../../../assets/images/svg/ChatTipIcon';
 import { appColor, images } from '../../constants';
 import { sizes } from '../../utils';
+import {
+  chatPickImage,
+  sendRreplyMessage,
+  sendTextToFirestore,
+  uploadMediaToFirebaseStorage,
+} from '../../utils/ChatUtils';
 import SendButtonActive from '../../../assets/images/svg/SendButtonActive';
 import SendButton from '../../../assets/images/svg/SendButton';
 import { useNavigation } from '@react-navigation/native';
@@ -34,16 +49,7 @@ import PostCamera from '../../../assets/images/svg/PostCamera';
 import PostGif from '../../../assets/images/svg/PostGif';
 import PostImage from '../../../assets/images/svg/PostImage';
 import PostNft from '../../../assets/images/svg/PostNft';
-import {
-  addDoc,
-  collection,
-  serverTimestamp,
-  doc,
-  updateDoc,
-  setDoc,
-} from 'firebase/firestore';
-
-import { firestoreDB } from '../../../config/firebase.config';
+import { sendImageToFirestore } from '../../utils/ChatUtils';
 import { updateAttachNftType } from '../../controller/FeedsController';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
@@ -63,7 +69,8 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
   ref
 ) => {
   const { replyingToMessage, setReplyingToMessage } = useContext(ChatDmContext);
-  const socket = useAppSelector((state) => state.socket.socket);
+  const [cameraPermissionInformation, requestPermission] =
+    useCameraPermissions();
   const inputRef = useRef<TextInput>();
   const [height, setHeight] = useState(0);
   const [showPostAttachment, postAttachementVisibility] = useState(false);
@@ -105,107 +112,58 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
   const dispatch = useAppDispatch();
   const myId = useAppSelector((state) => state.USER.UserData._id);
   const sendMessage = async () => {
-    // Clear the text input
     setText('');
-    try {
-      const timestamp = serverTimestamp();
-      const id = `${Date.now()}`;
-      const _doc = {
-        id,
-        createdAt: timestamp,
-        message: {
-          messageType: 'text',
-          text: text.trim(),
-        },
-        user: {
-          _id: '12345',
-          name: 'username',
-        },
-        read: false,
-      };
-      console.log('========adding doc=========');
-      const msgCollectionRef = doc(
-        firestoreDB,
-        'chats',
-        chatId,
-        'messages',
-        id
-      );
-      await setDoc(msgCollectionRef, _doc);
-
-      // console.log('Message added with ID: ', messageRef.id);
-
-      // Update the 'lastMessage' field in the 'chats' collection
-      const chatRef = doc(firestoreDB, 'chats', chatId);
-      await updateDoc(chatRef, {
-        lastMessage: {
-          text: text.trim(),
-          createdAt: timestamp,
-          sender: {
-            _id: '12345',
-            name: 'username',
-          },
-        },
-      });
-
-      console.log('Chat updated with last message.');
-    } catch (err) {
-      console.warn('Error sending message: ', err);
-    }
+    await sendTextToFirestore({
+      text: text.trim(),
+      chatId,
+    });
   };
   const sendReply = async () => {
     setText('');
     dismissShowReplyingTo();
-    try {
-      const timestamp = serverTimestamp();
-      const id = `${Date.now()}`;
-
-      const _doc = {
-        id,
-        createdAt: timestamp,
-        message: {
-          messageType: 'replied',
-          reply: text.trim(),
-        },
-        replied: {
-          id: replyingToMessage.id,
-          message: {
-            messageType: replyingToMessage.type,
-            text: replyingToMessage.message,
-          },
-        },
-        user: {
-          _id: '12345',
-          name: 'username',
-        },
-        read: false,
-      };
-
-      const msgCollectionRef = doc(
-        firestoreDB,
-        'chats',
-        chatId,
-        'messages',
-        id
-      );
-      await setDoc(msgCollectionRef, _doc);
-
-      // Update the 'lastMessage' field in the 'chats' collection
-      const chatRef = doc(firestoreDB, 'chats', chatId);
-      await updateDoc(chatRef, {
-        lastMessage: {
-          text: text.trim(),
-          createdAt: timestamp,
-          sender: {
-            _id: '6789',
-            name: 'username',
-          },
-        },
-      });
-      // ...
-    } catch (error) {
-      // Handle error
+    await sendRreplyMessage({
+      replyingToMessage: replyingToMessage.message,
+      replyingtoId: replyingToMessage.id,
+      messageType: replyingToMessage.type,
+      text: text.trim(),
+      chatId,
+    });
+  };
+  async function verifyPermission() {
+    if (cameraPermissionInformation?.status === PermissionStatus.UNDETERMINED) {
+      const permissionResponse = await requestPermission();
+      return permissionResponse.granted;
     }
+    if (cameraPermissionInformation?.status === PermissionStatus.DENIED) {
+      const permissionResponse = await requestPermission();
+      console.log(permissionResponse);
+      if (permissionResponse.granted === false) {
+        dispatch(
+          updateToast({
+            displayToast: true,
+            toastMessage:
+              'Insufficient permission! You need to grant camera access to pick image from gallery',
+            toastType: 'info',
+            alignItems: 'flex-start',
+          })
+        );
+        return false;
+      }
+      return permissionResponse.granted;
+    }
+    return true;
+  }
+  const sendPhotoFromGallery = async () => {
+    const hasPermission = await verifyPermission();
+    if (!hasPermission) {
+      return;
+    }
+    const uri = await chatPickImage();
+    const firebaseUri = (await uploadMediaToFirebaseStorage(uri)) as string;
+    await sendImageToFirestore({
+      imageUri: firebaseUri,
+      chatId,
+    });
   };
   return (
     <View>
@@ -253,7 +211,7 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
             <PostCamera />
           </Pressable>
           <Pressable style={styles.iconContainer}>
-            <PostImage />
+            <PostImage onPress={sendPhotoFromGallery} />
           </Pressable>
           <Pressable style={styles.iconContainer}>
             <PostGif />

@@ -5,25 +5,25 @@ import {
   Image,
   StyleSheet,
   Pressable,
-} from "react-native";
-import { memo, useRef, useEffect } from "react";
-import { sizes } from "../../utils";
-import { appColor, fonts, images } from "../../constants";
-import { useFonts } from "expo-font";
-const { height, width } = Dimensions.get("window");
-import Reposted from "./Reposted";
-import APT from "../../../assets/images/svg/APT";
-import { Avatar } from "react-native-elements";
-import ProfilePicture from "./SwipeableProfilePicture";
-import { useNavigation } from "@react-navigation/native";
+} from 'react-native';
+import { memo, useRef, useEffect } from 'react';
+import { sizes } from '../../utils';
+import { appColor, fonts, images } from '../../constants';
+import { useFonts } from 'expo-font';
+const { height, width } = Dimensions.get('window');
+import Reposted from './Reposted';
+import APT from '../../../assets/images/svg/APT';
+import { Avatar } from 'react-native-elements';
+import ProfilePicture from './SwipeableProfilePicture';
+import { useNavigation } from '@react-navigation/native';
 import {
   UserPost,
   FeedContent,
   SWAP_OPTION_INCLUDED,
   FLOOR_PRICE_INCLUDED,
-} from "../../models";
+} from '../../models';
 const size = new sizes(height, width);
-import PostHeader from "./PostHeader";
+import PostHeader from './PostHeader';
 import {
   Message_Only,
   Message_Image,
@@ -31,15 +31,15 @@ import {
   Message_External_Link,
   VIDEO,
   NFT_FOR_SALE,
-} from "../../models";
-import PostActions from "./PostActions";
-import APTMonkey from "../../../assets/images/svg/APTMonkey";
-import { feedStyle } from "./FeedsStyles";
-import { PostData } from "../../controller/createPost";
-import { Video, ResizeMode } from "expo-av";
-import { UserCommentData } from "../../controller/UserController";
-import { useAppSelector } from "../../controller/hooks";
-import { getPostTime } from "../../utils/helperFunction";
+} from '../../models';
+import PostActions from './PostActions';
+import APTMonkey from '../../../assets/images/svg/APTMonkey';
+import { feedStyle } from './FeedsStyles';
+import { PostData } from '../../controller/createPost';
+import { Video, ResizeMode } from 'expo-av';
+import { UserCommentData } from '../../controller/UserController';
+import { useAppSelector } from '../../controller/hooks';
+import { getPostTime } from '../../utils/helperFunction';
 // interface NavigationParameter {
 //   username: string;
 //   nickname: string;
@@ -53,9 +53,9 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
   const videoRef = useRef(null);
   const userId = useAppSelector((state) => state.USER.UserData?._id);
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -63,14 +63,14 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
 
   const handleNavigation = () => {
     const params: PostData = data;
-    navigation.navigate("SinglePost" as any, params);
+    navigation.navigate('SinglePost' as any, params);
   };
   const myPost = userId == data?.customer?._id;
   const timePost = getPostTime(data?.createdAt);
   // useEffect(() => {
   //   const timePost = getPostTime(data?.createdAt);
   // }, [])
-  
+
   let content;
 
   const type_of_post = data?.repost
@@ -91,7 +91,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     ? FeedContent.MESSAGE_ONLY
     : FeedContent.EMPTY;
   const userPost = data;
-console.log(data, "for you")
+  console.log(data, 'for you');
   switch (type_of_post) {
     case FeedContent.MESSAGE_ONLY:
       // userPost.content = data.content as Message_Only;
@@ -158,7 +158,7 @@ console.log(data, "for you")
               >
                 <Pressable
                   onPress={() =>
-                    navigation.navigate("ViewImageScreen", {
+                    navigation.navigate('ViewImageScreen', {
                       postData: userPost,
                     })
                   }
@@ -172,9 +172,10 @@ console.log(data, "for you")
                       uri: userPost.imageUrls[0],
                     }}
                     style={{
-                      alignSelf: "center",
-                      width: "100%",
+                      alignSelf: 'center',
+                      width: '100%',
                       height: size.getHeightSize(200),
+                      borderRadius: 8,
                     }}
                     resizeMode="cover"
                     loadingIndicatorSource={images.Aptomingos}
@@ -204,8 +205,6 @@ console.log(data, "for you")
               swipeable={myPost}
             />
             <View style={styles.subHeading}>
-              
-
               <PostHeader
                 username={userPost?.customer?.username}
                 nickname={userPost?.customer?.nickname}
@@ -221,7 +220,7 @@ console.log(data, "for you")
 
               <Pressable
                 onPress={() =>
-                  navigation.navigate("ViewImageScreen", {
+                  navigation.navigate('ViewImageScreen', {
                     postData: userPost,
                   })
                 }
@@ -235,9 +234,10 @@ console.log(data, "for you")
                     uri: userPost.imageUrls[0],
                   }}
                   style={{
-                    alignSelf: "center",
-                    width: "100%",
+                    alignSelf: 'center',
+                    width: '100%',
                     height: size.getHeightSize(200),
+                    borderRadius: 8,
                   }}
                   resizeMode="cover"
                   loadingIndicatorSource={images.Aptomingos}
@@ -332,7 +332,7 @@ console.log(data, "for you")
 
               <Pressable
                 onPress={() =>
-                  navigation.navigate("VideoPlayer" as any, {
+                  navigation.navigate('VideoPlayer' as any, {
                     videoUrl: data.videoUrls[0],
                   })
                 }
@@ -342,7 +342,6 @@ console.log(data, "for you")
                 ]}
               >
                 <Video
-                 
                   source={{
                     uri: data.videoUrls[0],
                   }}
@@ -352,7 +351,6 @@ console.log(data, "for you")
                   resizeMode={ResizeMode.CONTAIN}
                   shouldPlay={true}
                 />
-               
               </Pressable>
               <PostActions
                 noOfComments={userPost?.comments?.length}
@@ -361,7 +359,6 @@ console.log(data, "for you")
                 postId={userPost._id}
                 userId={userPost.customer._id}
               />
-              
             </View>
           </View>
         </>
@@ -389,7 +386,7 @@ console.log(data, "for you")
               />
 
               <Pressable
-                onPress={() => navigation.navigate("VideoPlayer" as never)}
+                onPress={() => navigation.navigate('VideoPlayer' as never)}
                 style={[
                   styles.mediaContainer,
                   { marginBottom: size.getHeightSize(0) },
@@ -535,9 +532,11 @@ console.log(data, "for you")
                     uri: userPost.nftImageUrl,
                   }}
                   style={{
-                    alignSelf: "center",
-                    width: "100%",
+                    alignSelf: 'center',
+                    width: '100%',
                     height: size.getHeightSize(200),
+                    borderTopLeftRadius: 8,
+                    borderTopRightRadius: 8,
                   }}
                   resizeMode="cover"
                   loadingIndicatorSource={images.Aptomingos}
@@ -622,8 +621,8 @@ console.log(data, "for you")
                     uri: userPost.nftImageUrl,
                   }}
                   style={{
-                    alignSelf: "center",
-                    width: "100%",
+                    alignSelf: 'center',
+                    width: '100%',
                     height: size.getHeightSize(200),
                   }}
                   resizeMode="cover"
@@ -778,36 +777,36 @@ export default ForYou;
 const styles = StyleSheet.create(feedStyle);
 const communityStyles = StyleSheet.create({
   container: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: size.getWidthSize(6),
-    alignItems: "center",
+    alignItems: 'center',
   },
   container2: {
     flex: 1,
-    justifyContent: "center",
-    backgroundColor: "#ecf0f1",
+    justifyContent: 'center',
+    backgroundColor: '#ecf0f1',
   },
   postedIn: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.grayLight,
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
   },
   communityName: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.primaryLight,
-    fontFamily: "Outfit-SemiBold",
+    fontFamily: 'Outfit-SemiBold',
   },
   video: {
-    alignSelf: "center",
+    alignSelf: 'center',
     width: 320,
     height: 200,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.7)",
-    position: "absolute",
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    position: 'absolute',
     top: 0,
     bottom: 0,
     left: 0,

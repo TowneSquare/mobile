@@ -47,14 +47,19 @@ const Airdrop = () => {
         }}
       >
         <View style={styles.row}>
-          <Text style={styles.text}>Refferals</Text>
-          <InfoIcon
+          <Text
+            onPress={() => dispatch(updateRewardBottomsheetVisibility(true))}
+            style={styles.text}
+          >
+            Refferals
+          </Text>
+          {/* <InfoIcon
             onPress={() => dispatch(updateRewardBottomsheetVisibility(true))}
             size={size.getHeightSize(24)}
-          />
+          /> */}
         </View>
         <Text style={styles.description}>
-          Refer friends to join TowneSquare! Get TS Points and earn every time
+          Refer friends to join TowneSquare! Get Cred Points and earn every time
           they make a transaction in the app
         </Text>
         <View style={styles.refferalView}>
@@ -72,7 +77,7 @@ const Airdrop = () => {
               <Text style={styles.bonusText}>+35% bonus</Text>
             </View>
             <Text style={styles.refferalText}>
-              TS Points from your referrals
+              Cred Points from your referrals
             </Text>
           </View>
         </View>
@@ -91,8 +96,8 @@ const Airdrop = () => {
           <Text style={styles.seeReferrals}>See my referrals</Text>
         </Pressable>
         <View style={styles.row2}>
-          <Text style={styles.text2}>TS Points</Text>
-          <InfoIcon size={size.getHeightSize(24)} />
+          <Text style={styles.text2}>Cred Points</Text>
+          {/* <InfoIcon size={size.getHeightSize(24)} /> */}
         </View>
         <View style={styles.claimView}>
           <View style={styles.view2}>
@@ -101,7 +106,7 @@ const Airdrop = () => {
                 gap: size.getHeightSize(4),
               }}
             >
-              <Text style={styles.tsPoints}>TOTAL TS POINT</Text>
+              <Text style={styles.tsPoints}>TOTAL CRED POINT</Text>
               <View style={styles.row3}>
                 <Text style={styles.balanaceText}>9,990,999</Text>
                 <PointsIcon size={size.getHeightSize(20)} />
@@ -122,7 +127,7 @@ const Airdrop = () => {
             }}
             price="15,4954"
             title="Referrals"
-            icon={<Avatar size={size.getHeightSize(24)} />}
+            icon={<Avatar size={size.getHeightSize(32)} />}
           />
           <Cards
             onPress={() => {
@@ -132,7 +137,7 @@ const Airdrop = () => {
             }}
             price="15,4954"
             title="NFT holding"
-            icon={<NFTIcon size={size.getHeightSize(24)} />}
+            icon={<NFTIcon size={size.getHeightSize(32)} />}
           />
           <Cards
             onPress={() => {
@@ -142,10 +147,12 @@ const Airdrop = () => {
             }}
             price="15,4954"
             title="DeFi trading"
-            icon={<TradeIcon size={size.getHeightSize(24)} />}
+            icon={<TradeIcon size={size.getHeightSize(32)} />}
           />
           <Cards
             showLogo
+            logo_leftPosition={34}
+            logo_bottomPosition={16.5}
             onPress={() => {
               navigation.navigate('Airdrops', {
                 type: 'Dex Swap',
@@ -153,10 +160,12 @@ const Airdrop = () => {
             }}
             price="15,4954"
             title=" DEX swap on TS"
-            icon={<SwapIcon size={size.getHeightSize(24)} />}
+            icon={<SwapIcon size={size.getHeightSize(32)} />}
           />
           <Cards
             showLogo
+            logo_leftPosition={34}
+            logo_bottomPosition={16.5}
             onPress={() => {
               navigation.navigate('Airdrops', {
                 type: 'NFT trade',
@@ -164,9 +173,11 @@ const Airdrop = () => {
             }}
             price="15,4954"
             title="NFT trade on TS"
-            icon={<NFTIcon size={size.getHeightSize(24)} />}
+            icon={<NFTIcon size={size.getHeightSize(32)} />}
           />
           <Cards
+            logo_leftPosition={34}
+            logo_bottomPosition={16.5}
             showLogo
             onPress={() => {
               navigation.navigate('Airdrops', {
@@ -175,7 +186,7 @@ const Airdrop = () => {
             }}
             price="15,4954"
             title="Social transactions on TS"
-            icon={<TipIcon size={size.getHeightSize(24)} />}
+            icon={<TipIcon size={size.getHeightSize(32)} />}
           />
         </View>
       </ScrollView>

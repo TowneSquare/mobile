@@ -6,6 +6,7 @@ import { Avatar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import BarCode from '../../../assets/images/svg/Barcode';
 import { images, fonts } from '../../constants';
+import { updateReceiveModalState } from '../../controller/FeedsController';
 import { updateLogoutBottomSheetVisibility } from '../../controller/BottomSheetController';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import TowneSquareIcon from '../../../assets/images/svg/TowneSquareIcon';
@@ -20,13 +21,14 @@ import Constants from 'expo-constants';
 const FeedDrawerContent = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
-  const {username,nickname,followers,following,aptosName} = useAppSelector((state) => ({
-    username:state.USER.UserData?.username,
-    nickname:state.USER.UserData?.nickname,
-    followers: state.USER.UserData?.followers,
-    following:state.USER.UserData?.following,
-    aptosName: state.USER.aptosName
-  }) )
+  const { username, nickname, followers, following, aptosName } =
+    useAppSelector((state) => ({
+      username: state.USER.UserData?.username,
+      nickname: state.USER.UserData?.nickname,
+      followers: state.USER.UserData?.followers,
+      following: state.USER.UserData?.following,
+      aptosName: state.USER.aptosName,
+    }));
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -82,6 +84,7 @@ const FeedDrawerContent = () => {
           </Text>
         </View>
         <BarCode
+          onPress={() => dispatch(updateReceiveModalState(true))}
           style={{
             marginLeft: 'auto',
           }}

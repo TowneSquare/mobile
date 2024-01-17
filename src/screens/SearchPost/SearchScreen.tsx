@@ -50,10 +50,10 @@ const SearchScreen = ({ navigation }: SearchScreenProps) => {
       name: 'People',
       content: PeopleTab,
     },
-    {
-      name: 'Communities',
-      content: CommuintiesTab,
-    },
+    // {
+    //   name: 'Communities',
+    //   content: CommuintiesTab,
+    // },
   ];
   if (isSearchFiledFocused !== 'hide_for_you_tab') {
     tabContent = tabContent;

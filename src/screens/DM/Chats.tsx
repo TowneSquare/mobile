@@ -27,43 +27,6 @@ interface Data {
   noOfUnreadMessages?: number;
 }
 
-const data: Data[] = [
-  {
-    text: "Due to the backend's toggle switasdascctio...",
-    name: 'User name',
-    time: '12.23',
-    noOfUnreadMessages: 24,
-  },
-  {
-    text: "Due to the backend's toggle switasdascctio...",
-    name: 'User name',
-    time: '12.23',
-  },
-  {
-    text: "Due to the backend's toggle switasdascctio...",
-    name: 'User name',
-    time: '12.23',
-    noOfUnreadMessages: 99,
-  },
-  {
-    text: "Due to the backend's toggle switasdascctio...",
-    name: 'User name',
-    time: '12.23',
-    noOfUnreadMessages: 24,
-  },
-  {
-    text: "Due to the backend's toggle switasdascctio...",
-    name: 'User name',
-    time: '12.23',
-    noOfUnreadMessages: 24,
-  },
-  {
-    text: "Due to the backend's toggle switasdascctio...",
-    name: 'User name',
-    time: '12.23',
-    noOfUnreadMessages: undefined,
-  },
-];
 const Chats = () => {
   const myId = useAppSelector((state) => state.USER.UserData._id);
   console.log(myId);
@@ -98,12 +61,10 @@ const Chats = () => {
                 const unreadMessagesCount = messagesSnapshot.size;
                 const updatedChats = [...chats];
                 const index = updatedChats.findIndex((c) => c._id === chat._id);
-                if (index !== -1) {
+                if (index !== -1 && chat !== null) {
                   updatedChats[index] = { ...chat, unreadMessagesCount };
                 }
-                console.log('====setting======')
                 setChats(updatedChats);
-                // Update the 'unreadMessagesCount' field in the chat object
               }
             );
 
@@ -140,34 +101,9 @@ const Chats = () => {
       </View>
       <FlatList
         ListEmptyComponent={() => (
-          <View
-            style={{
-              height: size.getHeightSize(672),
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <Text
-              style={{
-                color: appColor.kTextColor,
-                fontSize: size.fontSize(16),
-                fontFamily: 'Outfit-SemiBold',
-                textAlign: 'center',
-                lineHeight: size.getHeightSize(21),
-              }}
-            >
-              No Messages
-            </Text>
-            <Text
-              style={{
-                color: appColor.kTextColor,
-                fontSize: size.fontSize(16),
-                fontFamily: 'Outfit-Regular',
-                textAlign: 'center',
-                lineHeight: size.getHeightSize(21),
-                marginTop: size.getHeightSize(12),
-              }}
-            >
+          <View style={styles.view}>
+            <Text style={styles.text3}>No Messages</Text>
+            <Text style={styles.text2}>
               All your private conversation will be shown here
             </Text>
           </View>
@@ -203,5 +139,25 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: size.getHeightSize(24),
     letterSpacing: 0.4,
+  },
+  text2: {
+    color: appColor.kTextColor,
+    fontSize: size.fontSize(16),
+    fontFamily: 'Outfit-Regular',
+    textAlign: 'center',
+    lineHeight: size.getHeightSize(21),
+    marginTop: size.getHeightSize(12),
+  },
+  text3: {
+    color: appColor.kTextColor,
+    fontSize: size.fontSize(16),
+    fontFamily: 'Outfit-SemiBold',
+    textAlign: 'center',
+    lineHeight: size.getHeightSize(21),
+  },
+  view: {
+    height: size.getHeightSize(672),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

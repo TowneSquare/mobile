@@ -142,11 +142,7 @@ const ShareReferralCode = () => {
           <Text style={styles.text}>for every active referral that joins </Text>
         </View>
         <View style={styles.textView2}>
-          <Text style={styles.text}>TowneSquare </Text>
-          <InfoIcon
-            onPress={() => dispatch(updateRewardBottomsheetVisibility(true))}
-            size={size.getHeightSize(24)}
-          />
+          <Text style={styles.text}>TowneSquare!</Text>
         </View>
       </View>
       <View
@@ -220,10 +216,11 @@ const ShareReferralCode = () => {
             Your commision rate{' '}
             <Text style={{ color: appColor.kTextColor }}>20%</Text>
           </Text>
-          <InfoIcon size={size.getHeightSize(24)} />
+          {/* <InfoIcon size={size.getHeightSize(24)} />  */}
         </View>
       </View>
       <DownloadPoster
+        referralCode={referralCode}
         visibility={selectedPoster.visibility}
         close={() =>
           posterDispatch({
@@ -258,6 +255,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     gap: size.getWidthSize(4),
+    paddingHorizontal: size.getWidthSize(16),
   },
   referralCode: {
     marginTop: size.getHeightSize(24),
@@ -273,6 +271,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: size.getWidthSize(4),
+    paddingHorizontal: size.getWidthSize(16),
   },
   poster: {
     fontSize: size.fontSize(13),

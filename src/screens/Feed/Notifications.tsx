@@ -67,13 +67,13 @@ const Notifications = () => {
       message: 'mention you in a post',
       read: true,
     },
-    {
-      username: 'MonkeyKing',
-      type: 'invite',
-      time: '2 days ago',
-      message: 'invited you to a community',
-      read: false,
-    },
+    // {
+    //   username: 'MonkeyKing',
+    //   type: 'invite',
+    //   time: '2 days ago',
+    //   message: 'invited you to a community',
+    //   read: false,
+    // },
     {
       username: 'MonkeyKing',
       type: 'repost',

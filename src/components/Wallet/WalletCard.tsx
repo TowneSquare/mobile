@@ -15,7 +15,6 @@ import { sizes } from '../../utils';
 import { useNavigation } from '@react-navigation/native';
 import { useAppSelector } from '../../controller/hooks';
 import { useAppDispatch } from '../../controller/hooks';
-
 import TowneSquareProfileLogo from '../../../assets/images/svg/TowneSquareProfileLogo';
 import { LinearGradient } from 'expo-linear-gradient';
 import TownesquareGradient from '../../../assets/images/svg/TownesquareGradient';
@@ -26,12 +25,12 @@ import { updateReceiveModalState } from '../../controller/FeedsController';
 const size = new sizes(height, width);
 interface Props {
   APTOS_DOMAIN_NAME: string;
-  WALLET_ADDRESS:string
+  WALLET_ADDRESS: string;
 }
 const WalletCard = ({ APTOS_DOMAIN_NAME, WALLET_ADDRESS }: Props) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
-  
+
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
@@ -148,7 +147,10 @@ const WalletCard = ({ APTOS_DOMAIN_NAME, WALLET_ADDRESS }: Props) => {
                 >
                   {APTOS_DOMAIN_NAME}
                 </Text>
-                <Text style={styles.address}>{`${WALLET_ADDRESS.slice(0,9)}....${WALLET_ADDRESS.slice(35)}`}</Text>
+                <Text style={styles.address}>{`${WALLET_ADDRESS.slice(
+                  0,
+                  9
+                )}....${WALLET_ADDRESS.slice(35)}`}</Text>
               </View>
             </LinearGradient>
           </View>
@@ -190,13 +192,35 @@ const WalletCard = ({ APTOS_DOMAIN_NAME, WALLET_ADDRESS }: Props) => {
           <SendIcon />
           <Text style={styles.view2TextUp}>Send</Text>
         </Pressable>
-        <Pressable
-          onPress={() => navigation.navigate('SwapMain')}
-          style={styles.view2Box}
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            opacity: 0.4,
+          }}
         >
-          <SwapIcon />
-          <Text style={styles.view2TextUp}>Swap</Text>
-        </Pressable>
+          <Pressable
+            // onPress={() => navigation.navigate('SwapMain')}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <SwapIcon />
+            <Text style={styles.view2TextUp}>Swap</Text>
+          </Pressable>
+          <Text
+            style={{
+              fontFamily: 'Outfit-SemiBold',
+              color: appColor.kGrayscale,
+              fontSize: size.fontSize(14),
+              lineHeight: size.getHeightSize(18),
+            }}
+          >
+            Coming soon
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -218,11 +242,10 @@ const styles = StyleSheet.create({
   view2: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: size.getHeightSize(4),
-    marginHorizontal: size.getWidthSize(4),
 
+    marginHorizontal: size.getWidthSize(4),
+    marginVertical: size.getHeightSize(7.5),
     height: size.getHeightSize(40),
-    marginBottom: size.getHeightSize(7),
   },
   view2Box: {
     alignItems: 'center',
@@ -230,7 +253,6 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: size.getWidthSize(4),
     justifyContent: 'center',
-    paddingVertical: size.getHeightSize(4),
   },
   view2TextUp: {
     fontFamily: 'Outfit-SemiBold',

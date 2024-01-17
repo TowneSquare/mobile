@@ -5,7 +5,28 @@ import {
   ChatText,
   DataWithoutChatDate,
 } from '../models/conversationModel';
+import {
+  launchImageLibraryAsync,
+  MediaTypeOptions,
+  launchCameraAsync,
+} from 'expo-image-picker';
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  listAll,
+} from 'firebase/storage';
 import { Timestamp } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  doc,
+  updateDoc,
+  setDoc,
+} from 'firebase/firestore';
+import { app, firestoreDB, storage } from '../../config/firebase.config';
 
 import { nanoid } from '@reduxjs/toolkit';
 export class ChatClass {
@@ -182,4 +203,198 @@ export const createUniqueChatId = (user1Id: string, user2Id: string) => {
 
   // Return the hash code as the unique identifier
   return hashCode(concatenatedIds).toString();
+};
+export const sendRreplyMessage = async ({
+  replyingToMessage = '',
+  replyingtoId = '',
+  text = '',
+  chatId = '',
+  messageType = '',
+}) => {
+  try {
+    const timestamp = serverTimestamp();
+    const id = `${Date.now()}`;
+
+    const _doc = {
+      id,
+      createdAt: timestamp,
+      message: {
+        messageType: 'replied',
+        reply: text,
+      },
+      replied: {
+        id: replyingtoId,
+        message: {
+          messageType: messageType,
+          text: replyingToMessage,
+        },
+      },
+      user: {
+        _id: '12345',
+        name: 'username',
+      },
+      read: false,
+    };
+
+    const msgCollectionRef = doc(firestoreDB, 'chats', chatId, 'messages', id);
+    await setDoc(msgCollectionRef, _doc);
+
+    // Update the 'lastMessage' field in the 'chats' collection
+    const chatRef = doc(firestoreDB, 'chats', chatId);
+    await updateDoc(chatRef, {
+      lastMessage: {
+        text: text.trim(),
+        createdAt: timestamp,
+        sender: {
+          _id: '6789',
+          name: 'username',
+        },
+      },
+    });
+    // ...
+  } catch (error) {
+    // Handle error
+  }
+};
+export const sendTextToFirestore = async ({ text = '', chatId = '' }) => {
+  try {
+    const timestamp = serverTimestamp();
+    const id = `${Date.now()}`;
+    const _doc = {
+      id,
+      createdAt: timestamp,
+      message: {
+        messageType: 'text',
+        text: text.trim(),
+      },
+      user: {
+        _id: '12345',
+        name: 'username',
+      },
+      read: false,
+    };
+    console.log('========adding doc=========');
+    const msgCollectionRef = doc(firestoreDB, 'chats', chatId, 'messages', id);
+    await setDoc(msgCollectionRef, _doc);
+
+    // console.log('Message added with ID: ', messageRef.id);
+
+    // Update the 'lastMessage' field in the 'chats' collection
+    const chatRef = doc(firestoreDB, 'chats', chatId);
+    await updateDoc(chatRef, {
+      lastMessage: {
+        text: text.trim(),
+        createdAt: timestamp,
+        sender: {
+          _id: '12345',
+          name: 'username',
+        },
+      },
+    });
+
+    console.log('Chat updated with last message.');
+  } catch (err) {
+    console.warn('Error sending message: ', err);
+  }
+};
+export const sendImageToFirestore = async ({ imageUri = '', chatId = '' }) => {
+  try {
+    const timestamp = serverTimestamp();
+    const id = `${Date.now()}`;
+    const _doc = {
+      id,
+      createdAt: timestamp,
+      message: {
+        messageType: 'image',
+        imageUri: imageUri,
+      },
+      user: {
+        _id: '12345',
+        name: 'username',
+      },
+      read: false,
+    };
+    console.log('========adding doc=========');
+    const msgCollectionRef = doc(firestoreDB, 'chats', chatId, 'messages', id);
+    await setDoc(msgCollectionRef, _doc);
+
+    // console.log('Message added with ID: ', messageRef.id);
+
+    // Update the 'lastMessage' field in the 'chats' collection
+    const chatRef = doc(firestoreDB, 'chats', chatId);
+    await updateDoc(chatRef, {
+      lastMessage: {
+        text: 'Image',
+        createdAt: timestamp,
+        sender: {
+          _id: '12345',
+          name: 'username',
+        },
+      },
+    });
+
+    console.log('Chat updated with last message.');
+  } catch (err) {
+    console.warn('Error sending message: ', err);
+  }
+};
+export const uploadMediaToFirebaseStorage = async (url: string) => {
+  try {
+    const filename = url.substring(url.lastIndexOf('/') + 1);
+    const storageRef = ref(storage, `images/${filename}`);
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const uploadTask = uploadBytesResumable(storageRef, blob);
+
+    return new Promise((resolve, reject) => {
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
+        },
+        (error) => {
+          console.log(error);
+          reject(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref)
+            .then((downloadURL) => {
+              // console.log('File available at', downloadURL);
+              resolve(downloadURL);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        }
+      );
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const chatTakePhoto = async () => {
+  let result = await launchCameraAsync({
+    mediaTypes: MediaTypeOptions.Images,
+    allowsEditing: true,
+  });
+
+  if (result.assets != null) {
+    return result.assets[0].uri;
+  } else return null;
+};
+export const chatPickImage = async () => {
+  let result = await launchImageLibraryAsync({
+    mediaTypes: MediaTypeOptions.Images,
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 1,
+  });
+
+  if (result.assets != null) {
+    return result.assets[0].uri;
+  } else return null;
 };

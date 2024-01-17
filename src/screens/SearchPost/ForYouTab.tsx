@@ -22,8 +22,8 @@ const ForYouTab = () => {
         <Trending />
         <Text style={[styles.labels]}>Suggested profiles</Text>
         <SuggestedProfiles showAll={false} />
-        <Text style={styles.labels}>Communities for you</Text>
-        <Communities showAll={false} />
+        {/* <Text style={styles.labels}>Communities for you</Text>
+        <Communities showAll={false} /> */}
       </ScrollView>
     </View>
   );
