@@ -32,6 +32,7 @@ import {
   updateAccountInfo,
   updateDidToken,
   updateMetadata,
+  updateUserId,
 } from '../../controller/UserController';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
@@ -150,7 +151,8 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
         const res = await checkSignup(token);
         showLoader(false);
         if (res.isExist && res.isExist == true) {
-          await setLoginSession(res.wallet);
+          await setLoginSession(res.wallet, res.userId);
+          dispatch(updateUserId(res.userId))
           navigation.navigate('Congratulations');
         } else {
           setViewIndex((previous) => previous + 1);
@@ -178,10 +180,11 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
           user.UserData.nickname,
           user.UserData.username,
           user.UserData.email
-        );
-        
+        );        
+
         if (!res.error && res.success != false) {
           setUserId(res.userId);
+          dispatch(updateUserId(res.userId))
           setToken(user.didToken);
         }
       } else if (newIndex == 4) {

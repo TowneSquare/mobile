@@ -32,6 +32,7 @@ import {
   updateAccountInfo,
   updateDidToken,
   updateMetadata,
+  updateUserId,
 } from '../../controller/UserController';
 import { checkSignup } from '../../api';
 import Loader from '../../../assets/svg/Loader';
@@ -53,6 +54,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
   useEffect(() => {
     const checkSession = async () => {
       const session = await getLoginSession();
+      dispatch(updateUserId(session.userId))
       if (session) navigation.navigate('Congratulations');
     };
     checkSession();
@@ -82,7 +84,8 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
 
       showLoader(false);
       if (res.isExist && res.isExist == true) {
-        await setLoginSession(res.wallet);
+        dispatch(updateUserId(res.userId))
+        await setLoginSession(res.wallet, res.userId);
         navigation.navigate('Congratulations');
       } else {
         navigation.navigate('SignUp');

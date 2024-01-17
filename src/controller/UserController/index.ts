@@ -1010,6 +1010,9 @@ export const USER = createSlice({
     updateProfileImage: (state, action: PayloadAction<string>) => {
       state.UserData.profileImage = action.payload;
     },
+    updateUserId: (state, action: PayloadAction<string>) => {
+      state.UserData._id = action.payload;
+    },
     updateDidToken: (state, action: PayloadAction<string>) => {
       state.didToken = action.payload;
     },
@@ -1116,6 +1119,7 @@ export const {
   updateEmailError,
   updateDidToken,
   updateProfileImage,
+  updateUserId,
   updateEditProfile,
   updateAccountInfo,
   updateMetadata,
