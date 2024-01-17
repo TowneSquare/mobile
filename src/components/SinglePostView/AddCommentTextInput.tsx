@@ -5,17 +5,19 @@ import {
   TextInput,
   Animated,
   StyleSheet,
-} from 'react-native';
-import { useState, useEffect, useRef } from 'react';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
-import SendButton from '../../../assets/images/svg/SendButton';
-import SendButtonActive from '../../../assets/images/svg/SendButtonActive';
-import { sizes } from '../../utils';
-import { useAppSelector } from '../../controller/hooks';
-import axios from 'axios';
-import { BACKEND_URL } from '../../../config/env';
+  Pressable,
+} from "react-native";
+import { useState, useEffect, useRef } from "react";
+const { height, width } = Dimensions.get("window");
+import { useFonts } from "expo-font";
+import { appColor, fonts } from "../../constants";
+import SendButton from "../../../assets/images/svg/SendButton";
+import SendButtonActive from "../../../assets/images/svg/SendButtonActive";
+import { sizes } from "../../utils";
+import axios from "axios";
+import { BACKEND_URL } from "../../../config/env";
+import { useAppSelector } from "../../controller/hooks";
+
 const size = new sizes(height, width);
 interface Props {
   textRef: any;
@@ -86,7 +88,6 @@ const AddCommentTextInput = ({
           },
         }
       );
-      console.log("addComments", postId)
       setAddingComment(false);
     } catch (error) {
       setAddingComment(false);

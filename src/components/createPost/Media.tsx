@@ -10,8 +10,7 @@ import { sizes } from '../../utils';
 import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import { updateMedia } from '../../controller/createPost';
 const size = new sizes(height, width);
-const 
-Media = () => {
+const Media = () => {
   const media = useAppSelector(
     (state) => state.CreatePostController.posts.media
   );

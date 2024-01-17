@@ -126,7 +126,7 @@ interface followRequest {
 }
 const initialState: UserState = {
   UserData: {
-    _id: "6588dd27973c4e8e226c92f2",
+    _id: "658e89ff83d916e7f200f1f6",
     issuer: "did:ethr:0x8880807e9188a75767c647374d83272d031a0b42",
     aptosWallet: "0x8880807e9188a75767c647374d83272d031a0b42",
     nickname: "TO1",
@@ -650,7 +650,12 @@ const initialState: UserState = {
           postId: "655df7a347784b1665992617",
           createdAt: "2023-11-24T12:25:14.173Z",
         },
-       
+        //   {
+        //   _id: "6560962a233ac36e73bc42ce",
+        //   userId: "655ab007ce8937ff6d512887",
+        //   postId: "655df7a347784b1665992617",
+        //   createdAt: "2023-11-24T12:25:14.173Z",
+        // },
       ],
       comments: [
         {
@@ -737,13 +742,13 @@ export const signUp = createAsyncThunk(
 
 export const followUser = createAsyncThunk(
   "User/follow",
-  async (followRequest: followRequest, thunkAPI) => {
+  async (followRequest: followRequest) => {
     const { toUserIds, token } = followRequest;
     try {
-       await axios.post(
+      const res = await axios.post(
         `${BACKEND_URL}user/follow-friends`,
         {
-          followIds: toUserIds,
+          followsIds: toUserIds,
         },
         {
           headers: {
@@ -753,7 +758,7 @@ export const followUser = createAsyncThunk(
           },
         }
       );
-     
+      return res.data;
     } catch (error) {
       //return thunkAPI.rejectWithValue(error);
     }

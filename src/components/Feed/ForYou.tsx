@@ -57,7 +57,6 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
-
   if (!isLoaded) {
     return null;
   }
@@ -66,15 +65,12 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     const params: PostData = data;
     navigation.navigate('SinglePost' as any, params);
   };
-  const myPost = userId == data?.userId;
+  const myPost = userId == data?.customer?._id;
   const timePost = getPostTime(data?.createdAt);
-<<<<<<< HEAD
   // useEffect(() => {
   //   const timePost = getPostTime(data?.createdAt);
   // }, [])
 
-=======
->>>>>>> 6ce4d4503e01b07c6740d19a851464417866ebd6
   let content;
 
   const type_of_post = data?.repost
@@ -95,13 +91,10 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     ? FeedContent.MESSAGE_ONLY
     : FeedContent.EMPTY;
   const userPost = data;
-<<<<<<< HEAD
   console.log(data, 'for you');
-=======
-  console.log(data, "for you");
->>>>>>> 6ce4d4503e01b07c6740d19a851464417866ebd6
   switch (type_of_post) {
     case FeedContent.MESSAGE_ONLY:
+      // userPost.content = data.content as Message_Only;
       content = (
         <>
           <View style={styles.feedContainer}>
@@ -109,8 +102,6 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               swipeable={myPost}
-              username={userPost?.customer?.username}
-              nickname={userPost?.customer?.nickname}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -139,6 +130,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
       );
       break;
     case FeedContent.IMAGE_ONLY:
+      //userPost.content = data.content as VIDEO;
       content = (
         <>
           <View style={styles.feedContainer}>
@@ -146,8 +138,6 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               swipeable={myPost}
-              username={userPost?.customer?.username}
-              nickname={userPost?.customer?.nickname}
             />
             <View style={[styles.subHeading, { marginLeft: 0 }]}>
               <PostHeader
@@ -213,8 +203,6 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               swipeable={myPost}
-              username={userPost?.customer?.username}
-              nickname={userPost?.customer?.nickname}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -323,11 +311,9 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
-              profileImageUri={userPost?.customer?.profileImage}
+              profileImageUri={userPost.customer.profileImage}
               userId={userPost?.customer._id}
               swipeable={myPost}
-              username={userPost?.customer?.username}
-              nickname={userPost?.customer?.nickname}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -384,11 +370,9 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
-              profileImageUri={userPost?.customer?.profileImage}
+              profileImageUri={userPost.customer.profileImage}
               userId={userPost?.customer._id}
               swipeable={myPost}
-              username={userPost?.customer?.username}
-              nickname={userPost?.customer?.nickname}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -521,8 +505,6 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               swipeable={myPost}
-              username={userPost?.customer?.username}
-              nickname={userPost?.customer?.nickname}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -612,8 +594,6 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               swipeable={myPost}
-              username={userPost?.customer?.username}
-              nickname={userPost?.customer?.nickname}
             />
             <View style={styles.subHeading}>
               <PostHeader

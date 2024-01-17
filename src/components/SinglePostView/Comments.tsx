@@ -5,7 +5,6 @@ import {
   StyleSheet,
   ScrollView,
   TextInput,
-  Image,
 } from "react-native";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { sizes } from "../../utils";
@@ -21,13 +20,12 @@ const { height, width } = Dimensions.get("window");
 import SinglePostCommentHeader from "./SinglePostCommentHeader";
 import { Comment, PostData } from "../../controller/createPost";
 import { useAppSelector } from "../../controller/hooks";
-import { getPostById, getUserInfo, likePost } from "../../api";
+import { getPostById, likePost } from "../../api";
 import { images } from "../../constants";
 import AddCommentTextInput from "./AddCommentTextInput";
 import { getPostTime } from "../../utils/helperFunction";
 import SubComments from "./SubComments";
 import { useAppDispatch } from "../../controller/hooks";
-import { UserData } from "../../controller/UserController";
 const size = new sizes(height, width);
 interface Props {
   handleCommentButton: (username: string) => void;
@@ -42,7 +40,6 @@ const Comments = ({ CommentData, handleCommentButton }: Props) => {
 
   const [comment, setComment] = useState<PostData>();
   const [subComment, setSubComment] = useState<PostData[]>([]);
-  const [userData, setUserData] = useState<UserData>();
   const { didToken, user } = useAppSelector((state) => ({
     didToken: state.USER.didToken,
     user: state.USER.UserData._id,
@@ -51,11 +48,8 @@ const Comments = ({ CommentData, handleCommentButton }: Props) => {
   const [noOflikes, setnoOflikes] = useState(comment?.likes?.length);
 
   const getCommentDetails = async () => {
-    const result = await getPostById(didToken, CommentData?._id);
+    const result = await getPostById(didToken, CommentData?.postId);
     setComment(result);
-    const res = await getUserInfo(CommentData.userId, didToken);
-    console.log(res, "userId")
-    setUserData(res);
     setSubComment(
       await Promise.all(
         comment?.comments?.map(
@@ -110,16 +104,10 @@ const Comments = ({ CommentData, handleCommentButton }: Props) => {
   }
   const timepost = getPostTime(CommentData.createdAt);
   const myPost = CommentData.userId == user;
-
-
+  console.log(CommentData, "comment")
   return (
     <View style={styles.commentContainer}>
-      <ProfilePicture
-        profileImage={
-          comment?.customer?.profileImage ||
-          Image.resolveAssetSource(images.pfpImage).uri
-        }
-      />
+      <ProfilePicture profileImage={comment?.customer?.profileImage} />
       <View
         style={{
           flex: 1,
@@ -128,8 +116,8 @@ const Comments = ({ CommentData, handleCommentButton }: Props) => {
         <View>
           <PostHeader
             maxWidth={77}
-            username={userData?.username}
-            nickname={userData?.username}
+            username={CommentData?.username}
+            nickname={CommentData?.nickname}
             timepost={timepost}
             myPost={myPost}
             postId={CommentData?.postId}
@@ -137,7 +125,7 @@ const Comments = ({ CommentData, handleCommentButton }: Props) => {
           />
           <Text style={styles.comment}>{CommentData?.content}</Text>
           {/* <Text style={styles.readMore}>Read More</Text> */}
-          {/* <View style={styles.reactionContainer}>
+          <View style={styles.reactionContainer}>
             <View style={styles.reactionContent}>
               <AddComment
                 size={size.getHeightSize(24)}
@@ -163,7 +151,7 @@ const Comments = ({ CommentData, handleCommentButton }: Props) => {
               )}
               <Text style={styles.reactionText}>{noOflikes}</Text>
             </View>
-          // </View> */}
+          </View>
         </View>
 
         {/* Sub Comment */}

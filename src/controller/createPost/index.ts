@@ -8,7 +8,6 @@ import { BACKEND_URL } from "../../../config/env";
 import { useAppSelector } from "../hooks";
 import { images } from "../../constants";
 
-
 interface CreatePost {
   message: string;
   tags: string[];
@@ -397,8 +396,9 @@ export const getAllPost = createAsyncThunk(
       });
 
       const result: PostData[] = await response.data;
-      console.log(result, "hhhh");
+      console.log(result, "hhhh")
       if (result.length > 0) {
+
         return result.map((res) => {
           return {
             _id: res._id,
@@ -434,8 +434,9 @@ export const getAllPost = createAsyncThunk(
         });
       }
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+  return thunkAPI.rejectWithValue(error);
       //return []
+    ;
     }
   }
 );
@@ -456,38 +457,38 @@ export const getOnlyUserPost = createAsyncThunk(
       );
       const result = await response.data;
       return result.map((res) => {
-        return {
-          _id: res._id,
-          title: res.title || "",
-          description: res.description,
-          imageUrls: res?.imageUrls || [],
-          videoUrls: res?.videoUrls || [],
-          nftImageUrl: res?.nftImageUrl,
-          nftCollection: res.nftCollection,
-          nftTokenId: res.nftTokenId,
-          userId: res.userId,
-          repost: res.repost,
-          createdAt: res.createdAt,
-          likes: res.likes,
-          reposts: res.reposts,
-          comments: res.comments,
-          customer: {
-            _id: res.customer._id,
-            issuer: res.customer.issuer || "",
-            aptosWallet: res.customer.aptosWallet,
-            nickname: res.customer.nickname,
-            username: res.customer.username,
-            email: res.customer.email || "",
-            referralCode: res.customer.referralCode || "",
-            profileImage: res.customer.profileImage || "",
+          return {
+            _id: res._id,
+            title: res.title || "",
+            description: res.description,
+            imageUrls: res?.imageUrls || [],
+            videoUrls: res?.videoUrls || [],
+            nftImageUrl: res?.nftImageUrl,
+            nftCollection: res.nftCollection,
+            nftTokenId: res.nftTokenId,
+            userId: res.userId,
+            repost: res.repost,
             createdAt: res.createdAt,
-          },
-          sellNFTPrice: res.sellNFTPrice,
-          originalCustomer: res.originalCustomer,
-          originalPostId: res.originalPostId,
-          originalCustomerId: res.originalCustomerId,
-        };
-      });
+            likes: res.likes,
+            reposts: res.reposts,
+            comments: res.comments,
+            customer: {
+              _id: res.customer._id,
+              issuer: res.customer.issuer || "",
+              aptosWallet: res.customer.aptosWallet,
+              nickname: res.customer.nickname,
+              username: res.customer.username,
+              email: res.customer.email || "",
+              referralCode: res.customer.referralCode || "",
+              profileImage: res.customer.profileImage || "",
+              createdAt: res.createdAt,
+            },
+            sellNFTPrice: res.sellNFTPrice,
+            originalCustomer: res.originalCustomer,
+            originalPostId: res.originalPostId,
+            originalCustomerId: res.originalCustomerId,
+          };
+        });
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -691,20 +692,17 @@ export const fieldHandlerSlice = createSlice({
     },
     updateAptPrice: (
       state,
-      action: PayloadAction<
-        | {
-            nftCollection: string;
-            nftImageUrl: string;
-            nftTokenId: string;
-            sellNFTPrice?: string;
-          }
-        | {
+      action: PayloadAction<{
+        nftCollection: string;
+        nftImageUrl: string;
+        nftTokenId: string;
+        sellNFTPrice?: string;
+      }  | {
             nftCollection: "";
             nftImageUrl: "";
             nftTokenId: "";
             sellNFTPrice: "";
-          }
-      >
+          }>
     ) => {
       state.posts.nft = action.payload;
     },
@@ -740,7 +738,7 @@ export const fieldHandlerSlice = createSlice({
     });
     builder.addCase(getAllPost.rejected, (state, action) => {
       state.PostState = POSTSTATE.REJECTED;
-      console.log(state.AllPost, "state_all_post");
+      console.log(state.AllPost, "state_all_post")
       state.AllPost = [...state.AllPost];
     });
     builder.addCase(

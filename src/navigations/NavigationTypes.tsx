@@ -2,10 +2,10 @@ import {
   NavigationProp,
   ParamListBase,
   RouteProp,
-} from "@react-navigation/native";
-import { ImageSourcePropType } from "react-native";
-import { PostData } from "../controller/createPost";
-import { UserData } from "../controller/UserController";
+} from '@react-navigation/native';
+import { ImageSourcePropType } from 'react-native';
+import { PostData } from '../controller/createPost';
+import { UserData } from '../controller/UserController';
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
@@ -13,7 +13,7 @@ declare global {
 }
 
 interface PetraWalletResponse {
-  response?: "approved" | "rejected" | "dismissed";
+  response?: 'approved' | 'rejected' | 'dismissed';
 }
 
 type SelectedSuperStarCollectionScreenParameter = {
@@ -23,19 +23,9 @@ type SelectedSuperStarCollectionScreenParameter = {
       nftImageUrl: ImageSourcePropType;
       nftTokenId: string;
       nftCollection: string;
-      
     }[];
   };
 };
-
-type TheirProfileParams = {
-  [TheirProfileScreen: string]: {
-    userId: string;
-    username:string
-    nickname:string
-  };
-};
-
 export type RootStackParamList = {
   FirstScreen: undefined;
   ChooseWallet: PetraWalletResponse;
@@ -53,7 +43,6 @@ export type RootStackParamList = {
   EmailLogin: undefined;
   EditProfile: undefined;
   SetNFTs: undefined;
-  
   ViewImageScreen: {
     postData: PostData;
   };
@@ -64,7 +53,7 @@ export type RootStackParamList = {
   Notifications: undefined;
   CreatePost: {
     showToast?: boolean;
-    whichPost: "communityPost" | "singlePost";
+    whichPost: 'communityPost' | 'singlePost';
   };
   NftCollectionScreen: undefined;
   SelectedCollectionScreen: undefined;
@@ -79,18 +68,15 @@ export type RootStackParamList = {
       nftImageUrl: string;
       nftTokenId: string;
       nftCollection: string;
-      
     }[];
   };
   EditProfileScreen: undefined;
   ProfileFollowersTab: undefined;
   FollowersScreen: {
-    screen: "Following" | "Followers" | "Communities";
+    screen: 'Following' | 'Followers' | 'Communities';
   };
   TheirProfileScreen: {
-    userId: string;
-    username:string;
-    nickname:string
+    userData: UserData;
   };
 
   CreateCommunityScreen: undefined;
@@ -116,7 +102,7 @@ export type RootStackParamList = {
   TokenGateSettingsComplete: {
     asset: {
       nftImageUri: string;
-      type: "NFT" | "crypto_asset";
+      type: 'NFT' | 'crypto_asset';
       amount?: string;
       name?: string;
       coinId: string;
@@ -148,21 +134,21 @@ export type RootStackParamList = {
   };
   Offerforsale: undefined;
   NFTOffer: {
-    type: "myOffer" | "theirOffer";
+    type: 'myOffer' | 'theirOffer';
   };
   MyRefferals: undefined;
   Dex: {
-    type: "DEX swap" | "NFT trade" | "User transaction";
+    type: 'DEX swap' | 'NFT trade' | 'User transaction';
   };
   Withdraw: undefined;
   Airdrops: {
     type:
-      | "My refferals"
-      | "NFT holdings"
-      | "Defi trading"
-      | "Dex Swap"
-      | "NFT trade"
-      | "Social transaction";
+      | 'My refferals'
+      | 'NFT holdings'
+      | 'Defi trading'
+      | 'Dex Swap'
+      | 'NFT trade'
+      | 'Social transaction';
   };
   AptosMonkey: undefined;
   ShareReferralCode: undefined;
@@ -176,6 +162,12 @@ export type RootStackParamList = {
   TownesquareVerification: undefined;
 };
 
+type TheirProfileParams = {
+  [TheirProfileScreen: string]: {
+    userData: UserData;
+  };
+};
+
 type ViewImageScreenParams = {
   [ViewImageScreen: string]: {
     postData: PostData;
@@ -186,7 +178,7 @@ type ChooseWalletParams = {
 };
 type NFTOfferParams = {
   [NFTOffer: string]: {
-    type: "myOffer" | "theirOffer";
+    type: 'myOffer' | 'theirOffer';
   };
 };
 
@@ -194,7 +186,7 @@ type TokenGateSettingsCompleteParams = {
   [TokenGateSettingsComplete: string]: {
     asset: {
       nftImageUri: string;
-      type: "NFT" | "crypto_asset";
+      type: 'NFT' | 'crypto_asset';
       amount?: string;
       name?: string;
       coinId: string;
@@ -214,14 +206,12 @@ type ViewRolesParams = {
 type CreatePostParameter = {
   [CreatePost: string]: {
     showToast: boolean;
-    whichPost: "communityPost" | "singlePost";
+    whichPost: 'communityPost' | 'singlePost';
   };
 };
 type SinglePostParameter = {
   [SinglePost: string]: PostData;
 };
-
-
 
 type VideoPlayerParameter = {
   [VideoPlayer: string]: {
@@ -238,27 +228,22 @@ type FollowerScreenParameter = {
 //     username: string;
 //   };
 // };
-// type TheirProfileParameter = {
-//   [TheirProfile: string]: {
-//     username: string;
-//   };
-// };
 
 type DEXParameter = {
   [DEX: string]: {
-    type: "DEX swap" | "NFT trade" | "User transaction";
+    type: 'DEX swap' | 'NFT trade' | 'User transaction';
   };
 };
 type AirdropParameter = {
   [Airdrops: string]: {
     type:
-      | "My refferals"
-      | "NFT holdings"
-      | "AptosMonkeys"
-      | "Defi trading"
-      | "Dex Swap"
-      | "NFT trade"
-      | "Social transaction";
+      | 'My refferals'
+      | 'NFT holdings'
+      | 'AptosMonkeys'
+      | 'Defi trading'
+      | 'Dex Swap'
+      | 'NFT trade'
+      | 'Social transaction';
   };
 };
 type ConversationParameter = {
@@ -268,18 +253,18 @@ type ConversationParameter = {
   };
 };
 export type FirstScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "FirstScreen">;
+  navigation: NavigationProp<RootStackParamList, 'FirstScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "FirstScreen">;
+  route: RouteProp<ParamListBase, 'FirstScreen'>;
 };
 export type ChooseWalletProps = {
-  navigation: NavigationProp<RootStackParamList, "ChooseWallet">;
-  route: RouteProp<ChooseWalletParams, "ChooseWallet">;
+  navigation: NavigationProp<RootStackParamList, 'ChooseWallet'>;
+  route: RouteProp<ChooseWalletParams, 'ChooseWallet'>;
 };
 export type SignUpProps = {
-  navigation: NavigationProp<RootStackParamList, "SignUp">;
+  navigation: NavigationProp<RootStackParamList, 'SignUp'>;
   magic: any;
-  route: RouteProp<ParamListBase, "SignUp">;
+  route: RouteProp<ParamListBase, 'SignUp'>;
 };
 // export type ConnectSocialsAndVrifyProps = {
 //   navigation: NavigationProp<RootStackParamList, "ConnectSocialsAndVrify">;
@@ -298,400 +283,396 @@ export type SignUpProps = {
 //   route: RouteProp<ParamListBase, "ExploreCommunities">;
 // };
 export type CongratulationsProps = {
-  navigation: NavigationProp<RootStackParamList, "Congratulations">;
-  route: RouteProp<ParamListBase, "Congratulations">;
+  navigation: NavigationProp<RootStackParamList, 'Congratulations'>;
+  route: RouteProp<ParamListBase, 'Congratulations'>;
 };
 // export type ChooseProfilePicsProps = {
 //   navigation: NavigationProp<RootStackParamList, "ChooseProfilePics">;
 //   route: RouteProp<ParamListBase, "ChooseProfilePics">;
 // };
 export type PageViewProps = {
-  navigation: NavigationProp<RootStackParamList, "PageView">;
-  route: RouteProp<ParamListBase, "PageView">;
+  navigation: NavigationProp<RootStackParamList, 'PageView'>;
+  route: RouteProp<ParamListBase, 'PageView'>;
 };
 export type ChooseUsernameSlideProps = {
-  navigation: NavigationProp<RootStackParamList, "ChooseUsernameSlide">;
-  route: RouteProp<ParamListBase, "ChooseUsernameSlide">;
+  navigation: NavigationProp<RootStackParamList, 'ChooseUsernameSlide'>;
+  route: RouteProp<ParamListBase, 'ChooseUsernameSlide'>;
 };
 export type BottomTabNavigationProps = {
-  navigation: NavigationProp<RootStackParamList, "BottomTabNavigation">;
-  route: RouteProp<ParamListBase, "BottomTabNavigation">;
+  navigation: NavigationProp<RootStackParamList, 'BottomTabNavigation'>;
+  route: RouteProp<ParamListBase, 'BottomTabNavigation'>;
 };
 export type DrawerNavigationProps = {
-  navigation: NavigationProp<RootStackParamList, "DrawerNavigation">;
-  route: RouteProp<ParamListBase, "DrawerNavigation">;
+  navigation: NavigationProp<RootStackParamList, 'DrawerNavigation'>;
+  route: RouteProp<ParamListBase, 'DrawerNavigation'>;
 };
 export type EmailLoginProps = {
-  navigation: NavigationProp<RootStackParamList, "EmailLogin">;
+  navigation: NavigationProp<RootStackParamList, 'EmailLogin'>;
   magic: any;
-  route: RouteProp<ParamListBase, "EmailLogin">;
+  route: RouteProp<ParamListBase, 'EmailLogin'>;
 };
 export type EditProfileProps = {
-  navigation: NavigationProp<RootStackParamList, "EditProfile">;
-  route: RouteProp<ParamListBase, "EditProfile">;
+  navigation: NavigationProp<RootStackParamList, 'EditProfile'>;
+  route: RouteProp<ParamListBase, 'EditProfile'>;
 };
 export type SetNFTsProps = {
-  navigation: NavigationProp<RootStackParamList, "SetNFTs">;
-  route: RouteProp<ParamListBase, "SetNFTs">;
+  navigation: NavigationProp<RootStackParamList, 'SetNFTs'>;
+  route: RouteProp<ParamListBase, 'SetNFTs'>;
 };
 
 export type SinglePostProps = {
-  navigation: NavigationProp<RootStackParamList, "SinglePost">;
+  navigation: NavigationProp<RootStackParamList, 'SinglePost'>;
   magic: any;
-  route: RouteProp<SinglePostParameter, "SinglePost">;
+  route: RouteProp<SinglePostParameter, 'SinglePost'>;
 };
 
 export type ViewImageScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "ViewImageScreen">;
+  navigation: NavigationProp<RootStackParamList, 'ViewImageScreen'>;
   magic: any;
-  route: RouteProp<ViewImageScreenParams, "ViewImageScreen">;
+  route: RouteProp<ViewImageScreenParams, 'ViewImageScreen'>;
 };
 export type VideoPlayerProps = {
-  navigation: NavigationProp<RootStackParamList, "VideoPlayer">;
+  navigation: NavigationProp<RootStackParamList, 'VideoPlayer'>;
   magic: any;
-  route: RouteProp<ParamListBase, "VideoPlayer">;
+  route: RouteProp<ParamListBase, 'VideoPlayer'>;
 };
 
 export type NotificationsProps = {
-  navigation: NavigationProp<RootStackParamList, "Notifications">;
+  navigation: NavigationProp<RootStackParamList, 'Notifications'>;
   magic: any;
-  route: RouteProp<ParamListBase, "Notifications">;
+  route: RouteProp<ParamListBase, 'Notifications'>;
 };
 export type CreatePostProps = {
-  navigation: NavigationProp<RootStackParamList, "CreatePost">;
+  navigation: NavigationProp<RootStackParamList, 'CreatePost'>;
   magic: any;
-  route: RouteProp<CreatePostParameter, "CreatePost">;
+  route: RouteProp<CreatePostParameter, 'CreatePost'>;
 };
 export type NftCollectionScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "NftCollectionScreen">;
+  navigation: NavigationProp<RootStackParamList, 'NftCollectionScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "NftCollectionScreen">;
+  route: RouteProp<ParamListBase, 'NftCollectionScreen'>;
 };
 export type SelectedCollectionScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "SelectedCollectionScreen">;
+  navigation: NavigationProp<RootStackParamList, 'SelectedCollectionScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "SelectedCollectionScreen">;
+  route: RouteProp<ParamListBase, 'SelectedCollectionScreen'>;
 };
 export type SearchScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "SearchScreen">;
+  navigation: NavigationProp<RootStackParamList, 'SearchScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "SearchScreen">;
+  route: RouteProp<ParamListBase, 'SearchScreen'>;
 };
 export type SearchPostTabProps = {
-  navigation: NavigationProp<RootStackParamList, "SearchPostTab">;
+  navigation: NavigationProp<RootStackParamList, 'SearchPostTab'>;
   magic: any;
-  route: RouteProp<ParamListBase, "SearchPostTab">;
+  route: RouteProp<ParamListBase, 'SearchPostTab'>;
 };
 export type SuperStarCollectionScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "SuperStarCollectionScreen">;
+  navigation: NavigationProp<RootStackParamList, 'SuperStarCollectionScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "SuperStarCollectionScreen">;
+  route: RouteProp<ParamListBase, 'SuperStarCollectionScreen'>;
 };
 export type SelectedSuperStarCollectionScreenProps = {
   navigation: NavigationProp<
     RootStackParamList,
-    "SelectedSuperStarCollectionScreen"
+    'SelectedSuperStarCollectionScreen'
   >;
   magic: any;
   route: RouteProp<
     SelectedSuperStarCollectionScreenParameter,
-    "SelectedSuperStarCollectionScreen"
+    'SelectedSuperStarCollectionScreen'
   >;
 };
-
-export type TheirProfileScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "TheirProfileScreen">;
-  magic: any;
-  route: RouteProp<TheirProfileParams, "TheirProfileScreen">;
-};
-
 export type EditProfileScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "EditProfileScreen">;
+  navigation: NavigationProp<RootStackParamList, 'EditProfileScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "EditProfileScreen">;
+  route: RouteProp<ParamListBase, 'EditProfileScreen'>;
 };
 export type ProfileFollowersTabProps = {
-  navigation: NavigationProp<RootStackParamList, "ProfileFollowersTab">;
+  navigation: NavigationProp<RootStackParamList, 'ProfileFollowersTab'>;
   magic: any;
-  route: RouteProp<ParamListBase, "ProfileFollowersTab">;
+  route: RouteProp<ParamListBase, 'ProfileFollowersTab'>;
 };
 export type FollowersScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "FollowersScreen">;
+  navigation: NavigationProp<RootStackParamList, 'FollowersScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "FollowersScreen">;
+  route: RouteProp<ParamListBase, 'FollowersScreen'>;
 };
-
-export type CreateCommunityScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "CreateCommunityScreen">;
+export type TheirProfileScreenProps = {
+  navigation: NavigationProp<RootStackParamList, 'TheirProfileScreen'>;
   magic: any;
-  route: RouteProp<RootStackParamList, "CreateCommunityScreen">;
+  route: RouteProp<TheirProfileParams, 'TheirProfileScreen'>;
+};
+export type CreateCommunityScreenProps = {
+  navigation: NavigationProp<RootStackParamList, 'CreateCommunityScreen'>;
+  magic: any;
+  route: RouteProp<RootStackParamList, 'CreateCommunityScreen'>;
 };
 export type CommunitySetupScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "CommunitySetupScreen">;
+  navigation: NavigationProp<RootStackParamList, 'CommunitySetupScreen'>;
   magic: any;
-  route: RouteProp<RootStackParamList, "CommunitySetupScreen">;
+  route: RouteProp<RootStackParamList, 'CommunitySetupScreen'>;
 };
 
 // New community screens
 export type VerifyCommunityScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "VerifyCommunityScreen">;
+  navigation: NavigationProp<RootStackParamList, 'VerifyCommunityScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "VerifyCommunityScreen">;
+  route: RouteProp<ParamListBase, 'VerifyCommunityScreen'>;
 };
 export type InviteMembersScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "InviteMembersScreen">;
+  navigation: NavigationProp<RootStackParamList, 'InviteMembersScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "InviteMembersScreen">;
+  route: RouteProp<ParamListBase, 'InviteMembersScreen'>;
 };
 export type CreateChannelScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "CreateChannelScreen">;
+  navigation: NavigationProp<RootStackParamList, 'CreateChannelScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "CreateChannelScreen">;
+  route: RouteProp<ParamListBase, 'CreateChannelScreen'>;
 };
 
 export type AddAdminsScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "AddAdminsScreen">;
+  navigation: NavigationProp<RootStackParamList, 'AddAdminsScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "AddAdminsScreen">;
+  route: RouteProp<ParamListBase, 'AddAdminsScreen'>;
 };
 
 // Join community screens
 export type CommunityWelcomeScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "CommunityWelcomeScreen">;
+  navigation: NavigationProp<RootStackParamList, 'CommunityWelcomeScreen'>;
   magic: any;
-  route: RouteProp<RootStackParamList, "CommunityWelcomeScreen">;
+  route: RouteProp<RootStackParamList, 'CommunityWelcomeScreen'>;
 };
 
 export type CommunityMainScreentProps = {
-  navigation: NavigationProp<RootStackParamList, "CommunityMainScreen">;
+  navigation: NavigationProp<RootStackParamList, 'CommunityMainScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "CommunityMainScreen">;
+  route: RouteProp<ParamListBase, 'CommunityMainScreen'>;
 };
 
 export type PinnedPostsScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "PinnedPostsScreen">;
+  navigation: NavigationProp<RootStackParamList, 'PinnedPostsScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "PinnedPostsScreen">;
+  route: RouteProp<ParamListBase, 'PinnedPostsScreen'>;
 };
 export type CommunityInfoScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "CommunityInfoScreen">;
+  navigation: NavigationProp<RootStackParamList, 'CommunityInfoScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "CommunityInfoScreen">;
+  route: RouteProp<ParamListBase, 'CommunityInfoScreen'>;
 };
 export type CreateCommunity1Props = {
-  navigation: NavigationProp<RootStackParamList, "CreateCommunity1">;
+  navigation: NavigationProp<RootStackParamList, 'CreateCommunity1'>;
   magic: any;
-  route: RouteProp<ParamListBase, "CreateCommunity1">;
+  route: RouteProp<ParamListBase, 'CreateCommunity1'>;
 };
 export type CreateCommunitySuccessScreenProps = {
   navigation: NavigationProp<
     RootStackParamList,
-    "CreateCommunitySuccessScreen"
+    'CreateCommunitySuccessScreen'
   >;
   magic: any;
-  route: RouteProp<ParamListBase, "CreateCommunitySuccessScreen">;
+  route: RouteProp<ParamListBase, 'CreateCommunitySuccessScreen'>;
 };
 export type CommunityScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "CommunityScreen">;
+  navigation: NavigationProp<RootStackParamList, 'CommunityScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "CommunityScreen">;
+  route: RouteProp<ParamListBase, 'CommunityScreen'>;
 };
 export type ExploreCommunityScreenProps = {
-  navigation: NavigationProp<RootStackParamList, "ExploreCommunityScreen">;
+  navigation: NavigationProp<RootStackParamList, 'ExploreCommunityScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, "ExploreCommunityScreen">;
+  route: RouteProp<ParamListBase, 'ExploreCommunityScreen'>;
 };
 export type CommunitySettingsProps = {
-  navigation: NavigationProp<RootStackParamList, "CommunitySettings">;
+  navigation: NavigationProp<RootStackParamList, 'CommunitySettings'>;
   magic: any;
-  route: RouteProp<ParamListBase, "CommunitySettings">;
+  route: RouteProp<ParamListBase, 'CommunitySettings'>;
 };
 export type GeneralSettingsProps = {
-  navigation: NavigationProp<RootStackParamList, "GeneralSettings">;
+  navigation: NavigationProp<RootStackParamList, 'GeneralSettings'>;
   magic: any;
-  route: RouteProp<ParamListBase, "GeneralSettings">;
+  route: RouteProp<ParamListBase, 'GeneralSettings'>;
 };
 export type CommunityPrivacyProps = {
-  navigation: NavigationProp<RootStackParamList, "CommunityPrivacy">;
+  navigation: NavigationProp<RootStackParamList, 'CommunityPrivacy'>;
   magic: any;
-  route: RouteProp<ParamListBase, "CommunityPrivacy`">;
+  route: RouteProp<ParamListBase, 'CommunityPrivacy`'>;
 };
 export type TokenGateSettingsProps = {
-  navigation: NavigationProp<RootStackParamList, "TokenGateSettings">;
+  navigation: NavigationProp<RootStackParamList, 'TokenGateSettings'>;
   magic: any;
-  route: RouteProp<ParamListBase, "TokenGateSettings`">;
+  route: RouteProp<ParamListBase, 'TokenGateSettings`'>;
 };
 export type CommunityAssetSettingsProps = {
-  navigation: NavigationProp<RootStackParamList, "CommunityAssetSettings">;
+  navigation: NavigationProp<RootStackParamList, 'CommunityAssetSettings'>;
   magic: any;
-  route: RouteProp<ParamListBase, "CommunityAssetSettings`">;
+  route: RouteProp<ParamListBase, 'CommunityAssetSettings`'>;
 };
 export type TokenGateSettingsCompleteProps = {
-  navigation: NavigationProp<RootStackParamList, "TokenGateSettingsComplete">;
+  navigation: NavigationProp<RootStackParamList, 'TokenGateSettingsComplete'>;
   magic: any;
   route: RouteProp<
     TokenGateSettingsCompleteParams,
-    "TokenGateSettingsComplete`"
+    'TokenGateSettingsComplete`'
   >;
 };
 export type CryptoAssetSettingsProps = {
-  navigation: NavigationProp<RootStackParamList, "CryptoAssetSettings">;
+  navigation: NavigationProp<RootStackParamList, 'CryptoAssetSettings'>;
   magic: any;
-  route: RouteProp<ParamListBase, "CryptoAssetSettings`">;
+  route: RouteProp<ParamListBase, 'CryptoAssetSettings`'>;
 };
 export type AddMembersProps = {
-  navigation: NavigationProp<RootStackParamList, "AddMembers">;
+  navigation: NavigationProp<RootStackParamList, 'AddMembers'>;
   magic: any;
-  route: RouteProp<ParamListBase, "AddMembers`">;
+  route: RouteProp<ParamListBase, 'AddMembers`'>;
 };
 export type MemberRoleProps = {
-  navigation: NavigationProp<RootStackParamList, "MemberRole">;
+  navigation: NavigationProp<RootStackParamList, 'MemberRole'>;
   magic: any;
-  route: RouteProp<ParamListBase, "MemberRole`">;
+  route: RouteProp<ParamListBase, 'MemberRole`'>;
 };
 export type RolesProps = {
-  navigation: NavigationProp<RootStackParamList, "Roles">;
+  navigation: NavigationProp<RootStackParamList, 'Roles'>;
   magic: any;
-  route: RouteProp<ParamListBase, "Roles`">;
+  route: RouteProp<ParamListBase, 'Roles`'>;
 };
 export type NewRoleProps = {
-  navigation: NavigationProp<RootStackParamList, "NewRole">;
+  navigation: NavigationProp<RootStackParamList, 'NewRole'>;
   magic: any;
-  route: RouteProp<ParamListBase, "NewRole`">;
+  route: RouteProp<ParamListBase, 'NewRole`'>;
 };
 export type PermissionsProps = {
-  navigation: NavigationProp<RootStackParamList, "Permissions">;
+  navigation: NavigationProp<RootStackParamList, 'Permissions'>;
   magic: any;
-  route: RouteProp<ParamListBase, "Permissions">;
+  route: RouteProp<ParamListBase, 'Permissions'>;
 };
 export type AddMemberProps = {
-  navigation: NavigationProp<RootStackParamList, "AddMember">;
+  navigation: NavigationProp<RootStackParamList, 'AddMember'>;
   magic: any;
-  route: RouteProp<ParamListBase, "AddMember">;
+  route: RouteProp<ParamListBase, 'AddMember'>;
 };
 export type NotificationSettingsProps = {
-  navigation: NavigationProp<RootStackParamList, "NotificationSettings">;
+  navigation: NavigationProp<RootStackParamList, 'NotificationSettings'>;
   magic: any;
-  route: RouteProp<ParamListBase, "NotificationSettings">;
+  route: RouteProp<ParamListBase, 'NotificationSettings'>;
 };
 export type ViewRolesProps = {
-  navigation: NavigationProp<RootStackParamList, "ViewRoles">;
+  navigation: NavigationProp<RootStackParamList, 'ViewRoles'>;
   magic: any;
-  route: RouteProp<ViewRolesParams, "ViewRoles">;
+  route: RouteProp<ViewRolesParams, 'ViewRoles'>;
 };
 export type CreateChannelProps = {
-  navigation: NavigationProp<RootStackParamList, "CreateChannel">;
+  navigation: NavigationProp<RootStackParamList, 'CreateChannel'>;
   magic: any;
-  route: RouteProp<ParamListBase, "CreateChannel">;
+  route: RouteProp<ParamListBase, 'CreateChannel'>;
 };
 export type ChannelCategoriesProps = {
-  navigation: NavigationProp<RootStackParamList, "ChannelCategories">;
+  navigation: NavigationProp<RootStackParamList, 'ChannelCategories'>;
   magic: any;
-  route: RouteProp<ParamListBase, "ChannelCategories">;
+  route: RouteProp<ParamListBase, 'ChannelCategories'>;
 };
 export type ChannelsProps = {
-  navigation: NavigationProp<RootStackParamList, "Channels">;
+  navigation: NavigationProp<RootStackParamList, 'Channels'>;
   magic: any;
-  route: RouteProp<ParamListBase, "Channels">;
+  route: RouteProp<ParamListBase, 'Channels'>;
 };
 export type BannedMemberProps = {
-  navigation: NavigationProp<RootStackParamList, "BannedMember">;
+  navigation: NavigationProp<RootStackParamList, 'BannedMember'>;
   magic: any;
-  route: RouteProp<ParamListBase, "BannedMember">;
+  route: RouteProp<ParamListBase, 'BannedMember'>;
 };
 export type ConversationProps = {
-  navigation: NavigationProp<RootStackParamList, "Conversation">;
+  navigation: NavigationProp<RootStackParamList, 'Conversation'>;
   magic: any;
   route: RouteProp<ConversationParameter, 'Conversation'>;
- 
 };
 export type SendTokenProps = {
-  navigation: NavigationProp<RootStackParamList, "SendToken">;
+  navigation: NavigationProp<RootStackParamList, 'SendToken'>;
   magic: any;
-  route: RouteProp<ParamListBase, "SendToken">;
+  route: RouteProp<ParamListBase, 'SendToken'>;
 };
 export type TokenSuccessProps = {
-  navigation: NavigationProp<RootStackParamList, "TokenSuccess">;
+  navigation: NavigationProp<RootStackParamList, 'TokenSuccess'>;
   magic: any;
-  route: RouteProp<TokenSuccessParams, "TokenSuccess">;
+  route: RouteProp<TokenSuccessParams, 'TokenSuccess'>;
 };
 export type OfferforsaleProps = {
-  navigation: NavigationProp<RootStackParamList, "Offerforsale">;
+  navigation: NavigationProp<RootStackParamList, 'Offerforsale'>;
   magic: any;
-  route: RouteProp<ParamListBase, "Offerforsale">;
+  route: RouteProp<ParamListBase, 'Offerforsale'>;
 };
 export type NFTOfferProps = {
-  navigation: NavigationProp<RootStackParamList, "NFTOffer">;
+  navigation: NavigationProp<RootStackParamList, 'NFTOffer'>;
   magic: any;
-  route: RouteProp<NFTOfferParams, "NFTOffer">;
+  route: RouteProp<NFTOfferParams, 'NFTOffer'>;
 };
 export type MyRefferalsProps = {
-  navigation: NavigationProp<RootStackParamList, "MyRefferals">;
+  navigation: NavigationProp<RootStackParamList, 'MyRefferals'>;
   magic: any;
-  route: RouteProp<ParamListBase, "MyRefferals">;
+  route: RouteProp<ParamListBase, 'MyRefferals'>;
 };
 export type DexProps = {
-  navigation: NavigationProp<RootStackParamList, "Dex">;
+  navigation: NavigationProp<RootStackParamList, 'Dex'>;
   magic: any;
-  route: RouteProp<DEXParameter, "Dex">;
+  route: RouteProp<DEXParameter, 'Dex'>;
 };
 export type DWithdrawProps = {
-  navigation: NavigationProp<RootStackParamList, "Withdraw">;
+  navigation: NavigationProp<RootStackParamList, 'Withdraw'>;
   magic: any;
-  route: RouteProp<ParamListBase, "Withdraw">;
+  route: RouteProp<ParamListBase, 'Withdraw'>;
 };
 export type AirdropsProps = {
-  navigation: NavigationProp<RootStackParamList, "Airdrops">;
+  navigation: NavigationProp<RootStackParamList, 'Airdrops'>;
   magic: any;
-  route: RouteProp<AirdropParameter, "Airdrops">;
+  route: RouteProp<AirdropParameter, 'Airdrops'>;
 };
 export type AptosMonkeyProps = {
-  navigation: NavigationProp<RootStackParamList, "AptosMonkey">;
+  navigation: NavigationProp<RootStackParamList, 'AptosMonkey'>;
   magic: any;
-  route: RouteProp<ParamListBase, "AptosMonkey">;
+  route: RouteProp<ParamListBase, 'AptosMonkey'>;
 };
 export type ShareReferralCodeProps = {
-  navigation: NavigationProp<RootStackParamList, "ShareReferralCode">;
+  navigation: NavigationProp<RootStackParamList, 'ShareReferralCode'>;
   magic: any;
-  route: RouteProp<ParamListBase, "ShareReferralCode">;
+  route: RouteProp<ParamListBase, 'ShareReferralCode'>;
 };
 export type SwapMainProps = {
-  navigation: NavigationProp<RootStackParamList, "SwapMain">;
+  navigation: NavigationProp<RootStackParamList, 'SwapMain'>;
   magic: any;
-  route: RouteProp<ParamListBase, "SwapMain">;
+  route: RouteProp<ParamListBase, 'SwapMain'>;
 };
 export type ProfileSendTokenProps = {
-  navigation: NavigationProp<RootStackParamList, "ProfileSendToken">;
+  navigation: NavigationProp<RootStackParamList, 'ProfileSendToken'>;
   magic: any;
-  route: RouteProp<ParamListBase, "ProfileSendToken">;
+  route: RouteProp<ParamListBase, 'ProfileSendToken'>;
 };
 export type SupportProps = {
-  navigation: NavigationProp<RootStackParamList, "Support">;
+  navigation: NavigationProp<RootStackParamList, 'Support'>;
   magic: any;
-  route: RouteProp<ParamListBase, "Support">;
+  route: RouteProp<ParamListBase, 'Support'>;
 };
 export type AccountInfoProps = {
-  navigation: NavigationProp<RootStackParamList, "AccountInfo">;
+  navigation: NavigationProp<RootStackParamList, 'AccountInfo'>;
   magic: any;
-  route: RouteProp<ParamListBase, "AccountInfo">;
+  route: RouteProp<ParamListBase, 'AccountInfo'>;
 };
 export type AccountNotificationsProps = {
-  navigation: NavigationProp<RootStackParamList, "AccountNotifications">;
+  navigation: NavigationProp<RootStackParamList, 'AccountNotifications'>;
   magic: any;
-  route: RouteProp<ParamListBase, "AccountNotifications">;
+  route: RouteProp<ParamListBase, 'AccountNotifications'>;
 };
 export type AccountSettingsProps = {
-  navigation: NavigationProp<RootStackParamList, "AccountSettings">;
+  navigation: NavigationProp<RootStackParamList, 'AccountSettings'>;
   magic: any;
-  route: RouteProp<ParamListBase, "AccountSettings">;
+  route: RouteProp<ParamListBase, 'AccountSettings'>;
 };
 export type BookmarksProps = {
-  navigation: NavigationProp<RootStackParamList, "Bookmarks">;
+  navigation: NavigationProp<RootStackParamList, 'Bookmarks'>;
   magic: any;
-  route: RouteProp<ParamListBase, "Bookmarks">;
+  route: RouteProp<ParamListBase, 'Bookmarks'>;
 };
 export type TownesquareVerificationProps = {
-  navigation: NavigationProp<RootStackParamList, "TownesquareVerification">;
+  navigation: NavigationProp<RootStackParamList, 'TownesquareVerification'>;
   magic: any;
-  route: RouteProp<ParamListBase, "TownesquareVerification">;
+  route: RouteProp<ParamListBase, 'TownesquareVerification'>;
 };
