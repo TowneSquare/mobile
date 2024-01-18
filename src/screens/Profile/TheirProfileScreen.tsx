@@ -142,16 +142,7 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
     );
   }, []);
 
-  const getUserAptosName = async (address: string) => {
-    try {
-      const res = await axios.get(`${APTOS_NAME_URL}${address}`);
-      const aptosName: string = res?.data;
-      setAptosName(aptosName);
-    } catch (error) {
-      setAptosName("unavailable");
-      return "unavailable";
-    }
-  };
+ 
 
   useMemo(() => getUserAptosName(userInfo.data.aptosWallet), [userInfo.data.aptosWallet])
 
@@ -253,6 +244,7 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
             FOLLOWING={userInfo.data?.following?.length.toString()}
             POST={userInfo.data?.posts?.length.toString()}
             profileImageUri={userInfo?.data.profileImage}
+            BADGES={userInfo?.data?.badge}
           />
           <View style={styles.view}>
             <Pressable

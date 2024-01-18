@@ -39,6 +39,7 @@ import { getCreatedTime } from "../../../utils/helperFunction";
 import { NotifyOnChangeProps } from "@tanstack/query-core";
 import { useFocusEffect } from "@react-navigation/native";
 import { FlashList } from "@shopify/flash-list";
+import { useAptosName } from "../../../api/hooks/useAptosName";
 
 type SuperStarReducerState = {
   showSuperStarModal: boolean;
@@ -107,14 +108,14 @@ const About = ({ route }) => {
 
   const [view, setView] = useState<number>(2);
 
-  const NAME = USERDATA.username || "Real JC";
-  const NICKNAME = USERDATA.username || "jczhang";
-  const APTOS_DOMAIN_NAME = "jczhang.apt";
+  const NAME = USERDATA.username || "";
+  const NICKNAME = USERDATA.username || "";
+  const APTOS_DOMAIN_NAME = useAptosName({userAddress:USERDATA.aptosWallet}).data?.name || ""
   const DATE = getCreatedTime(USERDATA.createdAt);
   const FOLLOWING = USERDATA.following.length || "0";
   const FOLLOWERS = USERDATA.followers.length || "0";
   const POST = USERDATA.posts.length || "0";
-  const COMMUNITIES = "22";
+  const COMMUNITIES = "0";
 
   useMemo(() => {
     dispatch(getOnlyUserPost({ userId, token }));
@@ -129,20 +130,6 @@ const About = ({ route }) => {
       <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
     ));
   };
-
-  // const UserReplies = () => {
-  //   return USERDATA.comments.map((userpost) => (
-  //     <Replies
-  //       key={userpost._id}
-  //       data={userpost}
-  //       nickname={USERDATA.nickname}
-  //       username={USERDATA.username}
-  //       myPost
-  //       shouldPFPSwipe={false}
-  //     />
-
-  //   ));
-  // };
 
   const UserReplies = () => {
     return (
@@ -197,6 +184,8 @@ const About = ({ route }) => {
       return Media();
     }
   };
+
+  console.log(APTOS_DOMAIN_NAME.data?.name, "aptos")
 
   const handleFollow = () => {
     following && navigate("FollowersScreen", { screen: "Following" });
@@ -254,6 +243,7 @@ const About = ({ route }) => {
           FOLLOWING={FOLLOWING.toString()}
           POST={POST.toString()}
           profileImageUri={profilePics}
+          BADGES={USERDATA?.badge}
         />
         {typeOfProfile === "theirProfile" && (
           <View style={styles.view}>
