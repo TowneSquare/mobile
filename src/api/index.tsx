@@ -106,6 +106,20 @@ export async function uploadProfileImage(token: string, profileImage: any) {
     });
 }
 
+export async function createPost(token: string, postData: any) {
+  console.log(token)
+  return fetch(`${BACKEND_URL}` + "posts/create", {
+    method: "POST",
+    headers: { authorization: token, "Content-Type": "multipart/form-data" },
+    body: postData,
+  })
+    .then((resp) => resp.json())
+    .catch((error) => {
+      if (error.code == 400) console.log(error.message);
+    });
+}
+
+
 export async function getAllUser(token: string) {
   return createCall(`user/getall`, {}, { authorization: token }, "GET");
 }
