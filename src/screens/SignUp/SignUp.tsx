@@ -33,6 +33,8 @@ import { useAppSelector } from "../../controller/hooks";
 import Loader from "../../../assets/svg/Loader";
 import { checkSignup, signup, updateConnectedSocial, uploadProfileImage } from "../../api";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { updateUserId } from "../../controller/UserController";
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
@@ -64,11 +66,12 @@ const SignUp = ({ magic }: SignUpProps) => {
   const continueButtonDisable = useAppSelector(
     (state) => state.USER.isSignUpContinueButtonDisable
   );
+  const dispatch = useDispatch();
   const views = [
     <ReferralView />,
     <ChooseUsernameContent />,
     <Verify />,
-    <ConnectSocials magic={magic} signMethod = {"SignUp"} />,
+    <ConnectSocials magic={magic} signMethod={"SignUp"} />,
     <FindFriends token={token} />,
     // <ExploreCommunities />,
     <ChooseProfilePics />,
@@ -107,7 +110,8 @@ const SignUp = ({ magic }: SignUpProps) => {
         showLoader(true);
         const res = await checkSignup(user.didToken)
         if (res.isExist && res.isExist == true) {
-          await setLoginSession(res.wallet);
+          await setLoginSession(res.wallet, res.userId);
+          dispatch(updateUserId(res.userId))
           navigation.navigate('Congratulations');
         }
       } catch (e) {
