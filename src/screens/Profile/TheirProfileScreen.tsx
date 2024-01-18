@@ -46,6 +46,7 @@ import { getUserInfo } from "../../api";
 import { PostData } from "../../controller/createPost";
 import { useQuery } from "react-query";
 import { BACKEND_URL } from "../../../config/env";
+
 const size = new sizes(height, width);
 
 type SuperStarReducerState = {
@@ -129,12 +130,17 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
     showSuperStarModal: false,
     imageUri: "",
   });
+  
 
-  console.log(userFollowing, "userFollowing");
-
-  // const following = userFollowing.some(
-  //     (following) => following._id == userInfo.data._id
-  //   );
+  useEffect(() => {
+    //getUserAptosName(userInfo.data?.aptosWallet)
+    dispatch(getUserData({ userId: user, token }));
+    setFollowing(
+      userFollowing.some(
+        (following) => following.toUserId == userInfo.data?._id
+      )
+    );
+  }, []);
 
   const getUserAptosName = async (address: string) => {
     try {
@@ -147,15 +153,7 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
     }
   };
 
-  useEffect(() => {
-    //getUserAptosName(userInfo.data?.aptosWallet)
-    dispatch(getUserData({ userId: user, token }));
-    setFollowing(
-      userFollowing.some(
-        (following) => following.toUserId == userInfo.data?._id
-      )
-    );
-  }, []);
+  useMemo(() => getUserAptosName(userInfo.data.aptosWallet), [userInfo.data.aptosWallet])
 
   const POST = () => {
     if (userInfo?.data?.posts?.length == 0) {

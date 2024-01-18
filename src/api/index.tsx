@@ -327,6 +327,7 @@ export const getUserInfo = async (
   }
 };
 
+
 export const getUserAptosName = async (address: string) => {
   try {
     const res = await axios.get(`${APTOS_NAME_URL}${address}`);

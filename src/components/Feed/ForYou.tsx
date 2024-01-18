@@ -389,7 +389,9 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
               />
 
               <Pressable
-                onPress={() => navigation.navigate("VideoPlayer" as never)}
+                onPress={() => navigation.navigate("VideoPlayer" as any, {
+                    videoUrl: data.videoUrls[0],
+                  })}
                 style={[
                   styles.mediaContainer,
                   { marginBottom: size.getHeightSize(0) },
@@ -402,11 +404,6 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 /> */}
                 <View style={communityStyles.container2}>
                   <Video
-                    // source={{
-                    //   uri: userPost.videoUrl[0]
-                    //     ? userPost.videoUrl[0]
-                    //     : Image.resolveAssetSource(images.Aptomingos).uri,
-                    // }}
                     source={{
                       uri: data.videoUrls[0],
                     }}

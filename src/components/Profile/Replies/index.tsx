@@ -23,6 +23,9 @@ import { getPostById } from "../../../api";
 import { useAppDispatch, useAppSelector } from "../../../controller/hooks";
 import { PostData } from "../../../controller/createPost";
 import { getPostTime } from "../../../utils/helperFunction";
+import axios from "axios";
+import { BACKEND_URL } from "../../../../config/env";
+import { useQuery } from "react-query";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 
@@ -38,21 +41,27 @@ const Replies = memo(
   ({ data, myPost, nickname, username, shouldPFPSwipe }: Props) => {
     const videoRef = useRef(null);
     const dispatch = useAppDispatch();
-    const [userPost, setUserPost] = useState<PostData>();
+
     const token = useAppSelector((state) => state.USER.didToken);
     const postId = data?.postId;
 
-    const getPost = async () => {
-      try {
-        const result = await getPostById(token, postId);
-        console.log(result, "resulttt");
-        setUserPost(result);
-      } catch (error) {
-        console.log(error)
-      }
+    
+
+    const getPostById = async (): Promise<PostData> => {
+      return await axios
+        .get(`${BACKEND_URL}posts/${data.postId}`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => response.data);
     };
 
-    useMemo(() => getPost(), [data.postId]);
+    function useGetPostById() {
+      return useQuery({ queryKey: ["userInfo", postId], queryFn: getPostById });
+    }
+    const userPost = useGetPostById();
+
 
     let [isLoaded] = useFonts({
       "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -70,7 +79,6 @@ const Replies = memo(
       navigation.navigate("SinglePost" as any, params);
     };
 
-    console.log(userPost, "checking--2");
     const timePost = getPostTime(data?.createdAt);
 
     let content;
@@ -80,30 +88,28 @@ const Replies = memo(
         ? FeedContent.MESSAGE_VIDEO
         : data?.imageUrls[0] && data?.content
         ? FeedContent.MESSAGE_IMAGE
-        : data.videoUrls[0]
+        : data?.videoUrls[0]
         ? FeedContent.VIDEO_ONLY
-        : data.imageUrls[0]
+        : data?.imageUrls[0]
         ? FeedContent.IMAGE_ONLY
         : data?.content
         ? FeedContent.MESSAGE_ONLY
         : FeedContent.EMPTY;
-    console.log(type_of_post, "type of post");
     switch (type_of_post) {
       case FeedContent.MESSAGE_ONLY:
-        // userPost.content = data.content as Message_Only;
         content = (
           <>
             <View style={styles.feedContainer}>
               <ProfilePicture
-                profileImageUri={userPost?.customer?.profileImage}
+                profileImageUri={userPost.data?.customer?.profileImage}
                 userId={data?.userId}
                 swipeable={myPost}
               />
               <View style={styles.subHeading}>
                 <PostHeader
                   onPress={handleNavigation}
-                  username={""}
-                  nickname={""}
+                  username={username}
+                  nickname={nickname}
                   timepost={timePost}
                   myPost={myPost ? myPost : false}
                   postId={data._id}
@@ -114,11 +120,11 @@ const Replies = memo(
                 </Text>
 
                 <PostActions
-                  noOfComments={userPost?.comments?.length}
-                  Likes={userPost?.likes}
-                  Repost={userPost?.reposts}
-                  postId={userPost._id}
-                  userId={userPost.customer._id}
+                  noOfComments={userPost?.data?.comments?.length}
+                  Likes={userPost?.data?.likes}
+                  Repost={userPost?.data?.reposts}
+                  postId={userPost?.data?._id}
+                  userId={userPost?.data?.customer?._id}
                 />
                 {/* <ShowThread /> */}
               </View>
@@ -127,12 +133,11 @@ const Replies = memo(
         );
         break;
       case FeedContent.MESSAGE_IMAGE:
-        //userPost.content = data.content as Message_Image;
         content = (
           <>
             <View style={styles.feedContainer}>
               <ProfilePicture
-                profileImageUri={userPost?.customer?.profileImage}
+                profileImageUri={userPost?.data.customer?.profileImage}
                 userId={data?.userId}
                 swipeable={myPost}
               />
@@ -144,10 +149,10 @@ const Replies = memo(
                 myPost={myPost ? myPost : false}
               /> */}
 
-                 <PostHeader
+                <PostHeader
                   onPress={handleNavigation}
-                  username={""}
-                  nickname={""}
+                  username={username}
+                  nickname={nickname}
                   timepost={timePost}
                   myPost={myPost ? myPost : false}
                   postId={data._id}
@@ -177,17 +182,17 @@ const Replies = memo(
                   resizeMode="contain"
                 /> */}
                   <Image
-                    source={images.feedImage2}
+                    source={{uri: userPost.data.imageUrls[0]}}
                     style={styles.imageStyle}
                     resizeMode="cover"
                   />
                 </Pressable>
-                <PostActions
-                  noOfComments={userPost?.comments?.length}
-                  Likes={userPost?.likes}
-                  Repost={userPost?.reposts}
-                  postId={userPost._id}
-                  userId={userPost.customer._id}
+               <PostActions
+                  noOfComments={userPost?.data?.comments?.length}
+                  Likes={userPost?.data?.likes}
+                  Repost={userPost?.data?.reposts}
+                  postId={userPost?.data?._id}
+                  userId={userPost?.data?.customer?._id}
                 />
 
                 {/* <PostActions
@@ -250,19 +255,19 @@ const Replies = memo(
           <>
             <View style={styles.feedContainer}>
               <ProfilePicture
-                profileImageUri={userPost?.customer?.profileImage}
+                profileImageUri={userPost?.data.customer?.profileImage}
                 userId={data?.userId}
                 swipeable={myPost}
               />
               <View style={styles.subHeading}>
                 <PostHeader
                   onPress={handleNavigation}
-                  username={userPost?.customer?.username}
-                  nickname={userPost?.customer?.nickname}
+                  username={userPost?.data.customer?.username}
+                  nickname={userPost?.data.customer?.nickname}
                   timepost={timePost}
                   myPost={myPost ? myPost : false}
                   postId={postId}
-                  userId={userPost?.customer?._id}
+                  userId={userPost?.data.customer?._id}
                 />
 
                 <Text onPress={handleNavigation} style={styles.message}>
@@ -272,9 +277,8 @@ const Replies = memo(
                 <Pressable
                   onPress={() =>
                     navigation.navigate("VideoPlayer" as any, {
-                      videoUrl:
-                        "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-                    })
+                    videoUrl: data.videoUrls[0],
+                  })
                   }
                   style={[
                     styles.mediaContainer,
@@ -288,7 +292,7 @@ const Replies = memo(
                     //     : Image.resolveAssetSource(images.Aptomingos).uri,
                     // }}
                     source={{
-                      uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+                      uri: data.videoUrls[0],
                     }}
                     ref={videoRef}
                     useNativeControls
@@ -303,11 +307,11 @@ const Replies = memo(
                /> */}
                 </Pressable>
                 <PostActions
-                  noOfComments={userPost?.comments?.length}
-                  Likes={userPost?.likes}
-                  Repost={userPost?.reposts}
-                  postId={userPost._id}
-                  userId={userPost.customer._id}
+                  noOfComments={userPost?.data?.comments?.length}
+                  Likes={userPost?.data?.likes}
+                  Repost={userPost?.data?.reposts}
+                  postId={userPost?.data?._id}
+                  userId={userPost?.data?.customer?._id}
                 />
                 {/* <PostActions
                 noOfComments={userPost.comments}
@@ -326,23 +330,25 @@ const Replies = memo(
           <>
             <View style={styles.feedContainer}>
               <ProfilePicture
-                profileImageUri={userPost?.customer?.profileImage}
+                profileImageUri={userPost?.data.customer?.profileImage}
                 userId={data?.userId}
                 swipeable={myPost}
               />
               <View style={styles.subHeading}>
                 <PostHeader
                   onPress={handleNavigation}
-                  username={userPost?.customer?.username}
-                  nickname={userPost?.customer?.nickname}
-                  timepost={timePost} 
+                  username={username}
+                  nickname={nickname}
+                  timepost={timePost}
                   myPost={myPost ? myPost : false}
                   postId={postId}
-                  userId={userPost?.customer?._id}
+                  userId={userPost?.data.customer?._id}
                 />
 
                 <Pressable
-                  onPress={() => navigation.navigate("VideoPlayer" as never)}
+                  onPress={() => navigation.navigate("VideoPlayer" as any, {
+                    videoUrl: data.videoUrls[0],
+                  })}
                   style={[
                     styles.mediaContainer,
                     { marginBottom: size.getHeightSize(0) },
@@ -361,7 +367,7 @@ const Replies = memo(
                       //     : Image.resolveAssetSource(images.Aptomingos).uri,
                       // }}
                       source={{
-                        uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+                        uri: data.videoUrls[0],
                       }}
                       ref={videoRef}
                       style={communityStyles.video}
@@ -371,12 +377,12 @@ const Replies = memo(
                     />
                   </View>
                 </Pressable>
-                <PostActions
-                  noOfComments={userPost?.comments?.length}
-                  Likes={userPost?.likes}
-                  Repost={userPost?.reposts}
-                  postId={userPost._id}
-                  userId={userPost.customer._id}
+               <PostActions
+                  noOfComments={userPost?.data?.comments?.length}
+                  Likes={userPost?.data?.likes}
+                  Repost={userPost?.data?.reposts}
+                  postId={userPost?.data?._id}
+                  userId={userPost?.data?.customer?._id}
                 />
                 {/* <PostActions
                 noOfComments={userPost.comments}
@@ -691,7 +697,7 @@ const Replies = memo(
       //   );
       //   break;
     }
-    return <>{content}</>;
+    return userPost.isSuccess ? <>{content}</> : <></>;
   }
 );
 

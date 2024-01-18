@@ -32,24 +32,6 @@ const SinglePost = ({ route }: SinglePostProps) => {
 
 
 
-  // const data = {
-  //   id: '9',
-  //   pfp: '',
-  //   username,
-  //   nickname,
-  //   timepost: '5m',
-  //   comments: '99k',
-  //   retweet: '99k',
-  //   like: '99k',
-  //   type: 'swap-option-included',
-  //   content: {
-  //     message: 'Just joined TowneSquare, a new web3 social platform!',
-  //     messageTag: 'APT',
-  //     collectionName: '',
-  //     logo: '',
-  //     price: 8.46,
-  //   },
-  // };
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,

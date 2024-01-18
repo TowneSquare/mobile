@@ -38,6 +38,7 @@ import Replies from "../Replies";
 import { getCreatedTime } from "../../../utils/helperFunction";
 import { NotifyOnChangeProps } from "@tanstack/query-core";
 import { useFocusEffect } from "@react-navigation/native";
+import { FlashList } from "@shopify/flash-list";
 
 type SuperStarReducerState = {
   showSuperStarModal: boolean;
@@ -115,7 +116,7 @@ const About = ({ route }) => {
   const POST = USERDATA.posts.length || "0";
   const COMMUNITIES = "22";
 
-  useEffect(() => {
+  useMemo(() => {
     dispatch(getOnlyUserPost({ userId, token }));
   }, [userId, token]);
 
@@ -129,23 +130,42 @@ const About = ({ route }) => {
     ));
   };
 
-  const UserReplies = () => {
-    return USERDATA.comments.map((userpost) => (
-      // <Replies
-      //   key={userpost._id}
-      //   data={userpost}
-      //   nickname={USERDATA.nickname}
-      //   username={USERDATA.username}
-      //   myPost
-      //   shouldPFPSwipe={false}
-      // />
-      <View>
-        <Text>Changes in Progress</Text>
-      </View>
-    ));
-  };
+  // const UserReplies = () => {
+  //   return USERDATA.comments.map((userpost) => (
+  //     <Replies
+  //       key={userpost._id}
+  //       data={userpost}
+  //       nickname={USERDATA.nickname}
+  //       username={USERDATA.username}
+  //       myPost
+  //       shouldPFPSwipe={false}
+  //     />
 
- 
+  //   ));
+  // };
+
+  const UserReplies = () => {
+    return (
+      <View style={{
+        flex:1
+      }}>
+        <FlashList
+          data={USERDATA.comments}
+          renderItem={({ item }) => (
+            <Replies
+              nickname={USERDATA.username}
+              username={USERDATA.nickname}
+              myPost
+              data={item}
+              shouldPFPSwipe={false}
+            />
+          )}
+          keyExtractor={(item, index) => index.toString()}
+          estimatedItemSize={1000}
+        />
+      </View>
+    );
+  };
 
   const Media = () => {
     return onlyUserPost
