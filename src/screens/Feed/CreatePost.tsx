@@ -172,7 +172,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
   const handleCreatePost = async () => {
     const res = await createPost(token, createFormData());
     console.log("@@@@@@@@@@@@@@@@@", res);
-    if (res.id) {
+    if (res?.id) {
       dispatch(
         updateToast({
           displayToast: true,
