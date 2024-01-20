@@ -5,47 +5,55 @@ import {
   ScrollView,
   TextInput,
   StyleSheet,
-} from 'react-native';
-import { useState, useRef } from 'react';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import Comments from '../../components/SinglePostView/Comments';
-import AddCommentTextInput from '../../components/SinglePostView/AddCommentTextInput';
-import { sizes } from '../../utils';
+} from "react-native";
+import { useState, useRef } from "react";
+const { height, width } = Dimensions.get("window");
+import { useFonts } from "expo-font";
+import { appColor, fonts } from "../../constants";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Comments from "../../components/SinglePostView/Comments";
+import AddCommentTextInput from "../../components/SinglePostView/AddCommentTextInput";
+import { sizes } from "../../utils";
 const size = new sizes(height, width);
-import { useNavigation } from '@react-navigation/native';
-import { SinglePostProps } from '../../navigations/NavigationTypes';
-import SinglePostContent from '../../components/SinglePostView/SinglePostContent';
-import { useAppDispatch } from '../../controller/hooks';
-import { updateCommentReplyData } from '../../controller/createPost';
+import { useNavigation } from "@react-navigation/native";
+import { SinglePostProps } from "../../navigations/NavigationTypes";
+import SinglePostContent from "../../components/SinglePostView/SinglePostContent";
+import { useAppDispatch } from "../../controller/hooks";
+import { updateCommentReplyData } from "../../controller/createPost";
+import { useGetPostById } from "../../api/hooks/useGetPostById";
+import { useAppSelector } from "../../controller/hooks";
 const SinglePost = ({ route }: SinglePostProps) => {
+  const token = useAppSelector((state) => state.USER.didToken);
   const props = route.params;
   const scrollViewRef = useRef<ScrollView>(null);
   const textInputRef = useRef<TextInput>(null);
   const [replyingTo, setReplyingTo] = useState(false);
   const navigation = useNavigation();
-  const dispatch = useAppDispatch()
-
-
+  const dispatch = useAppDispatch();
+  
 
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
   }
 
-  const handleCommentPress = (username:string) => {
+  const PostData = useGetPostById({
+    postId: props._id,
+    token,
+    initialData: props,
+  });
+
+  const handleCommentPress = (username: string) => {
     textInputRef.current?.focus();
     setReplyingTo(true);
     textInputRef.current?.clear();
-    dispatch(updateCommentReplyData({username}))
+    dispatch(updateCommentReplyData({ username }));
     if (scrollViewRef.current) {
       const commentIndex = 4;
       const yOffset = commentIndex * 100;
@@ -79,8 +87,12 @@ const SinglePost = ({ route }: SinglePostProps) => {
         <SinglePostContent data={props} />
         {/* <Comments handleCommentButton={handleCommentPress} />
         <Comments handleCommentButton={handleCommentPress} myPost /> */}
-        {props?.comments.map((comment, index) => (
-          <Comments handleCommentButton={handleCommentPress} CommentData={comment} key={index}/>
+        {PostData?.data.comments.map((comment, index) => (
+          <Comments
+            handleCommentButton={handleCommentPress}
+            CommentData={comment}
+            key={index}
+          />
         ))}
       </ScrollView>
 
@@ -98,25 +110,25 @@ const SinglePost = ({ route }: SinglePostProps) => {
 export default SinglePost;
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: size.getWidthSize(16),
     paddingVertical: size.getHeightSize(20),
     backgroundColor: appColor.kgrayDark2,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   headerText: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(20),
     lineHeight: size.getHeightSize(24),
-    fontFamily: 'Outfit-Regular',
-    textAlign: 'center',
+    fontFamily: "Outfit-Regular",
+    textAlign: "center",
   },
   scrollView: {
     paddingBottom: size.getHeightSize(32),
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: "rgba(0,0,0,0.7)",
   },
 });

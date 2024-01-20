@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import axios from "axios";
-import { APTOS_NAME_URL } from "../../../config/env";
+import { APTOS_NAME_URL , BACKEND_URL} from "../../../config/env";
 
 const getUserAptosName = async (address: string) => {
   return await axios
@@ -14,3 +14,5 @@ export const useAptosName = ({ userAddress }) => {
     initialData:"unavailable"
   });
 };
+
+

@@ -6,8 +6,9 @@ import {
   Dimensions,
   ScrollView,
   Pressable,
+  TouchableOpacity
 } from "react-native";
-import { useReducer, useState, useMemo, useEffect } from "react";
+import { useReducer, useState, useMemo, useEffect, useRef } from "react";
 import { appColor } from "../../constants";
 import SuperStarBottomSheet from "../../components/Profile/About/SuperStarBottomSheet";
 import Header from "../../components/Profile/Header";
@@ -33,8 +34,6 @@ import ForYou from "../../components/Feed/ForYou";
 import Replies from "../../components/Profile/Replies";
 import { getCreatedTime } from "../../utils/helperFunction";
 import axios from "axios";
-import { APTOS_NAME_URL } from "../../../config/env";
-import { getUserAptosName } from "../../api";
 import {
   followUser,
   getUserData,
@@ -46,6 +45,8 @@ import { getUserInfo } from "../../api";
 import { PostData } from "../../controller/createPost";
 import { useQuery } from "react-query";
 import { BACKEND_URL } from "../../../config/env";
+import { useAptosName } from "../../api/hooks/useAptosName";
+import Loader from "../../../assets/svg/Loader";
 
 const size = new sizes(height, width);
 
@@ -84,8 +85,7 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
   const dispatch = useAppDispatch();
   const [view, setView] = useState<number>(2);
   const { userId, username, nickname } = route.params;
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [aptosName, setAptosName] = useState<string>("unavailable");
+  const loaderRef = useRef();
 
   const { userFollowing, token, user } = useAppSelector((state) => ({
     userFollowing: state.USER.UserData.following,
@@ -95,7 +95,14 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
 
   const title = username;
   const COMMUNITIES = "10";
-  const APTOS_DOMAIN_NAME = "";
+
+  const showLoader = (show = true) => {
+    if (loaderRef.current && show)
+      (loaderRef.current as any).setNativeProps({ style: { display: "flex" } });
+    if (loaderRef.current && !show)
+      (loaderRef.current as any).setNativeProps({ style: { display: "none" } });
+  };
+
   const fetchUserInfo = async (): Promise<UserData> => {
     return await axios
       .get(`${BACKEND_URL}user/${userId}`, {
@@ -110,6 +117,8 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
     return useQuery({ queryKey: ["userInfo"], queryFn: fetchUserInfo });
   }
   const userInfo = useUserInfo();
+  const APTOS_DOMAIN_NAME =
+    useAptosName({ userAddress: userInfo?.data?.aptosWallet }).data?.name || "";
   const [following, setFollowing] = useState(
     userFollowing.some((following) => following.toUserId == userInfo.data?._id)
   );
@@ -130,10 +139,8 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
     showSuperStarModal: false,
     imageUri: "",
   });
-  
 
   useEffect(() => {
-    //getUserAptosName(userInfo.data?.aptosWallet)
     dispatch(getUserData({ userId: user, token }));
     setFollowing(
       userFollowing.some(
@@ -141,10 +148,6 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
       )
     );
   }, []);
-
- 
-
-  useMemo(() => getUserAptosName(userInfo.data.aptosWallet), [userInfo.data.aptosWallet])
 
   const POST = () => {
     if (userInfo?.data?.posts?.length == 0) {
@@ -189,7 +192,6 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
     ));
   };
 
-  console.log(userInfo.isFetched, userInfo?.data?.createdAt, "theirProile");
   const UserReplies = () => {
     return userInfo.data?.comments.map((userpost) => (
       <Replies
@@ -237,14 +239,14 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
           <ProfileCard
             NAME={username}
             NICKNAME={nickname}
-            APTOS_DOMAIN_NAME={aptosName}
+            APTOS_DOMAIN_NAME={APTOS_DOMAIN_NAME}
             DATE={getCreatedTime(userInfo.data?.createdAt)}
             COMMUNITIES={COMMUNITIES}
             FOLLOWERS={userInfo.data?.followers?.length.toString()}
             FOLLOWING={userInfo.data?.following?.length.toString()}
             POST={userInfo.data?.posts?.length.toString()}
             profileImageUri={userInfo?.data.profileImage}
-            BADGES={userInfo?.data?.badge}
+            BADGES={userInfo?.data?.badge || []}
           />
           <View style={styles.view}>
             <Pressable
@@ -396,7 +398,23 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
           />
         </ScrollView>
       ) : (
-        <></>
+         <TouchableOpacity
+        style={{
+          display: 'none',
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0,
+          backgroundColor: '#000000a0',
+          zIndex: 999,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        ref={loaderRef}
+      >
+        <Loader />
+      </TouchableOpacity>
       )}
     </SafeAreaView>
   );

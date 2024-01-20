@@ -5,17 +5,18 @@ import {
   TextInput,
   Animated,
   StyleSheet,
-} from 'react-native';
-import { useState, useEffect, useRef } from 'react';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
-import SendButton from '../../../assets/images/svg/SendButton';
-import SendButtonActive from '../../../assets/images/svg/SendButtonActive';
-import { sizes } from '../../utils';
-import { useAppSelector } from '../../controller/hooks';
-import axios from 'axios';
-import { BACKEND_URL } from '../../../config/env';
+  ActivityIndicator,
+} from "react-native";
+import { useState, useEffect, useRef } from "react";
+const { height, width } = Dimensions.get("window");
+import { useFonts } from "expo-font";
+import { appColor, fonts } from "../../constants";
+import SendButton from "../../../assets/images/svg/SendButton";
+import SendButtonActive from "../../../assets/images/svg/SendButtonActive";
+import { sizes } from "../../utils";
+import { useAppSelector } from "../../controller/hooks";
+import axios from "axios";
+import { BACKEND_URL } from "../../../config/env";
 const size = new sizes(height, width);
 interface Props {
   textRef: any;
@@ -32,7 +33,7 @@ const AddCommentTextInput = ({
   const [height, setHeight] = useState(0);
   const [borderRadius, setBorderRadius] = useState(40);
   const [text, setText] = useState("");
-  const [addingComment, setAddingComment] = useState(false);
+  const [addingComment, setAddingComment] = useState<boolean>(false);
   const token = useAppSelector((state) => state.USER.didToken);
   const username = useAppSelector(
     (state) => state.CreatePostController.CommentReplyData.username
@@ -73,7 +74,8 @@ const AddCommentTextInput = ({
   const addComment = async () => {
     try {
       setAddingComment(true);
-      axios.post(
+      console.log("handling", addingComment);
+      await axios.post(
         `${BACKEND_URL}posts/comment/${postId}`,
         {
           content: text,
@@ -86,10 +88,9 @@ const AddCommentTextInput = ({
           },
         }
       );
-      console.log("addComments", postId)
       setAddingComment(false);
     } catch (error) {
-      setAddingComment(false);
+      //setAddingComment(false);
     }
   };
   return (
@@ -120,12 +121,15 @@ const AddCommentTextInput = ({
             style={[{ borderRadius: borderRadius }, styles.textInput]}
           />
           {text.length >= 1 ? (
-            <SendButtonActive
-              onPress={() => {
-                addComment();
-              }}
-              size={size.getHeightSize(24)}
-            />
+            addingComment ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              <SendButtonActive
+                onPress={
+                  addComment}
+                size={size.getHeightSize(24)}
+              />
+            )
           ) : (
             <SendButton size={size.getHeightSize(24)} />
           )}

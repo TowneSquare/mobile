@@ -79,6 +79,7 @@ import AccountNotifications from '../screens/Settings/AccountNotifications';
 import Bookmarks from '../screens/Feed/Bookmarks';
 import AccountInfo from '../screens/Settings/AccountInfo';
 import TownesquareVerification from '../screens/Settings/TownesquareVerification';
+import About from '../components/Profile/About';
 const Navigations = ({ magicProps }: { magicProps: any }) => {
   const Stack = createStackNavigator<RootStackParamList>();
   const config = {
@@ -614,6 +615,13 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
       <Stack.Screen
         name="TownesquareVerification"
         component={TownesquareVerification}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={About}
         options={{
           headerShown: false,
         }}

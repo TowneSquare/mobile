@@ -73,16 +73,14 @@ const selectedSuperStarsReducer = (
   }
 };
 
-const About = ({ route }) => {
+const About = () => {
   const [superStarModal, useDispatch] = useReducer(selectedSuperStarsReducer, {
     showSuperStarModal: false,
     imageUri: "",
   });
   const [following, follow] = useState(false);
   // const [showSuperStarModal, setModalVisibility] = useState(false);
-  const typeOfProfile = route.params.typeOfProfile as
-    | "myProfile"
-    | "theirProfile";
+
   const { selectedSuperStars, bio, profilePics } = useAppSelector((state) => ({
     bio: state.USER.UserData.bio,
     selectedSuperStars: state.USER.UserData.superstars,
@@ -110,7 +108,8 @@ const About = ({ route }) => {
 
   const NAME = USERDATA.username || "";
   const NICKNAME = USERDATA.username || "";
-  const APTOS_DOMAIN_NAME = useAptosName({userAddress:USERDATA.aptosWallet}).data?.name || ""
+  const APTOS_DOMAIN_NAME =
+    useAptosName({ userAddress: USERDATA.aptosWallet }).data?.name || "";
   const DATE = getCreatedTime(USERDATA.createdAt);
   const FOLLOWING = USERDATA.following.length || "0";
   const FOLLOWERS = USERDATA.followers.length || "0";
@@ -133,9 +132,11 @@ const About = ({ route }) => {
 
   const UserReplies = () => {
     return (
-      <View style={{
-        flex:1
-      }}>
+      <View
+        style={{
+          flex: 1,
+        }}
+      >
         <FlashList
           data={USERDATA.comments}
           renderItem={({ item }) => (
@@ -184,8 +185,6 @@ const About = ({ route }) => {
       return Media();
     }
   };
-
-  console.log(APTOS_DOMAIN_NAME.data?.name, "aptos")
 
   const handleFollow = () => {
     following && navigate("FollowersScreen", { screen: "Following" });
@@ -245,7 +244,7 @@ const About = ({ route }) => {
           profileImageUri={profilePics}
           BADGES={USERDATA?.badge}
         />
-        {typeOfProfile === "theirProfile" && (
+        {/* {typeOfProfile === "theirProfile" && (
           <View style={styles.view}>
             <Pressable
               onPress={handleFollow}
@@ -282,7 +281,7 @@ const About = ({ route }) => {
               />
             </View>
           </View>
-        )}
+        )} */}
         <View style={styles.aboutDiv}>
           <Text
             style={[
@@ -301,10 +300,7 @@ const About = ({ route }) => {
             style={[
               styles.superStarView,
               {
-                marginBottom:
-                  typeOfProfile === "myProfile"
-                    ? size.getHeightSize(14)
-                    : size.getHeightSize(14),
+                marginBottom: size.getHeightSize(14),
               },
             ]}
           >
@@ -315,9 +311,7 @@ const About = ({ route }) => {
                 alignItems: "center",
               }}
             >
-              <Text style={styles.aboutHeader}>
-                {typeOfProfile === "myProfile" && "My "}Super Stars
-              </Text>
+              <Text style={styles.aboutHeader}>My Super Stars</Text>
               <Info
                 onPress={() => {
                   dispatch(updateSuperStarBottomSheet(true));
@@ -325,9 +319,7 @@ const About = ({ route }) => {
               />
             </View>
 
-            {typeOfProfile === "theirProfile" ? (
-              <></>
-            ) : selectedSuperStars?.nftInfoArray?.length > 0 ? (
+            {selectedSuperStars?.nftInfoArray?.length > 0 ? (
               <Pressable
                 onPress={() => {
                   navigate("SuperStarCollectionScreen");
