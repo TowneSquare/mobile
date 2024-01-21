@@ -31,12 +31,13 @@ import Media from "../../components/createPost/Media";
 import GifBottomSheet from "../../components/createPost/GifBottomSheet";
 import { Avatar } from "react-native-elements";
 import { useNavigation, StackActions } from "@react-navigation/native";
-import { clearPostData, createPost } from "../../controller/createPost";
+import { clearPostData } from "../../controller/createPost";
 import { ScrollView } from "react-native-gesture-handler";
 import { CreatePostProps } from "../../navigations/NavigationTypes";
 import { message } from "../../utils/messageData";
 import axios from "axios";
 import { BACKEND_URL } from "../../../config/env";
+import { createPost } from '../../api';
 // import {
 //   Aptos,
 //   AptosConfig,
@@ -122,25 +123,56 @@ const CreatePost = ({ route }: CreatePostProps) => {
   //   },
   // };
 
-  const createPost = async () => {
-    try {
-      const res = await axios.post(
-        `${BACKEND_URL}posts/create`,
-        {
-          description: textInput,
-          sellNFTPrice: nft.sellNFTPrice,
-          nftTokenId: nft.nftTokenId,
-          nftCollection: nft.nftCollection,
-          nftImageUrl: nft.nftImageUrl,
-          file: media,
-        },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: token,
-          },
-        }
-      );
+  var photo = {
+    uri: media,
+    type: "image/jpeg",
+    name: "photo.jpg",
+  };
+
+  // const createFormData = (uri:any) => {
+  //   const fileName = uri.split("/").pop();
+  //   const fileType = fileName.split(".").pop();
+  //   const formData = new FormData();
+
+  //   // formData.append("image", {
+  //   //   name: fileName,
+  //   //   uri,
+  //   //   type: `image/${fileType}`,
+  //   // });
+  //   formData.append('name',fileName)
+  //   formData.append('type', fileType)
+  //   formData.append('uri', media)
+  //   return formData;
+  // };
+
+  const createFormData = () => {
+    console.log(media)
+    const data = new FormData();
+    data.append("file", {
+      name: media?.split("/").pop(),
+      type: "Image/" + get_url_extension(media),
+      uri: media
+    } as any);
+    data.append('description', textInput)
+    data.append('sellNFTPrice', nft.sellNFTPrice)
+    data.append('nftTokenId', nft.nftTokenId)
+    data.append('nftCollection', nft.nftCollection)
+    data.append('nftImageUrl', nft.nftImageUrl)
+    console.log(data, "data")
+    return data || "";
+  };
+
+  function get_url_extension(url: string) {
+    return url?.split(/[#?]/)[0].split(".").pop().trim();
+  }
+
+  console.log(createFormData(), media, "fileee")
+
+
+  const handleCreatePost = async () => {
+    const res = await createPost(token, createFormData());
+    console.log("@@@@@@@@@@@@@@@@@", res);
+    if (res?.id) {
       dispatch(
         updateToast({
           displayToast: true,
@@ -148,8 +180,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
           toastType: "success",
         })
       );
-    } catch (error) {
-      console.log(error?.response?.data, "eror message");
+    } else {
       dispatch(
         updateToast({
           displayToast: true,
@@ -158,7 +189,8 @@ const CreatePost = ({ route }: CreatePostProps) => {
         })
       );
     }
-  };
+  }
+
   return (
     <SafeAreaView
       style={{
@@ -173,8 +205,8 @@ const CreatePost = ({ route }: CreatePostProps) => {
         <Pressable
           onPress={async () => {
             navigation.dispatch(StackActions.pop(1));
-            createPost();
-            dispatch(clearPostData());
+            handleCreatePost();
+
           }}
           style={styles.publishButton}
         >
