@@ -14,9 +14,10 @@ import { appColor, fonts } from "../../constants";
 import SendButton from "../../../assets/images/svg/SendButton";
 import SendButtonActive from "../../../assets/images/svg/SendButtonActive";
 import { sizes } from "../../utils";
-import { useAppSelector } from "../../controller/hooks";
+import { useAppSelector, useAppDispatch } from "../../controller/hooks";
 import axios from "axios";
 import { BACKEND_URL } from "../../../config/env";
+import { getAllPost } from "../../controller/createPost";
 const size = new sizes(height, width);
 interface Props {
   textRef: any;
@@ -34,6 +35,7 @@ const AddCommentTextInput = ({
   const [borderRadius, setBorderRadius] = useState(40);
   const [text, setText] = useState("");
   const [addingComment, setAddingComment] = useState<boolean>(false);
+  const dispatch = useAppDispatch()
   const token = useAppSelector((state) => state.USER.didToken);
   const username = useAppSelector(
     (state) => state.CreatePostController.CommentReplyData.username
@@ -89,8 +91,10 @@ const AddCommentTextInput = ({
         }
       );
       setAddingComment(false);
+      dispatch(getAllPost(token));
+      setText("")
     } catch (error) {
-      //setAddingComment(false);
+      setAddingComment(false);
     }
   };
   return (

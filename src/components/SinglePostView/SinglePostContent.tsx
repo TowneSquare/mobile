@@ -74,7 +74,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
               <Text style={styles.message}>{userPost.description}</Text>
 
               <PostActions
-                noOfComments={userPost?.comments?.length}
+                noOfComments={2}
                 Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost?._id}

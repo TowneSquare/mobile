@@ -32,7 +32,12 @@ const SinglePost = ({ route }: SinglePostProps) => {
   const [replyingTo, setReplyingTo] = useState(false);
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-  
+
+   const postData = useGetPostById({
+    postId: props._id,
+    token,
+    initialData: props,
+  });
 
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -43,12 +48,7 @@ const SinglePost = ({ route }: SinglePostProps) => {
     return null;
   }
 
-  const PostData = useGetPostById({
-    postId: props._id,
-    token,
-    initialData: props,
-  });
-
+ 
   const handleCommentPress = (username: string) => {
     textInputRef.current?.focus();
     setReplyingTo(true);
@@ -87,7 +87,7 @@ const SinglePost = ({ route }: SinglePostProps) => {
         <SinglePostContent data={props} />
         {/* <Comments handleCommentButton={handleCommentPress} />
         <Comments handleCommentButton={handleCommentPress} myPost /> */}
-        {PostData?.data.comments.map((comment, index) => (
+        {postData?.data.comments.map((comment, index) => (
           <Comments
             handleCommentButton={handleCommentPress}
             CommentData={comment}
