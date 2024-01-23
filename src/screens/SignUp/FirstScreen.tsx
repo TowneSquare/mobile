@@ -259,9 +259,9 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
         >
           <Pressable
             onPress={() => {
-              navigation.navigate('DrawerNavigation');
+              // navigation.navigate('DrawerNavigation');
 
-              // loginX();
+              loginX();
             }}
             style={styles.socials}
           >

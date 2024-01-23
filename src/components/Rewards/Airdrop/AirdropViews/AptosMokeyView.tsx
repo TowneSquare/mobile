@@ -31,7 +31,7 @@ const AptosMokeyView = () => {
         marginTop: size.getHeightSize(16),
       }}
     >
-      <Balance title="TS points from this collection" balance="200" />
+      <Balance title="Points from this collection" balance="200" />
       <View style={styles.parentView}>
         {aptosMonkes.map((aptosMonkey, index) => (
           <View
@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
     columnGap: size.getHeightSize(16),
     marginTop: size.getHeightSize(16),
     flexWrap: 'wrap',
-
   },
   view1: {
     height: size.getWidthSize(161),

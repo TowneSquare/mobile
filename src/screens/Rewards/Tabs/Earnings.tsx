@@ -17,12 +17,15 @@ import PeopleIcon from '../../../../assets/images/svg/Reward/PeopleIcon';
 import SwapIcon from '../../../../assets/images/svg/Reward/SwapIcon';
 import NFTIcon from '../../../../assets/images/svg/Reward/NFTIcon';
 import TipIcon from '../../../../assets/images/svg/Reward/TipIcon';
+import { useAppDispatch } from '../../../controller/hooks';
+import { updateRewardBottomsheetVisibility } from '../../../controller/RewardController';
 import ArrowRight from '../../../../assets/images/svg/Reward/ArrowRight';
 import { useNavigation } from '@react-navigation/native';
 
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Earnings = () => {
+  const dispatch = useAppDispatch();
   const navigation = useNavigation();
   return (
     <View style={styles.parentView}>
@@ -32,8 +35,13 @@ const Earnings = () => {
         }}
       >
         <View style={styles.row}>
-          <Text style={styles.text}>Refferals</Text>
-          <InfoIcon size={size.getHeightSize(24)} />
+          <Text
+            onPress={() => dispatch(updateRewardBottomsheetVisibility(true))}
+            style={styles.text}
+          >
+            Refferals
+          </Text>
+          {/* <InfoIcon size={size.getHeightSize(24)} /> */}
         </View>
         <Text style={styles.description}>
           Refer friends to join TowneSquare! Get TS Points and earn every time

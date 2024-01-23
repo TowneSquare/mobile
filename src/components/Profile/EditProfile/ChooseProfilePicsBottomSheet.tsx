@@ -6,37 +6,31 @@ import {
   StyleSheet,
   Alert,
   BackHandler,
-} from 'react-native';
-import {
-  useCallback,
-  useMemo,
-  useRef,
-  useEffect,
-  useContext,
-} from 'react';
+} from "react-native";
+import { useCallback, useMemo, useRef, useEffect, useContext } from "react";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
-} from '@gorhom/bottom-sheet';
+} from "@gorhom/bottom-sheet";
 import {
   launchImageLibraryAsync,
   MediaTypeOptions,
   launchCameraAsync,
   useCameraPermissions,
   PermissionStatus,
-} from 'expo-image-picker';
-import { MaterialIcons } from '@expo/vector-icons';
-import Cat from '../../../../assets/images/svg/Cat';
-import Photo from '../../../../assets/images/svg/Photo';
-import Camera from '../../../../assets/images/svg/Camera';
-import CustomHandler from '../../Feed/CustomHandler';
-import { appColor } from '../../../constants';
-import { useAppDispatch } from '../../../controller/hooks';
-import { sizes } from '../../../utils';
-import { updateProfileImage } from '../../../controller/UserController';
-import { EditProfilePictureContext } from '../../../context/EditProfileBottomSheetContext';
-const { height, width } = Dimensions.get('window');
+} from "expo-image-picker";
+import { MaterialIcons } from "@expo/vector-icons";
+import Cat from "../../../../assets/images/svg/Cat";
+import Photo from "../../../../assets/images/svg/Photo";
+import Camera from "../../../../assets/images/svg/Camera";
+import CustomHandler from "../../Feed/CustomHandler";
+import { appColor } from "../../../constants";
+import { useAppDispatch } from "../../../controller/hooks";
+import { sizes } from "../../../utils";
+import { updateProfileImage } from "../../../controller/UserController";
+import { EditProfilePictureContext } from "../../../context/EditProfileBottomSheetContext";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 
 const ChooseProfilePicsBottomSheet = () => {
@@ -49,12 +43,12 @@ const ChooseProfilePicsBottomSheet = () => {
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
+  const initialSnapPoints = useMemo(() => ["CONTENT_HEIGHT"], []);
   const renderBackdrop = useCallback(
     (props: any) => (
       <BottomSheetBackdrop
         {...props}
-        pressBehavior={'none'}
+        pressBehavior={"none"}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
         opacity={0.5}
@@ -78,9 +72,9 @@ const ChooseProfilePicsBottomSheet = () => {
         return false;
       }
     };
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
     return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+      BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
     };
   }, [isChooseProfilePictureVisible]);
   const {
@@ -92,15 +86,18 @@ const ChooseProfilePicsBottomSheet = () => {
   async function verifyPermission() {
     if (cameraPermissionInformation?.status === PermissionStatus.UNDETERMINED) {
       const permissionResponse = await requestPermission();
-
       return permissionResponse.granted;
     }
     if (cameraPermissionInformation?.status === PermissionStatus.DENIED) {
-      Alert.alert(
-        'Insufficient permission!',
-        'You need to grant camera access to use this app'
-      );
-      return false;
+      const permissionResponse = await requestPermission();
+      console.log(permissionResponse);
+      if (permissionResponse.granted === false) {
+        Alert.alert(
+          "Insufficient permission!",
+          "You need to grant camera access to use this app"
+        );
+      }
+      return permissionResponse.granted;
     }
     return true;
   }
@@ -149,7 +146,7 @@ const ChooseProfilePicsBottomSheet = () => {
           backgroundStyle={{
             backgroundColor: appColor.kgrayDark2,
           }}
-          handleComponent={()=><CustomHandler/>}
+          handleComponent={() => <CustomHandler />}
           backdropComponent={renderBackdrop}
         >
           <BottomSheetView
@@ -160,10 +157,10 @@ const ChooseProfilePicsBottomSheet = () => {
           >
             <View
               style={{
-                justifyContent: 'space-between',
+                justifyContent: "space-between",
                 marginTop: size.getHeightSize(32),
                 width: size.getWidthSize(328),
-                alignSelf: 'center',
+                alignSelf: "center",
                 gap: size.getHeightSize(8),
               }}
             >
@@ -220,7 +217,7 @@ const ChooseProfilePicsBottomSheet = () => {
               style={{
                 height: size.getHeightSize(44),
                 marginTop: size.getHeightSize(16),
-                justifyContent: 'center',
+                justifyContent: "center",
 
                 marginBottom: size.getHeightSize(16),
               }}
@@ -245,32 +242,32 @@ const styles = StyleSheet.create({
     width: size.getWidthSize(328),
     height: size.getHeightSize(48),
     backgroundColor: appColor.kGrayLight3,
-    flexDirection: 'row',
-    alignSelf: 'center',
+    flexDirection: "row",
+    alignSelf: "center",
     borderRadius: 40,
     paddingVertical: size.getHeightSize(8),
     paddingHorizontal: size.getWidthSize(16),
-    alignItems: 'center',
+    alignItems: "center",
   },
   innerStyle: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     flex: 1,
   },
 
   Text: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     lineHeight: size.getHeightSize(21),
     marginLeft: size.getWidthSize(8),
   },
   cancel: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(18),
-    fontFamily: 'Outfit-Medium',
+    fontFamily: "Outfit-Medium",
     lineHeight: size.getHeightSize(23),
-    textAlign: 'center',
+    textAlign: "center",
     letterSpacing: 0.02,
   },
 });

@@ -31,7 +31,12 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import SignupTransitionBackButton from "../../components/SignUp/SignupTransitionBackButton";
 import { useAppSelector } from "../../controller/hooks";
 import Loader from "../../../assets/svg/Loader";
-import { checkSignup, signup, updateConnectedSocial, uploadProfileImage } from "../../api";
+import {
+  checkSignup,
+  signup,
+  updateConnectedSocial,
+  uploadProfileImage,
+} from "../../api";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { updateUserId } from "../../controller/UserController";
@@ -68,7 +73,7 @@ const SignUp = ({ magic }: SignUpProps) => {
   );
   const dispatch = useDispatch();
   const views = [
-    <ReferralView />,
+    ()<ReferralView />,
     <ChooseUsernameContent />,
     <Verify />,
     <ConnectSocials magic={magic} signMethod={"SignUp"} />,
@@ -95,20 +100,18 @@ const SignUp = ({ magic }: SignUpProps) => {
 
   const showLoader = (show = true) => {
     if (loaderRef.current && show)
-      (loaderRef.current as any).setNativeProps({ style: { display: 'flex' } });
+      (loaderRef.current as any).setNativeProps({ style: { display: "flex" } });
 
     if (loaderRef.current && !show)
-      (loaderRef.current as any).setNativeProps({ style: { display: 'none' } });
+      (loaderRef.current as any).setNativeProps({ style: { display: "none" } });
   };
-
 
   const handleNextSlide = async () => {
     const newIndex = viewIndex + 1;
-
     if (viewIndex == 0) {
       try {
         showLoader(true);
-        const res = await checkSignup(user.didToken)
+        const res = await checkSignup(user.didToken);
         if (res.isExist && res.isExist == true) {
           await setLoginSession(res.wallet, res.userId);
           dispatch(updateUserId(res.userId))
@@ -119,22 +122,27 @@ const SignUp = ({ magic }: SignUpProps) => {
         return;
       }
     }
-
     if (newIndex < views.length && flatListRef.current) {
       setViewIndex((previous) => previous + 1);
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
       if (newIndex == 2) {
+        console.log("index is ======");
+        console.log(viewIndex);
         const issuer = user.metadata !== undefined ? user.metadata.issuer : "";
+
         const res = await signup(
           user.didToken,
-          issuer,
-          user.accountInfo.address,
+          user.metadata.issuer,
+          user.accountInfo?.address,
           user.UserData.nickname,
           user.UserData.username,
           user.UserData.email
         );
+        console.log("=======res========");
+        console.log(res);
 
         if (!res.error && res.success != false) {
+          await setLoginSession(res.wallet, res.userId);
           setUserId(res.userId);
           setToken(user.didToken);
         }
@@ -198,7 +206,7 @@ const SignUp = ({ magic }: SignUpProps) => {
   let disable;
   switch (viewIndex) {
     case 0:
-      disable = referralCode.length < 1;
+      disable = false;
       break;
     case 1:
       disable =

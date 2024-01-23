@@ -49,6 +49,8 @@ interface Props {
   username?: string;
   wallet?: string;
   profileImageUri: string;
+  top?: number;
+  left?: number;
 }
 const ButtonWidth = size.getWidthSize(284);
 const ButtonHeight = size.getHeightSize(48);
@@ -64,6 +66,8 @@ const ProfilePicture = ({
   nickname,
   wallet,
   profileImageUri,
+  top,
+  left,
 }: Props) => {
   const [showSwipe, setShowSwipe] = useState(false);
 
@@ -187,8 +191,8 @@ const ProfilePicture = ({
         <View
           style={{
             position: "absolute",
-            left: size.getWidthSize(16),
-            top: size.getHeightSize(8),
+            left: size.getWidthSize(left ? left : 16),
+            top: size.getHeightSize(top ? top : 8),
             zIndex: 3,
           }}
         >
@@ -252,8 +256,8 @@ const ProfilePicture = ({
             width: size.getHeightSize(40),
             borderRadius: 200,
             position: "absolute",
-            left: size.getWidthSize(16),
-            top: size.getHeightSize(8),
+            left: size.getWidthSize(left ? left : 16),
+            top: size.getHeightSize(top ? top : 8),
             zIndex: 1,
           }}
         >

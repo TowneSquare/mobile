@@ -7,6 +7,7 @@ import SearcPostSlice from "./SearchPost";
 import COMMUNITY from "./CommunityController";
 import Reward from "./RewardController";
 import Swap from "./SwapController";
+import DM from "./DMController";
 import socketReducer from "./initializesocket";
 export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
@@ -23,6 +24,7 @@ export const store = configureStore({
     RewardController: Reward,
     SwapController: Swap,
     socket: socketReducer,
+    DMController: DM,
   },
 });
 

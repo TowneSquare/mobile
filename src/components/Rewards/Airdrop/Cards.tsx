@@ -12,14 +12,33 @@ interface Props {
   title: string;
   price: string;
   showLogo?: boolean;
+  logo_leftPosition?: number;
+  logo_bottomPosition?: number;
   onPress: () => void;
 }
-const Cards = ({ icon, price, title, onPress, showLogo = false }: Props) => {
+const Cards = ({
+  icon,
+  price,
+  title,
+  onPress,
+  showLogo = false,
+  logo_bottomPosition,
+  logo_leftPosition,
+}: Props) => {
   return (
     <Pressable onPress={onPress} style={styles.parentContainer}>
       {icon}
       {showLogo && (
-        <TowneSquareLogo size={size.getHeightSize(20)} style={styles.logo} />
+        <TowneSquareLogo
+          size={size.getHeightSize(20)}
+          style={{
+            position: 'absolute',
+            left: size.getWidthSize(logo_leftPosition ? logo_leftPosition : 29),
+            bottom: size.getHeightSize(
+              logo_bottomPosition ? logo_bottomPosition : 16
+            ),
+          }}
+        />
       )}
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.price}>{price}</Text>

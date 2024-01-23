@@ -4,7 +4,9 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
-  BackHandler,
+  ToastAndroid,
+  Pressable,
+  Share,
 } from 'react-native';
 import { useCallback, useRef, useEffect } from 'react';
 import {
@@ -14,6 +16,8 @@ import {
   useSharedValue,
 } from 'react-native-reanimated';
 import ShareIcon from '../../../assets/images/svg/ShareIcon';
+
+import * as Clipboard from 'expo-clipboard';
 import CopyIcon from '../../../assets/images/svg/CopyIcon';
 import { useFonts } from 'expo-font';
 import { appColor, fonts } from '../../constants';
@@ -32,6 +36,9 @@ const ReceiveTokenModal = () => {
   const ReceiveModalVisibility = useAppSelector(
     (state) => state.FeedsSliceController.ReceiveModalState
   );
+  const walletAddress = useAppSelector(
+    (state) => state.USER.UserData.aptosWallet
+  );
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const animatedIndex = useSharedValue(0);
@@ -46,6 +53,10 @@ const ReceiveTokenModal = () => {
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
+  const copyAddressToClipboard = async (address: string) => {
+    await Clipboard.setStringAsync(address);
+    ToastAndroid.show('TowneSquare copied to clipboard!', ToastAndroid.SHORT);
+  };
   const contentStyle = useAnimatedStyle(() => ({
     transform: [
       {
@@ -64,6 +75,13 @@ const ReceiveTokenModal = () => {
       Extrapolation.CLAMP
     ),
   }));
+
+  const shareAddress = async (address: string) => {
+    await Share.share({
+      message: address,
+      title: 'Share this address',
+    });
+  };
 
   return (
     <BottomsheetWrapper
@@ -87,10 +105,7 @@ const ReceiveTokenModal = () => {
             /> */}
         <Text style={styles.ReceiveToken}>Receive tokens</Text>
         <View style={styles.QRCodeContainer}>
-          <QRCode
-            size={size.getHeightSize(202)}
-            value={'AEEWppRWXMtvDysp9RzSWUMqpNB2isq3gviAMqcJkcjC'}
-          />
+          <QRCode size={size.getHeightSize(202)} value={walletAddress} />
         </View>
         <View
           style={{
@@ -98,9 +113,7 @@ const ReceiveTokenModal = () => {
           }}
         >
           <Text style={styles.myAddress}>My address</Text>
-          <Text style={styles.address}>
-            AEEWppRWXMtvDysp9RzSWUMqpNB2isq3gviAMqcJkcjC
-          </Text>
+          <Text style={styles.address}>{walletAddress}</Text>
           <Text style={styles.addressDescription}>
             This is an Aptos wallet address. When sending assets to this wallet,
             please select Aptos network.
@@ -112,14 +125,20 @@ const ReceiveTokenModal = () => {
             marginVertical: size.getHeightSize(32),
           }}
         >
-          <View style={styles.copyButton}>
+          <Pressable
+            onPress={() => copyAddressToClipboard(walletAddress)}
+            style={styles.copyButton}
+          >
             <CopyIcon />
             <Text style={styles.copyText}>Copy</Text>
-          </View>
-          <View style={styles.shareButton}>
+          </Pressable>
+          <Pressable
+            onPress={() => shareAddress(walletAddress)}
+            style={styles.shareButton}
+          >
             <ShareIcon />
             <Text style={styles.shareText}>Share</Text>
-          </View>
+          </Pressable>
         </View>
       </Animatable.View>
     </BottomsheetWrapper>

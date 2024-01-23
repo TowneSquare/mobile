@@ -74,11 +74,11 @@ const Poster2 = ({ referralCode, onPress }: Props) => {
                   },
                 ]}
               >
-                <Text style={styles.point}>500</Text>
+                <Text style={styles.point}>100</Text>
                 <PointsIcon size={size.getHeightSize(6.99)} />
               </View>
             </View>
-            <Text style={styles.description}>TS Points when you signup!</Text>
+            <Text style={styles.description}>Cred Points when you signup!</Text>
           </View>
         </View>
         <View style={{ flex: 1 }} />

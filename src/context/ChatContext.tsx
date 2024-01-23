@@ -1,21 +1,13 @@
-import { View, Text } from 'react-native';
-
-import React, {
-  ReactNode,
-  createContext,
-  useContext,
-  useReducer,
-  useState,
-} from 'react';
+import React, { ReactNode, createContext, useState } from "react";
 type ChatContextProps = {
   children: ReactNode;
 };
 interface ReplyTo {
   message: string;
   sender: string;
-
   id: string;
   type: string;
+  mediaImageUri?: string;
 }
 export type ChatDmContextType = {
   replyingToMessage: ReplyTo;
@@ -23,21 +15,23 @@ export type ChatDmContextType = {
 };
 export const ChatDmContext = createContext<ChatDmContextType>({
   replyingToMessage: {
-    message: '',
-    sender: '',
+    message: "",
+    sender: "",
 
-    id: '',
-    type: '',
+    id: "",
+    type: "",
+    mediaImageUri: "",
   },
   setReplyingToMessage: (message: ReplyTo) => {},
 });
 const ChatContext: React.FC<ChatContextProps> = ({ children }) => {
   const [replyingToMessage, setReplyingToMessage] = useState<ReplyTo>({
-    message: '',
-    sender: '',
+    message: "",
+    sender: "",
 
-    id: '',
-    type: '',
+    id: "",
+    type: "",
+    mediaImageUri: "",
   });
   const contextValue: ChatDmContextType = {
     replyingToMessage,

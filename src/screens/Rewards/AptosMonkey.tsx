@@ -13,7 +13,7 @@ const AptosMonkey = () => {
         backgroundColor: appColor.feedBackground,
       }}
     >
-      <Header title={'AptosMonkey'} />
+      <Header title={'AptosMonkeys'} />
       <AptosMokeyView />
     </SafeAreaView>
   );

@@ -63,6 +63,8 @@ const SinglePostHeader = ({
         nickname={nickname}
         username={username}
         userId={userId}
+        left={-1}
+        top={-1}
       />
 
       <View

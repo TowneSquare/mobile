@@ -71,12 +71,12 @@ const PosterDownloadView = ({ referralCode, posterToDownload }: Props) => {
                       },
                     ]}
                   >
-                    <Text style={styles.point}>500</Text>
+                    <Text style={styles.point}>100</Text>
                     <PointsIcon size={size.getHeightSize(6.99)} />
                   </View>
                 </View>
                 <Text style={styles.description}>
-                  TS Points when you signup!
+                  Cred Points when you signup!
                 </Text>
               </View>
             </View>
@@ -186,12 +186,12 @@ const PosterDownloadView = ({ referralCode, posterToDownload }: Props) => {
                       },
                     ]}
                   >
-                    <Text style={styles.point}>500</Text>
+                    <Text style={styles.point}>100</Text>
                     <PointsIcon size={size.getHeightSize(6.99)} />
                   </View>
                 </View>
                 <Text style={styles.description}>
-                  TS Points when you signup!
+                  Cred Points when you signup!
                 </Text>
               </View>
             </View>

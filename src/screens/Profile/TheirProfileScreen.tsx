@@ -48,6 +48,10 @@ import { BACKEND_URL } from "../../../config/env";
 import { useAptosName } from "../../api/hooks/useAptosName";
 import Loader from "../../../assets/svg/Loader";
 
+import { serverTimestamp, doc, getDoc, setDoc } from "firebase/firestore";
+import { firestoreDB } from "../../../config/firebase.config";
+import { createUniqueChatId } from "../../utils/ChatUtils";
+import React from "react";
 const size = new sizes(height, width);
 
 type SuperStarReducerState = {
@@ -81,7 +85,10 @@ const selectedSuperStarsReducer = (
       return state;
   }
 };
-const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
+const TheirProfileScreen = ({
+  route,
+  navigation: { navigate },
+}: TheirProfileScreenProps) => {
   const dispatch = useAppDispatch();
   const [view, setView] = useState<number>(2);
   const { userId, username, nickname } = route.params;
@@ -224,6 +231,63 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
       return Media();
     }
   };
+  const createChat = async () => {
+    console.log("here======");
+    const timestamp = serverTimestamp();
+    let id = createUniqueChatId(userId, profile._id);
+
+    // let id = `${userData._id}_${myId}`;
+    const _doc = {
+      _id: id,
+      members: [
+        {
+          _id: userId,
+          name: username,
+        },
+        {
+          _id: profile._id,
+          name: profile.username,
+        },
+      ],
+      memberIds: [userId, profile._id],
+      chatName: username,
+      lastMessage: {
+        text: "",
+        createdAt: timestamp,
+        sender: {
+          _id: "",
+          name: "",
+        },
+      },
+
+      unreadCount: 2,
+    };
+    const chatRef = doc(firestoreDB, "chats", id);
+    getDoc(chatRef).then((docSnapshot) => {
+      if (docSnapshot.exists()) {
+        console.log(`SnapshotId:${docSnapshot.id}`);
+        return navigate("Conversation", {
+          chatId: docSnapshot.id,
+          name: username,
+          nickname: nickname,
+          pfp: userInfo.data?.profileImage,
+        });
+      } else {
+        setDoc(chatRef, _doc)
+          .then(() => {
+            navigate("Conversation", {
+              chatId: id,
+              name: username,
+              nickname: nickname,
+              pfp: userInfo.data?.profileImage,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
+  };
 
   return (
     <SafeAreaView
@@ -273,7 +337,11 @@ const TheirProfileScreen = ({ route }: TheirProfileScreenProps) => {
               </Text>
             </Pressable>
             <View style={styles.iconView}>
-              <MessageIcon />
+              <MessageIcon
+                height={size.getHeightSize(24)}
+                width={size.getHeightSize(25)}
+                onPress={createChat}
+              />
             </View>
             <View style={styles.iconView}>
               <ProfileTipIcon

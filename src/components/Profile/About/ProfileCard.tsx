@@ -19,6 +19,7 @@ import BlueBadge from "../../../../assets/images/svg/BlueBadge";
 import TowneSquareProfileLogo from "../../../../assets/images/svg/TowneSquareProfileLogo";
 import { LinearGradient } from "expo-linear-gradient";
 import TownesquareGradient from "../../../../assets/images/svg/TownesquareGradient";
+import React from "react";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 interface Props {
@@ -259,12 +260,12 @@ const ProfileCard = ({
           <Text style={styles.view2TextDown}>Post</Text>
         </Pressable>
         <Pressable
-          onPress={() =>
-            navigation.navigate("FollowersScreen", { screen: "Communities" })
-          }
+         onPress={() => {
+          // navigation.navigate('FollowersScreen', { screen: 'Communities' })
+        }}
           style={styles.view2Box}
         >
-          <Text style={styles.view2TextUp}>{COMMUNITIES}</Text>
+          {/* <Text style={styles.view2TextUp}>{COMMUNITIES}</Text> */}
           <Text style={styles.view2TextDown}>Communities</Text>
         </Pressable>
       </View>

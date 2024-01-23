@@ -23,7 +23,6 @@ type SelectedSuperStarCollectionScreenParameter = {
       nftImageUrl: ImageSourcePropType;
       nftTokenId: string;
       nftCollection: string;
-      
     }[];
   };
 };
@@ -31,8 +30,8 @@ type SelectedSuperStarCollectionScreenParameter = {
 type TheirProfileParams = {
   [TheirProfileScreen: string]: {
     userId: string;
-    username:string
-    nickname:string
+    username: string;
+    nickname: string;
   };
 };
 
@@ -53,12 +52,16 @@ export type RootStackParamList = {
   EmailLogin: undefined;
   EditProfile: undefined;
   SetNFTs: undefined;
-  
+
   ViewImageScreen: {
-    postData: PostData;
+    postData?: PostData;
+    imageUri?: string;
+    showReactions?: boolean;
   };
   VideoPlayer: {
-    postData: PostData;
+    postData?: PostData;
+    videoUrl?: string;
+    showReactions?: boolean;
   };
   SinglePost: undefined;
   Notifications: undefined;
@@ -79,7 +82,6 @@ export type RootStackParamList = {
       nftImageUrl: string;
       nftTokenId: string;
       nftCollection: string;
-      
     }[];
   };
   EditProfileScreen: undefined;
@@ -89,8 +91,8 @@ export type RootStackParamList = {
   };
   TheirProfileScreen: {
     userId: string;
-    username:string;
-    nickname:string
+    username: string;
+    nickname: string;
   };
 
   CreateCommunityScreen: undefined;
@@ -141,6 +143,8 @@ export type RootStackParamList = {
   Conversation: {
     chatId: string;
     name: string;
+    nickname: string;
+    pfp: string;
   };
   SendToken: undefined;
   TokenSuccess: {
@@ -178,7 +182,9 @@ export type RootStackParamList = {
 
 type ViewImageScreenParams = {
   [ViewImageScreen: string]: {
-    postData: PostData;
+    postData?: PostData;
+    imageUri?: string;
+    showReactions?: boolean;
   };
 };
 type ChooseWalletParams = {
@@ -221,11 +227,10 @@ type SinglePostParameter = {
   [SinglePost: string]: PostData;
 };
 
-
-
 type VideoPlayerParameter = {
   [VideoPlayer: string]: {
-    videoUrl: string;
+    videoUrl?: string;
+    showReeactions?: boolean;
   };
 };
 type FollowerScreenParameter = {
@@ -265,6 +270,8 @@ type ConversationParameter = {
   [Conversation: string]: {
     chatId: string;
     name: string;
+    nickname: string;
+    pfp: string;
   };
 };
 export type FirstScreenProps = {
@@ -349,7 +356,7 @@ export type ViewImageScreenProps = {
 export type VideoPlayerProps = {
   navigation: NavigationProp<RootStackParamList, "VideoPlayer">;
   magic: any;
-  route: RouteProp<ParamListBase, "VideoPlayer">;
+  route: RouteProp<VideoPlayerParameter, "VideoPlayer">;
 };
 
 export type NotificationsProps = {
@@ -602,8 +609,7 @@ export type BannedMemberProps = {
 export type ConversationProps = {
   navigation: NavigationProp<RootStackParamList, "Conversation">;
   magic: any;
-  route: RouteProp<ConversationParameter, 'Conversation'>;
- 
+  route: RouteProp<ConversationParameter, "Conversation">;
 };
 export type SendTokenProps = {
   navigation: NavigationProp<RootStackParamList, "SendToken">;

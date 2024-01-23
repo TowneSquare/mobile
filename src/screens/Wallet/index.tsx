@@ -23,7 +23,7 @@ const Wallet = () => {
     APTOS_DOMAIN_NAME: state.USER.aptosName,
     address: state.USER.UserData.aptosWallet,
   }));
-  useMemo(() => dispatch(getAptosName({address})), [address]);
+  useMemo(() => dispatch(getAptosName({ address })), [address]);
   return (
     <SafeAreaView
       style={{
@@ -36,7 +36,12 @@ const Wallet = () => {
           paddingBottom: size.getHeightSize(42),
         }}
       >
-        <WalletCard APTOS_DOMAIN_NAME={APTOS_DOMAIN_NAME || "UNAVAILABLE"}  WALLET_ADDRESS={address}/>
+        <WalletCard
+          APTOS_DOMAIN_NAME={
+            APTOS_DOMAIN_NAME ? APTOS_DOMAIN_NAME : "UNAVAILABLE"
+          }
+          WALLET_ADDRESS={address}
+        />
         <Text style={styles.text}>Token</Text>
         <Token
           name="APT"

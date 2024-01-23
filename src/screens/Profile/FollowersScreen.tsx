@@ -21,10 +21,10 @@ const FollowersScreen = () => {
       name: 'Following',
       content: FollowingTab,
     },
-    {
-      name: 'Communities',
-      content: CommunitiesTab,
-    },
+    // {
+    //   name: 'Communities',
+    //   content: CommunitiesTab,
+    // },
   ];
   return (
     <SafeAreaView

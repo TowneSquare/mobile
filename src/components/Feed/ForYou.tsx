@@ -173,6 +173,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                       alignSelf: "center",
                       width: "100%",
                       height: size.getHeightSize(200),
+                      borderRadius: 8,
                     }}
                     resizeMode="cover"
                     loadingIndicatorSource={images.Aptomingos}
@@ -180,7 +181,9 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 </Pressable>
               </View>
               <PostActions
-                noOfComments={userPost.comments.length}
+                noOfComments={
+                  userPost.comments ? userPost.comments.length : 0
+                }
                 Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost._id}
@@ -236,6 +239,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                     alignSelf: "center",
                     width: "100%",
                     height: size.getHeightSize(200),
+                    borderRadius: 8,
                   }}
                   resizeMode="cover"
                   loadingIndicatorSource={images.Aptomingos}
@@ -536,6 +540,8 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                     alignSelf: "center",
                     width: "100%",
                     height: size.getHeightSize(200),
+                    borderTopLeftRadius: 8,
+                    borderTopRightRadius: 8,
                   }}
                   resizeMode="cover"
                   loadingIndicatorSource={images.Aptomingos}

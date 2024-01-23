@@ -26,16 +26,18 @@ interface Props {
   visibility: boolean;
   children: React.ReactNode;
   close: () => void;
+  referralCode: string;
 }
-const DownloadPoster = ({ children, visibility, close }: Props) => {
+const DownloadPoster = ({
+  children,
+  visibility,
+  close,
+  referralCode,
+}: Props) => {
   const dispatch = useAppDispatch();
-  const [permissionStatus, setPermissionStatus] = useState(undefined);
-  const scaleValue = useRef(new Animated.Value(0)).current;
+  const scaleValue = useRef(new Animated.Value(0))?.current;
   const viewShotRef = useRef<ViewShot>(null);
-  useEffect(() => {
-    const permisionGranted = requestMediaLibraryPermission();
-    setPermissionStatus(permisionGranted);
-  }, []);
+
   useEffect(() => {
     Animated.timing(scaleValue, {
       toValue: visibility ? 1 : 0,
@@ -44,7 +46,8 @@ const DownloadPoster = ({ children, visibility, close }: Props) => {
     }).start();
   }, [visibility]);
   const handleCapture = async () => {
-    if (!permissionStatus) {
+    const permision = requestMediaLibraryPermission();
+    if (!permision) {
       close();
       dispatch(
         updateToast({
@@ -59,8 +62,7 @@ const DownloadPoster = ({ children, visibility, close }: Props) => {
     try {
       if (viewShotRef.current) {
         const uri = await viewShotRef.current.capture();
-        console.log('Image URI:', uri);
-        const isDownloaded = await saveToDownloadFolder(uri);
+        const isDownloaded = await saveToDownloadFolder(uri, referralCode);
         close();
         isDownloaded
           ? dispatch(
@@ -113,10 +115,7 @@ const DownloadPoster = ({ children, visibility, close }: Props) => {
           }}
         >
           <View style={styles.viewShot}>
-            <ViewShot
-              ref={viewShotRef}
-              options={{ format: 'png', quality: 1}}
-            >
+            <ViewShot ref={viewShotRef} options={{ format: 'png', quality: 1 }}>
               {children}
             </ViewShot>
           </View>

@@ -1,12 +1,12 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
-import SearchPost from '../../../assets/images/svg/SearcPost';
-import { appColor } from '../../constants';
-import { sizes } from '../../utils';
-import CommuintyList from '../../shared/Feed/CommuintyList';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-const { height, width } = Dimensions.get('window');
-import { updateSearchFocus } from '../../controller/SearchPost';
-import UserDisplay from '../../shared/Feed/UserDisplay';
+import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
+import SearchPost from "../../../assets/images/svg/SearcPost";
+import { appColor } from "../../constants";
+import { sizes } from "../../utils";
+import CommuintyList from "../../shared/Feed/CommuintyList";
+import { useAppSelector, useAppDispatch } from "../../controller/hooks";
+const { height, width } = Dimensions.get("window");
+import { updateSearchFocus } from "../../controller/SearchPost";
+import UserDisplay from "../../shared/Feed/UserDisplay";
 const size = new sizes(height, width);
 
 const SearchContent = () => {
@@ -20,10 +20,13 @@ const SearchContent = () => {
     return (
       <>
         {data.map((dat) =>
-          dat.type === 'community' ? (
-            <CommuintyList data={dat} />
+          dat.type === "community" ? (
+            <></>
           ) : (
-            <UserDisplay data={{ name: dat.name, username: dat.nickname }} />
+            // <CommuintyList data={dat} />
+            <UserDisplay
+              data={{ name: dat.name, username: dat.nickname, userId: "" }}
+            />
           )
         )}
       </>
@@ -55,7 +58,7 @@ const SearchContent = () => {
       {searchWord && (
         <Text
           onPress={() => {
-            dispatch(updateSearchFocus('hide_for_you_tab'));
+            dispatch(updateSearchFocus("hide_for_you_tab"));
           }}
           style={styles.showMore}
         >
@@ -72,14 +75,14 @@ const styles = StyleSheet.create({
     height: size.getHeightSize(161),
   },
   searchDescription: {
-    alignSelf: 'center',
-    alignItems: 'center',
+    alignSelf: "center",
+    alignItems: "center",
   },
   descriptionText: {
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: size.getHeightSize(21),
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.grayLight,
     paddingVertical: size.getHeightSize(12),
     width: size.getWidthSize(201),
@@ -87,10 +90,10 @@ const styles = StyleSheet.create({
   showMore: {
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     color: appColor.klightPurple,
     marginTop: size.getHeightSize(16),
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
 //PostNotFound Users

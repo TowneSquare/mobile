@@ -25,7 +25,7 @@ const CommingSoon = () => {
         justifyContent: 'center',
       }}
       resizeMode="cover"
-      source={images.comingsoon}
+      source={images.commingSoonGif}
     >
       <View
         style={{

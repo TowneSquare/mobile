@@ -24,9 +24,10 @@ const NftHoldingsView = () => {
             marginBottom: size.getHeightSize(24),
           }}
         >
+          <Text style={styles.text1}>Reward</Text>
           <Text style={styles.text}>
-            TS Points will be rewarded in{' '}
-            <Text style={{ fontFamily: 'Outfit-SemiBold' }}>18:24:00</Text>
+            ends in{' '}
+            <Text style={{ fontFamily: 'Outfit-SemiBold' }}>29d 22h 45m</Text>
           </Text>
           <Text
             style={styles.rules}
@@ -74,6 +75,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Outfit-SemiBold',
     color: appColor.primaryLight,
     lineHeight: size.getHeightSize(21),
+    textAlign: 'center',
+  },
+  text1: {
+    fontSize: size.fontSize(29),
+    fontFamily: 'Outfit-Bold',
+    color: appColor.kTextColor,
+    lineHeight: size.getHeightSize(37),
     textAlign: 'center',
   },
 });
