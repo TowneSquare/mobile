@@ -1,23 +1,23 @@
-import moment from 'moment';
+import moment from "moment";
 import {
   Data,
   ChatDate,
   ChatText,
   DataWithoutChatDate,
-} from '../models/conversationModel';
+} from "../models/conversationModel";
 import {
   launchImageLibraryAsync,
   MediaTypeOptions,
   launchCameraAsync,
-} from 'expo-image-picker';
+} from "expo-image-picker";
 import {
   getStorage,
   ref,
   uploadBytesResumable,
   getDownloadURL,
   listAll,
-} from 'firebase/storage';
-import { Timestamp } from 'firebase/firestore';
+} from "firebase/storage";
+import { Timestamp } from "firebase/firestore";
 import {
   addDoc,
   collection,
@@ -25,10 +25,10 @@ import {
   doc,
   updateDoc,
   setDoc,
-} from 'firebase/firestore';
-import { app, firestoreDB, storage } from '../../config/firebase.config';
+} from "firebase/firestore";
+import { app, firestoreDB, storage } from "../../config/firebase.config";
 
-import { nanoid } from '@reduxjs/toolkit';
+import { nanoid } from "@reduxjs/toolkit";
 export class ChatClass {
   private message: Array<any> = [];
   constructor(message: any[]) {
@@ -37,7 +37,7 @@ export class ChatClass {
   private groupedDays() {
     return this.message.reduce((acc, el, i) => {
       const messageDay = moment(el.createdAt?.toDate().toISOString()).format(
-        'YYYY-MM-DD'
+        "YYYY-MM-DD"
       );
       if (acc[messageDay]) {
         return { ...acc, [messageDay]: acc[messageDay].concat([el]) };
@@ -54,7 +54,7 @@ export class ChatClass {
   generateItems() {
     const days = this.groupedDays();
     const sortedDays = Object.keys(days).sort(
-      (x, y) => moment(y, 'YYYY-MM-DD').unix() - moment(x, 'YYYY-MM-DD').unix()
+      (x, y) => moment(y, "YYYY-MM-DD").unix() - moment(x, "YYYY-MM-DD").unix()
     );
     const items = sortedDays.reduce((acc, date) => {
       const sortedMessages = days[date].sort((x, y) => {
@@ -62,7 +62,7 @@ export class ChatClass {
       });
       return acc.concat([
         ...sortedMessages,
-        { dateType: 'day', date, id: date },
+        { dateType: "day", date, id: date },
       ]);
     }, []);
     return items;
@@ -80,7 +80,7 @@ export class ChatClass {
           if (currentGroup.length > 0) {
             if (currentGroup.length > 1) {
               sortedConversation.push({
-                sortedType: 'sorted',
+                sortedType: "sorted",
                 content: currentGroup,
                 id: nanoid(),
               });
@@ -95,7 +95,7 @@ export class ChatClass {
         if (currentGroup.length > 0) {
           if (currentGroup.length > 1) {
             sortedConversation.push({
-              sortedType: 'sorted',
+              sortedType: "sorted",
               content: currentGroup,
               id: nanoid(),
             });
@@ -110,7 +110,7 @@ export class ChatClass {
     if (currentGroup.length > 0) {
       if (currentGroup.length > 1) {
         sortedConversation.push({
-          sortedType: 'sorted',
+          sortedType: "sorted",
           content: currentGroup,
           id: nanoid(),
         });
@@ -119,7 +119,7 @@ export class ChatClass {
       }
     }
     sortedConversation.forEach((group) => {
-      if (group.sortedType === 'sorted') {
+      if (group.sortedType === "sorted") {
         for (let i = group.content.length - 1; i > 0; i--) {
           const currentCreatedAt = new Date(group.content[i].createdAt);
           const previousCreatedAt = new Date(group.content[i - 1].createdAt);
@@ -147,9 +147,9 @@ export class ChatClass {
     const diff: number = today.getTime() - compDate.getTime();
 
     if (compDate.getTime() === today.getTime()) {
-      return 'Today';
+      return "Today";
     } else if (diff <= 24 * 60 * 60 * 1000) {
-      return 'Yesterday';
+      return "Yesterday";
     } else {
       return compDate.toDateString();
     }
@@ -174,22 +174,22 @@ export function formatTimestamp(timestamp: Timestamp) {
 
     if (sameDay) {
       return date.toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
+        hour: "2-digit",
+        minute: "2-digit",
       }); // returns "HH:MM"
     } else if (isYesterday) {
-      return 'Yesterday';
+      return "Yesterday";
     } else {
       return date.toLocaleDateString(); // returns "MM/DD/YYYY"
     }
-  } else return '';
+  } else return "";
 }
 export const createUniqueChatId = (user1Id: string, user2Id: string) => {
   // Sort the user IDs to ensure consistency
   const sortedUserIds = [user1Id, user2Id].sort();
 
   // Concatenate the sorted user IDs
-  const concatenatedIds = sortedUserIds.join('_');
+  const concatenatedIds = sortedUserIds.join("_");
 
   // Use a hash function (e.g., simple string hash) to create a unique identifier
   const hashCode = (str) => {
@@ -205,11 +205,14 @@ export const createUniqueChatId = (user1Id: string, user2Id: string) => {
   return hashCode(concatenatedIds).toString();
 };
 export const sendRreplyMessage = async ({
-  replyingToMessage = '',
-  replyingtoId = '',
-  text = '',
-  chatId = '',
-  messageType = '',
+  replyingToMessage = "",
+  replyingtoId = "",
+  text = "",
+  chatId = "",
+  messageType = "",
+  mediaUri = "",
+  uid = "",
+  myusername = "",
 }) => {
   try {
     const timestamp = serverTimestamp();
@@ -219,7 +222,7 @@ export const sendRreplyMessage = async ({
       id,
       createdAt: timestamp,
       message: {
-        messageType: 'replied',
+        messageType: "replied",
         reply: text,
       },
       replied: {
@@ -227,27 +230,28 @@ export const sendRreplyMessage = async ({
         message: {
           messageType: messageType,
           text: replyingToMessage,
+          mediaUri: mediaUri,
         },
       },
       user: {
-        _id: '12345',
-        name: 'username',
+        _id: uid,
+        name: myusername,
       },
       read: false,
     };
 
-    const msgCollectionRef = doc(firestoreDB, 'chats', chatId, 'messages', id);
+    const msgCollectionRef = doc(firestoreDB, "chats", chatId, "messages", id);
     await setDoc(msgCollectionRef, _doc);
 
     // Update the 'lastMessage' field in the 'chats' collection
-    const chatRef = doc(firestoreDB, 'chats', chatId);
+    const chatRef = doc(firestoreDB, "chats", chatId);
     await updateDoc(chatRef, {
       lastMessage: {
         text: text.trim(),
         createdAt: timestamp,
         sender: {
-          _id: '6789',
-          name: 'username',
+          _id: uid,
+          name: myusername,
         },
       },
     });
@@ -256,7 +260,12 @@ export const sendRreplyMessage = async ({
     // Handle error
   }
 };
-export const sendTextToFirestore = async ({ text = '', chatId = '' }) => {
+export const sendTextToFirestore = async ({
+  text = "",
+  chatId = "",
+  myId = "",
+  myusername = "",
+}) => {
   try {
     const timestamp = serverTimestamp();
     const id = `${Date.now()}`;
@@ -264,40 +273,46 @@ export const sendTextToFirestore = async ({ text = '', chatId = '' }) => {
       id,
       createdAt: timestamp,
       message: {
-        messageType: 'text',
+        messageType: "text",
         text: text.trim(),
       },
       user: {
-        _id: '12345',
-        name: 'username',
+        _id: myId,
+        name: myusername,
       },
       read: false,
     };
-    console.log('========adding doc=========');
-    const msgCollectionRef = doc(firestoreDB, 'chats', chatId, 'messages', id);
+    console.log("========adding doc=========");
+    const msgCollectionRef = doc(firestoreDB, "chats", chatId, "messages", id);
     await setDoc(msgCollectionRef, _doc);
 
     // console.log('Message added with ID: ', messageRef.id);
 
     // Update the 'lastMessage' field in the 'chats' collection
-    const chatRef = doc(firestoreDB, 'chats', chatId);
+    const chatRef = doc(firestoreDB, "chats", chatId);
     await updateDoc(chatRef, {
       lastMessage: {
         text: text.trim(),
         createdAt: timestamp,
         sender: {
-          _id: '12345',
-          name: 'username',
+          _id: myId,
+          name: myusername,
         },
       },
     });
 
-    console.log('Chat updated with last message.');
+    console.log("Chat updated with last message.");
   } catch (err) {
-    console.warn('Error sending message: ', err);
+    console.warn("Error sending message: ", err);
   }
 };
-export const sendImageToFirestore = async ({ imageUri = '', chatId = '' }) => {
+export const sendImageToFirestore = async ({
+  imageUri = "",
+  chatId = "",
+  messageType = "",
+  myId = "",
+  myusername = "",
+}) => {
   try {
     const timestamp = serverTimestamp();
     const id = `${Date.now()}`;
@@ -305,42 +320,42 @@ export const sendImageToFirestore = async ({ imageUri = '', chatId = '' }) => {
       id,
       createdAt: timestamp,
       message: {
-        messageType: 'image',
+        messageType: messageType,
         imageUri: imageUri,
       },
       user: {
-        _id: '12345',
-        name: 'username',
+        _id: myId,
+        name: myusername,
       },
       read: false,
     };
-    console.log('========adding doc=========');
-    const msgCollectionRef = doc(firestoreDB, 'chats', chatId, 'messages', id);
+    console.log("========adding doc=========");
+    const msgCollectionRef = doc(firestoreDB, "chats", chatId, "messages", id);
     await setDoc(msgCollectionRef, _doc);
 
     // console.log('Message added with ID: ', messageRef.id);
 
     // Update the 'lastMessage' field in the 'chats' collection
-    const chatRef = doc(firestoreDB, 'chats', chatId);
+    const chatRef = doc(firestoreDB, "chats", chatId);
     await updateDoc(chatRef, {
       lastMessage: {
-        text: 'Image',
+        text: messageType.charAt(0).toUpperCase() + messageType.slice(1),
         createdAt: timestamp,
         sender: {
-          _id: '12345',
-          name: 'username',
+          _id: myId,
+          name: myusername,
         },
       },
     });
 
-    console.log('Chat updated with last message.');
+    console.log("Chat updated with last message.");
   } catch (err) {
-    console.warn('Error sending message: ', err);
+    console.warn("Error sending message: ", err);
   }
 };
 export const uploadMediaToFirebaseStorage = async (url: string) => {
   try {
-    const filename = url.substring(url.lastIndexOf('/') + 1);
+    const filename = url.substring(url.lastIndexOf("/") + 1);
     const storageRef = ref(storage, `images/${filename}`);
     const response = await fetch(url);
     const blob = await response.blob();
@@ -348,7 +363,7 @@ export const uploadMediaToFirebaseStorage = async (url: string) => {
 
     return new Promise((resolve, reject) => {
       uploadTask.on(
-        'state_changed',
+        "state_changed",
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -376,25 +391,33 @@ export const uploadMediaToFirebaseStorage = async (url: string) => {
   }
 };
 
-export const chatTakePhoto = async () => {
-  let result = await launchCameraAsync({
-    mediaTypes: MediaTypeOptions.Images,
-    allowsEditing: true,
-  });
+export const pickMedia = async (from: "gallery" | "camera") => {
+  try {
+    let result;
 
-  if (result.assets != null) {
-    return result.assets[0].uri;
-  } else return null;
-};
-export const chatPickImage = async () => {
-  let result = await launchImageLibraryAsync({
-    mediaTypes: MediaTypeOptions.Images,
-    allowsEditing: true,
-    aspect: [4, 3],
-    quality: 1,
-  });
+    if (from === "camera") {
+      result = await launchCameraAsync({
+        mediaTypes: MediaTypeOptions.All,
+        allowsEditing: true,
+        quality: 1,
+      });
+    } else {
+      result = await launchImageLibraryAsync({
+        mediaTypes: MediaTypeOptions.All,
+        allowsEditing: true,
+        quality: 1,
+      });
+    }
 
-  if (result.assets != null) {
-    return result.assets[0].uri;
-  } else return null;
+    console.log("Media Picker Result:", result);
+
+    if (result?.assets?.length > 0) {
+      return result.assets[0].uri;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Media Picker Error:", error);
+    return null;
+  }
 };

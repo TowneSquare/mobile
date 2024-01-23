@@ -126,7 +126,7 @@ interface followRequest {
 }
 const initialState: UserState = {
   UserData: {
-    _id: "658e89ff83d916e7f200f1f6",
+    _id: "6588dd27973c4e8e226c92f2",
     issuer: "did:ethr:0x8880807e9188a75767c647374d83272d031a0b42",
     aptosWallet: "0x8880807e9188a75767c647374d83272d031a0b42",
     nickname: "TO1",
@@ -650,12 +650,7 @@ const initialState: UserState = {
           postId: "655df7a347784b1665992617",
           createdAt: "2023-11-24T12:25:14.173Z",
         },
-        //   {
-        //   _id: "6560962a233ac36e73bc42ce",
-        //   userId: "655ab007ce8937ff6d512887",
-        //   postId: "655df7a347784b1665992617",
-        //   createdAt: "2023-11-24T12:25:14.173Z",
-        // },
+       
       ],
       comments: [
         {
@@ -742,13 +737,13 @@ export const signUp = createAsyncThunk(
 
 export const followUser = createAsyncThunk(
   "User/follow",
-  async (followRequest: followRequest) => {
+  async (followRequest: followRequest, thunkAPI) => {
     const { toUserIds, token } = followRequest;
     try {
-      const res = await axios.post(
+       await axios.post(
         `${BACKEND_URL}user/follow-friends`,
         {
-          followsIds: toUserIds,
+          followIds: toUserIds,
         },
         {
           headers: {
@@ -758,7 +753,7 @@ export const followUser = createAsyncThunk(
           },
         }
       );
-      return res.data;
+     
     } catch (error) {
       //return thunkAPI.rejectWithValue(error);
     }
@@ -1015,6 +1010,9 @@ export const USER = createSlice({
     updateProfileImage: (state, action: PayloadAction<string>) => {
       state.UserData.profileImage = action.payload;
     },
+    updateUserId: (state, action: PayloadAction<string>) => {
+      state.UserData._id = action.payload;
+    },
     updateDidToken: (state, action: PayloadAction<string>) => {
       state.didToken = action.payload;
     },
@@ -1121,6 +1119,7 @@ export const {
   updateEmailError,
   updateDidToken,
   updateProfileImage,
+  updateUserId,
   updateEditProfile,
   updateAccountInfo,
   updateMetadata,

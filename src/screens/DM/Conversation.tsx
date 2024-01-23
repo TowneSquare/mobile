@@ -7,26 +7,26 @@ import {
   Pressable,
   RefreshControl,
   TouchableOpacity,
-} from 'react-native';
-import Loader from '../../../assets/svg/Loader';
-import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
-import ConversationHeader from '../../components/DM/ConversationHeader';
-
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../constants';
-import ChatTextInput, { ComponentRef } from '../../components/DM/ChatTextInput';
-import { conversationData } from '../../utils/messageData';
-import DeleteConversationBottomsheet from '../../components/DM/DeleteConversationBottomsheet';
-import { ChatClass, chatTakePhoto, chatPickImage } from '../../utils/ChatUtils';
-import Messages from '../../components/DM/Messages';
-import ChatContext from '../../context/ChatContext';
-import { sizes } from '../../utils';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import DeleteChatBottomsheet from '../../components/DM/DeleteChatBottomsheet';
-import MoreBottomsheet from '../../components/DM/MoreBottomsheet';
-import { ConversationProps } from '../../navigations/NavigationTypes';
-import UnblockUserBottomsheet from '../../components/DM/UnblockUserBottomsheet';
-import BlockUserBottomsheet from '../../components/DM/BlockUserBottomsheet';
+} from "react-native";
+// import Loader from "../../../assets/svg/Loader";
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
+import LoadingMediaContent from "../../components/DM/LoadingMediaContent";
+import ConversationHeader from "../../components/DM/ConversationHeader";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { appColor } from "../../constants";
+import ChatTextInput, { ComponentRef } from "../../components/DM/ChatTextInput";
+// import { conversationData } from "../../utils/messageData";
+import DeleteConversationBottomsheet from "../../components/DM/DeleteConversationBottomsheet";
+import { ChatClass } from "../../utils/ChatUtils";
+import Messages from "../../components/DM/Messages";
+import ChatContext from "../../context/ChatContext";
+import { sizes } from "../../utils";
+import { useAppSelector, useAppDispatch } from "../../controller/hooks";
+import DeleteChatBottomsheet from "../../components/DM/DeleteChatBottomsheet";
+import MoreBottomsheet from "../../components/DM/MoreBottomsheet";
+import { ConversationProps } from "../../navigations/NavigationTypes";
+import UnblockUserBottomsheet from "../../components/DM/UnblockUserBottomsheet";
+import BlockUserBottomsheet from "../../components/DM/BlockUserBottomsheet";
 import {
   collection,
   query,
@@ -38,19 +38,25 @@ import {
   doc,
   updateDoc,
   getDoc,
-} from 'firebase/firestore';
-import { firestoreDB } from '../../../config/firebase.config';
+} from "firebase/firestore";
+import { firestoreDB } from "../../../config/firebase.config";
 
-const { height, width } = Dimensions.get('window');
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const Conversation = ({
   navigation,
   route: {
-    params: { chatId, name },
+    params: { chatId, name, nickname, pfp },
   },
 }: ConversationProps) => {
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState([]);
+  const [contactId, setContactId] = useState("");
+  const myId = useAppSelector((state) => state.USER.UserData)._id;
+  const myusername = useAppSelector((state) => state.USER.UserData.username);
+  const loadingMedia = useAppSelector(
+    (state) => state.DMController.uploadingItems
+  );
   const MESSAGE_LIMIT = 10;
   const lastDocRef = useRef(null);
 
@@ -59,14 +65,19 @@ const Conversation = ({
       firestoreDB,
       `chats/${chatId}/messages`
     );
-
-    const msgQuery = query(msgCollectionRef, orderBy('createdAt', 'desc'));
+    const chatRef = doc(firestoreDB, "chats", chatId);
+    getDoc(chatRef).then((docSnapshot) => {
+      console.log(`SnapshotId:${docSnapshot.id}`);
+      const chatData = docSnapshot.data();
+      setContactId(chatData.memberIds.filter((id) => id !== myId)[0]);
+    });
+    const msgQuery = query(msgCollectionRef, orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(msgQuery, (querySnap) => {
       const updatedMessages = querySnap.docs.map((doc) => doc.data());
       updatedMessages
         .filter((message) => !message.read) // Only consider unread messages
         .forEach((unreadMessage) => {
-          markMessageAsRead(chatId, unreadMessage.id, '12345');
+          markMessageAsRead(chatId, unreadMessage.id, myId);
         });
       setMessage(updatedMessages);
 
@@ -76,10 +87,11 @@ const Conversation = ({
 
     return unsubscribe;
   }, []);
-  console.log('====message====');
+  console.log("====message====");
   console.log(message[0]);
   const chatInputRef = useRef<ComponentRef>();
   const [showReplying, setShowReplyVisibility] = useState(false);
+  const [uploadingItems, setUploadingItems] = useState([]);
   const chatUtils = new ChatClass(message);
 
   showReplying && chatInputRef.current?.focusTextInput();
@@ -113,7 +125,7 @@ const Conversation = ({
 
       const nextMsgQuery = query(
         msgCollectionRef,
-        orderBy('createdAt', 'desc'),
+        orderBy("createdAt", "desc"),
         startAfter(lastVisible),
         limit(MESSAGE_LIMIT)
       );
@@ -129,7 +141,7 @@ const Conversation = ({
       // Append new messages to the existing ones
       setMessage((prevMessages) => [...prevMessages, ...newMessages]);
 
-      console.log('======loaded more messages========');
+      console.log("======loaded more messages========");
       console.log(newMessages);
     }
   };
@@ -147,10 +159,10 @@ const Conversation = ({
         await updateDoc(messageRef, {
           read: true,
         });
-        console.log('Message marked as read successfully');
+        console.log("Message marked as read successfully");
       }
     } catch (error) {
-      console.error('Error marking message as read:', error);
+      console.error("Error marking message as read:", error);
     }
   };
   return (
@@ -164,6 +176,8 @@ const Conversation = ({
         <ConversationHeader
           name={name}
           moreIconCallBack={() => setMoreBottomsheetVisibility(true)}
+          pfp={pfp}
+          nickname={nickname}
         />
 
         <View
@@ -175,8 +189,8 @@ const Conversation = ({
             ListEmptyComponent={
               <View
                 style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
                 {/* <Loader /> */}
@@ -186,21 +200,29 @@ const Conversation = ({
             contentContainerStyle={{
               gap: size.getHeightSize(8),
               ...(data.length === 0
-                ? { flex: 1, justifyContent: 'center', alignItems: 'center' }
+                ? { flex: 1, justifyContent: "center", alignItems: "center" }
                 : {}),
             }}
             style={{
               flex: 1,
             }}
-            data={data}
-            renderItem={({ item, index }) => (
-              <Messages
-                chatUtilsInstance={chatUtils}
-                data={item}
-                showReplyingTo={setVisibilityTrue}
-                onProfilePictureLongPress={() => {}}
-              />
-            )}
+            data={[...loadingMedia, ...data]}
+            renderItem={({ item, index }) => {
+              if (item.loading) {
+                return <LoadingMediaContent data={item} uid={myId} />;
+              } else {
+                return (
+                  <Messages
+                    chatUtilsInstance={chatUtils}
+                    data={item}
+                    showReplyingTo={setVisibilityTrue}
+                    onProfilePictureLongPress={() => {}}
+                    pfp={pfp}
+                    myusername={myusername}
+                  />
+                );
+              }
+            }}
             keyExtractor={(item) => item.id.toString()}
           />
         </View>
@@ -215,14 +237,15 @@ const Conversation = ({
           <ChatTextInput
             ref={chatInputRef}
             dismissShowReplyingTo={setVisibilityFalse}
-            message=""
-            replyType="text"
             username=""
             showReplying={showReplying}
             chatId={chatId}
           />
         )}
         <MoreBottomsheet
+          username={name}
+          userId={contactId}
+          nickname={nickname}
           onDeleteChat={() => {
             setDeleteChatVisibility(true);
           }}
@@ -281,8 +304,8 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(18),
     lineHeight: size.getHeightSize(23),
     color: appColor.primaryLight,
-    fontFamily: 'Outfit-Medium',
-    textAlign: 'center',
+    fontFamily: "Outfit-Medium",
+    textAlign: "center",
     letterSpacing: 0.36,
   },
   blockView: {

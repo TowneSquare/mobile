@@ -64,7 +64,7 @@ const ReferralView = () => {
               fontFamily: 'Outfit-Bold',
             }}
           >
-            500 TS Points
+            100 Cred Points
           </Text>
           !
         </Text>

@@ -1,13 +1,13 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../../utils';
-import UserCircle from '../../../assets/images/svg/UserCirlce';
-import { appColor } from '../../constants';
-import SuggestedProfiles from '../../components/Search/SuggestedProfiles';
+import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
+const { height, width } = Dimensions.get("window");
+import { sizes } from "../../utils";
+import UserCircle from "../../../assets/images/svg/UserCirlce";
+import { appColor } from "../../constants";
+import SuggestedProfiles from "../../components/Search/SuggestedProfiles";
 const size = new sizes(height, width);
 
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-type ToastType = 'none' | 'reportUser' | 'blockUser' | 'reportPost';
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+
 const PeopleTab = () => {
   const dispatch = useAppDispatch();
   const { data, searchFocus, searchData } = useAppSelector((state) => ({
@@ -16,7 +16,7 @@ const PeopleTab = () => {
     searchData: state.SearchPostController.peopleToSearchDataFiltered,
   }));
 
-  const profileData = searchFocus === 'hide_for_you_tab' ? searchData : data;
+  const profileData = searchFocus === "hide_for_you_tab" ? searchData : data;
   return (
     <View
       style={{
@@ -24,7 +24,7 @@ const PeopleTab = () => {
         backgroundColor: appColor.feedBackground,
       }}
     >
-      {searchFocus !== 'hide_for_you_tab' && (
+      {searchFocus !== "hide_for_you_tab" && (
         <Text style={[styles.labels]}>Suggested profiles</Text>
       )}
       {profileData.length > 0 ? (
@@ -49,23 +49,23 @@ const PeopleTab = () => {
 export default PeopleTab;
 const styles = StyleSheet.create({
   text: {
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: size.getHeightSize(21),
     fontSize: size.fontSize(16),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.grayLight,
     width: size.getWidthSize(271),
   },
   container: {
-    alignSelf: 'center',
-    alignItems: 'center',
+    alignSelf: "center",
+    alignItems: "center",
     paddingHorizontal: size.getWidthSize(16),
     paddingBottom: size.getHeightSize(16),
   },
   labels: {
     fontSize: size.fontSize(20),
     lineHeight: size.getHeightSize(24),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     color: appColor.kTextColor,
     letterSpacing: size.getWidthSize(0.8),
     marginTop: size.getHeightSize(8),

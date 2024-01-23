@@ -27,8 +27,10 @@ const Support = () => {
   const emailUrl = `mailto:${emailparas.to}?subject=${encodeURIComponent(
     emailparas.subject
   )}&body=${encodeURIComponent(emailparas.body)}`;
-  const handleSupport = (url: string) => {
-    Linking.openURL(url).catch((err) => console.error('An error occured', err));
+  const handleSupport = async (url: string) => {
+    await Linking.openURL(url).catch((err) =>
+      console.error('An error occured', err)
+    );
   };
   return (
     <SafeAreaView

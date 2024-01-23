@@ -1,17 +1,17 @@
-import { View, Text, StyleSheet, Dimensions, Pressable } from 'react-native';
-import React from 'react';
-import BottomsheetWrapper from '../../shared/BottomsheetWrapper';
-import { sizes } from '../../utils';
-import ChatMuteIcon from '../../../assets/images/svg/ChatMuteIcon';
-import ChatViewProfileIcon from '../../../assets/images/svg/ChatViewProfileIcon';
-import ChatDeleteConversationIcon from '../../../assets/images/svg/ChatDeleteConversationIcon';
-import ChatReportUserIcon from '../../../assets/images/svg/ChatReportUserIcon';
-import ChatBlockUser from '../../../assets/images/svg/ChatBlockUser';
-import { appColor } from '../../constants';
-import { useNavigation } from '@react-navigation/native';
-import { updateReportUserModal } from '../../controller/FeedsController';
-import { useAppDispatch } from '../../controller/hooks';
-const { height, width } = Dimensions.get('window');
+import { View, Text, StyleSheet, Dimensions, Pressable } from "react-native";
+import React from "react";
+import BottomsheetWrapper from "../../shared/BottomsheetWrapper";
+import { sizes } from "../../utils";
+import ChatMuteIcon from "../../../assets/images/svg/ChatMuteIcon";
+import ChatViewProfileIcon from "../../../assets/images/svg/ChatViewProfileIcon";
+import ChatDeleteConversationIcon from "../../../assets/images/svg/ChatDeleteConversationIcon";
+import ChatReportUserIcon from "../../../assets/images/svg/ChatReportUserIcon";
+import ChatBlockUser from "../../../assets/images/svg/ChatBlockUser";
+import { appColor } from "../../constants";
+import { useNavigation } from "@react-navigation/native";
+import { updateReportUserModal } from "../../controller/FeedsController";
+import { useAppDispatch } from "../../controller/hooks";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 
 interface Props {
@@ -21,6 +21,9 @@ interface Props {
   onBlockUser: () => void;
   onDeleteConversation: () => void;
   onDeleteChat: () => void;
+  nickname: string;
+  userId: string;
+  username: string;
 }
 const MoreBottomsheet = ({
   onClose,
@@ -28,6 +31,9 @@ const MoreBottomsheet = ({
   onBlockUser,
   onDeleteChat,
   onDeleteConversation,
+  nickname,
+  userId,
+  username,
 }: Props) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
@@ -50,7 +56,11 @@ const MoreBottomsheet = ({
         <Pressable
           onPress={() => {
             onClose();
-            navigation.navigate('TheirProfileScreen');
+            navigation.navigate("TheirProfileScreen", {
+              nickname: nickname,
+              userId: userId,
+              username: username,
+            });
           }}
           style={styles.view}
         >
@@ -87,14 +97,14 @@ const styles = StyleSheet.create({
   text: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(18),
-    fontFamily: 'Outfit-Medium',
-    textAlign: 'center',
+    fontFamily: "Outfit-Medium",
+    textAlign: "center",
     lineHeight: size.getHeightSize(23),
     letterSpacing: 0.36,
   },
   view1: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: size.getWidthSize(8),
     paddingBottom: size.getHeightSize(16),
     paddingTop: size.getHeightSize(12),
@@ -102,8 +112,8 @@ const styles = StyleSheet.create({
     borderBottomColor: appColor.grayDark,
   },
   view: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: size.getWidthSize(8),
     paddingVertical: size.getHeightSize(12),
   },

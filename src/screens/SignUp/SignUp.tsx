@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef } from "react";
 import {
   Text,
   View,
@@ -7,46 +7,48 @@ import {
   Dimensions,
   FlatList,
   TouchableOpacity,
-} from 'react-native';
+} from "react-native";
 import {
   SafeAreaView,
   useSafeAreaInsets,
-} from 'react-native-safe-area-context';
-import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
-import { setLoginSession, sizes } from '../../utils';
-import ReferralView from '../../components/SignUp/Referral/ReferralView';
-import TranslationForwardButton from '../../components/SignUp/TranslationForwardButton';
-import Verify from '../../components/SignUp/ConnectSocialsAndVerify/Verify';
-import { SignUpProps } from '../../navigations/NavigationTypes';
-import ChooseUsernameContent from '../../components/SignUp/ChooseUsername/UsernameContent';
-import ConnectSocials from '../../components/SignUp/ConnectSocials/ConnectSocials';
-import FindFriends from '../../components/SignUp/FindFriends/FindFriends';
-import ExploreCommunities from '../../components/SignUp/ExploreCommunities/ExploreCommunities';
-import ChooseProfilePics from '../../components/SignUp/ChooseProfilePics/ChooseProfilePics';
-import UploadImageModal from '../../components/SignUp/ChooseProfilePics/UploadImageModal';
-import ChooseNFT from '../../components/SignUp/ChooseProfilePics/ChooseNFT';
-import SelectedCollection from '../../components/SignUp/ChooseProfilePics/SelectedCollection';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import SignupTransitionBackButton from '../../components/SignUp/SignupTransitionBackButton';
-import { useAppSelector } from '../../controller/hooks';
-import Loader from '../../../assets/svg/Loader';
+} from "react-native-safe-area-context";
+import { useFonts } from "expo-font";
+import { appColor, fonts } from "../../constants";
+import { setLoginSession, sizes } from "../../utils";
+import ReferralView from "../../components/SignUp/Referral/ReferralView";
+import TranslationForwardButton from "../../components/SignUp/TranslationForwardButton";
+import Verify from "../../components/SignUp/ConnectSocialsAndVerify/Verify";
+import { SignUpProps } from "../../navigations/NavigationTypes";
+import ChooseUsernameContent from "../../components/SignUp/ChooseUsername/UsernameContent";
+import ConnectSocials from "../../components/SignUp/ConnectSocials/ConnectSocials";
+import FindFriends from "../../components/SignUp/FindFriends/FindFriends";
+import ExploreCommunities from "../../components/SignUp/ExploreCommunities/ExploreCommunities";
+import ChooseProfilePics from "../../components/SignUp/ChooseProfilePics/ChooseProfilePics";
+import UploadImageModal from "../../components/SignUp/ChooseProfilePics/UploadImageModal";
+import ChooseNFT from "../../components/SignUp/ChooseProfilePics/ChooseNFT";
+import SelectedCollection from "../../components/SignUp/ChooseProfilePics/SelectedCollection";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import SignupTransitionBackButton from "../../components/SignUp/SignupTransitionBackButton";
+import { useAppSelector } from "../../controller/hooks";
+import Loader from "../../../assets/svg/Loader";
 import {
   checkSignup,
   signup,
   updateConnectedSocial,
   uploadProfileImage,
-} from '../../api';
-import { useNavigation } from '@react-navigation/native';
-const { width, height } = Dimensions.get('window');
+} from "../../api";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { updateUserId } from "../../controller/UserController";
+const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
 let newWidth = width - 2 * PADDING;
 
 const SignUp = ({ magic }: SignUpProps) => {
   const navigation = useNavigation();
-  const [userId, setUserId] = useState('');
-  const [token, setToken] = useState('');
+  const [userId, setUserId] = useState("");
+  const [token, setToken] = useState("");
   const loaderRef = useRef();
   const padding = useSafeAreaInsets();
   const {
@@ -69,11 +71,12 @@ const SignUp = ({ magic }: SignUpProps) => {
   const continueButtonDisable = useAppSelector(
     (state) => state.USER.isSignUpContinueButtonDisable
   );
+  const dispatch = useDispatch();
   const views = [
     <ReferralView />,
     <ChooseUsernameContent />,
     <Verify />,
-    <ConnectSocials magic={magic} signMethod={'SignUp'} />,
+    <ConnectSocials magic={magic} signMethod={"SignUp"} />,
     <FindFriends token={token} />,
     // <ExploreCommunities />,
     <ChooseProfilePics />,
@@ -84,57 +87,62 @@ const SignUp = ({ magic }: SignUpProps) => {
   const user = useAppSelector((state) => state.USER);
   const createFormData = () => {
     const data = new FormData();
-    data.append('file', {
+    data.append("file", {
       name: user.UserData.username,
-      type: 'Image/' + get_url_extension(profilePics),
+      type: "Image/" + get_url_extension(profilePics),
       uri: profilePics,
     } as any);
     return data;
   };
   function get_url_extension(url) {
-    return url.split(/[#?]/)[0].split('.').pop().trim();
+    return url.split(/[#?]/)[0].split(".").pop().trim();
   }
 
   const showLoader = (show = true) => {
     if (loaderRef.current && show)
-      (loaderRef.current as any).setNativeProps({ style: { display: 'flex' } });
+      (loaderRef.current as any).setNativeProps({ style: { display: "flex" } });
 
     if (loaderRef.current && !show)
-      (loaderRef.current as any).setNativeProps({ style: { display: 'none' } });
+      (loaderRef.current as any).setNativeProps({ style: { display: "none" } });
   };
 
   const handleNextSlide = async () => {
     const newIndex = viewIndex + 1;
-
     if (viewIndex == 0) {
       try {
         showLoader(true);
         const res = await checkSignup(user.didToken);
         if (res.isExist && res.isExist == true) {
-          await setLoginSession(res.wallet);
-          navigation.navigate('Congratulations');
+          await setLoginSession(res.wallet, res.userId);
+          dispatch(updateUserId(res.userId));
+          navigation.navigate("Congratulations");
         }
       } catch (e) {
         showLoader(false);
         return;
       }
     }
-
     if (newIndex < views.length && flatListRef.current) {
       setViewIndex((previous) => previous + 1);
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
       if (newIndex == 2) {
-        const issuer = user.metadata !== undefined ? user.metadata.issuer : '';
+        console.log("index is ======");
+        console.log(viewIndex);
+        const issuer = user.metadata !== undefined ? user.metadata.issuer : "";
+
         const res = await signup(
           user.didToken,
-          issuer,
-          user.accountInfo.address,
+          user.metadata.issuer,
+          user.accountInfo?.address,
           user.UserData.nickname,
           user.UserData.username,
           user.UserData.email
         );
+        console.log("=======res========");
+        console.log(res);
 
         if (!res.error && res.success != false) {
+          await setLoginSession(res.wallet, res.userId);
           setUserId(res.userId);
           setToken(user.didToken);
         }
@@ -147,7 +155,7 @@ const SignUp = ({ magic }: SignUpProps) => {
       }
     } else {
       const res = await uploadProfileImage(user.didToken, createFormData());
-      navigation.navigate('Congratulations');
+      navigation.navigate("Congratulations");
     }
   };
 
@@ -176,21 +184,21 @@ const SignUp = ({ magic }: SignUpProps) => {
       (newWidth / 6) * 5,
       newWidth,
     ],
-    extrapolate: 'clamp',
+    extrapolate: "clamp",
   });
 
   let stageTitle = (index: number) => {
     switch (index) {
       case 0:
-        return 'Connect Socials & Verify';
+        return "Connect Socials & Verify";
       case 1:
-        return 'Connect Socials & Verify';
+        return "Connect Socials & Verify";
       case 2:
-        return 'Select socials';
+        return "Select socials";
       case 3:
-        return 'Find your friends';
+        return "Find your friends";
       case 4:
-        return 'Choose PFP';
+        return "Choose PFP";
       default:
         return "Hang on! You're all done after this.";
     }
@@ -198,25 +206,25 @@ const SignUp = ({ magic }: SignUpProps) => {
   let disable;
   switch (viewIndex) {
     case 0:
-      disable = referralCode.length < 1;
+      disable = false;
       break;
     case 1:
       disable =
-      usernameError ||
-      nickNameError ||
-      userNameLength < 1 ||
-      nickNameLength < 1;
+        usernameError ||
+        nickNameError ||
+        userNameLength < 1 ||
+        nickNameLength < 1;
       break;
     case 5:
-      disable = typeof profilePics === 'undefined' ? true : false;
+      disable = typeof profilePics === "undefined" ? true : false;
       break;
     default:
       break;
   }
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -242,7 +250,7 @@ const SignUp = ({ magic }: SignUpProps) => {
           style={{
             color: appColor.kTextColor,
             marginBottom: size.getHeightSize(8),
-            fontFamily: 'Outfit-Regular',
+            fontFamily: "Outfit-Regular",
             fontSize: size.fontSize(14),
             lineHeight: size.getHeightSize(18),
             width: newWidth,
@@ -271,15 +279,15 @@ const SignUp = ({ magic }: SignUpProps) => {
         <TouchableOpacity
           disabled
           style={{
-            position: 'absolute',
+            position: "absolute",
             left: 0,
             right: 0,
             top: 0,
             bottom: 0,
-            backgroundColor: '#000000a0',
+            backgroundColor: "#000000a0",
             zIndex: 999,
-            justifyContent: 'center',
-            alignItems: 'center',
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <Loader />
@@ -300,7 +308,7 @@ const SignUp = ({ magic }: SignUpProps) => {
           <View
             style={{
               width: width,
-              alignItems: 'center',
+              alignItems: "center",
               flex: 1,
             }}
           >
@@ -357,7 +365,7 @@ const SignUp = ({ magic }: SignUpProps) => {
               }}
               index={viewIndex}
               next={() => {
-                navigation.navigate('Congratulations');
+                navigation.navigate("Congratulations");
               }}
             />
           </View>
@@ -380,9 +388,9 @@ const styles = StyleSheet.create({
     paddingVertical: size.getHeightSize(12.5),
     fontSize: size.fontSize(18),
     color: appColor.kTextColor,
-    textAlign: 'center',
+    textAlign: "center",
     marginLeft: size.getWidthSize(6),
     lineHeight: size.getHeightSize(23),
-    fontFamily: 'Outfit-Medium',
+    fontFamily: "Outfit-Medium",
   },
 });

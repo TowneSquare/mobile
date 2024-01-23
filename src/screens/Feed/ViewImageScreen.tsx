@@ -18,10 +18,11 @@ const ViewImageScreen = ({ route }: ViewImageScreenProps) => {
     "Outfit-Medium": fonts.OUTFIT_NORMAL,
     "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
-  const { postData } = route.params;
+  const { postData, imageUri, showReactions } = route.params;
   if (!isLoaded) {
     return null;
   }
+  let uri = postData ? postData.imageUrls[0] : imageUri;
   return (
     <SafeAreaView
       style={{
@@ -54,30 +55,39 @@ const ViewImageScreen = ({ route }: ViewImageScreenProps) => {
         }}
       >
         <Image
-          source={{ uri: postData.imageUrls[0] }}
+          source={{ uri }}
           resizeMode="cover"
           style={{
             width: "100%",
             height: size.heightSize(347),
+            top: showReactions !== false ? 0 : size.getHeightSize(-30),
           }}
         />
       </View>
-      <View style={{ flex: 1 }} />
       <View
         style={{
-          marginBottom: size.getHeightSize(31),
+          flex: 1,
         }}
-      >
-        <PostActions
-          noOfComments={postData.comments.length}
-          Likes={postData?.likes}
-          Repost={postData?.reposts}
-          paddingHorizontal={16}
-          postId={postData?._id}
-          userId={postData?.userId}
-          showShareIcon
-        />
-      </View>
+      />
+      {showReactions !== false && (
+        <>
+          <View
+            style={{
+              marginBottom: size.getHeightSize(31),
+            }}
+          >
+            <PostActions
+              noOfComments={postData.comments.length}
+              Likes={postData?.likes}
+              Repost={postData?.reposts}
+              paddingHorizontal={16}
+              postId={postData?._id}
+              userId={postData?.userId}
+              showShareIcon
+            />
+          </View>
+        </>
+      )}
     </SafeAreaView>
   );
 };

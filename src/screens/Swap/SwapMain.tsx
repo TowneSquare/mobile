@@ -41,17 +41,14 @@ function SwapMain() {
     setDexVisibility(false);
   };
   const SwapDetails = () => {
-    Keyboard.dismiss();
-    setTimeout(() => {
-      setshowdetails(!showdetails);
-    }, 50);
+    setshowdetails(!showdetails);
   };
   const handleSend = () => {
     Keyboard.dismiss();
-    setTimeout(() => {
-      setBottomsheetvisibility(true);
-      setTransactionStatus('loading');
-    }, 100);
+ setTimeout(()=>{
+  setBottomsheetvisibility(true);
+  setTransactionStatus('loading');
+ },100)
     setTimeout(() => {
       setTransactionStatus('success');
       setBottomsheetvisibility(false);

@@ -1,4 +1,8 @@
 {
   "extends": "expo/tsconfig.base.json",
-  "compilerOptions": {}
+  "compilerOptions": {
+    "paths": {
+      "react": ["./node_modules/@types/react"]
+    }
+  }
 }

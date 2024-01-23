@@ -37,7 +37,7 @@ import { CreatePostProps } from "../../navigations/NavigationTypes";
 import { message } from "../../utils/messageData";
 import axios from "axios";
 import { BACKEND_URL } from "../../../config/env";
-import { createPost } from '../../api';
+import { createPost } from "../../api";
 // import {
 //   Aptos,
 //   AptosConfig,
@@ -146,19 +146,22 @@ const CreatePost = ({ route }: CreatePostProps) => {
   // };
 
   const createFormData = () => {
-    console.log(media)
+    console.log(media);
     const data = new FormData();
-    data.append("file", {
-      name: media?.split("/").pop(),
-      type: "Image/" + get_url_extension(media),
-      uri: media
-    } as any);
-    data.append('description', textInput)
-    data.append('sellNFTPrice', nft.sellNFTPrice)
-    data.append('nftTokenId', nft.nftTokenId)
-    data.append('nftCollection', nft.nftCollection)
-    data.append('nftImageUrl', nft.nftImageUrl)
-    console.log(data, "data")
+    if (media) {
+      data.append("file", {
+        name: media?.split("/").pop(),
+        type: "Image/" + get_url_extension(media),
+        uri: media,
+      } as any);
+    }
+
+    data.append("description", textInput);
+    data.append("sellNFTPrice", nft.sellNFTPrice);
+    data.append("nftTokenId", nft.nftTokenId);
+    data.append("nftCollection", nft.nftCollection);
+    data.append("nftImageUrl", nft.nftImageUrl);
+    console.log(data, "data");
     return data || "";
   };
 
@@ -166,13 +169,12 @@ const CreatePost = ({ route }: CreatePostProps) => {
     return url?.split(/[#?]/)[0].split(".").pop().trim();
   }
 
-  console.log(createFormData(), media, "fileee")
-
+  console.log(createFormData(), media, "fileee");
 
   const handleCreatePost = async () => {
     const res = await createPost(token, createFormData());
     console.log("@@@@@@@@@@@@@@@@@", res);
-    if (res?.id) {
+    if (res.id) {
       dispatch(
         updateToast({
           displayToast: true,
@@ -189,7 +191,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
         })
       );
     }
-  }
+  };
 
   return (
     <SafeAreaView
@@ -206,7 +208,6 @@ const CreatePost = ({ route }: CreatePostProps) => {
           onPress={async () => {
             navigation.dispatch(StackActions.pop(1));
             handleCreatePost();
-
           }}
           style={styles.publishButton}
         >

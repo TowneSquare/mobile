@@ -5,23 +5,24 @@ import {
   Image,
   Dimensions,
   Pressable,
-} from 'react-native';
-import { useFonts } from 'expo-font';
-import BarCodeIcon from '../../../assets/images/svg/BarcodeIcon';
-import SendIcon from '../../../assets/images/svg/SendIcon';
-import SwapIcon from '../../../assets/images/svg/SwapIcon';
-import { images, fonts, appColor } from '../../constants';
-import { sizes } from '../../utils';
-import { useNavigation } from '@react-navigation/native';
-import { useAppSelector } from '../../controller/hooks';
-import { useAppDispatch } from '../../controller/hooks';
-import TowneSquareProfileLogo from '../../../assets/images/svg/TowneSquareProfileLogo';
-import { LinearGradient } from 'expo-linear-gradient';
-import TownesquareGradient from '../../../assets/images/svg/TownesquareGradient';
-const { height, width } = Dimensions.get('window');
-import WalletImage from '../../../assets/images/svg/WalletImage';
-import { updateSelectUserBottomsheet } from '../../controller/BottomSheetController';
-import { updateReceiveModalState } from '../../controller/FeedsController';
+} from "react-native";
+import { useFonts } from "expo-font";
+import BarCodeIcon from "../../../assets/images/svg/BarcodeIcon";
+import SendIcon from "../../../assets/images/svg/SendIcon";
+import SwapIcon from "../../../assets/images/svg/SwapIcon";
+import { images, fonts, appColor } from "../../constants";
+import { sizes } from "../../utils";
+import { useNavigation } from "@react-navigation/native";
+import { useAppSelector } from "../../controller/hooks";
+import { useAppDispatch } from "../../controller/hooks";
+
+import TowneSquareProfileLogo from "../../../assets/images/svg/TowneSquareProfileLogo";
+import { LinearGradient } from "expo-linear-gradient";
+import TownesquareGradient from "../../../assets/images/svg/TownesquareGradient";
+const { height, width } = Dimensions.get("window");
+import WalletImage from "../../../assets/images/svg/WalletImage";
+import { updateSelectUserBottomsheet } from "../../controller/BottomSheetController";
+import { updateReceiveModalState } from "../../controller/FeedsController";
 const size = new sizes(height, width);
 interface Props {
   APTOS_DOMAIN_NAME: string;
@@ -32,17 +33,19 @@ const WalletCard = ({ APTOS_DOMAIN_NAME, WALLET_ADDRESS }: Props) => {
   const navigation = useNavigation();
 
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
+  console.log("===domain=====");
+  console.log(APTOS_DOMAIN_NAME);
   return (
     <View style={[styles.view1]}>
       <View style={{}}>
         <View
           style={{
-            position: 'relative',
-            backgroundColor: '#9D9D9D',
+            position: "relative",
+            backgroundColor: "#9D9D9D",
 
             borderRadius: 10,
             // height: size.getHeightSize(207),
@@ -50,20 +53,20 @@ const WalletCard = ({ APTOS_DOMAIN_NAME, WALLET_ADDRESS }: Props) => {
         >
           <View
             style={{
-              position: 'relative',
-              backgroundColor: '#060606',
+              position: "relative",
+              backgroundColor: "#060606",
               borderRadius: 10,
               top: size.getHeightSize(1),
             }}
           >
             <LinearGradient
               colors={[
-                '#3D4043',
-                '#292D30',
-                '#313436',
-                '#292B2C',
-                '#292A2C',
-                '#111214',
+                "#3D4043",
+                "#292D30",
+                "#313436",
+                "#292B2C",
+                "#292A2C",
+                "#111214",
               ]}
               locations={[0.0152, 0.3642, 0.479, 0.5846, 0.724, 1]}
               start={[-0.18, 0.01]}
@@ -77,17 +80,17 @@ const WalletCard = ({ APTOS_DOMAIN_NAME, WALLET_ADDRESS }: Props) => {
               />
               <View
                 style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start',
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "flex-start",
 
                   height: size.getHeightSize(28),
                 }}
               >
                 <View
                   style={{
-                    flexDirection: 'row',
-                    alignItems: 'flex-start',
+                    flexDirection: "row",
+                    alignItems: "flex-start",
                     paddingLeft: size.getWidthSize(1.5),
                     gap: size.getWidthSize(4),
                   }}
@@ -101,25 +104,25 @@ const WalletCard = ({ APTOS_DOMAIN_NAME, WALLET_ADDRESS }: Props) => {
               </View>
               <View
                 style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
+                  flexDirection: "row",
+                  alignItems: "center",
                   gap: size.getWidthSize(12),
                   marginTop: size.getHeightSize(13),
                 }}
               >
                 <LinearGradient
                   colors={[
-                    '#F1C6DD',
-                    '#C1A4E8',
-                    '#B8E2FB',
-                    '#F2EFE8',
-                    '#F9DCDD',
-                    '#E1C1E5',
-                    '#BDAFE3',
-                    '#C7EDEB',
-                    '#E7F5EB',
-                    '#F2F0E7',
-                    '#DDC1E1',
+                    "#F1C6DD",
+                    "#C1A4E8",
+                    "#B8E2FB",
+                    "#F2EFE8",
+                    "#F9DCDD",
+                    "#E1C1E5",
+                    "#BDAFE3",
+                    "#C7EDEB",
+                    "#E7F5EB",
+                    "#F2F0E7",
+                    "#DDC1E1",
                   ]}
                   start={{ x: 1.3, y: -0.1 }}
                   end={{ x: 0.1, y: 1 }}
@@ -139,13 +142,13 @@ const WalletCard = ({ APTOS_DOMAIN_NAME, WALLET_ADDRESS }: Props) => {
               <View style={{ marginTop: size.getHeightSize(27) }}>
                 <Text
                   style={{
-                    fontFamily: 'Outfit-SemiBold',
-                    color: '#FCFAFF',
+                    fontFamily: "Outfit-SemiBold",
+                    color: "#FCFAFF",
                     fontSize: size.fontSize(16),
                     lineHeight: size.getHeightSize(21),
                   }}
                 >
-                  {APTOS_DOMAIN_NAME}
+                  {"jczhang.apt"}
                 </Text>
                 <Text style={styles.address}>{`${WALLET_ADDRESS.slice(
                   0,
@@ -195,16 +198,16 @@ const WalletCard = ({ APTOS_DOMAIN_NAME, WALLET_ADDRESS }: Props) => {
         <View
           style={{
             flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
+            justifyContent: "center",
+            alignItems: "center",
             opacity: 0.4,
           }}
         >
           <Pressable
             // onPress={() => navigation.navigate('SwapMain')}
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
+              flexDirection: "row",
+              alignItems: "center",
             }}
           >
             <SwapIcon />
@@ -212,7 +215,7 @@ const WalletCard = ({ APTOS_DOMAIN_NAME, WALLET_ADDRESS }: Props) => {
           </Pressable>
           <Text
             style={{
-              fontFamily: 'Outfit-SemiBold',
+              fontFamily: "Outfit-SemiBold",
               color: appColor.kGrayscale,
               fontSize: size.fontSize(14),
               lineHeight: size.getHeightSize(18),
@@ -236,32 +239,34 @@ const styles = StyleSheet.create({
   },
   text: {
     color: appColor.kGrayscale,
-    fontFamily: 'Outfit-Bold',
+    fontFamily: "Outfit-Bold",
     paddingLeft: 5,
   },
   view2: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: size.getHeightSize(4),
     marginHorizontal: size.getWidthSize(4),
-    marginVertical: size.getHeightSize(7.5),
+
     height: size.getHeightSize(40),
+    marginBottom: size.getHeightSize(7),
   },
   view2Box: {
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
     flex: 1,
     gap: size.getWidthSize(4),
-    justifyContent: 'center',
+    justifyContent: "center",
+    paddingVertical: size.getHeightSize(4),
   },
   view2TextUp: {
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     color: appColor.primaryLight,
     lineHeight: size.getHeightSize(21),
     fontSize: size.fontSize(16),
   },
   view2TextDown: {
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.kGrayscale,
     fontSize: size.fontSize(14),
   },
@@ -277,23 +282,23 @@ const styles = StyleSheet.create({
     height: size.getHeightSize(84),
     width: size.getHeightSize(84),
     borderRadius: 200,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   walletBalance: {
     color: appColor.kGrayscale,
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
   },
   balance: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(29),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     lineHeight: size.getHeightSize(37),
   },
   absoluteImage: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     marginTop: size.getHeightSize(16),
     height: size.getHeightSize(185),
@@ -308,7 +313,7 @@ const styles = StyleSheet.create({
     marginBottom: size.getHeightSize(1),
   },
   address: {
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.kGrayscale,
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
