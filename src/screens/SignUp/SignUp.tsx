@@ -73,7 +73,7 @@ const SignUp = ({ magic }: SignUpProps) => {
   );
   const dispatch = useDispatch();
   const views = [
-    ()<ReferralView />,
+    <ReferralView />,
     <ChooseUsernameContent />,
     <Verify />,
     <ConnectSocials magic={magic} signMethod={"SignUp"} />,
