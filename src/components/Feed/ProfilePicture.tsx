@@ -1,21 +1,21 @@
-import { Pressable, Text, Dimensions, StyleSheet } from 'react-native';
-import { Avatar } from 'react-native-elements';
-import React, {useState} from 'react';
-import { UserData } from '../../controller/UserController';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../../utils';
-import { images, fonts } from '../../constants';
+import { Pressable, Text, Dimensions, StyleSheet } from "react-native";
+import { Avatar } from "react-native-elements";
+import React, { useState } from "react";
+import { UserData } from "../../controller/UserController";
+const { height, width } = Dimensions.get("window");
+import { sizes } from "../../utils";
+import { images, fonts } from "../../constants";
 const size = new sizes(height, width);
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 interface Props {
   PFPsize?: number;
-  profileImage:string
+  profileImage: string;
 }
 
 const ProfilePicture = ({ PFPsize, profileImage }: Props) => {
   const navigation = useNavigation();
-   const [userData, setUserData] = useState<UserData>({
+  const [userData, setUserData] = useState<UserData>({
     _id: "655d71b07123f56056b546d8",
     issuer: "did:ethr:0x8880807e9188a75767c647374d83272d031a0b42",
     aptosWallet: "0x8880807e9188a75767c647374d83272d031a0b42",
@@ -29,7 +29,7 @@ const ProfilePicture = ({ PFPsize, profileImage }: Props) => {
       "https://townesquare-media.s3.amazonaws.com/20231124T025800.147Z_28i87s00i6s.jpg",
     followers: [],
     following: [],
-    badge:[],
+    badge: [],
     posts: [
       {
         _id: "655df7a347784b1665992617",
@@ -245,11 +245,18 @@ const ProfilePicture = ({ PFPsize, profileImage }: Props) => {
     ],
   });
   return (
-    <Pressable onPress={() => navigation.navigate('TheirProfileScreen', {
-      userData
-    })}>
+    <Pressable
+      disabled={!userData._id}
+      onPress={() =>
+        navigation.navigate("TheirProfileScreen", {
+          nickname: userData.nickname,
+          userId: userData._id,
+          username: userData.username,
+        })
+      }
+    >
       <Avatar
-        source={{uri:profileImage}}
+        source={profileImage ? { uri: profileImage } : images.defaultAvatar}
         rounded
         size={PFPsize ? size.getHeightSize(PFPsize) : size.getHeightSize(40)}
       />

@@ -1,125 +1,71 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  ScrollView,
-  TextInput,
-  Image,
-} from "react-native";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { View, Text, Dimensions, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
 import { sizes } from "../../utils";
 import { appColor, fonts } from "../../constants";
-
+import { useAppSelector } from "../../controller/hooks";
+import ProfilePicture from "../Feed/ProfilePicture";
 import { useFonts } from "expo-font";
+import { Comment } from "../../controller/createPost";
 import PostHeader from "../Feed/PostHeader";
+import { getPostTime } from "../../utils/helperFunction";
 import AddComment from "../../../assets/images/svg/addComment";
 import LikePost from "../../../assets/images/svg/LikePost";
 import LikedIcon from "../../../assets/images/svg/LikedIcon";
-import ProfilePicture from "../Feed/ProfilePicture";
+import { useContext } from "react";
+import { SinglePostContext } from "../../context/SinglePostContext";
+import { getUserInfo } from "../../api";
+// import ProfilePicture from "../Feed/ProfilePicture";
 const { height, width } = Dimensions.get("window");
 import SinglePostCommentHeader from "./SinglePostCommentHeader";
-import { Comment, PostData } from "../../controller/createPost";
-import { useAppSelector } from "../../controller/hooks";
-import { getPostById, getUserInfo, likePost } from "../../api";
-import { images } from "../../constants";
-import AddCommentTextInput from "./AddCommentTextInput";
-import { getPostTime } from "../../utils/helperFunction";
-import SubComments from "./SubComments";
-import { useAppDispatch } from "../../controller/hooks";
-import { UserData } from "../../controller/UserController";
 const size = new sizes(height, width);
 interface Props {
-  handleCommentButton: (username: string) => void;
+  handleCommentButton: () => void;
   myPost?: boolean;
-  CommentData: Comment;
+  data: Comment;
 }
 
-const Comments = ({ CommentData, handleCommentButton }: Props) => {
-  const scrollViewRef = useRef<ScrollView>(null);
-  const textInputRef = useRef<TextInput>(null);
-  const [replyingTo, setReplyingTo] = useState(false);
-
-  const [comment, setComment] = useState<PostData>();
-  const [subComment, setSubComment] = useState<PostData[]>([]);
-  const [userData, setUserData] = useState<UserData>();
-  const { didToken, user } = useAppSelector((state) => ({
-    didToken: state.USER.didToken,
-    user: state.USER.UserData._id,
-  }));
-  const [likes, setLikes] = useState<boolean>();
-  const [noOflikes, setnoOflikes] = useState(comment?.likes?.length);
-
-  const getCommentDetails = async () => {
-    const result = await getPostById(didToken, CommentData?._id);
-    setComment(result);
-    const res = await getUserInfo(CommentData.userId, didToken);
-    console.log(res, "userId")
-    setUserData(res);
-    setSubComment(
-      await Promise.all(
-        comment?.comments?.map(
-          async (subComment) => await getPostById(didToken, subComment._id)
-        )
-      )
-    );
+const Comments = ({ handleCommentButton, myPost, data }: Props) => {
+  const { setReplyingTo } = useContext(SinglePostContext);
+  const myId = useAppSelector((state) => state.USER.UserData._id);
+  const token = useAppSelector((state) => state.USER.didToken);
+  const [userInfo, setUserInfo] = useState({
+    username: "",
+    nickname: "",
+    profileImage: "",
+  });
+  const [likes, setLikes] = useState<string[]>([]);
+  const handleLike = (postId: string) => {
+    if (likes.includes(postId)) {
+      const filteredId = likes.filter((like) => {
+        return like !== postId;
+      });
+      setLikes(filteredId);
+    } else setLikes([...likes, postId]);
   };
-
-  useMemo(() => {
-    setLikes(comment?.likes?.some((like) => like?.userId == user));
-  }, [comment?.likes]);
-
-  // const handleCommentPress = () => {
-  //   textInputRef.current?.focus();
-  //   setReplyingTo(true);
-  //   textInputRef.current?.clear();
-  //   if (scrollViewRef.current) {
-  //     const commentIndex = 4;
-  //     const yOffset = commentIndex * 100;
-  //     scrollViewRef.current.scrollTo({ y: yOffset, animated: true });
-  //   }
-  // };
-
-  const handleBlur = () => {
-    setReplyingTo(false);
-    textInputRef.current?.clear();
-  };
-
   useEffect(() => {
-    getCommentDetails();
-  }, []);
-
-  const handleCommentLike = async () => {
-    setLikes(!likes);
-    if (likes) {
-      setnoOflikes(noOflikes - 1);
-    } else {
-      setnoOflikes(noOflikes + 1);
+    async function getUser() {
+      const contactDetails = await getUserInfo(data.userId, token);
+      const { nickname, username, profileImage } = contactDetails;
+      setUserInfo({
+        nickname,
+        profileImage,
+        username,
+      });
     }
-    await likePost(didToken, CommentData?.postId);
-  };
-
+    getUser();
+  }, []);
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
     "Outfit-Medium": fonts.OUTFIT_NORMAL,
     "Outfit-Regular": fonts.OUTFIT_REGULAR,
   });
-
   if (!isLoaded) {
     return null;
   }
-  const timepost = getPostTime(CommentData.createdAt);
-  const myPost = CommentData.userId == user;
-
 
   return (
     <View style={styles.commentContainer}>
-      <ProfilePicture
-        profileImage={
-          comment?.customer?.profileImage ||
-          Image.resolveAssetSource(images.pfpImage).uri
-        }
-      />
+      <ProfilePicture  PFPsize={32} profileImage={userInfo.profileImage} />
       <View
         style={{
           flex: 1,
@@ -128,48 +74,74 @@ const Comments = ({ CommentData, handleCommentButton }: Props) => {
         <View>
           <PostHeader
             maxWidth={77}
-            username={userData?.username}
-            nickname={userData?.username}
-            timepost={timepost}
-            myPost={myPost}
-            postId={CommentData?.postId}
-            userId={CommentData?.userId}
+            username={userInfo.username}
+            nickname={userInfo.nickname}
+            timepost={getPostTime(data.createdAt)}
+            myPost={data.userId == myId}
+            postId={data.postId}
+            userId={data.userId}
           />
-          <Text style={styles.comment}>{CommentData?.content}</Text>
+          <Text style={styles.comment}>{data.content}</Text>
           {/* <Text style={styles.readMore}>Read More</Text> */}
-          {/* <View style={styles.reactionContainer}>
+          <View style={styles.reactionContainer}>
             <View style={styles.reactionContent}>
               <AddComment
                 size={size.getHeightSize(24)}
                 onPress={() => {
-                  handleCommentButton(CommentData.username);
+                  setReplyingTo(userInfo.username);
+                  handleCommentButton();
                 }}
               />
-              <Text style={styles.reactionText}>
-                {comment?.comments?.length}
-              </Text>
+              <Text style={styles.reactionText}></Text>
             </View>
             <View style={styles.reactionContent}>
-              {likes ? (
+              {likes.includes("1") ? (
                 <LikedIcon
                   size={size.getHeightSize(24)}
-                  onPress={() => handleCommentLike()}
+                  onPress={() => handleLike("1")}
                 />
               ) : (
                 <LikePost
                   size={size.getHeightSize(24)}
-                  onPress={() => handleCommentLike()}
+                  onPress={() => handleLike("1")}
                 />
               )}
-              <Text style={styles.reactionText}>{noOflikes}</Text>
+              <Text style={styles.reactionText}></Text>
             </View>
-          // </View> */}
+          </View>
         </View>
-
         {/* Sub Comment */}
-        {subComment?.map((subComment, index) => (
-          <SubComments subComment={subComment} key={index} />
-        ))}
+        {/* <View style={styles.repliedCommentContainer}>
+          <ProfilePicture PFPsize={18} />
+          <View>
+            <SinglePostCommentHeader
+              maxWidth={77}
+              username="Username1"
+              nickname="@username1"
+              timepost="2min"
+            />
+            <Text
+              style={[styles.comment, { maxWidth: size.getWidthSize(262) }]}
+            >
+              This is a comment of a comment I still like it tho
+            </Text>
+
+            <View style={styles.reactionContent}>
+              {likes.includes("2") ? (
+                <LikedIcon
+                  size={size.getHeightSize(24)}
+                  onPress={() => handleLike("2")}
+                />
+              ) : (
+                <LikePost
+                  size={size.getHeightSize(24)}
+                  onPress={() => handleLike("2")}
+                />
+              )}
+              <Text style={styles.reactionText}>4</Text>
+            </View>
+          </View>
+        </View> */}
         {/*  */}
         {/* <View style={styles.repliedCommentContainer}>
           <ProfilePicture PFPsize={18} />
@@ -199,7 +171,7 @@ const Comments = ({ CommentData, handleCommentButton }: Props) => {
               )}
               <Text style={styles.reactionText}>4</Text>
             </View>
-          </View>x
+          </View>
         </View> */}
       </View>
     </View>
@@ -229,6 +201,7 @@ const styles = StyleSheet.create({
   reactionContainer: {
     flexDirection: "row",
     gap: size.getWidthSize(12),
+    marginTop: size.getHeightSize(9),
   },
   reactionContent: {
     flexDirection: "row",

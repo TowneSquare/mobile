@@ -11,7 +11,6 @@ let _headers = {
   "Content-Type": "application/json",
 };
 
-
 function createCall(path, data = null, headers = {}, method = "POST") {
   const merged = {
     ..._headers,
@@ -107,7 +106,7 @@ export async function uploadProfileImage(token: string, profileImage: any) {
 }
 
 export async function createPost(token: string, postData: any) {
-  console.log(token)
+  console.log(token);
   return fetch(`${BACKEND_URL}` + "posts/create", {
     method: "POST",
     headers: { authorization: token, "Content-Type": "multipart/form-data" },
@@ -118,7 +117,6 @@ export async function createPost(token: string, postData: any) {
       if (error.code == 400) console.log(error.message);
     });
 }
-
 
 export async function getAllUser(token: string) {
   return createCall(`user/getall`, {}, { authorization: token }, "GET");
@@ -349,4 +347,31 @@ export const getUserAptosName = async (address: string) => {
   } catch (error) {
     return "unavailable";
   }
+};
+
+export const addComment = async (
+  text: string,
+  token: string,
+  postId: string
+) => {
+  return await axios
+    .post(
+      `${BACKEND_URL}posts/comment/${postId}`,
+      {
+        content: text,
+      },
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
+    )
+    .then((res) => {
+      return true;
+    })
+    .catch((err) => {
+      return false;
+    });
 };

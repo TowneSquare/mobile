@@ -88,7 +88,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     ? FeedContent.MESSAGE_ONLY
     : FeedContent.EMPTY;
   const userPost = data;
-  console.log(data, "for you");
+  // console.log(data, "for you");
   switch (type_of_post) {
     case FeedContent.MESSAGE_ONLY:
       content = (
@@ -97,7 +97,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
             <ProfilePicture
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
-              swipeable={myPost}
+              swipeable
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
             />
@@ -134,7 +134,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
             <ProfilePicture
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
-              swipeable={myPost}
+              swipeable
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
             />
@@ -182,9 +182,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 </Pressable>
               </View>
               <PostActions
-                noOfComments={
-                  userPost.comments ? userPost.comments.length : 0
-                }
+                noOfComments={userPost.comments ? userPost.comments.length : 0}
                 Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost._id}
@@ -203,7 +201,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
             <ProfilePicture
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
-              swipeable={myPost}
+              swipeable
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
             />
@@ -316,7 +314,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
             <ProfilePicture
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
-              swipeable={myPost}
+              swipeable
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
             />
@@ -377,7 +375,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
             <ProfilePicture
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
-              swipeable={myPost}
+              swipeable
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
             />
@@ -415,7 +413,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                       uri: data.videoUrls[0],
                     }}
                     ref={videoRef}
-                    style={communityStyles.video}
+                    style={styles.imageStyle}
                     resizeMode={ResizeMode.COVER}
                     isLooping
                     shouldPlay
@@ -511,7 +509,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
             <ProfilePicture
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
-              swipeable={myPost}
+              swipeable
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
             />
@@ -602,7 +600,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
             <ProfilePicture
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
-              swipeable={myPost}
+              swipeable
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
             />
@@ -811,8 +809,9 @@ const communityStyles = StyleSheet.create({
   },
   video: {
     alignSelf: "center",
-    width: 320,
-    height: 200,
+    width: size.getWidthSize(320),
+    height: size.getHeightSize(200),
+    borderRadius: 8,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

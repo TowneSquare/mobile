@@ -129,8 +129,8 @@ const initialState: UserState = {
     _id: "6588dd27973c4e8e226c92f2",
     issuer: "did:ethr:0x8880807e9188a75767c647374d83272d031a0b42",
     aptosWallet: "0x8880807e9188a75767c647374d83272d031a0b42",
-    nickname: "TO1",
-    username: "TOTO1",
+    nickname: "",
+    username: "",
     email: "to@town.com",
     bio: `🖇️ Love everything about blockchain \n🌍3 web3 Native \n 👀 Always on a lookout for blue chips`,
     referralCode: "E1HFN",
@@ -650,7 +650,6 @@ const initialState: UserState = {
           postId: "655df7a347784b1665992617",
           createdAt: "2023-11-24T12:25:14.173Z",
         },
-       
       ],
       comments: [
         {
@@ -740,7 +739,7 @@ export const followUser = createAsyncThunk(
   async (followRequest: followRequest, thunkAPI) => {
     const { toUserIds, token } = followRequest;
     try {
-       await axios.post(
+      await axios.post(
         `${BACKEND_URL}user/follow-friends`,
         {
           followIds: toUserIds,
@@ -753,7 +752,6 @@ export const followUser = createAsyncThunk(
           },
         }
       );
-     
     } catch (error) {
       //return thunkAPI.rejectWithValue(error);
     }
@@ -1016,6 +1014,7 @@ export const USER = createSlice({
     updateDidToken: (state, action: PayloadAction<string>) => {
       state.didToken = action.payload;
     },
+
     updateEditProfile: (state, action: PayloadAction<boolean>) => {
       state.editProfile = action.payload;
     },

@@ -14,7 +14,7 @@ export const getLoginSession = async () => {
   try {
     const data = await AsyncStorage.getItem(SessionKey);
     const session = JSON.parse(data);
-    console.log(session);
+    // console.log(session);
 
     if (session) {
       if (session.expiresAt > Date.now()) {
@@ -29,14 +29,4 @@ export const getLoginSession = async () => {
   }
 };
 
-export const setUserToken = async (token: string) => {
-  await AsyncStorage.setItem("usertoken", token);
-};
-export const getUserToken = async () => {
-  try {
-    const token = await AsyncStorage.getItem("usertoken");
-    return token;
-  } catch {
-    return undefined;
-  }
-};
+

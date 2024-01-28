@@ -8,7 +8,6 @@ import { BACKEND_URL } from "../../../config/env";
 import { useAppSelector } from "../hooks";
 import { images } from "../../constants";
 
-
 interface CreatePost {
   message: string;
   tags: string[];
@@ -397,7 +396,7 @@ export const getAllPost = createAsyncThunk(
       });
 
       const result: PostData[] = await response.data;
-      console.log(result, "hhhh");
+      // console.log(result, "hhhh");
       if (result.length > 0) {
         return result.map((res) => {
           return {
@@ -740,7 +739,7 @@ export const fieldHandlerSlice = createSlice({
     });
     builder.addCase(getAllPost.rejected, (state, action) => {
       state.PostState = POSTSTATE.REJECTED;
-      console.log(state.AllPost, "state_all_post");
+      // console.log(state.AllPost, "state_all_post");
       state.AllPost = [...state.AllPost];
     });
     builder.addCase(

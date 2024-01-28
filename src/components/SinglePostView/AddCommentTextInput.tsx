@@ -5,17 +5,20 @@ import {
   TextInput,
   Animated,
   StyleSheet,
-} from 'react-native';
-import { useState, useEffect, useRef } from 'react';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
-import SendButton from '../../../assets/images/svg/SendButton';
-import SendButtonActive from '../../../assets/images/svg/SendButtonActive';
-import { sizes } from '../../utils';
-import { useAppSelector } from '../../controller/hooks';
-import axios from 'axios';
-import { BACKEND_URL } from '../../../config/env';
+} from "react-native";
+import { useState, useEffect, useRef, useContext } from "react";
+const { height, width } = Dimensions.get("window");
+import { addComment } from "../../api";
+import { useFonts } from "expo-font";
+import { appColor, fonts } from "../../constants";
+import SendButton from "../../../assets/images/svg/SendButton";
+import SendButtonActive from "../../../assets/images/svg/SendButtonActive";
+import { updateToast } from "../../controller/FeedsController";
+import { SinglePostContext } from "../../context/SinglePostContext";
+import { sizes } from "../../utils";
+import { useAppSelector, useAppDispatch } from "../../controller/hooks";
+import axios from "axios";
+import { BACKEND_URL } from "../../../config/env";
 const size = new sizes(height, width);
 interface Props {
   textRef: any;
@@ -29,15 +32,13 @@ const AddCommentTextInput = ({
   showReplyingTo,
   postId,
 }: Props) => {
+  const { replyingTo } = useContext(SinglePostContext);
   const [height, setHeight] = useState(0);
   const [borderRadius, setBorderRadius] = useState(40);
   const [text, setText] = useState("");
   const [addingComment, setAddingComment] = useState(false);
   const token = useAppSelector((state) => state.USER.didToken);
-  const username = useAppSelector(
-    (state) => state.CreatePostController.CommentReplyData.username
-  );
-
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (height > size.getHeightSize(73)) {
       startAnimation();
@@ -70,26 +71,25 @@ const AddCommentTextInput = ({
     setHeight(newHeight);
   };
 
-  const addComment = async () => {
-    try {
-      setAddingComment(true);
-      axios.post(
-        `${BACKEND_URL}posts/comment/${postId}`,
-        {
-          content: text,
-        },
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: token,
-          },
-        }
+  const sendComment = async () => {
+    setText("");
+    const commentAdded = await addComment(text, token, postId);
+    if (commentAdded) {
+      dispatch(
+        updateToast({
+          displayToast: true,
+          toastMessage: "Your comment has been successfully posted!",
+          toastType: "success",
+        })
       );
-      console.log("addComments", postId)
-      setAddingComment(false);
-    } catch (error) {
-      setAddingComment(false);
+    } else {
+      dispatch(
+        updateToast({
+          displayToast: true,
+          toastMessage: "Error posting your comment. Please try again.",
+          toastType: "info",
+        })
+      );
     }
   };
   return (
@@ -102,10 +102,9 @@ const AddCommentTextInput = ({
         {showReplyingTo && (
           <View style={styles.replyingTo}>
             <Text style={styles.replyingToText}>Replying to</Text>
-            <Text style={styles.username}>{`@{${username}`}</Text>
+            <Text style={styles.username}>{`@${replyingTo}`}</Text>
           </View>
         )}
-
         <View style={styles.inputContainer}>
           <TextInput
             ref={textRef}
@@ -122,7 +121,7 @@ const AddCommentTextInput = ({
           {text.length >= 1 ? (
             <SendButtonActive
               onPress={() => {
-                addComment();
+                sendComment();
               }}
               size={size.getHeightSize(24)}
             />
