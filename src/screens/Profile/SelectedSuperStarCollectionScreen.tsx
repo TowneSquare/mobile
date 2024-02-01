@@ -48,8 +48,8 @@ const SelectedSuperStarCollectionScreen = ({
                 <Pressable
                   key={index}
                   disabled={
-                    selected.length === 6 ||
-                    selected.some(
+                    selected?.length === 6 ||
+                    selected?.some(
                       (obj) =>
                         obj.hasOwnProperty('nftTokenId') &&
                         obj['nftTokenId'] === collection.nftTokenId
@@ -74,7 +74,7 @@ const SelectedSuperStarCollectionScreen = ({
                       resizeMode="cover"
                       style={styles.imageStyle}
                     />
-                    {selected.some(
+                    {selected?.some(
                       (obj) =>
                         obj.hasOwnProperty('nftTokenId') &&
                         obj['nftTokenId'] === collection.nftTokenId

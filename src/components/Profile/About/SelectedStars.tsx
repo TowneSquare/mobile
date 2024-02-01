@@ -26,15 +26,15 @@ const SelectedStars = ({ navigation }: Props) => {
     (state) => state.USER.selectedSuperStars
   );
   const token = useAppSelector((state) => state.USER.didToken);
-  const [length, setlength] = useState<number>(selectedStars.length);
+  const [length, setlength] = useState<number>(selectedStars?.length);
 
-  const disabled = selectedStars.length != length || selectedStars.length < 1;
+  const disabled = selectedStars?.length != length || selectedStars?.length < 1;
   return (
     <View style={styles.view}>
       <Text style={styles.text}>
         Selected Super Stars{" "}
         <Text style={[styles.text, { color: appColor.kTextColor }]}>
-          {selectedStars.length}/6
+          {selectedStars?.length}/6
         </Text>
       </Text>
       <SelectedSuperStars />
