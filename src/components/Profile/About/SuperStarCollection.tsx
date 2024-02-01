@@ -11,10 +11,14 @@ import { sizes } from '../../../utils';
 import { useFonts } from 'expo-font';
 import { NavigationProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../../navigations/NavigationTypes';
+import { AssetsData } from '../../../controller/UserController/models';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {
-  collection: { nftImageUrl?: any; nftCollection?: string; nftTokenId?: number };
+  collectionName: string;
+  collectionLogo:string;
+  ownsTotal:number;
+  assets:Array<AssetsData>
   navigation: NavigationProp<RootStackParamList, 'SuperStarCollectionScreen'>;
 }
 const data = [
@@ -69,7 +73,7 @@ const data = [
     nftCollection:"Aptos Monkey"
   },
 ];
-const SuperStarCollection = ({ collection, navigation }: Props) => {
+const SuperStarCollection = ({ collectionName, collectionLogo, navigation, ownsTotal, assets }: Props) => {
   let [isLoaded] = useFonts({
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -79,22 +83,22 @@ const SuperStarCollection = ({ collection, navigation }: Props) => {
     <Pressable
       onPress={() => {
         navigation.navigate('SelectedSuperStarCollectionScreen', {
-          nfts: data,
-         title:"Aptos Monkey"
+          nfts: assets,
+         title:collectionName
         });
       }}
       style={styles.imageContainer}
     >
       <Image
-        source={{ uri: Image.resolveAssetSource(collection.nftImageUrl).uri }}
+        source={{ uri: collectionLogo }}
         resizeMode="cover"
         style={styles.imageStyle}
       />
       <View style={styles.nameContainer}>
-        <Text style={styles.name}>{collection.nftCollection}</Text>
+        <Text style={styles.name}>{collectionName}</Text>
       </View>
       <View style={styles.idContainer}>
-        <Text style={styles.id}>{collection.nftTokenId}</Text>
+        <Text style={styles.id}>{ownsTotal}</Text>
       </View>
     </Pressable>
   );

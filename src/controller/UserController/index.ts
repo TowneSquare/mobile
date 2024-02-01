@@ -12,6 +12,12 @@ export interface collection {
   isSelected: boolean;
 }
 
+export interface SELECTEDSUPERSTAR {
+        nftImageUrl: string;
+        nftTokenId: string;
+        nftCollection: string;
+      }
+
 export interface selectedCollection {
   image: ImageSourcePropType;
   collectionId: number;
@@ -429,7 +435,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: "Aptomingos",
+      Name: "Aptomingos222222",
       id: 1,
     },
     {
@@ -650,7 +656,6 @@ const initialState: UserState = {
           postId: "655df7a347784b1665992617",
           createdAt: "2023-11-24T12:25:14.173Z",
         },
-       
       ],
       comments: [
         {
@@ -740,7 +745,7 @@ export const followUser = createAsyncThunk(
   async (followRequest: followRequest, thunkAPI) => {
     const { toUserIds, token } = followRequest;
     try {
-       await axios.post(
+      await axios.post(
         `${BACKEND_URL}user/follow-friends`,
         {
           followIds: toUserIds,
@@ -753,7 +758,6 @@ export const followUser = createAsyncThunk(
           },
         }
       );
-     
     } catch (error) {
       //return thunkAPI.rejectWithValue(error);
     }
@@ -1045,7 +1049,12 @@ export const USER = createSlice({
         nftCollection: string;
       }>
     ) => {
-      state.selectedSuperStars = [...state.selectedSuperStars, action.payload];
+      if(undefined){
+        state.selectedSuperStars = [action.payload]
+      } else {
+        state.selectedSuperStars = [...state.selectedSuperStars, action.payload];
+      }
+      
     },
     deleteSelectedSuperStar: (state, action: PayloadAction<string>) => {
       state.selectedSuperStars = state.selectedSuperStars.filter(
@@ -1053,6 +1062,7 @@ export const USER = createSlice({
       );
     },
     resetSelectedSuperStar: (state) => {
+      ``;
       state.selectedSuperStars = state.UserData.superstars.nftInfoArray;
     },
     updateBio: (state, action: PayloadAction<string>) => {

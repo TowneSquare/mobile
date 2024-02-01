@@ -41,7 +41,7 @@ const SelectedCollection = () => {
   const { isVisible, renderCount, profilePics } = useAppSelector((state) => ({
     isVisible: state.bottomSheetController.selectedCollectionModal,
     renderCount: state.bottomSheetController.selectedRender,
-    profilePics: state.USER.details.profileImage,
+    profilePics: state.USER.UserData.profileImage,
   }));
 
   useEffect(() => {

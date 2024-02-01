@@ -106,16 +106,10 @@ const About = () => {
 
   const [view, setView] = useState<number>(2);
 
-<<<<<<< HEAD
   const NAME = USERDATA.username || "";
   const NICKNAME = USERDATA.username || "";
   const APTOS_DOMAIN_NAME =
     useAptosName({ userAddress: USERDATA.aptosWallet }).data?.name || "";
-=======
-  const NAME = USERDATA.username || "Real JC";
-  const NICKNAME = USERDATA.nickname || "jczhang";
-  const APTOS_DOMAIN_NAME = "jczhang.apt";
->>>>>>> 0cf1deeb12cf623f67ff8cdd54d613dfdf6a0282
   const DATE = getCreatedTime(USERDATA.createdAt);
   const FOLLOWING = USERDATA.following.length || "0";
   const FOLLOWERS = USERDATA.followers.length || "0";
@@ -287,11 +281,7 @@ const About = () => {
               />
             </View>
           </View>
-<<<<<<< HEAD
         )} */}
-=======
-        )}
->>>>>>> 0cf1deeb12cf623f67ff8cdd54d613dfdf6a0282
         <View style={styles.aboutDiv}>
           <Text
             style={[

@@ -10,6 +10,7 @@ import Header from '../../shared/Feed/Header';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAppSelector } from '../../controller/hooks';
 import { SuperStarCollectionScreenProps } from '../../navigations/NavigationTypes';
+import { initialData, useUserNFT } from '../../api/hooks';
 const { height, width } = Dimensions.get('window');
 
 const size = new sizes(height, width);
@@ -22,6 +23,12 @@ const SuperStarCollectionScreen = ({
   const collections = useAppSelector(
     (state) => state.bottomSheetController.listOfNftCollections
   );
+  // const userNFT = useUserNFT({
+  //   userAddress:
+  //     "0xab772ae1cbc258f8d65d5def3bcf2968ec00803c66ef0a559e832441612cd05f",
+  // });
+  const userNFT = initialData
+  console.log("==========",userNFT.data, "UserNFT");
   return (
     <SafeAreaView
       style={{
@@ -35,12 +42,15 @@ const SuperStarCollectionScreen = ({
         marginTop={16}
       />
       <View style={{ flex: 1 }}>
-        <ScrollView style={{ marginTop: size.getHeightSize(16) }}>
+        <ScrollView style={{ marginBottom: size.getHeightSize(16) }}>
           <View style={styles.collectionContainer}>
-            {collections.map((collection) => (
+            {userNFT.data.map((collection) => (
               <SuperStarCollection
                 navigation={navigation}
-                collection={collection}
+                collectionName={collection.collection}
+                collectionLogo={collection.logo_url}
+                ownsTotal={collection.owns_total}
+                assets={collection.assets}
               />
             ))}
           </View>

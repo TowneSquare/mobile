@@ -23,6 +23,7 @@ import { handlWalletConnect } from '../../utils/connectWallet';
 import { useState } from 'react';
 import BackButton from '../../components/SignUp/BackButton';
 import { ChooseWalletProps } from '../../navigations/NavigationTypes';
+import LetGoButton from '../../components/SignUp/LetGoButton';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 type Wallet = 'pontem' | 'rise' | 'petra';
@@ -59,6 +60,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
               height: size.getHeightSize(108),
             }}
           />
+          <LetGoButton navigateTo='DrawerNavigation'/>
           <View style={styles.view2}>
             <Pressable
               onPress={() => {

@@ -6,6 +6,7 @@ import {
 import { ImageSourcePropType } from "react-native";
 import { PostData } from "../controller/createPost";
 import { UserData } from "../controller/UserController";
+import { AssetsData } from "../controller/UserController/models";
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
@@ -19,11 +20,7 @@ interface PetraWalletResponse {
 type SelectedSuperStarCollectionScreenParameter = {
   [SelectedSuperStarCollectionScreen: string]: {
     title: string;
-    nfts: {
-      nftImageUrl: ImageSourcePropType;
-      nftTokenId: string;
-      nftCollection: string;
-    }[];
+    nfts: Array<AssetsData>
   };
 };
 
@@ -78,11 +75,7 @@ export type RootStackParamList = {
   SuperStarCollectionScreen: undefined;
   SelectedSuperStarCollectionScreen: {
     title: string;
-    nfts: {
-      nftImageUrl: string;
-      nftTokenId: string;
-      nftCollection: string;
-    }[];
+    nfts: Array<AssetsData>
   };
   EditProfileScreen: undefined;
   ProfileFollowersTab: undefined;

@@ -40,6 +40,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { updateUserId } from "../../controller/UserController";
+import React from "react";
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
@@ -114,8 +115,8 @@ const SignUp = ({ magic }: SignUpProps) => {
         const res = await checkSignup(user.didToken);
         if (res.isExist && res.isExist == true) {
           await setLoginSession(res.wallet, res.userId);
-          dispatch(updateUserId(res.userId))
-          navigation.navigate('Congratulations');
+          dispatch(updateUserId(res.userId));
+          navigation.navigate("Congratulations");
         }
       } catch (e) {
         showLoader(false);

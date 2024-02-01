@@ -170,8 +170,6 @@ const CreatePost = ({ route }: CreatePostProps) => {
     return url?.split(/[#?]/)[0].split(".").pop().trim();
   }
 
-  console.log(createFormData(), media, "fileee");
-
   const handleCreatePost = async () => {
     const res = await createPost(token, createFormData());
     if (res.id) {

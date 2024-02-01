@@ -2,10 +2,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PersistTime, SessionKey } from "../constants";
 
 export const setLoginSession = async (wallet: string, userId: string) => {
-export const setLoginSession = async (wallet: string, userId: string) => {
   const session = {
     wallet: wallet,
-    userId: userId,
     userId: userId,
     expiresAt: Date.now() + PersistTime,
   };

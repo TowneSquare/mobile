@@ -740,7 +740,6 @@ export const fieldHandlerSlice = createSlice({
     });
     builder.addCase(getAllPost.rejected, (state, action) => {
       state.PostState = POSTSTATE.REJECTED;
-      console.log(state.AllPost, "state_all_post");
       state.AllPost = [...state.AllPost];
     });
     builder.addCase(
