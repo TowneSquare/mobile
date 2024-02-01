@@ -14,6 +14,8 @@ declare global {
 
 interface PetraWalletResponse {
   response?: "approved" | "rejected" | "dismissed";
+  data?: string;
+  nonce: string;
 }
 
 type SelectedSuperStarCollectionScreenParameter = {
@@ -35,10 +37,24 @@ type TheirProfileParams = {
   };
 };
 
+export type SignUpParams = {
+  [SignUp: string]: {
+    walletCredentials: {
+      token: string;
+      address: string;
+    };
+  };
+};
+
 export type RootStackParamList = {
   FirstScreen: undefined;
   ChooseWallet: PetraWalletResponse;
-  SignUp: undefined;
+  SignUp: {
+    walletCredentials: {
+      token: string;
+      address: string;
+    };
+  };
   // ConnectSocialsAndVrify: undefined;
   // ConnectSocials: undefined;
   // FindFriends: undefined;

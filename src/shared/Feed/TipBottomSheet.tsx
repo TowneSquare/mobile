@@ -148,6 +148,7 @@ const TipBottomSheet = () => {
               <Avatar
                 source={{ uri: profileImage }}
                 size={size.getHeightSize(84)}
+                rounded
               />
             </View>
             <Text style={styles.name}>{username}</Text>

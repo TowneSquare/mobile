@@ -32,7 +32,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
   if (!isLoaded) {
     return null;
   }
-  
+
   const myPost = userId == data?.userId;
   const type_of_post =
     data?.videoUrls[0] && data?.description
@@ -121,6 +121,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                     alignSelf: "center",
                     width: "100%",
                     height: size.getHeightSize(200),
+                    borderRadius: 8,
                   }}
                   resizeMode="cover"
                   loadingIndicatorSource={images.Aptomingos}

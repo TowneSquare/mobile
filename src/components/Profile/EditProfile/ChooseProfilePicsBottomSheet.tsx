@@ -90,7 +90,7 @@ const ChooseProfilePicsBottomSheet = () => {
     }
     if (cameraPermissionInformation?.status === PermissionStatus.DENIED) {
       const permissionResponse = await requestPermission();
-      console.log(permissionResponse);
+      // console.log(permissionResponse);
       if (permissionResponse.granted === false) {
         Alert.alert(
           "Insufficient permission!",

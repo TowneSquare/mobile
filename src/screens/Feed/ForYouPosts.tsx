@@ -25,11 +25,10 @@ const ForYouPosts = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const userToken = useAppSelector((state) => state.USER.didToken);
-   const user = useAppSelector((state) => state.USER.UserData._id);
+  const user = useAppSelector((state) => state.USER.UserData._id);
   const AllPost = useAppSelector((state) => state.CreatePostController.AllPost);
   useEffect(() => {
     dispatch(getAllPost(userToken));
-    
   }, []);
 
   const EmptyComponent = () => {

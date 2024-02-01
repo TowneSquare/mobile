@@ -9,13 +9,14 @@ import BarCode from "../../../assets/images/svg/Barcode";
 import Feather from "@expo/vector-icons/Feather";
 import { useFonts } from "expo-font";
 import ForYouPosts from "./ForYouPosts";
+import { useEffect } from "react";
 import CommingSoon from "./CommingSoon";
 import MainTab from "../../navigations/MainTabNavigation";
 import NotificationBell from "../../components/Feed/NotificationBell";
 import { useNavigation } from "@react-navigation/native";
 const size = new sizes(height, width);
 import { DrawerActions } from "@react-navigation/native";
-import TopTabNavigator from "../../navigations/TopTabNavigator";
+
 import { useAppDispatch } from "../../controller/hooks";
 import { updateReceiveModalState } from "../../controller/FeedsController";
 
@@ -73,7 +74,7 @@ const Main = () => {
           <BarCode onPress={openModal} />
         </View>
       </View>
-        <MainTab />
+      <MainTab />
     </SafeAreaView>
   );
 };

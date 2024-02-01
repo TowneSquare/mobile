@@ -45,7 +45,7 @@ const Replies = memo(
     const getPost = async () => {
       try {
         const result = await getPostById(token, postId);
-        console.log(result, "resulttt");
+        // console.log(result, "resulttt");
         setUserPost(result);
       } catch (error) {
         console.log(error)
@@ -70,7 +70,7 @@ const Replies = memo(
       navigation.navigate("SinglePost" as any, params);
     };
 
-    console.log(userPost, "checking--2");
+    // console.log(userPost, "checking--2");
     const timePost = getPostTime(data?.createdAt);
 
     let content;
@@ -87,7 +87,7 @@ const Replies = memo(
         : data?.content
         ? FeedContent.MESSAGE_ONLY
         : FeedContent.EMPTY;
-    console.log(type_of_post, "type of post");
+    // console.log(type_of_post, "type of post");
     switch (type_of_post) {
       case FeedContent.MESSAGE_ONLY:
         // userPost.content = data.content as Message_Only;

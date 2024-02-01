@@ -31,24 +31,38 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import SignupTransitionBackButton from "../../components/SignUp/SignupTransitionBackButton";
 import { useAppSelector } from "../../controller/hooks";
 import Loader from "../../../assets/svg/Loader";
+import { SignUpParams } from "../../navigations/NavigationTypes";
 import {
   checkSignup,
   signup,
   updateConnectedSocial,
   uploadProfileImage,
 } from "../../api";
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
+import { useRoute } from "@react-navigation/native";
 import { updateUserId } from "../../controller/UserController";
 const { width, height } = Dimensions.get("window");
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
 let newWidth = width - 2 * PADDING;
-
+type WalletCredentials = {
+  token: string;
+  address: string;
+};
+type RootStackParamList = {
+  SignUp: { walletCredentials?: WalletCredentials };
+};
+type SignUpRouteProp = RouteProp<RootStackParamList, "SignUp">;
 const SignUp = ({ magic }: SignUpProps) => {
   const navigation = useNavigation();
+
+  // console.log(route?.params);
+  const route = useRoute<SignUpRouteProp>();
+  const { address, token } = route.params?.walletCredentials;
+
   const [userId, setUserId] = useState("");
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
   const loaderRef = useRef();
   const padding = useSafeAreaInsets();
   const {
@@ -108,10 +122,14 @@ const SignUp = ({ magic }: SignUpProps) => {
 
   const handleNextSlide = async () => {
     const newIndex = viewIndex + 1;
+    console.log(viewIndex);
     if (viewIndex == 0) {
       try {
         showLoader(true);
-        const res = await checkSignup(user.didToken);
+        console.log(token);
+        console.log("======token========");
+        const res = await checkSignup(token);
+
         if (res.isExist && res.isExist == true) {
           await setLoginSession(res.wallet, res.userId);
           dispatch(updateUserId(res.userId));
@@ -123,6 +141,7 @@ const SignUp = ({ magic }: SignUpProps) => {
       }
     }
     if (newIndex < views.length && flatListRef.current) {
+      console.log("=======here========");
       setViewIndex((previous) => previous + 1);
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
       if (newIndex == 2) {
@@ -131,30 +150,25 @@ const SignUp = ({ magic }: SignUpProps) => {
         const issuer = user.metadata !== undefined ? user.metadata.issuer : "";
 
         const res = await signup(
-          user.didToken,
-          user.metadata.issuer,
-          user.accountInfo?.address,
+          token,
+          issuer,
+          address,
           user.UserData.nickname,
           user.UserData.username,
           user.UserData.email
         );
-        console.log("=======res========");
+        console.log("=====sign up res======");
         console.log(res);
-
         if (!res.error && res.success != false) {
           await setLoginSession(res.wallet, res.userId);
           setUserId(res.userId);
-          setToken(user.didToken);
+          // setToken(user.didToken);
         }
       } else if (newIndex == 4) {
-        const result = await updateConnectedSocial(
-          userId,
-          user.didToken,
-          socialInfo
-        );
+        const result = await updateConnectedSocial(userId, token, socialInfo);
       }
     } else {
-      const res = await uploadProfileImage(user.didToken, createFormData());
+      const res = await uploadProfileImage(token, createFormData());
       navigation.navigate("Congratulations");
     }
   };

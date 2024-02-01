@@ -19,8 +19,8 @@ interface Props {
   maxWidth?: number;
   onPress?: () => void;
   myPost?: boolean;
-  postId:string,
-  userId:string
+  postId: string;
+  userId: string;
 }
 const PostHeader = ({
   username,

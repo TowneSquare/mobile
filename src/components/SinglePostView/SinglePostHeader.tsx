@@ -3,7 +3,7 @@ import { sizes } from "../../utils";
 import { appColor, fonts } from "../../constants";
 import { useFonts } from "expo-font";
 const { height, width } = Dimensions.get("window");
-import { useAppDispatch } from "../../controller/hooks";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
 import {
   updateReportingModal,
   updateMyPostPanel,
@@ -33,6 +33,7 @@ const SinglePostHeader = ({
   myPost,
   onPress,
 }: Props) => {
+  const currentUserId = useAppSelector((state) => state.USER.UserData._id);
   const dispatch = useAppDispatch();
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -64,7 +65,8 @@ const SinglePostHeader = ({
         username={username}
         userId={userId}
         left={-1}
-        top={-1}
+        top={-4}
+        swipeable={currentUserId !== userId}
       />
 
       <View
