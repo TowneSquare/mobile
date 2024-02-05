@@ -56,5 +56,17 @@ export const handlWalletConnect = async (walletName: Wallet) => {
     }
     const url = `https://petra.app/api/v1/connect?data=${base64ConnectData}`;
     await Linking.openURL(url);
+  } else if (walletName == "pontem") {
+    console.log(walletName)
+    const redirectLink = Linking.createURL("/ChooseWallet");
+    const appInfo = {
+      name: "TownSquare",
+      logoUrl: "https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png",
+      redirectLink: redirectLink
+    };
+    const dataBase64 = Buffer.from(JSON.stringify(appInfo)).toString("base64");
+    const url = `pontem-wallet://mob2mob?connect=${dataBase64}`;
+    Linking.openURL(url);
+    console.log(url);
   }
 };
