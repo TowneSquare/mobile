@@ -36,7 +36,8 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
     token: string;
     address: string;
   }>();
-  const petraWalletConnection = route.params?.response;
+  const walletConnectionResponse = route.params?.response;
+  console.log(walletConnectionResponse);
   const dispatch = useAppDispatch();
   useEffect(() => {
     const handleConnect = async () => {
@@ -55,10 +56,14 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
         })
       );
     };
-    if (selectedWallet === "petra" && petraWalletConnection === "approved") {
+    if (selectedWallet === "petra" && walletConnectionResponse === "approved") {
       handleConnect();
+    } else if (
+      selectedWallet === "pontem" &&
+      walletConnectionResponse === "approved"
+    ) {
     }
-  }, [selectedWallet, petraWalletConnection]);
+  }, [selectedWallet, walletConnectionResponse]);
 
   const handleWalletConnect = (wallet: Wallet) => {
     setSelectedWallet(wallet);
@@ -98,15 +103,19 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
             </Pressable>
             <Pressable
               onPress={() => {
-                // handleWalletConnect('pontem');
+                handleWalletConnect("pontem");
               }}
-              style={[styles.wallet, { backgroundColor: appColor.kgrayDark2 }]}
+              style={[styles.wallet, { paddingRight: size.getWidthSize(13) }]}
             >
               <View style={styles.rows}>
                 <Pontem />
                 <Text style={styles.leadingText}>Pontem</Text>
               </View>
-              <Text style={styles.text}>Coming soon</Text>
+              <MaterialIcons
+                name="keyboard-arrow-right"
+                color={appColor.kWhiteColor}
+                size={size.fontSize(25)}
+              />
             </Pressable>
             <Pressable
               onPress={() => {
@@ -154,9 +163,9 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
         </View>
 
         <CompleteSignUpModal
-          signupstate={petraWalletConnection}
+          signupstate={walletConnectionResponse}
           callBack={() => {
-            if (petraWalletConnection === "approved") {
+            if (walletConnectionResponse === "approved") {
               dispatch(
                 updateToast({
                   toastType: "success",
@@ -172,7 +181,8 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
             }
           }}
           buttonText={
-            selectedWallet === "petra" && petraWalletConnection === "approved"
+            selectedWallet === "petra" &&
+            walletConnectionResponse === "approved"
               ? "Sign in and continue"
               : "Connect wallet"
           }

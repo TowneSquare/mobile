@@ -222,11 +222,6 @@ const CreatePost = ({ route }: CreatePostProps) => {
             source={images.createPostPfp}
             size={size.getHeightSize(40)}
           />
-          {/* <Avatar
-            rounded
-            source={images.createPostPfp}
-            size={size.getHeightSize(40)}
-          /> */}
           <FieldInput whichPost={whichPost} />
         </View>
         <View

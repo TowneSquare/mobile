@@ -140,6 +140,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
       try {
         showLoader(true);
         const token = await magic.auth.loginWithEmailOTP({ email });
+        console.log('Token: ', token)
         dispatch(updateDidToken(token));
 
         const accountInfo = await magic.aptos.getAccountInfo();

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "524570695030",
+    "project_id": "townesquare-2862b",
+    "storage_bucket": "townesquare-2862b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:524570695030:android:34194d21f174f4f8fe1657",
+        "android_client_info": {
+          "package_name": "com.townesquare.townesquare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBlTtr6X0hzSjUQgmJDw2tXTHeak8A4dg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
