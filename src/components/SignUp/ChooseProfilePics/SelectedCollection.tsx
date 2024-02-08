@@ -1,40 +1,36 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  Pressable,
-  BackHandler,
-} from 'react-native';
-import { useRef, useState, useEffect } from 'react';
-import * as Animatable from 'react-native-animatable';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import { View, Text, Dimensions, Pressable, BackHandler } from "react-native";
+import { useRef, useState, useEffect } from "react";
+import * as Animatable from "react-native-animatable";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
-} from 'react-native-reanimated';
-import ProfilePicsCollection from './ProfilePicsCollection';
-import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../../constants';
-import { sizes } from '../../../utils';
-import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
+} from "react-native-reanimated";
+import ProfilePicsCollection from "./ProfilePicsCollection";
+import { useFonts } from "expo-font";
+import { appColor, fonts } from "../../../constants";
+import { sizes } from "../../../utils";
+import { useAppDispatch, useAppSelector } from "../../../controller/hooks";
 import {
   updateSelectedCollection,
   updateSelectedRender,
   updateNftOpen,
   updateNftRender,
-} from '../../../controller/BottomSheetController';
-import Customhandler from '../Customhandler';
-const { height, width } = Dimensions.get('window');
+} from "../../../controller/BottomSheetController";
+import Customhandler from "../Customhandler";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const SelectedCollection = () => {
-  const [snapPoint, setSnap] = useState('67%');
+  const [snapPoint, setSnap] = useState("67%");
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const { isVisible, renderCount, profilePics } = useAppSelector((state) => ({
-    isVisible: state.bottomSheetController.selectedCollectionModal,
+  const { isVisible, collectionName, assets, renderCount, profilePics } = useAppSelector((state) => ({
+    isVisible: state.bottomSheetController.selectedCollectionModal.isVisible,
+    collectionName: state.bottomSheetController.selectedCollectionModal.collectionName,
+    assets:state.bottomSheetController.selectedCollectionModal.assets,
     renderCount: state.bottomSheetController.selectedRender,
     profilePics: state.USER.UserData.profileImage,
   }));
@@ -55,16 +51,22 @@ const SelectedCollection = () => {
     const handleBackButton = () => {
       if (isVisible === true && renderCount > 0) {
         dispatch(updateSelectedRender(0));
-        dispatch(updateSelectedCollection(false));
-        setSnap('67%');
+        dispatch(
+          updateSelectedCollection({
+            isVisible: false,
+            collectionName: "",
+            assets: [],
+          })
+        );
+        setSnap("67%");
         return true;
       } else {
         return false;
       }
     };
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
     return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+      BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
     };
   }, [isVisible]);
   const animatedIndex = useSharedValue(0);
@@ -88,8 +90,8 @@ const SelectedCollection = () => {
   }));
 
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
   });
   if (!isLoaded) {
     return null;
@@ -98,8 +100,14 @@ const SelectedCollection = () => {
     <BottomSheet
       onClose={() => {
         dispatch(updateSelectedRender(0));
-        dispatch(updateSelectedCollection(false));
-        setSnap('67%');
+        dispatch(
+          updateSelectedCollection({
+            isVisible: false,
+            collectionName: "",
+            assets: [],
+          })
+        );
+        setSnap("67%");
       }}
       ref={bottomSheetRef}
       enablePanDownToClose={true}
@@ -111,37 +119,37 @@ const SelectedCollection = () => {
       }}
     >
       <Animatable.View
-        animation={'fadeInUp'}
+        animation={"fadeInUp"}
         delay={500}
-        easing={'ease-in-out'}
+        easing={"ease-in-out"}
         duration={400}
       >
         <Text
           style={{
             color: appColor.kTextColor,
             fontSize: size.fontSize(29),
-            fontFamily: 'Outfit-Bold',
-            textAlign: 'center',
+            fontFamily: "Outfit-Bold",
+            textAlign: "center",
             marginTop: size.getHeightSize(29),
             lineHeight: size.getHeightSize(37),
             marginBottom: size.getHeightSize(32),
           }}
         >
-          Aptomingos
+          {collectionName}
         </Text>
       </Animatable.View>
       <BottomSheetScrollView
-        onScroll={() => setSnap('90%')}
+        onScroll={() => setSnap("90%")}
         showsVerticalScrollIndicator={false}
       >
         <Animatable.View
-          animation={'fadeInUp'}
+          animation={"fadeInUp"}
           delay={500}
-          easing={'ease-in-out'}
+          easing={"ease-in-out"}
           duration={400}
           style={contentStyle}
         >
-          <ProfilePicsCollection />
+          <ProfilePicsCollection assets={assets} />
         </Animatable.View>
       </BottomSheetScrollView>
 
@@ -154,19 +162,25 @@ const SelectedCollection = () => {
         <Pressable
           onPress={() => {
             dispatch(updateSelectedRender(0));
-            dispatch(updateSelectedCollection(false));
-            setSnap('67%');
+            dispatch(
+              updateSelectedCollection({
+                isVisible: false,
+                collectionName: "",
+                assets: [],
+              })
+            );
+            setSnap("67%");
           }}
-          disabled={typeof profilePics === 'undefined' ? true : false}
+          disabled={typeof profilePics === "undefined" ? true : false}
           style={{
-            alignSelf: 'center',
+            alignSelf: "center",
             width: size.getWidthSize(328),
             borderRadius: 40,
             // height: size.getHeightSize(48),
-            justifyContent: 'center',
+            justifyContent: "center",
             marginTop: size.getHeightSize(8),
             backgroundColor:
-              typeof profilePics === 'undefined'
+              typeof profilePics === "undefined"
                 ? appColor.kWhiteColorWithOpacity
                 : appColor.kWhiteColor,
             paddingVertical: size.getHeightSize(12.5),
@@ -174,10 +188,10 @@ const SelectedCollection = () => {
         >
           <Text
             style={{
-              textAlign: 'center',
+              textAlign: "center",
               color: appColor.kButtonTextColor,
               fontSize: size.fontSize(18),
-              fontFamily: 'Outfit-SemiBold',
+              fontFamily: "Outfit-SemiBold",
               lineHeight: size.getHeightSize(23),
 
               letterSpacing: 0.01,
@@ -188,7 +202,7 @@ const SelectedCollection = () => {
         </Pressable>
         <View
           style={{
-            justifyContent: 'center',
+            justifyContent: "center",
             height: size.getHeightSize(48),
             marginTop: size.getHeightSize(8),
             paddingVertical: size.getHeightSize(12.5),
@@ -198,16 +212,22 @@ const SelectedCollection = () => {
           <Text
             onPress={() => {
               dispatch(updateSelectedRender(0));
-              dispatch(updateSelectedCollection(false));
+              dispatch(
+                updateSelectedCollection({
+                  isVisible: false,
+                  collectionName: "",
+                  assets: [],
+                })
+              );
               dispatch(updateNftRender(1));
               dispatch(updateNftOpen(true));
-              setSnap('67%');
+              setSnap("67%");
             }}
             style={{
               color: appColor.kTextColor,
               fontSize: size.fontSize(18),
-              fontFamily: 'Outfit-SemiBold',
-              textAlign: 'center',
+              fontFamily: "Outfit-SemiBold",
+              textAlign: "center",
               lineHeight: size.getHeightSize(23),
             }}
           >

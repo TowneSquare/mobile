@@ -28,7 +28,8 @@ const SelectedStars = ({ navigation }: Props) => {
   const token = useAppSelector((state) => state.USER.didToken);
   const [length, setlength] = useState<number>(selectedStars?.length);
 
-  const disabled = selectedStars?.length != length || selectedStars?.length < 1;
+  const disabled = selectedStars?.length != length || selectedStars?.length > 1
+
   return (
     <View style={styles.view}>
       <Text style={styles.text}>

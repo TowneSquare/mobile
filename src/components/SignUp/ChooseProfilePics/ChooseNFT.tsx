@@ -150,7 +150,7 @@ const ChooseNFT = () => {
               lineHeight: size.getHeightSize(21),
             }}
           >
-            Select the NFT you want to use as your PFP
+            Select the NFT you want to use as your PFP12345
           </Text>
         </View>
       </Animatable.View>

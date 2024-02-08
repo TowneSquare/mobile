@@ -134,7 +134,7 @@ const initialState: UserState = {
   UserData: {
     _id: "6588dd27973c4e8e226c92f2",
     issuer: "did:ethr:0x8880807e9188a75767c647374d83272d031a0b42",
-    aptosWallet: "0x8880807e9188a75767c647374d83272d031a0b42",
+    aptosWallet: "0xab772ae1cbc258f8d65d5def3bcf2968ec00803c66ef0a559e832441612cd05f",
     nickname: "TO1",
     username: "TOTO1",
     email: "to@town.com",
@@ -1049,7 +1049,7 @@ export const USER = createSlice({
         nftCollection: string;
       }>
     ) => {
-      if(undefined){
+      if(!state.selectedSuperStars){
         state.selectedSuperStars = [action.payload]
       } else {
         state.selectedSuperStars = [...state.selectedSuperStars, action.payload];
@@ -1063,7 +1063,7 @@ export const USER = createSlice({
     },
     resetSelectedSuperStar: (state) => {
       ``;
-      state.selectedSuperStars = state.UserData.superstars.nftInfoArray;
+      state.selectedSuperStars = state.UserData.superstars?.nftInfoArray;
     },
     updateBio: (state, action: PayloadAction<string>) => {
       state.UserData.bio = action.payload;

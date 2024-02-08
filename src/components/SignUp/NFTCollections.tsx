@@ -16,6 +16,8 @@ import {
   updateNftOpen,
 } from '../../controller/BottomSheetController';
 import { sizes } from '../../utils';
+import { useUserNFT } from '../../api/hooks';
+import { initialData } from '../../api/hooks';
 const size = new sizes(height, width);
 
 interface Props {
@@ -23,9 +25,20 @@ interface Props {
 }
 const NFTCollections = ({ callBack }: Props) => {
   const dispatch = useAppDispatch();
-  const collections = useAppSelector(
-    (state) => state.bottomSheetController.listOfNftCollections
-  );
+  // const {collections} = useAppSelector({
+  //  collections: (state) => state.bottomSheetController.listOfNftCollections}
+  // );
+
+  const {userWallet, collections} = useAppSelector((state) => ({
+    userWallet: state.USER.UserData.aptosWallet,
+    collections: state.bottomSheetController.listOfNftCollections
+  }))
+
+  // const userNFT = useUserNFT({
+  //   userAddress: userWallet
+  // });
+
+   const userNFT = initialData
   let [isLoaded] = useFonts({
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -33,9 +46,11 @@ const NFTCollections = ({ callBack }: Props) => {
   if (!isLoaded) {
     return null;
   }
+
+  // 
   return (
     <>
-      {collections.length > 0 && (
+      {userNFT.data.length > 0 && (
         <View
           style={{
             flex: 1,
@@ -47,7 +62,7 @@ const NFTCollections = ({ callBack }: Props) => {
             paddingHorizontal: size.getWidthSize(16),
           }}
         >
-          {collections.map((collection) => (
+          {userNFT.data.map((collection, index) => (
             <Pressable
               style={{
                 marginBottom: size.getHeightSize(16),
@@ -63,14 +78,18 @@ const NFTCollections = ({ callBack }: Props) => {
                   dispatch(updateNftRender(0));
                   dispatch(updateNftOpen(false));
                   dispatch(updateSelectedRender(1));
-                  dispatch(updateSelectedCollection(true));
+                  dispatch(updateSelectedCollection({
+                    isVisible:true,
+                    collectionName:collection.collection,
+                    assets:collection.assets
+                  }));
                 }
               }}
-              key={collection.id}
+              key={index}
             >
               {
                 <Image
-                  source={collection.image}
+                  source={{uri: collection.logo_url}}
                   resizeMode="cover"
                   style={{
                     width: size.getWidthSize(140),
@@ -104,7 +123,7 @@ const NFTCollections = ({ callBack }: Props) => {
                     textAlign: 'left',
                   }}
                 >
-                  {collection.Name}
+                  {collection.collection}
                 </Text>
               </View>
               <View
@@ -129,7 +148,7 @@ const NFTCollections = ({ callBack }: Props) => {
                     lineHeight: size.getHeightSize(18),
                   }}
                 >
-                  {collection.id}
+                  {collection.owns_total}
                 </Text>
               </View>
             </Pressable>

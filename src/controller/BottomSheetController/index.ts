@@ -1,5 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { images } from '../../constants';
+import { collection } from "./../UserController/index";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { images } from "../../constants";
+import { AssetsData } from "../UserController/models";
 interface NftCollection {
   nftImageUrl?: any;
   nftCollection?: string;
@@ -12,12 +14,16 @@ interface initialStateProps {
   uploadModalRenderCount: number;
   NftModalOpen: boolean;
   NFTRender: number;
-  selectedCollectionModal: boolean;
+  selectedCollectionModal: {
+    isVisible: boolean;
+    collectionName: string;
+    assets: AssetsData[];
+  };
   selectedRender: number;
   profilePics: {
     image: any;
     name: string;
-    id: number;
+    id: string;
   };
   listOfNftCollections: NftCollection[];
   superStarBottomSheet: boolean;
@@ -28,7 +34,7 @@ interface initialStateProps {
       name: string;
       dexImage: string;
     };
-    type: 'token_swap' | 'token_transfer' | undefined;
+    type: "token_swap" | "token_transfer" | undefined;
   };
   selectUserBottomsheet: {
     visibility: boolean;
@@ -46,52 +52,56 @@ const initialState: initialStateProps = {
   uploadModalRenderCount: 0,
   NftModalOpen: false,
   NFTRender: 0,
-  selectedCollectionModal: false,
+  selectedCollectionModal: {
+    isVisible: false,
+    collectionName: "",
+    assets: [],
+  },
   selectedRender: 0,
   profilePics: {
     image: undefined,
-    name: '',
-    id: 0,
+    name: "",
+    id: "",
   },
   listOfNftCollections: [
     {
       nftImageUrl: images.NftCollection1,
-      nftCollection: 'Aptos Monkey lorem Ipsumdalr',
+      nftCollection: "Aptos Monkey lorem Ipsumdalr",
       nftTokenId: 1,
     },
     {
       nftImageUrl: images.NftCollection2,
-      nftCollection: 'Aptomingos',
+      nftCollection: "Aptomingos",
       nftTokenId: 2,
     },
     {
       nftImageUrl: images.superStar2,
-      nftCollection: 'Aptos Monkey lorem Ipsumdalr',
+      nftCollection: "Aptos Monkey lorem Ipsumdalr",
       nftTokenId: 3,
     },
     {
       nftImageUrl: images.NftCollection2,
-      nftCollection: 'Aptomingos',
+      nftCollection: "Aptomingos",
       nftTokenId: 4,
     },
     {
       nftImageUrl: images.superStar1,
-      nftCollection: 'Aptos Monkey lorem Ipsumdalr',
+      nftCollection: "Aptos Monkey lorem Ipsumdalr",
       nftTokenId: 5,
     },
     {
       nftImageUrl: images.NftCollection2,
-      nftCollection: 'Aptomingos',
+      nftCollection: "Aptomingos",
       nftTokenId: 6,
     },
     {
       nftImageUrl: images.NftCollection1,
-      nftCollection: 'Aptos Monkey lorem Ipsumdalr',
+      nftCollection: "Aptos Monkey lorem Ipsumdalr",
       nftTokenId: 7,
     },
     {
       nftImageUrl: images.NftCollection2,
-      nftCollection: 'Aptomingos',
+      nftCollection: "Aptomingos",
       nftTokenId: 8,
     },
   ],
@@ -100,30 +110,30 @@ const initialState: initialStateProps = {
   handleTransactiondetailBottomsheet: {
     visibility: false,
     dex: {
-      name: '',
-      dexImage: '',
+      name: "",
+      dexImage: "",
     },
     type: undefined,
   },
   selectUserBottomsheet: {
     visibility: false,
     selectedUser: {
-      name: '',
-      username: '',
-      profilePicsUri: '',
+      name: "",
+      username: "",
+      profilePicsUri: "",
     },
   },
   islogoutBottomsheetVisibile: false,
 };
 
 export const bottomSheetSlice = createSlice({
-  name: 'BottomSheet',
+  name: "BottomSheet",
   initialState,
   reducers: {
     updateBottomSheet: (state, action: PayloadAction<boolean>) => {
       state.isBottomSheetOpen = action.payload;
     },
- 
+
     updateUploadImageModalOpen: (state, action: PayloadAction<boolean>) => {
       state.uploadImageModalOpen = action.payload;
     },
@@ -136,7 +146,14 @@ export const bottomSheetSlice = createSlice({
     updateNftRender: (state, action: PayloadAction<number>) => {
       state.NFTRender = action.payload;
     },
-    updateSelectedCollection: (state, action: PayloadAction<boolean>) => {
+    updateSelectedCollection: (
+      state,
+      action: PayloadAction<{
+        isVisible: boolean;
+        collectionName: string;
+        assets: AssetsData[];
+      }>
+    ) => {
       state.selectedCollectionModal = action.payload;
     },
     updateSelectedRender: (state, action: PayloadAction<number>) => {
@@ -162,7 +179,7 @@ export const bottomSheetSlice = createSlice({
           name: string;
           dexImage: string;
         };
-        type: 'token_swap' | 'token_transfer' | undefined;
+        type: "token_swap" | "token_transfer" | undefined;
       }>
     ) => {
       state.handleTransactiondetailBottomsheet = action.payload;

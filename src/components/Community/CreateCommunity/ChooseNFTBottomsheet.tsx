@@ -124,7 +124,6 @@ const ChooseNFTBottomsheet = ({ callback, visible, onclose }: Props) => {
               minHeight: size.getHeightSize(44),
               marginTop: size.getHeightSize(16),
               justifyContent: 'center',
-
               marginBottom: size.getHeightSize(16),
             }}
           >
