@@ -1,19 +1,19 @@
-import { View, Text, Dimensions, TextInput } from "react-native";
-import { sizes } from "../../../utils";
-import { useFonts } from "expo-font";
-import { appColor, fonts } from "../../../constants";
-import { useAppSelector, useAppDispatch } from "../../../controller/hooks";
-import { updateNickname } from "../../../controller/UserController";
+import { View, Text, Dimensions, TextInput } from 'react-native';
+import { sizes } from '../../../utils';
+import { useFonts } from 'expo-font';
+import { appColor, fonts } from '../../../constants';
+import { useAppSelector, useAppDispatch } from '../../../controller/hooks';
+import { updateNickname } from '../../../controller/UserController';
 const NickNameField = () => {
   const dispatch = useAppDispatch();
   const nickNameError = useAppSelector(
-    (state) => state.USER.errors.nicknameError
+    (state) => state.USER.signUpData.errors.nicknameError
   );
-  const { height, width } = Dimensions.get("window");
+  const { height, width } = Dimensions.get('window');
   const size = new sizes(height, width);
   let [isLoaded] = useFonts({
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -22,9 +22,9 @@ const NickNameField = () => {
   return (
     <View
       style={{
-        alignSelf: "center",
+        alignSelf: 'center',
         width: size.getWidthSize(328),
-        alignItems: "center",
+        alignItems: 'center',
       }}
     >
       <TextInput
@@ -43,7 +43,7 @@ const NickNameField = () => {
           paddingHorizontal: size.getWidthSize(16),
           paddingVertical: size.getHeightSize(8),
           fontSize: size.fontSize(16),
-          fontFamily: "Outfit-Regular",
+          fontFamily: 'Outfit-Regular',
           color: appColor.kTextColor,
           backgroundColor: appColor.kGrayscaleDart,
           marginHorizontal: size.getWidthSize(16),
@@ -52,7 +52,7 @@ const NickNameField = () => {
       {nickNameError && (
         <View
           style={{
-            alignSelf: "flex-start",
+            alignSelf: 'flex-start',
           }}
         >
           <Text
@@ -62,7 +62,7 @@ const NickNameField = () => {
               fontSize: size.fontSize(16),
               lineHeight: size.getHeightSize(21),
               marginLeft: size.getWidthSize(16),
-              fontFamily: "Outfit-Regular",
+              fontFamily: 'Outfit-Regular',
             }}
           >
             Username can be max. 30 characters long

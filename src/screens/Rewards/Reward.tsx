@@ -4,7 +4,7 @@ import { sizes } from '../../utils';
 import Rankings from './Tabs/Rankings';
 import Airdrop from './Tabs/Airdrop';
 import Earnings from './Tabs/Earnings';
-import TopTabNavigator from '../../navigations/TopTabNavigator';
+import TopTabNavigator from '../../navigations/InApp/TopTabNavigator';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);

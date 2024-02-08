@@ -1,35 +1,37 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Image, View } from 'react-native';
 import { ReactNode } from 'react';
 import {
   createBottomTabNavigator,
   BottomTabNavigationProp,
 } from '@react-navigation/bottom-tabs';
-import CommunityScreen from '../screens/Community/Community/CommunityScreen';
-import Home from '../../assets/images/svg/Home';
-import ProfileSvg from '../../assets/images/svg/ProfileSvg';
-import RewardTab from '../screens/Rewards/Reward';
-import MultipleSvg from '../../assets/images/svg/MultipleSvg';
-import Main from '../screens/Feed/Main';
-import Profile from '../screens/Profile/Profile';
-import ChatSvg from '../../assets/images/svg/ChatSvg';
-import HomeBlur from '../../assets/images/svg/HomeBlur';
-import ProfileFocused from '../../assets/images/svg/ProfileFocused';
+import CommunityScreen from '../../screens/Community/Community/CommunityScreen';
+import Home from '../../../assets/images/svg/Home';
+import ProfileSvg from '../../../assets/images/svg/ProfileSvg';
+import RewardTab from '../../screens/Rewards/Reward';
+import MultipleSvg from '../../../assets/images/svg/MultipleSvg';
+import Main from '../../screens/Feed/Main';
+import Profile from '../../screens/Profile/Profile';
+import ChatSvg from '../../../assets/images/svg/ChatSvg';
+import HomeBlur from '../../../assets/images/svg/HomeBlur';
+import ProfileFocused from '../../../assets/images/svg/ProfileFocused';
 import { useEffect } from 'react';
-import { updateCurrentTab } from '../controller/FeedsController';
-import Chats from '../screens/DM/Chats';
-import CommingSoon from '../screens/Community/CommingSoon';
-import RewardFocusedTab from '../../assets/images/svg/RewardFocusedTab';
-import { sizes } from '../utils/size';
-import { appColor } from '../constants';
-import RewardIcon from '../../assets/images/svg/RewardIcon';
-import CommunityActiveTabIcon from '../../assets/images/svg/CommunityActiveTabIcon';
-import CommunityDemo from '../screens/Community/CommunityDemo';
-import CreateCommunity1 from '../screens/Community/CreateCommunity/CreateCommunity1';
+import { images } from '../../constants';
+import { updateCurrentTab } from '../../controller/FeedsController';
+import Chats from '../../screens/DM/Chats';
+import CommingSoon from '../../screens/Community/CommingSoon';
+import RewardFocusedTab from '../../../assets/images/svg/RewardFocusedTab';
+import { sizes } from '../../utils/size';
+import { appColor } from '../../constants';
+import RewardIcon from '../../../assets/images/svg/RewardIcon';
+import CommunityActiveTabIcon from '../../../assets/images/svg/CommunityActiveTabIcon';
+import CommunityDemo from '../../screens/Community/CommunityDemo';
+import CreateCommunity1 from '../../screens/Community/CreateCommunity/CreateCommunity1';
 const { height, width } = Dimensions.get('window');
-import { useAppSelector, useAppDispatch } from '../controller/hooks';
+import { useAppSelector, useAppDispatch } from '../../controller/hooks';
 import { RouteProp } from '@react-navigation/native';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-import ChatTabFocusedIcon from '../../assets/images/svg/ChatTabFocusedIcon';
+import ChatTabFocusedIcon from '../../../assets/images/svg/ChatTabFocusedIcon';
+import ProfileImage from '../../components/Profile/About/ProfileImage';
 
 const Tab = createBottomTabNavigator();
 type RootStackParamList = {
@@ -49,7 +51,9 @@ const BottomTabNavigation: React.FC<{
   route: BottomTabNavigationRouteProp;
 }> = ({ route }) => {
   const focusedRouteName = getFocusedRouteNameFromRoute(route);
-
+  const profilePics = useAppSelector(
+    (state) => state.USER.UserData.profileImage
+  );
   useEffect(() => {
     dispatch(updateCurrentTab(focusedRouteName));
   }, [focusedRouteName]);
@@ -72,6 +76,89 @@ const BottomTabNavigation: React.FC<{
   const chats = 'Chats';
   const community = 'Community';
   const size = new sizes(height, width);
+  const profileIcon = (focused: boolean) => {
+    if (ProfileImage) {
+      return focused === true ? (
+        <View
+          style={{
+            height: size.getHeightSize(24),
+            width: size.getHeightSize(24),
+            borderRadius: 100,
+            borderWidth: 2,
+            borderColor: appColor.kWhiteColor,
+          }}
+        >
+          <Image
+            source={{ uri: profilePics }}
+            resizeMode="cover"
+            style={{
+              height: '100%',
+              width: '100%',
+              borderRadius: 100,
+            }}
+          />
+        </View>
+      ) : (
+        <View
+          style={{
+            height: size.getHeightSize(24),
+            width: size.getHeightSize(24),
+            borderRadius: 100,
+          }}
+        >
+          <Image
+            source={{ uri: profilePics }}
+            resizeMode="cover"
+            style={{
+              height: '100%',
+              width: '100%',
+              borderRadius: 100,
+            }}
+          />
+        </View>
+      );
+    } else {
+      return focused === true ? (
+        <View
+          style={{
+            height: size.getHeightSize(24),
+            width: size.getHeightSize(24),
+            borderRadius: 100,
+            borderWidth: 2,
+            borderColor: appColor.kWhiteColor,
+          }}
+        >
+          <Image
+            source={images.defaultAvatar}
+            resizeMode="cover"
+            style={{
+              height: '100%',
+              width: '100%',
+              borderRadius: 100,
+            }}
+          />
+        </View>
+      ) : (
+        <View
+          style={{
+            height: size.getHeightSize(24),
+            width: size.getHeightSize(24),
+            borderRadius: 100,
+          }}
+        >
+          <Image
+            source={images.defaultAvatar}
+            resizeMode="cover"
+            style={{
+              height: '100%',
+              width: '100%',
+              borderRadius: 100,
+            }}
+          />
+        </View>
+      );
+    }
+  };
   return (
     <Tab.Navigator
       backBehavior="none"
@@ -97,12 +184,7 @@ const BottomTabNavigation: React.FC<{
               );
           }
           if (routeName === profile) {
-            image =
-              focused === true ? (
-                <ProfileFocused size={size.getHeightSize(24)} />
-              ) : (
-                <ProfileSvg size={size.getHeightSize(24)} />
-              );
+            image = profileIcon(focused);
           }
           if (routeName === reward) {
             image =

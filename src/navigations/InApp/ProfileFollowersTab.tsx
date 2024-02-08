@@ -4,19 +4,17 @@ import {
   TouchableOpacity,
   Dimensions,
   StyleSheet,
-} from "react-native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { sizes } from "../utils";
-const { height, width } = Dimensions.get("window");
+} from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import { appColor } from "../constants";
-import About from "../components/Profile/About";
-import Wallet from "../screens/Wallet";
+import { appColor } from '../../constants';
+import FollowersTab from '../../screens/Profile/FollowersTab';
+import FollowingTab from '../../screens/Profile/FollowingTab';
+import CommunitiesTab from '../../screens/Profile/CommunitiesTab';
 const Tab = createMaterialTopTabNavigator();
-interface Props {
-  typeOfProfile: "myProfile" | "theirProfile";
-}
-const ProfileTabNavigation = ({ typeOfProfile }: Props) => {
+const ProfileFollowersTab = () => {
   const renderTabBarLabel = ({ focused, route }) => {
     return (
       <View style={[styles.focused]}>
@@ -37,13 +35,13 @@ const ProfileTabNavigation = ({ typeOfProfile }: Props) => {
           borderWidth: 0,
         },
         tabBarIndicatorStyle: {
-          display: "none",
+          display: 'none',
         },
         tabBarIndicatorContainerStyle: {},
         tabBarLabelStyle: {
           fontSize: size.fontSize(14),
           lineHeight: size.getHeightSize(20),
-          fontFamily: "Outfit-SemiBold",
+          fontFamily: 'Outfit-SemiBold',
         },
 
         tabBarIndicator: () => null,
@@ -59,17 +57,16 @@ const ProfileTabNavigation = ({ typeOfProfile }: Props) => {
                 activeOpacity={0.7}
                 style={{
                   backgroundColor: !isFocused
-                    ? "transparent"
+                    ? 'transparent'
                     : appColor.kSecondaryButtonColor,
                   borderRadius: 20,
                   marginTop: size.getHeightSize(4),
                   flex: 1,
-                  minHeight: size.getHeightSize(36),
                 }}
                 key={route.key}
                 onPress={() => {
                   navigation.emit({
-                    type: "tabPress",
+                    type: 'tabPress',
                     target: route.key,
                     canPreventDefault: true,
                   });
@@ -86,48 +83,44 @@ const ProfileTabNavigation = ({ typeOfProfile }: Props) => {
         </View>
       )}
     >
-      <Tab.Screen
-        name="Profile"
-        component={About}
-        initialParams={{ typeOfProfile: typeOfProfile }}
-      />
-
-      <Tab.Screen name="Wallet" component={Wallet} />
+      <Tab.Screen name="Followers" component={FollowersTab} />
+      <Tab.Screen name="Following" component={FollowingTab} />
+      <Tab.Screen name="Communities" component={CommunitiesTab} />
     </Tab.Navigator>
   );
 };
 
-export default ProfileTabNavigation;
+export default ProfileFollowersTab;
 const styles = StyleSheet.create({
   focusedtabText: {
     color: appColor.kTextColor,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: size.fontSize(14),
-    lineHeight: size.getHeightSize(18),
-    fontFamily: "Outfit-SemiBold",
-    justifyContent: "center",
+    lineHeight: size.getHeightSize(20),
+    fontFamily: 'Outfit-SemiBold',
+    justifyContent: 'center',
   },
   tabText: {
     color: appColor.kTextColor,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
-    fontFamily: "Outfit-Regular",
-    overflow: "hidden",
+    fontFamily: 'Outfit-Regular',
+    overflow: 'hidden',
   },
   focused: {
-    paddingVertical: size.getHeightSize(9),
-    justifyContent: "center",
+    paddingVertical: size.getHeightSize(8),
+    justifyContent: 'center',
     borderRadius: 40,
     paddingHorizontal: size.getWidthSize(16),
+    minHeight: size.getHeightSize(36),
   },
   labelContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     backgroundColor: appColor.kgrayDark2,
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20,
+    borderRadius: 20,
     paddingBottom: size.getHeightSize(4),
     paddingHorizontal: size.getWidthSize(4),
-    justifyContent: "center",
+    justifyContent: 'center',
   },
 });

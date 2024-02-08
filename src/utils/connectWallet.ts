@@ -1,5 +1,5 @@
 import * as Linking from "expo-linking";
-import "react-native-get-random-values";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { decode as atob, encode as btoa } from "base-64";
 import nacl, { BoxKeyPair, randomBytes } from "tweetnacl";
@@ -44,8 +44,11 @@ export const handlWalletConnect = async (walletName: Wallet) => {
       base64ConnectData = Buffer.from(JSON.stringify(connectData)).toString(
         "base64"
       );
+
     } else {
+      console.log("here")
       const keyPair = nacl.box.keyPair();
+      console.log(keyPair.publicKey, keyPair.secretKey);
       const publicKeyBase64 = Buffer.from(keyPair.publicKey).toString("base64");
       const secretKeyBase64 = Buffer.from(keyPair.secretKey).toString("base64");
       await AsyncStorage.setItem("petra_publicKey", publicKeyBase64);

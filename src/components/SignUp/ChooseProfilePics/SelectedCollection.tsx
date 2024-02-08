@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  Pressable,
-  BackHandler,
-} from 'react-native';
+import { View, Text, Dimensions, Pressable, BackHandler } from 'react-native';
 import { useRef, useState, useEffect } from 'react';
 import * as Animatable from 'react-native-animatable';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
@@ -36,7 +30,7 @@ const SelectedCollection = () => {
   const { isVisible, renderCount, profilePics } = useAppSelector((state) => ({
     isVisible: state.bottomSheetController.selectedCollectionModal,
     renderCount: state.bottomSheetController.selectedRender,
-    profilePics: state.USER.UserData.profileImage,
+    profilePics: state.USER.signUpData.profileImage,
   }));
 
   useEffect(() => {
@@ -67,25 +61,25 @@ const SelectedCollection = () => {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   }, [isVisible]);
-  const animatedIndex = useSharedValue(0);
-  const contentStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY: interpolate(
-          animatedIndex.value,
-          [0, 0.08],
-          [40, 0],
-          Extrapolation.CLAMP
-        ),
-      },
-    ],
-    opacity: interpolate(
-      animatedIndex.value,
-      [0, 0.08],
-      [0, 1],
-      Extrapolation.CLAMP
-    ),
-  }));
+  // const animatedIndex = useSharedValue(0);
+  // const contentStyle = useAnimatedStyle(() => ({
+  //   transform: [
+  //     {
+  //       translateY: interpolate(
+  //         animatedIndex.value,
+  //         [0, 0.08],
+  //         [40, 0],
+  //         Extrapolation.CLAMP
+  //       ),
+  //     },
+  //   ],
+  //   opacity: interpolate(
+  //     animatedIndex.value,
+  //     [0, 0.08],
+  //     [0, 1],
+  //     Extrapolation.CLAMP
+  //   ),
+  // }));
 
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -139,7 +133,7 @@ const SelectedCollection = () => {
           delay={500}
           easing={'ease-in-out'}
           duration={400}
-          style={contentStyle}
+          // style={contentStyle}
         >
           <ProfilePicsCollection />
         </Animatable.View>

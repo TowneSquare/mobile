@@ -1,20 +1,9 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
-  Image,
-  Pressable,
-  BackHandler,
-} from 'react-native';
+import { View, Text, Dimensions, Pressable, BackHandler } from 'react-native';
 import React, { useMemo, useRef, useState, useEffect } from 'react';
-import { MaterialIcons } from '@expo/vector-icons';
 import * as Animatable from 'react-native-animatable';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import Customhandler from './Customhandler';
-import NFTCollections from '../../shared/UpdatePFP/NFTCollections';
-import Animated, {
+import {
   Extrapolation,
   interpolate,
   useAnimatedStyle,

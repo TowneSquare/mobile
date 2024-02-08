@@ -6,28 +6,31 @@ import {
   PanResponder,
   Animated as RNAnimated,
   Image,
-} from "react-native";
-import { PanGestureHandler } from "react-native-gesture-handler";
+} from 'react-native';
+import { PanGestureHandler } from 'react-native-gesture-handler';
 
-import { useState, useRef } from "react";
-const { height, width } = Dimensions.get("window");
-import { sizes } from "../../utils";
-import { images, appColor } from "../../constants";
+import { useState, useRef } from 'react';
+const { height, width } = Dimensions.get('window');
+import { sizes } from '../../utils';
+import { images, appColor } from '../../constants';
 const size = new sizes(height, width);
-import { useNavigation } from "@react-navigation/native";
-import { updateTipBottomSheet } from "../../controller/FeedsController";
-import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import { useNavigation } from '@react-navigation/native';
+import {
+  updateTipBottomSheet,
+  updateToast,
+} from '../../controller/FeedsController';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
-} from "react-native-reanimated";
-import CoinIconWhite from "../../../assets/images/svg/CoinIconWhite";
-import SwipeArrow1 from "../../../assets/images/svg/SlideArrow1";
-import SwipeArrow2 from "../../../assets/images/svg/SwipeArrow2";
-import SwipeArrow3 from "../../../assets/images/svg/SwipeArrow3";
+} from 'react-native-reanimated';
+import CoinIconWhite from '../../../assets/images/svg/CoinIconWhite';
+import SwipeArrow1 from '../../../assets/images/svg/SlideArrow1';
+import SwipeArrow2 from '../../../assets/images/svg/SwipeArrow2';
+import SwipeArrow3 from '../../../assets/images/svg/SwipeArrow3';
 
 interface Props {
   PFPsize?: number;
@@ -62,12 +65,12 @@ const ProfilePicture = ({
   const X = useSharedValue(0);
   const longPressDuration = 1000;
   const interpolateXInput = [0, h_swipe_range];
-  const token = useAppSelector((state) => state.USER.didToken);
+
   const currentUserId = useAppSelector((state) => state.USER.UserData._id);
   const dispatch = useAppDispatch();
   const onLongPress = () => {
     if (userId == currentUserId) {
-      console.log("Cannot tip yourself");
+      console.log('Cannot tip yourself');
     } else {
       setShowSwipe(true);
     }
@@ -155,18 +158,29 @@ const ProfilePicture = ({
           handleShortPress();
         }
         if (X.value > size.getWidthSize(235)) {
-          setShowSwipe(false);
-          dispatch(
-            updateTipBottomSheet({
-              status: true,
-              profileImage: profileImageUri
-                ? profileImageUri
-                : Image.resolveAssetSource(images.pfpImage).uri,
-              username,
-              wallet,
-              nickname,
-            })
-          );
+          if (userId === currentUserId) {
+            setShowSwipe(false);
+            dispatch(
+              updateToast({
+                displayToast: true,
+                toastMessage: 'Cannot tip yourself',
+                toastType: 'info',
+              })
+            );
+          } else {
+            setShowSwipe(false);
+            dispatch(
+              updateTipBottomSheet({
+                status: true,
+                profileImage: profileImageUri
+                  ? profileImageUri
+                  : Image.resolveAssetSource(images.defaultAvatar).uri,
+                username,
+                wallet,
+                nickname,
+              })
+            );
+          }
         } else {
           setShowSwipe(false);
         }
@@ -174,7 +188,9 @@ const ProfilePicture = ({
     })
   ).current;
   const handleShortPress = () => {
-    console.log("========");
+    console.log('============================================');
+    console.log(userId, username, nickname, wallet, profileImageUri);
+
     setShowSwipe((previous) => {
       if (previous) {
         return false;
@@ -267,7 +283,7 @@ export default ProfilePicture;
 const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.7)",
+    backgroundColor: 'rgba(0,0,0,0.7)',
     // position: 'absolute',
   },
   swipeCont: {
@@ -275,10 +291,10 @@ const styles = StyleSheet.create({
     width: ButtonWidth,
     padding: ButtonPadding,
     backgroundColor: appColor.kgrayDark2,
-    alignItems: "center",
-    flexDirection: "row",
+    alignItems: 'center',
+    flexDirection: 'row',
     borderRadius: ButtonHeight,
-    position: "absolute",
+    position: 'absolute',
     top: size.getHeightSize(-4),
   },
   swipeable: {
@@ -286,21 +302,21 @@ const styles = StyleSheet.create({
     width: swipeableDimensions,
     borderRadius: swipeableDimensions,
     backgroundColor: appColor.kErrorText,
-    position: "absolute",
+    position: 'absolute',
     left: ButtonPadding,
     zIndex: 3,
   },
   text: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
-    fontFamily: "Outfit-SemiBold",
-    textAlign: "center",
+    fontFamily: 'Outfit-SemiBold',
+    textAlign: 'center',
     zIndex: 2,
     marginHorizontal: size.getWidthSize(8),
     flex: 1,
   },
   colorWave: {
-    position: "absolute",
+    position: 'absolute',
     left: ButtonPadding,
     height: swipeableDimensions,
     borderRadius: ButtonHeight,
@@ -310,13 +326,13 @@ const styles = StyleSheet.create({
   tip: {
     height: size.getHeightSize(40),
     width: size.getWidthSize(40),
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: size.getHeightSize(40),
     backgroundColor: appColor.kSecondaryButtonColor,
   },
   swipe: {
-    position: "absolute",
+    position: 'absolute',
 
     zIndex: 3,
   },
@@ -324,24 +340,24 @@ const styles = StyleSheet.create({
     height: size.getHeightSize(40),
     width: size.getHeightSize(40),
     borderRadius: 200,
-    position: "absolute",
+    position: 'absolute',
 
     zIndex: 1,
   },
   image: {
-    height: "100%",
-    width: "100%",
+    height: '100%',
+    width: '100%',
     borderRadius: swipeableDimensions,
   },
   swipeView: {
-    position: "absolute",
+    position: 'absolute',
 
     zIndex: 3,
   },
   view1: {
     marginLeft: size.getWidthSize(53),
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     width: size.getWidthSize(60),
   },
 });

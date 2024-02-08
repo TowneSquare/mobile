@@ -3,82 +3,82 @@ import {
   CardStyleInterpolators,
 } from '@react-navigation/stack';
 import { Easing, Animated } from 'react-native';
-import { RootStackParamList } from './NavigationTypes';
+import { RootStackParamList } from '../NavigationTypes';
 import BottomTabNavigation from './BottomTabNavigation';
-import SignUp from '../screens/SignUp/SignUp';
+import SignUp from '../../screens/SignUp/SignUp';
 import DrawerNavigation from './DrawerStack';
 import ProfileFollowersTab from './ProfileFollowersTab';
-import FirstScreen from '../screens/SignUp/FirstScreen';
-import EmailLogin from '../screens/SignUp/EmailLogin';
-import Notifications from '../screens/Feed/Notifications';
-import ViewImageScreen from '../screens/Feed/ViewImageScreen';
-import VideoPlayer from '../screens/Feed/VideoPlayer';
-import SinglePost from '../screens/Feed/SinglePost';
-import SuperStarCollectionScreen from '../screens/Profile/SuperStarCollectionScreen';
-import CreatePost from '../screens/Feed/CreatePost';
-import NftCollectionScreen from '../screens/Feed/NftCollectionScreen';
-import SelectedCollectionScreen from '../screens/Feed/SelectedCollectionScreen';
-import EditProfileScreen from '../screens/Profile/EditProfileScreen';
-import TheirProfileScreen from '../screens/Profile/TheirProfileScreen';
-import SearchScreen from '../screens/SearchPost/SearchScreen';
+import FirstScreen from '../../screens/SignUp/FirstScreen';
+import EmailLogin from '../../screens/SignUp/EmailLogin';
+import Notifications from '../../screens/Feed/Notifications';
+import ViewImageScreen from '../../screens/Feed/ViewImageScreen';
+import VideoPlayer from '../../screens/Feed/VideoPlayer';
+import SinglePost from '../../screens/Feed/SinglePost';
+import SuperStarCollectionScreen from '../../screens/Profile/SuperStarCollectionScreen';
+import CreatePost from '../../screens/Feed/CreatePost';
+import NftCollectionScreen from '../../screens/Feed/NftCollectionScreen';
+import SelectedCollectionScreen from '../../screens/Feed/SelectedCollectionScreen';
+import EditProfileScreen from '../../screens/Profile/EditProfileScreen';
+import TheirProfileScreen from '../../screens/Profile/TheirProfileScreen';
+import SearchScreen from '../../screens/SearchPost/SearchScreen';
 // import SearchPostTab from './SearchPostTabBar';
 // import SearchPostTab from './SearchPostTabBar';
-import SelectedSuperStarCollectionScreen from '../screens/Profile/SelectedSuperStarCollectionScreen';
-import FollowersScreen from '../screens/Profile/FollowersScreen';
-import Congratulations from '../screens/SignUp/Congratulations';
-import ChooseWallet from '../screens/SignUp/ChooseWallet';
-import CreateCommunityScreen from '../screens/Community/CreateCommunity/CreateCommunityScreen';
-import CommunitySetupScreen from '../screens/Community/CreateCommunity/CommunitySetupScreen';
-import VerifyCommunityScreen from '../screens/Community/Community/VerifyCommunityScreen';
-import InviteMembersScreen from '../screens/Community/Community/InviteMembersScreen';
-import AddAdminsScreen from '../screens/Community/Community/AddAdminsScreen';
-import CommunityScreen from '../screens/Community/Community/CommunityScreen';
-import CreateChannelScreen from '../screens/Community/Community/CreateChannelScreen';
-import CreateCommunity1 from '../screens/Community/CreateCommunity/CreateCommunity1';
-import CreateCommunitySuccessScreen from '../screens/Community/CreateCommunity/CreateCommunitySuccessScreen';
-import CommunityInfoScreen from '../screens/Community/JoinComm/CommunityInfoScreen';
-import CommunityMainScreen from '../screens/Community/JoinComm/CommunityMainScreen';
-import CommunityWelcomeScreen from '../screens/Community/JoinComm/CommunityWelcomeScreen';
-import PinnedPostsScreen from '../screens/Community/JoinComm/PinnedPostsScreen';
-import ExploreCommunityScreen from '../screens/Community/ExploreCommunity/ExploreCommunityScreen';
-import CommunitySettings from '../screens/Community/Settings/CommunitySettings';
-import GeneralSettings from '../screens/Community/Settings/GeneralSettings';
-import CommunityPrivacy from '../screens/Community/Settings/CommunityPrivacy';
-import TokenGateSettings from '../screens/Community/Settings/TokenGateSettings';
-import CommunityAssetSettings from '../screens/Community/Settings/CommunityAssetSettings';
-import TokenGateSettingsComplete from '../screens/Community/Settings/TokenGateSettingsComplete';
-import CryptoAssetSettings from '../screens/Community/Settings/CryptoAssetSettings';
-import AddMembers from '../screens/Community/Settings/AddMembers';
-import MemberRole from '../screens/Community/Settings/MemberRole';
-import Roles from '../screens/Community/Settings/Roles';
-import NewRole from '../screens/Community/Settings/NewRole';
-import Permissions from '../screens/Community/Settings/Permissions';
-import AddMember from '../screens/Community/Settings/AddMember';
-import NotificationSettings from '../screens/Community/Settings/NotificationSettings';
-import ViewRoles from '../screens/Community/Settings/VIewRoles';
-import CreateChannel from '../screens/Community/CreateChannel/CreateChannel';
-import Channels from '../screens/Community/CreateChannel/Channels';
-import ChannelCategories from '../screens/Community/CreateChannel/ChannelCategories';
-import BannedMember from '../screens/Community/Settings/BannedMember';
-import SendToken from '../screens/DM/SendToken';
-import Conversation from '../screens/DM/Conversation';
-import TokenSuccess from '../screens/DM/TokenSuccess';
-import Offerforsale from '../screens/DM/Offerforsale';
-import NFTOffer from '../screens/DM/NFTOffer';
-import MyRefferals from '../screens/Rewards/MyRefferals';
-import Dex from '../screens/Rewards/DEX';
-import Withdraw from '../screens/Rewards/Tabs/Withdraw';
-import Airdrops from '../screens/Rewards/Airdrops';
-import ShareReferralCode from '../screens/Rewards/ShareReferralCode';
-import AptosMonkey from '../screens/Rewards/AptosMonkey';
-import SwapMain from '../screens/Swap/SwapMain';
-import ProfileSendToken from '../screens/Send/ProfileSendToken';
-import Support from '../screens/Settings/Support';
-import AccountSettings from '../screens/Settings/AccountSettings';
-import AccountNotifications from '../screens/Settings/AccountNotifications';
-import Bookmarks from '../screens/Feed/Bookmarks';
-import AccountInfo from '../screens/Settings/AccountInfo';
-import TownesquareVerification from '../screens/Settings/TownesquareVerification';
+import SelectedSuperStarCollectionScreen from '../../screens/Profile/SelectedSuperStarCollectionScreen';
+import FollowersScreen from '../../screens/Profile/FollowersScreen';
+import Congratulations from '../../screens/SignUp/Congratulations';
+import ChooseWallet from '../../screens/SignUp/ChooseWallet';
+import CreateCommunityScreen from '../../screens/Community/CreateCommunity/CreateCommunityScreen';
+import CommunitySetupScreen from '../../screens/Community/CreateCommunity/CommunitySetupScreen';
+import VerifyCommunityScreen from '../../screens/Community/Community/VerifyCommunityScreen';
+import InviteMembersScreen from '../../screens/Community/Community/InviteMembersScreen';
+import AddAdminsScreen from '../../screens/Community/Community/AddAdminsScreen';
+import CommunityScreen from '../../screens/Community/Community/CommunityScreen';
+import CreateChannelScreen from '../../screens/Community/Community/CreateChannelScreen';
+import CreateCommunity1 from '../../screens/Community/CreateCommunity/CreateCommunity1';
+import CreateCommunitySuccessScreen from '../../screens/Community/CreateCommunity/CreateCommunitySuccessScreen';
+import CommunityInfoScreen from '../../screens/Community/JoinComm/CommunityInfoScreen';
+import CommunityMainScreen from '../../screens/Community/JoinComm/CommunityMainScreen';
+import CommunityWelcomeScreen from '../../screens/Community/JoinComm/CommunityWelcomeScreen';
+import PinnedPostsScreen from '../../screens/Community/JoinComm/PinnedPostsScreen';
+import ExploreCommunityScreen from '../../screens/Community/ExploreCommunity/ExploreCommunityScreen';
+import CommunitySettings from '../../screens/Community/Settings/CommunitySettings';
+import GeneralSettings from '../../screens/Community/Settings/GeneralSettings';
+import CommunityPrivacy from '../../screens/Community/Settings/CommunityPrivacy';
+import TokenGateSettings from '../../screens/Community/Settings/TokenGateSettings';
+import CommunityAssetSettings from '../../screens/Community/Settings/CommunityAssetSettings';
+import TokenGateSettingsComplete from '../../screens/Community/Settings/TokenGateSettingsComplete';
+import CryptoAssetSettings from '../../screens/Community/Settings/CryptoAssetSettings';
+import AddMembers from '../../screens/Community/Settings/AddMembers';
+import MemberRole from '../../screens/Community/Settings/MemberRole';
+import Roles from '../../screens/Community/Settings/Roles';
+import NewRole from '../../screens/Community/Settings/NewRole';
+import Permissions from '../../screens/Community/Settings/Permissions';
+import AddMember from '../../screens/Community/Settings/AddMember';
+import NotificationSettings from '../../screens/Community/Settings/NotificationSettings';
+import ViewRoles from '../../screens/Community/Settings/VIewRoles';
+import CreateChannel from '../../screens/Community/CreateChannel/CreateChannel';
+import Channels from '../../screens/Community/CreateChannel/Channels';
+import ChannelCategories from '../../screens/Community/CreateChannel/ChannelCategories';
+import BannedMember from '../../screens/Community/Settings/BannedMember';
+import SendToken from '../../screens/DM/SendToken';
+import Conversation from '../../screens/DM/Conversation';
+import TokenSuccess from '../../screens/DM/TokenSuccess';
+import Offerforsale from '../../screens/DM/Offerforsale';
+import NFTOffer from '../../screens/DM/NFTOffer';
+import MyRefferals from '../../screens/Rewards/MyRefferals';
+import Dex from '../../screens/Rewards/DEX';
+import Withdraw from '../../screens/Rewards/Tabs/Withdraw';
+import Airdrops from '../../screens/Rewards/Airdrops';
+import ShareReferralCode from '../../screens/Rewards/ShareReferralCode';
+import AptosMonkey from '../../screens/Rewards/AptosMonkey';
+import SwapMain from '../../screens/Swap/SwapMain';
+import ProfileSendToken from '../../screens/Send/ProfileSendToken';
+import Support from '../../screens/Settings/Support';
+import AccountSettings from '../../screens/Settings/AccountSettings';
+import AccountNotifications from '../../screens/Settings/AccountNotifications';
+import Bookmarks from '../../screens/Feed/Bookmarks';
+import AccountInfo from '../../screens/Settings/AccountInfo';
+import TownesquareVerification from '../../screens/Settings/TownesquareVerification';
 const Navigations = ({ magicProps }: { magicProps: any }) => {
   const Stack = createStackNavigator<RootStackParamList>();
   const config = {
@@ -109,7 +109,7 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
     >
-      <Stack.Screen name="FirstScreen" options={{ headerShown: false }}>
+      {/* <Stack.Screen name="FirstScreen" options={{ headerShown: false }}>
         {() => <FirstScreen {...magicProps} />}
       </Stack.Screen>
 
@@ -125,14 +125,7 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
       />
       <Stack.Screen name="EmailLogin" options={{ headerShown: false }}>
         {() => <EmailLogin {...magicProps} />}
-      </Stack.Screen>
-      <Stack.Screen
-        name="BottomTabNavigation"
-        component={BottomTabNavigation}
-        options={{
-          headerShown: false,
-        }}
-      />
+      </Stack.Screen> */}
       <Stack.Screen
         name="DrawerNavigation"
         component={DrawerNavigation}
@@ -140,6 +133,14 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="BottomTabNavigation"
+        component={BottomTabNavigation}
+        options={{
+          headerShown: false,
+        }}
+      />
+
       <Stack.Screen
         name="ViewImageScreen"
         component={ViewImageScreen}
@@ -245,13 +246,7 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="Congratulations"
-        component={Congratulations}
-        options={{
-          headerShown: false,
-        }}
-      />
+
       <Stack.Screen
         name="CreateCommunityScreen"
         component={CreateCommunityScreen}
