@@ -59,7 +59,7 @@ const Conversation = ({
   );
   const MESSAGE_LIMIT = 10;
   const lastDocRef = useRef(null);
-
+  console.log(myusername, "my username");
   useLayoutEffect(() => {
     const msgCollectionRef = collection(
       firestoreDB,
@@ -235,11 +235,14 @@ const Conversation = ({
           </Pressable>
         ) : (
           <ChatTextInput
+            nickname={nickname}
+            pfp={pfp}
             ref={chatInputRef}
             dismissShowReplyingTo={setVisibilityFalse}
-            username=""
+            username={myusername}
             showReplying={showReplying}
             chatId={chatId}
+            receiverId={contactId}
           />
         )}
         <MoreBottomsheet

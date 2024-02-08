@@ -54,6 +54,7 @@ import {
 } from "../../controller/DMController";
 import { nanoid } from "@reduxjs/toolkit";
 import { serverTimestamp } from "firebase/firestore";
+import { sendPushNotification } from "../../services/PushNotification";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 interface Props extends TextInputProps {
@@ -62,12 +63,23 @@ interface Props extends TextInputProps {
   dismissShowReplyingTo: () => void;
 
   chatId: string;
+  receiverId: string;
+  nickname: string;
+  pfp: string;
 }
 export type ComponentRef = {
   focusTextInput: () => void;
 };
 const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
-  { showReplying, dismissShowReplyingTo, chatId },
+  {
+    showReplying,
+    dismissShowReplyingTo,
+    chatId,
+    receiverId,
+    username,
+    nickname,
+    pfp,
+  },
   ref
 ) => {
   const { replyingToMessage, setReplyingToMessage } = useContext(ChatDmContext);
@@ -123,6 +135,17 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
       myId: profile._id,
       myusername: profile.username,
     });
+    await sendPushNotification("ExponentPushToken[v0wljdLKh2-w1Og4oYKP9E]", {
+      userId: profile._id,
+      receiverId,
+      title: username,
+      msg: text.trim(),
+      navigateTo: "Conversation",
+      chatId,
+      name: username,
+      nickname,
+      pfp,
+    });
   };
   const sendReply = async () => {
     setText("");
@@ -138,6 +161,17 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
         : "",
       myusername: replyingToMessage.sender,
       uid: profile._id,
+    });
+    await sendPushNotification("ExponentPushToken[v0wljdLKh2-w1Og4oYKP9E]", {
+      userId: profile._id,
+      receiverId,
+      title: username,
+      msg: text.trim(),
+      navigateTo: "Conversation",
+      chatId,
+      name: username,
+      nickname,
+      pfp,
     });
   };
   async function verifyPermission() {
@@ -214,6 +248,17 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
       messageType,
       myId: profile._id,
       myusername: profile.username,
+    });
+    await sendPushNotification("ExponentPushToken[v0wljdLKh2-w1Og4oYKP9E]", {
+      userId: profile._id,
+      receiverId,
+      title: username,
+      msg: "sent a file",
+      navigateTo: "Conversation",
+      chatId,
+      name: username,
+      nickname,
+      pfp,
     });
   };
 

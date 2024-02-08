@@ -12,9 +12,11 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "y"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "package": "com.townesquare.townesquare",
       "permissions": [
         "android.permission.RECORD_AUDIO",

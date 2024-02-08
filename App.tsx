@@ -1,5 +1,4 @@
 import "react-native-gesture-handler";
-
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { StyleSheet, View } from "react-native";
 import InitializeSocket from "./src/utils/InitializeSocket";
@@ -14,12 +13,15 @@ import { AptosExtension } from "@magic-ext/aptos";
 import { APTOS_NODE_URL } from "./constants";
 import { LinkingOptions } from "@react-navigation/native";
 import * as Linking from "expo-linking";
+import UsePushNotification from "./src/services/PushNotification";
+
 import ToastWrapper from "./src/shared/Feed/OverlayWrapper";
 import { RootStackParamList } from "./src/navigations/NavigationTypes";
 import CreateChannelBottomSheet from "./src/components/DrawerContent/CreateChannelBottomSheet";
 import SelectUsersBottomsheet from "./src/components/ProfileSendToken/SelectUsersBottomsheet";
 import LogoutBottomsheet from "./src/components/Feed/LogoutBottomsheet";
 import { QueryClient, QueryClientProvider } from "react-query";
+
 const linking: LinkingOptions<RootStackParamList> = {
   prefixes: [Linking.createURL("/")],
   config: {
@@ -32,10 +34,11 @@ const linking: LinkingOptions<RootStackParamList> = {
     },
   },
 };
-
 const queryClient = new QueryClient();
-
 export default function App() {
+  // const { expoPushToken, notification, sendPushNotification } =
+  //   usePushNotification();
+
   const magic = new Magic(API_KEY, {
     extensions: [
       new OAuthExtension(),
@@ -58,6 +61,7 @@ export default function App() {
             <CreateChannelBottomSheet />
             <SelectUsersBottomsheet />
             <LogoutBottomsheet />
+            <UsePushNotification />
           </NavigationContainer>
           <ToastWrapper />
           <InitializeSocket />

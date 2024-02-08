@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Text,
   View,
@@ -15,6 +15,7 @@ import {
 import { useFonts } from "expo-font";
 import { appColor, fonts } from "../../constants";
 import { setLoginSession, sizes } from "../../utils";
+import { getTokenBywalletaddress } from "../../api";
 import ReferralView from "../../components/SignUp/Referral/ReferralView";
 import TranslationForwardButton from "../../components/SignUp/TranslationForwardButton";
 import Verify from "../../components/SignUp/ConnectSocialsAndVerify/Verify";
@@ -47,7 +48,6 @@ const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);
 let newWidth = width - 2 * PADDING;
 type WalletCredentials = {
-  token: string;
   address: string;
 };
 type RootStackParamList = {
@@ -56,13 +56,11 @@ type RootStackParamList = {
 type SignUpRouteProp = RouteProp<RootStackParamList, "SignUp">;
 const SignUp = ({ magic }: SignUpProps) => {
   const navigation = useNavigation();
-
-  // console.log(route?.params);
   const route = useRoute<SignUpRouteProp>();
-  const { address, token } = route.params?.walletCredentials;
+  const { address } = route.params?.walletCredentials;
 
   const [userId, setUserId] = useState("");
-  // const [token, setToken] = useState("");
+  const [token, setToken] = useState("");
   const loaderRef = useRef();
   const padding = useSafeAreaInsets();
   const {
@@ -85,6 +83,14 @@ const SignUp = ({ magic }: SignUpProps) => {
   const continueButtonDisable = useAppSelector(
     (state) => state.USER.isSignUpContinueButtonDisable
   );
+  useEffect(() => {
+    (async function () {
+      const userToken = await getTokenBywalletaddress(address);
+      console.log("=====user token====");
+      console.log(userToken.token);
+      setToken(userToken.token);
+    })();
+  }, []);
   const dispatch = useDispatch();
   const views = [
     <ReferralView />,
@@ -126,8 +132,7 @@ const SignUp = ({ magic }: SignUpProps) => {
     if (viewIndex == 0) {
       try {
         showLoader(true);
-        console.log(token);
-        console.log("======token========");
+
         const res = await checkSignup(token);
 
         if (res.isExist && res.isExist == true) {
@@ -141,14 +146,12 @@ const SignUp = ({ magic }: SignUpProps) => {
       }
     }
     if (newIndex < views.length && flatListRef.current) {
-      console.log("=======here========");
       setViewIndex((previous) => previous + 1);
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
       if (newIndex == 2) {
         console.log("index is ======");
         console.log(viewIndex);
         const issuer = user.metadata !== undefined ? user.metadata.issuer : "";
-
         const res = await signup(
           token,
           issuer,
@@ -157,7 +160,7 @@ const SignUp = ({ magic }: SignUpProps) => {
           user.UserData.username,
           user.UserData.email
         );
-        console.log("=====sign up res======");
+       
         console.log(res);
         if (!res.error && res.success != false) {
           await setLoginSession(res.wallet, res.userId);

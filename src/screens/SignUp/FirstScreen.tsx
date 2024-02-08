@@ -72,6 +72,7 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
         provider,
         redirectURI: Linking.createURL('FirstScreen'),
       });
+     
       dispatch(updateDidToken(token.magic.idToken));
 
       const accountInfo = await magic.aptos.getAccountInfo();
