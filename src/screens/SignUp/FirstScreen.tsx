@@ -89,7 +89,12 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
         await setLoginSession(res.wallet, res.userId);
         navigation.navigate('Congratulations');
       } else {
-        navigation.navigate('SignUp');
+        navigation.navigate('SignUp', {
+          walletCredentials:{
+            token:token,
+            address:""
+          }
+        });
       }
     } catch (error) {
       console.log('Catch: ', error);
