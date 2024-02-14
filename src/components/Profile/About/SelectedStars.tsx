@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from "react-native";
+import { View, Text, Dimensions, StyleSheet, Pressable, TouchableOpacity } from "react-native";
 import { sizes } from "../../../utils";
 import { appColor } from "../../../constants";
 import SelectedSuperStars from "./SelectedSuperStars";
@@ -10,8 +10,10 @@ import {
   setSuperStarsNFT,
 } from "../../../controller/UserController";
 import { updateSelectedSuperStars } from "../../../controller/UserController";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { getUserData } from "../../../controller/UserController";
 const { height, width } = Dimensions.get("window");
+import Loader from "../../../../assets/svg/Loader";
 
 const size = new sizes(height, width);
 interface Props {
@@ -25,10 +27,21 @@ const SelectedStars = ({ navigation }: Props) => {
   const selectedStars = useAppSelector(
     (state) => state.USER.selectedSuperStars
   );
+  const userId = useAppSelector((state) => state.USER.UserData._id);
   const token = useAppSelector((state) => state.USER.didToken);
   const [length, setlength] = useState<number>(selectedStars?.length);
+  console.log(selectedStars, "selectedStars");
 
-  const disabled = selectedStars?.length != length || selectedStars?.length < 1;
+  const disabled =
+    selectedStars?.length != length || selectedStars?.length == 0;
+  const loaderRef = useRef();
+  const showLoader = (show = true) => {
+    if (loaderRef.current && show)
+      (loaderRef.current as any).setNativeProps({ style: { display: "flex" } });
+
+    if (loaderRef.current && !show)
+      (loaderRef.current as any).setNativeProps({ style: { display: "none" } });
+  };
   return (
     <View style={styles.view}>
       <Text style={styles.text}>
@@ -50,8 +63,8 @@ const SelectedStars = ({ navigation }: Props) => {
         </Pressable>
         <Pressable
           onPress={() => {
+            dispatch(setSuperStarsNFT({ token, nftInfoArray: selectedStars }));
             dispatch(updateSelectedSuperStars(selectedStars));
-            dispatch(setSuperStarsNFT({ token, selectedStars }));
             navigation.dispatch(
               CommonActions.navigate({
                 name: "DrawerNavigation",
@@ -64,8 +77,9 @@ const SelectedStars = ({ navigation }: Props) => {
               })
             );
             dispatch(resetSelectedSuperStar());
+            dispatch(getUserData({ userId, token: token }));
           }}
-          disabled={disabled}
+          disabled={!disabled}
           style={[styles.setSuperStarsButton, { opacity: disabled ? 1 : 0.4 }]}
         >
           <Text style={styles.setSuperStarsButtonText}>Set Super Stars</Text>

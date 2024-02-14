@@ -15,41 +15,45 @@ import {
 import { updateProfileImage } from '../../../controller/UserController';
 import { sizes } from '../../../utils';
 import { batch } from 'react-redux';
+import { FlashList } from '@shopify/flash-list';
 const size = new sizes(height, width);
 const ProfilePicsCollection = () => {
   const profilePicture = useAppSelector(
     (state) => state.bottomSheetController.profilePics
   );
+  const {assets} = useAppSelector((state) => ({
+    assets: state.bottomSheetController.listOfNftCollections
+  }))
   const dispatch = useAppDispatch();
   const profilePics = [
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: '#1',
       id: 1,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: '#2',
       id: 2,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: '#3',
       id: 3,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: '#4',
       id: 5,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: '#5',
       id: 6,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: '#6',
       id: 7,
     },
     {
@@ -81,12 +85,12 @@ const ProfilePicsCollection = () => {
         paddingHorizontal: size.getWidthSize(16),
       }}
     >
-      {profilePics.map((profile) => (
+      {assets?.map((profile) => (
         <Pressable
           style={{
             marginBottom: size.getHeightSize(16),
             borderWidth:
-              profilePicture.id && profile.id === profilePicture.id ? 8 : 0,
+              profilePicture.id &&profile.asset_id === profilePicture.id ? 8 : 0,
             borderRadius: 20,
             borderColor:
               typeof profilePicture === 'undefined'
@@ -100,18 +104,18 @@ const ProfilePicsCollection = () => {
             batch(() => {
               dispatch(updateProfilePics(profile));
               dispatch(
-                updateProfileImage(Image.resolveAssetSource(profile.image).uri)
+                updateProfileImage(profile.image_uri)
               );
             });
           }}
-          key={profile.id}
+          key={profile.asset_id}
         >
           <Image
             style={{
               width: size.getWidthSize(140),
               height: size.getHeightSize(140),
             }}
-            source={profile.image}
+            source={{uri: profile.image_uri}}
             resizeMode="cover"
           />
           <View
@@ -120,11 +124,11 @@ const ProfilePicsCollection = () => {
               position: 'absolute',
               backgroundColor: '#121212',
               bottom:
-                profilePicture.id && profile.id === profilePicture.id
+                profilePicture.id && profile.asset_id === profilePicture.id
                   ? size.getHeightSize(0)
                   : size.getHeightSize(8),
               left:
-                profilePicture.id && profile.id === profilePicture.id
+                profilePicture.id && profile.asset_id === profilePicture.id
                   ? size.getWidthSize(0)
                   : size.getWidthSize(8),
               right: 0,
@@ -143,7 +147,7 @@ const ProfilePicsCollection = () => {
                 lineHeight: size.getHeightSize(18),
               }}
             >
-              {profile.Name}
+              {profile.name}
             </Text>
           </View>
         </Pressable>

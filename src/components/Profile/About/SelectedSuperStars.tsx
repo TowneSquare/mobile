@@ -27,10 +27,14 @@ const SelectedSuperStars = () => {
     (state) => state.USER.UserData.superstars?.nftInfoArray
   );
   useMemo(() => {
+    if (!userSelected || selectedStars?.length > userSelected?.length) {
+      return
+    }
     dispatch(updateSelectedSuperStars(userSelected));
   }, [userSelected?.length]);
 
   const numberOfViews = 6;
+  console.log(selectedStars, "selectedStars")
 
   return (
     <View
@@ -59,6 +63,7 @@ const SelectedSuperStars = () => {
                     width: "100%",
                     borderRadius: 8,
                   }}
+                  resizeMode="cover"
                 />
                 <Pressable
                   onPress={() => {

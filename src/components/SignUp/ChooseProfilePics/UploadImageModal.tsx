@@ -39,6 +39,7 @@ import {
   PermissionStatus,
 } from "expo-image-picker";
 import { updateProfileImage } from "../../../controller/UserController";
+import { initialData } from "../../../api/hooks";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 
@@ -101,6 +102,8 @@ const UploadImageModal = () => {
       Extrapolation.CLAMP
     ),
   }));
+
+  const userNFT = initialData
 
   let [isLoaded] = useFonts({
     "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
@@ -192,7 +195,7 @@ const UploadImageModal = () => {
           }}
         >
           <Pressable
-            disabled={collectionLength === 0}
+            disabled={userNFT.data.length === 0}
             onPress={() => {
               dispatch(updateUploadModalRenderCount(0));
               dispatch(updateUploadImageModalOpen(false));
@@ -203,7 +206,7 @@ const UploadImageModal = () => {
               styles.container,
               {
                 backgroundColor:
-                  collectionLength === 0 ? "#66666660" : appColor.kGrayLight3,
+                  userNFT.data.length === 0 ? "#66666660" : appColor.kGrayLight3,
               },
             ]}
           >

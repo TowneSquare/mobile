@@ -49,17 +49,22 @@ import { BACKEND_URL } from "../../../config/env";
 import { serverTimestamp, doc, getDoc, setDoc } from "firebase/firestore";
 import { firestoreDB } from "../../../config/firebase.config";
 import { createUniqueChatId } from "../../utils/ChatUtils";
+import { useAptosName } from "../../api/hooks";
 const size = new sizes(height, width);
 
 type SuperStarReducerState = {
   showSuperStarModal: boolean;
   imageUri: string;
+  nftCollection: string;
+  nftTokenId: string;
 };
 type SuperStarReducerAction = {
   type: "SHOW" | "CLOSE";
   payload?: {
     showSuperStarModal: boolean;
     imageUri: string;
+    nftCollection: string;
+    nftTokenId: string;
   };
 };
 const selectedSuperStarsReducer = (
@@ -71,11 +76,15 @@ const selectedSuperStarsReducer = (
       return {
         showSuperStarModal: action.payload.showSuperStarModal,
         imageUri: action.payload.imageUri,
+        nftCollection: action.payload.nftCollection,
+        nftTokenId: action.payload.nftTokenId,
       };
     case "CLOSE":
       return {
         showSuperStarModal: false,
         imageUri: "",
+        nftCollection: "",
+        nftTokenId: "",
       };
 
     default:
@@ -90,7 +99,6 @@ const TheirProfileScreen = ({
   const [view, setView] = useState<number>(2);
   const { userId, username, nickname } = route.params;
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [aptosName, setAptosName] = useState<string>("unavailable");
   const profile = useAppSelector((state) => state.USER.UserData);
   const { userFollowing, token, user } = useAppSelector((state) => ({
     userFollowing: state.USER.UserData.following,
@@ -100,7 +108,7 @@ const TheirProfileScreen = ({
 
   const title = username;
   const COMMUNITIES = "10";
-  const APTOS_DOMAIN_NAME = "";
+  
   const fetchUserInfo = async (): Promise<UserData> => {
     return await axios
       .get(`${BACKEND_URL}user/${userId}`, {
@@ -115,6 +123,7 @@ const TheirProfileScreen = ({
     return useQuery({ queryKey: ["userInfo"], queryFn: fetchUserInfo });
   }
   const userInfo = useUserInfo();
+  const APTOS_DOMAIN_NAME = useAptosName({ userAddress: userInfo.data.aptosWallet }).data?.name || "";;
   const [following, setFollowing] = useState(
     userFollowing.some((following) => following.toUserId == userInfo.data?._id)
   );
@@ -134,24 +143,10 @@ const TheirProfileScreen = ({
   const [superStarModal, useDispatch] = useReducer(selectedSuperStarsReducer, {
     showSuperStarModal: false,
     imageUri: "",
+    nftCollection: "",
+    nftTokenId: "",
   });
 
-  console.log(userFollowing, "userFollowing");
-
-  // const following = userFollowing.some(
-  //     (following) => following._id == userInfo.data._id
-  //   );
-
-  const getUserAptosName = async (address: string) => {
-    try {
-      const res = await axios.get(`${APTOS_NAME_URL}${address}`);
-      const aptosName: string = res?.data;
-      setAptosName(aptosName);
-    } catch (error) {
-      setAptosName("unavailable");
-      return "unavailable";
-    }
-  };
 
   useEffect(() => {
     //getUserAptosName(userInfo.data?.aptosWallet)
@@ -206,7 +201,6 @@ const TheirProfileScreen = ({
     ));
   };
 
-  console.log(userInfo.isFetched, userInfo?.data?.createdAt, "theirProile");
   const UserReplies = () => {
     return userInfo.data?.comments.map((userpost) => (
       <Replies
@@ -311,13 +305,14 @@ const TheirProfileScreen = ({
           <ProfileCard
             NAME={username}
             NICKNAME={nickname}
-            APTOS_DOMAIN_NAME={aptosName}
+            APTOS_DOMAIN_NAME={APTOS_DOMAIN_NAME}
             DATE={getCreatedTime(userInfo.data?.createdAt)}
             COMMUNITIES={COMMUNITIES}
             FOLLOWERS={userInfo.data?.followers?.length.toString()}
             FOLLOWING={userInfo.data?.following?.length.toString()}
             POST={userInfo.data?.posts?.length.toString()}
             profileImageUri={userInfo?.data.profileImage}
+            BADGES={userInfo?.data?.badge}
           />
           <View style={styles.view}>
             <Pressable
@@ -399,6 +394,8 @@ const TheirProfileScreen = ({
                         payload: {
                           showSuperStarModal: true,
                           imageUri: item.nftImageUrl,
+                          nftCollection: item.nftCollection,
+                          nftTokenId: item.nftTokenId,
                         },
                       });
                     }}
@@ -470,6 +467,8 @@ const TheirProfileScreen = ({
               })
             }
             imageUri={superStarModal.imageUri}
+            nftCollection={superStarModal.nftCollection}
+            nftTokenId={superStarModal.nftTokenId}
           />
         </ScrollView>
       ) : (

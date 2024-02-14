@@ -5,18 +5,29 @@ import { useNavigation } from '@react-navigation/native';
 const { height, width } = Dimensions.get('window');
 import AntDesign from '@expo/vector-icons/AntDesign';
 const size = new sizes(height, width);
+import { useAppDispatch } from '../../controller/hooks';
+import { resetSelectedSuperStar } from '../../controller/UserController';
 interface Props {
   title: string;
+  resetSuperStar?:boolean
 }
-const Header = ({ title }: Props) => {
+const Header = ({ title, resetSuperStar }: Props) => {
   const navigation = useNavigation();
+  const dispatch = useAppDispatch()
+  const onPress = () => {
+    navigation.goBack()
+    if(resetSuperStar){
+      dispatch(resetSelectedSuperStar())
+    }
+   
+  }
   return (
     <View style={styles.container}>
       <AntDesign
         name="arrowleft"
         color={appColor.kWhiteColor}
         size={size.fontSize(24)}
-        onPress={navigation.goBack}
+        onPress={onPress}
       />
       <Text style={styles.title}>{title}</Text>
       <AntDesign

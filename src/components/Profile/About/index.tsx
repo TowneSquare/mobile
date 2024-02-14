@@ -7,6 +7,7 @@ import {
   Dimensions,
   ScrollView,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 import CheckedIcon from "../../../../assets/images/svg/CheckedIcon";
 import { appColor } from "../../../constants";
@@ -38,16 +39,22 @@ import Replies from "../Replies";
 import { getCreatedTime } from "../../../utils/helperFunction";
 import { NotifyOnChangeProps } from "@tanstack/query-core";
 import { useFocusEffect } from "@react-navigation/native";
+import { useAptosName } from "../../../api/hooks";
+import Loader from "../../../../assets/svg/Loader";
 
 type SuperStarReducerState = {
   showSuperStarModal: boolean;
   imageUri: string;
+  nftCollection: string;
+  nftTokenId: string;
 };
 type SuperStarReducerAction = {
   type: "SHOW" | "CLOSE";
   payload?: {
     showSuperStarModal: boolean;
     imageUri: string;
+    nftCollection: string;
+    nftTokenId: string;
   };
 };
 const selectedSuperStarsReducer = (
@@ -59,11 +66,15 @@ const selectedSuperStarsReducer = (
       return {
         showSuperStarModal: action.payload.showSuperStarModal,
         imageUri: action.payload.imageUri,
+        nftCollection: action.payload.nftCollection,
+        nftTokenId: action.payload.nftTokenId,
       };
     case "CLOSE":
       return {
         showSuperStarModal: false,
         imageUri: "",
+        nftCollection: "",
+        nftTokenId: "",
       };
 
     default:
@@ -75,6 +86,8 @@ const About = ({ route }) => {
   const [superStarModal, useDispatch] = useReducer(selectedSuperStarsReducer, {
     showSuperStarModal: false,
     imageUri: "",
+    nftCollection: "",
+    nftTokenId: "",
   });
   const [following, follow] = useState(false);
   // const [showSuperStarModal, setModalVisibility] = useState(false);
@@ -106,14 +119,15 @@ const About = ({ route }) => {
 
   const [view, setView] = useState<number>(2);
 
-  const NAME = USERDATA.username || "Real JC";
-  const NICKNAME = USERDATA.nickname || "jczhang";
-  const APTOS_DOMAIN_NAME = "jczhang.apt";
+  const NAME = USERDATA.username || "";
+  const NICKNAME = USERDATA.nickname || "";
+  const APTOS_DOMAIN_NAME =
+    useAptosName({ userAddress: USERDATA.aptosWallet }).data?.name || "";
   const DATE = getCreatedTime(USERDATA.createdAt);
   const FOLLOWING = USERDATA.following.length || "0";
   const FOLLOWERS = USERDATA.followers.length || "0";
   const POST = USERDATA.posts.length || "0";
-  const COMMUNITIES = "22";
+  const COMMUNITIES = "";
 
   useEffect(() => {
     dispatch(getOnlyUserPost({ userId, token }));
@@ -232,6 +246,7 @@ const About = ({ route }) => {
           FOLLOWING={FOLLOWING.toString()}
           POST={POST.toString()}
           profileImageUri={profilePics}
+          BADGES={USERDATA?.badge}
         />
         {typeOfProfile === "theirProfile" && (
           <View style={styles.view}>
@@ -327,7 +342,7 @@ const About = ({ route }) => {
               <></>
             )}
           </View>
-          {selectedSuperStars?.nftInfoArray.length > 0 ? (
+          {selectedSuperStars?.nftInfoArray?.length > 0 ? (
             <>
               <ScrollView
                 style={{
@@ -346,6 +361,8 @@ const About = ({ route }) => {
                         payload: {
                           showSuperStarModal: true,
                           imageUri: item.nftImageUrl,
+                          nftCollection: item.nftCollection,
+                          nftTokenId: item.nftTokenId,
                         },
                       });
                     }}
@@ -423,6 +440,8 @@ const About = ({ route }) => {
           })
         }
         imageUri={superStarModal.imageUri}
+        nftCollection={superStarModal.nftCollection}
+        nftTokenId={superStarModal.nftTokenId}
       />
     </SafeAreaView>
   );

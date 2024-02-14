@@ -151,168 +151,13 @@ const initialState: UserState = {
         toUserId: "65517b59c40bc87fe2ac38f8",
       },
     ],
-    posts: [
-      {
-        _id: "655df7a347784b1665992617",
-        title: "",
-        userId: "65372778b8da0e521b8a3587",
-        description: "Test post ",
-        imageUrls: [""],
-        videoUrls: ["https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"],
-        createdAt: "2023-11-02T03:01:59.721Z",
-        sellNFTPrice: "",
-        nftImageUrl: "",
-        nftCollection: "",
-        nftTokenId: "",
-        likes: [
-          {
-            _id: "6560962a233ac36e73bc42ce",
-            userId: "655ab007ce8937ff6d512885",
-            postId: "655df7a347784b1665992617",
-            createdAt: "2023-11-24T12:25:14.173Z",
-          },
-        ],
-        comments: [
-          {
-            username: "pelumi_main",
-            nickname: "chokey",
-            _id: "653878c2a000149cd06b9845",
-            content: "POST comment TEstTest",
-            userId: "65372778b8da0e521b8a3587",
-            postId: "653728bd6171091d6b469bec",
-            createdAt: "2023-10-25T02:09:06.310Z",
-          },
-          {
-            username: "pelumi_second",
-            nickname: "chokey",
-            _id: "653878c2a000149cd06b9845",
-            content: "POST comment TEstTest",
-            userId: "65372778b8da0e521b8a3587",
-            postId: "653728bd6171091d6b469bec",
-            createdAt: "2023-10-25T02:09:06.310Z",
-          },
-        ],
-        customer: {
-          _id: "65372778b8da0e521b8a3587",
-          issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-          aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-          nickname: "test nickname",
-          username: "test12",
-          email: "test@email.com",
-          referralCode: "98N39",
-          profileImage: "",
-          createdAt: "",
-        },
-        reposts: [],
-        originalCustomer: {
-          _id: "65372778b8da0e521b8a3587",
-          issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-          aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-          nickname: "test nickname",
-          username: "test12",
-          email: "test@email.com",
-          referralCode: "98N39",
-          profileImage: "",
-          createdAt: "",
-        },
-        repost: false,
-        originalPostId: "65430c7f372dd89672e9214d",
-        originalCustomerId: "65372778b8da0e521b8a3587",
-      },
-      {
-        _id: "6543112773263dcd8d741ba0",
-        title: "",
-        userId: "65372778b8da0e521b8a3587",
-        description: "Test post ",
-        imageUrls: [""],
-        videoUrls: ["https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"],
-        createdAt: "2023-11-02T03:01:59.721Z",
-        sellNFTPrice: "",
-        nftImageUrl:
-          "https://imageio.forbes.com/specials-images/imageserve/6170e01f8d7639b95a7f2eeb/Sotheby-s-NFT-Natively-Digital-1-2-sale-Bored-Ape-Yacht-Club--8817-by-Yuga-Labs/0x0.png",
-        nftCollection: "APtomingos",
-        nftTokenId: "Aptomingo #123",
-        likes: [
-          {
-            _id: "6560962a233ac36e73bc42ce",
-            userId: "655ab007ce8937ff6d512885",
-            postId: "655df7a347784b1665992617",
-            createdAt: "2023-11-24T12:25:14.173Z",
-          },
-        ],
-        comments: [
-          {
-            username: "pelumi_main",
-            nickname: "chokey",
-            _id: "653878c2a000149cd06b9845",
-            content: "POST comment TEstTest",
-            userId: "65372778b8da0e521b8a3587",
-            postId: "653728bd6171091d6b469bec",
-            createdAt: "2023-10-25T02:09:06.310Z",
-          },
-          {
-            username: "pelumi_second",
-            nickname: "chokey",
-            _id: "653878c2a000149cd06b9845",
-            content: "POST comment TEstTest",
-            userId: "65372778b8da0e521b8a3587",
-            postId: "653728bd6171091d6b469bec",
-            createdAt: "2023-10-25T02:09:06.310Z",
-          },
-        ],
-        customer: {
-          _id: "65372778b8da0e521b8a3587",
-          issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-          aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-          nickname: "test nickname",
-          username: "test12",
-          email: "test@email.com",
-          referralCode: "98N39",
-          profileImage: "",
-          createdAt: "",
-        },
-        reposts: [],
-        originalCustomer: {
-          _id: "65372778b8da0e521b8a3587",
-          issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
-          aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
-          nickname: "test nickname",
-          username: "test12",
-          email: "test@email.com",
-          referralCode: "98N39",
-          profileImage: "",
-          createdAt: "",
-        },
-        repost: false,
-        originalPostId: "65430c7f372dd89672e9214d",
-        originalCustomerId: "65372778b8da0e521b8a3587",
-      },
-    ],
+    posts: [],
     groups: [],
     superstars: {
-      _id: "6563f507f07bc47317331a30",
-      nftInfoArray: [
-        {
-          nftTokenId: "Aptomingo #111",
-          nftImageUrl:
-            "https://airnfts.s3.amazonaws.com/nft-images/20210821/This_is_Link_1629558829889.png",
-          nftCollection: "Aptomingos",
-        },
-        {
-          nftTokenId: "Aptomingo #112",
-          nftImageUrl:
-            "https://airnfts.s3.amazonaws.com/nft-images/20210821/This_is_Link_1629558829889.png",
-          nftCollection: "Aptomingos",
-        },
-        {
-          nftTokenId: "Aptomingo #113",
-          nftImageUrl:
-            "https://airnfts.s3.amazonaws.com/nft-images/20210821/This_is_Link_1629558829889.png",
-          nftCollection: "Aptomingos",
-        },
-      ],
-      customerId: "655ab007ce8937ff6d512885",
-      createdAt: "2023-11-27T01:46:47.630Z",
+      _id: "",
+      nftInfoArray: [],
+      customerId: "",
+      createdAt: "",
     },
     comments: [
       {
@@ -859,19 +704,6 @@ export const setSuperStarsNFT = createAsyncThunk(
   }
 );
 
-export const getAptosName = createAsyncThunk(
-  "User/getAptosName",
-  async ({ address }: any) => {
-    try {
-      const res = await axios.get(`${APTOS_NAME_URL}${address}`);
-      const aptosName: string = res.data;
-      return aptosName;
-    } catch (error) {
-      return "unavailable";
-    }
-  }
-);
-
 export const editProfile = createAsyncThunk(
   "User/EditProfile",
   async ({ bio, nickname, username, token }: EditProfileProps) => {
@@ -1044,7 +876,14 @@ export const USER = createSlice({
         nftCollection: string;
       }>
     ) => {
-      state.selectedSuperStars = [...state.selectedSuperStars, action.payload];
+      if (!state.selectedSuperStars) {
+        state.selectedSuperStars = [action.payload];
+      } else {
+        state.selectedSuperStars = [
+          ...state.selectedSuperStars,
+          action.payload,
+        ];
+      }
     },
     deleteSelectedSuperStar: (state, action: PayloadAction<string>) => {
       state.selectedSuperStars = state.selectedSuperStars.filter(
@@ -1052,7 +891,7 @@ export const USER = createSlice({
       );
     },
     resetSelectedSuperStar: (state) => {
-      state.selectedSuperStars = state.UserData.superstars.nftInfoArray;
+      state.selectedSuperStars = state.UserData.superstars?.nftInfoArray;
     },
     updateBio: (state, action: PayloadAction<string>) => {
       state.UserData.bio = action.payload;
@@ -1072,6 +911,7 @@ export const USER = createSlice({
     builder.addCase(getUserData.fulfilled, (state, action) => {
       state.UserData = action.payload;
     });
+    builder.addCase(getUserData.pending, (state, action) => {});
     builder.addCase(getUserData.rejected, (state, action) => {
       state.UserData = {
         _id: "",
@@ -1097,9 +937,6 @@ export const USER = createSlice({
           createdAt: "",
         },
       };
-    });
-    builder.addCase(getAptosName.fulfilled, (state, action) => {
-      state.aptosName = action.payload;
     });
     builder.addCase(getUserBookmark.fulfilled, (state, action) => {
       state.BookMarks = action.payload;

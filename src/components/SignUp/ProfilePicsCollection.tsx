@@ -30,42 +30,42 @@ const ProfilePicsCollection = () => {
   const profilePics = [
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: '#1No',
       id: 1,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: '#2',
       id: 2,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: '#3',
       id: 3,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: '#4',
       id: 5,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: '#5',
       id: 6,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: '#6',
       id: 7,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: '#7',
       id: 8,
     },
     {
       image: images.Aptomingos,
-      Name: '#928098098',
+      Name: '#8',
       id: 9,
     },
   ];
@@ -92,7 +92,7 @@ const ProfilePicsCollection = () => {
           style={{
             marginBottom: size.getHeightSize(16),
             borderWidth:
-              profilePicture.id && profile.id === profilePicture.id ? 8 : 0,
+              profilePicture.id && String(profile.id) === profilePicture.id ? 8 : 0,
             borderRadius: 20,
             borderColor:
               typeof profilePicture === 'undefined'
@@ -126,11 +126,11 @@ const ProfilePicsCollection = () => {
               position: 'absolute',
               backgroundColor: '#121212',
               bottom:
-                profilePicture.id && profile.id === profilePicture.id
+                profilePicture.id && String(profile.id) === profilePicture.id
                   ? size.getHeightSize(0)
                   : size.getHeightSize(8),
               left:
-                profilePicture.id && profile.id === profilePicture.id
+                profilePicture.id && String(profile.id) === profilePicture.id
                   ? size.getWidthSize(0)
                   : size.getWidthSize(8),
               right: 0,
