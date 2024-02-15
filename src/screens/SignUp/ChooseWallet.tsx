@@ -35,6 +35,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
   const [walletConnectDetails, setWalletConnect] = useState<{
     token: string;
     address: string;
+    shouldGenerateTokenfromAddress: boolean;
   }>();
   const walletConnectionResponse = route.params?.response;
   console.log(walletConnectionResponse);
@@ -42,19 +43,34 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
   useEffect(() => {
     const handleConnect = async () => {
       const petraResponse = route.params;
-      const { address, token } = await decodePetraWalletConnectResponse({
-        data: petraResponse?.data || '',
-        response: petraResponse?.response || '',
-      });
-      setWalletConnect({ address, token });
-      dispatch(updateBottomSheet(true));
-      dispatch(
-        updateToast({
-          toastType: 'success',
-          displayToast: true,
-          toastMessage: `Connected:${address}`,
-        })
-      );
+      try {
+        const { address, token } = await decodePetraWalletConnectResponse({
+          data: petraResponse?.data || '',
+          response: petraResponse?.response || '',
+        });
+        setWalletConnect({
+          address,
+          token,
+          shouldGenerateTokenfromAddress: true,
+        });
+        dispatch(updateBottomSheet(true));
+        dispatch(
+          updateToast({
+            toastType: 'success',
+            displayToast: true,
+            toastMessage: `Connected:${address}`,
+          })
+        );
+      } catch (e) {
+        dispatch(
+          updateToast({
+            toastType: 'info',
+            displayToast: true,
+            toastMessage:
+              'Somethiing went wrong, revoke from your dapp and reconnect',
+          })
+        );
+      }
     };
     if (selectedWallet === 'petra' && walletConnectionResponse === 'approved') {
       handleConnect();

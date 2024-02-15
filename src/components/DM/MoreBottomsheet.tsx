@@ -17,7 +17,6 @@ const size = new sizes(height, width);
 interface Props {
   visibility: boolean;
   onClose: () => void;
-
   onBlockUser: () => void;
   onDeleteConversation: () => void;
   onDeleteChat: () => void;

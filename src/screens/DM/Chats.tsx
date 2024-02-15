@@ -47,7 +47,7 @@ const Chats = () => {
     const chatQuery = query(
       collection(firestoreDB, "chats"),
       where("memberIds", "array-contains", myId),
-      orderBy("_id", "asc")
+      orderBy("lastMessage.createdAt", "desc")
     );
 
     const unsubscribe = onSnapshot(

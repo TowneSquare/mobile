@@ -40,8 +40,9 @@ type TheirProfileParams = {
 export type SignUpParams = {
   [SignUp: string]: {
     walletCredentials: {
-      token: string;
+      token?: string;
       address: string;
+      shouldGenerateTokenfromAddress: boolean;
     };
   };
 };
@@ -51,8 +52,9 @@ export type RootStackParamList = {
   ChooseWallet: PetraWalletResponse;
   SignUp: {
     walletCredentials: {
-      token: string;
+      token?: string;
       address: string;
+      shouldGenerateTokenfromAddress: boolean;
     };
   };
   // ConnectSocialsAndVrify: undefined;

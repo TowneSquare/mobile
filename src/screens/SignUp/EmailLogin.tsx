@@ -9,7 +9,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-
+import { storeDeviceTokenToFireStore } from '../../services/PushNotification';
 import { useFonts } from 'expo-font';
 import { updateToast } from '../../controller/FeedsController';
 import TransitionBackButton from '../../components/SignUp/TransitionBackButton';
@@ -76,6 +76,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     email,
     accountInfo,
     metaData,
+    deviceToken,
   } = useAppSelector((state) => ({
     usernameError: state.USER.signUpData.errors.usernameError,
     nickNameError: state.USER.signUpData.errors.nicknameError,
@@ -89,6 +90,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     email: state.USER.signUpData.email,
     metaData: state.USER.signUpData.metadata,
     accountInfo: state.USER.signUpData.accountInfo,
+    deviceToken: state.USER.userDeviceToken,
   }));
 
   const user = useAppSelector((state) => state.USER);
@@ -165,11 +167,13 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
         dispatch(updateAccountInfo(accountInfo));
         const metadata = await magic.user.getMetadata();
         dispatch(updateMetadata(metadata));
-
         const res = await checkSignup(token);
+        console.log('==============res================');
+        console.log(res);
         showLoader(false);
         if (res.isExist && res.isExist == true) {
           await setLoginSession(res.wallet, res.userId);
+          await storeDeviceTokenToFireStore(res.userId, deviceToken);
           await AsyncStorage.setItem('user_id', res.userId);
           dispatch(updateUserId(res.userId));
           dispatch(disableContinueButton(false));
@@ -207,6 +211,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
         if (!res.error && res.success != false) {
           setUserId(res.userId);
           dispatch(updateUserId(res.userId));
+          await storeDeviceTokenToFireStore(res.userId, deviceToken);
           await AsyncStorage.setItem('user_id', res.userId);
           // setToken(user.didToken);
         } else if (res.error) {

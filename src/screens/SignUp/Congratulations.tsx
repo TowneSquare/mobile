@@ -14,17 +14,20 @@ import Congrats from '../../../assets/images/svg/Congrats';
 import { getUserInfo } from '../../api';
 import LetGoButton from '../../components/SignUp/LetGoButton';
 import { updateUserData } from '../../controller/UserController';
-import { useAppDispatch } from '../../controller/hooks';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { storeDeviceTokenToFireStore } from '../../services/PushNotification';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../../../assets/svg/Loader';
+import { CommonActions } from '@react-navigation/native';
+import { StackActions } from '@react-navigation/compat';
 const { height, width } = Dimensions.get('window');
 
 const size = new sizes(height, width);
 const Congratulations = () => {
   const navigation = useNavigation();
   const [isLoading, setLoading] = useState(false);
-
+  const deviceToken = useAppSelector((state) => state.USER.userDeviceToken);
   const dispatch = useAppDispatch();
   async function getUser() {
     setLoading(true);
@@ -32,9 +35,13 @@ const Congratulations = () => {
     const userId = await AsyncStorage.getItem('user_id');
     const userInfo = await getUserInfo(userId, token);
     if (userInfo) {
+      console.log(userInfo.username)
+      await storeDeviceTokenToFireStore(userId, deviceToken);
       await AsyncStorage.setItem('userData', JSON.stringify(userInfo));
       dispatch(updateUserData(userInfo));
-      navigation.navigate('App' as any);
+      navigation.dispatch(
+        CommonActions.reset({ index: 0, routes: [{ name: 'App' }] })
+      );
     }
     setLoading(false);
   }

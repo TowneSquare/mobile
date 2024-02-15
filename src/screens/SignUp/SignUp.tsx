@@ -35,6 +35,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import SignupTransitionBackButton from '../../components/SignUp/SignupTransitionBackButton';
 import { useAppSelector } from '../../controller/hooks';
 import { disableContinueButton } from '../../controller/UserController';
+import { storeDeviceTokenToFireStore } from '../../services/PushNotification';
 import Loader from '../../../assets/svg/Loader';
 import { SignUpParams } from '../../navigations/NavigationTypes';
 import {
@@ -53,6 +54,8 @@ let PADDING = size.getWidthSize(26);
 let newWidth = width - 2 * PADDING;
 type WalletCredentials = {
   address: string;
+  token?: string;
+  shouldGenerateTokenfromAddress: boolean;
 };
 type RootStackParamList = {
   SignUp: { walletCredentials?: WalletCredentials };
@@ -61,7 +64,8 @@ type SignUpRouteProp = RouteProp<RootStackParamList, 'SignUp'>;
 const SignUp = ({ magic }: SignUpProps) => {
   const navigation = useNavigation();
   const route = useRoute<SignUpRouteProp>();
-  const { address } = route.params?.walletCredentials;
+  const { address, shouldGenerateTokenfromAddress } =
+    route.params?.walletCredentials;
   const [isSignupSuccesful, setSignupSuccess] = useState(false);
   const [userId, setUserId] = useState('');
   const [token, setToken] = useState('');
@@ -77,6 +81,7 @@ const SignUp = ({ magic }: SignUpProps) => {
     usernameError,
     nickname,
     username,
+    deviceToken,
   } = useAppSelector((state) => ({
     usernameError: state.USER.signUpData.errors.usernameError,
     nickNameError: state.USER.signUpData.errors.nicknameError,
@@ -87,18 +92,29 @@ const SignUp = ({ magic }: SignUpProps) => {
     socialInfo: state.USER.signUpData.socialInfo,
     username: state.USER.signUpData.username,
     nickname: state.USER.signUpData.nickname,
+    deviceToken: state.USER.userDeviceToken,
   }));
 
   const continueButtonDisable = useAppSelector(
     (state) => state.USER.isSignUpContinueButtonDisable
   );
   useEffect(() => {
-    (async function () {
+    async function getToken() {
       const userToken = await getTokenBywalletaddress(address);
+      console.log(userToken);
       dispatch(updateDidToken(userToken.token));
       await AsyncStorage.setItem('user_token', userToken.token);
       setToken(userToken.token);
-    })();
+    }
+    async function updateToken(usrtoken: string) {
+      await AsyncStorage.setItem('user_token', usrtoken);
+      setToken(usrtoken);
+    }
+    if (shouldGenerateTokenfromAddress) {
+      getToken();
+    } else {
+      updateToken(route.params?.walletCredentials.token);
+    }
   }, []);
   const dispatch = useDispatch();
   const views = [
@@ -145,6 +161,7 @@ const SignUp = ({ magic }: SignUpProps) => {
 
         if (res.isExist && res.isExist == true) {
           await setLoginSession(res.wallet, res.userId);
+          await storeDeviceTokenToFireStore(res.userId, deviceToken);
           await AsyncStorage.setItem('user_id', res.userId);
           dispatch(updateUserId(res.userId));
           dispatch(disableContinueButton(false));
@@ -179,6 +196,7 @@ const SignUp = ({ magic }: SignUpProps) => {
           await setLoginSession(res.wallet, res.userId);
           setUserId(res.userId);
           await AsyncStorage.setItem('user_id', res.userId);
+          await storeDeviceTokenToFireStore(res.userId, deviceToken);
           // setToken(user.didToken);
         } else if (res.error) {
           const errorObject = JSON.parse(res.error);
@@ -410,7 +428,7 @@ const SignUp = ({ magic }: SignUpProps) => {
               action={() => {
                 handleNextSlide();
               }}
-              disable={disable}
+              disable={disable || !token}
             />
             {viewIndex === 0 && (
               <Text onPress={handleNextSlide} style={styles.refferal}>

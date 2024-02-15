@@ -6,6 +6,7 @@ import {
   PanResponder,
   Animated as RNAnimated,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 
@@ -20,7 +21,7 @@ import {
   updateToast,
 } from '../../controller/FeedsController';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-
+import { Avatar } from 'react-native-elements';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -105,7 +106,7 @@ const ProfilePicture = ({
   const LONG_PRESS_DURATION = 500;
   const navigation = useNavigation();
   const fadeAnim = useRef(new RNAnimated.Value(0)).current;
-
+  const movementThreshold = 10;
   const AnimatedStyles = {
     swipeable: useAnimatedStyle(() => {
       return {
@@ -135,7 +136,7 @@ const ProfilePicture = ({
 
   const panResponder = useRef(
     PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
+      onStartShouldSetPanResponderCapture: () => true,
       onPanResponderGrant: () => {
         longPressTimer = setTimeout(() => {
           swipeable && setShowSwipe(true);
@@ -150,14 +151,17 @@ const ProfilePicture = ({
         X.value = Math.max(0, Math.min(gestureState.dx, h_swipe_range));
       },
       onPanResponderRelease: (_, gestureState) => {
+        // console.log('=============================================');
+        // console.log(gestureState);
         clearTimeout(longPressTimer);
         if (
-          gestureState.moveX === gestureState.x0 &&
-          gestureState.moveY === gestureState.y0
+          gestureState.dx < movementThreshold &&
+          gestureState.dx > -movementThreshold &&
+          gestureState.dy < movementThreshold &&
+          gestureState.dy > -movementThreshold
         ) {
           handleShortPress();
-        }
-        if (X.value > size.getWidthSize(235)) {
+        } else if (X.value > size.getWidthSize(235)) {
           if (userId === currentUserId) {
             setShowSwipe(false);
             dispatch(
@@ -187,17 +191,15 @@ const ProfilePicture = ({
       },
     })
   ).current;
-  const handleShortPress = () => {
-    console.log('============================================');
-    console.log(userId, username, nickname, wallet, profileImageUri);
 
+  const handleShortPress = () => {
     setShowSwipe((previous) => {
       if (previous) {
         return false;
       } else {
         if (userId == currentUserId) {
         } else {
-          navigation.navigate("TheirProfileScreen", {
+          navigation.navigate('TheirProfileScreen', {
             userId: userId,
             username: username,
             nickname: nickname,
@@ -210,7 +212,6 @@ const ProfilePicture = ({
   return (
     <>
       <View
-        {...panResponder.panHandlers}
         style={[
           styles.pfp,
           {
@@ -218,10 +219,12 @@ const ProfilePicture = ({
             top: top ? size.heightSize(top) : size.getHeightSize(8),
           },
         ]}
+        {...panResponder.panHandlers}
       >
-        <Image
+        <Avatar
+          size={size.getHeightSize(40)}
           source={profileImageUri ? { uri: profileImageUri } : images.pfpImage}
-          style={styles.image}
+          rounded
         />
       </View>
 

@@ -7,6 +7,7 @@ import {
   ScrollView,
   Pressable,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useReducer, useState, useMemo, useEffect } from 'react';
 import { appColor } from '../../constants';
 import SuperStarBottomSheet from '../../components/Profile/About/SuperStarBottomSheet';
@@ -91,8 +92,9 @@ const TheirProfileScreen = ({
   const { userId, username, nickname } = route.params;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [aptosName, setAptosName] = useState<string>('unavailable');
+  const [token, setToken] = useState('');
   const profile = useAppSelector((state) => state.USER.UserData);
-  const { userFollowing, token, user } = useAppSelector((state) => ({
+  const { userFollowing, user } = useAppSelector((state) => ({
     userFollowing: state.USER.UserData.following,
     token: state.USER.didToken,
     user: state.USER.UserData._id,
@@ -102,10 +104,11 @@ const TheirProfileScreen = ({
   const COMMUNITIES = '10';
   const APTOS_DOMAIN_NAME = '';
   const fetchUserInfo = async (): Promise<UserData> => {
+    const user_token = await AsyncStorage.getItem('user_token');
     return await axios
       .get(`${BACKEND_URL}user/${userId}`, {
         headers: {
-          Authorization: token,
+          Authorization: user_token,
         },
       })
       .then((response) => response.data);
@@ -155,12 +158,17 @@ const TheirProfileScreen = ({
 
   useEffect(() => {
     //getUserAptosName(userInfo.data?.aptosWallet)
-    dispatch(getUserData({ userId: user, token }));
-    setFollowing(
-      userFollowing.some(
-        (following) => following.toUserId == userInfo.data?._id
-      )
-    );
+
+    (async function () {
+      const token = await AsyncStorage.getItem('user_token');
+      setToken(token);
+      // dispatch(getUserData({ userId: user, token }));
+      setFollowing(
+        userFollowing.some(
+          (following) => following.toUserId == userInfo.data?._id
+        )
+      );
+    })();
   }, []);
 
   const POST = () => {

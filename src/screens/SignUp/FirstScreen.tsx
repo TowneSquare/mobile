@@ -24,9 +24,9 @@ import Logo from '../../../assets/images/svg/Logo';
 import { BlurView } from 'expo-blur';
 import Description2 from '../../../assets/images/svg/Description2';
 const size = new sizes(height, width);
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Linking from 'expo-linking';
-import { useAppDispatch } from '../../controller/hooks';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 
 import {
   updateAccountInfo,
@@ -38,12 +38,13 @@ import { checkSignup } from '../../api';
 import Loader from '../../../assets/svg/Loader';
 import { useEffect, useRef } from 'react';
 import { getLoginSession, setLoginSession } from '../../utils/session';
+import { storeDeviceTokenToFireStore } from '../../services/PushNotification';
 
 const FirstScreen = ({ magic }: FirstScreenProps) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const loaderRef = useRef();
-
+  const deviceToken = useAppSelector((state) => state.USER.userDeviceToken);
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -54,8 +55,11 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
   useEffect(() => {
     const checkSession = async () => {
       const session = await getLoginSession();
-      dispatch(updateUserId(session.userId))
-      if (session) navigation.navigate('Congratulations');
+
+      if (session) {
+        dispatch(updateUserId(session.userId));
+        navigation.navigate('Congratulations');
+      }
     };
     checkSession();
   }, []);
@@ -72,9 +76,8 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
         provider,
         redirectURI: Linking.createURL('FirstScreen'),
       });
-     
+      await AsyncStorage.setItem('user_token', token.magic.idToken);
       dispatch(updateDidToken(token.magic.idToken));
-
       const accountInfo = await magic.aptos.getAccountInfo();
       dispatch(updateAccountInfo(accountInfo));
 
@@ -85,11 +88,19 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
 
       showLoader(false);
       if (res.isExist && res.isExist == true) {
-        dispatch(updateUserId(res.userId))
+        dispatch(updateUserId(res.userId));
         await setLoginSession(res.wallet, res.userId);
+        await storeDeviceTokenToFireStore(res.userId, deviceToken);
+        await AsyncStorage.setItem('user_id', res.userId);
         navigation.navigate('Congratulations');
       } else {
-        navigation.navigate('SignUp');
+        navigation.navigate('SignUp', {
+          walletCredentials: {
+            shouldGenerateTokenfromAddress: false,
+            token: token.magic.idToken,
+            address: accountInfo.address,
+          },
+        });
       }
     } catch (error) {
       console.log('Catch: ', error);

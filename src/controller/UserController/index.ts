@@ -130,6 +130,7 @@ interface UserState {
   isSignUpContinueButtonDisable: boolean;
   socialInfo: any;
   BookMarks: PostData[];
+  userDeviceToken: string;
 }
 undefined;
 
@@ -145,6 +146,7 @@ interface followRequest {
   token: string;
 }
 const initialState: UserState = {
+  userDeviceToken: '',
   signUpData: {
     errors: {
       nicknameError: false,
@@ -870,6 +872,9 @@ export const USER = createSlice({
     disableContinueButton: (state, action: PayloadAction<boolean>) => {
       state.isSignUpContinueButtonDisable = action.payload;
     },
+    updateUserDeviceToken: (state, action: PayloadAction<string>) => {
+      state.userDeviceToken = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(signUp.fulfilled, (state, action) => {
@@ -939,5 +944,6 @@ export const {
   updateReferralCode,
   disableContinueButton,
   updateUserData,
+  updateUserDeviceToken,
 } = USER.actions;
 export default USER.reducer;

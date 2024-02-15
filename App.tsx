@@ -3,7 +3,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StyleSheet, View } from 'react-native';
 import InitializeSocket from './src/utils/InitializeSocket';
 import { NavigationContainer } from '@react-navigation/native';
-import "react-native-get-random-values";
+import 'react-native-get-random-values';
 import Navigations from './src/navigations/InApp/InAppNavigations';
 import { useDispatch } from 'react-redux';
 import { Provider } from 'react-redux';
@@ -71,9 +71,9 @@ export default function App() {
     }
   }
 
-  useEffect(() => {
-    const result = getDataStoredToLocalStorage();
-  }, []);
+  // useEffect(() => {
+  //   const result = getDataStoredToLocalStorage();
+  // }, []);
   const magic = new Magic(API_KEY, {
     extensions: [
       new OAuthExtension(),
