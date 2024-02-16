@@ -48,6 +48,7 @@ export type SignUpParams = {
 };
 
 export type RootStackParamList = {
+  SplashScreen:undefined
   FirstScreen: undefined;
   ChooseWallet: PetraWalletResponse;
   SignUp: {

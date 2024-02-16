@@ -69,6 +69,7 @@ interface Props extends TextInputProps {
   receiverId: string;
   nickname: string;
   pfp: string;
+
 }
 export type ComponentRef = {
   focusTextInput: () => void;
@@ -82,6 +83,7 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
     username,
     nickname,
     pfp,
+    
   },
   ref
 ) => {

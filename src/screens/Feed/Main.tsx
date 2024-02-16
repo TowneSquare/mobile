@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, BackHandler } from 'react-native';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 import { appColor, fonts } from '../../constants';
@@ -16,14 +16,17 @@ import NotificationBell from '../../components/Feed/NotificationBell';
 import { useNavigation } from '@react-navigation/native';
 const size = new sizes(height, width);
 import { DrawerActions } from '@react-navigation/native';
-
+import useBackHandler from '../../hooks/useBackhandler';
 import { useAppDispatch } from '../../controller/hooks';
 import { updateReceiveModalState } from '../../controller/FeedsController';
 
 const Main = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-
+  // useBackHandler(() => {
+  //   BackHandler.exitApp(); 
+  //   return true;
+  // });
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,

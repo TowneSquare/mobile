@@ -248,7 +248,6 @@ const TheirProfileScreen = ({
     }
   };
   const createChat = async () => {
-    console.log('here======');
     const timestamp = serverTimestamp();
     let id = createUniqueChatId(userId, profile._id);
 
@@ -275,8 +274,7 @@ const TheirProfileScreen = ({
           name: '',
         },
       },
-
-      unreadCount: 2,
+      unreadCount: 0, // Initialize unread count to 0
     };
     const chatRef = doc(firestoreDB, 'chats', id);
     getDoc(chatRef).then((docSnapshot) => {

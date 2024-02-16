@@ -1,14 +1,14 @@
-import { configureStore } from "@reduxjs/toolkit";
-import bottomSheetSlice from "./BottomSheetController";
-import USER from "./UserController";
-import FeedsSlice from "./FeedsController";
-import CreatePostSlice from "./createPost";
-import SearcPostSlice from "./SearchPost";
-import COMMUNITY from "./CommunityController";
-import Reward from "./RewardController";
-import Swap from "./SwapController";
-import DM from "./DMController";
-import socketReducer from "./initializesocket";
+import { configureStore } from '@reduxjs/toolkit';
+import bottomSheetSlice from './BottomSheetController';
+import USER from './UserController';
+import FeedsSlice from './FeedsController';
+import CreatePostSlice from './createPost';
+import SearcPostSlice from './SearchPost';
+import COMMUNITY from './CommunityController';
+import Reward from './RewardController';
+import Swap from './SwapController';
+import DM from './DMController';
+import socketReducer from './initializesocket';
 export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

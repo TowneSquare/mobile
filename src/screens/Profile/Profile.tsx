@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet, BackHandler } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { appColor, fonts } from '../../constants';
 import { sizes } from '../../utils';
@@ -6,7 +6,7 @@ const { height, width } = Dimensions.get('window');
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { useFonts } from 'expo-font';
 import Header from '../../components/Profile/Header';
-
+import useBackHandler from '../../hooks/useBackhandler';
 import VerificationModal from '../../components/Profile/About/VerificationModal';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DrawerActions } from '@react-navigation/native';
@@ -23,6 +23,7 @@ const Profile = () => {
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
   };
+
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,

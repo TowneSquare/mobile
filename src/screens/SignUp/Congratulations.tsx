@@ -35,12 +35,15 @@ const Congratulations = () => {
     const userId = await AsyncStorage.getItem('user_id');
     const userInfo = await getUserInfo(userId, token);
     if (userInfo) {
-      console.log(userInfo.username)
+      console.log(userInfo.username);
       await storeDeviceTokenToFireStore(userId, deviceToken);
       await AsyncStorage.setItem('userData', JSON.stringify(userInfo));
       dispatch(updateUserData(userInfo));
       navigation.dispatch(
-        CommonActions.reset({ index: 0, routes: [{ name: 'App' }] })
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'DrawerNavigation' }],
+        })
       );
     }
     setLoading(false);

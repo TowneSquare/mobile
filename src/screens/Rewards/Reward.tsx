@@ -1,6 +1,7 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, BackHandler } from 'react-native';
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
+import useBackHandler from '../../hooks/useBackhandler';
 import Rankings from './Tabs/Rankings';
 import Airdrop from './Tabs/Airdrop';
 import Earnings from './Tabs/Earnings';
@@ -23,6 +24,10 @@ const RewardTab = () => {
       content: Airdrop,
     },
   ];
+  // useBackHandler(() => {
+  //   BackHandler.exitApp();
+  //   return true;
+  // });
   return (
     <SafeAreaView
       style={{

@@ -7,26 +7,31 @@ import {
   Pressable,
   RefreshControl,
   TouchableOpacity,
-} from "react-native";
+} from 'react-native';
 // import Loader from "../../../assets/svg/Loader";
-import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
-import LoadingMediaContent from "../../components/DM/LoadingMediaContent";
-import ConversationHeader from "../../components/DM/ConversationHeader";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { appColor } from "../../constants";
-import ChatTextInput, { ComponentRef } from "../../components/DM/ChatTextInput";
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import LoadingMediaContent from '../../components/DM/LoadingMediaContent';
+import ConversationHeader from '../../components/DM/ConversationHeader';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { appColor } from '../../constants';
+import ChatTextInput, { ComponentRef } from '../../components/DM/ChatTextInput';
 // import { conversationData } from "../../utils/messageData";
-import DeleteConversationBottomsheet from "../../components/DM/DeleteConversationBottomsheet";
-import { ChatClass } from "../../utils/ChatUtils";
-import Messages from "../../components/DM/Messages";
-import ChatContext from "../../context/ChatContext";
-import { sizes } from "../../utils";
-import { useAppSelector, useAppDispatch } from "../../controller/hooks";
-import DeleteChatBottomsheet from "../../components/DM/DeleteChatBottomsheet";
-import MoreBottomsheet from "../../components/DM/MoreBottomsheet";
-import { ConversationProps } from "../../navigations/NavigationTypes";
-import UnblockUserBottomsheet from "../../components/DM/UnblockUserBottomsheet";
-import BlockUserBottomsheet from "../../components/DM/BlockUserBottomsheet";
+import DeleteConversationBottomsheet from '../../components/DM/DeleteConversationBottomsheet';
+import {
+  ChatClass,
+  blockUserChat,
+  getBlockedUsers,
+  unblockUserChat,
+} from '../../utils/ChatUtils';
+import Messages from '../../components/DM/Messages';
+import ChatContext from '../../context/ChatContext';
+import { sizes } from '../../utils';
+import { useAppSelector, useAppDispatch } from '../../controller/hooks';
+import DeleteChatBottomsheet from '../../components/DM/DeleteChatBottomsheet';
+import MoreBottomsheet from '../../components/DM/MoreBottomsheet';
+import { ConversationProps } from '../../navigations/NavigationTypes';
+import UnblockUserBottomsheet from '../../components/DM/UnblockUserBottomsheet';
+import BlockUserBottomsheet from '../../components/DM/BlockUserBottomsheet';
 import {
   collection,
   query,
@@ -38,10 +43,10 @@ import {
   doc,
   updateDoc,
   getDoc,
-} from "firebase/firestore";
-import { firestoreDB } from "../../../config/firebase.config";
+} from 'firebase/firestore';
+import { firestoreDB } from '../../../config/firebase.config';
 
-const { height, width } = Dimensions.get("window");
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Conversation = ({
   navigation,
@@ -50,8 +55,14 @@ const Conversation = ({
   },
 }: ConversationProps) => {
   const dispatch = useAppDispatch();
+  const [blockState, setBlockUser] = useState({
+    blocked: false,
+    blockMessage: '',
+    blockedByMe: undefined,
+    hasLoaded: false,
+  });
   const [message, setMessage] = useState([]);
-  const [contactId, setContactId] = useState("");
+  const [contactId, setContactId] = useState('');
   const myId = useAppSelector((state) => state.USER.UserData)._id;
   const myusername = useAppSelector((state) => state.USER.UserData.username);
   const loadingMedia = useAppSelector(
@@ -59,19 +70,19 @@ const Conversation = ({
   );
   const MESSAGE_LIMIT = 10;
   const lastDocRef = useRef(null);
-  console.log(myusername, "my username");
+  console.log(myusername, 'my username');
   useLayoutEffect(() => {
     const msgCollectionRef = collection(
       firestoreDB,
       `chats/${chatId}/messages`
     );
-    const chatRef = doc(firestoreDB, "chats", chatId);
+    const chatRef = doc(firestoreDB, 'chats', chatId);
     getDoc(chatRef).then((docSnapshot) => {
       console.log(`SnapshotId:${docSnapshot.id}`);
       const chatData = docSnapshot.data();
       setContactId(chatData.memberIds.filter((id) => id !== myId)[0]);
     });
-    const msgQuery = query(msgCollectionRef, orderBy("createdAt", "desc"));
+    const msgQuery = query(msgCollectionRef, orderBy('createdAt', 'desc'));
     const unsubscribe = onSnapshot(msgQuery, (querySnap) => {
       const updatedMessages = querySnap.docs.map((doc) => doc.data());
       updatedMessages
@@ -87,8 +98,84 @@ const Conversation = ({
 
     return unsubscribe;
   }, []);
-  console.log("====message====");
-  console.log(message[0]);
+  useEffect(() => {
+    const chatRef = doc(firestoreDB, 'chats', chatId);
+    getDoc(chatRef).then((docSnapshot) => {
+      const chatData = docSnapshot.data();
+      const contactId = chatData.memberIds.filter((id) => id !== myId)[0];
+
+      // Set up a real-time listener for changes in the block state for the current user
+      const myBlockedUsersDocRef = doc(firestoreDB, 'blockedUsers', myId);
+      const contactBlockedUsersDocRef = doc(
+        firestoreDB,
+        'blockedUsers',
+        contactId
+      );
+
+      const unsubscribeMyBlockList = onSnapshot(myBlockedUsersDocRef, (doc) => {
+        if (doc.exists()) {
+          const blockedUsers = doc.data().blockedUsers || [];
+          const isBlockedByMe = blockedUsers.includes(contactId);
+          if (isBlockedByMe) {
+            setBlockUser({
+              blocked: true,
+              blockMessage: `Unblock ${
+                name.charAt(0).toUpperCase() + name.slice(1)
+              }`,
+              blockedByMe: true,
+              hasLoaded: true,
+            });
+          } else {
+            setBlockUser({
+              blocked: false,
+              blockMessage: '',
+              blockedByMe: undefined,
+              hasLoaded: true,
+            });
+          }
+        } else {
+          console.log('No blocked users document found for current user');
+        }
+      });
+      //Contact event
+      const unsubscribeContactBlockList = onSnapshot(
+        contactBlockedUsersDocRef,
+        (doc) => {
+          if (doc.exists()) {
+            const blockedUsers = doc.data().blockedUsers || [];
+            const isBlockedByContact = blockedUsers.includes(myId);
+            if (isBlockedByContact) {
+              setBlockUser({
+                blocked: true,
+                blockMessage: `${
+                  name.charAt(0).toUpperCase() + name.slice(1)
+                } has blocked you`,
+                blockedByMe: false,
+                hasLoaded: true,
+              });
+            } else {
+              setBlockUser({
+                blocked: false,
+                blockMessage: '',
+                blockedByMe: undefined,
+                hasLoaded: true,
+              });
+            }
+          } else {
+            console.log('No blocked users document found for contact');
+          }
+        }
+      );
+
+      return () => {
+        // Clean up the listeners when the component unmounts
+        unsubscribeMyBlockList();
+        unsubscribeContactBlockList();
+      };
+    });
+  }, []);
+  // console.log('====message====');
+  // console.log(message[0]);
   const chatInputRef = useRef<ComponentRef>();
   const [showReplying, setShowReplyVisibility] = useState(false);
   const [uploadingItems, setUploadingItems] = useState([]);
@@ -125,7 +212,7 @@ const Conversation = ({
 
       const nextMsgQuery = query(
         msgCollectionRef,
-        orderBy("createdAt", "desc"),
+        orderBy('createdAt', 'desc'),
         startAfter(lastVisible),
         limit(MESSAGE_LIMIT)
       );
@@ -141,7 +228,7 @@ const Conversation = ({
       // Append new messages to the existing ones
       setMessage((prevMessages) => [...prevMessages, ...newMessages]);
 
-      console.log("======loaded more messages========");
+      console.log('======loaded more messages========');
       console.log(newMessages);
     }
   };
@@ -159,10 +246,10 @@ const Conversation = ({
         await updateDoc(messageRef, {
           read: true,
         });
-        console.log("Message marked as read successfully");
+        console.log('Message marked as read successfully');
       }
     } catch (error) {
-      console.error("Error marking message as read:", error);
+      console.error('Error marking message as read:', error);
     }
   };
   return (
@@ -189,8 +276,8 @@ const Conversation = ({
             ListEmptyComponent={
               <View
                 style={{
-                  justifyContent: "center",
-                  alignItems: "center",
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 {/* <Loader /> */}
@@ -200,7 +287,7 @@ const Conversation = ({
             contentContainerStyle={{
               gap: size.getHeightSize(8),
               ...(data.length === 0
-                ? { flex: 1, justifyContent: "center", alignItems: "center" }
+                ? { flex: 1, justifyContent: 'center', alignItems: 'center' }
                 : {}),
             }}
             style={{
@@ -226,25 +313,29 @@ const Conversation = ({
             keyExtractor={(item) => item.id.toString()}
           />
         </View>
-        {blocked ? (
-          <Pressable
-            onPress={() => setUnblockVisibility(true)}
-            style={styles.blockView}
-          >
-            <Text style={styles.block}>Unblock UsernameX</Text>
-          </Pressable>
-        ) : (
-          <ChatTextInput
-            nickname={nickname}
-            pfp={pfp}
-            ref={chatInputRef}
-            dismissShowReplyingTo={setVisibilityFalse}
-            username={myusername}
-            showReplying={showReplying}
-            chatId={chatId}
-            receiverId={contactId}
-          />
-        )}
+        {blockState.hasLoaded ? (
+          blockState.blocked ? (
+            <Pressable
+              onPress={() => {
+                blockState.blockedByMe && unblockUserChat(myId, contactId);
+              }}
+              style={styles.blockView}
+            >
+              <Text style={styles.block}>{blockState.blockMessage}</Text>
+            </Pressable>
+          ) : (
+            <ChatTextInput
+              nickname={nickname}
+              pfp={pfp}
+              ref={chatInputRef}
+              dismissShowReplyingTo={setVisibilityFalse}
+              username={myusername}
+              showReplying={showReplying}
+              chatId={chatId}
+              receiverId={contactId}
+            />
+          )
+        ) : null}
         <MoreBottomsheet
           username={name}
           userId={contactId}
@@ -259,8 +350,9 @@ const Conversation = ({
             setDeleteConversationBottomSheetVisibility(true);
           }}
           onBlockUser={() => {
+            blockUserChat(myId, contactId);
             setMoreBottomsheetVisibility(false);
-            setBlockUserVisibility(true);
+            // setBlockUserVisibility(true);
           }}
         />
         <DeleteConversationBottomsheet
@@ -307,8 +399,8 @@ const styles = StyleSheet.create({
     fontSize: size.fontSize(18),
     lineHeight: size.getHeightSize(23),
     color: appColor.primaryLight,
-    fontFamily: "Outfit-Medium",
-    textAlign: "center",
+    fontFamily: 'Outfit-Medium',
+    textAlign: 'center',
     letterSpacing: 0.36,
   },
   blockView: {

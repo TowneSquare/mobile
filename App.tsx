@@ -4,7 +4,8 @@ import { StyleSheet, View } from 'react-native';
 import InitializeSocket from './src/utils/InitializeSocket';
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-get-random-values';
-import Navigations from './src/navigations/InApp/InAppNavigations';
+import { RootStackParamList } from './src/navigations/NavigationTypes';
+// import Navigations from './src/navigations/InApp/InAppNavigations';
 import { useDispatch } from 'react-redux';
 import { Provider } from 'react-redux';
 import { Dispatch, useEffect } from 'react';
@@ -25,6 +26,7 @@ import CreateChannelBottomSheet from './src/components/DrawerContent/CreateChann
 import SelectUsersBottomsheet from './src/components/ProfileSendToken/SelectUsersBottomsheet';
 import LogoutBottomsheet from './src/components/Feed/LogoutBottomsheet';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import Navigations from './src/navigations/Navigations';
 import {
   updateDidToken,
   updateUserData,
@@ -40,32 +42,49 @@ type AuthRootStackParamList = {
   };
   // Add other routes here...
 };
-const linking: LinkingOptions<AuthRootStackParamList> = {
+// const linking: LinkingOptions<AuthRootStackParamList> = {
+//   prefixes: [Linking.createURL('/')],
+//   config: {
+//     screens: {
+//       Auth: {
+//         screens: {
+//           FirstScreen: 'FirstScreen',
+//           ChooseWallet: 'ChooseWallet',
+//           SignUp: 'SignUp',
+//           EmailLogin: 'EmailLogin',
+//           Congratulations: '*',
+//         },
+//       } as any,
+//     },
+//   },
+// };
+const linking: LinkingOptions<RootStackParamList> = {
   prefixes: [Linking.createURL('/')],
   config: {
     screens: {
-      Auth: {
-        screens: {
-          FirstScreen: 'FirstScreen',
-          ChooseWallet: 'ChooseWallet',
-          SignUp: 'SignUp',
-          EmailLogin: 'EmailLogin',
-          Congratulations: '*',
-        },
-      } as any,
+      FirstScreen: 'FirstScreen',
+      ChooseWallet: 'ChooseWallet',
+      SignUp: 'SignUp',
+      EmailLogin: 'EmailLogin',
+      Congratulations: '*',
     },
   },
 };
+
 const queryClient = new QueryClient();
 export default function App() {
-  async function getDataStoredToLocalStorage() {
-    const userData = await AsyncStorage.getItem('userData')?.then((data) =>
-      JSON.parse(data)
-    );
-    const token = await AsyncStorage.getItem('token');
+  useEffect(() => {
+    // fetchData();
+  }, []);
+  async function fetchData() {
+    const token = await AsyncStorage.getItem('user_token');
     const userId = await AsyncStorage.getItem('user_id');
     if (userId && token) {
-      return true;
+      const userInfo = await getUserInfo(userId, token);
+      if (userInfo) {
+        await AsyncStorage.setItem('userData', JSON.stringify(userInfo));
+        store.dispatch(updateUserData(userInfo));
+      }
     } else {
       return false;
     }
@@ -92,7 +111,8 @@ export default function App() {
         <Provider store={store}>
           <magic.Relayer />
           <NavigationContainer linking={linking}>
-            <SwitchNavigator screenProps={magic} />
+            {/* <SwitchNavigator screenProps={magic} /> */}
+            <Navigations magicProps={magicProps} />
             <CreateChannelBottomSheet />
             <SelectUsersBottomsheet />
             <LogoutBottomsheet />

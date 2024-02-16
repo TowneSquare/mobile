@@ -33,6 +33,7 @@ const MoreBottomsheet = ({
   nickname,
   userId,
   username,
+  
 }: Props) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
