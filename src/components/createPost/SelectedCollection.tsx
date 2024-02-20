@@ -17,79 +17,84 @@ import { sizes } from "../../utils";
 const size = new sizes(height, width);
 import { useAppDispatch } from "../../controller/hooks";
 import { updatePostNft } from "../../controller/createPost";
+import { AssetsData } from "../../controller/UserController/models";
 interface SelectedNftCollection {
   image?: any;
   Name?: string;
   id?: number;
 }
-const SelectedCollection = () => {
+
+interface Props {
+  nfts: AssetsData[]
+}
+const SelectedCollection = ({nfts}:Props ) => {
   const dispatch = useAppDispatch();
   const { isModalVisible, handleModalState } = useContext(
     SelectedCollectionContext
   );
   const navigation = useNavigation();
-  const nfts = [
-    {
-      image: images.Aptomingos,
-      Name: "#928098098",
-      id: 1,
-    },
-    {
-      image: images.Aptomingos,
-      Name: "#928098098",
-      id: 2,
-    },
-    {
-      image: images.Aptomingos,
-      Name: "#928098098",
-      id: 3,
-    },
-    {
-      image: images.Aptomingos,
-      Name: "#928098098",
-      id: 5,
-    },
-    {
-      image: images.Aptomingos,
-      Name: "#928098098",
-      id: 6,
-    },
-    {
-      image: images.Aptomingos,
-      Name: "#928098098",
-      id: 7,
-    },
-    {
-      image: images.Aptomingos,
-      Name: "#928098098",
-      id: 8,
-    },
-    {
-      image: images.Aptomingos,
-      Name: "#928098098",
-      id: 9,
-    },
-    {
-      image: images.Aptomingos,
-      Name: "#928098098",
-      id: 7,
-    },
-    {
-      image: images.Aptomingos,
-      Name: "#928098098",
-      id: 8,
-    },
-    {
-      image: images.Aptomingos,
-      Name: "#928098098",
-      id: 9,
-    },
-    {
-      image: images.Aptomingos,
-      Name: "#928098098",
-      id: 9,
-    },
-  ];
+  // const nfts = [
+  //   {
+  //     image: images.Aptomingos,
+  //     Name: "#928098098",
+  //     id: 1,
+  //   },
+  //   {
+  //     image: images.Aptomingos,
+  //     Name: "#928098098",
+  //     id: 2,
+  //   },
+  //   {
+  //     image: images.Aptomingos,
+  //     Name: "#928098098",
+  //     id: 3,
+  //   },
+  //   {
+  //     image: images.Aptomingos,
+  //     Name: "#928098098",
+  //     id: 5,
+  //   },
+  //   {
+  //     image: images.Aptomingos,
+  //     Name: "#928098098",
+  //     id: 6,
+  //   },
+  //   {
+  //     image: images.Aptomingos,
+  //     Name: "#928098098",
+  //     id: 7,
+  //   },
+  //   {
+  //     image: images.Aptomingos,
+  //     Name: "#928098098",
+  //     id: 8,
+  //   },
+  //   {
+  //     image: images.Aptomingos,
+  //     Name: "#928098098",
+  //     id: 9,
+  //   },
+  //   {
+  //     image: images.Aptomingos,
+  //     Name: "#928098098",
+  //     id: 7,
+  //   },
+  //   {
+  //     image: images.Aptomingos,
+  //     Name: "#928098098",
+  //     id: 8,
+  //   },
+  //   {
+  //     image: images.Aptomingos,
+  //     Name: "#928098098",
+  //     id: 9,
+  //   },
+  //   {
+  //     image: images.Aptomingos,
+  //     Name: "#928098098",
+  //     id: 9,
+  //   },
+  // ];
   let [isLoaded] = useFonts({
     "Outfit-Regular": fonts.OUTFIT_REGULAR,
     "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -107,14 +112,14 @@ const SelectedCollection = () => {
     return null;
   }
 
-  const collection = (collection: SelectedNftCollection) => {
+  const collection = (collection: AssetsData) => {
     return (
       <Pressable
         onPress={() => {
           setNFTPost(
-            Image.resolveAssetSource(collection.image).uri,
-            collection.Name,
-            collection.id.toString()
+            collection.image_uri,
+            collection.name,
+            collection.asset_id
           );
         }}
        
@@ -122,7 +127,7 @@ const SelectedCollection = () => {
       >
         {
           <Image
-            source={collection.image}
+            source={{uri: collection.image_uri}}
             resizeMode="cover"
             style={{
               width: size.getWidthSize(140),
@@ -143,7 +148,7 @@ const SelectedCollection = () => {
               { opacity: isModalVisible ? 0.3 : 0.9 },
             ]}
           >
-            {collection.Name}
+            {collection.name}
           </Text>
         </View>
       </Pressable>
@@ -154,7 +159,7 @@ const SelectedCollection = () => {
       data={nfts}
       renderItem={({ item }) => collection(item)}
       numColumns={2}
-      keyExtractor={(item) => item.id?.toString()}
+      keyExtractor={(item) => item.asset_id?.toString()}
       contentContainerStyle={styles.contentContainer}
       columnWrapperStyle={styles.columnWrapper}
     />

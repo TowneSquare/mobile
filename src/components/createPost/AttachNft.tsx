@@ -21,10 +21,11 @@ interface Props {
   handleModalState: () => void;
 }
 const AttachNft = ({ callBack, handlePress, handleModalState }: Props) => {
-  const {price, collectionName,nftTokenId } = useAppSelector((state) => ({
+  const {price, collectionName,nftTokenId, nftImageUri } = useAppSelector((state) => ({
     price:state.CreatePostController.posts.nft.sellNFTPrice,
     collectionName: state.CreatePostController.posts.nft.nftCollection,
-    nftTokenId: state.CreatePostController.posts.nft.nftTokenId
+    nftTokenId: state.CreatePostController.posts.nft.nftTokenId,
+    nftImageUri: state.CreatePostController.posts.nft.nftImageUrl
   }))
   return (
     <>
@@ -37,12 +38,12 @@ const AttachNft = ({ callBack, handlePress, handleModalState }: Props) => {
         <View style={styles.imageContainer}>
           <Image
             style={styles.image}
-            source={images.NftCollection}
+            source={{uri: nftImageUri}}
             resizeMode="cover"
           />
         </View>
       </View>
-      <Text style={styles.name}>{`${collectionName} ${nftTokenId}`}</Text>
+      <Text style={styles.name}>{`${collectionName}`}</Text>
 
       <View
         style={{

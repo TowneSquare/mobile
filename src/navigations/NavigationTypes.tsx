@@ -26,6 +26,13 @@ type SelectedSuperStarCollectionScreenParameter = {
   };
 };
 
+type SelectedCollectionScreen = {
+  [SelectedCollectionScreen: string]: {
+    title: string;
+    nfts: Array<AssetsData>
+  };
+};
+
 type TheirProfileParams = {
   [TheirProfileScreen: string]: {
     userId: string;
@@ -83,7 +90,10 @@ export type RootStackParamList = {
     whichPost: "communityPost" | "singlePost";
   };
   NftCollectionScreen: undefined;
-  SelectedCollectionScreen: undefined;
+  SelectedCollectionScreen: {
+    title: string;
+    nfts: Array<AssetsData>
+  };
   Collection: undefined;
   Profile: undefined;
   SearchScreen: undefined;
@@ -386,7 +396,7 @@ export type NftCollectionScreenProps = {
 export type SelectedCollectionScreenProps = {
   navigation: NavigationProp<RootStackParamList, "SelectedCollectionScreen">;
   magic: any;
-  route: RouteProp<ParamListBase, "SelectedCollectionScreen">;
+  route: RouteProp<SelectedCollectionScreen, "SelectedCollectionScreen">;
 };
 export type SearchScreenProps = {
   navigation: NavigationProp<RootStackParamList, "SearchScreen">;

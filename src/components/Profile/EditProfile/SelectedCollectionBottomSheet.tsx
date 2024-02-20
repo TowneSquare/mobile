@@ -46,6 +46,9 @@ const SelectedCollectionBottomSheet = () => {
   const profilePics = useAppSelector(
     (state) => state.USER.UserData.profileImage
   );
+  const {assets} = useAppSelector((state) => ({
+    assets: state.bottomSheetController.listOfNftCollections
+  }))
   const renderBackdrop = useCallback(
     (props: any) => (
       <BottomSheetBackdrop
@@ -113,7 +116,7 @@ const SelectedCollectionBottomSheet = () => {
             return <></>;
           }}
         >
-          <Text style={styles.title}>Aptomingos</Text>
+          <Text style={styles.title}>{assets[0].collection}</Text>
 
           <BottomSheetScrollView
             style={{}}

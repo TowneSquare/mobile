@@ -145,17 +145,14 @@ const About = ({ route }) => {
 
   const UserReplies = () => {
     return USERDATA.comments.map((userpost) => (
-      // <Replies
-      //   key={userpost._id}
-      //   data={userpost}
-      //   nickname={USERDATA.nickname}
-      //   username={USERDATA.username}
-      //   myPost
-      //   shouldPFPSwipe={false}
-      // />
-      <View>
-        <Text>Changes in Progress</Text>
-      </View>
+      <Replies
+        key={userpost._id}
+        data={userpost}
+        nickname={USERDATA.nickname}
+        username={USERDATA.username}
+        myPost
+        shouldPFPSwipe={false}
+      />
     ));
   };
 

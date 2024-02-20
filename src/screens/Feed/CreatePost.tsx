@@ -193,6 +193,11 @@ const CreatePost = ({ route }: CreatePostProps) => {
     }
   };
 
+  const cancel = () => {
+    navigation.goBack()
+    dispatch(clearPostData())
+  }
+
   return (
     <SafeAreaView
       style={{
@@ -201,7 +206,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
       }}
     >
       <View style={styles.header}>
-        <Text onPress={navigation.goBack} style={styles.cancel}>
+        <Text onPress={cancel} style={styles.cancel}>
           Cancel
         </Text>
         <Pressable

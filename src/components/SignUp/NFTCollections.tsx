@@ -11,7 +11,7 @@ import {
   updateListOfNFTCollection,
 } from "../../controller/BottomSheetController";
 import { sizes } from "../../utils";
-import { initialData } from "../../api/hooks";
+import { initialData } from "../../api/hooks/dummyData";
 const size = new sizes(height, width);
 
 interface Props {
@@ -57,6 +57,7 @@ const NFTCollections = ({ callBack }: Props) => {
               onPress={() => {
                 if (callBack) {
                   callBack();
+                  dispatch(updateListOfNFTCollection(collection.assets))
                 } else {
                   dispatch(updateNftRender(0));
                   dispatch(updateNftOpen(false));

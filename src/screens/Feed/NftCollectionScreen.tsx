@@ -26,7 +26,6 @@ const NftCollectionScreen = () => {
       </View>
       <SearchField placeholder="Search for NFT" marginTop={10} />
       <View style={styles.collectionContainer} />
-
       <NftCollections />
     </SafeAreaView>
   );

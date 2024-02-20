@@ -27,7 +27,7 @@ import {
   updateUploadModalRenderCount,
 } from '../../../controller/BottomSheetController';
 import Customhandler from '../Customhandler';
-import { initialData } from '../../../api/hooks';
+import { initialData } from '../../../api/hooks/dummyData';
 import { collection } from 'firebase/firestore';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);

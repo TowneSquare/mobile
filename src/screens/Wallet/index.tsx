@@ -14,16 +14,17 @@ import Token from "../../components/Wallet/Token";
 import Transaction from "../../components/Wallet/Transaction";
 import { useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "../../controller/hooks";
-import { getAptosName } from "../../controller/UserController";
+import { useAptosName } from "../../api/hooks";
+
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const Wallet = () => {
   const dispatch = useAppDispatch();
-  const { APTOS_DOMAIN_NAME, address } = useAppSelector((state) => ({
-    APTOS_DOMAIN_NAME: state.USER.aptosName,
+  const { address } = useAppSelector((state) => ({
     address: state.USER.UserData.aptosWallet,
   }));
-  useMemo(() => dispatch(getAptosName({ address })), [address]);
+  const APTOS_DOMAIN_NAME = useAptosName({userAddress: address}).data
+
   return (
     <SafeAreaView
       style={{

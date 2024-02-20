@@ -195,7 +195,7 @@ const UploadImageModal = () => {
           }}
         >
           <Pressable
-            disabled={userNFT.data.length === 0}
+            disabled={userNFT?.data.length === 0}
             onPress={() => {
               dispatch(updateUploadModalRenderCount(0));
               dispatch(updateUploadImageModalOpen(false));
@@ -206,7 +206,7 @@ const UploadImageModal = () => {
               styles.container,
               {
                 backgroundColor:
-                  userNFT.data.length === 0 ? "#66666660" : appColor.kGrayLight3,
+                  userNFT?.data.length === 0 ? "#66666660" : appColor.kGrayLight3,
               },
             ]}
           >

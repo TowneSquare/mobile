@@ -14,7 +14,8 @@ import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { SelectedCollectionProvider } from '../../context/SelectedCollectionContext';
 import { SelectedCollectionContext } from '../../context/SelectedCollectionContext';
-const SelectedCollectionScreen = () => {
+import { SelectedCollectionScreenProps } from '../../navigations/NavigationTypes';
+const SelectedCollectionScreen = ({route}:SelectedCollectionScreenProps) => {
   const { isModalVisible, handleModalState } = useContext(
     SelectedCollectionContext
   );
@@ -25,6 +26,7 @@ const SelectedCollectionScreen = () => {
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
+  const {title, nfts} = route.params
   if (!isLoaded) {
     return null;
   }
@@ -49,10 +51,10 @@ const SelectedCollectionScreen = () => {
                 size={24}
               />
             </Pressable>
-            <Text style={[styles.text, {}]}>Aptomingos</Text>
+            <Text style={[styles.text, {}]}>{title}</Text>
             <View />
           </View>
-          <SelectedCollection />
+          <SelectedCollection nfts={nfts} />
           <Overlay />
           {<AttachNftModal />}
         </SelectedCollectionProvider>
