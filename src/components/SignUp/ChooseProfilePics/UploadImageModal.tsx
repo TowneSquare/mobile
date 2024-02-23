@@ -39,7 +39,7 @@ import {
   PermissionStatus,
 } from "expo-image-picker";
 import { updateProfileImage } from "../../../controller/UserController";
-import { initialData } from "../../../api/hooks";
+import { useUserNFT } from "../../../api/hooks";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 
@@ -49,11 +49,12 @@ const UploadImageModal = () => {
     useCameraPermissions();
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const { isVisible, renderCount, collectionLength } = useAppSelector(
+  const { isVisible, renderCount, userAddress } = useAppSelector(
     (state) => ({
       isVisible: state.bottomSheetController.uploadImageModalOpen,
       renderCount: state.bottomSheetController.uploadModalRenderCount,
       collectionLength: state.bottomSheetController.listOfNftCollections.length,
+      userAddress: state.USER.UserData.aptosWallet
     })
   );
   useEffect(() => {
@@ -83,27 +84,29 @@ const UploadImageModal = () => {
       BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
     };
   }, [isVisible]);
-  const animatedIndex = useSharedValue(0);
-  const contentStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY: interpolate(
-          animatedIndex.value,
-          [0, 0.08],
-          [40, 0],
-          Extrapolation.CLAMP
-        ),
-      },
-    ],
-    opacity: interpolate(
-      animatedIndex.value,
-      [0, 0.08],
-      [0, 1],
-      Extrapolation.CLAMP
-    ),
-  }));
+  // const animatedIndex = useSharedValue(0);
+  // const contentStyle = useAnimatedStyle(() => ({
+  //   transform: [
+  //     {
+  //       translateY: interpolate(
+  //         animatedIndex.value,
+  //         [0, 0.08],
+  //         [40, 0],
+  //         Extrapolation.CLAM(P
+  //       ) 
+  //     },
+  //   ],
+  //   opacity: interpolate(
+  //     animatedIndex.value,
+  //     [0, 0.08],
+  //     [0, 1],
+  //     Extrapolation.CLAMP
+  //   ),
+  // }));
 
-  const userNFT = initialData
+  const userNFT = useUserNFT({
+    userAddress
+  })
 
   let [isLoaded] = useFonts({
     "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
@@ -183,7 +186,7 @@ const UploadImageModal = () => {
         delay={500}
         easing={"ease-in-out"}
         duration={400}
-        style={contentStyle}
+        // style={contentStyle}
       >
         <View
           style={{
@@ -195,7 +198,7 @@ const UploadImageModal = () => {
           }}
         >
           <Pressable
-            disabled={userNFT?.data.length === 0}
+            disabled={userNFT?.data.data.length === 0}
             onPress={() => {
               dispatch(updateUploadModalRenderCount(0));
               dispatch(updateUploadImageModalOpen(false));
@@ -206,7 +209,7 @@ const UploadImageModal = () => {
               styles.container,
               {
                 backgroundColor:
-                  userNFT?.data.length === 0 ? "#66666660" : appColor.kGrayLight3,
+                  userNFT?.data.data.length === 0 ? "#66666660" : appColor.kGrayLight3,
               },
             ]}
           >

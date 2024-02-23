@@ -1,10 +1,11 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, BackHandler } from 'react-native';
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
+import useBackHandler from '../../hooks/useBackhandler';
 import Rankings from './Tabs/Rankings';
 import Airdrop from './Tabs/Airdrop';
 import Earnings from './Tabs/Earnings';
-import TopTabNavigator from '../../navigations/TopTabNavigator';
+import TopTabNavigator from '../../navigations/InApp/TopTabNavigator';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
@@ -23,6 +24,10 @@ const RewardTab = () => {
       content: Airdrop,
     },
   ];
+  // useBackHandler(() => {
+  //   BackHandler.exitApp();
+  //   return true;
+  // });
   return (
     <SafeAreaView
       style={{

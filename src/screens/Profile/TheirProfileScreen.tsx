@@ -6,35 +6,36 @@ import {
   Dimensions,
   ScrollView,
   Pressable,
-} from "react-native";
-import { useReducer, useState, useMemo, useEffect } from "react";
-import { appColor } from "../../constants";
-import SuperStarBottomSheet from "../../components/Profile/About/SuperStarBottomSheet";
-import Header from "../../components/Profile/Header";
-import { useAppDispatch, useAppSelector } from "../../controller/hooks";
-import TheirProfileBottomSheet from "../../components/Profile/About/TheirProfileBottomSheet";
-import ProfileTabNavigation from "../../navigations/ProfileTabNavigation";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { updateSuperStarBottomSheet } from "../../controller/BottomSheetController";
-import BlockUserModal from "../../components/Feed/BlockUserModal";
-import ReportPanel from "../../components/Feed/ReportPanel";
-import ReportPostModal from "../../components/Feed/ReportPostModal";
-import ReportUserModal from "../../components/Feed/ReportUserModal";
-import CheckedIcon from "../../../assets/images/svg/CheckedIcon";
-import FollowIcon from "../../../assets/images/svg/FollowIcon";
-import MessageIcon from "../../../assets/images/svg/MessageIcon";
-import ProfileTipIcon from "../../../assets/images/svg/ProfileTipIcon";
-import ProfileCard from "../../components/Profile/About/ProfileCard";
-import { sizes } from "../../utils";
-import { TheirProfileScreenProps } from "../../navigations/NavigationTypes";
-import { updateTipBottomSheet } from "../../controller/FeedsController";
-import ViewSuperStarsModal from "../../components/Profile/About/ViewSuperStarsModal";
-import ForYou from "../../components/Feed/ForYou";
-import Replies from "../../components/Profile/Replies";
-import { getCreatedTime } from "../../utils/helperFunction";
-import axios from "axios";
-import { APTOS_NAME_URL } from "../../../config/env";
-import { getUserAptosName } from "../../api";
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useReducer, useState, useMemo, useEffect } from 'react';
+import { appColor } from '../../constants';
+import SuperStarBottomSheet from '../../components/Profile/About/SuperStarBottomSheet';
+import Header from '../../components/Profile/Header';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import TheirProfileBottomSheet from '../../components/Profile/About/TheirProfileBottomSheet';
+import ProfileTabNavigation from '../../navigations/InApp/ProfileTabNavigation';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { updateSuperStarBottomSheet } from '../../controller/BottomSheetController';
+import BlockUserModal from '../../components/Feed/BlockUserModal';
+import ReportPanel from '../../components/Feed/ReportPanel';
+import ReportPostModal from '../../components/Feed/ReportPostModal';
+import ReportUserModal from '../../components/Feed/ReportUserModal';
+import CheckedIcon from '../../../assets/images/svg/CheckedIcon';
+import FollowIcon from '../../../assets/images/svg/FollowIcon';
+import MessageIcon from '../../../assets/images/svg/MessageIcon';
+import ProfileTipIcon from '../../../assets/images/svg/ProfileTipIcon';
+import ProfileCard from '../../components/Profile/About/ProfileCard';
+import { sizes } from '../../utils';
+import { TheirProfileScreenProps } from '../../navigations/NavigationTypes';
+import { updateTipBottomSheet } from '../../controller/FeedsController';
+import ViewSuperStarsModal from '../../components/Profile/About/ViewSuperStarsModal';
+import ForYou from '../../components/Feed/ForYou';
+import Replies from '../../components/Profile/Replies';
+import { getCreatedTime } from '../../utils/helperFunction';
+import axios from 'axios';
+import { APTOS_NAME_URL } from '../../../config/env';
+import { getUserAptosName } from '../../api';
 import {
   followUser,
   getUserData,
@@ -59,7 +60,7 @@ type SuperStarReducerState = {
   nftTokenId: string;
 };
 type SuperStarReducerAction = {
-  type: "SHOW" | "CLOSE";
+  type: 'SHOW' | 'CLOSE';
   payload?: {
     showSuperStarModal: boolean;
     imageUri: string;
@@ -72,14 +73,14 @@ const selectedSuperStarsReducer = (
   action: SuperStarReducerAction
 ) => {
   switch (action.type) {
-    case "SHOW":
+    case 'SHOW':
       return {
         showSuperStarModal: action.payload.showSuperStarModal,
         imageUri: action.payload.imageUri,
         nftCollection: action.payload.nftCollection,
         nftTokenId: action.payload.nftTokenId,
       };
-    case "CLOSE":
+    case 'CLOSE':
       return {
         showSuperStarModal: false,
         imageUri: "",
@@ -100,7 +101,7 @@ const TheirProfileScreen = ({
   const { userId, username, nickname } = route.params;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const profile = useAppSelector((state) => state.USER.UserData);
-  const { userFollowing, token, user } = useAppSelector((state) => ({
+  const { userFollowing, user, token } = useAppSelector((state) => ({
     userFollowing: state.USER.UserData.following,
     token: state.USER.didToken,
     user: state.USER.UserData._id,
@@ -110,17 +111,18 @@ const TheirProfileScreen = ({
   const COMMUNITIES = "10";
   
   const fetchUserInfo = async (): Promise<UserData> => {
+    const user_token = await AsyncStorage.getItem('user_token');
     return await axios
       .get(`${BACKEND_URL}user/${userId}`, {
         headers: {
-          Authorization: token,
+          Authorization: user_token,
         },
       })
       .then((response) => response.data);
   };
 
   function useUserInfo() {
-    return useQuery({ queryKey: ["userInfo"], queryFn: fetchUserInfo });
+    return useQuery({ queryKey: ['userInfo'], queryFn: fetchUserInfo });
   }
   const userInfo = useUserInfo();
   const APTOS_DOMAIN_NAME = useAptosName({ userAddress: userInfo.data.aptosWallet }).data?.name || "";;
@@ -128,7 +130,7 @@ const TheirProfileScreen = ({
     userFollowing.some((following) => following.toUserId == userInfo.data?._id)
   );
 
-  const handleFollow = () => {
+   const handleFollow = () => {
     setFollowing(true);
     dispatch(followUser({ toUserIds: [userId], token }));
     dispatch(getUserData({ userId: user, token }));
@@ -150,12 +152,17 @@ const TheirProfileScreen = ({
 
   useEffect(() => {
     //getUserAptosName(userInfo.data?.aptosWallet)
-    dispatch(getUserData({ userId: user, token }));
-    setFollowing(
-      userFollowing.some(
-        (following) => following.toUserId == userInfo.data?._id
-      )
-    );
+
+    (async function () {
+      // const token = await AsyncStorage.getItem('user_token');
+      // setToken(token);
+      // dispatch(getUserData({ userId: user, token }));
+      setFollowing(
+        userFollowing.some(
+          (following) => following.toUserId == userInfo.data?._id
+        )
+      );
+    })();
   }, []);
 
   const POST = () => {
@@ -164,7 +171,7 @@ const TheirProfileScreen = ({
     }
     return userInfo?.data?.posts.map((res) => ({
       _id: res?._id,
-      title: res?.title || "",
+      title: res?.title || '',
       description: res?.description,
       imageUrls: res?.imageUrls || [],
       videoUrls: res?.videoUrls || [],
@@ -179,13 +186,13 @@ const TheirProfileScreen = ({
       comments: res?.comments,
       customer: {
         _id: res?.customer?._id,
-        issuer: res?.customer?.issuer || "",
+        issuer: res?.customer?.issuer || '',
         aptosWallet: res?.customer?.aptosWallet,
         nickname: res?.customer?.nickname,
         username: res?.customer?.username,
-        email: res?.customer?.email || "",
-        referralCode: res?.customer?.referralCode || "",
-        profileImage: res?.customer?.profileImage || "",
+        email: res?.customer?.email || '',
+        referralCode: res?.customer?.referralCode || '',
+        profileImage: res?.customer?.profileImage || '',
         createdAt: res?.createdAt,
       },
       sellNFTPrice: res?.sellNFTPrice,
@@ -234,7 +241,6 @@ const TheirProfileScreen = ({
     }
   };
   const createChat = async () => {
-    console.log("here======");
     const timestamp = serverTimestamp();
     let id = createUniqueChatId(userId, profile._id);
 
@@ -254,21 +260,20 @@ const TheirProfileScreen = ({
       memberIds: [userId, profile._id],
       chatName: username,
       lastMessage: {
-        text: "",
+        text: '',
         createdAt: timestamp,
         sender: {
-          _id: "",
-          name: "",
+          _id: '',
+          name: '',
         },
       },
-
-      unreadCount: 2,
+      unreadCount: 0, // Initialize unread count to 0
     };
-    const chatRef = doc(firestoreDB, "chats", id);
+    const chatRef = doc(firestoreDB, 'chats', id);
     getDoc(chatRef).then((docSnapshot) => {
       if (docSnapshot.exists()) {
         console.log(`SnapshotId:${docSnapshot.id}`);
-        return navigate("Conversation", {
+        return navigate('Conversation', {
           chatId: docSnapshot.id,
           name: username,
           nickname: nickname,
@@ -277,7 +282,7 @@ const TheirProfileScreen = ({
       } else {
         setDoc(chatRef, _doc)
           .then(() => {
-            navigate("Conversation", {
+            navigate('Conversation', {
               chatId: id,
               name: username,
               nickname: nickname,
@@ -335,7 +340,7 @@ const TheirProfileScreen = ({
                 <FollowIcon size={size.getHeightSize(24)} />
               )}
               <Text style={styles.followText}>
-                {following ? "Following" : "Follow"}
+                {following ? 'Following' : 'Follow'}
               </Text>
             </Pressable>
             <View style={styles.iconView}>
@@ -390,7 +395,7 @@ const TheirProfileScreen = ({
                   <Pressable
                     onPress={() => {
                       useDispatch({
-                        type: "SHOW",
+                        type: 'SHOW',
                         payload: {
                           showSuperStarModal: true,
                           imageUri: item.nftImageUrl,
@@ -463,7 +468,7 @@ const TheirProfileScreen = ({
             visibility={superStarModal.showSuperStarModal}
             close={() =>
               useDispatch({
-                type: "CLOSE",
+                type: 'CLOSE',
               })
             }
             imageUri={superStarModal.imageUri}
@@ -483,25 +488,25 @@ const styles = StyleSheet.create({
     backgroundColor: appColor.kgrayDark2,
     marginTop: 15,
     borderRadius: 40,
-    borderColor: "white",
+    borderColor: 'white',
     padding: 15,
   },
   text: {
     color: appColor.kGrayscale,
-    fontFamily: "Outfit-Bold",
+    fontFamily: 'Outfit-Bold',
     paddingLeft: 5,
   },
 
   view2Box: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   view2TextUp: {
-    fontFamily: "Outfit-Bold",
+    fontFamily: 'Outfit-Bold',
     color: appColor.kTextColor,
   },
   view2TextDown: {
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     color: appColor.kGrayscale,
   },
   aboutDiv: {
@@ -510,13 +515,13 @@ const styles = StyleSheet.create({
   },
   aboutHeader: {
     color: appColor.kTextColor,
-    fontFamily: "Outfit-Bold",
+    fontFamily: 'Outfit-Bold',
     fontSize: size.fontSize(20),
     lineHeight: size.getHeightSize(24),
   },
   aboutText: {
     color: appColor.kTextColor,
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(20),
   },
@@ -524,30 +529,30 @@ const styles = StyleSheet.create({
     backgroundColor: appColor.kSecondaryButtonColor,
     flex: 1,
     paddingVertical: size.getHeightSize(8),
-    justifyContent: "center",
+    justifyContent: 'center',
     marginHorizontal: size.getWidthSize(4),
     borderRadius: 40,
     minHeight: size.getHeightSize(36),
   },
   focusedtabText: {
     color: appColor.kTextColor,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(20),
-    fontFamily: "Outfit-SemiBold",
+    fontFamily: 'Outfit-SemiBold',
   },
   tabText: {
     color: appColor.kTextColor,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
   },
   tab: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     flex: 1,
     paddingVertical: size.getHeightSize(8),
-    justifyContent: "center",
+    justifyContent: 'center',
     paddingHorizontal: size.getWidthSize(4),
     borderRadius: 40,
   },
@@ -555,31 +560,31 @@ const styles = StyleSheet.create({
     height: size.getHeightAndWidth(140),
     width: size.getHeightAndWidth(140),
     borderRadius: 200,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   image: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
     borderRadius: 50,
   },
   superStarView: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginHorizontal: size.getWidthSize(16),
   },
   edit: {
     color: appColor.kSecondaryButtonColor,
-    fontFamily: "Outfit-SemiBold",
+    fontFamily: 'Outfit-SemiBold',
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
   },
   setNft: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: size.getHeightSize(16),
     paddingHorizontal: size.getWidthSize(16),
-    justifyContent: "space-between",
-    borderStyle: "dashed",
+    justifyContent: 'space-between',
+    borderStyle: 'dashed',
     borderColor: appColor.kGrayLight3,
     borderWidth: 1,
     borderRadius: 8,
@@ -587,25 +592,25 @@ const styles = StyleSheet.create({
   },
   setNftText: {
     color: appColor.kGrayscale,
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     fontSize: size.fontSize(14),
   },
   setNftButton: {
     backgroundColor: appColor.kWhiteColor,
     borderRadius: 30,
     paddingHorizontal: size.getWidthSize(16),
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   setNftButtonText: {
-    textAlign: "center",
-    fontFamily: "Outfit-Medium",
+    textAlign: 'center',
+    fontFamily: 'Outfit-Medium',
     fontSize: size.fontSize(16),
     color: appColor.kGrayscaleDart,
     letterSpacing: 0.32,
     lineHeight: size.getHeightSize(20),
   },
   tabView: {
-    flexDirection: "row",
+    flexDirection: 'row',
     backgroundColor: appColor.kgrayDark2,
     borderRadius: 40,
     marginTop: size.getHeightSize(32),
@@ -613,21 +618,21 @@ const styles = StyleSheet.create({
     width: size.getWidthSize(344),
     paddingVertical: size.getHeightSize(4),
     marginBottom: size.getHeightSize(8),
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   view: {
     paddingHorizontal: size.getWidthSize(42),
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginTop: size.getHeightSize(24),
-    alignSelf: "center",
+    alignSelf: 'center',
     gap: size.getWidthSize(16),
   },
   followView: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: size.getHeightSize(4),
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: appColor.kSecondaryButtonColor,
     borderRadius: 40,
     gap: size.getWidthSize(8),
@@ -635,21 +640,21 @@ const styles = StyleSheet.create({
     minHeight: size.getHeightSize(34),
   },
   followText: {
-    textAlign: "center",
-    fontFamily: "Outfit-Medium",
+    textAlign: 'center',
+    fontFamily: 'Outfit-Medium',
     fontSize: size.fontSize(16),
     color: appColor.kWhiteColor,
     letterSpacing: 0.32,
     lineHeight: size.getHeightSize(20),
   },
   iconView: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: size.getHeightSize(4),
-    alignItems: "center",
+    alignItems: 'center',
     backgroundColor: appColor.kWhiteColor,
     borderRadius: 40,
     gap: size.getWidthSize(8),
-    justifyContent: "center",
+    justifyContent: 'center',
     paddingHorizontal: size.getWidthSize(16),
   },
 });

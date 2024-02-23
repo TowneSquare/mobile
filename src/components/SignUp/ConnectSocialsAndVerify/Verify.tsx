@@ -1,13 +1,13 @@
-import { View, Text, Dimensions, StyleSheet } from "react-native";
-const { height, width } = Dimensions.get("window");
-import { sizes } from "../../../utils";
-import { appColor } from "../../../constants";
-import SealChecks from "../../../../assets/images/svg/SealChecks";
-import Clap from "../../../../assets/images/svg/Clap";
-import Robot from "../../../../assets/images/svg/Robot";
-import UserFriends from "../../../../assets/images/svg/UserFriends";
-import Header from "../Header";
-import Link from "../../../../assets/images/svg/Link";
+import { View, Text, Dimensions, StyleSheet } from 'react-native';
+const { height, width } = Dimensions.get('window');
+import { sizes } from '../../../utils';
+import { appColor } from '../../../constants';
+import SealChecks from '../../../../assets/images/svg/SealChecks';
+import Clap from '../../../../assets/images/svg/Clap';
+import Robot from '../../../../assets/images/svg/Robot';
+import UserFriends from '../../../../assets/images/svg/UserFriends';
+import Header from '../Header';
+import Link from '../../../../assets/images/svg/Link';
 const size = new sizes(height, width);
 
 const Verify = () => {
@@ -26,10 +26,10 @@ const Verify = () => {
       <View
         style={{
           width: size.getWidthSize(328),
-          alignSelf: "center",
-          alignItems: "center",
+          alignSelf: 'center',
+          alignItems: 'center',
           flex: 1,
-          justifyContent: "center",
+          justifyContent: 'center',
         }}
       >
         <View style={[styles.row]}>
@@ -58,11 +58,11 @@ const Verify = () => {
 export default Verify;
 const styles = StyleSheet.create({
   row: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     height: size.getHeightSize(56),
     width: size.getWidthSize(339),
-    alignSelf: "center",
+    alignSelf: 'center',
     paddingHorizontal: size.getWidthSize(12),
     paddingVertical: size.getHeightSize(12),
     gap: size.getWidthSize(8),
@@ -70,8 +70,8 @@ const styles = StyleSheet.create({
   description: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: "Outfit-SemiBold",
-    textAlign: "center",
+    fontFamily: 'Outfit-SemiBold',
+    textAlign: 'center',
     lineHeight: size.getHeightSize(21),
   },
 });

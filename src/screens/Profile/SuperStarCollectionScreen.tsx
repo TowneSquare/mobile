@@ -5,7 +5,7 @@ import Header from "../../shared/Feed/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppSelector } from "../../controller/hooks";
 import { SuperStarCollectionScreenProps } from "../../navigations/NavigationTypes";
-import { initialData, useUserNFT } from "../../api/hooks";
+import { useUserNFT } from "../../api/hooks";
 const { height, width } = Dimensions.get("window");
 
 const size = new sizes(height, width);
@@ -63,6 +63,13 @@ const SuperStarCollectionScreen = ({
               ))}
             </View>
           </ScrollView>
+        </View>
+      )}
+       {userNFT.isError  && (
+        <View style={{ flex: 1 }}>
+          <Text style={{ color: appColor.kWhiteColor, textAlign: "center" }}>
+            Could not fetch your NFT at this time.
+          </Text>
         </View>
       )}
       <SelectedStars navigation={navigation} />

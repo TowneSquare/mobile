@@ -5,17 +5,19 @@ import {
   StyleSheet,
   FlatList,
   Image,
-} from "react-native";
-import { getUserInfo } from "../../api";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { appColor, images } from "../../constants";
-import { ActivityIndicator } from "react-native";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { sizes } from "../../utils";
-import HorizontalMoreIcon from "../../../assets/images/svg/HorizontalMoreIcon";
-import Chat from "../../components/DM/Chat";
-import { useAppSelector } from "../../controller/hooks";
-import { ChatsModel, ContactsChatModel } from "../../models/chats";
+  BackHandler,
+} from 'react-native';
+import { getUserInfo } from '../../api';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { appColor, images } from '../../constants';
+import { ActivityIndicator } from 'react-native';
+import useBackHandler from '../../hooks/useBackhandler';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { sizes } from '../../utils';
+import HorizontalMoreIcon from '../../../assets/images/svg/HorizontalMoreIcon';
+import Chat from '../../components/DM/Chat';
+import { useAppSelector } from '../../controller/hooks';
+import { ChatsModel, ContactsChatModel } from '../../models/chats';
 import {
   collection,
   orderBy,
@@ -24,9 +26,9 @@ import {
   where,
   getDocs,
   doc,
-} from "firebase/firestore";
-import { firestoreDB } from "../../../config/firebase.config";
-const { height, width } = Dimensions.get("window");
+} from 'firebase/firestore';
+import { firestoreDB } from '../../../config/firebase.config';
+const { height, width } = Dimensions.get('window');
 
 const size = new sizes(height, width);
 interface Data {
@@ -39,15 +41,19 @@ interface Data {
 const Chats = () => {
   const myId = useAppSelector((state) => state.USER.UserData._id);
   const token = useAppSelector((state) => state.USER.didToken);
+  // useBackHandler(() => {
+  //   BackHandler.exitApp();
+  //   return true;
+  // });
   console.log(myId);
   const [chats, setChats] = useState<ContactsChatModel[]>(null);
   const [isLoading, setisLoading] = useState(true);
   useEffect(() => {
     setisLoading(true);
     const chatQuery = query(
-      collection(firestoreDB, "chats"),
-      where("memberIds", "array-contains", myId),
-      orderBy("_id", "asc")
+      collection(firestoreDB, 'chats'),
+      where('memberIds', 'array-contains', myId),
+      orderBy('lastMessage.createdAt', 'desc')
     );
 
     const unsubscribe = onSnapshot(
@@ -69,9 +75,9 @@ const Chats = () => {
 
               // Query the 'messages' subcollection where 'read' is false
               const messagesQuery = query(
-                collection(doc.ref, "messages"),
-                where("read", "==", false),
-                where("user._id", "!=", myId)
+                collection(doc.ref, 'messages'),
+                where('read', '==', false),
+                where('user._id', '!=', myId)
               );
 
               // Get the number of unread messages
@@ -86,7 +92,10 @@ const Chats = () => {
                     (c) => c._id === chat._id
                   );
                   if (index !== -1 && chat !== null) {
-                    updatedChats[index] = { ...newChatDoc, unreadMessagesCount };
+                    updatedChats[index] = {
+                      ...newChatDoc,
+                      unreadMessagesCount,
+                    };
                   }
                   setChats(updatedChats);
                 }
@@ -100,12 +109,12 @@ const Chats = () => {
           setChats(chatRooms);
           setisLoading(false);
         } catch (error) {
-          console.log("Error in onSnapshot", error);
+          console.log('Error in onSnapshot', error);
           setisLoading(false);
         }
       },
       (error) => {
-        console.log("Error in onSnapshot", error);
+        console.log('Error in onSnapshot', error);
         setisLoading(false);
       }
     );
@@ -211,14 +220,14 @@ const styles = StyleSheet.create({
   text: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
-    fontFamily: "Outfit-SemiBold",
-    textAlign: "center",
+    fontFamily: 'Outfit-SemiBold',
+    textAlign: 'center',
     zIndex: 2,
   },
   header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: size.getWidthSize(16),
     paddingVertical: size.getHeightSize(20),
     backgroundColor: appColor.kgrayDark2,
@@ -226,29 +235,29 @@ const styles = StyleSheet.create({
   headerText: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(20),
-    fontFamily: "Outfit-Regular",
-    textAlign: "center",
+    fontFamily: 'Outfit-Regular',
+    textAlign: 'center',
     lineHeight: size.getHeightSize(24),
     letterSpacing: 0.4,
   },
   text2: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: "Outfit-Regular",
-    textAlign: "center",
+    fontFamily: 'Outfit-Regular',
+    textAlign: 'center',
     lineHeight: size.getHeightSize(21),
     marginTop: size.getHeightSize(12),
   },
   text3: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: "Outfit-SemiBold",
-    textAlign: "center",
+    fontFamily: 'Outfit-SemiBold',
+    textAlign: 'center',
     lineHeight: size.getHeightSize(21),
   },
   view: {
     height: size.getHeightSize(672),
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

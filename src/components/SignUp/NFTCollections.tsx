@@ -12,6 +12,7 @@ import {
 } from "../../controller/BottomSheetController";
 import { sizes } from "../../utils";
 import { initialData } from "../../api/hooks/dummyData";
+import { useUserNFT } from "../../api/hooks";
 const size = new sizes(height, width);
 
 interface Props {
@@ -22,8 +23,13 @@ const NFTCollections = ({ callBack }: Props) => {
   const collections = useAppSelector(
     (state) => state.bottomSheetController.listOfNftCollections
   );
+  const userAddress = useAppSelector(
+    (state) => state.USER.UserData.aptosWallet
+  );
 
-  const userNFT = initialData;
+  const userNFT = useUserNFT({
+    userAddress,
+  });
   let [isLoaded] = useFonts({
     "Outfit-Regular": fonts.OUTFIT_REGULAR,
     "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -33,7 +39,7 @@ const NFTCollections = ({ callBack }: Props) => {
   }
   return (
     <>
-      {userNFT.data.length > 0 && (
+      {userNFT.data?.data.length > 0 && (
         <View
           style={{
             flex: 1,
@@ -45,7 +51,7 @@ const NFTCollections = ({ callBack }: Props) => {
             paddingHorizontal: size.getWidthSize(16),
           }}
         >
-          {userNFT.data.map((collection, index) => (
+          {userNFT.data.data.map((collection, index) => (
             <Pressable
               style={{
                 marginBottom: size.getHeightSize(16),
@@ -57,13 +63,13 @@ const NFTCollections = ({ callBack }: Props) => {
               onPress={() => {
                 if (callBack) {
                   callBack();
-                  dispatch(updateListOfNFTCollection(collection.assets))
+                  dispatch(updateListOfNFTCollection(collection.assets));
                 } else {
                   dispatch(updateNftRender(0));
                   dispatch(updateNftOpen(false));
                   dispatch(updateSelectedRender(1));
                   dispatch(updateSelectedCollection(true));
-                  dispatch(updateListOfNFTCollection(collection.assets))
+                  dispatch(updateListOfNFTCollection(collection.assets));
                 }
               }}
               key={index}
@@ -134,6 +140,36 @@ const NFTCollections = ({ callBack }: Props) => {
               </View>
             </Pressable>
           ))}
+        </View>
+      )}
+      {userNFT.isFetching && (
+        <View
+          style={{
+            flex: 1,
+          }}
+        >
+          <Text
+            style={{
+              color: appColor.kWhiteColor,
+            }}
+          >
+            Fetching User NFT
+          </Text>
+        </View>
+      )}
+      {userNFT.data?.data.length == 0 && (
+        <View
+          style={{
+            flex: 1,
+          }}
+        >
+          <Text
+            style={{
+              color: appColor.kWhiteColor,
+            }}
+          >
+            You have no NFT
+          </Text>
         </View>
       )}
     </>

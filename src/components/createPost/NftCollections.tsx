@@ -17,6 +17,7 @@ import { useAppSelector } from "../../controller/hooks";
 import { NftCollection } from "../../controller/UserController";
 import { initialData } from "../../api/hooks/dummyData";
 import { NFTData } from "../../controller/UserController/models";
+import { useUserNFT } from "../../api/hooks";
 // interface NftCollection {
 //   nftImageUrl?: any;
 //   nftCollection?: string;
@@ -28,7 +29,10 @@ interface Props {
 const NftCollections = ({ callBack }: Props) => {
   const navigation = useNavigation();
   const collections = useAppSelector((state) => state.USER.NFTCollections);
-  const userNFT = initialData;
+  const userAddress = useAppSelector((state) => state.USER.UserData.aptosWallet)
+  const userNFT = useUserNFT({
+    userAddress
+  })
   let [isLoaded] = useFonts({
     "Outfit-Regular": fonts.OUTFIT_REGULAR,
     "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -70,14 +74,25 @@ const NftCollections = ({ callBack }: Props) => {
     );
   };
 
+  const EmptyComponent = () => {
+    return (
+      <View>
+        <Text style={{
+          color: appColor.kWhiteColor
+        }}>You have no NFT</Text>
+      </View>
+    )
+  }
+
   return (
     <FlatList
-      data={userNFT.data}
+      data={userNFT.data.data}
       renderItem={({ item }) => Nft(item)}
       numColumns={2}
       keyExtractor={(item) => item.assets[0].asset_id}
       contentContainerStyle={styles.contentContainer}
       columnWrapperStyle={styles.columnWrapper}
+      ListEmptyComponent={EmptyComponent}
     />
   );
 };

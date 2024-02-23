@@ -29,6 +29,9 @@ const FeedDrawerContent = () => {
       following: state.USER.UserData?.following,
       aptosName: state.USER.aptosName,
     }));
+  const profilePics = useAppSelector(
+    (state) => state.USER.UserData.profileImage
+  );
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-Medium': fonts.OUTFIT_NORMAL,
@@ -57,7 +60,7 @@ const FeedDrawerContent = () => {
         }}
       >
         <Avatar
-          source={images.Aptomingos}
+          source={profilePics ? { uri: profilePics } : images.defaultAvatar}
           rounded
           size={size.getHeightSize(40)}
         />

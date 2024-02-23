@@ -382,6 +382,7 @@ export async function getTokenBywalletaddress(wallet: string) {
   })
     .then((resp) => resp.json())
     .catch((error) => {
+      console.log(error)
       if (error.code == 400) console.log(error.message);
     });
 }

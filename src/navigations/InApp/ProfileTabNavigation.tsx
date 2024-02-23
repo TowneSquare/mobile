@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   View,
   Text,
@@ -7,22 +6,17 @@ import {
   StyleSheet,
 } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
-import { sizes } from '../utils';
+import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import { appColor, fonts } from '../constants';
-
-type Component = {
-  name: string;
-  content: React.FC<JSX.Element>;
-};
-interface Props {
-  components: Component[];
-  fullRadius: boolean;
-}
+import { appColor } from '../../constants';
+import About from '../../components/Profile/About';
+import Wallet from '../../screens/Wallet';
 const Tab = createMaterialTopTabNavigator();
-const TopTabNavigator = ({ components, fullRadius }: Props) => {
+interface Props {
+  typeOfProfile: 'myProfile' | 'theirProfile';
+}
+const ProfileTabNavigation = ({ typeOfProfile }: Props) => {
   const renderTabBarLabel = ({ focused, route }) => {
     return (
       <View style={[styles.focused]}>
@@ -40,10 +34,7 @@ const TopTabNavigator = ({ components, fullRadius }: Props) => {
           backgroundColor: appColor.kgrayDark2,
           borderBottomRightRadius: 20,
           borderBottomLeftRadius: 20,
-          borderTopLeftRadius: fullRadius ? 20 : 0,
-          borderTopRightRadius: fullRadius ? 20 : 0,
           borderWidth: 0,
-          width: '100%',
         },
         tabBarIndicatorStyle: {
           display: 'none',
@@ -58,7 +49,7 @@ const TopTabNavigator = ({ components, fullRadius }: Props) => {
         tabBarIndicator: () => null,
       })}
       tabBar={({ state, descriptors, navigation }) => (
-        <View style={fullRadius ? styles.fullRadius : styles.labelContainer}>
+        <View style={styles.labelContainer}>
           {state.routes.map((route: any, index: number) => {
             const { options } = descriptors[route.key];
             const label = options.tabBarLabel || options.title || route.name;
@@ -73,7 +64,6 @@ const TopTabNavigator = ({ components, fullRadius }: Props) => {
                   borderRadius: 20,
                   marginTop: size.getHeightSize(4),
                   flex: 1,
-                  marginHorizontal: size.getWidthSize(4),
                   minHeight: size.getHeightSize(36),
                 }}
                 key={route.key}
@@ -96,22 +86,24 @@ const TopTabNavigator = ({ components, fullRadius }: Props) => {
         </View>
       )}
     >
-      {components.map((comp, index: number) => {
-        return (
-          <Tab.Screen key={index} name={comp.name} component={comp.content} />
-        );
-      })}
+      <Tab.Screen
+        name="Profile"
+        component={About}
+        initialParams={{ typeOfProfile: typeOfProfile }}
+      />
+
+      <Tab.Screen name="Wallet" component={Wallet} />
     </Tab.Navigator>
   );
 };
 
-export default TopTabNavigator;
+export default ProfileTabNavigation;
 const styles = StyleSheet.create({
   focusedtabText: {
     color: appColor.kTextColor,
     textAlign: 'center',
     fontSize: size.fontSize(14),
-    lineHeight: size.getHeightSize(20),
+    lineHeight: size.getHeightSize(18),
     fontFamily: 'Outfit-SemiBold',
     justifyContent: 'center',
   },
@@ -128,25 +120,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 40,
     paddingHorizontal: size.getWidthSize(16),
-    height: size.getHeightSize(36),
   },
   labelContainer: {
+    flexDirection: 'row',
+    backgroundColor: appColor.kgrayDark2,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
     paddingBottom: size.getHeightSize(4),
-    marginHorizontal: size.getWidthSize(8),
-    width: '100%',
-    alignSelf: 'center',
-    flexDirection: 'row',
-    backgroundColor: appColor.kgrayDark2,
-  },
-  fullRadius: {
-    flexDirection: 'row',
-    backgroundColor: appColor.kgrayDark2,
-    borderRadius: 20,
-    paddingBottom: size.getHeightSize(4),
-    marginHorizontal: size.getWidthSize(8),
-    width: '100%',
-    alignSelf: 'center',
+    paddingHorizontal: size.getWidthSize(4),
+    justifyContent: 'center',
   },
 });

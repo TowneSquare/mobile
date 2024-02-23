@@ -5,21 +5,21 @@ import {
   ImageBackground,
   StyleSheet,
   Pressable,
-} from "react-native";
-import * as Linking from "expo-linking";
-import { MaterialIcons } from "@expo/vector-icons";
-import Petra from "../../../assets/images/svg/Petra";
-import { updateBottomSheet } from "../../controller/BottomSheetController";
-import Pontem from "../../../assets/images/svg/Pontem";
-import { useAppDispatch } from "../../controller/hooks";
-import { updateToast } from "../../controller/FeedsController";
-import Fewcha from "../../../assets/images/svg/Fewcha";
-import Rise from "../../../assets/images/svg/Rise";
-import Martian from "../../../assets/images/svg/Martian";
-import { appColor, images } from "../../constants";
-import { StatusBar } from "expo-status-bar";
-import CompleteSignUpModal from "../../components/SignUp/CompleteSignUpModal";
-import { sizes } from "../../utils";
+} from 'react-native';
+import * as Linking from 'expo-linking';
+import { MaterialIcons } from '@expo/vector-icons';
+import Petra from '../../../assets/images/svg/Petra';
+import { updateBottomSheet } from '../../controller/BottomSheetController';
+import Pontem from '../../../assets/images/svg/Pontem';
+import { useAppDispatch } from '../../controller/hooks';
+import { updateToast } from '../../controller/FeedsController';
+import Fewcha from '../../../assets/images/svg/Fewcha';
+import Rise from '../../../assets/images/svg/Rise';
+import Martian from '../../../assets/images/svg/Martian';
+import { appColor, images } from '../../constants';
+import { StatusBar } from 'expo-status-bar';
+import CompleteSignUpModal from '../../components/SignUp/CompleteSignUpModal';
+import { sizes } from '../../utils';
 import {
   decodePetraWalletConnectResponse,
   handlWalletConnect,
@@ -30,12 +30,13 @@ import { ChooseWalletProps } from "../../navigations/NavigationTypes";
 import LetGoButton from "../../components/SignUp/LetGoButton";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
-type Wallet = "pontem" | "rise" | "petra";
+type Wallet = 'pontem' | 'rise' | 'petra';
 const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
   const [selectedWallet, setSelectedWallet] = useState<Wallet>(undefined);
   const [walletConnectDetails, setWalletConnect] = useState<{
     token: string;
     address: string;
+    shouldGenerateTokenfromAddress: boolean;
   }>();
   const walletConnectionResponse = route.params?.response;
   console.log(walletConnectionResponse);
@@ -43,25 +44,40 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
   useEffect(() => {
     const handleConnect = async () => {
       const petraResponse = route.params;
-      const { address, token } = await decodePetraWalletConnectResponse({
-        data: petraResponse?.data || "",
-        response: petraResponse?.response || "",
-      });
-      setWalletConnect({ address, token });
-      dispatch(updateBottomSheet(true));
-      dispatch(
-        updateToast({
-          toastType: "success",
-          displayToast: true,
-          toastMessage: `Connected:${address}`,
-        })
-      );
+      try {
+        const { address, token } = await decodePetraWalletConnectResponse({
+          data: petraResponse?.data || '',
+          response: petraResponse?.response || '',
+        });
+        setWalletConnect({
+          address,
+          token,
+          shouldGenerateTokenfromAddress: true,
+        });
+        dispatch(updateBottomSheet(true));
+        dispatch(
+          updateToast({
+            toastType: 'success',
+            displayToast: true,
+            toastMessage: `Connected:${address}`,
+          })
+        );
+      } catch (e) {
+        dispatch(
+          updateToast({
+            toastType: 'info',
+            displayToast: true,
+            toastMessage:
+              'Somethiing went wrong, revoke from your dapp and reconnect',
+          })
+        );
+      }
     };
-    if (selectedWallet === "petra" && walletConnectionResponse === "approved") {
+    if (selectedWallet === 'petra' && walletConnectionResponse === 'approved') {
       handleConnect();
     } else if (
-      selectedWallet === "pontem" &&
-      walletConnectionResponse === "approved"
+      selectedWallet === 'pontem' &&
+      walletConnectionResponse === 'approved'
     ) {
     }
   }, [selectedWallet, walletConnectionResponse]);
@@ -89,7 +105,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
           <View style={styles.view2}>
             <Pressable
               onPress={() => {
-                handleWalletConnect("petra");
+                handleWalletConnect('petra');
               }}
               style={[styles.wallet, { paddingRight: size.getWidthSize(13) }]}
             >
@@ -105,7 +121,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
             </Pressable>
             <Pressable
               onPress={() => {
-                handleWalletConnect("pontem");
+                handleWalletConnect('pontem');
               }}
               style={[styles.wallet, { paddingRight: size.getWidthSize(13) }]}
             >
@@ -160,22 +176,25 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
           >
             <View style={{ height: size.getHeightSize(48) }} />
 
-            <BackButton onPress={navigation.goBack} marginTop={16} />
+            <BackButton
+              onPress={() => navigation.canGoBack() && navigation.goBack()}
+              marginTop={16}
+            />
           </View>
         </View>
 
         <CompleteSignUpModal
           signupstate={walletConnectionResponse}
           callBack={() => {
-            if (walletConnectionResponse === "approved") {
+            if (walletConnectionResponse === 'approved') {
               dispatch(
                 updateToast({
-                  toastType: "success",
+                  toastType: 'success',
                   displayToast: true,
-                  toastMessage: "You have successfully signed in!",
+                  toastMessage: 'You have successfully signed in!',
                 })
               );
-              navigation.navigate("SignUp", {
+              navigation.navigate('SignUp', {
                 walletCredentials: walletConnectDetails,
               });
             } else {
@@ -183,10 +202,10 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
             }
           }}
           buttonText={
-            selectedWallet === "petra" &&
-            walletConnectionResponse === "approved"
-              ? "Sign in and continue"
-              : "Connect wallet"
+            selectedWallet === 'petra' &&
+            walletConnectionResponse === 'approved'
+              ? 'Sign in and continue'
+              : 'Connect wallet'
           }
         />
       </ImageBackground>
@@ -199,10 +218,10 @@ const styles = StyleSheet.create({
   text1: {
     marginTop: size.getHeightSize(72),
     color: appColor.kTextColor,
-    fontStyle: "normal",
+    fontStyle: 'normal',
     fontSize: size.fontSize(32),
-    fontFamily: "Outfit-Bold",
-    textAlign: "center",
+    fontFamily: 'Outfit-Bold',
+    textAlign: 'center',
     lineHeight: size.getHeightSize(40),
   },
   wallet: {
@@ -211,49 +230,49 @@ const styles = StyleSheet.create({
     height: size.getHeightSize(56),
     width: size.getWidthSize(327),
     backgroundColor: appColor.kGrayLight3,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     borderRadius: 40,
-    alignItems: "center",
-    display: "flex",
+    alignItems: 'center',
+    display: 'flex',
     paddingRight: size.getWidthSize(23),
   },
   rows: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   leadingText: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: "Outfit-SemiBold",
-    textAlign: "center",
+    fontFamily: 'Outfit-SemiBold',
+    textAlign: 'center',
     lineHeight: size.getHeightSize(21),
-    fontStyle: "normal",
+    fontStyle: 'normal',
     marginLeft: size.getWidthSize(8),
   },
   text: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(14),
-    fontFamily: "Outfit-Regular",
-    textAlign: "center",
+    fontFamily: 'Outfit-Regular',
+    textAlign: 'center',
     lineHeight: size.getHeightSize(18),
   },
   bgImage: {
     flex: 1,
-    width: "100%",
-    height: "100%",
-    alignItems: "center",
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
   },
   view1: {
-    width: "100%",
-    height: "100%",
-    alignItems: "center",
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
     paddingTop: size.getHeightSize(72),
   },
   view2: {
     height: size.getHeightSize(312),
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     width: size.getWidthSize(359),
-    alignItems: "center",
+    alignItems: 'center',
   },
 });

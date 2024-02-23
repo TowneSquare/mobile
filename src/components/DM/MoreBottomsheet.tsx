@@ -17,7 +17,6 @@ const size = new sizes(height, width);
 interface Props {
   visibility: boolean;
   onClose: () => void;
-
   onBlockUser: () => void;
   onDeleteConversation: () => void;
   onDeleteChat: () => void;
@@ -34,6 +33,7 @@ const MoreBottomsheet = ({
   nickname,
   userId,
   username,
+  
 }: Props) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();

@@ -152,9 +152,9 @@ const ProfileCard = ({
                 <View
                   style={{ flexDirection: "row", gap: size.getWidthSize(8) }}
                 >
-                  {BADGES.includes("ts_purple") && <PurpleBadge />}
-                  {BADGES.includes("community_check") && <GreenBadge />}
-                  {BADGES.includes("partner") && <BlueBadge />}
+                  {BADGES?.includes("ts_purple") && <PurpleBadge />}
+                  {BADGES?.includes("community_check") && <GreenBadge />}
+                  {BADGES?.includes("partner") && <BlueBadge />}
                 </View>
               </View>
               <View

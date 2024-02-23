@@ -4,11 +4,13 @@ import {
   ImageBackground,
   Dimensions,
   StyleSheet,
+  BackHandler,
 } from 'react-native';
 import { useFonts } from 'expo-font';
 import { appColor, fonts, images } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
 import { sizes } from '../../utils';
+import useBackHandler from '../../hooks/useBackhandler';
 import ComingSoonIcon2 from '../../../assets/images/svg/ComminsoonIcon2';
 import CommingsoonIcon3 from '../../../assets/images/svg/CommingSoonIcon3';
 import ComingsoonIcon1 from '../../../assets/images/svg/ComingsoonIcon1';
@@ -20,6 +22,10 @@ import {
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const CommingSoon = () => {
+  // useBackHandler(() => {
+  //   BackHandler.exitApp();
+  //   return true;
+  // });
   const insets = useSafeAreaInsets();
   return (
     <>
