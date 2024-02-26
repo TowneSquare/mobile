@@ -53,7 +53,7 @@ const ViewSuperStarsModal = ({ imageUri, visibility, close, nftCollection, nftTo
   const userNFT = useUserNFT({
     userAddress: userWallet
   });
-  const assets = userNFT.data.data.find((nft) => nft.collection === nftCollection )
+  const assets = userNFT.data?.data.find((nft) => nft.collection === nftCollection )
   const nft = assets?.assets.find((nft) => nft.name === nftTokenId)
   const renderItems = (item: SuperStarProps) => {
     return (
