@@ -32,6 +32,7 @@ import {
   updateUserData,
 } from './src/controller/UserController';
 import { AnyAction } from '@reduxjs/toolkit';
+import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
 type AuthRootStackParamList = {
   Auth: {
     FirstScreen: undefined;
