@@ -10,7 +10,7 @@ import {
   updateNftOpen,
 } from '../../controller/BottomSheetController';
 import { sizes } from '../../utils';
-import { initialData } from '../../api/hooks';
+import { useUserNFT } from '../../api/hooks';
 const size = new sizes(height, width);
 
 interface Props {
@@ -21,7 +21,12 @@ const NFTCollections = ({ callBack }: Props) => {
   const collections = useAppSelector(
     (state) => state.bottomSheetController.listOfNftCollections
   );
-  const userNFT = initialData
+  const userAddress = useAppSelector(
+    (state) => state.USER.UserData.aptosWallet
+  );
+  const userNFT = useUserNFT({
+    userAddress
+  })
   let [isLoaded] = useFonts({
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -31,7 +36,7 @@ const NFTCollections = ({ callBack }: Props) => {
   }
   return (
     <>
-      {userNFT.data.length > 0 && (
+      {userNFT.data?.data.length > 0 && (
         <View
           style={{
             flex: 1,
@@ -43,7 +48,7 @@ const NFTCollections = ({ callBack }: Props) => {
             paddingHorizontal: size.getWidthSize(16),
           }}
         >
-          {userNFT.data.map((collection, index) => (
+          {userNFT.data?.data?.map((collection, index) => (
             <Pressable
               key={index}
               style={{

@@ -34,7 +34,6 @@ const SelectedSuperStars = () => {
   }, [userSelected?.length]);
 
   const numberOfViews = 6;
-  console.log(selectedStars, "selectedStars")
 
   return (
     <View
