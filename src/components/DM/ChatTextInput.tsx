@@ -32,6 +32,7 @@ import { Video, ResizeMode } from 'expo-av';
 import { sizes } from '../../utils';
 import {
   formatTimestamp,
+  isPushNotificationAllowed,
   pickMedia,
   sendRreplyMessage,
   sendTextToFirestore,
@@ -69,7 +70,6 @@ interface Props extends TextInputProps {
   receiverId: string;
   nickname: string;
   pfp: string;
-
 }
 export type ComponentRef = {
   focusTextInput: () => void;
@@ -83,13 +83,10 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
     username,
     nickname,
     pfp,
-    
   },
   ref
 ) => {
   const { replyingToMessage, setReplyingToMessage } = useContext(ChatDmContext);
-  console.log('replyingToMessage type');
-  console.log(replyingToMessage.type);
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
   const inputRef = useRef<TextInput>();
@@ -140,21 +137,19 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
       myId: profile._id,
       myusername: profile.username,
     });
-    console.log('====receiver id======');
-    console.log(profile._id);
-    console.log(receiverId);
     const deviceToken = await getuserDeviceToken(receiverId);
-    await sendPushNotification(deviceToken, {
-      userId: profile._id,
-      receiverId,
-      title: username,
-      msg: text.trim(),
-      navigateTo: 'Conversation',
-      chatId,
-      name: username,
-      nickname,
-      pfp,
-    });
+    (await isPushNotificationAllowed(receiverId, profile._id, chatId)) &&
+      (await sendPushNotification(deviceToken, {
+        userId: profile._id,
+        receiverId,
+        title: username,
+        msg: text.trim(),
+        navigateTo: 'Conversation',
+        chatId,
+        name: username,
+        nickname,
+        pfp,
+      }));
   };
   const sendReply = async () => {
     setText('');
@@ -172,17 +167,18 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
       uid: profile._id,
     });
     const deviceToken = await getuserDeviceToken(receiverId);
-    await sendPushNotification(deviceToken, {
-      userId: profile._id,
-      receiverId,
-      title: username,
-      msg: text.trim(),
-      navigateTo: 'Conversation',
-      chatId,
-      name: username,
-      nickname,
-      pfp,
-    });
+    (await isPushNotificationAllowed(receiverId, profile._id, chatId)) &&
+      (await sendPushNotification(deviceToken, {
+        userId: profile._id,
+        receiverId,
+        title: username,
+        msg: text.trim(),
+        navigateTo: 'Conversation',
+        chatId,
+        name: username,
+        nickname,
+        pfp,
+      }));
   };
   async function verifyPermission() {
     if (cameraPermissionInformation?.status === PermissionStatus.UNDETERMINED) {
@@ -260,17 +256,18 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
       myusername: profile.username,
     });
     const deviceToken = await getuserDeviceToken(receiverId);
-    await sendPushNotification(deviceToken, {
-      userId: profile._id,
-      receiverId,
-      title: username,
-      msg: 'sent a file',
-      navigateTo: 'Conversation',
-      chatId,
-      name: username,
-      nickname,
-      pfp,
-    });
+    (await isPushNotificationAllowed(receiverId, profile._id, chatId)) &&
+      (await sendPushNotification(deviceToken, {
+        userId: profile._id,
+        receiverId,
+        title: username,
+        msg: 'sent a file',
+        navigateTo: 'Conversation',
+        chatId,
+        name: username,
+        nickname,
+        pfp,
+      }));
   };
 
   return (

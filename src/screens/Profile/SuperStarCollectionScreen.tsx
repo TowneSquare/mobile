@@ -1,9 +1,4 @@
-import {
-  View,
-  Dimensions,
-  ScrollView,
-  StyleSheet,
-} from 'react-native';
+import { View, Dimensions, ScrollView, StyleSheet } from 'react-native';
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 import Header from '../../shared/Feed/Header';
@@ -22,6 +17,7 @@ const SuperStarCollectionScreen = ({
   const collections = useAppSelector(
     (state) => state.bottomSheetController.listOfNftCollections
   );
+  console.log(collections);
   return (
     <SafeAreaView
       style={{
@@ -61,6 +57,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignSelf: 'center',
     paddingHorizontal: size.getWidthSize(16),
-    
   },
 });

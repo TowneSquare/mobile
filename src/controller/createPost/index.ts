@@ -434,7 +434,8 @@ export const getAllPost = createAsyncThunk(
             originalCustomerId: res.originalCustomerId,
           };
         });
-        await AsyncStorage.setItem('posts', JSON.stringify(posts));
+        const latestPosts = posts.slice(10);
+        await AsyncStorage.setItem('posts', JSON.stringify(latestPosts));
         return posts;
       }
     } catch (error) {

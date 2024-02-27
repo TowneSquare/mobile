@@ -20,8 +20,11 @@ import DeleteConversationBottomsheet from '../../components/DM/DeleteConversatio
 import {
   ChatClass,
   blockUserChat,
+  deleteChat,
+  deleteContactFromFirestore,
   getBlockedUsers,
   unblockUserChat,
+  updatePushNotificationSetting,
 } from '../../utils/ChatUtils';
 import Messages from '../../components/DM/Messages';
 import ChatContext from '../../context/ChatContext';
@@ -70,7 +73,6 @@ const Conversation = ({
   );
   const MESSAGE_LIMIT = 10;
   const lastDocRef = useRef(null);
-  console.log(myusername, 'my username');
   useLayoutEffect(() => {
     const msgCollectionRef = collection(
       firestoreDB,
@@ -78,7 +80,7 @@ const Conversation = ({
     );
     const chatRef = doc(firestoreDB, 'chats', chatId);
     getDoc(chatRef).then((docSnapshot) => {
-      console.log(`SnapshotId:${docSnapshot.id}`);
+      // console.log(`SnapshotId:${docSnapshot.id}`);
       const chatData = docSnapshot.data();
       setContactId(chatData.memberIds.filter((id) => id !== myId)[0]);
     });
@@ -111,7 +113,6 @@ const Conversation = ({
         'blockedUsers',
         contactId
       );
-
       const unsubscribeMyBlockList = onSnapshot(myBlockedUsersDocRef, (doc) => {
         if (doc.exists()) {
           const blockedUsers = doc.data().blockedUsers || [];
@@ -134,7 +135,13 @@ const Conversation = ({
             });
           }
         } else {
-          console.log('No blocked users document found for current user');
+          setBlockUser({
+            blocked: false,
+            blockMessage: '',
+            blockedByMe: undefined,
+            hasLoaded: true,
+          });
+          // console.log('No blocked users document found for current user');
         }
       });
       //Contact event
@@ -162,7 +169,13 @@ const Conversation = ({
               });
             }
           } else {
-            console.log('No blocked users document found for contact');
+            setBlockUser({
+              blocked: false,
+              blockMessage: '',
+              blockedByMe: undefined,
+              hasLoaded: true,
+            });
+            // console.log('No blocked users document found for contact');
           }
         }
       );
@@ -228,8 +241,8 @@ const Conversation = ({
       // Append new messages to the existing ones
       setMessage((prevMessages) => [...prevMessages, ...newMessages]);
 
-      console.log('======loaded more messages========');
-      console.log(newMessages);
+      // console.log('======loaded more messages========');
+      // console.log(newMessages);
     }
   };
   const markMessageAsRead = async (chatId, messageId, currentUserId) => {
@@ -246,7 +259,7 @@ const Conversation = ({
         await updateDoc(messageRef, {
           read: true,
         });
-        console.log('Message marked as read successfully');
+        // console.log('Message marked as read successfully');
       }
     } catch (error) {
       console.error('Error marking message as read:', error);
@@ -317,7 +330,7 @@ const Conversation = ({
           blockState.blocked ? (
             <Pressable
               onPress={() => {
-                blockState.blockedByMe && unblockUserChat(myId, contactId);
+                blockState.blockedByMe && setUnblockVisibility(true);
               }}
               style={styles.blockView}
             >
@@ -339,6 +352,7 @@ const Conversation = ({
         <MoreBottomsheet
           username={name}
           userId={contactId}
+          currentUserId={myId}
           nickname={nickname}
           onDeleteChat={() => {
             setDeleteChatVisibility(true);
@@ -350,35 +364,44 @@ const Conversation = ({
             setDeleteConversationBottomSheetVisibility(true);
           }}
           onBlockUser={() => {
-            blockUserChat(myId, contactId);
             setMoreBottomsheetVisibility(false);
-            // setBlockUserVisibility(true);
+            setBlockUserVisibility(true);
           }}
+          // handleMuteNotification={() => {
+          //   setMoreBottomsheetVisibility(false);
+          //   updatePushNotificationSetting(myId, contactId, false);
+          // }}
         />
         <DeleteConversationBottomsheet
           callBack={() => {
             setDeleteConversationBottomSheetVisibility(false);
             navigation.goBack();
+            // deleteContactFromFirestore(myId, contactId);
+            deleteChat(chatId, myId);
           }}
           onClose={() => {
             setDeleteConversationBottomSheetVisibility(false);
           }}
           visibility={showDeleteConversationBottomSheet}
+          name={name}
         />
         <BlockUserBottomsheet
           visibility={showBlockUserBottomsheet}
           onClose={() => setBlockUserVisibility(false)}
           callBack={() => {
-            blockUser(true);
+            blockUserChat(myId, contactId);
           }}
+          name={name}
+          disableBlock={blockState.blocked ? !blockState.blockedByMe : false}
         />
         <UnblockUserBottomsheet
           visibility={showUnblocksheet}
           onClose={() => setUnblockVisibility(false)}
           callBack={() => {
-            blockUser(false);
+            blockState.blockedByMe && unblockUserChat(myId, contactId);
             setUnblockVisibility(false);
           }}
+          name={name}
         />
         <DeleteChatBottomsheet
           visibility={showDeleteChatBottomsheet}
@@ -387,6 +410,7 @@ const Conversation = ({
             navigation.goBack();
           }}
           onClose={() => setDeleteChatVisibility(false)}
+          name={name}
         />
       </ChatContext>
     </SafeAreaView>

@@ -121,6 +121,10 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 Repost={userPost?.reposts}
                 postId={userPost._id}
                 userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
               {/* <ShowThread /> */}
             </View>
@@ -189,6 +193,10 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 Repost={userPost?.reposts}
                 postId={userPost._id}
                 userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -253,6 +261,10 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 Repost={userPost?.reposts}
                 postId={userPost._id}
                 userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
 
               {/* <PostActions
@@ -365,6 +377,10 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 Repost={userPost?.reposts}
                 postId={userPost._id}
                 userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -431,6 +447,10 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 Repost={userPost?.reposts}
                 postId={userPost._id}
                 userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
               {/* <PostActions
                 noOfComments={userPost.comments}
@@ -592,6 +612,10 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 Repost={userPost?.reposts}
                 postId={userPost._id}
                 userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -669,6 +693,10 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 Repost={userPost?.reposts}
                 postId={userPost._id}
                 userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
               {/* <ShowThread /> */}
             </View>

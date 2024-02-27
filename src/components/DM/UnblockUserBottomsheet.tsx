@@ -13,9 +13,15 @@ interface Props {
   visibility: boolean;
   onClose: () => void;
   callBack: () => void;
+  name: string;
 }
 
-const UnblockUserBottomsheet = ({ onClose, visibility, callBack }: Props) => {
+const UnblockUserBottomsheet = ({
+  name,
+  onClose,
+  visibility,
+  callBack,
+}: Props) => {
   return (
     <BottomsheetWrapper
       onClose={onClose}
@@ -28,7 +34,9 @@ const UnblockUserBottomsheet = ({ onClose, visibility, callBack }: Props) => {
           marginTop: size.getHeightSize(24),
         }}
       />
-      <Text style={styles.contentDescription}>Unblock UsernameX?</Text>
+      <Text style={styles.contentDescription}>
+        Unblock {name.charAt(0).toUpperCase() + name.slice(1)}
+      </Text>
       <Text style={styles.contentMessage}>
         Are you sure you want to unblock this user?
       </Text>

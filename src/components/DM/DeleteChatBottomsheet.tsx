@@ -10,9 +10,15 @@ interface Props {
   visibility: boolean;
   onClose: () => void;
   callBack: () => void;
+  name: string;
 }
 
-const DeleteChatBottomsheet = ({ onClose, visibility, callBack }: Props) => {
+const DeleteChatBottomsheet = ({
+  name,
+  onClose,
+  visibility,
+  callBack,
+}: Props) => {
   return (
     <BottomsheetWrapper
       onClose={onClose}
@@ -28,7 +34,8 @@ const DeleteChatBottomsheet = ({ onClose, visibility, callBack }: Props) => {
       />
       <Text style={styles.contentDescription}>Delete chat</Text>
       <Text style={styles.contentMessage}>
-        Permanently delete the chat with UsernameX?
+        Permanently delete the chat with{' '}
+        {name.charAt(0).toUpperCase() + name.slice(1)}?
       </Text>
       <Pressable onPress={callBack} style={styles.deleteButton}>
         <Text style={styles.deleteButtonText}>Delete chat</Text>

@@ -79,6 +79,11 @@ export const handlWalletConnect = async (walletName: Wallet) => {
   }
 };
 
+/**
+ * Decodes the response from the Petra Wallet Connect API and performs necessary operations.
+ * @param response - The response object containing the data and response strings.
+ * @returns An object containing the token and address extracted from the response.
+ */
 export const decodePetraWalletConnectResponse = async (response: {
   data: string;
   response: string;

@@ -184,7 +184,6 @@ const FieldInput = ({ whichPost }: Props) => {
         fontFamily: 'Outfit-Regular',
         color: appColor.kTextColor,
         width: size.getWidthSize(280),
-
         marginTop: size.getHeightSize(8),
         minHeight: size.getHeightSize(38),
       }}

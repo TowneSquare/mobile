@@ -36,9 +36,13 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
     token: string;
     address: string;
     shouldGenerateTokenfromAddress: boolean;
-  }>();
+  }>({
+    address: '',
+    shouldGenerateTokenfromAddress: true,
+    token: '',
+  });
   const walletConnectionResponse = route.params?.response;
-  console.log(walletConnectionResponse);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     const handleConnect = async () => {
@@ -67,7 +71,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
             toastType: 'info',
             displayToast: true,
             toastMessage:
-              'Somethiing went wrong, revoke from your dapp and reconnect',
+              'Something went wrong, revoke from your dapp and reconnect',
           })
         );
       }
@@ -185,6 +189,11 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
           signupstate={walletConnectionResponse}
           callBack={() => {
             if (walletConnectionResponse === 'approved') {
+              if (!walletConnectDetails.address) {
+                handlWalletConnect(selectedWallet);
+
+              }
+            else{
               dispatch(
                 updateToast({
                   toastType: 'success',
@@ -195,13 +204,14 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
               navigation.navigate('SignUp', {
                 walletCredentials: walletConnectDetails,
               });
+            }
             } else {
               handlWalletConnect(selectedWallet);
             }
           }}
           buttonText={
             selectedWallet === 'petra' &&
-            walletConnectionResponse === 'approved'
+            walletConnectionResponse === 'approved' 
               ? 'Sign in and continue'
               : 'Connect wallet'
           }

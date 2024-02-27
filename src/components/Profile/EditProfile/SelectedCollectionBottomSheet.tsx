@@ -72,25 +72,25 @@ const SelectedCollectionBottomSheet = () => {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   }, [isSelectedCollectionBottomSheetVisible]);
-  const animatedIndex = useSharedValue(0);
-  const contentStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY: interpolate(
-          animatedIndex.value,
-          [0, 0.08],
-          [40, 0],
-          Extrapolation.CLAMP
-        ),
-      },
-    ],
-    opacity: interpolate(
-      animatedIndex.value,
-      [0, 0.08],
-      [0, 1],
-      Extrapolation.CLAMP
-    ),
-  }));
+  // const animatedIndex = useSharedValue(0);
+  // const contentStyle = useAnimatedStyle(() => ({
+  //   transform: [
+  //     {
+  //       translateY: interpolate(
+  //         animatedIndex.value,
+  //         [0, 0.08],
+  //         [40, 0],
+  //         Extrapolation.CLAMP
+  //       ),
+  //     },
+  //   ],
+  //   opacity: interpolate(
+  //     animatedIndex.value,
+  //     [0, 0.08],
+  //     [0, 1],
+  //     Extrapolation.CLAMP
+  //   ),
+  // }));
   return (
     <>
       {!isSelectedCollectionBottomSheetVisible ? (
@@ -125,7 +125,7 @@ const SelectedCollectionBottomSheet = () => {
               delay={500}
               easing={'ease-in-out'}
               duration={400}
-              style={contentStyle}
+              // style={contentStyle}
             >
               <ProfilePicsCollection />
             </Animatable.View>

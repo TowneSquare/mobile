@@ -5,18 +5,18 @@ import {
   Image,
   StyleSheet,
   Pressable,
-} from "react-native";
-import { appColor } from "../../../constants";
-import { sizes } from "../../../utils";
-import { useAppSelector, useAppDispatch } from "../../../controller/hooks";
-const { height, width } = Dimensions.get("window");
+} from 'react-native';
+import { appColor } from '../../../constants';
+import { sizes } from '../../../utils';
+import { useAppSelector, useAppDispatch } from '../../../controller/hooks';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import AntDesign from "@expo/vector-icons/AntDesign";
+import AntDesign from '@expo/vector-icons/AntDesign';
 import {
   deleteSelectedSuperStar,
   updateSelectedSuperStars,
-} from "../../../controller/UserController";
-import { useMemo } from "react";
+} from '../../../controller/UserController';
+import { useMemo } from 'react';
 const SelectedSuperStars = () => {
   const dispatch = useAppDispatch();
 
@@ -24,11 +24,11 @@ const SelectedSuperStars = () => {
     (state) => state.USER.selectedSuperStars
   );
   const userSelected = useAppSelector(
-    (state) => state.USER.UserData.superstars.nftInfoArray
+    (state) => state.USER.UserData.superstars?.nftInfoArray
   );
   useMemo(() => {
     dispatch(updateSelectedSuperStars(userSelected));
-  }, [userSelected.length]);
+  }, [userSelected?.length]);
 
   const numberOfViews = 6;
 
@@ -55,8 +55,8 @@ const SelectedSuperStars = () => {
                 <Image
                   source={{ uri: selectedStars[index].nftImageUrl }}
                   style={{
-                    height: "100%",
-                    width: "100%",
+                    height: '100%',
+                    width: '100%',
                     borderRadius: 8,
                   }}
                 />
@@ -67,13 +67,13 @@ const SelectedSuperStars = () => {
                     );
                   }}
                   style={{
-                    position: "absolute",
+                    position: 'absolute',
                     height: size.getHeightSize(24),
                     width: size.getHeightSize(24),
                     borderRadius: 200,
-                    backgroundColor: "rgba(0, 0, 0, 0.70)",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    backgroundColor: 'rgba(0, 0, 0, 0.70)',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     top: size.getHeightSize(5.11),
                     right: size.getWidthSize(3.78),
                   }}
@@ -96,7 +96,7 @@ const SelectedSuperStars = () => {
 export default SelectedSuperStars;
 const styles = StyleSheet.create({
   imageContainer: {
-    borderStyle: "dashed",
+    borderStyle: 'dashed',
     width: size.getWidthSize(70),
     height: size.getHeightSize(70),
     borderColor: appColor.kGrayLight3,

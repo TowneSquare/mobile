@@ -79,6 +79,10 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 Repost={userPost?.reposts}
                 postId={userPost?._id}
                 userId={userPost?.customer?._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -133,6 +137,10 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 Repost={userPost?.reposts}
                 postId={userPost._id}
                 userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -225,6 +233,10 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 Repost={userPost?.reposts}
                 postId={userPost._id}
                 userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -275,6 +287,10 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 Repost={userPost?.reposts}
                 postId={userPost._id}
                 userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -321,6 +337,10 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 Repost={userPost?.reposts}
                 postId={userPost._id}
                 userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -385,6 +405,10 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 Repost={userPost?.reposts}
                 postId={userPost._id}
                 userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -449,6 +473,10 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 Repost={userPost?.reposts}
                 postId={userPost._id}
                 userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>

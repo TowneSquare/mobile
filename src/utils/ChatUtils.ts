@@ -35,6 +35,7 @@ import {
 import { app, firestoreDB, storage } from '../../config/firebase.config';
 
 import { nanoid } from '@reduxjs/toolkit';
+import { ChatsModel } from '../models/chats';
 export class ChatClass {
   private message: Array<any> = [];
   constructor(message: any[]) {
@@ -436,9 +437,9 @@ export const blockUserChat = async (userId: string, idUserToBlock: string) => {
       { merge: true }
     );
 
-    console.log(`User ${idUserToBlock} blocked successfully.`);
+    // console.log(`User ${idUserToBlock} blocked successfully.`);
   } catch (error) {
-    console.error('Error blocking user:', error);
+    // console.error('Error blocking user:', error);
   }
 };
 export const getBlockedUsers = async (userId: string) => {
@@ -450,7 +451,7 @@ export const getBlockedUsers = async (userId: string) => {
     if (blockedUsersDoc.exists()) {
       //If tThe document exists, return the list of blocked users
       const blockedUsers = blockedUsersDoc.data().blockedUsers;
-      console.log('Blocked users:', blockedUsers);
+      // console.log('Blocked users:', blockedUsers);
       return blockedUsers;
     } else {
       // The document does not exist
@@ -458,9 +459,18 @@ export const getBlockedUsers = async (userId: string) => {
       return [];
     }
   } catch (error) {
-    console.error('Error getting blocked users:', error);
+    // console.error('Error getting blocked users:', error);
   }
 };
+
+
+/**
+ * Unblocks a user in the chat.
+ * 
+ * @param {string} userId - The ID of the user performing the unblocking.
+ * @param {string} idUserToUnblock - The ID of the user to unblock.
+ * @returns {Promise<void>} - A promise that resolves when the user is unblocked successfully.
+ */
 export const unblockUserChat = async (
   userId: string,
   idUserToUnblock: string
@@ -473,9 +483,15 @@ export const unblockUserChat = async (
 
     console.log(`User ${idUserToUnblock} unblocked successfully.`);
   } catch (error) {
-    console.error('Error unblocking user:', error);
+    // console.error('Error unblocking user:', error);
   }
 };
+
+/**
+ * Mutes notifications for a specific chat and user.
+ * @param chatId - The ID of the chat.
+ * @param userId - The ID of the user.
+ */
 export const muteNotifications = (chatId: string, userId: string) => {
   const chatRef = doc(firestoreDB, 'chats', chatId);
   updateDoc(chatRef, { muteNotifications: true })
@@ -487,18 +503,188 @@ export const muteNotifications = (chatId: string, userId: string) => {
     });
 };
 
-const deleteConversation = (chatId: string) => {
-  // Remove the chat document from Firestore
+/**
+ * Adds a contact to Firestore for a given user.
+ *
+ * @param userId - The ID of the user.
+ * @param contactId - The ID of the contact to be added.
+ */
+export const addContactToFirestore = async (
+  userId: string,
+  contactId: string
+) => {
+  try {
+    const userContactRef = doc(firestoreDB, 'contacts', userId);
+    const docSnapShot = await getDoc(userContactRef);
 
-  const chatRef = doc(firestoreDB, 'chats', chatId);
-  deleteDoc(chatRef)
-    .then(() => {
-      console.log('Conversation deleted successfully');
-    })
-    .catch((error) => {
-      console.error('Error deleting conversation:', error);
-    });
+    //Check if contact exists
+    if (docSnapShot.exists() && docSnapShot.data()[contactId]) {
+      // console.log('Contact already exists');
+      return;
+    }
+    const contactData = {
+      userId: contactId,
+      allowPushNotification: true,
+    };
+    await setDoc(userContactRef, { [contactId]: contactData }, { merge: true });
+  } catch (err) {
+    // console.log(err);
+  }
 };
-const isUserBlocked = (userId: string, blockedUsers: string[]) => {
-  return blockedUsers.includes(userId);
+
+/**
+ * Deletes a contact from Firestore.
+ *
+ * @param userId - The ID of the user.
+ * @param contactId - The ID of the contact to be deleted.
+ */
+export const deleteContactFromFirestore = async (
+  userId: string,
+  contactId: string
+) => {
+  try {
+    const userContactRef = doc(firestoreDB, 'contacts', userId);
+    const docSnapshot = await getDoc(userContactRef);
+
+    // Check if the document exists and if the contact exists in the document
+    if (docSnapshot.exists() && docSnapshot.data()[contactId]) {
+      // Remove the contact field from the document
+      const updatedData = { ...docSnapshot.data() };
+      delete updatedData[contactId];
+
+      // Update the document without the deleted contact
+      await setDoc(userContactRef, updatedData);
+    } else {
+      console.log('Contact does not exist');
+    }
+  } catch (err) {
+    console.error('Error deleting contact:', err);
+  }
+};
+
+/**
+ * Checks if push notifications are allowed for a user from a specific contact in a chat.
+ *
+ * @param userId - The ID of the user.
+ * @param contactId - The ID of the contact.
+ * @param chatId - The ID of the chat.
+ * @returns A boolean indicating whether push notifications are allowed.
+ */
+export const isPushNotificationAllowed = async (
+  userId: string,
+  contactId: string,
+  chatId: string
+) => {
+  try {
+    const userContactRef = doc(firestoreDB, 'contacts', userId);
+    const docSnapshot = await getDoc(userContactRef);
+    const chatRef = doc(firestoreDB, 'chats', chatId);
+    const chatSnapshot = await getDoc(chatRef);
+
+    if (chatSnapshot.exists() && chatSnapshot.data()) {
+      const chatData = chatSnapshot.data() as ChatsModel;
+      console.log('=========active members===========');
+      if (!chatData.activeMembers.includes(userId)) {
+        console.log('User is not a member of the chat');
+        return false;
+      }
+    }
+    // Check if the document exists and if the contact exists in the document
+    if (docSnapshot.exists() && docSnapshot.data()[contactId]) {
+      // Retrieve the contact data
+      const contactData = docSnapshot.data()[contactId];
+      console.log(
+        '=========== user allows push notifiction from this sender ============'
+      );
+      console.log(
+        `============${contactData.allowPushNotification === true}=============`
+      );
+      // Check if push notifications are allowed for the contact
+      return contactData.allowPushNotification === true;
+    } else {
+      // Handle case where the document or contact does not exist
+      console.log('User or contact does not exist');
+      return false;
+    }
+  } catch (err) {
+    console.error('Error checking push notification allowance:', err);
+    return false;
+  }
+};
+
+/**
+ * Updates the push notification setting for a contact of a user.
+ *
+ * @param userId - The ID of the user.
+ * @param contactId - The ID of the contact.
+ * @param allowPushNotification - A boolean indicating whether to allow push notifications for the contact.
+ * @returns A Promise that resolves when the push notification setting is updated.
+ */
+export const updatePushNotificationSetting = async (
+  userId: string,
+  contactId: string,
+  allowPushNotification: boolean
+) => {
+  try {
+    const userContactRef = doc(firestoreDB, 'contacts', userId);
+    const docSnapshot = await getDoc(userContactRef);
+
+    // Check if the document exists and if the contact exists in the document
+    if (docSnapshot.exists() && docSnapshot.data()[contactId]) {
+      // Update the value of allowPushNotification field for the contact
+      await updateDoc(userContactRef, {
+        [`${contactId}.allowPushNotification`]: allowPushNotification,
+      });
+
+      console.log(
+        `Push notification setting updated to ${allowPushNotification} `
+      );
+    } else {
+      console.log('User or contact does not exist');
+    }
+  } catch (err) {
+    console.error('Error updating push notification setting:', err);
+  }
+};
+
+/**
+ * Deletes a chat by removing a user from the list of active members.
+ * @param chatId - The ID of the chat to be deleted.
+ * @param userId - The ID of the user to be removed from the chat.
+ * @returns {Promise<void>} - A promise that resolves when the chat is deleted successfully.
+ */
+export const deleteChat = async (chatId: string, userId: string) => {
+  try {
+    // Fetch the conversation document
+    const conversationRef = doc(firestoreDB, 'chats', chatId);
+    const conversationSnapshot = await getDoc(conversationRef);
+
+    // Check if the conversation exists
+    if (conversationSnapshot.exists()) {
+      // Remove the user from the list of participants
+      const conversationData = conversationSnapshot.data();
+      console.log(conversationData);
+      const updatedMembers = conversationData.activeMembers.filter(
+        (member) => member !== userId
+      );
+
+      console.log(updatedMembers);
+      await updateDoc(conversationRef, {
+        activeMembers: updatedMembers,
+      });
+      console.log('Your ID removed from members list successfully');
+      // const updatedParticipants = conversationData.participants.filter(
+      //   (id) => id !== userId
+      // );
+
+      // // Update the conversation document with the updated participants
+      // await updateDoc(conversationRef, { participants: updatedParticipants });
+
+      // console.log('Conversation deleted successfully');
+    } else {
+      console.log('Conversation does not exist');
+    }
+  } catch (err) {
+    console.error('Error deleting conversation:', err);
+  }
 };

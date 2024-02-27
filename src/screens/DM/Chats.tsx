@@ -52,7 +52,7 @@ const Chats = () => {
     setisLoading(true);
     const chatQuery = query(
       collection(firestoreDB, 'chats'),
-      where('memberIds', 'array-contains', myId),
+      where('activeMembers', 'array-contains', myId),
       orderBy('lastMessage.createdAt', 'desc')
     );
 
@@ -63,10 +63,10 @@ const Chats = () => {
           const chatRooms = await Promise.all(
             querySnapshot.docs.map(async (doc) => {
               const chat = doc.data() as ChatsModel;
-              const contact = chat.members.find(
-                (member) => member._id !== myId
+              const contactid = chat.memberIds.find(
+                (memberid) => memberid !== myId
               );
-              const contactDetails = await getUserInfo(contact._id, token);
+              const contactDetails = await getUserInfo(contactid, token);
               const newChatDoc: ContactsChatModel = {
                 ...chat,
                 nickname: contactDetails.nickname,
