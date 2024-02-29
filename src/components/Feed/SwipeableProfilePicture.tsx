@@ -32,6 +32,7 @@ import CoinIconWhite from '../../../assets/images/svg/CoinIconWhite';
 import SwipeArrow1 from '../../../assets/images/svg/SlideArrow1';
 import SwipeArrow2 from '../../../assets/images/svg/SwipeArrow2';
 import SwipeArrow3 from '../../../assets/images/svg/SwipeArrow3';
+import { connectStorageEmulator } from 'firebase/storage';
 
 interface Props {
   PFPsize?: number;
@@ -62,7 +63,6 @@ const ProfilePicture = ({
   left,
 }: Props) => {
   const [showSwipe, setShowSwipe] = useState(false);
-
   const X = useSharedValue(0);
   const longPressDuration = 1000;
   const interpolateXInput = [0, h_swipe_range];

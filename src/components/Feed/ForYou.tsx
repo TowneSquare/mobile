@@ -95,6 +95,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              wallet={userPost?.customer?.aptosWallet}
               key={userPost?.customer._id}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
@@ -137,6 +138,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              wallet={userPost?.customer?.aptosWallet}
               key={userPost?.customer._id}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
@@ -209,6 +211,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              wallet={userPost?.customer?.aptosWallet}
               key={userPost?.customer._id}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
@@ -327,6 +330,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              wallet={userPost?.customer?.aptosWallet}
               key={userPost?.customer._id}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
@@ -393,6 +397,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              wallet={userPost?.customer?.aptosWallet}
               key={userPost?.customer._id}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
@@ -538,6 +543,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
               swipeable
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
+              wallet={userPost?.customer?.aptosWallet}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -633,6 +639,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
               swipeable
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
+              wallet={userPost?.customer?.aptosWallet}
             />
             <View style={styles.subHeading}>
               <PostHeader

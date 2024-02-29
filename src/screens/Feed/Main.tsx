@@ -19,12 +19,12 @@ import { DrawerActions } from '@react-navigation/native';
 import useBackHandler from '../../hooks/useBackhandler';
 import { useAppDispatch } from '../../controller/hooks';
 import { updateReceiveModalState } from '../../controller/FeedsController';
-
+import { getWalletBalance } from '../../utils/connectWallet';
 const Main = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   // useBackHandler(() => {
-  //   BackHandler.exitApp(); 
+  //   BackHandler.exitApp();
   //   return true;
   // });
   let [isLoaded] = useFonts({
@@ -36,8 +36,9 @@ const Main = () => {
     return null;
   }
 
-  const openModal = () => {
+  const openModal = async () => {
     dispatch(updateReceiveModalState(true));
+    
   };
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());

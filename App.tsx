@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import InitializeSocket from './src/utils/InitializeSocket';
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-get-random-values';
+import { TextEncoder, TextDecoder } from 'text-encoding';
 import { RootStackParamList } from './src/navigations/NavigationTypes';
 // import Navigations from './src/navigations/InApp/InAppNavigations';
 import { useDispatch } from 'react-redux';
@@ -40,24 +41,11 @@ type AuthRootStackParamList = {
     EmailLogin: undefined;
     Congratulations: undefined;
   };
-  // Add other routes here...
+
 };
-// const linking: LinkingOptions<AuthRootStackParamList> = {
-//   prefixes: [Linking.createURL('/')],
-//   config: {
-//     screens: {
-//       Auth: {
-//         screens: {
-//           FirstScreen: 'FirstScreen',
-//           ChooseWallet: 'ChooseWallet',
-//           SignUp: 'SignUp',
-//           EmailLogin: 'EmailLogin',
-//           Congratulations: '*',
-//         },
-//       } as any,
-//     },
-//   },
-// };
+
+global.TextEncoder=TextEncoder
+global.TextDecoder=TextDecoder
 const linking: LinkingOptions<RootStackParamList> = {
   prefixes: [Linking.createURL('/')],
   config: {

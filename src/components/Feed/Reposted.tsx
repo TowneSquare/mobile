@@ -155,6 +155,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
             <ProfilePicture
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
+              wallet={userPost?.customer?.aptosWallet}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -205,6 +206,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
             <ProfilePicture
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
+              wallet={userPost?.customer?.aptosWallet}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -261,6 +263,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
             <ProfilePicture
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
+              wallet={userPost?.customer?.aptosWallet}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -339,6 +342,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
             <ProfilePicture
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
+              wallet={userPost?.customer?.aptosWallet}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -401,6 +405,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
             <ProfilePicture
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
+              wallet={userPost?.customer?.aptosWallet}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -529,6 +534,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
             <ProfilePicture
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
+              wallet={userPost?.customer?.aptosWallet}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -612,6 +618,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
             <ProfilePicture
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
+              wallet={userPost?.customer?.aptosWallet}
             />
             <View style={styles.subHeading}>
               <PostHeader

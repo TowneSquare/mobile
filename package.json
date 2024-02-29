@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "64": "^0.2.0",
+    "@aptos-labs/ts-sdk": "^1.9.1",
     "@aptos-labs/wallet-adapter-core": "^2.2.0",
     "@gorhom/bottom-sheet": "^4.4.7",
     "@magic-ext/aptos": "^0.6.0",
@@ -85,6 +86,7 @@
     "react-redux": "^8.0.5",
     "react-test-renderer": "^18.2.0",
     "socket.io-client": "^4.7.2",
+    "text-encoding": "^0.7.0",
     "tinycolor2": "^1.6.0",
     "tweetnacl": "^1.0.3",
     "tweetnacl-util": "^0.15.1"

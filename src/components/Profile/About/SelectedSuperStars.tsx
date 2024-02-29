@@ -24,7 +24,7 @@ const SelectedSuperStars = () => {
     (state) => state.USER.selectedSuperStars
   );
   const userSelected = useAppSelector(
-    (state) => state.USER.UserData.superstars?.nftInfoArray
+    (state) => state.USER.UserData.superstars.nftInfoArray
   );
   useMemo(() => {
     dispatch(updateSelectedSuperStars(userSelected));
