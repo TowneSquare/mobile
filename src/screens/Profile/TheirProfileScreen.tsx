@@ -28,29 +28,41 @@ import ProfileTipIcon from '../../../assets/images/svg/ProfileTipIcon';
 import ProfileCard from '../../components/Profile/About/ProfileCard';
 import { sizes } from '../../utils';
 import { TheirProfileScreenProps } from '../../navigations/NavigationTypes';
-import { updateTipBottomSheet } from '../../controller/FeedsController';
+import {
+  updateTipBottomSheet,
+  updateToast,
+} from '../../controller/FeedsController';
 import ViewSuperStarsModal from '../../components/Profile/About/ViewSuperStarsModal';
 import ForYou from '../../components/Feed/ForYou';
 import Replies from '../../components/Profile/Replies';
 import { getCreatedTime } from '../../utils/helperFunction';
 import axios from 'axios';
 import { APTOS_NAME_URL } from '../../../config/env';
-import { getUserAptosName } from '../../api';
+import { useAptosName } from '../../api/hooks';
 import {
   followUser,
   getUserData,
   unFollowUser,
-} from "../../controller/UserController";
-import { UserData } from "../../controller/UserController";
-const { height, width } = Dimensions.get("window");
-import { getUserInfo } from "../../api";
-import { PostData } from "../../controller/createPost";
-import { useQuery } from "react-query";
-import { BACKEND_URL } from "../../../config/env";
-import { serverTimestamp, doc, getDoc, setDoc } from "firebase/firestore";
-import { firestoreDB } from "../../../config/firebase.config";
-import { createUniqueChatId } from "../../utils/ChatUtils";
-import { useAptosName } from "../../api/hooks";
+} from '../../controller/UserController';
+import { UserData } from '../../controller/UserController';
+const { height, width } = Dimensions.get('window');
+import { getUserInfo } from '../../api';
+import { PostData } from '../../controller/createPost';
+import ShowLoader from '../../shared/ShowLoader';
+import { useQuery } from 'react-query';
+import { BACKEND_URL } from '../../../config/env';
+import {
+  serverTimestamp,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore';
+import { firestoreDB } from '../../../config/firebase.config';
+import {
+  createUniqueChatId,
+  addContactToFirestore,
+} from '../../utils/ChatUtils';
 const size = new sizes(height, width);
 
 type SuperStarReducerState = {
@@ -99,7 +111,8 @@ const TheirProfileScreen = ({
   const dispatch = useAppDispatch();
   const [view, setView] = useState<number>(2);
   const { userId, username, nickname } = route.params;
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [aptosName, setAptosName] = useState<string>('unavailable');
   const profile = useAppSelector((state) => state.USER.UserData);
   const { userFollowing, user, token } = useAppSelector((state) => ({
     userFollowing: state.USER.UserData.following,
@@ -241,9 +254,11 @@ const TheirProfileScreen = ({
     }
   };
   const createChat = async () => {
+    setIsLoading(true);
     const timestamp = serverTimestamp();
     let id = createUniqueChatId(userId, profile._id);
-
+    await addContactToFirestore(profile._id, userId);
+    await addContactToFirestore(userId, profile._id);
     // let id = `${userData._id}_${myId}`;
     const _doc = {
       _id: id,
@@ -258,6 +273,7 @@ const TheirProfileScreen = ({
         },
       ],
       memberIds: [userId, profile._id],
+      activeMembers: [userId, profile._id],
       chatName: username,
       lastMessage: {
         text: '',
@@ -269,31 +285,64 @@ const TheirProfileScreen = ({
       },
       unreadCount: 0, // Initialize unread count to 0
     };
+
     const chatRef = doc(firestoreDB, 'chats', id);
-    getDoc(chatRef).then((docSnapshot) => {
-      if (docSnapshot.exists()) {
-        console.log(`SnapshotId:${docSnapshot.id}`);
-        return navigate('Conversation', {
-          chatId: docSnapshot.id,
-          name: username,
-          nickname: nickname,
-          pfp: userInfo.data?.profileImage,
-        });
-      } else {
-        setDoc(chatRef, _doc)
-          .then(() => {
-            navigate('Conversation', {
-              chatId: id,
-              name: username,
-              nickname: nickname,
-              pfp: userInfo.data?.profileImage,
+    getDoc(chatRef)
+      .then(async (docSnapshot) => {
+        if (docSnapshot.exists()) {
+          console.log(
+            '================== Checking for active members ================'
+          );
+          console.log(docSnapshot.data().activeMembers);
+          //Check if there are active members in the chat,
+          if (!docSnapshot.data().activeMembers) {
+            console.log('No active members in chat');
+            await updateDoc(chatRef, {
+              activeMembers: [userId, profile._id],
             });
-          })
-          .catch((err) => {
-            console.log(err);
+          }
+          setIsLoading(false);
+          console.log(`SnapshotId:${docSnapshot.id}`);
+          return navigate('Conversation', {
+            chatId: docSnapshot.id,
+            name: username,
+            nickname: nickname,
+            pfp: userInfo.data?.profileImage,
           });
-      }
-    });
+        } else {
+          setDoc(chatRef, _doc)
+            .then(() => {
+              setIsLoading(false);
+              navigate('Conversation', {
+                chatId: id,
+                name: username,
+                nickname: nickname,
+                pfp: userInfo.data?.profileImage,
+              });
+            })
+            .catch((err) => {
+              setIsLoading(false);
+              dispatch(
+                updateToast({
+                  displayToast: true,
+                  toastMessage: 'Something went wrong',
+                  toastType: 'info',
+                })
+              );
+            });
+        }
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        dispatch(
+          updateToast({
+            displayToast: true,
+            toastMessage: 'Something went wrong',
+            toastType: 'info',
+          })
+        );
+      });
+    setIsLoading(false);
   };
 
   return (
@@ -479,6 +528,7 @@ const TheirProfileScreen = ({
       ) : (
         <></>
       )}
+      <ShowLoader isLoading={isLoading} />
     </SafeAreaView>
   );
 };

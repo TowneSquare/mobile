@@ -1,6 +1,8 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { images } from "../../constants";
 import { AssetsData } from "../UserController/models";
+import { storeDeviceTokenToFireStore } from "../../services/PushNotification";
+import { RootState } from "../store";
 interface NftCollection {
   nftImageUrl?: any;
   nftCollection?: string;
@@ -172,3 +174,11 @@ export const {
 } = bottomSheetSlice.actions;
 
 export default bottomSheetSlice.reducer;
+
+const listOfNftCollections = (state: RootState) =>
+  state.bottomSheetController.listOfNftCollections;
+
+export const nftAssets = createSelector(
+  [listOfNftCollections],
+  (listOfNftCollections) => listOfNftCollections
+);

@@ -54,6 +54,7 @@ const BottomTabNavigation: React.FC<{
   const profilePics = useAppSelector(
     (state) => state.USER.UserData.profileImage
   );
+  console.log(profilePics);
   useEffect(() => {
     dispatch(updateCurrentTab(focusedRouteName));
   }, [focusedRouteName]);
@@ -77,7 +78,7 @@ const BottomTabNavigation: React.FC<{
   const community = 'Community';
   const size = new sizes(height, width);
   const profileIcon = (focused: boolean) => {
-    if (ProfileImage) {
+    if (profilePics) {
       return focused === true ? (
         <View
           style={{

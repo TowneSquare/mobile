@@ -3,7 +3,7 @@ import { useFonts } from "expo-font";
 import { images, fonts, appColor } from "../../../constants";
 const { height, width } = Dimensions.get("window");
 import { useAppDispatch, useAppSelector } from "../../../controller/hooks";
-import { updateProfilePics } from "../../../controller/BottomSheetController";
+import { nftAssets, updateProfilePics } from "../../../controller/BottomSheetController";
 import { updateProfileImage } from "../../../controller/UserController";
 import { sizes } from "../../../utils";
 import { batch } from "react-redux";
@@ -13,9 +13,8 @@ const ProfilePicsCollection = () => {
   const profilePicture = useAppSelector(
     (state) => state.bottomSheetController.profilePics
   );
-  const { assets } = useAppSelector((state) => ({
-    assets: state.bottomSheetController.listOfNftCollections,
-  }));
+  const assets  = useAppSelector(nftAssets)
+   
   
   const dispatch = useAppDispatch();
   const profilePics = [
@@ -104,7 +103,6 @@ const ProfilePicsCollection = () => {
                   id: profile.asset_id,
                 })
               );
-              dispatch(updateProfileImage(profile.image_uri));
             });
           }}
           key={profile.asset_id}

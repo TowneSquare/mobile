@@ -1,17 +1,24 @@
-import { View, Text, StyleSheet, Dimensions, Pressable } from "react-native";
-import React from "react";
-import BottomsheetWrapper from "../../shared/BottomsheetWrapper";
-import { sizes } from "../../utils";
-import ChatMuteIcon from "../../../assets/images/svg/ChatMuteIcon";
-import ChatViewProfileIcon from "../../../assets/images/svg/ChatViewProfileIcon";
-import ChatDeleteConversationIcon from "../../../assets/images/svg/ChatDeleteConversationIcon";
-import ChatReportUserIcon from "../../../assets/images/svg/ChatReportUserIcon";
-import ChatBlockUser from "../../../assets/images/svg/ChatBlockUser";
-import { appColor } from "../../constants";
-import { useNavigation } from "@react-navigation/native";
-import { updateReportUserModal } from "../../controller/FeedsController";
-import { useAppDispatch } from "../../controller/hooks";
-const { height, width } = Dimensions.get("window");
+import { View, Text, StyleSheet, Dimensions, Pressable } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import BottomsheetWrapper from '../../shared/BottomsheetWrapper';
+import { sizes } from '../../utils';
+import ChatMuteIcon from '../../../assets/images/svg/ChatMuteIcon';
+import ChatViewProfileIcon from '../../../assets/images/svg/ChatViewProfileIcon';
+import ChatDeleteConversationIcon from '../../../assets/images/svg/ChatDeleteConversationIcon';
+import ChatReportUserIcon from '../../../assets/images/svg/ChatReportUserIcon';
+import ChatBlockUser from '../../../assets/images/svg/ChatBlockUser';
+import { appColor } from '../../constants';
+import { useNavigation } from '@react-navigation/native';
+import UnmuteIcon from '../../../assets/images/svg/UnmuteIcon';
+import { updateReportUserModal } from '../../controller/FeedsController';
+import { useAppDispatch } from '../../controller/hooks';
+import { getDoc, doc, onSnapshot } from 'firebase/firestore';
+import { firestoreDB } from '../../../config/firebase.config';
+import {
+  isPushNotificationAllowed,
+  updatePushNotificationSetting,
+} from '../../utils/ChatUtils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
 interface Props {
@@ -23,6 +30,7 @@ interface Props {
   nickname: string;
   userId: string;
   username: string;
+  currentUserId: string;
 }
 const MoreBottomsheet = ({
   onClose,
@@ -33,10 +41,40 @@ const MoreBottomsheet = ({
   nickname,
   userId,
   username,
-  
+  currentUserId,
 }: Props) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
+  const [isNotificationAllowed, setNotification] = useState(true);
+  // console.log(isPushNotificationAllowed(currentUserId, userId));
+  useEffect(() => {
+    const userContactRef = doc(firestoreDB, 'contacts', currentUserId);
+    const unsubscribe = onSnapshot(userContactRef, (docSnapshot) => {
+      if (docSnapshot.exists() && docSnapshot.data()[userId]) {
+        console.log(docSnapshot.data()[userId]);
+        console.log(
+          `====== unchanged ${
+            docSnapshot.data()[userId].allowPushNotification
+          }====g==`
+        );
+        const data = docSnapshot.data()[userId];
+        if (data) {
+          const pushNotificationSetting = data.allowPushNotification;
+          setNotification(pushNotificationSetting);
+        }
+      }
+    });
+
+    if (visibility === false) {
+      return unsubscribe;
+    }
+    return unsubscribe;
+  }, [visibility]);
+  const updateUserNotification = async () => {
+    isNotificationAllowed
+      ? await updatePushNotificationSetting(currentUserId, userId, false)
+      : await updatePushNotificationSetting(currentUserId, userId, true);
+  };
   return (
     <BottomsheetWrapper
       backdropOpacity={0.7}
@@ -49,14 +87,28 @@ const MoreBottomsheet = ({
           marginBottom: size.getHeightSize(32),
         }}
       >
-        <Pressable style={styles.view1}>
-          <ChatMuteIcon size={size.getHeightSize(24)} />
-          <Text style={styles.text}>Mute Notifications</Text>
+        <Pressable
+          onPress={async () => {
+            updateUserNotification();
+            onClose();
+          }}
+          style={styles.view1}
+        >
+          {isNotificationAllowed ? (
+            <ChatMuteIcon size={size.getHeightSize(24)} />
+          ) : (
+            <UnmuteIcon size={size.getHeightSize(24)} />
+          )}
+          <Text style={styles.text}>
+            {isNotificationAllowed
+              ? 'Mute Notifications'
+              : 'Unmute Notifications'}
+          </Text>
         </Pressable>
         <Pressable
           onPress={() => {
             onClose();
-            navigation.navigate("TheirProfileScreen", {
+            navigation.navigate('TheirProfileScreen', {
               nickname: nickname,
               userId: userId,
               username: username,
@@ -97,14 +149,14 @@ const styles = StyleSheet.create({
   text: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(18),
-    fontFamily: "Outfit-Medium",
-    textAlign: "center",
+    fontFamily: 'Outfit-Medium',
+    textAlign: 'center',
     lineHeight: size.getHeightSize(23),
     letterSpacing: 0.36,
   },
   view1: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: size.getWidthSize(8),
     paddingBottom: size.getHeightSize(16),
     paddingTop: size.getHeightSize(12),
@@ -112,8 +164,8 @@ const styles = StyleSheet.create({
     borderBottomColor: appColor.grayDark,
   },
   view: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: size.getWidthSize(8),
     paddingVertical: size.getHeightSize(12),
   },

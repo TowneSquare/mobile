@@ -11,6 +11,7 @@ export interface ChatsModel {
       name: string;
     }
   ];
+  activeMembers:string[];
   memberIds: string[];
   chatName: string;
   lastMessage: {

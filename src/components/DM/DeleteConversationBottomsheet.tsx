@@ -11,18 +11,26 @@ interface Props {
   visibility: boolean;
   onClose: () => void;
   callBack: () => void;
+  name: string;
 }
 const DeleteConversationBottomsheet = ({
   onClose,
   visibility,
   callBack,
+  name,
 }: Props) => {
   return (
-    <BottomsheetWrapper  backdropOpacity={0.7} onClose={onClose} visibility={visibility}>
+    <BottomsheetWrapper
+      backdropOpacity={0.7}
+      onClose={onClose}
+      visibility={visibility}
+    >
       <Text style={styles.title}>Delete Conversation?</Text>
       <Text style={styles.description}>
-        Permanently delete the conversation with [Username]? [Username] will
-        still be able to see the conversation
+        Permanently delete the conversation with{' '}
+        {name.charAt(0).toUpperCase() + name.slice(1)}?{' '}
+        {name.charAt(0).toUpperCase() + name.slice(1)} will still be able to see
+        the conversation
       </Text>
       <View style={styles.view}>
         <ActionButton

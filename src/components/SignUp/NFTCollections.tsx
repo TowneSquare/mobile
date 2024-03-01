@@ -30,6 +30,8 @@ const NFTCollections = ({ callBack }: Props) => {
   const userNFT = useUserNFT({
     userAddress,
   });
+
+  console.log(userAddress, "userAddress")
   let [isLoaded] = useFonts({
     "Outfit-Regular": fonts.OUTFIT_REGULAR,
     "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -39,7 +41,7 @@ const NFTCollections = ({ callBack }: Props) => {
   }
   return (
     <>
-      {userNFT.data?.data.length > 0 && (
+      {initialData.data?.length > 0 && (
         <View
           style={{
             flex: 1,
@@ -51,7 +53,7 @@ const NFTCollections = ({ callBack }: Props) => {
             paddingHorizontal: size.getWidthSize(16),
           }}
         >
-          {userNFT.data.data.map((collection, index) => (
+          {userNFT.data?.data?.map((collection, index) => (
             <Pressable
               style={{
                 marginBottom: size.getHeightSize(16),
@@ -76,7 +78,7 @@ const NFTCollections = ({ callBack }: Props) => {
             >
               {
                 <Image
-                  source={{ uri: collection.logo_url }}
+                  source={{ uri: collection?.logo_url }}
                   resizeMode="cover"
                   style={{
                     width: size.getWidthSize(140),
@@ -151,13 +153,14 @@ const NFTCollections = ({ callBack }: Props) => {
           <Text
             style={{
               color: appColor.kWhiteColor,
+              textAlign:"center"
             }}
           >
             Fetching User NFT
           </Text>
         </View>
       )}
-      {userNFT.data?.data.length == 0 && (
+      {!userNFT.isFetching && !userNFT.data?.data?.length  && (
         <View
           style={{
             flex: 1,
@@ -166,6 +169,7 @@ const NFTCollections = ({ callBack }: Props) => {
           <Text
             style={{
               color: appColor.kWhiteColor,
+              textAlign:"center"
             }}
           >
             You have no NFT

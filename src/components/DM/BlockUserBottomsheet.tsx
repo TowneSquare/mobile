@@ -12,9 +12,17 @@ interface Props {
   visibility: boolean;
   onClose: () => void;
   callBack: () => void;
+  name: string;
+  disableBlock: boolean;
 }
 
-const BlockUserBottomsheet = ({ onClose, visibility, callBack }: Props) => {
+const BlockUserBottomsheet = ({
+  name,
+  onClose,
+  visibility,
+  callBack,
+  disableBlock,
+}: Props) => {
   const dispatch = useAppDispatch();
   return (
     <BottomsheetWrapper
@@ -29,7 +37,8 @@ const BlockUserBottomsheet = ({ onClose, visibility, callBack }: Props) => {
         }}
       />
       <Text style={styles.contentDescription}>
-        Are you sure you want to block UsernameX?
+        Are you sure you want to block{' '}
+        {name.charAt(0).toUpperCase() + name.slice(1)}?
       </Text>
       <Text style={styles.contentMessage}>
         You will no longer be able to see this user's posts, messages and follow
@@ -37,14 +46,29 @@ const BlockUserBottomsheet = ({ onClose, visibility, callBack }: Props) => {
       </Text>
       <Pressable
         onPress={() => {
-          dispatch(
-            updateToast({
-              displayToast: true,
-              toastMessage: 'You have blocked UsernameX',
-              toastType: 'success',
-            })
-          );
-          callBack();
+          if (disableBlock) {
+            dispatch(
+              updateToast({
+                displayToast: true,
+                toastMessage: `You can't block ${
+                  name.charAt(0).toUpperCase() + name.slice(1)
+                } because they already blocked you.`,
+                toastType: 'info',
+              })
+            );
+          } else {
+            callBack();
+            dispatch(
+              updateToast({
+                displayToast: true,
+                toastMessage: `You have blocked ${
+                  name.charAt(0).toUpperCase() + name.slice(1)
+                }`,
+                toastType: 'success',
+              })
+            );
+          }
+
           onClose();
         }}
         style={styles.blockButton}
@@ -69,8 +93,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Outfit-Medium',
     textAlign: 'center',
     marginBottom: size.getHeightSize(32),
-    marginTop: size.getHeightSize(0),
-    paddingVertical: size.getHeightSize(8),
+    marginTop: size.getHeightSize(8),
+    paddingVertical: size.getHeightSize(4),
   },
   blockButtonText: {
     fontSize: size.fontSize(18),

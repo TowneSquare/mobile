@@ -177,7 +177,7 @@ const ProfileCard = ({
                     source={{
                       uri: profileImageUri
                         ? profileImageUri
-                        : Image.resolveAssetSource(images.profilepicture).uri,
+                        : Image.resolveAssetSource(images.defaultAvatar).uri,
                     }}
                     resizeMode="center"
                   />
@@ -258,15 +258,15 @@ const ProfileCard = ({
           <Text style={styles.view2TextUp}>{POST}</Text>
           <Text style={styles.view2TextDown}>Post</Text>
         </Pressable>
-        <Pressable
+        {/* <Pressable
           onPress={() => {
             // navigation.navigate('FollowersScreen', { screen: 'Communities' })
           }}
           style={styles.view2Box}
         >
-          {/* <Text style={styles.view2TextUp}>{COMMUNITIES}</Text> */}
+          <Text style={styles.view2TextUp}>{COMMUNITIES}</Text>
           <Text style={styles.view2TextDown}>Communities</Text>
-        </Pressable>
+        </Pressable>  */}
       </View>
     </View>
   );
@@ -297,11 +297,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginVertical: size.getHeightSize(8),
     marginHorizontal: size.getWidthSize(8),
-    paddingHorizontal: size.getWidthSize(8),
+    paddingHorizontal: size.getWidthSize(1),
   },
   view2Box: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
   },
   view2TextUp: {
     fontFamily: "Outfit-SemiBold",

@@ -29,15 +29,18 @@ const Congratulations = () => {
   const [isLoading, setLoading] = useState(false);
   const deviceToken = useAppSelector((state) => state.USER.userDeviceToken);
   const dispatch = useAppDispatch();
+
   async function getUser() {
     setLoading(true);
     const token = await AsyncStorage.getItem('user_token');
     const userId = await AsyncStorage.getItem('user_id');
     const userInfo = await getUserInfo(userId, token);
+
     if (userInfo) {
       console.log(userInfo.username);
       await storeDeviceTokenToFireStore(userId, deviceToken);
       await AsyncStorage.setItem('userData', JSON.stringify(userInfo));
+
       dispatch(updateUserData(userInfo));
       navigation.dispatch(
         CommonActions.reset({
