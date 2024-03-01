@@ -13,6 +13,7 @@ import { updateSelectedSuperStars } from "../../../controller/UserController";
 import { useState, useRef } from "react";
 import { getUserData } from "../../../controller/UserController";
 const { height, width } = Dimensions.get("window");
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loader from "../../../../assets/svg/Loader";
 
 const size = new sizes(height, width);
@@ -30,7 +31,6 @@ const SelectedStars = ({ navigation }: Props) => {
   const userId = useAppSelector((state) => state.USER.UserData._id);
   const token = useAppSelector((state) => state.USER.didToken);
   const [length, setlength] = useState<number>(selectedStars?.length);
-  console.log(selectedStars, "selectedStars");
 
   const disabled =
     selectedStars?.length != length || selectedStars?.length == 0;
@@ -42,6 +42,11 @@ const SelectedStars = ({ navigation }: Props) => {
     if (loaderRef.current && !show)
       (loaderRef.current as any).setNativeProps({ style: { display: "none" } });
   };
+
+  const handleSetSuperStars = async () => {
+    const token = await AsyncStorage.getItem("user_token");
+    dispatch(setSuperStarsNFT({ token, nftInfoArray: selectedStars }));
+  }
   return (
     <View style={styles.view}>
       <Text style={styles.text}>
@@ -63,7 +68,7 @@ const SelectedStars = ({ navigation }: Props) => {
         </Pressable>
         <Pressable
           onPress={() => {
-            dispatch(setSuperStarsNFT({ token, nftInfoArray: selectedStars }));
+            handleSetSuperStars()
             dispatch(updateSelectedSuperStars(selectedStars));
             navigation.dispatch(
               CommonActions.navigate({

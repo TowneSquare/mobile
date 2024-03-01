@@ -16,7 +16,7 @@ export const useUserNFT = ({ userAddress }) => {
   return useQuery({
     queryKey: ["UserNFT", userAddress],
     queryFn: () => fetchUserNFT(userAddress),
-    initialData,
+    staleTime: 86400000
   });
 };
 

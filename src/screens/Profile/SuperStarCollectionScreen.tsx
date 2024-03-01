@@ -12,6 +12,7 @@ const size = new sizes(height, width);
 import SelectedStars from "../../components/Profile/About/SelectedStars";
 import SuperStarCollection from "../../components/Profile/About/SuperStarCollection";
 import SearchField from "../../shared/Feed/SearchField";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const SuperStarCollectionScreen = ({
   navigation,
 }: SuperStarCollectionScreenProps) => {
@@ -40,18 +41,27 @@ const SuperStarCollectionScreen = ({
           <Text style={{ color: appColor.kWhiteColor }}>Loading</Text>
         </View>
       )}
-      {userNFT.isSuccess && userNFT.data.data.length == 0 && (
-        <View style={{ flex: 1 }}>
-          <Text style={{ color: appColor.kWhiteColor, textAlign: "center" }}>
+      {!userNFT.isFetching && !userNFT.data?.data?.length  && (
+        <View
+          style={{
+            flex: 1,
+          }}
+        >
+          <Text
+            style={{
+              color: appColor.kWhiteColor,
+              textAlign:"center"
+            }}
+          >
             You have no NFT
           </Text>
         </View>
       )}
-      {userNFT.isSuccess && userNFT.data.data && (
+      {userNFT.isSuccess && userNFT.data?.data && (
         <View style={{ flex: 1 }}>
           <ScrollView style={{ marginBottom: size.getHeightSize(16) }}>
             <View style={styles.collectionContainer}>
-              {userNFT.data.data.map((collection, index) => (
+              {userNFT.data?.data?.map((collection, index) => (
                 <SuperStarCollection
                   navigation={navigation}
                   collectionName={collection.collection}
