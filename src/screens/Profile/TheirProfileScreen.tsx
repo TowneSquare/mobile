@@ -8,8 +8,8 @@ import {
   Pressable,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useReducer, useState, useMemo, useEffect } from 'react';
-import { appColor } from '../../constants';
+import { useReducer, useState, useMemo, useEffect, useCallback } from 'react';
+import { appColor, images } from '../../constants';
 import SuperStarBottomSheet from '../../components/Profile/About/SuperStarBottomSheet';
 import Header from '../../components/Profile/Header';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
@@ -117,7 +117,6 @@ const TheirProfileScreen = ({
   const COMMUNITIES = '10';
   const APTOS_DOMAIN_NAME = '';
   const fetchUserInfo = async (): Promise<UserData> => {
-    const user_token = await AsyncStorage.getItem('user_token');
     return await axios
       .get(`${BACKEND_URL}user/${userId}`, {
         headers: {
@@ -152,12 +151,6 @@ const TheirProfileScreen = ({
     imageUri: '',
   });
 
-  console.log(userFollowing, 'userFollowing');
-
-  // const following = userFollowing.some(
-  //     (following) => following._id == userInfo.data._id
-  //   );
-
   const getUserAptosName = async (address: string) => {
     try {
       const res = await axios.get(`${APTOS_NAME_URL}${address}`);
@@ -173,9 +166,6 @@ const TheirProfileScreen = ({
     //getUserAptosName(userInfo.data?.aptosWallet)
 
     (async function () {
-      const token = await AsyncStorage.getItem('user_token');
-      // setToken(token);
-      // dispatch(getUserData({ userId: user, token }));
       setFollowing(
         userFollowing.some(
           (following) => following.toUserId == userInfo.data?._id
@@ -221,14 +211,14 @@ const TheirProfileScreen = ({
     }));
   };
 
-  const Posts = () => {
+  const Posts = useCallback(() => {
+    console.log('once');
     return POST()?.map((userpost) => (
       <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
     ));
-  };
+  }, [POST]);
 
-  console.log(userInfo.isFetched, userInfo?.data?.createdAt, 'theirProile');
-  const UserReplies = () => {
+  const UserReplies = useCallback(() => {
     return userInfo.data?.comments.map((userpost) => (
       <Replies
         key={userpost._id}
@@ -239,7 +229,7 @@ const TheirProfileScreen = ({
         shouldPFPSwipe={false}
       />
     ));
-  };
+  }, [userInfo]);
 
   const Media = () => {
     return POST()
@@ -262,11 +252,18 @@ const TheirProfileScreen = ({
   };
   const createChat = async () => {
     setIsLoading(true);
+
+    // get serverTime stamp
     const timestamp = serverTimestamp();
+
+    // generate id for chat based on both users' id
     let id = createUniqueChatId(userId, profile._id);
+
+    // add both users to each other's contact list
     await addContactToFirestore(profile._id, userId);
     await addContactToFirestore(userId, profile._id);
-    // let id = `${userData._id}_${myId}`;
+
+    // create chat document
     const _doc = {
       _id: id,
       members: [
@@ -296,27 +293,26 @@ const TheirProfileScreen = ({
     const chatRef = doc(firestoreDB, 'chats', id);
     getDoc(chatRef)
       .then(async (docSnapshot) => {
+        // If chat already exists,
         if (docSnapshot.exists()) {
-          console.log(
-            '================== Checking for active members ================'
-          );
-          console.log(docSnapshot.data().activeMembers);
           //Check if there are active members in the chat,
           if (!docSnapshot.data().activeMembers) {
-            console.log('No active members in chat');
+            //If no active members, update the chat with active members
             await updateDoc(chatRef, {
               activeMembers: [userId, profile._id],
             });
           }
           setIsLoading(false);
-          console.log(`SnapshotId:${docSnapshot.id}`);
+          // navigate to the chat
           return navigate('Conversation', {
             chatId: docSnapshot.id,
             name: username,
             nickname: nickname,
             pfp: userInfo.data?.profileImage,
           });
-        } else {
+        }
+        // If chat does not exist, create a new chat
+        else {
           setDoc(chatRef, _doc)
             .then(() => {
               setIsLoading(false);
@@ -328,6 +324,7 @@ const TheirProfileScreen = ({
               });
             })
             .catch((err) => {
+              // If chat creation fails, show error toast
               setIsLoading(false);
               dispatch(
                 updateToast({
@@ -340,6 +337,7 @@ const TheirProfileScreen = ({
         }
       })
       .catch((err) => {
+        // If chat creation fails, show error toast
         setIsLoading(false);
         dispatch(
           updateToast({
@@ -413,7 +411,9 @@ const TheirProfileScreen = ({
                   dispatch(
                     updateTipBottomSheet({
                       status: true,
-                      profileImage: userInfo.data?.profileImage,
+                      profileImage: userInfo.data?.profileImage
+                        ? userInfo.data?.profileImage
+                        : Image.resolveAssetSource(images.defaultAvatar).uri,
                       username: userInfo.data?.username,
                       wallet: userInfo.data?.aptosWallet,
                       nickname: userInfo.data?.nickname,
@@ -515,31 +515,31 @@ const TheirProfileScreen = ({
             </Pressable>
           </View>
           <View>{POST_MEDIA_REPLIES()}</View>
-          <TheirProfileBottomSheet />
-          <SuperStarBottomSheet
-            handleVisibility={() => {
-              dispatch(updateSuperStarBottomSheet(false));
-            }}
-            typeOfProfile="theirProfile"
-          />
-          <ReportUserModal />
-          <ReportPanel />
-          <ReportPostModal />
-          <BlockUserModal />
-          <ViewSuperStarsModal
-            visibility={superStarModal.showSuperStarModal}
-            close={() =>
-              useDispatch({
-                type: 'CLOSE',
-              })
-            }
-            imageUri={superStarModal.imageUri}
-          />
         </ScrollView>
       ) : (
         <></>
       )}
       <ShowLoader isLoading={isLoading} />
+      <TheirProfileBottomSheet />
+      <SuperStarBottomSheet
+        handleVisibility={() => {
+          dispatch(updateSuperStarBottomSheet(false));
+        }}
+        typeOfProfile="theirProfile"
+      />
+      {/* <ReportUserModal />
+      <ReportPanel />
+      <ReportPostModal />
+      <BlockUserModal /> */}
+      <ViewSuperStarsModal
+        visibility={superStarModal.showSuperStarModal}
+        close={() =>
+          useDispatch({
+            type: 'CLOSE',
+          })
+        }
+        imageUri={superStarModal.imageUri}
+      />
     </SafeAreaView>
   );
 };

@@ -602,9 +602,30 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
               <RepostedHeader />
               <View style={repostStyles.repostContainer}>
                 <Header />
-                <Text style={[styles.message, repostStyles.repostText]}>
-                  {data.description}
-                </Text>
+                {userPost?.description && (
+                  <ParsedText
+                    parse={[
+                      {
+                        pattern: /@(\w+)/,
+                        style: styles.tags,
+                        onPress: handleNamePress,
+                      },
+                      {
+                        pattern: /#(\w+)/,
+                        style: styles.tags,
+                        onPress: handleHashTagPress,
+                      },
+                      {
+                        pattern: /\$(\w+)/,
+                        style: styles.tags,
+                        onPress: handleMoneySignPress,
+                      },
+                    ]}
+                    style={styles.message}
+                  >
+                    {userPost?.description}
+                  </ParsedText>
+                )}
                 <View
                   style={[
                     styles.mediaContainer,
@@ -720,9 +741,30 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                     </Text>
                   </View>
 
-                  <Text style={styles.collectionId}>
-                    {data.nftCollection} {data.nftTokenId}
-                  </Text>
+                  {userPost?.description && (
+                    <ParsedText
+                      parse={[
+                        {
+                          pattern: /@(\w+)/,
+                          style: styles.tags,
+                          onPress: handleNamePress,
+                        },
+                        {
+                          pattern: /#(\w+)/,
+                          style: styles.tags,
+                          onPress: handleHashTagPress,
+                        },
+                        {
+                          pattern: /\$(\w+)/,
+                          style: styles.tags,
+                          onPress: handleMoneySignPress,
+                        },
+                      ]}
+                      style={styles.message}
+                    >
+                      {userPost?.description}
+                    </ParsedText>
+                  )}
                 </View>
               </View>
               <PostActions

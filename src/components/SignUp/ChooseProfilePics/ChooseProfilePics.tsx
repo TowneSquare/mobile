@@ -144,8 +144,8 @@ const ChooseProfilePics = ({ userAddress }: Props) => {
           <Pressable
             onPress={() => {
               
-              // dispatch(updateUploadModalRenderCount(1));
-              // dispatch(updateUploadImageModalOpen(true));
+              dispatch(updateUploadModalRenderCount(1));
+              dispatch(updateUploadImageModalOpen(true));
             }}
             style={{
               height: size.getHeightAndWidth(160),

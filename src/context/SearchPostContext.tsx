@@ -9,6 +9,7 @@ export type SearchPostContextType = {
   searchData: (searchword: string) => void;
   filteredPosts: PostData[];
 };
+// Search Post context
 export const SearchPostContext = createContext<SearchPostContextType>({
   searchData: (searchPost: string) => {},
   filteredPosts: [],
@@ -16,25 +17,45 @@ export const SearchPostContext = createContext<SearchPostContextType>({
 const SearchPostContextProvider: React.FC<SearchPostContextProps> = ({
   children,
 }) => {
+
+  // Get all posts
   const allPosts = useAppSelector(
     (state) => state.CreatePostController.AllPost
   );
 
+  // Array of filtered posts
   const [filteredPosts, setFilteredPosts] = useState<PostData[]>(allPosts);
+
+  // Context value
   const contextValue: SearchPostContextType = {
     filteredPosts,
     searchData(searchWord) {
+
+      // Filter posts that match the search term
       const filtered = search(filteredPosts, searchWord);
       if (filtered?.length === 0) {
+        // If there are no posts that match the search term, set filteredPosts to null
         setFilteredPosts(null);
       } else {
+        // If there are posts that match the search term, set filteredPosts to the filtered array
         setFilteredPosts(filtered);
       }
     },
   };
+
+  
+  /**
+   * Searches for posts that match the given search term.
+   * @param posts - The array of posts to search through.
+   * @param searchTerm - The search term to match against.
+   * @returns An array of posts that match the search term.
+   */
+
   function search(posts: PostData[], searchTerm: string): PostData[] {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     if (posts) {
+
+      // Filter posts that match the search term
       return posts.filter(
         (post) =>
           post.description?.toLowerCase().includes(lowerCaseSearchTerm) ||
@@ -53,6 +74,8 @@ const SearchPostContextProvider: React.FC<SearchPostContextProps> = ({
             .includes(lowerCaseSearchTerm)
       );
     } else {
+
+      // If there are no posts, return allPost
       return allPosts;
     }
   }

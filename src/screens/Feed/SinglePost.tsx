@@ -118,6 +118,8 @@ const SinglePost = ({ route }: SinglePostProps) => {
                 data={comment}
               />
             ))}
+
+            {/* TODO */}
           {/* <Comments handleCommentButton={handleCommentPress} myPost /> */}
           {/* {props?.comments.map((comment, index) => (
           <Comments handleCommentButton={handleCommentPress} CommentData={comment} key={index}/>

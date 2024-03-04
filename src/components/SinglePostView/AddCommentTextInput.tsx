@@ -71,9 +71,13 @@ const AddCommentTextInput = ({
     setHeight(newHeight);
   };
 
+  // Add comment to a post
   const sendComment = async () => {
     setText("");
+    // Add comment to the post
     const commentAdded = await addComment(text, token, postId);
+
+    // if comment is added successfully, show success toast
     if (commentAdded) {
       dispatch(
         updateToast({
@@ -83,6 +87,8 @@ const AddCommentTextInput = ({
         })
       );
     } else {
+
+      // show error toast
       dispatch(
         updateToast({
           displayToast: true,

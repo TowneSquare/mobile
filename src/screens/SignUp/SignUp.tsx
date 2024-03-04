@@ -100,23 +100,35 @@ const SignUp = ({ magic }: SignUpProps) => {
   );
   useEffect(() => {
     async function getToken() {
+      // Get token from the wallet address
       const userToken = await getTokenBywalletaddress(address);
-      console.log(userToken);
+
+      // update user token in redux
       dispatch(updateDidToken(userToken.token));
+
+      // update user token in async storage
       await AsyncStorage.setItem('user_token', userToken.token);
       setToken(userToken.token);
     }
+
+    // Update token in usestate and async storage
     async function updateToken(usrtoken: string) {
       await AsyncStorage.setItem('user_token', usrtoken);
       setToken(usrtoken);
     }
+
+    // Check if token should be generated from the wallet address
     if (shouldGenerateTokenfromAddress) {
+      // Get token from the wallet address
       getToken();
     } else {
+      // Update token from the route params
       updateToken(route.params?.walletCredentials.token);
     }
   }, []);
   const dispatch = useDispatch();
+
+  // Views for the sign up process
   const views = [
     <ReferralView />,
     <ChooseUsernameContent />,
@@ -126,10 +138,16 @@ const SignUp = ({ magic }: SignUpProps) => {
     // <ExploreCommunities />,
     <ChooseProfilePics userAddress={address} />,
   ];
+
+  // Animation for the progress bar
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList<any>>(null);
   const [viewIndex, setViewIndex] = useState(0);
+
+  // Get user from redux
   const user = useAppSelector((state) => state.USER);
+
+  // Create form data for uploading profile image
   const createFormData = () => {
     const data = new FormData();
     data.append('file', {
@@ -139,10 +157,13 @@ const SignUp = ({ magic }: SignUpProps) => {
     } as any);
     return data;
   };
+
+  // Get file extension from the url
   function get_url_extension(url) {
     return url.split(/[#?]/)[0].split('.').pop().trim();
   }
 
+  // Show loader
   const showLoader = (show = true) => {
     if (loaderRef.current && show)
       (loaderRef.current as any).setNativeProps({ style: { display: 'flex' } });
@@ -151,19 +172,28 @@ const SignUp = ({ magic }: SignUpProps) => {
       (loaderRef.current as any).setNativeProps({ style: { display: 'none' } });
   };
 
+  // Handle next slide
   const handleNextSlide = async () => {
     const newIndex = viewIndex + 1;
+
     if (viewIndex == 0) {
       try {
+        // show loader
         dispatch(disableContinueButton(true));
+
+        // check if user is already signed up
         const res = await checkSignup(token);
+
+        // if user is already signed up, set login session and navigate to congratulations screen
         if (res.isExist && res.isExist == true) {
           await setLoginSession(res.wallet, res.userId);
           await storeDeviceTokenToFireStore(res.userId, deviceToken);
+
           await AsyncStorage.setItem('user_id', res.userId);
           dispatch(updateUserId(res.userId));
           dispatch(disableContinueButton(false));
           navigation.navigate('Congratulations');
+
           return;
         } else {
           dispatch(disableContinueButton(false));
@@ -174,12 +204,16 @@ const SignUp = ({ magic }: SignUpProps) => {
         return;
       }
     }
+
+    // if new index is less than the length of the views, navigate to the next slide
     if (newIndex < views.length && flatListRef.current) {
       if (newIndex == 2) {
-        console.log('index is ======');
-        console.log(viewIndex);
         dispatch(disableContinueButton(true));
+
+        // get issuer from user metadata
         const issuer = user.metadata !== undefined ? user.metadata.issuer : '';
+
+        // sign up user
         const res = await signup(
           token,
           issuer,
@@ -188,14 +222,17 @@ const SignUp = ({ magic }: SignUpProps) => {
           username,
           ''
         );
-      
+
+        // if user is signed up successfully, set login session, update device token to firestore
         if (!res.error && res.success != false) {
           await setLoginSession(res.wallet, res.userId);
           setUserId(res.userId);
           await AsyncStorage.setItem('user_id', res.userId);
           await storeDeviceTokenToFireStore(res.userId, deviceToken);
           // setToken(user.didToken);
-        } else if (res.error) {
+        }
+        // if error occurs, show error toast
+        else if (res.error) {
           const errorObject = JSON.parse(res.error);
           const errorMessage = errorObject.message;
           dispatch(
@@ -219,13 +256,16 @@ const SignUp = ({ magic }: SignUpProps) => {
           return;
         }
         dispatch(disableContinueButton(false));
-      } else if (newIndex == 4) {
+      }
+      // if new index is 3, update connected socials
+      else if (newIndex == 4) {
         const result = await updateConnectedSocial(userId, token, socialInfo);
       }
 
       setViewIndex((previous) => previous + 1);
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
     } else {
+      // if new index is 5, upload profile image
       dispatch(disableContinueButton(true));
       const res = await uploadProfileImage(token, createFormData());
       dispatch(disableContinueButton(false));
@@ -240,6 +280,7 @@ const SignUp = ({ magic }: SignUpProps) => {
   const handlePreviousSlide = () => {
     setViewIndex((previous) => previous - 1);
     const newIndex = viewIndex - 1;
+
     if (newIndex >= 0 && flatListRef.current) {
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
     } else {
@@ -247,6 +288,8 @@ const SignUp = ({ magic }: SignUpProps) => {
     }
   };
 
+
+  // Animation for the progress bar
   const stagePosition = Animated.divide(scrollX, width);
   const progressWidth = stagePosition.interpolate({
     inputRange: [0, 1, 2, 3, 4, 5],
@@ -303,7 +346,7 @@ const SignUp = ({ magic }: SignUpProps) => {
   if (!isLoaded) {
     return null;
   }
-  console.log('===== reloading ======');
+
   return (
     <View
       style={[

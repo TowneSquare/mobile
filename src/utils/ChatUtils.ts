@@ -36,11 +36,18 @@ import { app, firestoreDB, storage } from '../../config/firebase.config';
 
 import { nanoid } from '@reduxjs/toolkit';
 import { ChatsModel } from '../models/chats';
+/**
+ *  Chat class that handles message grouping and sorting.
+ */
 export class ChatClass {
   private message: Array<any> = [];
   constructor(message: any[]) {
     this.message = message;
   }
+  /**
+   * Groups the messages by day.
+   * @returns An object with the messages grouped by day.
+   */
   private groupedDays() {
     return this.message.reduce((acc, el, i) => {
       const messageDay = moment(el.createdAt?.toDate().toISOString()).format(
@@ -52,12 +59,18 @@ export class ChatClass {
       return { ...acc, [messageDay]: [el] };
     }, {});
   }
+
+  // Check if the data is a ChatText
   private isNotDate(data: Data): data is ChatText {
     return (data as ChatText).message !== undefined;
   }
+
+  // Check if the data is a ChatDate
   private isDate(data: Data): data is ChatDate {
     return (data as ChatDate).dateType !== undefined;
   }
+
+  // Refactor the data to get the date as a type of message and the rest of the data as a type of ChatText
   generateItems() {
     const days = this.groupedDays();
     const sortedDays = Object.keys(days).sort(
@@ -75,6 +88,7 @@ export class ChatClass {
     return items;
   }
 
+  // TODO: TO refactor this function to use the new data model
   sortMessagesBasedOnConsecutiveUserId(conversationData: Data[]) {
     const sortedConversation = [];
     let currentUserId = null;
@@ -140,6 +154,12 @@ export class ChatClass {
     });
     return sortedConversation;
   }
+
+  /**
+   * Returns a formatted display date based on the given array of date values.
+   * @param array - An array containing the year, month, and day values.
+   * @returns The formatted display date.
+   */
   getDisplayDate(array: string[]): string {
     const year = array[0];
     const month = array[1];
@@ -163,7 +183,13 @@ export class ChatClass {
   }
 }
 
+/**
+ * Formats a timestamp into a human-readable string.
+ * @param timestamp - The timestamp to format.
+ * @returns The formatted timestamp as a string.
+ */
 export function formatTimestamp(timestamp: Timestamp) {
+  // Check if the timestamp is valid
   if (timestamp) {
     const date: Date = timestamp.toDate();
     const now = new Date();
@@ -172,6 +198,7 @@ export function formatTimestamp(timestamp: Timestamp) {
       now.getMonth() === date.getMonth() &&
       now.getFullYear() === date.getFullYear();
 
+    // Check if the date is yesterday
     const yesterday = new Date(now);
     yesterday.setDate(yesterday.getDate() - 1);
     const isYesterday =
@@ -179,6 +206,7 @@ export function formatTimestamp(timestamp: Timestamp) {
       yesterday.getMonth() === date.getMonth() &&
       yesterday.getFullYear() === date.getFullYear();
 
+    // Check if the date is today
     if (sameDay) {
       return date.toLocaleTimeString([], {
         hour: '2-digit',
@@ -191,6 +219,13 @@ export function formatTimestamp(timestamp: Timestamp) {
     }
   } else return '';
 }
+
+/**
+ * Creates a unique chat ID based on the provided user IDs.
+ * @param user1Id - The ID of the first user.
+ * @param user2Id - The ID of the second user.
+ * @returns The unique chat ID.
+ */
 export const createUniqueChatId = (user1Id: string, user2Id: string) => {
   // Sort the user IDs to ensure consistency
   const sortedUserIds = [user1Id, user2Id].sort();
@@ -198,7 +233,7 @@ export const createUniqueChatId = (user1Id: string, user2Id: string) => {
   // Concatenate the sorted user IDs
   const concatenatedIds = sortedUserIds.join('_');
 
-  // Use a hash function (e.g., simple string hash) to create a unique identifier
+  // Use hash function to create a unique identifier
   const hashCode = (str) => {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
@@ -211,6 +246,20 @@ export const createUniqueChatId = (user1Id: string, user2Id: string) => {
   // Return the hash code as the unique identifier
   return hashCode(concatenatedIds).toString();
 };
+
+/**
+ * Sends a reply message in a chat.
+ * @param {Object} options - The options for sending the reply message.
+ * @param {string} options.replyingToMessage - The message being replied to.
+ * @param {string} options.replyingtoId - The ID of the message being replied to.
+ * @param {string} options.text - The text of the reply message.
+ * @param {string} options.chatId - The ID of the chat.
+ * @param {string} options.messageType - The type of the reply message.
+ * @param {string} options.mediaUri - The URI of any media attached to the reply message.
+ * @param {string} options.uid - The ID of the user sending the reply message.
+ * @param {string} options.myusername - The username of the user sending the reply message.
+ * @returns {Promise<void>} - A promise that resolves when the reply message is sent successfully.
+ */
 export const sendRreplyMessage = async ({
   replyingToMessage = '',
   replyingtoId = '',
@@ -267,6 +316,17 @@ export const sendRreplyMessage = async ({
     // Handle error
   }
 };
+
+/**
+ * Sends a text message to Firestore.
+ *
+ * @param {Object} options - The options for sending the message.
+ * @param {string} options.text - The text of the message.
+ * @param {string} options.chatId - The ID of the chat.
+ * @param {string} options.myId - The ID of the sender.
+ * @param {string} options.myusername - The username of the sender.
+ * @returns {Promise<void>} - A promise that resolves when the message is sent successfully.
+ */
 export const sendTextToFirestore = async ({
   text = '',
   chatId = '',
@@ -313,6 +373,16 @@ export const sendTextToFirestore = async ({
     console.warn('Error sending message: ', err);
   }
 };
+
+/**
+ * Sends an image to Firestore.
+ *
+ * @param imageUri - The URI of the image to send.
+ * @param chatId - The ID of the chat.
+ * @param messageType - The type of the message.
+ * @param myId - The ID of the user sending the message.
+ * @param myusername - The username of the user sending the message.
+ */
 export const sendImageToFirestore = async ({
   imageUri = '',
   chatId = '',
@@ -336,7 +406,7 @@ export const sendImageToFirestore = async ({
       },
       read: false,
     };
-    console.log('========adding doc=========');
+
     const msgCollectionRef = doc(firestoreDB, 'chats', chatId, 'messages', id);
     await setDoc(msgCollectionRef, _doc);
 
@@ -360,6 +430,14 @@ export const sendImageToFirestore = async ({
     console.warn('Error sending message: ', err);
   }
 };
+
+/**
+ * Uploads a media file to Firebase Storage.
+ *
+ * @param url - The URL of the media file to upload.
+ * @returns A Promise that resolves to the download URL of the uploaded file.
+ * @throws If an error occurs during the upload process.
+ */
 export const uploadMediaToFirebaseStorage = async (url: string) => {
   try {
     const filename = url.substring(url.lastIndexOf('/') + 1);
@@ -398,6 +476,11 @@ export const uploadMediaToFirebaseStorage = async (url: string) => {
   }
 };
 
+/**
+ * Picks media from either the gallery or the camera.
+ * @param from The source of the media, either 'gallery' or 'camera'.
+ * @returns The URI of the picked media, or null if no media was picked or an error occurred.
+ */
 export const pickMedia = async (from: 'gallery' | 'camera') => {
   try {
     let result;
@@ -428,6 +511,14 @@ export const pickMedia = async (from: 'gallery' | 'camera') => {
     return null;
   }
 };
+
+/**
+ * Blocks a user in the chat.
+ *
+ * @param userId - The ID of the user performing the block action.
+ * @param idUserToBlock - The ID of the user to be blocked.
+ * @returns A promise that resolves when the user is blocked successfully.
+ */
 export const blockUserChat = async (userId: string, idUserToBlock: string) => {
   try {
     const blockedUsersRef = doc(firestoreDB, 'blockedUsers', userId);
@@ -442,6 +533,12 @@ export const blockUserChat = async (userId: string, idUserToBlock: string) => {
     // console.error('Error blocking user:', error);
   }
 };
+
+/**
+ * Retrieves the list of blocked users for a given user ID.
+ * @param userId The ID of the user.
+ * @returns A Promise that resolves to an array of blocked user IDs, or an empty array if no blocked users are found.
+ */
 export const getBlockedUsers = async (userId: string) => {
   try {
     const blockedUsersDocRef = doc(firestoreDB, 'blockedUsers', userId);
@@ -463,10 +560,9 @@ export const getBlockedUsers = async (userId: string) => {
   }
 };
 
-
 /**
  * Unblocks a user in the chat.
- * 
+ *
  * @param {string} userId - The ID of the user performing the unblocking.
  * @param {string} idUserToUnblock - The ID of the user to unblock.
  * @returns {Promise<void>} - A promise that resolves when the user is unblocked successfully.
@@ -581,24 +677,20 @@ export const isPushNotificationAllowed = async (
     const chatRef = doc(firestoreDB, 'chats', chatId);
     const chatSnapshot = await getDoc(chatRef);
 
+    // Check if the chat exists and if the user is an active member
     if (chatSnapshot.exists() && chatSnapshot.data()) {
       const chatData = chatSnapshot.data() as ChatsModel;
-      console.log('=========active members===========');
+
       if (!chatData.activeMembers.includes(userId)) {
         console.log('User is not a member of the chat');
         return false;
       }
     }
+
     // Check if the document exists and if the contact exists in the document
     if (docSnapshot.exists() && docSnapshot.data()[contactId]) {
       // Retrieve the contact data
       const contactData = docSnapshot.data()[contactId];
-      console.log(
-        '=========== user allows push notifiction from this sender ============'
-      );
-      console.log(
-        `============${contactData.allowPushNotification === true}=============`
-      );
       // Check if push notifications are allowed for the contact
       return contactData.allowPushNotification === true;
     } else {
@@ -635,10 +727,6 @@ export const updatePushNotificationSetting = async (
       await updateDoc(userContactRef, {
         [`${contactId}.allowPushNotification`]: allowPushNotification,
       });
-
-      console.log(
-        `Push notification setting updated to ${allowPushNotification} `
-      );
     } else {
       console.log('User or contact does not exist');
     }

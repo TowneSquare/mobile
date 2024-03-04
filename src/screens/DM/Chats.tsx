@@ -4,14 +4,11 @@ import {
   Dimensions,
   StyleSheet,
   FlatList,
-  Image,
-  BackHandler,
 } from 'react-native';
 import { getUserInfo } from '../../api';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor, images } from '../../constants';
 import { ActivityIndicator } from 'react-native';
-import useBackHandler from '../../hooks/useBackhandler';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { sizes } from '../../utils';
 import HorizontalMoreIcon from '../../../assets/images/svg/HorizontalMoreIcon';
@@ -24,8 +21,6 @@ import {
   query,
   onSnapshot,
   where,
-  getDocs,
-  doc,
 } from 'firebase/firestore';
 import { firestoreDB } from '../../../config/firebase.config';
 const { height, width } = Dimensions.get('window');
@@ -41,21 +36,20 @@ interface Data {
 const Chats = () => {
   const myId = useAppSelector((state) => state.USER.UserData._id);
   const token = useAppSelector((state) => state.USER.didToken);
-  // useBackHandler(() => {
-  //   BackHandler.exitApp();
-  //   return true;
-  // });
- 
+
   const [chats, setChats] = useState<ContactsChatModel[]>(null);
   const [isLoading, setisLoading] = useState(true);
   useEffect(() => {
     setisLoading(true);
+
+    // Query the chats where the current user is an active member
     const chatQuery = query(
       collection(firestoreDB, 'chats'),
       where('activeMembers', 'array-contains', myId),
       orderBy('lastMessage.createdAt', 'desc')
     );
 
+    // Get the chats where the current user is an active member
     const unsubscribe = onSnapshot(
       chatQuery,
       async (querySnapshot) => {
@@ -66,6 +60,8 @@ const Chats = () => {
               const contactid = chat.memberIds.find(
                 (memberid) => memberid !== myId
               );
+
+              // Get the contact details
               const contactDetails = await getUserInfo(contactid, token);
               console.log(contactDetails);
               const newChatDoc: ContactsChatModel = {
@@ -82,7 +78,6 @@ const Chats = () => {
               );
 
               // Get the number of unread messages
-
               const messagesUnsubscribe = onSnapshot(
                 messagesQuery,
                 async (messagesSnapshot) => {
@@ -92,6 +87,8 @@ const Chats = () => {
                   const index = updatedChats.findIndex(
                     (c) => c._id === chat._id
                   );
+
+                  // Update the 'unreadMessagesCount' field in the chat object
                   if (index !== -1 && chat !== null) {
                     updatedChats[index] = {
                       ...newChatDoc,
@@ -106,7 +103,6 @@ const Chats = () => {
               return { ...newChatDoc, messagesUnsubscribe };
             })
           );
-
           setChats(chatRooms);
           setisLoading(false);
         } catch (error) {
@@ -121,53 +117,7 @@ const Chats = () => {
     );
     return () => unsubscribe();
   }, []);
-  // const Failed = () => {
-  //   return (
-  //     <View
-  //       style={{
-  //         display: "flex",
-  //         justifyContent: "center",
-  //         alignItems: "center",
-  //         marginTop: "50%",
-  //       }}
-  //     >
-  //       <Image
-  //         source={images.plug}
-  //         style={{
-  //           height: size.getHeightSize(61),
-  //           width: size.getWidthSize(60),
-  //         }}
-  //       />
-  //       <View
-  //         style={{
-  //           display: "flex",
-  //           justifyContent: "center",
-  //           alignItems: "center",
-  //           marginTop: size.getHeightSize(8),
-  //         }}
-  //       >
-  //         <Text
-  //           style={{
-  //             color: appColor.grayLight,
-  //             fontFamily: "Outfit-Regular",
-  //             fontSize: size.fontSize(16),
-  //           }}
-  //         >
-  //           Something went wrong.
-  //         </Text>
-  //         <Text
-  //           style={{
-  //             color: appColor.grayLight,
-  //             fontFamily: "Outfit-Regular",
-  //             fontSize: size.fontSize(16),
-  //           }}
-  //         >
-  //           Try to reload.
-  //         </Text>
-  //       </View>
-  //     </View>
-  //   );
-  // };
+
   return (
     <SafeAreaView
       style={{

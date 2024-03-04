@@ -34,22 +34,27 @@ const Wallet = () => {
     APTOS_DOMAIN_NAME: state.USER.aptosName,
     address: state.USER.UserData.aptosWallet,
   }));
+
+
   useEffect(() => {
     (async function () {
+      // Fetch wallet balance and supported tokens market data
       setLoading(true);
       Promise.all([
         getWalletBalance(address),
         getSupportedTokensMarketData(address),
       ])
         .then(([walletBalance, marketData]) => {
+          // Calculate the equivalent price of the wallet balance
           const { aptAmt, currentPrice } = walletBalance;
           const priceEquivalent = aptAmt * parseFloat(currentPrice);
           setAddressBalance(isNaN(priceEquivalent) ? 0 : priceEquivalent);
+
+          // Set the token data
           setTokenData(marketData);
         })
         .catch((error) => {
           if(error==='')
-
           console.log(error);
         })
         .finally(() => {
@@ -58,6 +63,8 @@ const Wallet = () => {
     })();
   }, []);
   useMemo(() => dispatch(getAptosName({ address })), [address]);
+
+  // Handle reload
   const handleReload = async () => {
     Promise.all([
       getWalletBalance(address),

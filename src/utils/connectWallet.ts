@@ -16,6 +16,7 @@ import nacl, { BoxKeyPair, randomBytes } from 'tweetnacl';
 import axios from 'axios';
 import { CMC_PRO_API_KEY } from '../../constants';
 
+// Data type for petra wallet connect
 type ConnectData = {
   appInfo: {
     domain: string;
@@ -24,13 +25,18 @@ type ConnectData = {
   dappEncryptionPublicKey?: string;
   payload?: any;
 };
+
+// Supported wallet types
 type Wallet = 'pontem' | 'rise' | 'petra';
+
+// Create an instance of the aptos sdk
 const config = new AptosConfig({
   network: Network.MAINNET,
 });
 const aptos = new Aptos(config);
 
 export const handlWalletConnect = async (walletName: Wallet) => {
+  // redirect link for the wallet connect
   const redirect_link = Linking.createURL(`/ChooseWallet`);
 
   if (walletName === 'petra') {
@@ -42,15 +48,22 @@ export const handlWalletConnect = async (walletName: Wallet) => {
     };
 
     let base64ConnectData: string;
+
+    // Get Dapp Public key
     const { publicKeyString } = await getDappPublicKey();
     connectData.dappEncryptionPublicKey = publicKeyString;
+
+    // Convert the connect data to base64
     base64ConnectData = Buffer.from(JSON.stringify(connectData)).toString(
       'base64'
     );
 
     const url = `https://petra.app/api/v1/connect?data=${base64ConnectData}`;
+
+    // Open the wallet connect link
     await Linking.openURL(url);
   } else if (walletName === 'pontem') {
+    //TODO: Add pontem wallet connect
     const appInfo = {
       name: 'Townesquare',
       logoUrl:
@@ -62,7 +75,8 @@ export const handlWalletConnect = async (walletName: Wallet) => {
     );
 
     const url = `pontem-wallet://mob2mob?connect=${base64ConnectData}`;
-    // console.log(url);
+
+    // Open the wallet connect link
     Linking.openURL(url);
   }
 };
@@ -79,6 +93,8 @@ export const decodePetraWalletConnectResponse = async (response: {
   const responseDataJson = JSON.parse(
     Buffer.from(response.data, 'base64').toString('utf-8')
   );
+
+  // TODO: Add the logic to generate a shared secret to encrypt the payload to be submitted to petra
 
   // const nonce = nacl.randomBytes(nacl.secretbox.nonceLength);
   // console.log("===============nonce====================")
@@ -98,39 +114,19 @@ export const decodePetraWalletConnectResponse = async (response: {
   // const petraPublicKey = Uint8Array.from(
   //   Buffer.from(response.data.petraPublicEncryptedKey.slice(2), 'hex')
   // );
-
-  const storedSecretKey = await AsyncStorage.getItem('petra_secretKey');
-  const secretKeyArray = new Uint8Array(Buffer.from(storedSecretKey, 'base64'));
-
+  // const storedSecretKey = await AsyncStorage.getItem('petra_secretKey');
+  // const secretKeyArray = new Uint8Array(Buffer.from(storedSecretKey, 'base64'));
   // const sharedDappSecretKey = nacl.box.before(petraPublicKey, secretKeyArray);
+
   const wallet_public_address = {
     address: responseDataJson.address,
     publicKey: responseDataJson.publicKey,
   };
-
-  const header = {
-    alg: 'HS256',
-    typ: 'JWT',
-  };
-  const payload = {
-    aptosWallet: responseDataJson.address,
-    iat: 1704443183,
-  };
-  const headerBase64 = btoa(JSON.stringify(header));
-  const payloadBase64 = btoa(JSON.stringify(payload));
-  const token = `${headerBase64}.${payloadBase64}.w343UG40U0WBkMTXckaax3szEUU4opWYDosHlsQJIDE`;
-  const base64Data = Buffer.from(
-    JSON.stringify(wallet_public_address)
-  ).toString('base64');
-
-  return { token: token, address: responseDataJson.address };
+ // return user petra wallet address 
+  return { token: '', address: responseDataJson.address };
 };
 
 export const getWalletBalance = async (walletAddress: string) => {
-  // Set aptos network to mainnet
-
-  //Create an instance of the aptos sdk
-
   //Get the account apt amount and the current price of apt
 
   const [aptAmount, currentPrice] = await Promise.all([
@@ -151,9 +147,10 @@ export const getWalletBalance = async (walletAddress: string) => {
   //Convert the apt amount to apt and return the apt amount and the current price
   const aptDecimal = 10 ** 8;
   const aptAmt = aptAmount / aptDecimal;
-
   return { aptAmt, currentPrice };
 };
+
+
 const getAptMarketData = async () => {
   const baseUrl =
     'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest';
@@ -171,6 +168,8 @@ const getAptMarketData = async () => {
   return response.data.data.APT.quote.USD.price;
 };
 
+
+// TODO: Add the logic to submit a transaction to petra
 export const submitTransactionToPetra = async (
   senderAddress: string,
   amount: number,

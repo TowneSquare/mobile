@@ -626,9 +626,31 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 postId={userPost._id}
                 userId={userPost.customer._id}
               />
-              <Text onPress={handleNavigation} style={styles.message}>
-                {data.description}
-              </Text>
+              {userPost?.description && (
+                <ParsedText
+                  onPress={handleNavigation}
+                  parse={[
+                    {
+                      pattern: /@(\w+)/,
+                      style: styles.tags,
+                      onPress: handleNamePress,
+                    },
+                    {
+                      pattern: /#(\w+)/,
+                      style: styles.tags,
+                      onPress: handleHashTagPress,
+                    },
+                    {
+                      pattern: /\$(\w+)/,
+                      style: styles.tags,
+                      onPress: handleMoneySignPress,
+                    },
+                  ]}
+                  style={styles.message}
+                >
+                  {userPost?.description}
+                </ParsedText>
+              )}
               <View
                 style={[
                   styles.mediaContainer,
@@ -722,9 +744,31 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 postId={userPost._id}
                 userId={userPost.customer._id}
               />
-              <Text onPress={handleNavigation} style={styles.message}>
-                {data.description}
-              </Text>
+              {userPost?.description && (
+                <ParsedText
+                  onPress={handleNavigation}
+                  parse={[
+                    {
+                      pattern: /@(\w+)/,
+                      style: styles.tags,
+                      onPress: handleNamePress,
+                    },
+                    {
+                      pattern: /#(\w+)/,
+                      style: styles.tags,
+                      onPress: handleHashTagPress,
+                    },
+                    {
+                      pattern: /\$(\w+)/,
+                      style: styles.tags,
+                      onPress: handleMoneySignPress,
+                    },
+                  ]}
+                  style={styles.message}
+                >
+                  {userPost?.description}
+                </ParsedText>
+              )}
               <View
                 style={[
                   styles.mediaContainer,
