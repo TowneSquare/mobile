@@ -45,7 +45,7 @@ const Chats = () => {
   //   BackHandler.exitApp();
   //   return true;
   // });
-  console.log(myId);
+ 
   const [chats, setChats] = useState<ContactsChatModel[]>(null);
   const [isLoading, setisLoading] = useState(true);
   useEffect(() => {
@@ -67,6 +67,7 @@ const Chats = () => {
                 (memberid) => memberid !== myId
               );
               const contactDetails = await getUserInfo(contactid, token);
+              console.log(contactDetails);
               const newChatDoc: ContactsChatModel = {
                 ...chat,
                 nickname: contactDetails.nickname,

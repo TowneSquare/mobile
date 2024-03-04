@@ -25,9 +25,10 @@ interface Props {
 }
 const NftCollections = ({ callBack }: Props) => {
   const navigation = useNavigation();
-  const collections = useAppSelector(
-    (state) => state.USER.NFTCollections
-  );
+  // const collections = useAppSelector(
+  //   (state) => state.USER.NFTCollections
+  // );
+  const collections = [];
   let [isLoaded] = useFonts({
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -58,12 +59,25 @@ const NftCollections = ({ callBack }: Props) => {
           <Text style={styles.collectionName}>{collection.Name}</Text>
         </View>
         <View style={styles.collectionIdContainer}>
-          <Text style={styles.collectionIdText}>{collection.collections.length}</Text>
+          <Text style={styles.collectionIdText}>
+            {collection.collections.length}
+          </Text>
         </View>
       </Pressable>
     );
   };
-  
+  const EmptyComponent = () => {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+        }}
+      >
+        <Text style={styles.emptyState}>You have no NFT</Text>
+      </View>
+    );
+  };
   return (
     <FlatList
       data={collections}
@@ -72,6 +86,7 @@ const NftCollections = ({ callBack }: Props) => {
       keyExtractor={(item) => item.id.toString()}
       contentContainerStyle={styles.contentContainer}
       columnWrapperStyle={styles.columnWrapper}
+      ListEmptyComponent={EmptyComponent}
     />
   );
 };
@@ -131,5 +146,12 @@ const styles = StyleSheet.create({
     width: size.getWidthSize(140),
     height: size.getHeightSize(140),
     borderRadius: 20,
+  },
+  emptyState: {
+    color: appColor.grayLight,
+    textAlign: 'center',
+    lineHeight: size.getHeightSize(23),
+    fontFamily: 'Outfit-Regular',
+    fontSize: size.fontSize(18),
   },
 });

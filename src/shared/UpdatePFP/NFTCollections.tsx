@@ -10,7 +10,6 @@ import {
   updateNftOpen,
 } from '../../controller/BottomSheetController';
 import { sizes } from '../../utils';
-import { useUserNFT } from '../../api/hooks';
 const size = new sizes(height, width);
 
 interface Props {
@@ -21,12 +20,6 @@ const NFTCollections = ({ callBack }: Props) => {
   const collections = useAppSelector(
     (state) => state.bottomSheetController.listOfNftCollections
   );
-  const userAddress = useAppSelector(
-    (state) => state.USER.UserData.aptosWallet
-  );
-  const userNFT = useUserNFT({
-    userAddress
-  })
   let [isLoaded] = useFonts({
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -36,7 +29,7 @@ const NFTCollections = ({ callBack }: Props) => {
   }
   return (
     <>
-      {userNFT.data?.data.length > 0 && (
+      {collections.length > 0 && (
         <View
           style={{
             flex: 1,
@@ -48,7 +41,7 @@ const NFTCollections = ({ callBack }: Props) => {
             paddingHorizontal: size.getWidthSize(16),
           }}
         >
-          {userNFT.data?.data?.map((collection, index) => (
+          {collections.map((collection, index) => (
             <Pressable
               key={index}
               style={{
@@ -72,7 +65,7 @@ const NFTCollections = ({ callBack }: Props) => {
             >
               {
                 <Image
-                  source={{uri: collection.logo_url}}
+                  source={collection.nftImageUrl}
                   resizeMode="cover"
                   style={{
                     width: size.getWidthSize(140),
@@ -106,7 +99,7 @@ const NFTCollections = ({ callBack }: Props) => {
                     textAlign: 'left',
                   }}
                 >
-                  {collection.collection}
+                  {collection.nftCollection}
                 </Text>
               </View>
               <View
@@ -131,7 +124,7 @@ const NFTCollections = ({ callBack }: Props) => {
                     lineHeight: size.getHeightSize(18),
                   }}
                 >
-                  {collection.owns_total}
+                  {collection.nftTokenId}
                 </Text>
               </View>
             </Pressable>

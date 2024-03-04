@@ -1,17 +1,17 @@
-import axios from "axios";
-import { BACKEND_URL, APTOS_NAME_URL } from "../../config/env";
-import { Customer, PostData } from "../controller/createPost";
-import { useAppSelector } from "../controller/hooks";
-import { UserData } from "../controller/UserController";
-import { friends } from "../controller/UserController/models";
-import { Image } from "react-native";
-import { images } from "../constants";
+import axios from 'axios';
+import { BACKEND_URL, APTOS_NAME_URL } from '../../config/env';
+import { Customer, PostData } from '../controller/createPost';
+import { useAppSelector } from '../controller/hooks';
+import { UserData } from '../controller/UserController';
+import { friends } from '../controller/UserController/models';
+import { Image } from 'react-native';
+import { images } from '../constants';
 let _headers = {
-  Accept: "application/json",
-  "Content-Type": "application/json",
+  Accept: 'application/json',
+  'Content-Type': 'application/json',
 };
 
-function createCall(path, data = null, headers = {}, method = "POST") {
+function createCall(path, data = null, headers = {}, method = 'POST') {
   const merged = {
     ..._headers,
     ...headers,
@@ -23,7 +23,7 @@ function createCall(path, data = null, headers = {}, method = "POST") {
   }
 
   let strData = JSON.stringify(body);
-  if (method == "GET")
+  if (method == 'GET')
     return fetch(`${BACKEND_URL}${path}`, {
       method: method,
       headers: merged,
@@ -45,7 +45,7 @@ function createCall(path, data = null, headers = {}, method = "POST") {
 }
 
 export async function checkSignup(token: string) {
-  return createCall(`user/checkSignup`, {}, { authorization: token }, "GET");
+  return createCall(`user/checkSignup`, {}, { authorization: token }, 'GET');
 }
 export async function signup(
   token: string,
@@ -56,7 +56,7 @@ export async function signup(
   email: string
 ) {
   return createCall(
-    "user/signup",
+    'user/signup',
     { issuer, aptosWallet, nickname, username, email },
     { authorization: token }
   );
@@ -68,35 +68,35 @@ export async function updateConnectedSocial(
   input: any
 ) {
   return createCall(
-    "user/connect-social/" + `${userId}`,
+    'user/connect-social/' + `${userId}`,
     input,
     { authorization: token },
-    "PUT"
+    'PUT'
   );
 }
 
 export async function getSuggestFollowers(token: string) {
   return createCall(
-    "user/suggested-friends",
+    'user/suggested-friends',
     {},
     { authorization: token },
-    "GET"
+    'GET'
   );
 }
 
 export async function updatefollowFriends(token: string, followId: string) {
   return createCall(
-    "user/follow-friends",
+    'user/follow-friends',
     { followIds: [followId] },
     { authorization: token },
-    "POST"
+    'POST'
   );
 }
 
 export async function uploadProfileImage(token: string, profileImage: any) {
-  return fetch(`${BACKEND_URL}` + "user/upload-profile-photo", {
-    method: "PUT",
-    headers: { authorization: token, "Content-Type": "multipart/form-data" },
+  return fetch(`${BACKEND_URL}` + 'user/upload-profile-photo', {
+    method: 'PUT',
+    headers: { authorization: token, 'Content-Type': 'multipart/form-data' },
     body: profileImage,
   })
     .then((resp) => resp.json())
@@ -107,9 +107,9 @@ export async function uploadProfileImage(token: string, profileImage: any) {
 
 export async function createPost(token: string, postData: any) {
   console.log(token);
-  return fetch(`${BACKEND_URL}` + "posts/create", {
-    method: "POST",
-    headers: { authorization: token, "Content-Type": "multipart/form-data" },
+  return fetch(`${BACKEND_URL}` + 'posts/create', {
+    method: 'POST',
+    headers: { authorization: token, 'Content-Type': 'multipart/form-data' },
     body: postData,
   })
     .then((resp) => resp.json())
@@ -119,7 +119,7 @@ export async function createPost(token: string, postData: any) {
 }
 
 export async function getAllUser(token: string) {
-  return createCall(`user/getall`, {}, { authorization: token }, "GET");
+  return createCall(`user/getall`, {}, { authorization: token }, 'GET');
 }
 
 export const getPostById = async (
@@ -129,15 +129,15 @@ export const getPostById = async (
   try {
     const res = await axios.get(`${BACKEND_URL}posts/${post_id}`, {
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
         Authorization: token,
       },
     });
     const result: PostData = await res.data;
     return {
       _id: result._id,
-      title: result.title || "",
+      title: result.title || '',
       description: result.description,
       imageUrls: result.imageUrls || [],
       videoUrls: result.videoUrls || [],
@@ -151,14 +151,14 @@ export const getPostById = async (
       reposts: result.reposts,
       comments: result.comments,
       customer: {
-        _id: result.customer._id || "",
-        issuer: result.customer.issuer || "",
+        _id: result.customer._id || '',
+        issuer: result.customer.issuer || '',
         aptosWallet: result.customer.aptosWallet,
         nickname: result.customer.nickname,
         username: result.customer.username,
-        email: result.customer.email || "",
-        referralCode: result.customer.referralCode || "",
-        profileImage: result.customer.profileImage || "",
+        email: result.customer.email || '',
+        referralCode: result.customer.referralCode || '',
+        profileImage: result.customer.profileImage || '',
         createdAt: result.createdAt,
       },
       sellNFTPrice: result.sellNFTPrice,
@@ -168,45 +168,45 @@ export const getPostById = async (
     };
   } catch (error) {
     return {
-      _id: "",
-      title: "",
-      description: "",
+      _id: '',
+      title: '',
+      description: '',
       imageUrls: [],
       videoUrls: [],
-      nftImageUrl: "",
-      nftCollection: "",
-      nftTokenId: "",
-      userId: "",
+      nftImageUrl: '',
+      nftCollection: '',
+      nftTokenId: '',
+      userId: '',
       repost: false,
-      createdAt: "",
+      createdAt: '',
       likes: [],
       reposts: [],
       comments: [],
       customer: {
-        _id: "",
-        issuer: "",
-        aptosWallet: "",
-        nickname: "",
-        username: "",
-        email: "",
-        referralCode: "",
-        profileImage: "",
-        createdAt: "",
+        _id: '',
+        issuer: '',
+        aptosWallet: '',
+        nickname: '',
+        username: '',
+        email: '',
+        referralCode: '',
+        profileImage: '',
+        createdAt: '',
       },
-      sellNFTPrice: "",
+      sellNFTPrice: '',
       originalCustomer: {
-        _id: "",
-        issuer: "",
-        aptosWallet: "",
-        nickname: "",
-        username: "",
-        email: "",
-        referralCode: "",
-        profileImage: "",
-        createdAt: "",
+        _id: '',
+        issuer: '',
+        aptosWallet: '',
+        nickname: '',
+        username: '',
+        email: '',
+        referralCode: '',
+        profileImage: '',
+        createdAt: '',
       },
-      originalPostId: "",
-      originalCustomerId: "",
+      originalPostId: '',
+      originalCustomerId: '',
     };
   }
 };
@@ -215,8 +215,8 @@ export const likePost = async (token: string, post_id: string) => {
   try {
     const res = await axios.get(`${BACKEND_URL}posts/like${post_id}`, {
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
         Authorization: token,
       },
     });
@@ -294,7 +294,7 @@ export const getUserInfo = async (
       _id: result._id,
       profileImage:
         result.profileImage ||
-        Image.resolveAssetSource(images.profileVector).uri,
+        Image.resolveAssetSource(images.defaultAvatar).uri,
       bio: result.bio,
       issuer: result.issuer,
       aptosWallet: result.aptosWallet,
@@ -313,27 +313,27 @@ export const getUserInfo = async (
     };
   } catch (error) {
     return {
-      _id: "",
-      profileImage: Image.resolveAssetSource(images.profileVector).uri,
-      bio: "",
-      issuer: "",
-      aptosWallet: "",
-      nickname: "",
-      username: "",
-      email: "",
+      _id: '',
+      profileImage: Image.resolveAssetSource(images.defaultAvatar).uri,
+      bio: '',
+      issuer: '',
+      aptosWallet: '',
+      nickname: '',
+      username: '',
+      email: '',
       badge: [],
-      referralCode: "",
+      referralCode: '',
       followers: [],
       following: [],
       posts: [],
       groups: [],
       comments: [],
-      createdAt: "",
+      createdAt: '',
       superstars: {
-        _id: "",
+        _id: '',
         nftInfoArray: [],
-        customerId: "",
-        createdAt: "",
+        customerId: '',
+        createdAt: '',
       },
     };
   }
@@ -345,7 +345,7 @@ export const getUserAptosName = async (address: string) => {
     const aptosName: string = res.data;
     return aptosName;
   } catch (error) {
-    return "unavailable";
+    return 'unavailable';
   }
 };
 
@@ -362,8 +362,8 @@ export const addComment = async (
       },
       {
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
           Authorization: token,
         },
       }
@@ -377,12 +377,12 @@ export const addComment = async (
 };
 export async function getTokenBywalletaddress(wallet: string) {
   return fetch(`${BACKEND_URL}health/${wallet}`, {
-    method: "GET",
-    headers: { "Content-Type": "multipart/form-data" },
+    method: 'GET',
+    headers: { 'Content-Type': 'multipart/form-data' },
   })
     .then((resp) => resp.json())
     .catch((error) => {
-      console.log(error)
+      console.log(error);
       if (error.code == 400) console.log(error.message);
     });
 }

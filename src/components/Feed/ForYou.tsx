@@ -9,6 +9,7 @@ import {
 import { memo, useRef, useEffect } from 'react';
 import { sizes } from '../../utils';
 import { appColor, fonts, images } from '../../constants';
+import ParsedText from 'react-native-parsed-text';
 import { useFonts } from 'expo-font';
 const { height, width } = Dimensions.get('window');
 import Reposted from './Reposted';
@@ -88,6 +89,17 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     ? FeedContent.MESSAGE_ONLY
     : FeedContent.EMPTY;
   const userPost = data;
+  function handleNamePress(name: string) {
+    console.log(`Name ${name} was pressed!`);
+  }
+
+  function handleHashTagPress(hashtag: string) {
+    console.log(`Hashtag ${hashtag} was pressed!`);
+  }
+
+  function handleMoneySignPress(moneySign: string) {
+    console.log(`Money sign ${moneySign} was pressed!`);
+  }
 
   switch (type_of_post) {
     case FeedContent.MESSAGE_ONLY:
@@ -112,9 +124,29 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 postId={userPost._id}
                 userId={userPost.customer._id}
               />
-              <Text onPress={handleNavigation} style={styles.message}>
+              <ParsedText
+                onPress={handleNavigation}
+                parse={[
+                  {
+                    pattern: /@(\w+)/,
+                    style: styles.tags,
+                    onPress: handleNamePress,
+                  },
+                  {
+                    pattern: /#(\w+)/,
+                    style: styles.tags,
+                    onPress: handleHashTagPress,
+                  },
+                  {
+                    pattern: /\$(\w+)/,
+                    style: styles.tags,
+                    onPress: handleMoneySignPress,
+                  },
+                ]}
+                style={styles.message}
+              >
                 {userPost?.description}
-              </Text>
+              </ParsedText>
 
               <PostActions
                 noOfComments={userPost?.comments?.length}
@@ -228,10 +260,29 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 postId={userPost._id}
                 userId={userPost.customer._id}
               />
-
-              <Text onPress={handleNavigation} style={styles.message}>
+              <ParsedText
+                onPress={handleNavigation}
+                parse={[
+                  {
+                    pattern: /@(\w+)/,
+                    style: styles.tags,
+                    onPress: handleNamePress,
+                  },
+                  {
+                    pattern: /#(\w+)/,
+                    style: styles.tags,
+                    onPress: handleHashTagPress,
+                  },
+                  {
+                    pattern: /\$(\w+)/,
+                    style: styles.tags,
+                    onPress: handleMoneySignPress,
+                  },
+                ]}
+                style={styles.message}
+              >
                 {userPost?.description}
-              </Text>
+              </ParsedText>
 
               <Pressable
                 onPress={() =>
@@ -349,9 +400,29 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 userId={userPost.customer._id}
               />
 
-              <Text onPress={handleNavigation} style={styles.message}>
+              <ParsedText
+                onPress={handleNavigation}
+                parse={[
+                  {
+                    pattern: /@(\w+)/,
+                    style: styles.tags,
+                    onPress: handleNamePress,
+                  },
+                  {
+                    pattern: /#(\w+)/,
+                    style: styles.tags,
+                    onPress: handleHashTagPress,
+                  },
+                  {
+                    pattern: /\$(\w+)/,
+                    style: styles.tags,
+                    onPress: handleMoneySignPress,
+                  },
+                ]}
+                style={styles.message}
+              >
                 {userPost?.description}
-              </Text>
+              </ParsedText>
 
               <Pressable
                 onPress={() =>

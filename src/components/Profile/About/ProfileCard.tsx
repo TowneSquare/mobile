@@ -31,6 +31,7 @@ interface Props {
   COMMUNITIES: string;
   POST: string;
   profileImageUri: string;
+  BADGES: string[];
 }
 
 const ProfileCard = ({
@@ -43,6 +44,7 @@ const ProfileCard = ({
   FOLLOWING,
   POST,
   profileImageUri,
+  BADGES,
 }: Props) => {
   const navigation = useNavigation();
   const profilePics = useAppSelector(
@@ -150,9 +152,9 @@ const ProfileCard = ({
                 <View
                   style={{ flexDirection: 'row', gap: size.getWidthSize(8) }}
                 >
-                  <PurpleBadge />
-                  <GreenBadge />
-                  <BlueBadge />
+                  {BADGES?.includes('ts_purple') && <PurpleBadge />}
+                  {BADGES?.includes('community_check') && <GreenBadge />}
+                  {BADGES?.includes('partner') && <BlueBadge />}
                 </View>
               </View>
               <View

@@ -24,6 +24,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useAppSelector, useAppDispatch } from '../../../controller/hooks';
 import { updateSuperStarBottomSheet } from '../../../controller/BottomSheetController';
 import ProfileCard from './ProfileCard';
+import { useAptosName } from '../../../api/hooks';
 import ProfileTipIcon from '../../../../assets/images/svg/ProfileTipIcon';
 import FollowIcon from '../../../../assets/images/svg/FollowIcon';
 import { updateTipBottomSheet } from '../../../controller/FeedsController';
@@ -99,6 +100,8 @@ const About = ({ route }) => {
   //   dispatch(getUserData({ userId, token: token }));
   // }, [userId]);
   async function getUserDataFromStorage() {
+    if (!USERDATA) {
+    }
     const userData = await AsyncStorage.getItem('userData')?.then((data) =>
       JSON.parse(data)
     );
@@ -110,6 +113,9 @@ const About = ({ route }) => {
         dispatch(getUserData({ userId: userData._id, token: token }));
         dispatch(getOnlyUserPost({ userId: userData._id, token: token }));
       });
+    } else {
+      dispatch(getUserData({ userId: USERDATA._id, token: token }));
+      dispatch(getOnlyUserPost({ userId: USERDATA._id, token: token }));
     }
   }
   useEffect(() => {
@@ -128,7 +134,8 @@ const About = ({ route }) => {
 
   const NAME = USERDATA.username || 'Real JC';
   const NICKNAME = USERDATA.nickname || 'jczhang';
-  const APTOS_DOMAIN_NAME = 'jczhang.apt';
+  const APTOS_DOMAIN_NAME =
+    useAptosName({ userAddress: USERDATA?.aptosWallet }).data?.name || '.apt';
   const DATE = getCreatedTime(USERDATA.createdAt);
   const FOLLOWING = USERDATA.following.length || '0';
   const FOLLOWERS = USERDATA.followers.length || '0';
@@ -140,9 +147,31 @@ const About = ({ route }) => {
   );
 
   const Posts = () => {
-    return onlyUserPost.map((userpost) => (
-      <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
-    ));
+    console.log(onlyUserPost, 'onlyUserPost');
+    if (onlyUserPost.length > 0) {
+      return onlyUserPost.map((userpost) => (
+        <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
+      ));
+    } else {
+      return (
+        <View style={styles.emptyPostView}>
+          <Text style={styles.emptyPostText}>You didn't create any posts</Text>
+          <Text style={styles.emptyPostText2}>
+            When you create posts, they will show here
+          </Text>
+          <Pressable
+            onPress={() => {
+              navigate('CreatePost', {
+                whichPost: 'singlePost',
+              });
+            }}
+            style={styles.buttonView}
+          >
+            <Text style={styles.createPostText}>Create post</Text>
+          </Pressable>
+        </View>
+      );
+    }
   };
 
   const UserReplies = () => {
@@ -162,11 +191,32 @@ const About = ({ route }) => {
   };
 
   const Media = () => {
-    return onlyUserPost
-      .filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0])
-      .map((userpost) => (
-        <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
-      ));
+    if (onlyUserPost.length > 1) {
+      return onlyUserPost
+        .filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0])
+        .map((userpost) => (
+          <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
+        ));
+    } else {
+      return (
+        <View style={styles.emptyPostView}>
+          <Text style={styles.emptyPostText}>You didn't create any posts</Text>
+          <Text style={styles.emptyPostText2}>
+            When you create posts, they will show here
+          </Text>
+          <Pressable
+            onPress={() => {
+              navigate('CreatePost', {
+                whichPost: 'singlePost',
+              });
+            }}
+            style={styles.buttonView}
+          >
+            <Text style={styles.createPostText}>Create post</Text>
+          </Pressable>
+        </View>
+      );
+    }
   };
 
   // const Media = () => {
@@ -196,40 +246,7 @@ const About = ({ route }) => {
     following && navigate('FollowersScreen', { screen: 'Following' });
     follow((previous) => !previous);
   };
-  const createChat = async () => {
-    let id = `${Date.now()}`;
-    const _doc = {
-      _id: id,
-      user: {
-        _id: id,
-        name: 'RealJC',
-      },
-      chatName: 'RealJC Test3',
-      lastMessage: {
-        text: 'Here is last message3',
-        createdAt: Date.now(),
-        sender: {
-          _id: id,
-          name: 'RealJC2',
-        },
-      },
-      unreadCount: 0,
-    };
-    const chatRef = doc(firestoreDB, 'chats', id);
-    getDoc(chatRef).then((docSnapshot) => {
-      if (docSnapshot.exists()) {
-        return navigate('Conversation');
-      } else {
-        setDoc(chatRef, _doc)
-          .then(() => {
-            navigate('Conversation');
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    });
-  };
+
   return (
     <SafeAreaView
       style={{
@@ -248,8 +265,9 @@ const About = ({ route }) => {
           FOLLOWING={FOLLOWING.toString()}
           POST={POST.toString()}
           profileImageUri={profilePics}
+          BADGES={USERDATA?.badge}
         />
-        {typeOfProfile === 'theirProfile' && (
+        {/* {typeOfProfile === 'theirProfile' && (
           <View style={styles.view}>
             <Pressable
               onPress={handleFollow}
@@ -286,7 +304,7 @@ const About = ({ route }) => {
               />
             </View>
           </View>
-        )}
+        )} */}
         <View style={styles.aboutDiv}>
           <Text
             style={[
@@ -296,9 +314,18 @@ const About = ({ route }) => {
           >
             About
           </Text>
-          <View>
-            <Text style={styles.aboutText}>{bio}</Text>
-          </View>
+          {bio ? (
+            <View>
+              <Text style={styles.aboutText}>{bio}</Text>
+            </View>
+          ) : (
+            <Text
+              onPress={() => navigate('EditProfileScreen')}
+              style={styles.addSomething}
+            >
+              Add something about you
+            </Text>
+          )}
         </View>
         <View>
           <View
@@ -617,6 +644,47 @@ const styles = StyleSheet.create({
     gap: size.getWidthSize(8),
     justifyContent: 'center',
     paddingHorizontal: size.getWidthSize(16),
+  },
+  emptyPostView: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginTop: size.getHeightSize(64),
+    marginBottom: size.getHeightSize(64),
+  },
+  emptyPostText: {
+    fontSize: size.fontSize(16),
+    lineHeight: size.getHeightSize(21),
+    fontFamily: 'Outfit-SemiBold',
+    color: appColor.kTextColor,
+    textAlign: 'center',
+  },
+  emptyPostText2: {
+    fontSize: size.fontSize(14),
+    lineHeight: size.getHeightSize(17.64),
+    fontFamily: 'Outfit-Regular',
+    color: appColor.kGrayscale,
+    textAlign: 'center',
+  },
+  buttonView: {
+    paddingVertical: size.getHeightSize(12),
+    paddingHorizontal: size.getWidthSize(16),
+    borderRadius: 40,
+    backgroundColor: appColor.kSecondaryButtonColor,
+    alignSelf: 'center',
+    marginTop: size.getHeightSize(23),
+  },
+  createPostText: {
+    fontSize: size.fontSize(16),
+    lineHeight: size.getHeightSize(21),
+    fontFamily: 'Outfit-SemiBold',
+    color: appColor.kTextColor,
+    textAlign: 'center',
+  },
+  addSomething: {
+    color: appColor.kSecondaryButtonColor,
+    fontFamily: 'Outfit-Medium',
+    fontSize: size.fontSize(16),
+    lineHeight: size.getHeightSize(20),
   },
 });
 

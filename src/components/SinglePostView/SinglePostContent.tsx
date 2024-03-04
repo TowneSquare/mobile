@@ -1,38 +1,49 @@
-import { View, Text, Dimensions, Image, StyleSheet } from "react-native";
-import { useRef } from "react";
-import { sizes } from "../../utils";
-import { fonts, images } from "../../constants";
-import { useFonts } from "expo-font";
-const { height, width } = Dimensions.get("window");
-import APT from "../../../assets/images/svg/APT";
-import SinglePostHeader from "./SinglePostHeader";
-import { singlePostStyles } from "./SinglePostsStyles";
+import { View, Text, Dimensions, Image, StyleSheet } from 'react-native';
+import { useRef } from 'react';
+import { sizes } from '../../utils';
+import { fonts, images } from '../../constants';
+import { useFonts } from 'expo-font';
+const { height, width } = Dimensions.get('window');
+import ParsedText from 'react-native-parsed-text';
+import APT from '../../../assets/images/svg/APT';
+import SinglePostHeader from './SinglePostHeader';
+import { singlePostStyles } from './SinglePostsStyles';
 import {
   UserPost,
   FeedContent,
   SWAP_OPTION_INCLUDED,
   FLOOR_PRICE_INCLUDED,
-} from "../../models";
+} from '../../models';
 const size = new sizes(height, width);
-import PostActions from "../Feed/PostActions";
-import APTMonkey from "../../../assets/images/svg/APTMonkey";
-import { PostData } from "../../controller/createPost";
-import { Video, ResizeMode } from "expo-av";
-import { getPostTime } from "../../utils/helperFunction";
-import { useAppSelector } from "../../controller/hooks";
+import PostActions from '../Feed/PostActions';
+import APTMonkey from '../../../assets/images/svg/APTMonkey';
+import { PostData } from '../../controller/createPost';
+import { Video, ResizeMode } from 'expo-av';
+import { getPostTime } from '../../utils/helperFunction';
+import { useAppSelector } from '../../controller/hooks';
 
 const SinglePostContent = ({ data }: { data: PostData }) => {
   const videoRef = useRef(null);
   const userId = useAppSelector((state) => state.USER.UserData?._id);
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
   }
+  function handleNamePress(name: string) {
+    console.log(`Name ${name} was pressed!`);
+  }
 
+  function handleHashTagPress(hashtag: string) {
+    console.log(`Hashtag ${hashtag} was pressed!`);
+  }
+
+  function handleMoneySignPress(moneySign: string) {
+    console.log(`Money sign ${moneySign} was pressed!`);
+  }
   const myPost = userId == data?.userId;
   const type_of_post =
     data?.videoUrls[0] && data?.description
@@ -71,7 +82,28 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 myPost={myPost}
               />
 
-              <Text style={styles.message}>{userPost.description}</Text>
+              <ParsedText
+                parse={[
+                  {
+                    pattern: /@(\w+)/,
+                    style: styles.tags,
+                    onPress: handleNamePress,
+                  },
+                  {
+                    pattern: /#(\w+)/,
+                    style: styles.tags,
+                    onPress: handleHashTagPress,
+                  },
+                  {
+                    pattern: /\$(\w+)/,
+                    style: styles.tags,
+                    onPress: handleMoneySignPress,
+                  },
+                ]}
+                style={styles.message}
+              >
+                {userPost?.description}
+              </ParsedText>
 
               <PostActions
                 noOfComments={userPost?.comments?.length}
@@ -107,7 +139,28 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 myPost={myPost}
               />
 
-              <Text style={styles.message}>{userPost.description}</Text>
+              <ParsedText
+                parse={[
+                  {
+                    pattern: /@(\w+)/,
+                    style: styles.tags,
+                    onPress: handleNamePress,
+                  },
+                  {
+                    pattern: /#(\w+)/,
+                    style: styles.tags,
+                    onPress: handleHashTagPress,
+                  },
+                  {
+                    pattern: /\$(\w+)/,
+                    style: styles.tags,
+                    onPress: handleMoneySignPress,
+                  },
+                ]}
+                style={styles.message}
+              >
+                {userPost?.description}
+              </ParsedText>
 
               <View
                 style={[
@@ -122,8 +175,8 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                     uri: userPost.imageUrls[0],
                   }}
                   style={{
-                    alignSelf: "center",
-                    width: "100%",
+                    alignSelf: 'center',
+                    width: '100%',
                     height: size.getHeightSize(200),
                     borderRadius: 8,
                   }}
@@ -200,7 +253,28 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 profileImageUri={userPost.customer.profileImage}
                 myPost={myPost}
               />
-              <Text style={styles.message}>{userPost.description}</Text>
+              <ParsedText
+                parse={[
+                  {
+                    pattern: /@(\w+)/,
+                    style: styles.tags,
+                    onPress: handleNamePress,
+                  },
+                  {
+                    pattern: /#(\w+)/,
+                    style: styles.tags,
+                    onPress: handleHashTagPress,
+                  },
+                  {
+                    pattern: /\$(\w+)/,
+                    style: styles.tags,
+                    onPress: handleMoneySignPress,
+                  },
+                ]}
+                style={styles.message}
+              >
+                {userPost?.description}
+              </ParsedText>
               <View
                 style={[
                   styles.mediaContainer,
@@ -220,7 +294,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                   }}
                   ref={videoRef}
                   style={{
-                    width: "100%",
+                    width: '100%',
                     height: size.heightSize(347),
                   }}
                   resizeMode={ResizeMode.COVER}
@@ -370,8 +444,8 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                     uri: userPost.nftImageUrl,
                   }}
                   style={{
-                    alignSelf: "center",
-                    width: "100%",
+                    alignSelf: 'center',
+                    width: '100%',
                     height: size.getHeightSize(200),
                   }}
                   resizeMode="cover"
@@ -445,8 +519,8 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                     uri: userPost.nftImageUrl,
                   }}
                   style={{
-                    alignSelf: "center",
-                    width: "100%",
+                    alignSelf: 'center',
+                    width: '100%',
                     height: size.getHeightSize(200),
                   }}
                   resizeMode="cover"

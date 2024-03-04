@@ -1,17 +1,17 @@
-import { View, Text, Dimensions, Image, StyleSheet } from "react-native";
-import { useRef } from "react";
-import { sizes } from "../../utils";
-import { appColor, fonts, images } from "../../constants";
-const { height, width } = Dimensions.get("window");
-import Queen from "../../../assets/images/svg/Queen";
-import APTMonkey from "../../../assets/images/svg/APTMonkey";
-import APT from "../../../assets//images/svg/APT";
-import PostHeader from "./PostHeader";
-import PostActions from "./PostActions";
-import { feedStyle } from "./FeedsStyles";
-import { useFonts } from "expo-font";
-import RepostedHeader from "./RepostedHeader";
-import ProfilePicture from "./SwipeableProfilePicture";
+import { View, Text, Dimensions, Image, StyleSheet } from 'react-native';
+import { useRef } from 'react';
+import { sizes } from '../../utils';
+import { appColor, fonts, images } from '../../constants';
+const { height, width } = Dimensions.get('window');
+import Queen from '../../../assets/images/svg/Queen';
+import APTMonkey from '../../../assets/images/svg/APTMonkey';
+import APT from '../../../assets//images/svg/APT';
+import PostHeader from './PostHeader';
+import PostActions from './PostActions';
+import { feedStyle } from './FeedsStyles';
+import { useFonts } from 'expo-font';
+import RepostedHeader from './RepostedHeader';
+import ProfilePicture from './SwipeableProfilePicture';
 import {
   UserPost,
   FeedContent,
@@ -25,11 +25,12 @@ import {
   NFT_FOR_SALE,
   Repost,
   ATTACHED_NFT,
-} from "../../models";
-import { Avatar } from "react-native-elements";
-import { PostData } from "../../controller/createPost";
-import { Video, ResizeMode } from "expo-av";
-import { getPostTime } from "../../utils/helperFunction";
+} from '../../models';
+import { Avatar } from 'react-native-elements';
+import { PostData } from '../../controller/createPost';
+import ParsedText from 'react-native-parsed-text';
+import { Video, ResizeMode } from 'expo-av';
+import { getPostTime } from '../../utils/helperFunction';
 const size = new sizes(height, width);
 interface Props {
   data: PostData;
@@ -38,22 +39,32 @@ interface Props {
 const Reposted = ({ data, shouldPFPSwipe }: Props) => {
   const video = useRef(null);
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
   }
 
   const timePost = getPostTime(data.createdAt);
+  function handleNamePress(name: string) {
+    console.log(`Name ${name} was pressed!`);
+  }
 
+  function handleHashTagPress(hashtag: string) {
+    console.log(`Hashtag ${hashtag} was pressed!`);
+  }
+
+  function handleMoneySignPress(moneySign: string) {
+    console.log(`Money sign ${moneySign} was pressed!`);
+  }
   const Header = () => {
     return (
       <>
         <View
           style={{
-            flexDirection: "row",
+            flexDirection: 'row',
             marginHorizontal: size.getWidthSize(12),
             marginTop: size.getHeightSize(16),
             marginBottom: size.getHeightSize(8),
@@ -67,10 +78,10 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
           />
           <View
             style={{
-              flexDirection: "row",
+              flexDirection: 'row',
               gap: size.getWidthSize(4),
               width: size.getWidthSize(214),
-              alignItems: "center",
+              alignItems: 'center',
               flex: 1,
             }}
           >
@@ -80,7 +91,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
               style={{
                 fontSize: size.fontSize(16),
                 color: appColor.kTextColor,
-                fontFamily: "Outfit-Medium",
+                fontFamily: 'Outfit-Medium',
                 lineHeight: size.getHeightSize(21),
                 maxWidth: size.getWidthSize(74),
               }}
@@ -95,7 +106,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 color: appColor.grayLight,
                 fontSize: size.fontSize(14),
                 lineHeight: size.getHeightSize(18),
-                fontFamily: "Outfit-Regular",
+                fontFamily: 'Outfit-Regular',
                 maxWidth: size.getWidthSize(67),
               }}
             >
@@ -106,7 +117,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 color: appColor.grayLight,
                 fontSize: size.fontSize(14),
                 lineHeight: size.getHeightSize(18),
-                fontFamily: "Outfit-Bold",
+                fontFamily: 'Outfit-Bold',
               }}
             >
               •
@@ -116,7 +127,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 color: appColor.grayLight,
                 fontSize: size.fontSize(14),
                 lineHeight: size.getHeightSize(18),
-                fontFamily: "Outfit-Regular",
+                fontFamily: 'Outfit-Regular',
               }}
             >
               {timePost}
@@ -129,22 +140,22 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
   let content;
 
   // const type_of_post = data.content as Repost;
-  const contentTypeOfRepost = 
+  const contentTypeOfRepost =
     data?.videoUrls[0] && data?.description
-    ? FeedContent.MESSAGE_VIDEO
-    : data?.imageUrls[0] && data?.description
-    ? FeedContent.MESSAGE_IMAGE
-    : data.videoUrls[0]
-    ? FeedContent.VIDEO_ONLY
-    : data.imageUrls[0]
-    ? FeedContent.IMAGE_ONLY
-    : data?.nftImageUrl && data?.sellNFTPrice
-    ? FeedContent.NFT_FOR_SALE
-    : data?.nftImageUrl && !data.sellNFTPrice
-    ? FeedContent.ATTACHED_NFT
-    : data?.description
-    ? FeedContent.MESSAGE_ONLY
-    : FeedContent.EMPTY;
+      ? FeedContent.MESSAGE_VIDEO
+      : data?.imageUrls[0] && data?.description
+      ? FeedContent.MESSAGE_IMAGE
+      : data.videoUrls[0]
+      ? FeedContent.VIDEO_ONLY
+      : data.imageUrls[0]
+      ? FeedContent.IMAGE_ONLY
+      : data?.nftImageUrl && data?.sellNFTPrice
+      ? FeedContent.NFT_FOR_SALE
+      : data?.nftImageUrl && !data.sellNFTPrice
+      ? FeedContent.ATTACHED_NFT
+      : data?.description
+      ? FeedContent.MESSAGE_ONLY
+      : FeedContent.EMPTY;
   const userPost = data;
   switch (contentTypeOfRepost) {
     case FeedContent.MESSAGE_ONLY:
@@ -168,17 +179,28 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
               <RepostedHeader />
               <View style={repostStyles.repostContainer}>
                 <Header />
-                <Text
-                  style={[
-                    styles.message,
+                <ParsedText
+                  parse={[
                     {
-                      marginHorizontal: size.getWidthSize(16),
-                      marginBottom: size.getHeightSize(8),
+                      pattern: /@(\w+)/,
+                      style: styles.tags,
+                      onPress: handleNamePress,
+                    },
+                    {
+                      pattern: /#(\w+)/,
+                      style: styles.tags,
+                      onPress: handleHashTagPress,
+                    },
+                    {
+                      pattern: /\$(\w+)/,
+                      style: styles.tags,
+                      onPress: handleMoneySignPress,
                     },
                   ]}
+                  style={styles.message}
                 >
-                  {userPost.description}
-                </Text>
+                  {userPost?.description}
+                </ParsedText>
               </View>
 
               <PostActions
@@ -186,11 +208,11 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost._id}
-                 userId={userPost.customer._id}
-                 nickname={userPost.customer.nickname}
-                 pfp={userPost.customer.profileImage}
-                 username={userPost.customer.username}
-                 wallet={userPost.customer.aptosWallet}
+                userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -219,7 +241,24 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
               <RepostedHeader />
               <View style={repostStyles.repostContainer}>
                 <Header />
-                <Text
+                <ParsedText
+                  parse={[
+                    {
+                      pattern: /@(\w+)/,
+                      style: styles.tags,
+                      onPress: handleNamePress,
+                    },
+                    {
+                      pattern: /#(\w+)/,
+                      style: styles.tags,
+                      onPress: handleHashTagPress,
+                    },
+                    {
+                      pattern: /\$(\w+)/,
+                      style: styles.tags,
+                      onPress: handleMoneySignPress,
+                    },
+                  ]}
                   style={[
                     styles.message,
                     {
@@ -227,9 +266,8 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                     },
                   ]}
                 >
-                  {userPost.description}
-                  {userPost.description}
-                </Text>
+                  {userPost?.description}
+                </ParsedText>
                 <View style={[styles.mediaContainer, { marginBottom: 0 }]}>
                   <Image
                     source={{ uri: userPost.imageUrls[0] }}
@@ -243,11 +281,11 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost._id}
-                 userId={userPost.customer._id}
-                 nickname={userPost.customer.nickname}
-                 pfp={userPost.customer.profileImage}
-                 username={userPost.customer.username}
-                 wallet={userPost.customer.aptosWallet}
+                userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -289,11 +327,11 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost._id}
-                 userId={userPost.customer._id}
-                 nickname={userPost.customer.nickname}
-                 pfp={userPost.customer.profileImage}
-                 username={userPost.customer.username}
-                 wallet={userPost.customer.aptosWallet}
+                userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -386,11 +424,11 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost._id}
-                 userId={userPost.customer._id}
-                 nickname={userPost.customer.nickname}
-                 pfp={userPost.customer.profileImage}
-                 username={userPost.customer.username}
-                 wallet={userPost.customer.aptosWallet}
+                userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -418,7 +456,24 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
               <RepostedHeader />
               <View style={repostStyles.repostContainer}>
                 <Header />
-                <Text
+                <ParsedText
+                  parse={[
+                    {
+                      pattern: /@(\w+)/,
+                      style: styles.tags,
+                      onPress: handleNamePress,
+                    },
+                    {
+                      pattern: /#(\w+)/,
+                      style: styles.tags,
+                      onPress: handleHashTagPress,
+                    },
+                    {
+                      pattern: /\$(\w+)/,
+                      style: styles.tags,
+                      onPress: handleMoneySignPress,
+                    },
+                  ]}
                   style={[
                     styles.message,
                     {
@@ -426,8 +481,8 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                     },
                   ]}
                 >
-                  {userPost.description}
-                </Text>
+                  {userPost?.description}
+                </ParsedText>
                 <View
                   style={[
                     styles.mediaContainer,
@@ -455,11 +510,11 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost._id}
-                 userId={userPost.customer._id}
-                 nickname={userPost.customer.nickname}
-                 pfp={userPost.customer.profileImage}
-                 username={userPost.customer.username}
-                 wallet={userPost.customer.aptosWallet}
+                userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -563,8 +618,8 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                       uri: userPost.nftImageUrl,
                     }}
                     style={{
-                      alignSelf: "center",
-                      width: "100%",
+                      alignSelf: 'center',
+                      width: '100%',
                       height: size.getHeightSize(200),
                     }}
                     resizeMode="cover"
@@ -599,11 +654,11 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost._id}
-                 userId={userPost.customer._id}
-                 nickname={userPost.customer.nickname}
-                 pfp={userPost.customer.profileImage}
-                 username={userPost.customer.username}
-                 wallet={userPost.customer.aptosWallet}
+                userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -644,8 +699,8 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                       uri: userPost.nftImageUrl,
                     }}
                     style={{
-                      alignSelf: "center",
-                      width: "100%",
+                      alignSelf: 'center',
+                      width: '100%',
                       height: size.getHeightSize(200),
                     }}
                     resizeMode="cover"
@@ -672,14 +727,14 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
               </View>
               <PostActions
                 noOfComments={userPost.comments.length}
-               Likes={userPost?.likes}
+                Likes={userPost?.likes}
                 Repost={userPost?.reposts}
                 postId={userPost._id}
-                 userId={userPost.customer._id}
-                 nickname={userPost.customer.nickname}
-                 pfp={userPost.customer.profileImage}
-                 username={userPost.customer.username}
-                 wallet={userPost.customer.aptosWallet}
+                userId={userPost.customer._id}
+                nickname={userPost.customer.nickname}
+                pfp={userPost.customer.profileImage}
+                username={userPost.customer.username}
+                wallet={userPost.customer.aptosWallet}
               />
             </View>
           </View>
@@ -805,21 +860,21 @@ export default Reposted;
 const styles = StyleSheet.create(feedStyle);
 const repostStyles = StyleSheet.create({
   container: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: size.getWidthSize(6),
-    alignItems: "center",
+    alignItems: 'center',
   },
   postedIn: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.grayLight,
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
   },
   communityName: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
     color: appColor.primaryLight,
-    fontFamily: "Outfit-SemiBold",
+    fontFamily: 'Outfit-SemiBold',
   },
   repostContainer: {
     borderWidth: size.getWidthSize(0.5),
@@ -837,12 +892,12 @@ const repostStyles = StyleSheet.create({
     marginBottom: size.getHeightSize(0),
   },
   swapContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     borderTopWidth: 1,
     borderColor: appColor.kGrayLight3,
     borderRadius: 8,
     marginTop: size.getHeightSize(8),
-    alignItems: "center",
+    alignItems: 'center',
     paddingHorizontal: size.getWidthSize(16),
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
@@ -850,7 +905,7 @@ const repostStyles = StyleSheet.create({
   repostImage: {
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
-    width: "100%",
+    width: '100%',
     maxHeight: size.getHeightSize(400),
   },
 });

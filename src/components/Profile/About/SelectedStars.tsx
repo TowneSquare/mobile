@@ -1,38 +1,39 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from "react-native";
-import { sizes } from "../../../utils";
-import { appColor } from "../../../constants";
-import SelectedSuperStars from "./SelectedSuperStars";
-import { NavigationProp, CommonActions } from "@react-navigation/native";
-import { RootStackParamList } from "../../../navigations/NavigationTypes";
-import { useAppSelector, useAppDispatch } from "../../../controller/hooks";
+import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
+import { sizes } from '../../../utils';
+import { appColor } from '../../../constants';
+import SelectedSuperStars from './SelectedSuperStars';
+import { NavigationProp, CommonActions } from '@react-navigation/native';
+import { RootStackParamList } from '../../../navigations/NavigationTypes';
+import { useAppSelector, useAppDispatch } from '../../../controller/hooks';
 import {
   resetSelectedSuperStar,
   setSuperStarsNFT,
-} from "../../../controller/UserController";
-import { updateSelectedSuperStars } from "../../../controller/UserController";
-import { useState } from "react";
-const { height, width } = Dimensions.get("window");
+} from '../../../controller/UserController';
+import { updateSelectedSuperStars } from '../../../controller/UserController';
+import { useState } from 'react';
+const { height, width } = Dimensions.get('window');
 
 const size = new sizes(height, width);
 interface Props {
   navigation: NavigationProp<
     RootStackParamList,
-    "SelectedSuperStarCollectionScreen" | "SuperStarCollectionScreen"
+    'SelectedSuperStarCollectionScreen' | 'SuperStarCollectionScreen'
   >;
 }
 const SelectedStars = ({ navigation }: Props) => {
   const dispatch = useAppDispatch();
-  const selectedStars = useAppSelector(
-    (state) => state.USER.selectedSuperStars
-  );
+  // const selectedStars = useAppSelector(
+  //   (state) => state.USER.selectedSuperStars
+  // );
+  const selectedStars = [];
   const token = useAppSelector((state) => state.USER.didToken);
   const [length, setlength] = useState<number>(selectedStars.length);
 
-  const disabled = selectedStars.length != length || selectedStars.length < 1;
+  const disabled = selectedStars.length != length || selectedStars.length < 0;
   return (
     <View style={styles.view}>
       <Text style={styles.text}>
-        Selected Super Stars{" "}
+        Selected Super Stars{' '}
         <Text style={[styles.text, { color: appColor.kTextColor }]}>
           {selectedStars.length}/6
         </Text>
@@ -42,7 +43,7 @@ const SelectedStars = ({ navigation }: Props) => {
         <Pressable
           onPress={() => {
             dispatch(resetSelectedSuperStar());
-            navigation.navigate("Profile");
+            navigation.navigate('Profile');
           }}
           style={[styles.cancelContainer]}
         >
@@ -54,11 +55,11 @@ const SelectedStars = ({ navigation }: Props) => {
             dispatch(setSuperStarsNFT({ token, selectedStars }));
             navigation.dispatch(
               CommonActions.navigate({
-                name: "DrawerNavigation",
+                name: 'DrawerNavigation',
                 params: {
-                  screen: "Tabs",
+                  screen: 'Tabs',
                   params: {
-                    screen: "UserProfile",
+                    screen: 'UserProfile',
                   },
                 },
               })
@@ -81,13 +82,13 @@ const styles = StyleSheet.create({
     color: appColor.grayLight,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
   },
   cancel: {
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: size.fontSize(18),
     lineHeight: size.getHeightSize(23),
-    fontFamily: "Outfit-Medium",
+    fontFamily: 'Outfit-Medium',
     color: appColor.feedBackground,
     letterSpacing: 0.36,
   },
@@ -105,9 +106,9 @@ const styles = StyleSheet.create({
     // alignSelf:"flex-end"
   },
   buttonsContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: size.getHeightSize(16),
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     marginRight: size.getWidthSize(16),
   },
   setSuperStarsButton: {
@@ -117,10 +118,10 @@ const styles = StyleSheet.create({
     borderRadius: 40,
   },
   setSuperStarsButtonText: {
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: size.fontSize(18),
     lineHeight: size.getHeightSize(23),
-    fontFamily: "Outfit-Medium",
+    fontFamily: 'Outfit-Medium',
     color: appColor.kTextColor,
   },
 });

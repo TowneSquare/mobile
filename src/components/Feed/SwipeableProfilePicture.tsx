@@ -223,7 +223,9 @@ const ProfilePicture = ({
       >
         <Avatar
           size={size.getHeightSize(40)}
-          source={profileImageUri ? { uri: profileImageUri } : images.pfpImage}
+          source={
+            profileImageUri ? { uri: profileImageUri } : images.defaultAvatar
+          }
           rounded
         />
       </View>
@@ -248,7 +250,9 @@ const ProfilePicture = ({
               >
                 <Image
                   source={
-                    profileImageUri ? { uri: profileImageUri } : images.pfpImage
+                    profileImageUri
+                      ? { uri: profileImageUri }
+                      : images.defaultAvatar
                   }
                   style={styles.image}
                 />

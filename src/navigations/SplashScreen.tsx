@@ -6,7 +6,11 @@ import { sizes } from '../utils';
 import { StatusBar } from 'expo-status-bar';
 import { getUserInfo } from '../api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { updateUserData } from '../controller/UserController';
+import {
+  updateUserData,
+  getUserData,
+  updateDidToken,
+} from '../controller/UserController';
 import AppLogo from '../../assets/images/svg/AppLogo';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../controller/hooks';
@@ -23,12 +27,13 @@ const SplashScreen = () => {
     const token = await AsyncStorage.getItem('user_token');
     const userId = await AsyncStorage.getItem('user_id');
     if (token && userId) {
+      dispatch(updateDidToken(token));
       const userInfo = await getUserInfo(userId, token);
       if (userInfo) {
-        console.log(userInfo.username);
         await storeDeviceTokenToFireStore(userId, deviceToken);
         await AsyncStorage.setItem('userData', JSON.stringify(userInfo));
         dispatch(updateUserData(userInfo));
+        dispatch(getUserData({ userId, token: token }));
         navigation.dispatch(
           CommonActions.reset({
             index: 0,

@@ -12,6 +12,12 @@ export const feedStyle = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: appColor.kgrayDark2,
   },
+  tags: {
+    color: appColor.kSecondaryButtonColor,
+    fontSize: size.fontSize(16),
+    lineHeight: size.getHeightSize(21),
+    fontFamily: 'Outfit-Regular',
+  },
   subHeading: {
     marginLeft: size.getWidthSize(8),
     width: size.getWidthSize(288),
@@ -32,7 +38,7 @@ export const feedStyle = StyleSheet.create({
     borderRadius: 8,
     width: '100%',
     maxHeight: size.getHeightSize(400),
-    alignSelf:"center"
+    alignSelf: 'center',
   },
   linkDescriptionContainer: {
     backgroundColor: appColor.grayDark,

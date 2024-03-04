@@ -124,7 +124,7 @@ const SignUp = ({ magic }: SignUpProps) => {
     <ConnectSocials magic={magic} signMethod={'SignUp'} />,
     <FindFriends token={token} />,
     // <ExploreCommunities />,
-    <ChooseProfilePics />,
+    <ChooseProfilePics userAddress={address} />,
   ];
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList<any>>(null);
@@ -156,9 +156,7 @@ const SignUp = ({ magic }: SignUpProps) => {
     if (viewIndex == 0) {
       try {
         dispatch(disableContinueButton(true));
-
         const res = await checkSignup(token);
-
         if (res.isExist && res.isExist == true) {
           await setLoginSession(res.wallet, res.userId);
           await storeDeviceTokenToFireStore(res.userId, deviceToken);
@@ -178,8 +176,8 @@ const SignUp = ({ magic }: SignUpProps) => {
     }
     if (newIndex < views.length && flatListRef.current) {
       if (newIndex == 2) {
-        // console.log('index is ======');
-        // console.log(viewIndex);
+        console.log('index is ======');
+        console.log(viewIndex);
         dispatch(disableContinueButton(true));
         const issuer = user.metadata !== undefined ? user.metadata.issuer : '';
         const res = await signup(
@@ -190,8 +188,7 @@ const SignUp = ({ magic }: SignUpProps) => {
           username,
           ''
         );
-        console.log('======================');
-
+      
         if (!res.error && res.success != false) {
           await setLoginSession(res.wallet, res.userId);
           setUserId(res.userId);
@@ -225,6 +222,7 @@ const SignUp = ({ magic }: SignUpProps) => {
       } else if (newIndex == 4) {
         const result = await updateConnectedSocial(userId, token, socialInfo);
       }
+
       setViewIndex((previous) => previous + 1);
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
     } else {
@@ -305,7 +303,7 @@ const SignUp = ({ magic }: SignUpProps) => {
   if (!isLoaded) {
     return null;
   }
-
+  console.log('===== reloading ======');
   return (
     <View
       style={[

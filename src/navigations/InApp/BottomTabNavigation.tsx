@@ -54,7 +54,6 @@ const BottomTabNavigation: React.FC<{
   const profilePics = useAppSelector(
     (state) => state.USER.UserData.profileImage
   );
-  console.log(profilePics);
   useEffect(() => {
     dispatch(updateCurrentTab(focusedRouteName));
   }, [focusedRouteName]);

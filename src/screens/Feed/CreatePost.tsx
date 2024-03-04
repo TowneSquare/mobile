@@ -221,7 +221,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
         <View style={styles.fieldInputContainer}>
           <Avatar
             rounded
-            source={profilePics ? { uri: profilePics } : images.createPostPfp}
+            source={profilePics ? { uri: profilePics } : images.defaultAvatar}
             size={size.getHeightSize(40)}
           />
           <FieldInput whichPost={whichPost} />

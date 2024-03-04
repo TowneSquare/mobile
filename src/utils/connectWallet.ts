@@ -1,4 +1,7 @@
 import * as Linking from 'expo-linking';
+import { Image } from 'react-native';
+import { images } from '../constants';
+import { TextEncoder, TextDecoder } from 'text-encoding';
 
 import {
   APTOS_COIN,
@@ -22,6 +25,11 @@ type ConnectData = {
   payload?: any;
 };
 type Wallet = 'pontem' | 'rise' | 'petra';
+const config = new AptosConfig({
+  network: Network.MAINNET,
+});
+const aptos = new Aptos(config);
+
 export const handlWalletConnect = async (walletName: Wallet) => {
   const redirect_link = Linking.createURL(`/ChooseWallet`);
 
@@ -34,7 +42,8 @@ export const handlWalletConnect = async (walletName: Wallet) => {
     };
 
     let base64ConnectData: string;
-    connectData.dappEncryptionPublicKey = await getDappPublicKey();
+    const { publicKeyString } = await getDappPublicKey();
+    connectData.dappEncryptionPublicKey = publicKeyString;
     base64ConnectData = Buffer.from(JSON.stringify(connectData)).toString(
       'base64'
     );
@@ -70,14 +79,30 @@ export const decodePetraWalletConnectResponse = async (response: {
   const responseDataJson = JSON.parse(
     Buffer.from(response.data, 'base64').toString('utf-8')
   );
-  const petraPublicKey = Uint8Array.from(
-    Buffer.from(responseDataJson.petraPublicEncryptedKey.slice(2), 'hex')
-  );
+
+  // const nonce = nacl.randomBytes(nacl.secretbox.nonceLength);
+  // console.log("===============nonce====================")
+  // console.log(nonce)
+  // const petraEncryptedPublicKey = Buffer.from(
+  //   responseDataJson.petraPublicEncryptedKey,
+  //   'hex'
+  // );
+  // const dappEncryptionPublicKey = await getDappPublicKey();
+
+  // const sharedKey = nacl.box.before(
+  //   petraEncryptedPublicKey,
+  //   Buffer.from(dappEncryptionPublicKey, 'hex')
+  // );
+  // console.log('==================response===================');
+  // console.log(sharedKey);
+  // const petraPublicKey = Uint8Array.from(
+  //   Buffer.from(response.data.petraPublicEncryptedKey.slice(2), 'hex')
+  // );
 
   const storedSecretKey = await AsyncStorage.getItem('petra_secretKey');
   const secretKeyArray = new Uint8Array(Buffer.from(storedSecretKey, 'base64'));
 
-  const sharedDappSecretKey = nacl.box.before(petraPublicKey, secretKeyArray);
+  // const sharedDappSecretKey = nacl.box.before(petraPublicKey, secretKeyArray);
   const wallet_public_address = {
     address: responseDataJson.address,
     publicKey: responseDataJson.publicKey,
@@ -103,30 +128,31 @@ export const decodePetraWalletConnectResponse = async (response: {
 
 export const getWalletBalance = async (walletAddress: string) => {
   // Set aptos network to mainnet
-  const config = new AptosConfig({
-    network: Network.MAINNET,
-  });
 
   //Create an instance of the aptos sdk
-  const aptos = new Aptos(config);
 
   //Get the account apt amount and the current price of apt
-  try {
-    const [aptAmount, currentPrice] = await Promise.all([
-      aptos.getAccountAPTAmount({
-        accountAddress: walletAddress,
-      }),
-      getAptMarketData(),
-    ]);
 
-    //Convert the apt amount to apt and return the apt amount and the current price
-    const aptDecimal = 10 ** 8;
-    const aptAmt = aptAmount / aptDecimal;
+  const [aptAmount, currentPrice] = await Promise.all([
+    aptos.getAccountAPTAmount({
+      accountAddress: walletAddress,
+    }),
+    getAptMarketData(),
+  ])
+    .then((res) => res)
+    .catch((err) => {
+      if (axios.isAxiosError(err)) {
+        return [0, null];
+      }
 
-    return { aptAmt, currentPrice };
-  } catch (err) {
-    console.log(err);
-  }
+      return [0, null];
+    });
+
+  //Convert the apt amount to apt and return the apt amount and the current price
+  const aptDecimal = 10 ** 8;
+  const aptAmt = aptAmount / aptDecimal;
+
+  return { aptAmt, currentPrice };
 };
 const getAptMarketData = async () => {
   const baseUrl =
@@ -151,21 +177,45 @@ export const submitTransactionToPetra = async (
   recipeient: string
   // currentScreen: string
 ) => {
+  const petraEncryptedapublicKey =
+    '0x92476d423dfad6fbdfaa214fc5c177799e96985465f23fb6b5611a9532d15248';
+  const petraPublicKeyUint8Array = new Uint8Array(
+    petraEncryptedapublicKey
+      .slice(2)
+      .match(/.{1,2}/g)
+      .map((byte) => parseInt(byte, 16))
+  );
+  const { Keys } = await getDappPublicKey();
+  const sharedDappSecretKey = nacl.box.before(
+    petraPublicKeyUint8Array,
+    Keys.secretKey
+  );
+  // console.log('==========Shared Secret================');
+  // console.log(sharedDappSecretKey);
   const redirect_link = Linking.createURL(`/${'DrawerNavigation'}`);
   const payload = {
     arguments: [
       '0x19e17197b6469d692c67a27f2e8634b96b6ae1e5c085dfc24350f08aba4d1a5',
-      190,
-      61,
-      207,
-      132,
-      132,
-      ,
+      9,
     ],
     function: '0x1::coin::transfer',
     type: 'entry_function_payload',
     type_arguments: ['0x1::aptos_coin::AptosCoin'],
   };
+  // const uint8Array = textEncoder.encode('Your string here');
+  const payloadUint8Array = new TextEncoder().encode(JSON.stringify(payload));
+
+  const nonce = nacl.randomBytes(nacl.secretbox.nonceLength);
+  console.log('===============nonce====================');
+  console.log(nonce);
+  const encryptedPayload = nacl.secretbox(
+    payloadUint8Array,
+    nonce,
+    sharedDappSecretKey
+  );
+  const hexString = Array.from(encryptedPayload)
+    .map((byte) => byte.toString(16).padStart(2, '0'))
+    .join('');
   // const TRANSACTION_PAYLOAD = {
   //   type: 'entry_function_payload',
   //   function: '0x1::aptos_account::transfer_coins',
@@ -186,18 +236,19 @@ export const submitTransactionToPetra = async (
   //   amount: 4,
   // });
   // console.log(transaction);
+
   let data: ConnectData = {
     appInfo: {
       domain: 'com.townesquare.townesquare',
     },
     redirectLink: redirect_link,
-    payload: payload,
+    payload: hexString,
   };
-  data.dappEncryptionPublicKey = await getDappPublicKey();
-  const base64ConnectData = Buffer.from(JSON.stringify(data)).toString(
-    'base64'
-  );
-  const url = `https://petra.app/api/v1/signAndSubmit?data=${base64ConnectData}`;
+  const { publicKeyString } = await getDappPublicKey();
+  data.dappEncryptionPublicKey = publicKeyString;
+  const submitDataBase64 = Buffer.from(JSON.stringify(data)).toString('base64');
+  // console.log(base64ConnectData);
+  const url = `https://petra.app/api/v1/signAndSubmit?data=${submitDataBase64}`;
   // console.log(url);
   Linking.openURL(url);
 };
@@ -221,11 +272,13 @@ const getDappPublicKey = async () => {
       Buffer.from(storedSecretKey, 'base64')
     );
 
-    const keysFromStorage = {
+    const Keys = {
       publicKey: publicKeyArray,
       secretKey: secretKeyArray,
     };
-    return Buffer.from(keysFromStorage.publicKey).toString('hex');
+    const publicKeyString = Buffer.from(Keys.publicKey).toString('hex');
+
+    return { publicKeyString, Keys };
   } else {
     const keyPair = nacl.box.keyPair();
 
@@ -235,7 +288,67 @@ const getDappPublicKey = async () => {
     await AsyncStorage.setItem('petra_publicKey', publicKeyBase64);
     await AsyncStorage.setItem('petra_secretKey', secretKeyBase64);
 
-    const publicKeystring = Buffer.from(keyPair.publicKey).toString('hex');
-    return publicKeystring;
+    const Keys = {
+      publicKey: keyPair.publicKey,
+      secretKey: keyPair.secretKey,
+    };
+    const publicKeyString = Buffer.from(keyPair.publicKey).toString('hex');
+    return { publicKeyString, Keys };
   }
+};
+
+/**
+ * Retrieves the supported tokens market data.
+ * @returns An array of objects containing the formatted market data for each supported token.
+ */
+export const getSupportedTokensMarketData = async (address: string) => {
+  const aptBalance = await aptos.getAccountAPTAmount({
+    accountAddress: address,
+  });
+
+  const aptDecimal = 10 ** 8;
+  const aptAmt = aptBalance / aptDecimal;
+  const assetImages = {
+    USDC: 'https://cryptologos.cc/logos/usd-coin-usdc-logo.png?v=029',
+    APT: Image.resolveAssetSource(images.aptToken).uri,
+    GUI: 'https://assets.coingecko.com/coins/images/33924/large/gui_inu_tg_tiny.png?1703408231',
+    THL: 'https://assets.coingecko.com/coins/images/29697/large/thalalogo.jpg?1696528630',
+    DOODOO:
+      'https://assets.coingecko.com/coins/images/35033/large/doodoo.png?1707189618',
+  };
+  const assetBalance = {
+    USDC: '0',
+    APT: aptAmt.toFixed(3).toString(),
+    GUI: '0',
+    THL: '0',
+    DOODOO: '0',
+  };
+  const baseUrl =
+    'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest';
+  const response = await axios.get(baseUrl, {
+    params: {
+      symbol: 'USDC,APT,GUI,THL,DOODOO',
+      convert: 'USD',
+    },
+    headers: {
+      'X-CMC_PRO_API_KEY': CMC_PRO_API_KEY, // Make sure to define CMC_PRO_API_KEY
+    },
+  });
+
+  let formattedData = Object.entries(response.data.data).map(
+    ([key, value]: any) => {
+      return {
+        assetImage: assetImages[value.symbol],
+        assetName: value.name,
+        assetSymbol: value.symbol,
+        assetBalance: assetBalance[value.symbol], // Placeholder for balance
+        assetMarketPrice: `${value.quote.USD.price.toFixed(2)}`,
+        assetPercentChange24h: `${value.quote.USD.percent_change_24h.toFixed(
+          2
+        )}`,
+      };
+    }
+  );
+
+  return formattedData;
 };

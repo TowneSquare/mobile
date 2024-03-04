@@ -66,6 +66,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
           })
         );
       } catch (e) {
+        console.log(e)
         dispatch(
           updateToast({
             toastType: 'info',
@@ -189,11 +190,6 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
           signupstate={walletConnectionResponse}
           callBack={() => {
             if (walletConnectionResponse === 'approved') {
-              if (!walletConnectDetails.address) {
-                handlWalletConnect(selectedWallet);
-
-              }
-            else{
               dispatch(
                 updateToast({
                   toastType: 'success',
@@ -204,14 +200,13 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
               navigation.navigate('SignUp', {
                 walletCredentials: walletConnectDetails,
               });
-            }
             } else {
               handlWalletConnect(selectedWallet);
             }
           }}
           buttonText={
             selectedWallet === 'petra' &&
-            walletConnectionResponse === 'approved' 
+            walletConnectionResponse === 'approved'
               ? 'Sign in and continue'
               : 'Connect wallet'
           }

@@ -104,10 +104,10 @@ const TheirProfileScreen = ({
   const [view, setView] = useState<number>(2);
   const { userId, username, nickname } = route.params;
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [aptosName, setAptosName] = useState<string>('unavailable');
-  const [token, setToken] = useState('');
+  const [aptosName, setAptosName] = useState<string>('.apt');
+  // const [token, setToken] = useState('');
   const profile = useAppSelector((state) => state.USER.UserData);
-  const { userFollowing, user } = useAppSelector((state) => ({
+  const { userFollowing, user, token } = useAppSelector((state) => ({
     userFollowing: state.USER.UserData.following,
     token: state.USER.didToken,
     user: state.USER.UserData._id,
@@ -121,7 +121,7 @@ const TheirProfileScreen = ({
     return await axios
       .get(`${BACKEND_URL}user/${userId}`, {
         headers: {
-          Authorization: user_token,
+          Authorization: token,
         },
       })
       .then((response) => response.data);
@@ -164,7 +164,7 @@ const TheirProfileScreen = ({
       const aptosName: string = res?.data;
       setAptosName(aptosName);
     } catch (error) {
-      setAptosName('unavailable');
+      setAptosName('.apt');
       return 'unavailable';
     }
   };
@@ -174,7 +174,7 @@ const TheirProfileScreen = ({
 
     (async function () {
       const token = await AsyncStorage.getItem('user_token');
-      setToken(token);
+      // setToken(token);
       // dispatch(getUserData({ userId: user, token }));
       setFollowing(
         userFollowing.some(
@@ -206,12 +206,12 @@ const TheirProfileScreen = ({
       customer: {
         _id: res?.customer?._id,
         issuer: res?.customer?.issuer || '',
-        aptosWallet: res?.customer?.aptosWallet,
-        nickname: res?.customer?.nickname,
-        username: res?.customer?.username,
+        aptosWallet: userInfo.data?.aptosWallet,
+        nickname: userInfo.data?.nickname,
+        username: userInfo.data?.username,
         email: res?.customer?.email || '',
         referralCode: res?.customer?.referralCode || '',
-        profileImage: res?.customer?.profileImage || '',
+        profileImage: userInfo.data?.profileImage || '',
         createdAt: res?.createdAt,
       },
       sellNFTPrice: res?.sellNFTPrice,
@@ -373,6 +373,7 @@ const TheirProfileScreen = ({
             FOLLOWING={userInfo.data?.following?.length.toString()}
             POST={userInfo.data?.posts?.length.toString()}
             profileImageUri={userInfo?.data.profileImage}
+            BADGES={userInfo.data?.badge}
           />
           <View style={styles.view}>
             <Pressable
@@ -432,7 +433,15 @@ const TheirProfileScreen = ({
               About
             </Text>
             <View>
-              <Text style={styles.aboutText}>{userInfo.data?.bio}</Text>
+              {userInfo.data?.bio ? (
+                <Text style={styles.aboutText}>{userInfo.data?.bio}</Text>
+              ) : (
+                <Text
+                  style={{ ...styles.aboutText, color: appColor.grayLight }}
+                >
+                  No Bio
+                </Text>
+              )}
             </View>
           </View>
           {userInfo.data?.superstars?.nftInfoArray.length > 0 ? (
@@ -562,7 +571,7 @@ const styles = StyleSheet.create({
     color: appColor.kGrayscale,
   },
   aboutDiv: {
-    marginVertical: size.getHeightSize(24),
+    marginTop: size.getHeightSize(24),
     marginHorizontal: size.getWidthSize(16),
   },
   aboutHeader: {

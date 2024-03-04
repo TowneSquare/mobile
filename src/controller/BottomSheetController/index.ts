@@ -1,8 +1,5 @@
-import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { images } from "../../constants";
-import { AssetsData } from "../UserController/models";
-import { storeDeviceTokenToFireStore } from "../../services/PushNotification";
-import { RootState } from "../store";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { images } from '../../constants';
 interface NftCollection {
   nftImageUrl?: any;
   nftCollection?: string;
@@ -20,9 +17,9 @@ interface initialStateProps {
   profilePics: {
     image: any;
     name: string;
-    id: string;
+    id: number;
   };
-  listOfNftCollections: AssetsData[];
+  listOfNftCollections: NftCollection[];
   superStarBottomSheet: boolean;
   verificationModal: boolean;
   handleTransactiondetailBottomsheet: {
@@ -31,7 +28,7 @@ interface initialStateProps {
       name: string;
       dexImage: string;
     };
-    type: "token_swap" | "token_transfer" | undefined;
+    type: 'token_swap' | 'token_transfer' | undefined;
   };
   selectUserBottomsheet: {
     visibility: boolean;
@@ -53,39 +50,80 @@ const initialState: initialStateProps = {
   selectedRender: 0,
   profilePics: {
     image: undefined,
-    name: "",
-    id: "",
+    name: '',
+    id: 0,
   },
-  listOfNftCollections: [],
+  listOfNftCollections: [
+    {
+      nftImageUrl: images.NftCollection1,
+      nftCollection: 'Aptos Monkey lorem Ipsumdalr',
+      nftTokenId: 1,
+    },
+    {
+      nftImageUrl: images.NftCollection2,
+      nftCollection: 'Aptomingos',
+      nftTokenId: 2,
+    },
+    {
+      nftImageUrl: images.superStar2,
+      nftCollection: 'Aptos Monkey lorem Ipsumdalr',
+      nftTokenId: 3,
+    },
+    {
+      nftImageUrl: images.NftCollection2,
+      nftCollection: 'Aptomingos',
+      nftTokenId: 4,
+    },
+    {
+      nftImageUrl: images.superStar1,
+      nftCollection: 'Aptos Monkey lorem Ipsumdalr',
+      nftTokenId: 5,
+    },
+    {
+      nftImageUrl: images.NftCollection2,
+      nftCollection: 'Aptomingos',
+      nftTokenId: 6,
+    },
+    {
+      nftImageUrl: images.NftCollection1,
+      nftCollection: 'Aptos Monkey lorem Ipsumdalr',
+      nftTokenId: 7,
+    },
+    {
+      nftImageUrl: images.NftCollection2,
+      nftCollection: 'Aptomingos',
+      nftTokenId: 8,
+    },
+  ],
   superStarBottomSheet: false,
   verificationModal: false,
   handleTransactiondetailBottomsheet: {
     visibility: false,
     dex: {
-      name: "",
-      dexImage: "",
+      name: '',
+      dexImage: '',
     },
     type: undefined,
   },
   selectUserBottomsheet: {
     visibility: false,
     selectedUser: {
-      name: "",
-      username: "",
-      profilePicsUri: "",
+      name: '',
+      username: '',
+      profilePicsUri: '',
     },
   },
   islogoutBottomsheetVisibile: false,
 };
 
 export const bottomSheetSlice = createSlice({
-  name: "BottomSheet",
+  name: 'BottomSheet',
   initialState,
   reducers: {
     updateBottomSheet: (state, action: PayloadAction<boolean>) => {
       state.isBottomSheetOpen = action.payload;
     },
-
+ 
     updateUploadImageModalOpen: (state, action: PayloadAction<boolean>) => {
       state.uploadImageModalOpen = action.payload;
     },
@@ -113,9 +151,6 @@ export const bottomSheetSlice = createSlice({
     updateVerificationModal: (state, action: PayloadAction<boolean>) => {
       state.verificationModal = action.payload;
     },
-    updateListOfNFTCollection: (state, action: PayloadAction<AssetsData[]>) => {
-      state.listOfNftCollections = action.payload;
-    },
     // updateNotFoundModal: (state, action: PayloadAction<boolean>) => {
     //   state.notFoundModal = action.payload;
     // },
@@ -127,7 +162,7 @@ export const bottomSheetSlice = createSlice({
           name: string;
           dexImage: string;
         };
-        type: "token_swap" | "token_transfer" | undefined;
+        type: 'token_swap' | 'token_transfer' | undefined;
       }>
     ) => {
       state.handleTransactiondetailBottomsheet = action.payload;
@@ -170,15 +205,6 @@ export const {
   updateTransactionDetailsBottomsheet,
   updateSelectUserBottomsheet,
   updateLogoutBottomSheetVisibility,
-  updateListOfNFTCollection,
 } = bottomSheetSlice.actions;
 
 export default bottomSheetSlice.reducer;
-
-const listOfNftCollections = (state: RootState) =>
-  state.bottomSheetController.listOfNftCollections;
-
-export const nftAssets = createSelector(
-  [listOfNftCollections],
-  (listOfNftCollections) => listOfNftCollections
-);

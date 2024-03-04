@@ -62,6 +62,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
   const [viewIndex, setViewIndex] = useState(0);
   const [userId, setUserId] = useState('');
   const [token, setToken] = useState('');
+  const [address, setAddress] = useState('');
 
   const {
     nickNameError,
@@ -122,7 +123,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     <ConnectSocials magic={magic} signMethod={'EmailLogin'} />,
     <FindFriends token={token} />,
     // <ExploreCommunities />,
-    <ChooseProfilePics />,
+    <ChooseProfilePics userAddress={address} />,
   ];
   const onViewChangeRef = useRef(({ viewableItems }: any) => {
     setViewIndex(viewableItems[0]?.index);
@@ -165,6 +166,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
         dispatch(updateDidToken(token));
         const accountInfo = await magic.aptos.getAccountInfo();
         dispatch(updateAccountInfo(accountInfo));
+        setAddress(accountInfo?.address);
         const metadata = await magic.user.getMetadata();
         dispatch(updateMetadata(metadata));
         const res = await checkSignup(token);
