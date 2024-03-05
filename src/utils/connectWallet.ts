@@ -1,20 +1,21 @@
-import * as Linking from 'expo-linking';
-import { Image } from 'react-native';
-import { images } from '../constants';
-import { TextEncoder, TextDecoder } from 'text-encoding';
+import * as Linking from "expo-linking";
+import { Image } from "react-native";
+import { images } from "../constants";
+import { TextEncoder, TextDecoder } from "text-encoding";
 
 import {
   APTOS_COIN,
   Aptos,
   AptosConfig,
+  GetAccountCoinsDataResponse,
   Network,
   NetworkToNetworkName,
-} from '@aptos-labs/ts-sdk';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { decode as atob, encode as btoa } from 'base-64';
-import nacl, { BoxKeyPair, randomBytes } from 'tweetnacl';
-import axios from 'axios';
-import { CMC_PRO_API_KEY } from '../../constants';
+} from "@aptos-labs/ts-sdk";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { decode as atob, encode as btoa } from "base-64";
+import nacl, { BoxKeyPair, randomBytes } from "tweetnacl";
+import axios from "axios";
+import { CMC_PRO_API_KEY } from "../../constants";
 
 // Data type for petra wallet connect
 type ConnectData = {
@@ -27,11 +28,11 @@ type ConnectData = {
 };
 
 // Supported wallet types
-type Wallet = 'pontem' | 'rise' | 'petra';
+type Wallet = "pontem" | "rise" | "petra";
 
 // Create an instance of the aptos sdk
 const config = new AptosConfig({
-  network: Network.MAINNET,
+  network: Network.TESTNET,
 });
 const aptos = new Aptos(config);
 
@@ -39,10 +40,10 @@ export const handlWalletConnect = async (walletName: Wallet) => {
   // redirect link for the wallet connect
   const redirect_link = Linking.createURL(`/ChooseWallet`);
 
-  if (walletName === 'petra') {
+  if (walletName === "petra") {
     let connectData: ConnectData = {
       appInfo: {
-        domain: 'com.townesquare.townesquare',
+        domain: "com.townesquare.townesquare",
       },
       redirectLink: redirect_link,
     };
@@ -55,23 +56,23 @@ export const handlWalletConnect = async (walletName: Wallet) => {
 
     // Convert the connect data to base64
     base64ConnectData = Buffer.from(JSON.stringify(connectData)).toString(
-      'base64'
+      "base64"
     );
 
     const url = `https://petra.app/api/v1/connect?data=${base64ConnectData}`;
 
     // Open the wallet connect link
     await Linking.openURL(url);
-  } else if (walletName === 'pontem') {
+  } else if (walletName === "pontem") {
     //TODO: Add pontem wallet connect
     const appInfo = {
-      name: 'Townesquare',
+      name: "Townesquare",
       logoUrl:
-        'https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png',
+        "https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png",
       redirectLink: redirect_link,
     };
     const base64ConnectData = Buffer.from(JSON.stringify(appInfo)).toString(
-      'base64'
+      "base64"
     );
 
     const url = `pontem-wallet://mob2mob?connect=${base64ConnectData}`;
@@ -91,7 +92,7 @@ export const decodePetraWalletConnectResponse = async (response: {
   response: string;
 }) => {
   const responseDataJson = JSON.parse(
-    Buffer.from(response.data, 'base64').toString('utf-8')
+    Buffer.from(response.data, "base64").toString("utf-8")
   );
 
   // TODO: Add the logic to generate a shared secret to encrypt the payload to be submitted to petra
@@ -122,8 +123,8 @@ export const decodePetraWalletConnectResponse = async (response: {
     address: responseDataJson.address,
     publicKey: responseDataJson.publicKey,
   };
- // return user petra wallet address 
-  return { token: '', address: responseDataJson.address };
+  // return user petra wallet address
+  return { token: "", address: responseDataJson.address };
 };
 
 export const getWalletBalance = async (walletAddress: string) => {
@@ -150,24 +151,22 @@ export const getWalletBalance = async (walletAddress: string) => {
   return { aptAmt, currentPrice };
 };
 
-
 const getAptMarketData = async () => {
   const baseUrl =
-    'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest';
+    "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest";
 
   const response = await axios.get(baseUrl, {
     params: {
-      symbol: 'APT',
-      convert: 'USD',
+      symbol: "APT",
+      convert: "USD",
     },
     headers: {
-      'X-CMC_PRO_API_KEY': CMC_PRO_API_KEY,
+      "X-CMC_PRO_API_KEY": CMC_PRO_API_KEY,
     },
   });
 
   return response.data.data.APT.quote.USD.price;
 };
-
 
 // TODO: Add the logic to submit a transaction to petra
 export const submitTransactionToPetra = async (
@@ -177,7 +176,7 @@ export const submitTransactionToPetra = async (
   // currentScreen: string
 ) => {
   const petraEncryptedapublicKey =
-    '0x92476d423dfad6fbdfaa214fc5c177799e96985465f23fb6b5611a9532d15248';
+    "0x92476d423dfad6fbdfaa214fc5c177799e96985465f23fb6b5611a9532d15248";
   const petraPublicKeyUint8Array = new Uint8Array(
     petraEncryptedapublicKey
       .slice(2)
@@ -191,21 +190,21 @@ export const submitTransactionToPetra = async (
   );
   // console.log('==========Shared Secret================');
   // console.log(sharedDappSecretKey);
-  const redirect_link = Linking.createURL(`/${'DrawerNavigation'}`);
+  const redirect_link = Linking.createURL(`/${"DrawerNavigation"}`);
   const payload = {
     arguments: [
-      '0x19e17197b6469d692c67a27f2e8634b96b6ae1e5c085dfc24350f08aba4d1a5',
+      "0x19e17197b6469d692c67a27f2e8634b96b6ae1e5c085dfc24350f08aba4d1a5",
       9,
     ],
-    function: '0x1::coin::transfer',
-    type: 'entry_function_payload',
-    type_arguments: ['0x1::aptos_coin::AptosCoin'],
+    function: "0x1::coin::transfer",
+    type: "entry_function_payload",
+    type_arguments: ["0x1::aptos_coin::AptosCoin"],
   };
   // const uint8Array = textEncoder.encode('Your string here');
   const payloadUint8Array = new TextEncoder().encode(JSON.stringify(payload));
 
   const nonce = nacl.randomBytes(nacl.secretbox.nonceLength);
-  console.log('===============nonce====================');
+  console.log("===============nonce====================");
   console.log(nonce);
   const encryptedPayload = nacl.secretbox(
     payloadUint8Array,
@@ -213,8 +212,8 @@ export const submitTransactionToPetra = async (
     sharedDappSecretKey
   );
   const hexString = Array.from(encryptedPayload)
-    .map((byte) => byte.toString(16).padStart(2, '0'))
-    .join('');
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
   // const TRANSACTION_PAYLOAD = {
   //   type: 'entry_function_payload',
   //   function: '0x1::aptos_account::transfer_coins',
@@ -238,14 +237,14 @@ export const submitTransactionToPetra = async (
 
   let data: ConnectData = {
     appInfo: {
-      domain: 'com.townesquare.townesquare',
+      domain: "com.townesquare.townesquare",
     },
     redirectLink: redirect_link,
     payload: hexString,
   };
   const { publicKeyString } = await getDappPublicKey();
   data.dappEncryptionPublicKey = publicKeyString;
-  const submitDataBase64 = Buffer.from(JSON.stringify(data)).toString('base64');
+  const submitDataBase64 = Buffer.from(JSON.stringify(data)).toString("base64");
   // console.log(base64ConnectData);
   const url = `https://petra.app/api/v1/signAndSubmit?data=${submitDataBase64}`;
   // console.log(url);
@@ -259,39 +258,39 @@ export const submitTransactionToPetra = async (
  * @returns The Dapp public key as a hexadecimal string.
  */
 const getDappPublicKey = async () => {
-  const storedPublicKey = await AsyncStorage.getItem('petra_publicKey');
-  const storedSecretKey = await AsyncStorage.getItem('petra_secretKey');
+  const storedPublicKey = await AsyncStorage.getItem("petra_publicKey");
+  const storedSecretKey = await AsyncStorage.getItem("petra_secretKey");
 
   if (storedPublicKey && storedSecretKey) {
     const publicKeyArray = new Uint8Array(
-      Buffer.from(storedPublicKey, 'base64')
+      Buffer.from(storedPublicKey, "base64")
     );
 
     const secretKeyArray = new Uint8Array(
-      Buffer.from(storedSecretKey, 'base64')
+      Buffer.from(storedSecretKey, "base64")
     );
 
     const Keys = {
       publicKey: publicKeyArray,
       secretKey: secretKeyArray,
     };
-    const publicKeyString = Buffer.from(Keys.publicKey).toString('hex');
+    const publicKeyString = Buffer.from(Keys.publicKey).toString("hex");
 
     return { publicKeyString, Keys };
   } else {
     const keyPair = nacl.box.keyPair();
 
-    const publicKeyBase64 = Buffer.from(keyPair.publicKey).toString('base64');
-    const secretKeyBase64 = Buffer.from(keyPair.secretKey).toString('base64');
+    const publicKeyBase64 = Buffer.from(keyPair.publicKey).toString("base64");
+    const secretKeyBase64 = Buffer.from(keyPair.secretKey).toString("base64");
 
-    await AsyncStorage.setItem('petra_publicKey', publicKeyBase64);
-    await AsyncStorage.setItem('petra_secretKey', secretKeyBase64);
+    await AsyncStorage.setItem("petra_publicKey", publicKeyBase64);
+    await AsyncStorage.setItem("petra_secretKey", secretKeyBase64);
 
     const Keys = {
       publicKey: keyPair.publicKey,
       secretKey: keyPair.secretKey,
     };
-    const publicKeyString = Buffer.from(keyPair.publicKey).toString('hex');
+    const publicKeyString = Buffer.from(keyPair.publicKey).toString("hex");
     return { publicKeyString, Keys };
   }
 };
@@ -308,29 +307,29 @@ export const getSupportedTokensMarketData = async (address: string) => {
   const aptDecimal = 10 ** 8;
   const aptAmt = aptBalance / aptDecimal;
   const assetImages = {
-    USDC: 'https://cryptologos.cc/logos/usd-coin-usdc-logo.png?v=029',
+    USDC: "https://cryptologos.cc/logos/usd-coin-usdc-logo.png?v=029",
     APT: Image.resolveAssetSource(images.aptToken).uri,
-    GUI: 'https://assets.coingecko.com/coins/images/33924/large/gui_inu_tg_tiny.png?1703408231',
-    THL: 'https://assets.coingecko.com/coins/images/29697/large/thalalogo.jpg?1696528630',
+    GUI: "https://assets.coingecko.com/coins/images/33924/large/gui_inu_tg_tiny.png?1703408231",
+    THL: "https://assets.coingecko.com/coins/images/29697/large/thalalogo.jpg?1696528630",
     DOODOO:
-      'https://assets.coingecko.com/coins/images/35033/large/doodoo.png?1707189618',
+      "https://assets.coingecko.com/coins/images/35033/large/doodoo.png?1707189618",
   };
   const assetBalance = {
-    USDC: '0',
+    USDC: "0",
     APT: aptAmt.toFixed(3).toString(),
-    GUI: '0',
-    THL: '0',
-    DOODOO: '0',
+    GUI: "0",
+    THL: "0",
+    DOODOO: "0",
   };
   const baseUrl =
-    'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest';
+    "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest";
   const response = await axios.get(baseUrl, {
     params: {
-      symbol: 'USDC,APT,GUI,THL,DOODOO',
-      convert: 'USD',
+      symbol: "USDC,APT,GUI,THL,DOODOO",
+      convert: "USD",
     },
     headers: {
-      'X-CMC_PRO_API_KEY': CMC_PRO_API_KEY, // Make sure to define CMC_PRO_API_KEY
+      "X-CMC_PRO_API_KEY": CMC_PRO_API_KEY, // Make sure to define CMC_PRO_API_KEY
     },
   });
 

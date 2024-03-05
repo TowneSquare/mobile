@@ -7,79 +7,51 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
-} from 'react-native';
-import { appColor } from '../../constants';
-import WalletCard from '../../components/Wallet/WalletCard';
-import { images } from '../../constants';
-import { sizes } from '../../utils';
-import Token from '../../components/Wallet/Token';
-import Transaction from '../../components/Wallet/Transaction';
-import { useMemo, useEffect, useState } from 'react';
-import {
-  getWalletBalance,
-  getSupportedTokensMarketData,
-} from '../../utils/connectWallet';
-import { TokenDetails } from '../../models/wallet';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-import { getAptosName } from '../../controller/UserController';
-const { height, width } = Dimensions.get('window');
+} from "react-native";
+import { appColor } from "../../constants";
+import WalletCard from "../../components/Wallet/WalletCard";
+import { images } from "../../constants";
+import { sizes } from "../../utils";
+import Token from "../../components/Wallet/Token";
+import Transaction from "../../components/Wallet/Transaction";
+import { useMemo, useEffect, useState } from "react";
+import { TokenDetails } from "../../models/wallet";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import { getAptosName } from "../../controller/UserController";
+import { getUserApt, getUserTokens } from "../../api/hooks/wallet";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const Wallet = () => {
   const [refreshing, setRefreshing] = useState(false);
-  const [addressBalance, setAddressBalance] = useState(0);
   const [isWalletBalanceLoading, setLoading] = useState(false);
   const [tokenData, setTokenData] = useState<TokenDetails[]>([]);
   const dispatch = useAppDispatch();
-  const { APTOS_DOMAIN_NAME, address } = useAppSelector((state) => ({
+  const { APTOS_DOMAIN_NAME, address, token } = useAppSelector((state) => ({
     APTOS_DOMAIN_NAME: state.USER.aptosName,
     address: state.USER.UserData.aptosWallet,
+    token: state.USER.didToken,
   }));
 
-
   useEffect(() => {
-    (async function () {
-      // Fetch wallet balance and supported tokens market data
-      setLoading(true);
-      Promise.all([
-        getWalletBalance(address),
-        getSupportedTokensMarketData(address),
-      ])
-        .then(([walletBalance, marketData]) => {
-          // Calculate the equivalent price of the wallet balance
-          const { aptAmt, currentPrice } = walletBalance;
-          const priceEquivalent = aptAmt * parseFloat(currentPrice);
-          setAddressBalance(isNaN(priceEquivalent) ? 0 : priceEquivalent);
+    const fetchData = async () => {
+      if (!token) {
+        return;
+      }
+      const response = await getUserApt(token);
+      console.log("getUserApt data", response);
+    };
 
-          // Set the token data
-          setTokenData(marketData);
-        })
-        .catch((error) => {
-          if(error==='')
-          console.log(error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    })();
-  }, []);
+    fetchData();
+  }, [token]);
+
+  const { tokens, error, isLoading, refetch, addressBalance } =
+    getUserTokens(address);
+
   useMemo(() => dispatch(getAptosName({ address })), [address]);
 
   // Handle reload
   const handleReload = async () => {
-    Promise.all([
-      getWalletBalance(address),
-      getSupportedTokensMarketData(address),
-    ])
-      .then(([walletBalance, marketData]) => {
-        const { aptAmt, currentPrice } = walletBalance;
-        const priceEquivalent = aptAmt * parseFloat(currentPrice);
-        setAddressBalance(priceEquivalent);
-        setTokenData(marketData);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {});
+    refetch();
   };
   return (
     <SafeAreaView
@@ -98,7 +70,7 @@ const Wallet = () => {
       >
         <WalletCard
           APTOS_DOMAIN_NAME={
-            APTOS_DOMAIN_NAME ? APTOS_DOMAIN_NAME : 'UNAVAILABLE'
+            APTOS_DOMAIN_NAME ? APTOS_DOMAIN_NAME : "UNAVAILABLE"
           }
           WALLET_ADDRESS={address}
           addressBalance={addressBalance}
@@ -115,17 +87,18 @@ const Wallet = () => {
         ) : (
           <>
             <Text style={styles.text}>Token</Text>
-            {tokenData.map((token, index) => (
-              <Token
-                key={index}
-                name={token.assetSymbol}
-                id={token.assetName}
-                amount={token.assetBalance}
-                currentPrice={token.assetMarketPrice}
-                priceChange={token.assetPercentChange24h}
-                imageUri={token.assetImage}
-              />
-            ))}
+            {tokens &&
+              tokens.map((token, index) => (
+                <Token
+                  key={index}
+                  name={token.assetSymbol}
+                  id={token.assetName}
+                  amount={token.assetBalance}
+                  currentPrice={token.assetMarketPrice}
+                  priceChange={token.assetPercentChange24h}
+                  imageUri={token.assetImage}
+                />
+              ))}
 
             <Text
               style={[styles.text, { marginBottom: size.getHeightSize(8) }]}
@@ -172,7 +145,7 @@ const styles = StyleSheet.create({
   text: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(20),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     lineHeight: size.getHeightSize(24),
     letterSpacing: 0.4,
     marginTop: size.getHeightSize(24),

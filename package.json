@@ -5,6 +5,7 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
+    "androiddev": "expo start --localhost --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest",
