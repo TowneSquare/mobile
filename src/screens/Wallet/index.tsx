@@ -25,6 +25,7 @@ const Wallet = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [isWalletBalanceLoading, setLoading] = useState(false);
   const [tokenData, setTokenData] = useState<TokenDetails[]>([]);
+  const [accountAptValue, setAccountAptValue] = useState<string>("");
   const dispatch = useAppDispatch();
   const { APTOS_DOMAIN_NAME, address, token } = useAppSelector((state) => ({
     APTOS_DOMAIN_NAME: state.USER.aptosName,
@@ -39,6 +40,9 @@ const Wallet = () => {
       }
       const response = await getUserApt(token);
       console.log("getUserApt data", response);
+      setAccountAptValue(
+        response?.data?.ansName.map((apt) => `${apt}.apt`).join(", ") || ""
+      );
     };
 
     fetchData();
@@ -74,6 +78,7 @@ const Wallet = () => {
           }
           WALLET_ADDRESS={address}
           addressBalance={addressBalance}
+          aptValue={accountAptValue}
         />
 
         {isWalletBalanceLoading ? (
