@@ -66,8 +66,7 @@ export const handlWalletConnect = async (walletName: Wallet) => {
     //TODO: Add pontem wallet connect
     const appInfo = {
       name: 'Townesquare',
-      logoUrl:
-        'https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png',
+      logoUrl: Image.resolveAssetSource(images.defaultAvatar).uri,
       redirectLink: redirect_link,
     };
     const base64ConnectData = Buffer.from(JSON.stringify(appInfo)).toString(
@@ -122,8 +121,18 @@ export const decodePetraWalletConnectResponse = async (response: {
     address: responseDataJson.address,
     publicKey: responseDataJson.publicKey,
   };
- // return user petra wallet address 
+  // return user petra wallet address
   return { token: '', address: responseDataJson.address };
+};
+
+
+// Decode the response from the Pontem Wallet Connect and returns the wallet address
+export const decodePontemWalletConnectResponse = async (account: string) => {
+  const responseDataJson = JSON.parse(
+    Buffer.from(account, 'base64').toString('utf-8')
+  );
+
+  return { token: '', address: responseDataJson.account.address };
 };
 
 export const getWalletBalance = async (walletAddress: string) => {
@@ -150,7 +159,6 @@ export const getWalletBalance = async (walletAddress: string) => {
   return { aptAmt, currentPrice };
 };
 
-
 const getAptMarketData = async () => {
   const baseUrl =
     'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest';
@@ -167,7 +175,6 @@ const getAptMarketData = async () => {
 
   return response.data.data.APT.quote.USD.price;
 };
-
 
 // TODO: Add the logic to submit a transaction to petra
 export const submitTransactionToPetra = async (
