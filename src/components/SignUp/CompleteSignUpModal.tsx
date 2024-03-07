@@ -11,7 +11,7 @@ const { height, width } = Dimensions.get('window');
 interface Props {
   callBack: () => void;
   buttonText: string;
-  signupstate: 'approved' | 'rejected' | 'dismissed';
+  signupstate: () => boolean;
 }
 const size = new sizes(height, width);
 const CompleteSignUpModal = ({ callBack, buttonText, signupstate }: Props) => {
@@ -35,7 +35,7 @@ const CompleteSignUpModal = ({ callBack, buttonText, signupstate }: Props) => {
       >
         <Text style={styles.completeSigning}>Complete Signing in</Text>
         <Text style={styles.connectText}>
-          {signupstate === 'approved'
+          {signupstate() === true
             ? 'Sign the transaction in your wallet and complete the Sign in '
             : 'Connecting your wallet allows you to perform transactions by signing natively in the app.'}
         </Text>

@@ -22,9 +22,10 @@ import CompleteSignUpModal from '../../components/SignUp/CompleteSignUpModal';
 import { sizes } from '../../utils';
 import {
   decodePetraWalletConnectResponse,
+  decodePontemWalletConnectResponse,
   handlWalletConnect,
 } from '../../utils/connectWallet';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import BackButton from '../../components/SignUp/BackButton';
 import { ChooseWalletProps } from '../../navigations/NavigationTypes';
 const { height, width } = Dimensions.get('window');
@@ -41,7 +42,22 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
     shouldGenerateTokenfromAddress: true,
     token: '',
   });
-  const walletConnectionResponse = route.params?.response;
+  const petraConnectionResponse = route.params?.response;
+  const pontemConnectionResponse = route.params?.account;
+
+  const walletConnectFeedBack = useCallback(() => {
+    if (selectedWallet === 'petra' && petraConnectionResponse === 'approved') {
+      return true;
+    } else if (selectedWallet === 'pontem' && route.params?.account) {
+      return true;
+    }
+    return false;
+  }, [
+    petraConnectionResponse,
+    pontemConnectionResponse,
+    route.params?.account,
+    selectedWallet,
+  ]);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -66,7 +82,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
           })
         );
       } catch (e) {
-        console.log(e)
+        console.log(e);
         dispatch(
           updateToast({
             toastType: 'info',
@@ -77,14 +93,41 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
         );
       }
     };
-    if (selectedWallet === 'petra' && walletConnectionResponse === 'approved') {
+    if (selectedWallet === 'petra' && walletConnectFeedBack()) {
       handleConnect();
-    } else if (
-      selectedWallet === 'pontem' &&
-      walletConnectionResponse === 'approved'
-    ) {
+    } else if (selectedWallet === 'pontem' && route.params?.account) {
+      (async () => {
+        try {
+          const { token, address } = await decodePontemWalletConnectResponse(
+            route.params?.account
+          );
+          setWalletConnect({
+            address,
+            token,
+            shouldGenerateTokenfromAddress: true,
+          });
+          dispatch(updateBottomSheet(true));
+          dispatch(
+            updateToast({
+              toastType: 'success',
+              displayToast: true,
+              toastMessage: `Connected:${address}`,
+            })
+          );
+        } catch (e) {
+          console.log(e);
+          dispatch(
+            updateToast({
+              toastType: 'info',
+              displayToast: true,
+              toastMessage:
+                'Something went wrong, revoke from your dapp and reconnect',
+            })
+          );
+        }
+      })();
     }
-  }, [selectedWallet, walletConnectionResponse]);
+  }, [selectedWallet, walletConnectFeedBack(), pontemConnectionResponse]);
 
   const handleWalletConnect = (wallet: Wallet) => {
     setSelectedWallet(wallet);
@@ -187,9 +230,9 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
         </View>
 
         <CompleteSignUpModal
-          signupstate={walletConnectionResponse}
+          signupstate={() => walletConnectFeedBack()}
           callBack={() => {
-            if (walletConnectionResponse === 'approved') {
+            if (walletConnectFeedBack() === true) {
               dispatch(
                 updateToast({
                   toastType: 'success',
@@ -205,8 +248,8 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
             }
           }}
           buttonText={
-            selectedWallet === 'petra' &&
-            walletConnectionResponse === 'approved'
+            (selectedWallet === 'petra' || selectedWallet === 'pontem') &&
+            walletConnectFeedBack() === true
               ? 'Sign in and continue'
               : 'Connect wallet'
           }
