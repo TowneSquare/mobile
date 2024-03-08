@@ -17,6 +17,7 @@ interface PetraWalletResponse {
   response?: 'approved' | 'rejected' | 'dismissed';
   data?: string;
   nonce: string;
+  account?: string;
 }
 
 type SelectedSuperStarCollectionScreenParameter = {
@@ -52,7 +53,7 @@ export type SignUpParams = {
 };
 
 export type RootStackParamList = {
-  SplashScreen:undefined
+  SplashScreen: undefined;
   FirstScreen: undefined;
   ChooseWallet: PetraWalletResponse;
   SignUp: {

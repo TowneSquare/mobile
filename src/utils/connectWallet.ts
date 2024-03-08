@@ -66,9 +66,8 @@ export const handlWalletConnect = async (walletName: Wallet) => {
   } else if (walletName === "pontem") {
     //TODO: Add pontem wallet connect
     const appInfo = {
-      name: "Townesquare",
-      logoUrl:
-        "https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png",
+      name: 'Townesquare',
+      logoUrl: Image.resolveAssetSource(images.defaultAvatar).uri,
       redirectLink: redirect_link,
     };
     const base64ConnectData = Buffer.from(JSON.stringify(appInfo)).toString(
@@ -125,6 +124,16 @@ export const decodePetraWalletConnectResponse = async (response: {
   };
   // return user petra wallet address
   return { token: "", address: responseDataJson.address };
+};
+
+
+// Decode the response from the Pontem Wallet Connect and returns the wallet address
+export const decodePontemWalletConnectResponse = async (account: string) => {
+  const responseDataJson = JSON.parse(
+    Buffer.from(account, 'base64').toString('utf-8')
+  );
+
+  return { token: '', address: responseDataJson.account.address };
 };
 
 export const getWalletBalance = async (walletAddress: string) => {
