@@ -7,7 +7,7 @@ import { UserData } from "../../controller/UserController";
 import { Image } from "react-native";
 
 export const useUserNFT = ({ userAddress }) => {
-  axios.defaults.headers["X-API-KEY"] = "OTwwCP3PG9ia9PlgBcCiwqxt";
+  axios.defaults.headers["X-API-KEY"] = "KeWS6RZ93ae5Upi2VR0bYDsH";
   const fetchUserNFT = async (userAddress: string): Promise<UserNFT> => {
     return await axios
       .get(`${NFT_SCAN}${userAddress}`, {})
