@@ -98,4 +98,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     paddingHorizontal: size.getWidthSize(16),
   },
+  emptyState: {
+    color: appColor.grayLight,
+    textAlign: 'center',
+    lineHeight: size.getHeightSize(23),
+    fontFamily: 'Outfit-Regular',
+    fontSize: size.fontSize(18),
+  },
 });

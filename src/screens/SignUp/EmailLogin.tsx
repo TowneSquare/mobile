@@ -23,7 +23,6 @@ import { EmailLoginProps } from '../../navigations/NavigationTypes';
 import ChooseUsernameContent from '../../components/SignUp/ChooseUsername/UsernameContent';
 import ConnectSocials from '../../components/SignUp/ConnectSocials/ConnectSocials';
 import FindFriends from '../../components/SignUp/FindFriends/FindFriends';
-import ExploreCommunities from '../../components/SignUp/ExploreCommunities/ExploreCommunities';
 import ChooseProfilePics from '../../components/SignUp/ChooseProfilePics/ChooseProfilePics';
 import UploadImageModal from '../../components/SignUp/ChooseProfilePics/UploadImageModal';
 import EmailContent from '../../components/SignUp/EmailSignup/EmailContent';
@@ -47,7 +46,6 @@ import {
 } from '../../api';
 import Loader from '../../../assets/svg/Loader';
 import { setLoginSession } from '../../utils/session';
-import Twitter from '../../../assets/images/svg/Twitter';
 
 const { width, height } = Dimensions.get('window');
 const size = new sizes(height, width);
@@ -62,6 +60,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
   const [viewIndex, setViewIndex] = useState(0);
   const [userId, setUserId] = useState('');
   const [token, setToken] = useState('');
+  const [address, setAddress] = useState('');
 
   const {
     nickNameError,
@@ -95,6 +94,8 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
 
   const user = useAppSelector((state) => state.USER);
 
+
+  
   let disable;
   switch (viewIndex) {
     case 0:
@@ -113,8 +114,12 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     default:
       break;
   }
+
+
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList<any>>(null);
+
+  // Views for the sign up process
   const views = [
     <EmailContent />,
     <ChooseUsernameContent />,
@@ -122,7 +127,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     <ConnectSocials magic={magic} signMethod={'EmailLogin'} />,
     <FindFriends token={token} />,
     // <ExploreCommunities />,
-    <ChooseProfilePics />,
+    <ChooseProfilePics userAddress={address} />,
   ];
   const onViewChangeRef = useRef(({ viewableItems }: any) => {
     setViewIndex(viewableItems[0]?.index);
@@ -139,6 +144,7 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
       (loaderRef.current as any).setNativeProps({ style: { display: 'none' } });
   };
 
+  // 
   const createFormData = () => {
     const data = new FormData();
 
@@ -159,26 +165,40 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     if (viewIndex == 0) {
       try {
         dispatch(disableContinueButton(true));
+
+        // get token from email
         const token = await magic.auth.loginWithEmailOTP({ email });
         setToken(token);
         await AsyncStorage.setItem('user_token', token);
         dispatch(updateDidToken(token));
+
+        // get account info
         const accountInfo = await magic.aptos.getAccountInfo();
         dispatch(updateAccountInfo(accountInfo));
+        setAddress(accountInfo?.address);
+
+        // get user metadata
         const metadata = await magic.user.getMetadata();
         dispatch(updateMetadata(metadata));
         const res = await checkSignup(token);
-        console.log('==============res================');
-        console.log(res);
+  
         showLoader(false);
         if (res.isExist && res.isExist == true) {
+
+          // if user exist, navigate to congratulations screen
           await setLoginSession(res.wallet, res.userId);
+
+          // store device token to firestore
           await storeDeviceTokenToFireStore(res.userId, deviceToken);
+
+          // store user id in redux
           await AsyncStorage.setItem('user_id', res.userId);
           dispatch(updateUserId(res.userId));
           dispatch(disableContinueButton(false));
           navigation.navigate('Congratulations');
         } else {
+
+          // if user does not exist, navigate to next view
           dispatch(disableContinueButton(false));
           setViewIndex((previous) => previous + 1);
           flatListRef.current.scrollToIndex({
@@ -198,6 +218,9 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
     if (newIndex < views.length && flatListRef.current) {
       if (newIndex == 2) {
         dispatch(disableContinueButton(true));
+        
+
+        // sign up user
         const res = await signup(
           user.didToken,
           metaData.issuer,
@@ -206,15 +229,20 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
           username,
           email
         );
-        console.log('=======res========');
-        console.log(res);
+
+        // if user is signed up successfully
         if (!res.error && res.success != false) {
+          // store user id in redux
           setUserId(res.userId);
           dispatch(updateUserId(res.userId));
+
+          // store device token to firestore
           await storeDeviceTokenToFireStore(res.userId, deviceToken);
           await AsyncStorage.setItem('user_id', res.userId);
           // setToken(user.didToken);
         } else if (res.error) {
+
+          // if user is not signed up successfully, show error toast
           const errorObject = JSON.parse(res.error);
           const errorMessage = errorObject.message;
           dispatch(
@@ -237,6 +265,8 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
         }
         dispatch(disableContinueButton(false));
       } else if (newIndex == 4) {
+
+        // update connected socials
         const result = await updateConnectedSocial(
           userId,
           user.didToken,
@@ -246,10 +276,10 @@ const EmailLogin = ({ magic }: EmailLoginProps) => {
       setViewIndex((previous) => previous + 1);
       flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
     } else {
+
+      // upload profile image
       dispatch(disableContinueButton(true));
       const res = await uploadProfileImage(token, createFormData());
-      console.log('=====================');
-      console.log(res);
       dispatch(disableContinueButton(false));
       navigation.navigate('Congratulations');
     }

@@ -153,4 +153,11 @@ const styles = StyleSheet.create({
     height: size.getHeightSize(140),
     borderRadius: 20,
   },
+  emptyState: {
+    color: appColor.grayLight,
+    textAlign: 'center',
+    lineHeight: size.getHeightSize(23),
+    fontFamily: 'Outfit-Regular',
+    fontSize: size.fontSize(18),
+  },
 });

@@ -5,13 +5,14 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
+    "androiddev": "expo start --localhost --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest",
     "format:write": "prettier --write '**/*.{js,jsx,ts,tsx}'"
   },
   "dependencies": {
-    "64": "^0.2.0",
+    "@aptos-labs/ts-sdk": "^1.9.1",
     "@aptos-labs/wallet-adapter-core": "^2.2.0",
     "@aptos-labs/wallet-adapter-react": "^1.4.0",
     "@gorhom/bottom-sheet": "^4.4.7",
@@ -72,6 +73,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-modal": "^13.0.1",
     "react-native-pager-view": "6.2.0",
+    "react-native-parsed-text": "^0.0.22",
     "react-native-qrcode-svg": "^6.2.0",
     "react-native-randombytes": "^3.6.1",
     "react-native-reanimated": "~3.3.0",
@@ -90,6 +92,7 @@
     "react-redux": "^8.0.5",
     "react-test-renderer": "^18.2.0",
     "socket.io-client": "^4.7.2",
+    "text-encoding": "^0.7.0",
     "tinycolor2": "^1.6.0",
     "tweetnacl": "^1.0.3",
     "tweetnacl-util": "^0.15.1"

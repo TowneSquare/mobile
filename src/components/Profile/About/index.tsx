@@ -112,6 +112,8 @@ const About = ({ route }) => {
   // }, [userId]);
 
   async function getUserDataFromStorage() {
+    if (!USERDATA) {
+    }
     const userData = await AsyncStorage.getItem('userData')?.then((data) =>
       JSON.parse(data)
     );
@@ -124,6 +126,9 @@ const About = ({ route }) => {
         dispatch(getUserData({ userId: userData._id, token: token }));
         dispatch(getOnlyUserPost({ userId: userData._id, token: token }));
       });
+    } else {
+      dispatch(getUserData({ userId: USERDATA._id, token: token }));
+      dispatch(getOnlyUserPost({ userId: USERDATA._id, token: token }));
     }
   }
   useEffect(() => {
@@ -159,9 +164,31 @@ const About = ({ route }) => {
   );
 
   const Posts = () => {
-    return onlyUserPost.map((userpost) => (
-      <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
-    ));
+    console.log(onlyUserPost, 'onlyUserPost');
+    if (onlyUserPost.length > 0) {
+      return onlyUserPost.map((userpost) => (
+        <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
+      ));
+    } else {
+      return (
+        <View style={styles.emptyPostView}>
+          <Text style={styles.emptyPostText}>You didn't create any posts</Text>
+          <Text style={styles.emptyPostText2}>
+            When you create posts, they will show here
+          </Text>
+          <Pressable
+            onPress={() => {
+              navigate('CreatePost', {
+                whichPost: 'singlePost',
+              });
+            }}
+            style={styles.buttonView}
+          >
+            <Text style={styles.createPostText}>Create post</Text>
+          </Pressable>
+        </View>
+      );
+    }
   };
 
   const UserReplies = () => {
@@ -181,11 +208,32 @@ const About = ({ route }) => {
   };
 
   const Media = () => {
-    return onlyUserPost
-      .filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0])
-      .map((userpost) => (
-        <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
-      ));
+    if (onlyUserPost.length > 1) {
+      return onlyUserPost
+        .filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0])
+        .map((userpost) => (
+          <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
+        ));
+    } else {
+      return (
+        <View style={styles.emptyPostView}>
+          <Text style={styles.emptyPostText}>You didn't create any posts</Text>
+          <Text style={styles.emptyPostText2}>
+            When you create posts, they will show here
+          </Text>
+          <Pressable
+            onPress={() => {
+              navigate('CreatePost', {
+                whichPost: 'singlePost',
+              });
+            }}
+            style={styles.buttonView}
+          >
+            <Text style={styles.createPostText}>Create post</Text>
+          </Pressable>
+        </View>
+      );
+    }
   };
 
  console.log(profilePics, "pics")
@@ -307,9 +355,18 @@ const About = ({ route }) => {
           >
             About
           </Text>
-          <View>
-            <Text style={styles.aboutText}>{bio}</Text>
-          </View>
+          {bio ? (
+            <View>
+              <Text style={styles.aboutText}>{bio}</Text>
+            </View>
+          ) : (
+            <Text
+              onPress={() => navigate('EditProfileScreen')}
+              style={styles.addSomething}
+            >
+              Add something about you
+            </Text>
+          )}
         </View>
         <View>
           <View
@@ -632,6 +689,47 @@ const styles = StyleSheet.create({
     gap: size.getWidthSize(8),
     justifyContent: "center",
     paddingHorizontal: size.getWidthSize(16),
+  },
+  emptyPostView: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginTop: size.getHeightSize(64),
+    marginBottom: size.getHeightSize(64),
+  },
+  emptyPostText: {
+    fontSize: size.fontSize(16),
+    lineHeight: size.getHeightSize(21),
+    fontFamily: 'Outfit-SemiBold',
+    color: appColor.kTextColor,
+    textAlign: 'center',
+  },
+  emptyPostText2: {
+    fontSize: size.fontSize(14),
+    lineHeight: size.getHeightSize(17.64),
+    fontFamily: 'Outfit-Regular',
+    color: appColor.kGrayscale,
+    textAlign: 'center',
+  },
+  buttonView: {
+    paddingVertical: size.getHeightSize(12),
+    paddingHorizontal: size.getWidthSize(16),
+    borderRadius: 40,
+    backgroundColor: appColor.kSecondaryButtonColor,
+    alignSelf: 'center',
+    marginTop: size.getHeightSize(23),
+  },
+  createPostText: {
+    fontSize: size.fontSize(16),
+    lineHeight: size.getHeightSize(21),
+    fontFamily: 'Outfit-SemiBold',
+    color: appColor.kTextColor,
+    textAlign: 'center',
+  },
+  addSomething: {
+    color: appColor.kSecondaryButtonColor,
+    fontFamily: 'Outfit-Medium',
+    fontSize: size.fontSize(16),
+    lineHeight: size.getHeightSize(20),
   },
 });
 

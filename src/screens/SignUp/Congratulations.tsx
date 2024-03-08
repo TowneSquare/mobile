@@ -13,7 +13,7 @@ import { sizes } from '../../utils';
 import Congrats from '../../../assets/images/svg/Congrats';
 import { getUserInfo } from '../../api';
 import LetGoButton from '../../components/SignUp/LetGoButton';
-import { updateUserData } from '../../controller/UserController';
+import { updateUserData, getUserData } from '../../controller/UserController';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { storeDeviceTokenToFireStore } from '../../services/PushNotification';
 import { useNavigation } from '@react-navigation/native';
@@ -40,7 +40,7 @@ const Congratulations = () => {
       console.log(userInfo.username);
       await storeDeviceTokenToFireStore(userId, deviceToken);
       await AsyncStorage.setItem('userData', JSON.stringify(userInfo));
-
+      dispatch(getUserData({ userId, token: token }));
       dispatch(updateUserData(userInfo));
       navigation.dispatch(
         CommonActions.reset({

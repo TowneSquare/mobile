@@ -8,8 +8,8 @@ import {
   Image,
   TextInputProps,
   Pressable,
-  Alert,
 } from 'react-native';
+
 import React, {
   useRef,
   useState,
@@ -18,7 +18,6 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { updateToast } from '../../controller/FeedsController';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { useCameraPermissions, PermissionStatus } from 'expo-image-picker';
@@ -27,11 +26,10 @@ import { ChatDmContext } from '../../context/ChatContext';
 import IdleChatSendButton from '../../../assets/images/svg/IdleChatSendButton';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import ChatTipIcon from '../../../assets/images/svg/ChatTipIcon';
-import { appColor, images } from '../../constants';
+import { appColor } from '../../constants';
 import { Video, ResizeMode } from 'expo-av';
 import { sizes } from '../../utils';
 import {
-  formatTimestamp,
   isPushNotificationAllowed,
   pickMedia,
   sendRreplyMessage,
@@ -39,7 +37,6 @@ import {
   uploadMediaToFirebaseStorage,
 } from '../../utils/ChatUtils';
 import SendButtonActive from '../../../assets/images/svg/SendButtonActive';
-import SendButton from '../../../assets/images/svg/SendButton';
 import { useNavigation } from '@react-navigation/native';
 import ReplyingToIcon from '../../../assets/images/svg/ReplyingToIcon';
 import CancelIcon from '../../../assets/images/svg/CancelIcon';
@@ -54,13 +51,13 @@ import {
   removeUploadingItem,
 } from '../../controller/DMController';
 import { nanoid } from '@reduxjs/toolkit';
-import { serverTimestamp } from 'firebase/firestore';
 import {
   getuserDeviceToken,
   sendPushNotification,
 } from '../../services/PushNotification';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
+
 interface Props extends TextInputProps {
   showReplying: boolean;
   username: string;
@@ -71,6 +68,7 @@ interface Props extends TextInputProps {
   nickname: string;
   pfp: string;
 }
+
 export type ComponentRef = {
   focusTextInput: () => void;
 };
@@ -96,6 +94,8 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
   const [text, setText] = useState('');
   const [isInputFocused, setFocusChat] = useState(false);
   const borderRadiusValue = useRef(new Animated.Value(0)).current;
+
+  // handle textinput height
   const handleContentSizeChange = (event: any) => {
     const newHeight = Math.ceil(event.nativeEvent.contentSize.height);
     setHeight(newHeight);
@@ -110,6 +110,8 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
       setBorderRadius(40);
     }
   }, [height]);
+
+  // expose the focusTextInput function
   useImperativeHandle(ref, () => ({
     focusTextInput() {
       setTimeout(() => {
@@ -118,6 +120,8 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
     },
   }));
   const navigation = useNavigation();
+
+  // animate the textinput border radius
   const startAnimation = () => {
     const newBorderRadius = 16;
     Animated.timing(borderRadiusValue, {
@@ -127,17 +131,27 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
     }).start();
     setBorderRadius(newBorderRadius);
   };
+
+
   const dispatch = useAppDispatch();
   const profile = useAppSelector((state) => state.USER.UserData);
+
+  // send message
   const sendMessage = async () => {
     setText('');
+
+    // send text to firestore
     await sendTextToFirestore({
       text: text.trim(),
       chatId,
       myId: profile._id,
       myusername: profile.username,
     });
+
+    // get receiver device token 
     const deviceToken = await getuserDeviceToken(receiverId);
+
+    // check if push notification is allowed from the sender to the receiver and send push notification
     (await isPushNotificationAllowed(receiverId, profile._id, chatId)) &&
       (await sendPushNotification(deviceToken, {
         userId: profile._id,
@@ -151,9 +165,13 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
         pfp,
       }));
   };
+
+  // send reply message
   const sendReply = async () => {
     setText('');
     dismissShowReplyingTo();
+
+    // send reply message
     await sendRreplyMessage({
       replyingToMessage: replyingToMessage.message,
       replyingtoId: replyingToMessage.id,
@@ -166,7 +184,11 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
       myusername: replyingToMessage.sender,
       uid: profile._id,
     });
+
+    // get receiver device token
     const deviceToken = await getuserDeviceToken(receiverId);
+
+    // check if push notification is allowed from the sender to the receiver and send push notification
     (await isPushNotificationAllowed(receiverId, profile._id, chatId)) &&
       (await sendPushNotification(deviceToken, {
         userId: profile._id,
@@ -204,6 +226,8 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
     }
     return true;
   }
+
+  // send media
   const sendMedia = async (from: 'gallery' | 'camera') => {
     const now = new Date();
     const id = nanoid();
@@ -211,11 +235,14 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
     if (!hasPermission) {
       return;
     }
+
+    // pick media from gallery or camera
     const uri = await pickMedia(from);
     if (!uri) {
       return;
     }
 
+  // add uploading item to the store    
     dispatch(
       addUploadingItem({
         id,
@@ -235,6 +262,8 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
         loading: true,
       })
     );
+
+    // upload media to firebase storage
     const firebaseUri = (await uploadMediaToFirebaseStorage(uri)) as string;
     if (!firebaseUri) {
       dispatch(removeUploadingItem(id));
@@ -255,6 +284,9 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
       myId: profile._id,
       myusername: profile.username,
     });
+
+
+    // get receiver device token
     const deviceToken = await getuserDeviceToken(receiverId);
     (await isPushNotificationAllowed(receiverId, profile._id, chatId)) &&
       (await sendPushNotification(deviceToken, {

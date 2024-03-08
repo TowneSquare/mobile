@@ -20,9 +20,10 @@ import { useMemo } from 'react';
 const SelectedSuperStars = () => {
   const dispatch = useAppDispatch();
 
-  const selectedStars = useAppSelector(
-    (state) => state.USER.selectedSuperStars
-  );
+  // const selectedStars = useAppSelector(
+  //   (state) => state.USER.selectedSuperStars
+  // );
+  const selectedStars = [];
   const userSelected = useAppSelector(
     (state) => state.USER.UserData.superstars?.nftInfoArray
   );

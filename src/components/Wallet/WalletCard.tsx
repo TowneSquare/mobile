@@ -27,8 +27,15 @@ const size = new sizes(height, width);
 interface Props {
   APTOS_DOMAIN_NAME: string;
   WALLET_ADDRESS: string;
+  addressBalance: number;
+  aptValue: string;
 }
-const WalletCard = ({ APTOS_DOMAIN_NAME, WALLET_ADDRESS }: Props) => {
+const WalletCard = ({
+  APTOS_DOMAIN_NAME,
+  WALLET_ADDRESS,
+  addressBalance,
+  aptValue = "",
+}: Props) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
 
@@ -136,20 +143,28 @@ const WalletCard = ({ APTOS_DOMAIN_NAME, WALLET_ADDRESS }: Props) => {
                 </LinearGradient>
                 <View style={{}}>
                   <Text style={styles.walletBalance}>Wallet balance</Text>
-                  <Text style={styles.balance}>$26,231</Text>
+                  <Text style={styles.balance}>
+                    {"$" +
+                      addressBalance.toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                  </Text>
                 </View>
               </View>
               <View style={{ marginTop: size.getHeightSize(27) }}>
-                <Text
-                  style={{
-                    fontFamily: "Outfit-SemiBold",
-                    color: "#FCFAFF",
-                    fontSize: size.fontSize(16),
-                    lineHeight: size.getHeightSize(21),
-                  }}
-                >
-                  {"jczhang.apt"}
-                </Text>
+                {aptValue && (
+                  <Text
+                    style={{
+                      fontFamily: "Outfit-SemiBold",
+                      color: "#FCFAFF",
+                      fontSize: size.fontSize(16),
+                      lineHeight: size.getHeightSize(21),
+                    }}
+                  >
+                    {aptValue}
+                  </Text>
+                )}
                 <Text style={styles.address}>{`${WALLET_ADDRESS.slice(
                   0,
                   9

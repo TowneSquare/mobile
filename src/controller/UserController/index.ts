@@ -80,6 +80,7 @@ export interface SignupData {
   referralCode: string;
   metadata: any;
   accountInfo: any;
+  userAddress: string;
 }
 
 export interface UserData {
@@ -162,6 +163,7 @@ const initialState: UserState = {
     referralCode: '',
     accountInfo: null,
     metadata: null,
+    userAddress: '',
   },
   UserData: {
     aptosWallet: '',

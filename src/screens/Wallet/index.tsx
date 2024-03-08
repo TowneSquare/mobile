@@ -5,6 +5,8 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  ActivityIndicator,
+  RefreshControl,
 } from "react-native";
 import { appColor } from "../../constants";
 import WalletCard from "../../components/Wallet/WalletCard";
@@ -12,19 +14,46 @@ import { images } from "../../constants";
 import { sizes } from "../../utils";
 import Token from "../../components/Wallet/Token";
 import Transaction from "../../components/Wallet/Transaction";
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
+import { TokenDetails } from "../../models/wallet";
 import { useAppDispatch, useAppSelector } from "../../controller/hooks";
-import { useAptosName } from "../../api/hooks";
-
+import { getUserApt, getUserTokens } from "../../api/hooks/wallet";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const Wallet = () => {
+  const [refreshing, setRefreshing] = useState(false);
+  const [isWalletBalanceLoading, setLoading] = useState(false);
+  const [tokenData, setTokenData] = useState<TokenDetails[]>([]);
+  const [accountAptValue, setAccountAptValue] = useState<string>("");
   const dispatch = useAppDispatch();
-  const { address } = useAppSelector((state) => ({
+  const { APTOS_DOMAIN_NAME, address, token } = useAppSelector((state) => ({
+    APTOS_DOMAIN_NAME: state.USER.aptosName,
     address: state.USER.UserData.aptosWallet,
+    token: state.USER.didToken,
   }));
-  const APTOS_DOMAIN_NAME = useAptosName({userAddress: address}).data
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!token) {
+        return;
+      }
+      const response = await getUserApt(token);
+      console.log("getUserApt data", response);
+      setAccountAptValue(
+        response?.data?.ansName.map((apt) => `${apt}.apt`).join(", ") || ""
+      );
+    };
+
+    fetchData();
+  }, [token]);
+
+  const { tokens, error, isLoading, refetch, addressBalance } =
+    getUserTokens(address);
+
+  // Handle reload
+  const handleReload = async () => {
+    refetch();
+  };
   return (
     <SafeAreaView
       style={{
@@ -33,6 +62,9 @@ const Wallet = () => {
       }}
     >
       <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleReload} />
+        }
         contentContainerStyle={{
           paddingBottom: size.getHeightSize(42),
         }}
@@ -42,63 +74,69 @@ const Wallet = () => {
             APTOS_DOMAIN_NAME ? APTOS_DOMAIN_NAME : "UNAVAILABLE"
           }
           WALLET_ADDRESS={address}
+          addressBalance={addressBalance}
+          aptValue={accountAptValue}
         />
-        <Text style={styles.text}>Token</Text>
-        <Token
-          name="APT"
-          id="Aptos"
-          amount="12.345"
-          currentPrice="240.34"
-          priceChange="5.4%"
-          imageUri={Image.resolveAssetSource(images.aptToken).uri}
-        />
-        <Token
-          name="USDC (Layer Zero)"
-          id="USD Coin"
-          amount="12.345"
-          currentPrice="240.34"
-          priceChange="5.4%"
-          imageUri={Image.resolveAssetSource(images.usdc).uri}
-        />
-        <Token
-          name="ABEL"
-          id="Abel Coin"
-          amount="12.345"
-          currentPrice="240.34"
-          priceChange="5.4%"
-          imageUri={Image.resolveAssetSource(images.abel).uri}
-        />
-        <Text style={[styles.text, { marginBottom: size.getHeightSize(8) }]}>
-          TowneSquare Transactions
-        </Text>
-        <Transaction
-          assetType="Token"
-          type="send"
-          date="Today"
-          from="FakeJC"
-          imageUri={Image.resolveAssetSource(images.profileImage).uri}
-          to="FakeJC"
-          asset="12.345"
-        />
-        <Transaction
-          assetType="pinnedNFT"
-          type="receive"
-          date="Today"
-          from="FakeJC"
-          imageUri={Image.resolveAssetSource(images.profileImage).uri}
-          to="FakeJC"
-          asset="12.345"
-          pinnedNftUri={Image.resolveAssetSource(images.aptosMonkey5).uri}
-        />
-        <Transaction
-          assetType="Token"
-          type="swap"
-          date="Today"
-          fromValue="10.345"
-          toValue="12.345"
-          fromAssetImageUri={Image.resolveAssetSource(images.aptToken).uri}
-          toAssetImageUri={Image.resolveAssetSource(images.usdc).uri}
-        />
+
+        {isWalletBalanceLoading ? (
+          <ActivityIndicator
+            color={appColor.grayLight}
+            style={{
+              marginTop: size.getHeightSize(12),
+            }}
+            size={size.getHeightSize(24)}
+          />
+        ) : (
+          <>
+            <Text style={styles.text}>Token</Text>
+            {tokens &&
+              tokens.map((token, index) => (
+                <Token
+                  key={index}
+                  name={token.assetSymbol}
+                  id={token.assetName}
+                  amount={token.assetBalance}
+                  currentPrice={token.assetMarketPrice}
+                  priceChange={token.assetPercentChange24h}
+                  imageUri={token.assetImage}
+                />
+              ))}
+
+            <Text
+              style={[styles.text, { marginBottom: size.getHeightSize(8) }]}
+            >
+              TowneSquare Transactions
+            </Text>
+            <Transaction
+              assetType="Token"
+              type="send"
+              date="Today"
+              from="FakeJC"
+              imageUri={Image.resolveAssetSource(images.profileImage).uri}
+              to="FakeJC"
+              asset="12.345"
+            />
+            <Transaction
+              assetType="pinnedNFT"
+              type="receive"
+              date="Today"
+              from="FakeJC"
+              imageUri={Image.resolveAssetSource(images.profileImage).uri}
+              to="FakeJC"
+              asset="12.345"
+              pinnedNftUri={Image.resolveAssetSource(images.aptosMonkey5).uri}
+            />
+            <Transaction
+              assetType="Token"
+              type="swap"
+              date="Today"
+              fromValue="10.345"
+              toValue="12.345"
+              fromAssetImageUri={Image.resolveAssetSource(images.aptToken).uri}
+              toAssetImageUri={Image.resolveAssetSource(images.usdc).uri}
+            />
+          </>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

@@ -5,26 +5,19 @@ import {
   Dimensions,
   StyleSheet,
   Pressable,
-  RefreshControl,
-  TouchableOpacity,
 } from 'react-native';
-// import Loader from "../../../assets/svg/Loader";
 import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import LoadingMediaContent from '../../components/DM/LoadingMediaContent';
 import ConversationHeader from '../../components/DM/ConversationHeader';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor } from '../../constants';
 import ChatTextInput, { ComponentRef } from '../../components/DM/ChatTextInput';
-// import { conversationData } from "../../utils/messageData";
 import DeleteConversationBottomsheet from '../../components/DM/DeleteConversationBottomsheet';
 import {
   ChatClass,
   blockUserChat,
   deleteChat,
-  deleteContactFromFirestore,
-  getBlockedUsers,
   unblockUserChat,
-  updatePushNotificationSetting,
 } from '../../utils/ChatUtils';
 import Messages from '../../components/DM/Messages';
 import ChatContext from '../../context/ChatContext';
@@ -72,51 +65,69 @@ const Conversation = ({
     (state) => state.DMController.uploadingItems
   );
   const MESSAGE_LIMIT = 10;
-  const lastDocRef = useRef(null);
+
   useLayoutEffect(() => {
+    // Collection ref for message
     const msgCollectionRef = collection(
       firestoreDB,
       `chats/${chatId}/messages`
     );
     const chatRef = doc(firestoreDB, 'chats', chatId);
+
     getDoc(chatRef).then((docSnapshot) => {
-      // console.log(`SnapshotId:${docSnapshot.id}`);
       const chatData = docSnapshot.data();
+
+      // Set contactId
       setContactId(chatData.memberIds.filter((id) => id !== myId)[0]);
     });
+
+    // query to get the messages, ordered by the createdAt field in descending order
     const msgQuery = query(msgCollectionRef, orderBy('createdAt', 'desc'));
+
+    // sets up a real-time listener on the messages query.
+    // To be called every time the data matching the query changes in the Firestore database.
     const unsubscribe = onSnapshot(msgQuery, (querySnap) => {
       const updatedMessages = querySnap.docs.map((doc) => doc.data());
+
+      // filters out the read messages and marks the unread messages as read by calling the markMessageAsRead function.
       updatedMessages
         .filter((message) => !message.read) // Only consider unread messages
         .forEach((unreadMessage) => {
           markMessageAsRead(chatId, unreadMessage.id, myId);
         });
       setMessage(updatedMessages);
-
-      // console.log('======updated message========');
-      // console.log(updatedMessages);
     });
 
+    // cleanup function that unsubscribes from the real-time updates when the component unmounts
+    // or when the dependencies of the useLayoutEffect hook change.
     return unsubscribe;
   }, []);
+
   useEffect(() => {
+    // Get the chat document
     const chatRef = doc(firestoreDB, 'chats', chatId);
     getDoc(chatRef).then((docSnapshot) => {
       const chatData = docSnapshot.data();
+      // Set contactId
       const contactId = chatData.memberIds.filter((id) => id !== myId)[0];
 
-      // Set up a real-time listener for changes in the block state for the current user
+      // Get current user blocked list
       const myBlockedUsersDocRef = doc(firestoreDB, 'blockedUsers', myId);
       const contactBlockedUsersDocRef = doc(
         firestoreDB,
         'blockedUsers',
         contactId
       );
+
+      // Set up a real-time listener for changes in the block state for the current user
       const unsubscribeMyBlockList = onSnapshot(myBlockedUsersDocRef, (doc) => {
+        // If the document exists, check if the contact is blocked by the current user
         if (doc.exists()) {
+          // Check if the contact is blocked by the current user
           const blockedUsers = doc.data().blockedUsers || [];
           const isBlockedByMe = blockedUsers.includes(contactId);
+
+          // If blocked by me, set the block state to true
           if (isBlockedByMe) {
             setBlockUser({
               blocked: true,
@@ -126,7 +137,9 @@ const Conversation = ({
               blockedByMe: true,
               hasLoaded: true,
             });
-          } else {
+          }
+          // If not blocked by me, set the block state to false
+          else {
             setBlockUser({
               blocked: false,
               blockMessage: '',
@@ -134,7 +147,9 @@ const Conversation = ({
               hasLoaded: true,
             });
           }
-        } else {
+        }
+        // If the document does not exist, set the block state to false
+        else {
           setBlockUser({
             blocked: false,
             blockMessage: '',
@@ -144,13 +159,17 @@ const Conversation = ({
           // console.log('No blocked users document found for current user');
         }
       });
-      //Contact event
+
+      // Set up a real-time listener for changes in the block state for the contact
       const unsubscribeContactBlockList = onSnapshot(
         contactBlockedUsersDocRef,
         (doc) => {
+          // If the document exists, check if the current user is blocked by the contact
           if (doc.exists()) {
             const blockedUsers = doc.data().blockedUsers || [];
             const isBlockedByContact = blockedUsers.includes(myId);
+
+            // If blocked by the contact, set the block state to true
             if (isBlockedByContact) {
               setBlockUser({
                 blocked: true,
@@ -160,7 +179,9 @@ const Conversation = ({
                 blockedByMe: false,
                 hasLoaded: true,
               });
-            } else {
+            }
+            // If not blocked by the contact, set the block state to false
+            else {
               setBlockUser({
                 blocked: false,
                 blockMessage: '',
@@ -168,14 +189,16 @@ const Conversation = ({
                 hasLoaded: true,
               });
             }
-          } else {
+          }
+
+          // If the document does not exist, set the block state to false
+          else {
             setBlockUser({
               blocked: false,
               blockMessage: '',
               blockedByMe: undefined,
               hasLoaded: true,
             });
-            // console.log('No blocked users document found for contact');
           }
         }
       );
@@ -187,35 +210,47 @@ const Conversation = ({
       };
     });
   }, []);
-  // console.log('====message====');
-  // console.log(message[0]);
+
   const chatInputRef = useRef<ComponentRef>();
   const [showReplying, setShowReplyVisibility] = useState(false);
-  const [uploadingItems, setUploadingItems] = useState([]);
+
+  // Generate chat utils instance
   const chatUtils = new ChatClass(message);
 
+  // Focus the chat input when the user is replying to a message
   showReplying && chatInputRef.current?.focusTextInput();
+
+  // Generate chat items
   const data = chatUtils.generateItems();
+
+  // Sort the conversation based on consecutive user ids
   const sortedConversation =
     chatUtils.sortMessagesBasedOnConsecutiveUserId(data);
-  // console.log(sortedConversation);
-  // console.log("====sorted conversation====");
+ 
   const [showMoreBottomSheet, setMoreBottomsheetVisibility] = useState(false);
   const [
     showDeleteConversationBottomSheet,
     setDeleteConversationBottomSheetVisibility,
   ] = useState(false);
+
+
   const [showUnblocksheet, setUnblockVisibility] = useState(false);
   const [lastVisible, setLastVisible] = useState(null);
   const [showBlockUserBottomsheet, setBlockUserVisibility] = useState(false);
-  const [blocked, blockUser] = useState(false);
+
+
+ 
   const [showDeleteChatBottomsheet, setDeleteChatVisibility] = useState(false);
+
+
   const setVisibilityTrue = () => {
     setShowReplyVisibility(true);
   };
   const setVisibilityFalse = () => {
     setShowReplyVisibility(false);
   };
+
+  // TODO: Implement the loadMoreMessages function
   const loadMoreMessages = async () => {
     if (lastVisible) {
       const msgCollectionRef = collection(
@@ -241,10 +276,11 @@ const Conversation = ({
       // Append new messages to the existing ones
       setMessage((prevMessages) => [...prevMessages, ...newMessages]);
 
-      // console.log('======loaded more messages========');
-      // console.log(newMessages);
+     
     }
   };
+
+  // Mark the message as read
   const markMessageAsRead = async (chatId, messageId, currentUserId) => {
     const messageRef = doc(
       firestoreDB,
@@ -259,7 +295,6 @@ const Conversation = ({
         await updateDoc(messageRef, {
           read: true,
         });
-        // console.log('Message marked as read successfully');
       }
     } catch (error) {
       console.error('Error marking message as read:', error);
@@ -309,6 +344,7 @@ const Conversation = ({
             data={[...loadingMedia, ...data]}
             renderItem={({ item, index }) => {
               if (item.loading) {
+                // Show the loading media content
                 return <LoadingMediaContent data={item} uid={myId} />;
               } else {
                 return (

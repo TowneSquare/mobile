@@ -31,7 +31,6 @@ const NFTCollections = ({ callBack }: Props) => {
     userAddress,
   });
 
-  console.log(userAddress, "userAddress")
   let [isLoaded] = useFonts({
     "Outfit-Regular": fonts.OUTFIT_REGULAR,
     "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -41,7 +40,7 @@ const NFTCollections = ({ callBack }: Props) => {
   }
   return (
     <>
-      {initialData.data?.length > 0 && (
+      {userNFT.data?.data?.length > 0 && (
         <View
           style={{
             flex: 1,

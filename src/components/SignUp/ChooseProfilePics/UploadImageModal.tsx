@@ -6,31 +6,31 @@ import {
   Pressable,
   Alert,
   BackHandler,
-} from "react-native";
-import { useRef, useState, useEffect } from "react";
-import { MaterialIcons } from "@expo/vector-icons";
-import * as Animatable from "react-native-animatable";
-import Photo from "../../../../assets/images/svg/Photo";
-import BottomSheet from "@gorhom/bottom-sheet";
-import Handler from "../Handler";
+} from 'react-native';
+import { useRef, useState, useEffect } from 'react';
+import { MaterialIcons } from '@expo/vector-icons';
+import * as Animatable from 'react-native-animatable';
+import Photo from '../../../../assets/images/svg/Photo';
+import BottomSheet from '@gorhom/bottom-sheet';
+import Handler from '../Handler';
 import {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 import {
   updateUploadImageModalOpen,
   updateUploadModalRenderCount,
   updateNftOpen,
   updateNftRender,
-} from "../../../controller/BottomSheetController";
-import Cat from "../../../../assets/images/svg/Cat";
-import { useFonts } from "expo-font";
-import { appColor, fonts } from "../../../constants";
-import { sizes } from "../../../utils";
-import Camera from "../../../../assets/images/svg/Camera";
-import { useAppDispatch, useAppSelector } from "../../../controller/hooks";
+} from '../../../controller/BottomSheetController';
+import Cat from '../../../../assets/images/svg/Cat';
+import { useFonts } from 'expo-font';
+import { appColor, fonts } from '../../../constants';
+import { sizes } from '../../../utils';
+import Camera from '../../../../assets/images/svg/Camera';
+import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
 import {
   launchImageLibraryAsync,
   MediaTypeOptions,
@@ -79,9 +79,9 @@ const UploadImageModal = () => {
         return false;
       }
     };
-    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     return () => {
-      BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   }, [isVisible]);
   // const animatedIndex = useSharedValue(0);
@@ -109,9 +109,9 @@ const UploadImageModal = () => {
   })
 
   let [isLoaded] = useFonts({
-    "Outfit-SemiBold": fonts.OUTFIT_SEMIBOLD,
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
+    'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
   });
   if (!isLoaded) {
     return null;
@@ -127,8 +127,8 @@ const UploadImageModal = () => {
       console.log(permissionResponse);
       if (permissionResponse.granted === false) {
         Alert.alert(
-          "Insufficient permission!",
-          "You need to grant camera access to use this app"
+          'Insufficient permission!',
+          'You need to grant camera access to use this app'
         );
       }
       return permissionResponse.granted;
@@ -165,6 +165,7 @@ const UploadImageModal = () => {
       dispatch(updateUploadImageModalOpen(false));
     }
   };
+  console.log('==================');
 
   return (
     <BottomSheet
@@ -175,26 +176,26 @@ const UploadImageModal = () => {
       ref={bottomSheetRef}
       enablePanDownToClose={true}
       index={bottomSheetOpen ? 0 : -1}
-      snapPoints={["35"]}
+      snapPoints={['35']}
       handleComponent={Handler}
       backgroundStyle={{
         backgroundColor: appColor.kgrayDark2,
       }}
     >
       <Animatable.View
-        animation={"fadeInUp"}
+        animation={'fadeInUp'}
         delay={500}
-        easing={"ease-in-out"}
+        easing={'ease-in-out'}
         duration={400}
         // style={contentStyle}
       >
         <View
           style={{
             height: size.getHeightSize(160),
-            justifyContent: "space-between",
+            justifyContent: 'space-between',
             marginTop: size.getHeightSize(32),
             width: size.getWidthSize(328),
-            alignSelf: "center",
+            alignSelf: 'center',
           }}
         >
           <Pressable
@@ -251,16 +252,16 @@ const UploadImageModal = () => {
           style={{
             height: size.getHeightSize(44),
             marginTop: size.getHeightSize(16),
-            justifyContent: "center",
+            justifyContent: 'center',
           }}
         >
           <Text
             style={{
               color: appColor.kTextColor,
               fontSize: size.fontSize(18),
-              fontFamily: "Outfit-Medium",
+              fontFamily: 'Outfit-Medium',
               lineHeight: size.getHeightSize(23),
-              textAlign: "center",
+              textAlign: 'center',
               letterSpacing: 0.02,
             }}
             onPress={() => {
@@ -283,23 +284,23 @@ const styles = StyleSheet.create({
     width: size.getWidthSize(328),
     height: size.getHeightSize(48),
     backgroundColor: appColor.kGrayLight3,
-    flexDirection: "row",
-    alignSelf: "center",
+    flexDirection: 'row',
+    alignSelf: 'center',
     borderRadius: 40,
     paddingVertical: size.getHeightSize(8),
     paddingHorizontal: size.getWidthSize(16),
-    alignItems: "center",
+    alignItems: 'center',
   },
   innerStyle: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     flex: 1,
   },
 
   Text: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
-    fontFamily: "Outfit-SemiBold",
+    fontFamily: 'Outfit-SemiBold',
     lineHeight: size.getHeightSize(21),
     marginLeft: size.getWidthSize(8),
   },

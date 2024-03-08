@@ -16,6 +16,13 @@ export const singlePostStyles = StyleSheet.create({
     marginLeft: size.getWidthSize(8),
     flex: 1,
   },
+  tags: {
+    color: appColor.kSecondaryButtonColor,
+    fontSize: size.fontSize(16),
+    lineHeight: size.getHeightSize(21),
+    fontFamily: 'Outfit-Regular',
+    marginTop: size.getHeightSize(8),
+  },
   message: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
@@ -32,7 +39,7 @@ export const singlePostStyles = StyleSheet.create({
     maxHeight: size.getHeightSize(400),
     borderRadius: 8,
   },
-  videoStyle:{
+  videoStyle: {
     alignSelf: 'center',
     width: 320,
     height: 200,

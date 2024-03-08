@@ -44,6 +44,10 @@ function createCall(path, data = null, headers = {}, method = "POST") {
       });
 }
 
+export async function getProfile(token: string) {
+  return createCall(`activity/getProfile`, { token }, { authorization: token });
+}
+
 export async function checkSignup(token: string) {
   return createCall(`user/checkSignup`, {}, { authorization: token }, "GET");
 }
@@ -294,7 +298,7 @@ export const getUserInfo = async (
       _id: result._id,
       profileImage:
         result.profileImage ||
-        Image.resolveAssetSource(images.profileVector).uri,
+        Image.resolveAssetSource(images.defaultAvatar).uri,
       bio: result.bio,
       issuer: result.issuer,
       aptosWallet: result.aptosWallet,
@@ -314,7 +318,7 @@ export const getUserInfo = async (
   } catch (error) {
     return {
       _id: "",
-      profileImage: Image.resolveAssetSource(images.profileVector).uri,
+      profileImage: Image.resolveAssetSource(images.defaultAvatar).uri,
       bio: "",
       issuer: "",
       aptosWallet: "",

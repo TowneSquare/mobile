@@ -88,16 +88,28 @@ const Token = ({
             alignItems: 'center',
           }}
         >
-          <ArrowUp />
+          {Number(parseFloat(priceChange).toFixed(2)) > 0 ? (
+            <ArrowUp
+              color={parseFloat(priceChange) < 0 ? '#FF4471' : '#2AB576'}
+              size={size.getHeightSize(12)}
+            />
+          ) : (
+            <View style={{ transform: 'rotate(180deg)' }}>
+              <ArrowUp
+                color={parseFloat(priceChange) < 0 ? '#FF4471' : '#2AB576'}
+                size={size.getHeightSize(12)}
+              />
+            </View>
+          )}
           <Text
             style={{
-              color: '#2AB576',
+              color: parseFloat(priceChange) < 0 ? '#FF4471' : '#2AB576',
               fontSize: size.fontSize(14),
               fontFamily: 'Outfit-Regular',
               lineHeight: size.getHeightSize(18),
             }}
           >
-            {priceChange}{' '}
+            {priceChange}%{' '}
           </Text>
           <Text
             style={{

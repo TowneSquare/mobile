@@ -15,7 +15,6 @@ import { useAppDispatch } from '../../controller/hooks';
 import { getDoc, doc, onSnapshot } from 'firebase/firestore';
 import { firestoreDB } from '../../../config/firebase.config';
 import {
-  isPushNotificationAllowed,
   updatePushNotificationSetting,
 } from '../../utils/ChatUtils';
 const { height, width } = Dimensions.get('window');
@@ -46,9 +45,14 @@ const MoreBottomsheet = ({
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const [isNotificationAllowed, setNotification] = useState(true);
-  // console.log(isPushNotificationAllowed(currentUserId, userId));
+
+
+  
   useEffect(() => {
+    // Get the user's contact reference
     const userContactRef = doc(firestoreDB, 'contacts', currentUserId);
+
+    // Listen for changes in push notification setting
     const unsubscribe = onSnapshot(userContactRef, (docSnapshot) => {
       if (docSnapshot.exists() && docSnapshot.data()[userId]) {
         console.log(docSnapshot.data()[userId]);
@@ -57,6 +61,8 @@ const MoreBottomsheet = ({
             docSnapshot.data()[userId].allowPushNotification
           }====g==`
         );
+
+        // Get the user's push notification setting
         const data = docSnapshot.data()[userId];
         if (data) {
           const pushNotificationSetting = data.allowPushNotification;
@@ -70,6 +76,8 @@ const MoreBottomsheet = ({
     }
     return unsubscribe;
   }, [visibility]);
+
+  // Update the user's push notification settings
   const updateUserNotification = async () => {
     isNotificationAllowed
       ? await updatePushNotificationSetting(currentUserId, userId, false)
