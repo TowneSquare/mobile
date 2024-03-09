@@ -1,7 +1,7 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Dimensions } from 'react-native';
 import { sizes } from '../../utils';
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import BookMarks from '../../screens/DrawerScreens/BookMarks';
 import Calender from '../../screens/DrawerScreens/Calendar';
 import Settings from '../../screens/DrawerScreens/Settings';
@@ -11,16 +11,26 @@ import TowneSquarePurpleScreen from '../../screens/DrawerScreens/TowneSquarePurp
 import BottomTabNavigation from './BottomTabNavigation';
 import FeedDrawerContent from '../../components/DrawerContent/FeedDrawerContent';
 import CommunityDrawerContent from '../../components/DrawerContent/CommunityDrawerContent';
-import { useAppSelector } from '../../controller/hooks';
+import { useAppSelector, useAppDispatch } from '../../controller/hooks';
+import { updateTipResponse } from '../../controller/FeedsController';
 import ChannelChat from '../../screens/Community/CreateChannel/ChannelChat';
 const { height, width } = Dimensions.get('window');
+
 type tabs = 'Main' | 'UserProfile' | 'Reward' | 'Chats' | 'Community';
 const size = new sizes(height, width);
-const DrawerNavigation = () => {
+const DrawerNavigation = ({ route }) => {
+  const dispatch = useAppDispatch();
   const currentTab = useAppSelector(
     (state) => state.FeedsSliceController.currentTab
   );
+  const tipResponse = route.params?.response;
 
+  useEffect(() => {
+    // If response from tip is available, update the tip response
+    if (tipResponse) {
+      dispatch(updateTipResponse(tipResponse));
+    }
+  }, [tipResponse]);
   const memoizedCurrentTab = useMemo(() => currentTab, [currentTab]) as tabs;
   const Drawer = createDrawerNavigator();
   const getWidthDrawer = () => {

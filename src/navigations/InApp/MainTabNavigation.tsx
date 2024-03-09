@@ -14,9 +14,11 @@ const size = new sizes(height, width);
 import CommunitiesPost from '../../screens/Feed/CommunitiesPost';
 import ForYouPosts from '../../screens/Feed/ForYouPosts';
 import CommingSoon from '../../screens/Feed/CommingSoon';
+import { useRoute } from '@react-navigation/native';
 import { appColor, fonts } from '../../constants';
 const Tab = createMaterialTopTabNavigator();
 const MainTab = () => {
+
   const renderTabBarLabel = ({ focused, route }) => {
     return route.name === 'For You' ? (
       <View style={[styles.focused]}>
@@ -104,7 +106,7 @@ const MainTab = () => {
         </View>
       )}
     >
-      <Tab.Screen name="For You" component={ForYouPosts} />
+      <Tab.Screen name="For You"  component={ForYouPosts} />
       <Tab.Screen name="Community" component={CommingSoon} />
     </Tab.Navigator>
   );

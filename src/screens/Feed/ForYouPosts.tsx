@@ -28,6 +28,7 @@ const ForYouPosts = () => {
   const user = useAppSelector((state) => state.USER.UserData._id);
   const AllPost = useAppSelector((state) => state.CreatePostController.AllPost);
 
+
   useEffect(() => {
     dispatch(getAllPost(userToken));
   }, []);
@@ -96,7 +97,9 @@ const ForYouPosts = () => {
     >
       <FlashList
         data={AllPost}
-        renderItem={({ item }) => <ForYou data={item} shouldPFPSwipe />}
+        renderItem={({ item }) => (
+          <ForYou currentScreen="DrawerNavigation" data={item} shouldPFPSwipe />
+        )}
         keyExtractor={(item, index) => index.toString()}
         estimatedItemSize={500}
         onRefresh={() => {
@@ -104,8 +107,6 @@ const ForYouPosts = () => {
         }}
         refreshing={false}
         ListEmptyComponent={EmptyComponent}
-      
-  
       />
       <Pressable
         onPress={() =>

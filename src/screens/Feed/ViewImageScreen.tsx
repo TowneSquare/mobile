@@ -77,6 +77,7 @@ const ViewImageScreen = ({ route }: ViewImageScreenProps) => {
             }}
           >
             <PostActions
+            
               noOfComments={postData.comments.length}
               Likes={postData?.likes}
               Repost={postData?.reposts}
@@ -84,6 +85,8 @@ const ViewImageScreen = ({ route }: ViewImageScreenProps) => {
               postId={postData?._id}
               userId={postData?.userId}
               showShareIcon
+              currentScreen="ViewImageScreen"
+              
             />
           </View>
         </>

@@ -36,6 +36,7 @@ import { Likes, PostData, Reposts, rePost } from '../../controller/createPost';
 import { getUserInfo } from '../../api';
 import { UserData, bookMarkPost } from '../../controller/UserController';
 import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../navigations/NavigationTypes';
 
 const size = new sizes(height, width);
 interface Props {
@@ -53,6 +54,7 @@ interface Props {
   nickname: string;
   pfp: string;
   wallet: string;
+  currentScreen: keyof RootStackParamList;
 }
 const PostActions = ({
   noOfComments,
@@ -68,6 +70,7 @@ const PostActions = ({
   pfp,
   username,
   wallet,
+  currentScreen,
 }: Props) => {
   const naviagtion = useNavigation();
   const dispatch = useAppDispatch();
@@ -568,6 +571,7 @@ const PostActions = ({
                   username,
                   wallet,
                   nickname,
+                  screen: currentScreen,
                 })
               );
             }

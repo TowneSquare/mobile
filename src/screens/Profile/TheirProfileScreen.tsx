@@ -32,6 +32,7 @@ import {
   updateTipBottomSheet,
   updateToast,
 } from '../../controller/FeedsController';
+import { updateTipResponse } from '../../controller/FeedsController';
 import ViewSuperStarsModal from '../../components/Profile/About/ViewSuperStarsModal';
 import ForYou from '../../components/Feed/ForYou';
 import Replies from '../../components/Profile/Replies';
@@ -102,9 +103,13 @@ const TheirProfileScreen = ({
 }: TheirProfileScreenProps) => {
   const dispatch = useAppDispatch();
   const [view, setView] = useState<number>(2);
-  const { userId, username, nickname } = route.params;
+
+  // params from feed, and response from signing transaction
+  const { userId, username, nickname, response } = route.params;
+  console.log(userId, username, nickname, response);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [aptosName, setAptosName] = useState<string>('.apt');
+
   // const [token, setToken] = useState('');
   const profile = useAppSelector((state) => state.USER.UserData);
   const { userFollowing, user, token } = useAppSelector((state) => ({
@@ -163,6 +168,13 @@ const TheirProfileScreen = ({
   };
 
   useEffect(() => {
+    // If response from tip is available, update the tip response
+    if (response) {
+      dispatch(updateTipResponse(response));
+    }
+  }, [response]);
+
+  useEffect(() => {
     //getUserAptosName(userInfo.data?.aptosWallet)
 
     (async function () {
@@ -212,9 +224,15 @@ const TheirProfileScreen = ({
   };
 
   const Posts = useCallback(() => {
-    console.log('once');
     return POST()?.map((userpost) => (
-      <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
+      <ForYou
+        currentScreen={
+          `TheirProfileScreen/${userId}/${username}/${nickname}` as any
+        }
+        key={userpost._id}
+        data={userpost}
+        shouldPFPSwipe={false}
+      />
     ));
   }, [POST]);
 
@@ -235,7 +253,14 @@ const TheirProfileScreen = ({
     return POST()
       .filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0])
       .map((userpost) => (
-        <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
+        <ForYou
+          currentScreen={
+            `TheirProfileScreen/${userId}/${username}/${nickname}` as any
+          }
+          key={userpost._id}
+          data={userpost}
+          shouldPFPSwipe={false}
+        />
       ));
   };
 
@@ -417,6 +442,8 @@ const TheirProfileScreen = ({
                       username: userInfo.data?.username,
                       wallet: userInfo.data?.aptosWallet,
                       nickname: userInfo.data?.nickname,
+                      screen:
+                        `TheirProfileScreen/${userId}/${username}/${nickname}` as any,
                     })
                   );
                 }}

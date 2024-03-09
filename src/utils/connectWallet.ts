@@ -15,6 +15,7 @@ import { decode as atob, encode as btoa } from 'base-64';
 import nacl, { BoxKeyPair, randomBytes } from 'tweetnacl';
 import axios from 'axios';
 import { CMC_PRO_API_KEY } from '../../constants';
+import { RootStackParamList } from '../navigations/NavigationTypes';
 
 // Data type for petra wallet connect
 type ConnectData = {
@@ -66,7 +67,8 @@ export const handlWalletConnect = async (walletName: Wallet) => {
     //TODO: Add pontem wallet connect
     const appInfo = {
       name: 'Townesquare',
-      logoUrl: Image.resolveAssetSource(images.defaultAvatar).uri,
+      logoUrl:
+        'https://www.townesquare.xyz/static/media/logo.6e77e4b3cad4fe08bb6e.png',
       redirectLink: redirect_link,
     };
     const base64ConnectData = Buffer.from(JSON.stringify(appInfo)).toString(
@@ -124,7 +126,6 @@ export const decodePetraWalletConnectResponse = async (response: {
   // return user petra wallet address
   return { token: '', address: responseDataJson.address };
 };
-
 
 // Decode the response from the Pontem Wallet Connect and returns the wallet address
 export const decodePontemWalletConnectResponse = async (account: string) => {
@@ -357,4 +358,33 @@ export const getSupportedTokensMarketData = async (address: string) => {
   );
 
   return formattedData;
+};
+
+export const sendPontenTransaction = async (
+  to: string,
+  amount: number,
+  screen: keyof RootStackParamList
+) => {
+  const redirect_link = Linking.createURL(`/${screen}`);
+
+  const APT_DECIMAL = 10 ** 8;
+  const transaction = {
+    type: 'entry_function_payload',
+    function: '0x1::coin::transfer',
+    type_arguments: ['0x1::aptos_coin::AptosCoin'],
+    arguments: [to, amount * APT_DECIMAL],
+  };
+  const appInfo = {
+    name: 'Townesquare',
+    logoUrl:
+      'https://www.townesquare.xyz/static/media/logo.6e77e4b3cad4fe08bb6e.png',
+    redirectLink: redirect_link,
+  };
+  const base64AppInfo = Buffer.from(JSON.stringify(appInfo)).toString('base64');
+  const base64Payload = Buffer.from(JSON.stringify(transaction)).toString(
+    'base64'
+  );
+  const url = `pontem-wallet://mob2mob?payload=${base64Payload}&app_info=${base64AppInfo}`;
+
+  Linking.openURL(url);
 };

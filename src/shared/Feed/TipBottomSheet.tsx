@@ -24,8 +24,14 @@ import CustomHandler from '../../components/Feed/CustomHandler';
 import { appColor, images } from '../../constants';
 import { sizes } from '../../utils';
 import Aptos from '../../../assets/images/svg/Aptos';
-import { submitTransactionToPetra } from '../../utils/connectWallet';
-import { updateTipBottomSheet } from '../../controller/FeedsController';
+import {
+  sendPontenTransaction,
+  submitTransactionToPetra,
+} from '../../utils/connectWallet';
+import {
+  updateTipBottomSheet,
+  updateTipResponse,
+} from '../../controller/FeedsController';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 enum STATUS {
@@ -42,14 +48,23 @@ const TipBottomSheet = () => {
   const walletAddress = useAppSelector(
     (state) => state.USER.UserData.aptosWallet
   );
-  const { visibility, username, profileImage, wallet, nickname } =
-    useAppSelector((state) => ({
-      visibility: state.FeedsSliceController.tipBottomSheet.status,
-      username: state.FeedsSliceController.tipBottomSheet.username,
-      profileImage: state.FeedsSliceController.tipBottomSheet.profileImage,
-      wallet: state.FeedsSliceController.tipBottomSheet.wallet,
-      nickname: state.FeedsSliceController.tipBottomSheet.nickname,
-    }));
+  const {
+    visibility,
+    username,
+    profileImage,
+    wallet,
+    nickname,
+    screen,
+    tipResponse,
+  } = useAppSelector((state) => ({
+    visibility: state.FeedsSliceController.tipBottomSheet.status,
+    username: state.FeedsSliceController.tipBottomSheet.username,
+    profileImage: state.FeedsSliceController.tipBottomSheet.profileImage,
+    wallet: state.FeedsSliceController.tipBottomSheet.wallet,
+    nickname: state.FeedsSliceController.tipBottomSheet.nickname,
+    screen: state.FeedsSliceController.tipBottomSheet.screen,
+    tipResponse: state.FeedsSliceController.tipResponse,
+  }));
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
@@ -93,6 +108,18 @@ const TipBottomSheet = () => {
     };
   }, [visibility]);
 
+  useEffect(() => {
+    console.log(tipResponse);
+    if (tipResponse === 'dismissed') {
+      setTipStatus(STATUS.idle);
+    } else if (tipResponse === 'approved') {
+      setTipStatus(STATUS.success);
+    } else if (tipResponse === 'rejected') {
+      setTipStatus(STATUS.idle);
+    } else {
+      setTipStatus(STATUS.idle);
+    }
+  }, [tipResponse]);
   const {
     animatedHandleHeight,
     animatedSnapPoints,
@@ -116,10 +143,18 @@ const TipBottomSheet = () => {
         nickname: '',
       })
     );
+    dispatch(updateTipResponse(undefined));
     setTip('0.1');
     setTipStatus(STATUS.idle);
   }
-  const handleSend = async () => {};
+  const handleSend = async () => {
+    setTipStatus(STATUS.loading);
+    setTimeout(() => {
+      setTipStatus(STATUS.loading);
+      sendPontenTransaction(wallet, Number(tip), screen);
+    }, 700);
+  };
+
   return (
     <>
       {!visibility ? (
@@ -257,7 +292,11 @@ const TipBottomSheet = () => {
                   </Pressable>
                 </Animatable.View>
               ) : (
-                <Pressable onPress={startLoading} style={styles.sendTipButton}>
+                <Pressable
+                  disabled={!tip}
+                  onPress={handleSend}
+                  style={styles.sendTipButton}
+                >
                   <Text style={styles.tipText}>{`Send tip (${tip} APT)`}</Text>
                 </Pressable>
               )}

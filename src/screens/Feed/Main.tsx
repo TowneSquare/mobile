@@ -20,7 +20,10 @@ import useBackHandler from '../../hooks/useBackhandler';
 import { useAppDispatch } from '../../controller/hooks';
 import { updateReceiveModalState } from '../../controller/FeedsController';
 import { getWalletBalance } from '../../utils/connectWallet';
+import { useRoute } from '@react-navigation/native';
 const Main = () => {
+  const route = useRoute<any>();
+  const pontemConnectionResponse = route.params;
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   // useBackHandler(() => {
@@ -35,10 +38,9 @@ const Main = () => {
   if (!isLoaded) {
     return null;
   }
-
+  console.log(pontemConnectionResponse);
   const openModal = async () => {
     dispatch(updateReceiveModalState(true));
-    
   };
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
