@@ -8,6 +8,6 @@ import {
 
 // Create an instance of the aptos sdk
 const config = new AptosConfig({
-  network: Network.TESTNET,
+  network: Network.MAINNET,
 });
 export const aptos = new Aptos(config);
