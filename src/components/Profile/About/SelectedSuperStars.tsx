@@ -28,6 +28,9 @@ const SelectedSuperStars = () => {
     (state) => state.USER.UserData.superstars?.nftInfoArray
   );
   useMemo(() => {
+    if (!userSelected || selectedStars?.length > userSelected?.length) {
+      return
+    }
     dispatch(updateSelectedSuperStars(userSelected));
   }, [userSelected?.length]);
 
@@ -48,23 +51,24 @@ const SelectedSuperStars = () => {
           <View
             style={[
               styles.imageContainer,
-              { borderWidth: selectedStars[index] ? 0 : 1 },
+              { borderWidth: selectedStars?.[index] ? 0 : 1 },
             ]}
           >
-            {selectedStars[index] ? (
+            {selectedStars?.[index] ? (
               <>
                 <Image
-                  source={{ uri: selectedStars[index].nftImageUrl }}
+                  source={{ uri: selectedStars?.[index]?.nftImageUrl }}
                   style={{
                     height: '100%',
                     width: '100%',
                     borderRadius: 8,
                   }}
+                  resizeMode="cover"
                 />
                 <Pressable
                   onPress={() => {
                     dispatch(
-                      deleteSelectedSuperStar(selectedStars[index].nftTokenId)
+                      deleteSelectedSuperStar(selectedStars?.[index]?.nftTokenId)
                     );
                   }}
                   style={{

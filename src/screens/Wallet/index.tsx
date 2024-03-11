@@ -17,7 +17,6 @@ import Transaction from "../../components/Wallet/Transaction";
 import { useMemo, useEffect, useState } from "react";
 import { TokenDetails } from "../../models/wallet";
 import { useAppDispatch, useAppSelector } from "../../controller/hooks";
-import { getAptosName } from "../../controller/UserController";
 import { getUserApt, getUserTokens } from "../../api/hooks/wallet";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
@@ -50,8 +49,6 @@ const Wallet = () => {
 
   const { tokens, error, isLoading, refetch, addressBalance } =
     getUserTokens(address);
-
-  useMemo(() => dispatch(getAptosName({ address })), [address]);
 
   // Handle reload
   const handleReload = async () => {

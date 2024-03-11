@@ -8,8 +8,8 @@ import {
   Pressable,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useReducer, useState, useMemo, useEffect, useCallback } from 'react';
-import { appColor, images } from '../../constants';
+import { useReducer, useState, useMemo, useEffect } from 'react';
+import { appColor } from '../../constants';
 import SuperStarBottomSheet from '../../components/Profile/About/SuperStarBottomSheet';
 import Header from '../../components/Profile/Header';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
@@ -38,7 +38,7 @@ import Replies from '../../components/Profile/Replies';
 import { getCreatedTime } from '../../utils/helperFunction';
 import axios from 'axios';
 import { APTOS_NAME_URL } from '../../../config/env';
-import { getUserAptosName } from '../../api';
+import { useAptosName } from '../../api/hooks';
 import {
   followUser,
   getUserData,
@@ -68,12 +68,16 @@ const size = new sizes(height, width);
 type SuperStarReducerState = {
   showSuperStarModal: boolean;
   imageUri: string;
+  nftCollection: string;
+  nftTokenId: string;
 };
 type SuperStarReducerAction = {
   type: 'SHOW' | 'CLOSE';
   payload?: {
     showSuperStarModal: boolean;
     imageUri: string;
+    nftCollection: string;
+    nftTokenId: string;
   };
 };
 const selectedSuperStarsReducer = (
@@ -85,11 +89,15 @@ const selectedSuperStarsReducer = (
       return {
         showSuperStarModal: action.payload.showSuperStarModal,
         imageUri: action.payload.imageUri,
+        nftCollection: action.payload.nftCollection,
+        nftTokenId: action.payload.nftTokenId,
       };
     case 'CLOSE':
       return {
         showSuperStarModal: false,
-        imageUri: '',
+        imageUri: "",
+        nftCollection: "",
+        nftTokenId: "",
       };
 
     default:
@@ -104,8 +112,7 @@ const TheirProfileScreen = ({
   const [view, setView] = useState<number>(2);
   const { userId, username, nickname } = route.params;
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [aptosName, setAptosName] = useState<string>('.apt');
-  // const [token, setToken] = useState('');
+  const [aptosName, setAptosName] = useState<string>('unavailable');
   const profile = useAppSelector((state) => state.USER.UserData);
   const { userFollowing, user, token } = useAppSelector((state) => ({
     userFollowing: state.USER.UserData.following,
@@ -114,13 +121,14 @@ const TheirProfileScreen = ({
   }));
 
   const title = username;
-  const COMMUNITIES = '10';
-  const APTOS_DOMAIN_NAME = '';
+  const COMMUNITIES = "10";
+  
   const fetchUserInfo = async (): Promise<UserData> => {
+    const user_token = await AsyncStorage.getItem('user_token');
     return await axios
       .get(`${BACKEND_URL}user/${userId}`, {
         headers: {
-          Authorization: token,
+          Authorization: user_token,
         },
       })
       .then((response) => response.data);
@@ -130,11 +138,12 @@ const TheirProfileScreen = ({
     return useQuery({ queryKey: ['userInfo'], queryFn: fetchUserInfo });
   }
   const userInfo = useUserInfo();
+  const APTOS_DOMAIN_NAME = useAptosName({ userAddress: userInfo.data.aptosWallet }).data?.name || "";;
   const [following, setFollowing] = useState(
     userFollowing.some((following) => following.toUserId == userInfo.data?._id)
   );
 
-  const handleFollow = () => {
+   const handleFollow = () => {
     setFollowing(true);
     dispatch(followUser({ toUserIds: [userId], token }));
     dispatch(getUserData({ userId: user, token }));
@@ -148,24 +157,19 @@ const TheirProfileScreen = ({
 
   const [superStarModal, useDispatch] = useReducer(selectedSuperStarsReducer, {
     showSuperStarModal: false,
-    imageUri: '',
+    imageUri: "",
+    nftCollection: "",
+    nftTokenId: "",
   });
 
-  const getUserAptosName = async (address: string) => {
-    try {
-      const res = await axios.get(`${APTOS_NAME_URL}${address}`);
-      const aptosName: string = res?.data;
-      setAptosName(aptosName);
-    } catch (error) {
-      setAptosName('.apt');
-      return 'unavailable';
-    }
-  };
 
   useEffect(() => {
     //getUserAptosName(userInfo.data?.aptosWallet)
 
     (async function () {
+      // const token = await AsyncStorage.getItem('user_token');
+      // setToken(token);
+      // dispatch(getUserData({ userId: user, token }));
       setFollowing(
         userFollowing.some(
           (following) => following.toUserId == userInfo.data?._id
@@ -196,12 +200,12 @@ const TheirProfileScreen = ({
       customer: {
         _id: res?.customer?._id,
         issuer: res?.customer?.issuer || '',
-        aptosWallet: userInfo.data?.aptosWallet,
-        nickname: userInfo.data?.nickname,
-        username: userInfo.data?.username,
+        aptosWallet: res?.customer?.aptosWallet,
+        nickname: res?.customer?.nickname,
+        username: res?.customer?.username,
         email: res?.customer?.email || '',
         referralCode: res?.customer?.referralCode || '',
-        profileImage: userInfo.data?.profileImage || '',
+        profileImage: res?.customer?.profileImage || '',
         createdAt: res?.createdAt,
       },
       sellNFTPrice: res?.sellNFTPrice,
@@ -211,14 +215,13 @@ const TheirProfileScreen = ({
     }));
   };
 
-  const Posts = useCallback(() => {
-    console.log('once');
+  const Posts = () => {
     return POST()?.map((userpost) => (
       <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
     ));
-  }, [POST]);
+  };
 
-  const UserReplies = useCallback(() => {
+  const UserReplies = () => {
     return userInfo.data?.comments.map((userpost) => (
       <Replies
         key={userpost._id}
@@ -229,7 +232,7 @@ const TheirProfileScreen = ({
         shouldPFPSwipe={false}
       />
     ));
-  }, [userInfo]);
+  };
 
   const Media = () => {
     return POST()
@@ -252,18 +255,11 @@ const TheirProfileScreen = ({
   };
   const createChat = async () => {
     setIsLoading(true);
-
-    // get serverTime stamp
     const timestamp = serverTimestamp();
-
-    // generate id for chat based on both users' id
     let id = createUniqueChatId(userId, profile._id);
-
-    // add both users to each other's contact list
     await addContactToFirestore(profile._id, userId);
     await addContactToFirestore(userId, profile._id);
-
-    // create chat document
+    // let id = `${userData._id}_${myId}`;
     const _doc = {
       _id: id,
       members: [
@@ -293,26 +289,27 @@ const TheirProfileScreen = ({
     const chatRef = doc(firestoreDB, 'chats', id);
     getDoc(chatRef)
       .then(async (docSnapshot) => {
-        // If chat already exists,
         if (docSnapshot.exists()) {
+          console.log(
+            '================== Checking for active members ================'
+          );
+          console.log(docSnapshot.data().activeMembers);
           //Check if there are active members in the chat,
           if (!docSnapshot.data().activeMembers) {
-            //If no active members, update the chat with active members
+            console.log('No active members in chat');
             await updateDoc(chatRef, {
               activeMembers: [userId, profile._id],
             });
           }
           setIsLoading(false);
-          // navigate to the chat
+          console.log(`SnapshotId:${docSnapshot.id}`);
           return navigate('Conversation', {
             chatId: docSnapshot.id,
             name: username,
             nickname: nickname,
             pfp: userInfo.data?.profileImage,
           });
-        }
-        // If chat does not exist, create a new chat
-        else {
+        } else {
           setDoc(chatRef, _doc)
             .then(() => {
               setIsLoading(false);
@@ -324,7 +321,6 @@ const TheirProfileScreen = ({
               });
             })
             .catch((err) => {
-              // If chat creation fails, show error toast
               setIsLoading(false);
               dispatch(
                 updateToast({
@@ -337,7 +333,6 @@ const TheirProfileScreen = ({
         }
       })
       .catch((err) => {
-        // If chat creation fails, show error toast
         setIsLoading(false);
         dispatch(
           updateToast({
@@ -364,14 +359,14 @@ const TheirProfileScreen = ({
           <ProfileCard
             NAME={username}
             NICKNAME={nickname}
-            APTOS_DOMAIN_NAME={aptosName}
+            APTOS_DOMAIN_NAME={APTOS_DOMAIN_NAME}
             DATE={getCreatedTime(userInfo.data?.createdAt)}
             COMMUNITIES={COMMUNITIES}
             FOLLOWERS={userInfo.data?.followers?.length.toString()}
             FOLLOWING={userInfo.data?.following?.length.toString()}
             POST={userInfo.data?.posts?.length.toString()}
             profileImageUri={userInfo?.data.profileImage}
-            BADGES={userInfo.data?.badge}
+            BADGES={userInfo?.data?.badge}
           />
           <View style={styles.view}>
             <Pressable
@@ -411,9 +406,7 @@ const TheirProfileScreen = ({
                   dispatch(
                     updateTipBottomSheet({
                       status: true,
-                      profileImage: userInfo.data?.profileImage
-                        ? userInfo.data?.profileImage
-                        : Image.resolveAssetSource(images.defaultAvatar).uri,
+                      profileImage: userInfo.data?.profileImage,
                       username: userInfo.data?.username,
                       wallet: userInfo.data?.aptosWallet,
                       nickname: userInfo.data?.nickname,
@@ -433,15 +426,7 @@ const TheirProfileScreen = ({
               About
             </Text>
             <View>
-              {userInfo.data?.bio ? (
-                <Text style={styles.aboutText}>{userInfo.data?.bio}</Text>
-              ) : (
-                <Text
-                  style={{ ...styles.aboutText, color: appColor.grayLight }}
-                >
-                  No Bio
-                </Text>
-              )}
+              <Text style={styles.aboutText}>{userInfo.data?.bio}</Text>
             </View>
           </View>
           {userInfo.data?.superstars?.nftInfoArray.length > 0 ? (
@@ -463,6 +448,8 @@ const TheirProfileScreen = ({
                         payload: {
                           showSuperStarModal: true,
                           imageUri: item.nftImageUrl,
+                          nftCollection: item.nftCollection,
+                          nftTokenId: item.nftTokenId,
                         },
                       });
                     }}
@@ -515,31 +502,33 @@ const TheirProfileScreen = ({
             </Pressable>
           </View>
           <View>{POST_MEDIA_REPLIES()}</View>
+          <TheirProfileBottomSheet />
+          <SuperStarBottomSheet
+            handleVisibility={() => {
+              dispatch(updateSuperStarBottomSheet(false));
+            }}
+            typeOfProfile="theirProfile"
+          />
+          <ReportUserModal />
+          <ReportPanel />
+          <ReportPostModal />
+          <BlockUserModal />
+          <ViewSuperStarsModal
+            visibility={superStarModal.showSuperStarModal}
+            close={() =>
+              useDispatch({
+                type: 'CLOSE',
+              })
+            }
+            imageUri={superStarModal.imageUri}
+            nftCollection={superStarModal.nftCollection}
+            nftTokenId={superStarModal.nftTokenId}
+          />
         </ScrollView>
       ) : (
         <></>
       )}
       <ShowLoader isLoading={isLoading} />
-      <TheirProfileBottomSheet />
-      <SuperStarBottomSheet
-        handleVisibility={() => {
-          dispatch(updateSuperStarBottomSheet(false));
-        }}
-        typeOfProfile="theirProfile"
-      />
-      {/* <ReportUserModal />
-      <ReportPanel />
-      <ReportPostModal />
-      <BlockUserModal /> */}
-      <ViewSuperStarsModal
-        visibility={superStarModal.showSuperStarModal}
-        close={() =>
-          useDispatch({
-            type: 'CLOSE',
-          })
-        }
-        imageUri={superStarModal.imageUri}
-      />
     </SafeAreaView>
   );
 };
@@ -571,7 +560,7 @@ const styles = StyleSheet.create({
     color: appColor.kGrayscale,
   },
   aboutDiv: {
-    marginTop: size.getHeightSize(24),
+    marginVertical: size.getHeightSize(24),
     marginHorizontal: size.getWidthSize(16),
   },
   aboutHeader: {

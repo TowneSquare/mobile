@@ -29,8 +29,10 @@ const ForYouPosts = () => {
   const AllPost = useAppSelector((state) => state.CreatePostController.AllPost);
 
   useEffect(() => {
-    dispatch(getAllPost(userToken));
+    dispatch(getAllPost("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHRvc1dhbGxldCI6IjB4NGQzYTRkYTk0ODg2NzYxMzEwYmVhNTNmMTI0MzlmOGVhYjZhYmU5MTRhNTk4MjY2ZTFlMGFjYmU0NGNjNzIyZCIsImlhdCI6MTcwNDQ0MzE4M30.w343UG40U0WBkMTXckaax3szEUU4opWYDosHlsQJIDE"));
   }, []);
+
+  console.log(userToken)
 
   const EmptyComponent = () => {
     return (

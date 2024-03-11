@@ -181,7 +181,7 @@ const ChooseProfilePicsBottomSheet = () => {
               >
                 <View style={styles.innerStyle}>
                   <Cat />
-                  <Text style={styles.Text}>NFT</Text>
+                  <Text style={styles.Text}>Profile NFTs</Text>
                 </View>
                 <MaterialIcons
                   name="keyboard-arrow-right"

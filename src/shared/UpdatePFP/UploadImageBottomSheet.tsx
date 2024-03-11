@@ -33,6 +33,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import CustomHandler from "../../components/Feed/CustomHandler";
 import { sizes } from "../../utils";
 import { appColor, fonts } from "../../constants";
+import { useAppDispatch } from "../../controller/hooks";
+import { updateProfileImage } from "../../controller/UserController";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 type ContextType<T> = React.Context<T | undefined>;
@@ -50,7 +52,7 @@ const UploadImageBottomSheet = <T,>({ context }: Props<T>) => {
     setCollectionBottomSheet,
     setProfilePictureBottomSheet,
   } = useContext(context) as UploadImageBottomSheetContextType;
-
+  const dispatch = useAppDispatch()
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -133,8 +135,8 @@ const UploadImageBottomSheet = <T,>({ context }: Props<T>) => {
     });
 
     if (result.assets != null) {
-      //   dispatch(updateProfileImage(result?.assets[0].uri));
-      //   setProfilePictureBottomSheet(false);
+         dispatch(updateProfileImage(result?.assets[0].uri));
+        setProfilePictureBottomSheet(false);
     }
   };
   return (
@@ -188,7 +190,7 @@ const UploadImageBottomSheet = <T,>({ context }: Props<T>) => {
               >
                 <View style={styles.innerStyle}>
                   <Cat />
-                  <Text style={styles.Text}>NFT</Text>
+                  <Text style={styles.Text}>NFTs</Text>
                 </View>
                 <MaterialIcons
                   name="keyboard-arrow-right"

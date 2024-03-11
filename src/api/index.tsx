@@ -390,3 +390,25 @@ export async function getTokenBywalletaddress(wallet: string) {
       if (error.code == 400) console.log(error.message);
     });
 }
+
+export async function setProfilePhotoWithNFTImage(
+  token: string,
+  nftImageUri: string
+) {
+  try {
+    const res = await axios.post(
+      `${BACKEND_URL}user/nft-profile-photo`,
+      {
+        url: nftImageUri,
+      },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    return res
+  } catch (error) {
+    console.log(error);
+  }
+}

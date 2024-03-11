@@ -175,7 +175,7 @@ const initialState: UserState = {
     emailError: false,
     usernameErrorMessage: '',
   },
-  didToken: didToken,
+  didToken: '',
   editProfile: false,
   NFTCollections: [
     {
@@ -664,19 +664,6 @@ export const setSuperStarsNFT = createAsyncThunk(
   }
 );
 
-export const getAptosName = createAsyncThunk(
-  'User/getAptosName',
-  async ({ address }: any) => {
-    try {
-      const res = await axios.get(`${APTOS_NAME_URL}${address}`);
-      const aptosName: string = res.data;
-      return aptosName;
-    } catch (error) {
-      return 'unavailable';
-    }
-  }
-);
-
 export const editProfile = createAsyncThunk(
   'User/EditProfile',
   async ({ bio, nickname, username, token }: EditProfileProps) => {
@@ -852,7 +839,14 @@ export const USER = createSlice({
         nftCollection: string;
       }>
     ) => {
-      state.selectedSuperStars = [...state.selectedSuperStars, action.payload];
+      if (!state.selectedSuperStars) {
+        state.selectedSuperStars = [action.payload];
+      } else {
+        state.selectedSuperStars = [
+          ...state.selectedSuperStars,
+          action.payload,
+        ];
+      }
     },
     updateSignUpData: (state, action: PayloadAction<Partial<SignupData>>) => {
       state.signUpData = { ...state.signUpData, ...action.payload };
@@ -863,7 +857,7 @@ export const USER = createSlice({
       );
     },
     resetSelectedSuperStar: (state) => {
-      state.selectedSuperStars = state.UserData.superstars.nftInfoArray;
+      state.selectedSuperStars = state.UserData.superstars?.nftInfoArray;
     },
     updateBio: (state, action: PayloadAction<string>) => {
       state.UserData.bio = action.payload;
@@ -886,6 +880,7 @@ export const USER = createSlice({
     builder.addCase(getUserData.fulfilled, (state, action) => {
       state.UserData = action.payload;
     });
+    builder.addCase(getUserData.pending, (state, action) => {});
     builder.addCase(getUserData.rejected, (state, action) => {
       state.UserData = {
         _id: '',
@@ -911,9 +906,6 @@ export const USER = createSlice({
           createdAt: '',
         },
       };
-    });
-    builder.addCase(getAptosName.fulfilled, (state, action) => {
-      state.aptosName = action.payload;
     });
     builder.addCase(getUserBookmark.fulfilled, (state, action) => {
       state.BookMarks = action.payload;

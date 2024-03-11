@@ -27,12 +27,13 @@ import {
   updateUploadModalRenderCount,
 } from '../../../controller/BottomSheetController';
 import Customhandler from '../Customhandler';
+import { initialData } from '../../../api/hooks/dummyData';
+import { collection } from 'firebase/firestore';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const ChooseNFT = () => {
-  const { collectionLength, isVisible, renderCount } = useAppSelector(
+  const { isVisible, renderCount } = useAppSelector(
     (state) => ({
-      collectionLength: state.bottomSheetController.listOfNftCollections.length,
       isVisible: state.bottomSheetController.NftModalOpen,
       renderCount: state.bottomSheetController.NFTRender,
     })
@@ -41,6 +42,8 @@ const ChooseNFT = () => {
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [snapPoint, setSnap] = useState('67%');
+  const userNFT = initialData
+  const collectionLength = userNFT.data.length
 
   useEffect(() => {
     dispatch(updateNftRender(0));
@@ -59,7 +62,7 @@ const ChooseNFT = () => {
       if (isVisible === true && renderCount > 0) {
         dispatch(updateNftRender(0));
         dispatch(updateNftOpen(false));
-        collectionLength > 0 && setSnap('67%');
+        userNFT.data.length > 0 && setSnap('67%');
         return true;
       } else {
         return false;
@@ -150,7 +153,7 @@ const ChooseNFT = () => {
               lineHeight: size.getHeightSize(21),
             }}
           >
-            Select the NFT you want to use as your PFP
+            Select the NFT you want to use as your PFP for profile
           </Text>
         </View>
       </Animatable.View>

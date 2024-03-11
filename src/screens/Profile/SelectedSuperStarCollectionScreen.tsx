@@ -6,18 +6,18 @@ import {
   StyleSheet,
   Pressable,
   Image,
-} from 'react-native';
-import SelectedStars from '../../components/Profile/About/SelectedStars';
-import { appColor } from '../../constants';
-import { sizes } from '../../utils';
-import Header from '../../shared/Feed/Header';
-import { updateSelectedSuperStar } from '../../controller/UserController';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import { SelectedSuperStarCollectionScreenProps } from '../../navigations/NavigationTypes';
-import SelectedIcon from '../../../assets/images/svg/SelectedIcon';
+} from "react-native";
+import SelectedStars from "../../components/Profile/About/SelectedStars";
+import { appColor } from "../../constants";
+import { sizes } from "../../utils";
+import Header from "../../shared/Feed/Header";
+import { updateSelectedSuperStar } from "../../controller/UserController";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useAppSelector, useAppDispatch } from "../../controller/hooks";
+import { SelectedSuperStarCollectionScreenProps } from "../../navigations/NavigationTypes";
+import SelectedIcon from "../../../assets/images/svg/SelectedIcon";
 
-const { height, width } = Dimensions.get('window');
+const { height, width } = Dimensions.get("window");
 
 const size = new sizes(height, width);
 const SelectedSuperStarCollectionScreen = ({
@@ -26,7 +26,8 @@ const SelectedSuperStarCollectionScreen = ({
 }: SelectedSuperStarCollectionScreenProps) => {
   const selected = useAppSelector((state) => state.USER.selectedSuperStars);
   const dispatch = useAppDispatch();
-  const {title, nfts} = route.params;
+  const { title, nfts } = route.params;
+
   return (
     <SafeAreaView
       style={{
@@ -44,59 +45,57 @@ const SelectedSuperStarCollectionScreen = ({
         <ScrollView>
           <View style={styles.collectionContainer}>
             {nfts.map((collection, index) => (
-              <>
-                <Pressable
-                  key={index}
-                  disabled={
-                    selected.length === 6 ||
-                    selected.some(
-                      (obj) =>
-                        obj.hasOwnProperty('nftTokenId') &&
-                        obj['nftTokenId'] === collection.nftTokenId
-                    )
-                  }
-                  onPress={() => {
-                    dispatch(
-                      updateSelectedSuperStar({
-                        nftImageUrl: Image.resolveAssetSource(collection.nftImageUrl).uri,
-                        nftTokenId: collection.nftTokenId,
-                        nftCollection: collection.nftCollection
-                      })
-                    );
-                  }}
-                  style={styles.nftContainer}
-                >
-                  <View style={styles.imageContainer}>
-                    <Image
-                      source={{
-                        uri: Image.resolveAssetSource(collection.nftImageUrl).uri,
+              <Pressable
+                key={collection.asset_id}
+                disabled={
+                  selected?.length === 6 ||
+                  selected?.some(
+                    (obj) =>
+                      obj.hasOwnProperty("nftTokenId") &&
+                      obj["nftTokenId"] === collection.name
+                  )
+                }
+                onPress={() => {
+                  dispatch(
+                    updateSelectedSuperStar({
+                      nftImageUrl: collection.image_uri,
+                      nftTokenId: collection.name,
+                      nftCollection: collection.collection,
+                    })
+                  );
+                }}
+                style={styles.nftContainer}
+              >
+                <View style={styles.imageContainer}>
+                  <Image
+                    source={{
+                      uri: collection.image_uri,
+                    }}
+                    resizeMode="cover"
+                    style={styles.imageStyle}
+                  />
+                  {selected?.some(
+                    (obj) =>
+                      obj.hasOwnProperty("nftTokenId") &&
+                      obj["nftTokenId"] === collection.name
+                  ) && (
+                    <View
+                      style={{
+                        position: "absolute",
+                        height: "100%",
+                        width: "100%",
+                        borderRadius: 8,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: "rgba(151, 71, 255, 0.70)",
                       }}
-                      resizeMode="cover"
-                      style={styles.imageStyle}
-                    />
-                    {selected.some(
-                      (obj) =>
-                        obj.hasOwnProperty('nftTokenId') &&
-                        obj['nftTokenId'] === collection.nftTokenId
-                    ) && (
-                      <View
-                        style={{
-                          position: 'absolute',
-                          height: '100%',
-                          width: '100%',
-                          borderRadius: 8,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          backgroundColor: 'rgba(151, 71, 255, 0.70)',
-                        }}
-                      >
-                        <SelectedIcon />
-                      </View>
-                    )}
-                  </View>
-                  <Text style={styles.name}>{collection.nftTokenId}</Text>
-                </Pressable>
-              </>
+                    >
+                      <SelectedIcon />
+                    </View>
+                  )}
+                </View>
+                <Text style={styles.name}>{collection.name}</Text>
+              </Pressable>
             ))}
           </View>
         </ScrollView>
@@ -110,11 +109,11 @@ export default SelectedSuperStarCollectionScreen;
 const styles = StyleSheet.create({
   collectionContainer: {
     flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    width: '100%',
-    justifyContent: 'space-between',
-    alignSelf: 'center',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: "100%",
+    justifyContent: "space-between",
+    alignSelf: "center",
     paddingHorizontal: size.getWidthSize(16),
   },
   nftContainer: {
@@ -128,13 +127,13 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     borderRadius: 8,
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
   },
   name: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
-    fontFamily: 'Outfit-Medium',
+    fontFamily: "Outfit-Medium",
     color: appColor.kTextColor,
   },
 });

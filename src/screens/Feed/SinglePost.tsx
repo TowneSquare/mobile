@@ -109,7 +109,7 @@ const SinglePost = ({ route }: SinglePostProps) => {
         >
           <SinglePostContent data={props} />
           {props.comments
-            .slice()
+            ?.slice()
             .reverse()
             .map((comment, index) => (
               <Comments

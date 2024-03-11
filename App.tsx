@@ -33,6 +33,9 @@ import {
   updateUserData,
 } from './src/controller/UserController';
 import { AnyAction } from '@reduxjs/toolkit';
+import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
+import { MartianWallet } from "@martianwallet/aptos-wallet-adapter";
+import { PetraWallet } from "petra-plugin-wallet-adapter";
 type AuthRootStackParamList = {
   Auth: {
     FirstScreen: undefined;
@@ -93,8 +96,11 @@ export default function App() {
     magic,
   };
 
+  const wallets = [new PetraWallet(), new MartianWallet()]
+
   return (
     <GestureHandlerRootView style={styles.gestureHandler}>
+      <AptosWalletAdapterProvider plugins={wallets}>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <magic.Relayer />
@@ -111,6 +117,7 @@ export default function App() {
           {/* <View style={styles.overlay} /> */}
         </Provider>
       </QueryClientProvider>
+      </AptosWalletAdapterProvider>
     </GestureHandlerRootView>
   );
 }
