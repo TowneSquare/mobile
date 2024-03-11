@@ -38,7 +38,7 @@ const MainTab = () => {
             textAlign: 'center',
           }}
         >
-          Comming soon
+          Coming soon
         </Text>
       </View>
     );
