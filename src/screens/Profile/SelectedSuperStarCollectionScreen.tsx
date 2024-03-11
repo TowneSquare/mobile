@@ -1,21 +1,21 @@
 import {
-  View,
-  Text,
   Dimensions,
+  Image,
+  Pressable,
   ScrollView,
   StyleSheet,
-  Pressable,
-  Image,
+  Text,
+  View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import SelectedIcon from "../../../assets/images/svg/SelectedIcon";
 import SelectedStars from "../../components/Profile/About/SelectedStars";
 import { appColor } from "../../constants";
-import { sizes } from "../../utils";
-import Header from "../../shared/Feed/Header";
 import { updateSelectedSuperStar } from "../../controller/UserController";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useAppSelector, useAppDispatch } from "../../controller/hooks";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
 import { SelectedSuperStarCollectionScreenProps } from "../../navigations/NavigationTypes";
-import SelectedIcon from "../../../assets/images/svg/SelectedIcon";
+import Header from "../../shared/Feed/Header";
+import { sizes } from "../../utils";
 
 const { height, width } = Dimensions.get("window");
 

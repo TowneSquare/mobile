@@ -1,68 +1,64 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import {
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore';
+import { useEffect, useReducer, useState } from 'react';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   View,
-  Image,
-  Dimensions,
-  ScrollView,
-  Pressable,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useReducer, useState, useMemo, useEffect } from 'react';
-import { appColor } from '../../constants';
-import SuperStarBottomSheet from '../../components/Profile/About/SuperStarBottomSheet';
-import Header from '../../components/Profile/Header';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-import TheirProfileBottomSheet from '../../components/Profile/About/TheirProfileBottomSheet';
-import ProfileTabNavigation from '../../navigations/InApp/ProfileTabNavigation';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { updateSuperStarBottomSheet } from '../../controller/BottomSheetController';
-import BlockUserModal from '../../components/Feed/BlockUserModal';
-import ReportPanel from '../../components/Feed/ReportPanel';
-import ReportPostModal from '../../components/Feed/ReportPostModal';
-import ReportUserModal from '../../components/Feed/ReportUserModal';
+import { useQuery } from 'react-query';
 import CheckedIcon from '../../../assets/images/svg/CheckedIcon';
 import FollowIcon from '../../../assets/images/svg/FollowIcon';
 import MessageIcon from '../../../assets/images/svg/MessageIcon';
 import ProfileTipIcon from '../../../assets/images/svg/ProfileTipIcon';
+import { BACKEND_URL } from '../../../config/env';
+import { firestoreDB } from '../../../config/firebase.config';
+import { useAptosName } from '../../api/hooks';
+import BlockUserModal from '../../components/Feed/BlockUserModal';
+import ForYou from '../../components/Feed/ForYou';
+import ReportPanel from '../../components/Feed/ReportPanel';
+import ReportPostModal from '../../components/Feed/ReportPostModal';
+import ReportUserModal from '../../components/Feed/ReportUserModal';
 import ProfileCard from '../../components/Profile/About/ProfileCard';
-import { sizes } from '../../utils';
-import { TheirProfileScreenProps } from '../../navigations/NavigationTypes';
+import SuperStarBottomSheet from '../../components/Profile/About/SuperStarBottomSheet';
+import TheirProfileBottomSheet from '../../components/Profile/About/TheirProfileBottomSheet';
+import ViewSuperStarsModal from '../../components/Profile/About/ViewSuperStarsModal';
+import Header from '../../components/Profile/Header';
+import Replies from '../../components/Profile/Replies';
+import { appColor } from '../../constants';
+import { updateSuperStarBottomSheet } from '../../controller/BottomSheetController';
 import {
   updateTipBottomSheet,
   updateToast,
 } from '../../controller/FeedsController';
-import ViewSuperStarsModal from '../../components/Profile/About/ViewSuperStarsModal';
-import ForYou from '../../components/Feed/ForYou';
-import Replies from '../../components/Profile/Replies';
-import { getCreatedTime } from '../../utils/helperFunction';
-import axios from 'axios';
-import { APTOS_NAME_URL } from '../../../config/env';
-import { useAptosName } from '../../api/hooks';
 import {
+  UserData,
   followUser,
   getUserData,
   unFollowUser,
 } from '../../controller/UserController';
-import { UserData } from '../../controller/UserController';
-const { height, width } = Dimensions.get('window');
-import { getUserInfo } from '../../api';
-import { PostData } from '../../controller/createPost';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { TheirProfileScreenProps } from '../../navigations/NavigationTypes';
 import ShowLoader from '../../shared/ShowLoader';
-import { useQuery } from 'react-query';
-import { BACKEND_URL } from '../../../config/env';
+import { sizes } from '../../utils';
 import {
-  serverTimestamp,
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-} from 'firebase/firestore';
-import { firestoreDB } from '../../../config/firebase.config';
-import {
-  createUniqueChatId,
   addContactToFirestore,
+  createUniqueChatId,
 } from '../../utils/ChatUtils';
+import { getCreatedTime } from '../../utils/helperFunction';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
 type SuperStarReducerState = {

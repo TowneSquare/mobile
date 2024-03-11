@@ -1,29 +1,29 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  TextInput,
-  ScrollView,
-  Pressable,
-  Image
-} from "react-native";
 import { useState } from "react";
-import { appColor, images } from "../../constants";
-import Info from "../../../assets/images/svg/Info";
-import { sizes } from "../../utils";
-const { height, width } = Dimensions.get("window");
-import { useAppDispatch, useAppSelector } from "../../controller/hooks";
-import InfoBottomSheet from "../../components/Profile/EditProfile/InfoBottomSheet";
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Header from "../../shared/Feed/Header";
-import NftBottomSheet from "../../components/Profile/EditProfile/NftBottomSheet";
-import { updateNickname, editProfile, getUserData, updateProfileImage } from "../../controller/UserController";
-import { EditProfileBottomSheetProvider } from "../../context/EditProfileBottomSheetContext";
-const size = new sizes(height, width);
+import Info from "../../../assets/images/svg/Info";
 import ProfileImage from "../../components/Profile/About/ProfileImage";
 import ChooseProfilePicsBottomSheet from "../../components/Profile/EditProfile/ChooseProfilePicsBottomSheet";
+import InfoBottomSheet from "../../components/Profile/EditProfile/InfoBottomSheet";
+import NftBottomSheet from "../../components/Profile/EditProfile/NftBottomSheet";
 import SelectedCollectionBottomSheet from "../../components/Profile/EditProfile/SelectedCollectionBottomSheet";
+import { appColor, images } from "../../constants";
+import { EditProfileBottomSheetProvider } from "../../context/EditProfileBottomSheetContext";
+import { editProfile, getUserData, updateProfileImage } from "../../controller/UserController";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import Header from "../../shared/Feed/Header";
+import { sizes } from "../../utils";
+const { height, width } = Dimensions.get("window");
+const size = new sizes(height, width);
 
 const EditProfileScreen = () => {
   const [showDisplayNameBottomSheet, setShowDisplayNameBottomSheet] =

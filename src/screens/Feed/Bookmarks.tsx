@@ -1,16 +1,12 @@
-import { StyleSheet, Text, View, Dimensions } from "react-native";
-import React, { useEffect } from "react";
 import { FlashList } from "@shopify/flash-list";
-import { Image } from "react-native";
-import { sizes } from "../../utils";
-import { images } from "../../constants";
-import { UserPosts } from "../../components/Feed/DuumyData";
+import React from "react";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { appColor } from "../../constants";
-import { useAppSelector, useAppDispatch } from "../../controller/hooks";
-import Header from "../../shared/Feed/Header";
 import ForYou from "../../components/Feed/ForYou";
-import { getUserBookmark } from "../../controller/UserController";
+import { appColor, images } from "../../constants";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import Header from "../../shared/Feed/Header";
+import { sizes } from "../../utils";
 
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);

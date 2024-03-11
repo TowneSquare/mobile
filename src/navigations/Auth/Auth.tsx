@@ -1,14 +1,14 @@
 import {
-  createStackNavigator,
   CardStyleInterpolators,
+  createStackNavigator,
 } from '@react-navigation/stack';
-import { Easing, Animated } from 'react-native';
-import { RootStackParamList } from './../NavigationTypes';
-import SignUp from '../../screens/SignUp/SignUp';
-import FirstScreen from '../../screens/SignUp/FirstScreen';
-import EmailLogin from '../../screens/SignUp/EmailLogin';
+import { Animated, Easing } from 'react-native';
 import ChooseWallet from '../../screens/SignUp/ChooseWallet';
 import Congratulations from '../../screens/SignUp/Congratulations';
+import EmailLogin from '../../screens/SignUp/EmailLogin';
+import FirstScreen from '../../screens/SignUp/FirstScreen';
+import SignUp from '../../screens/SignUp/SignUp';
+import { RootStackParamList } from './../NavigationTypes';
 const AuthNavigation = ({ screenProps }: { screenProps: any }) => {
   const Stack = createStackNavigator<RootStackParamList>();
   const magicProps: any = {

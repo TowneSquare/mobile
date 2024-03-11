@@ -1,20 +1,19 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  TextInput,
-  Pressable,
-} from 'react-native';
 import React from 'react';
-import { sizes } from '../../../utils';
-import { appColor, images } from '../../../constants';
+import {
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
 import { Avatar } from 'react-native-elements';
 import Feather from 'react-native-vector-icons/Feather';
-import UserPurplebadge from '../../../../assets/images/svg/UserPurplebadge';
 import RemoveIcon from '../../../../assets/images/svg/RemoveIcon';
-import UserQueenBadge from '../../../../assets/images/svg/UserQueenBadge';
 import SelectedMemberIcon from '../../../../assets/images/svg/SelectedMemberIcon';
+import UserPurplebadge from '../../../../assets/images/svg/UserPurplebadge';
+import UserQueenBadge from '../../../../assets/images/svg/UserQueenBadge';
+import { appColor, images } from '../../../constants';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 

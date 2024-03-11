@@ -1,27 +1,23 @@
+import { StackActions } from '@react-navigation/native';
 import {
-  View,
   Dimensions,
   StyleSheet,
-  Image,
-  Pressable,
   Text,
-  ActivityIndicator,
+  View
 } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-const { height, width } = Dimensions.get('window');
 import { Avatar } from 'react-native-elements';
-import { sizes } from '../../utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import GreyBadge from '../../../assets/images/svg/GreyBadge';
+import SuccessIcon from '../../../assets/images/svg/SuccessIcon';
+import { appColor, images } from '../../constants';
+import { updateTransactionDetailsBottomsheet } from '../../controller/BottomSheetController';
+import { useAppDispatch } from '../../controller/hooks';
+import { TokenSuccessProps } from '../../navigations/NavigationTypes';
 import ActionButton from '../../shared/ActionButton';
 import ActionButton2 from '../../shared/ActionButton2';
-import { appColor, images } from '../../constants';
-import SuccessIcon from '../../../assets/images/svg/SuccessIcon';
-import GreyBadge from '../../../assets/images/svg/GreyBadge';
-import { useState } from 'react';
-import { StackActions } from '@react-navigation/native';
-import { useAppDispatch } from '../../controller/hooks';
-import { updateTransactionDetailsBottomsheet } from '../../controller/BottomSheetController';
-import { TokenSuccessProps } from '../../navigations/NavigationTypes';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const TokenSuccess = ({ navigation, route }: TokenSuccessProps) => {
   const { popNo } = route.params;

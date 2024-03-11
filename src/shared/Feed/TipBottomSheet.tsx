@@ -1,31 +1,30 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  Pressable,
-  StyleSheet,
-  BackHandler,
-  ActivityIndicator,
-  Animated,
-} from 'react-native';
-import { useCallback, useMemo, useRef, useEffect, useState } from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetTextInput,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
-import SuccesGreenIcon from '../../../assets/images/svg/SuccessGreenIcon';
-import InfoIcon from '../../../assets/images/svg/InfoIcon';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  ActivityIndicator,
+  BackHandler,
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { Avatar } from 'react-native-elements';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-import CustomHandler from '../../components/Feed/CustomHandler';
-import { appColor, images } from '../../constants';
-import { sizes } from '../../utils';
 import Aptos from '../../../assets/images/svg/Aptos';
-import { submitTransactionToPetra } from '../../utils/connectWallet';
+import InfoIcon from '../../../assets/images/svg/InfoIcon';
+import SuccesGreenIcon from '../../../assets/images/svg/SuccessGreenIcon';
+import CustomHandler from '../../components/Feed/CustomHandler';
+import { appColor } from '../../constants';
 import { updateTipBottomSheet } from '../../controller/FeedsController';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { sizes } from '../../utils';
+import { submitTransactionToPetra } from '../../utils/connectWallet';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 enum STATUS {

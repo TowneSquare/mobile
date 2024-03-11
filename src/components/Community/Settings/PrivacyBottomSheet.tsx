@@ -1,20 +1,18 @@
-import {
-  Text,
-  StyleSheet,
-  Dimensions,
-  Pressable,
-  BackHandler,
-  View,
-} from 'react-native';
-import { useRef, useEffect, useCallback, useMemo } from 'react';
-import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../../constants';
-import { sizes } from '../../../utils';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import {
+  BackHandler,
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text
+} from 'react-native';
+import { appColor } from '../../../constants';
+import { sizes } from '../../../utils';
 import CustomHandler from '../../Feed/CustomHandler';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);

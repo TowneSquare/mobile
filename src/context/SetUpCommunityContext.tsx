@@ -1,4 +1,4 @@
-import React, { useState, createContext, ReactNode } from 'react';
+import React, { ReactNode, createContext, useState } from 'react';
 import CommunityNFT from '../components/Community/CreateCommunity/CommunityNFT';
 import CryptoAssetView from '../components/Community/CreateCommunity/CryptoAssetView';
 import PrivacySettingsView from '../components/Community/CreateCommunity/PrivacySettingsView';

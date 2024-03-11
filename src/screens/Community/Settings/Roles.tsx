@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../../constants';
-import Header from '../../../shared/Feed/Header';
-import { sizes } from '../../../utils';
 import ArrowRight from '../../../../assets/images/svg/ArrowRight';
 import PlusIcon from '../../../../assets/images/svg/PLusIcon';
+import { appColor } from '../../../constants';
 import { RolesProps } from '../../../navigations/NavigationTypes';
+import Header from '../../../shared/Feed/Header';
+import { sizes } from '../../../utils';
 
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);

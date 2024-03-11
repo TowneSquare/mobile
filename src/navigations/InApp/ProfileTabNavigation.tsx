@@ -1,17 +1,17 @@
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import {
-  View,
-  Text,
-  TouchableOpacity,
   Dimensions,
   StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import About from '../../components/Profile/About';
+import { appColor } from '../../constants';
+import Wallet from '../../screens/Wallet';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import { appColor } from '../../constants';
-import About from '../../components/Profile/About';
-import Wallet from '../../screens/Wallet';
 const Tab = createMaterialTopTabNavigator();
 interface Props {
   typeOfProfile: 'myProfile' | 'theirProfile';

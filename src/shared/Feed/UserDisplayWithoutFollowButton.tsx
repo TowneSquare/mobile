@@ -1,10 +1,9 @@
-import { View, Text, Pressable, Dimensions, StyleSheet } from 'react-native';
-const { height, width } = Dimensions.get('window');
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Avatar } from 'react-native-elements';
+import Queen from '../../../assets/images/svg/Queen';
 import { appColor, images } from '../../constants';
 import { sizes } from '../../utils';
-import { Avatar } from 'react-native-elements';
-import FollowButton from './FollowButton';
-import Queen from '../../../assets/images/svg/Queen';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {
   data: {

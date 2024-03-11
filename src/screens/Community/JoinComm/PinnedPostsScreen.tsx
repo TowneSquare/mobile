@@ -1,19 +1,8 @@
-import {
-  Button,
-  Dimensions,
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-} from 'react-native';
 import React from 'react';
-import { sizes } from '../../../utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Header from '../../../shared/Feed/Header';
-import { appColor } from '../../../constants';
 import ForYou from '../../../components/Feed/ForYou';
+import { appColor } from '../../../constants';
+import Header from '../../../shared/Feed/Header';
 const data = {
   id: '1',
   pfp: '',

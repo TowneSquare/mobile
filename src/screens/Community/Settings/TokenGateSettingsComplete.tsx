@@ -1,21 +1,20 @@
+import React from 'react';
 import {
-  View,
-  Text,
   Dimensions,
-  StyleSheet,
-  Pressable,
   Image,
+  StyleSheet,
+  Text,
+  View
 } from 'react-native';
-import React, { useState } from 'react';
-import { sizes } from '../../../utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor, images } from '../../../constants';
-import Header from '../../../shared/Feed/Header';
 import NftIcon from '../../../../assets/images/svg/NftIcon';
 import SwitchIcon from '../../../../assets/images/svg/SwitchIcon';
+import { appColor } from '../../../constants';
+import { TokenGateSettingsCompleteProps } from '../../../navigations/NavigationTypes';
+import Header from '../../../shared/Feed/Header';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import { TokenGateSettingsCompleteProps } from '../../../navigations/NavigationTypes';
 const TokenGateSettingsComplete = ({
   route,
 }: TokenGateSettingsCompleteProps) => {

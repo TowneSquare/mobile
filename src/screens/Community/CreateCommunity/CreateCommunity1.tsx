@@ -1,21 +1,21 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  Pressable,
-  ImageBackground,
-} from "react-native";
-import React from "react";
-import { appColor, images } from "../../../constants";
-import { sizes } from "../../../utils";
-import { SafeAreaView } from "react-native-safe-area-context";
-import ExploreIcons from "../../../../assets/images/svg/EXploreIcons";
-import CommunityUsersIcon from "../../../../assets/images/svg/CommunityUsersIcon";
-import AddIcon from "../../../../assets/images/svg/AddIcon";
-const { height, width } = Dimensions.get("window");
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import React from "react";
+import {
+  Dimensions,
+  ImageBackground,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import AddIcon from "../../../../assets/images/svg/AddIcon";
+import CommunityUsersIcon from "../../../../assets/images/svg/CommunityUsersIcon";
+import ExploreIcons from "../../../../assets/images/svg/EXploreIcons";
+import { appColor, images } from "../../../constants";
 import { RootStackParamList } from "../../../navigations/NavigationTypes";
+import { sizes } from "../../../utils";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const CreateCommunity1 = () => {
   const navigation: NavigationProp<

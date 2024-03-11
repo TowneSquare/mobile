@@ -1,25 +1,22 @@
 import React from "react";
 import {
   Dimensions,
-  View,
-  Text,
-  StyleSheet,
   Image,
   ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import { sizes } from "../../../utils";
-
-import { images } from "../../../constants/images";
-
-import ImageStack from "../../../shared/Feed/ImageStack";
-import { appColor } from "../../../constants";
-
-import CommunityTab from "../../../components/Community/Community/CommunityTab/CommunityTab";
-import CommunityAvatar from "../../../../assets/images/svg/CommunityAvatar";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CommunityHeader from "../../../shared/Community/CommunityHeader";
-import ForCommunityPosts from "../../../components/Community/JoinCommunity/UUserpost";
+import CommunityAvatar from "../../../../assets/images/svg/CommunityAvatar";
+import CommunityTab from "../../../components/Community/Community/CommunityTab/CommunityTab";
 import AboutCommunity from "../../../components/Community/JoinCommunity/AboutCommunity";
+import ForCommunityPosts from "../../../components/Community/JoinCommunity/UUserpost";
+import { appColor } from "../../../constants";
+import { images } from "../../../constants/images";
+import CommunityHeader from "../../../shared/Community/CommunityHeader";
+import ImageStack from "../../../shared/Feed/ImageStack";
+import { sizes } from "../../../utils";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 

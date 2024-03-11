@@ -1,20 +1,19 @@
+import { CommonActions, useNavigation } from '@react-navigation/native';
+import React from 'react';
 import {
-  Button,
   Dimensions,
   Image,
   ImageBackground,
+  Pressable,
   StyleSheet,
   Text,
-  View,
-  Pressable,
+  View
 } from 'react-native';
-import React from 'react';
-import { appColor, images } from '../../../constants';
-import { sizes } from '../../../utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation, CommonActions } from '@react-navigation/native';
+import { appColor, images } from '../../../constants';
 import { updateHasCreatedCommunity } from '../../../controller/CommunityController';
 import { useAppDispatch } from '../../../controller/hooks';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 

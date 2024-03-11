@@ -1,20 +1,19 @@
-import { View, Text, Dimensions, Pressable, BackHandler } from "react-native";
-import { useRef, useEffect, useMemo, useCallback } from "react";
-import { useFonts } from "expo-font";
-import { appColor, fonts } from "../../constants";
-import { sizes } from "../../utils";
-import CustomHandler from "../../components/Feed/CustomHandler";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from "@gorhom/bottom-sheet";
+import { useFonts } from "expo-font";
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { BackHandler, Dimensions, Pressable, Text, View } from "react-native";
+import Thrash from "../../../assets/images/svg/Thrash";
+import CustomHandler from "../../components/Feed/CustomHandler";
+import { appColor, fonts } from "../../constants";
+import { updateDeletePostPanel } from "../../controller/FeedsController";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import { sizes } from "../../utils";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
-import Thrash from "../../../assets/images/svg/Thrash";
-import { useAppDispatch, useAppSelector } from "../../controller/hooks";
-import { updateDeletePostPanel } from "../../controller/FeedsController";
-import { deletePost } from "../../controller/UserController";
 const DeleteMyPostPanel = () => {
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);

@@ -1,10 +1,10 @@
-import { Text, Pressable, Dimensions, StyleSheet } from "react-native";
 import { useState } from "react";
-const { height, width } = Dimensions.get("window");
+import { Dimensions, Pressable, StyleSheet, Text } from "react-native";
 import { appColor } from "../../constants";
-import { sizes } from "../../utils";
-import { useAppDispatch, useAppSelector } from "../../controller/hooks";
 import { followUser, unFollowUser } from "../../controller/UserController";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import { sizes } from "../../utils";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 interface Props {
   isFollowing: boolean;

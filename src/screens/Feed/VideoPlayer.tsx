@@ -1,19 +1,17 @@
-import { View, Dimensions, Pressable, Image } from 'react-native';
-import { useRef } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor, fonts, images } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
 import { AntDesign } from '@expo/vector-icons';
-import { sizes } from '../../utils';
-import VideoPlayerSvg from '../../../assets/images/svg/VideoPlayerSvg';
 import { useNavigation } from '@react-navigation/native';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
+import { ResizeMode, Video } from 'expo-av';
 import Constants from 'expo-constants';
-const size = new sizes(height, width);
-import PostActions from '../../components/Feed/PostActions';
+import { useFonts } from 'expo-font';
+import { StatusBar } from 'expo-status-bar';
+import { useRef } from 'react';
+import { Dimensions, Pressable, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { appColor, fonts } from '../../constants';
 import { VideoPlayerProps } from '../../navigations/NavigationTypes';
-import { Video, ResizeMode } from 'expo-av';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
+const size = new sizes(height, width);
 
 const VideoPlayer = ({ route }: VideoPlayerProps) => {
   const {

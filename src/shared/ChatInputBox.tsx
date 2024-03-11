@@ -1,29 +1,28 @@
 import {
-  View,
-  Text,
-  Dimensions,
-  TextInput,
-  Animated,
-  StyleSheet,
-  TextInputProps,
-} from 'react-native';
-import {
-  useState,
-  useEffect,
-  useRef,
-  useImperativeHandle,
-  forwardRef,
   ForwardRefRenderFunction,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
 } from 'react';
-const { height, width } = Dimensions.get('window');
-import { appColor, fonts } from '../constants';
+import {
+  Animated,
+  Dimensions,
+  StyleSheet,
+  Text,
+  TextInput,
+  TextInputProps,
+  View,
+} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import CancelIcon from '../../assets/images/svg/CancelIcon';
-import ChatSendButton from '../../assets/images/svg/ChatSendButton';
+import ReplyingToIcon from '../../assets/images/svg/ReplyingToIcon';
 import SendButton from '../../assets/images/svg/SendButton';
 import SendButtonActive from '../../assets/images/svg/SendButtonActive';
+import { appColor } from '../constants';
 import { sizes } from '../utils';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import ReplyingToIcon from '../../assets/images/svg/ReplyingToIcon';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props extends TextInputProps {
   showReplying: boolean;

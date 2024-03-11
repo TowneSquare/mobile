@@ -1,13 +1,10 @@
-import { useSelector } from 'react-redux';
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { ImageSourcePropType } from 'react-native';
-import { atMentionData, hashTagData, aptosTags } from './dummyData';
-import { SearchFuntion, ExtractTags } from '../../utils/helperFunction';
-import axios from 'axios';
-import { BACKEND_URL } from '../../../config/env';
-import { useAppSelector } from '../hooks';
-import { images } from '../../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { ImageSourcePropType } from 'react-native';
+import { BACKEND_URL } from '../../../config/env';
+import { ExtractTags, SearchFuntion } from '../../utils/helperFunction';
+import { aptosTags, atMentionData, hashTagData } from './dummyData';
 
 interface CreatePost {
   message: string;

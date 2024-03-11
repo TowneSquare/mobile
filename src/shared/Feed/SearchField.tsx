@@ -1,8 +1,7 @@
-import { View, StyleSheet, Dimensions, TextInput } from 'react-native';
+import { Octicons } from '@expo/vector-icons';
+import { Dimensions, StyleSheet, TextInput, View } from 'react-native';
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
-import { Octicons } from '@expo/vector-icons';
-import { onChange } from 'react-native-reanimated';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {

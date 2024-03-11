@@ -1,12 +1,12 @@
-import { View, Text, Dimensions, StyleSheet, Image } from "react-native";
-const { height, width } = Dimensions.get("window");
-import JoinButton from "./JoinButton";
 import { useFonts } from "expo-font";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import Users from "../../../assets/images/svg/Users";
 import { appColor, fonts, images } from "../../constants";
+import { useAppSelector } from "../../controller/hooks";
 import { sizes } from "../../utils";
 import ImageStack from "./ImageStack";
-import Users from "../../../assets/images/svg/Users";
-import { useAppSelector } from "../../controller/hooks";
+import JoinButton from "./JoinButton";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 interface Props {
   showAll: boolean;

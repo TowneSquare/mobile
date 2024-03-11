@@ -1,10 +1,10 @@
-import React from "react";
-import { Text, View, StyleSheet, Pressable, Dimensions } from "react-native";
-import { appColor, fonts } from "../../../../constants";
-import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
-import { sizes } from "../../../../utils";
+import { useFonts } from "expo-font";
+import React from "react";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { appColor, fonts } from "../../../../constants";
+import { sizes } from "../../../../utils";
 
 export enum VerifyCommunityState {
   NOT_APPROVED,

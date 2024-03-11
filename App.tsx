@@ -1,41 +1,37 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { StyleSheet } from 'react-native';
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { StyleSheet, View } from 'react-native';
-import InitializeSocket from './src/utils/InitializeSocket';
-import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-get-random-values';
-import { TextEncoder, TextDecoder } from 'text-encoding';
+import { TextDecoder, TextEncoder } from 'text-encoding';
 import { RootStackParamList } from './src/navigations/NavigationTypes';
+import InitializeSocket from './src/utils/InitializeSocket';
 // import Navigations from './src/navigations/InApp/InAppNavigations';
-import { useDispatch } from 'react-redux';
-import { Provider } from 'react-redux';
-import { Dispatch, useEffect } from 'react';
-import { store } from './src/controller/store';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Magic } from '@magic-sdk/react-native-expo';
-import { API_KEY } from './config/env';
-import { OAuthExtension } from '@magic-ext/react-native-expo-oauth';
+import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
 import { AptosExtension } from '@magic-ext/aptos';
-import { APTOS_NODE_URL } from './constants';
+import { OAuthExtension } from '@magic-ext/react-native-expo-oauth';
+import { Magic } from '@magic-sdk/react-native-expo';
+import { MartianWallet } from "@martianwallet/aptos-wallet-adapter";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinkingOptions } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
-import UsePushNotification from './src/services/PushNotification';
-import { SwitchNavigator } from './src/navigations/NavigationSwitch';
-import ToastWrapper from './src/shared/Feed/OverlayWrapper';
+import { PetraWallet } from "petra-plugin-wallet-adapter";
+import { useEffect } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { Provider } from 'react-redux';
+import { API_KEY } from './config/env';
+import { APTOS_NODE_URL } from './constants';
 import { getUserInfo } from './src/api';
 import CreateChannelBottomSheet from './src/components/DrawerContent/CreateChannelBottomSheet';
-import SelectUsersBottomsheet from './src/components/ProfileSendToken/SelectUsersBottomsheet';
 import LogoutBottomsheet from './src/components/Feed/LogoutBottomsheet';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import Navigations from './src/navigations/Navigations';
+import SelectUsersBottomsheet from './src/components/ProfileSendToken/SelectUsersBottomsheet';
 import {
-  updateDidToken,
-  updateUserData,
+  updateUserData
 } from './src/controller/UserController';
-import { AnyAction } from '@reduxjs/toolkit';
-import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
-import { MartianWallet } from "@martianwallet/aptos-wallet-adapter";
-import { PetraWallet } from "petra-plugin-wallet-adapter";
+import { store } from './src/controller/store';
+import Navigations from './src/navigations/Navigations';
+import UsePushNotification from './src/services/PushNotification';
+import ToastWrapper from './src/shared/Feed/OverlayWrapper';
 type AuthRootStackParamList = {
   Auth: {
     FirstScreen: undefined;

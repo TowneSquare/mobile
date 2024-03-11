@@ -1,20 +1,19 @@
+import React from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
   Dimensions,
   Linking,
   Pressable,
+  StyleSheet,
+  Text
 } from 'react-native';
-import React from 'react';
-import { sizes } from '../../utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../constants';
-import Header from '../../shared/Feed/Header';
 import ArrowRight from '../../../assets/images/svg/Settings/ArrowRight';
-import XIcon from '../../../assets/images/svg/Settings/XIcon';
 import DiscordSvg from '../../../assets/images/svg/Settings/DiscordSvg';
 import SupportEmailSvg from '../../../assets/images/svg/Settings/SupportEmailSvg';
+import XIcon from '../../../assets/images/svg/Settings/XIcon';
+import { appColor } from '../../constants';
+import Header from '../../shared/Feed/Header';
+import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Support = () => {

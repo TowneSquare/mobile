@@ -1,7 +1,6 @@
 //@ts-nocheck
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import io from 'socket.io-client';
-import { Socket } from 'socket.io-client';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import io, { Socket } from 'socket.io-client';
 
 interface InitialState {
   isConnected: boolean;

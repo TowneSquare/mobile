@@ -1,14 +1,14 @@
-import { View, Text, Dimensions, StyleSheet, ScrollView } from 'react-native';
 import React, { useState } from 'react';
-import { sizes } from '../../../utils';
+import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../../constants';
-import SearchField from '../../../shared/Feed/SearchField';
-import { AddMembersProps } from '../../../navigations/NavigationTypes';
-import Member from '../../../components/Community/Settings/Member';
-import Header from '../../../shared/Feed/Header';
 import BanMemberBottomSheet from '../../../components/Community/Settings/BanMemberBottomSheet';
 import ManageRoleBottomSheet from '../../../components/Community/Settings/ManageRoleBottomSheet';
+import Member from '../../../components/Community/Settings/Member';
+import { appColor } from '../../../constants';
+import { AddMembersProps } from '../../../navigations/NavigationTypes';
+import Header from '../../../shared/Feed/Header';
+import SearchField from '../../../shared/Feed/SearchField';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const AddMembers = ({ navigation }: AddMembersProps) => {

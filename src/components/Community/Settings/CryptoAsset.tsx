@@ -1,19 +1,18 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  TextInput,
-  Pressable,
-} from 'react-native';
 import React, { useContext } from 'react';
-import { sizes } from '../../../utils';
-import { appColor } from '../../../constants';
+import {
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import AptosIcon from '../../../../assets/images/svg/AptosIcon';
 import CheckBox from '../../../../assets/images/svg/CheckBox';
 import UncheckedBoxIcon from '../../../../assets/images/svg/UncheckedBoxIcon';
+import { appColor } from '../../../constants';
 import { SetCommunitySettingsContext } from '../../../context/CommunitySettingsContext';
-import SelectedAssetBottomsheet from '../CreateCommunity/SelectedAssetBottomsheet';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const CryptoAsset = () => {

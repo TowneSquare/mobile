@@ -1,15 +1,13 @@
+import React from "react";
 import {
-  View,
-  Text,
   Dimensions,
-  StyleSheet,
-  Image,
   FlatList,
+  Text,
+  View
 } from "react-native";
-import React, { ReactNode } from "react";
-import { sizes } from "../../../utils";
 import CommunityAvatar2 from "../../../../assets/images/svg/CommunityAvatar2";
 import { appColor } from "../../../constants";
+import { sizes } from "../../../utils";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const RecommendedCommunity = () => {

@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import React from 'react';
-import { sizes } from '../../utils';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../constants';
-import Header from '../../shared/Feed/Header';
 import MagicIcon from '../../../assets/images/svg/Settings/MagicIcon';
+import { appColor } from '../../constants';
 import { useAppSelector } from '../../controller/hooks';
+import Header from '../../shared/Feed/Header';
+import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const AccountInfo = () => {

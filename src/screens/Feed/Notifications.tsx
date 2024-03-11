@@ -1,13 +1,13 @@
-import { Dimensions, StyleSheet, FlatList } from 'react-native';
-import React from 'react';
-const { height, width } = Dimensions.get('window');;
-import Header from '../../shared/Feed/Header';
-import { appColor } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { sizes } from '../../utils';
 import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
+import { Dimensions, FlatList, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Notification from '../../components/Notification/Notification';
+import { appColor } from '../../constants';
+import Header from '../../shared/Feed/Header';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');;
 const size = new sizes(height, width);
 const Notifications = () => {
   const data = [

@@ -1,18 +1,14 @@
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
-} from "react-native";
 import React from "react";
-import { CommunityPost, UserPosts } from "../../Feed/DuumyData";
-import ForYou from "../../Feed/ForYou";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  View
+} from "react-native";
 import { appColor } from "../../../constants";
-
-import PinnedPost from "./PinnedPost";
 import { sizes } from "../../../utils";
+import ForYou from "../../Feed/ForYou";
+import PinnedPost from "./PinnedPost";
 
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);

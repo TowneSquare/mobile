@@ -1,14 +1,14 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
-import React, { useState } from 'react';
-import { sizes } from '../../../utils';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../../constants';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import ChangesBottomSheet from '../../../components/Community/Settings/ChangesBottomSheet';
-import { NotificationSettingsProps } from '../../../navigations/NavigationTypes';
+import React, { useState } from 'react';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import RadioButton from '../../../../assets/images/png/RadioButton';
 import DefaultButton from '../../../../assets/images/svg/DefaultButton';
+import ChangesBottomSheet from '../../../components/Community/Settings/ChangesBottomSheet';
 import NotificationSettingsToggle from '../../../components/Community/Settings/NotificationSettingsToggle';
+import { appColor } from '../../../constants';
+import { NotificationSettingsProps } from '../../../navigations/NavigationTypes';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const NotificationSettings = ({ navigation }: NotificationSettingsProps) => {

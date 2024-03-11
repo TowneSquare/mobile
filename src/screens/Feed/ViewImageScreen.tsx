@@ -1,16 +1,16 @@
-import { View, Dimensions, Pressable, Image } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { appColor, fonts, images } from "../../constants";
-import { StatusBar } from "expo-status-bar";
 import { AntDesign } from "@expo/vector-icons";
-import { sizes } from "../../utils";
-import Constants from "expo-constants";
 import { useNavigation } from "@react-navigation/native";
-const { height, width } = Dimensions.get("window");
+import Constants from "expo-constants";
 import { useFonts } from "expo-font";
-const size = new sizes(height, width);
+import { StatusBar } from "expo-status-bar";
+import { Dimensions, Image, Pressable, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import PostActions from "../../components/Feed/PostActions";
+import { appColor, fonts } from "../../constants";
 import { ViewImageScreenProps } from "../../navigations/NavigationTypes";
+import { sizes } from "../../utils";
+const { height, width } = Dimensions.get("window");
+const size = new sizes(height, width);
 const ViewImageScreen = ({ route }: ViewImageScreenProps) => {
   const navigation = useNavigation();
   let [isLoaded] = useFonts({

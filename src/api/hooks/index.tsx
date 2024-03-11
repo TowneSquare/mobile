@@ -1,10 +1,8 @@
 import axios from "axios";
-import { NFT_SCAN, APTOS_NAME_URL, BACKEND_URL } from "../../../config/env";
 import { useQuery } from "react-query";
-import { UserNFT } from "../../controller/UserController/models";
-import { initialData } from "./dummyData";
+import { APTOS_NAME_URL, BACKEND_URL, NFT_SCAN } from "../../../config/env";
 import { UserData } from "../../controller/UserController";
-import { Image } from "react-native";
+import { UserNFT } from "../../controller/UserController/models";
 
 export const useUserNFT = ({ userAddress }) => {
   axios.defaults.headers["X-API-KEY"] = "KeWS6RZ93ae5Upi2VR0bYDsH";

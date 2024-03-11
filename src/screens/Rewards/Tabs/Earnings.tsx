@@ -1,26 +1,26 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  ScrollView,
-  Pressable,
-} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { appColor } from '../../../constants';
-import { sizes } from '../../../utils';
-import TowneSquareLogo from '../../../../assets/images/svg/Reward/TowneSqaureLogo';
+import {
+  Dimensions,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import InfoIcon from '../../../../assets/images/svg/InfoIcon';
+import ArrowRight from '../../../../assets/images/svg/Reward/ArrowRight';
+import NFTIcon from '../../../../assets/images/svg/Reward/NFTIcon';
+import PeopleIcon from '../../../../assets/images/svg/Reward/PeopleIcon';
 import Refferal from '../../../../assets/images/svg/Reward/Refferal';
 import ShareIcon from '../../../../assets/images/svg/Reward/ShareIcon';
-import PeopleIcon from '../../../../assets/images/svg/Reward/PeopleIcon';
 import SwapIcon from '../../../../assets/images/svg/Reward/SwapIcon';
-import NFTIcon from '../../../../assets/images/svg/Reward/NFTIcon';
 import TipIcon from '../../../../assets/images/svg/Reward/TipIcon';
-import { useAppDispatch } from '../../../controller/hooks';
+import TowneSquareLogo from '../../../../assets/images/svg/Reward/TowneSqaureLogo';
+import { appColor } from '../../../constants';
 import { updateRewardBottomsheetVisibility } from '../../../controller/RewardController';
-import ArrowRight from '../../../../assets/images/svg/Reward/ArrowRight';
-import { useNavigation } from '@react-navigation/native';
+import { useAppDispatch } from '../../../controller/hooks';
+import { sizes } from '../../../utils';
 
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);

@@ -1,38 +1,30 @@
-import moment from 'moment';
 import {
-  Data,
-  ChatDate,
-  ChatText,
-  DataWithoutChatDate,
-} from '../models/conversationModel';
-import {
-  launchImageLibraryAsync,
   MediaTypeOptions,
   launchCameraAsync,
+  launchImageLibraryAsync,
 } from 'expo-image-picker';
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  listAll,
-} from 'firebase/storage';
 import {
   Timestamp,
   arrayRemove,
   arrayUnion,
-  deleteDoc,
+  doc,
   getDoc,
+  serverTimestamp,
+  setDoc,
+  updateDoc
 } from 'firebase/firestore';
 import {
-  addDoc,
-  collection,
-  serverTimestamp,
-  doc,
-  updateDoc,
-  setDoc,
-} from 'firebase/firestore';
-import { app, firestoreDB, storage } from '../../config/firebase.config';
+  getDownloadURL,
+  ref,
+  uploadBytesResumable
+} from 'firebase/storage';
+import moment from 'moment';
+import { firestoreDB, storage } from '../../config/firebase.config';
+import {
+  ChatDate,
+  ChatText,
+  Data
+} from '../models/conversationModel';
 
 import { nanoid } from '@reduxjs/toolkit';
 import { ChatsModel } from '../models/chats';

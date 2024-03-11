@@ -1,11 +1,10 @@
 import axios from "axios";
-import { BACKEND_URL, APTOS_NAME_URL } from "../../config/env";
-import { Customer, PostData } from "../controller/createPost";
-import { useAppSelector } from "../controller/hooks";
+import { Image } from "react-native";
+import { APTOS_NAME_URL, BACKEND_URL } from "../../config/env";
+import { images } from "../constants";
 import { UserData } from "../controller/UserController";
 import { friends } from "../controller/UserController/models";
-import { Image } from "react-native";
-import { images } from "../constants";
+import { PostData } from "../controller/createPost";
 let _headers = {
   Accept: "application/json",
   "Content-Type": "application/json",

@@ -1,15 +1,14 @@
-import { Text, Pressable, Dimensions, StyleSheet } from "react-native";
 import React, { useState } from "react";
-const { height, width } = Dimensions.get("window");
-import { useFonts } from "expo-font";
-import { appColor, fonts } from "../../../constants";
-import { sizes } from "../../../utils";
-import { useAppDispatch, useAppSelector } from "../../../controller/hooks";
+import { Dimensions, Pressable, StyleSheet, Text } from "react-native";
+import { appColor } from "../../../constants";
 import {
+  InviteStatus,
   addInviteMembers,
   removeInviteMembers,
 } from "../../../controller/CommunityController";
-import { InviteStatus } from "../../../controller/CommunityController";
+import { useAppDispatch } from "../../../controller/hooks";
+import { sizes } from "../../../utils";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 interface Props {
   InviteState: InviteStatus;

@@ -1,32 +1,29 @@
+import React, { useEffect, useState } from 'react';
 import {
-  View,
-  Dimensions,
-  StyleSheet,
-  Pressable,
-  Text,
   ActivityIndicator,
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
   TextInput,
+  View,
 } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-const { height, width } = Dimensions.get('window');
 import { Avatar } from 'react-native-elements';
-import { useAppDispatch } from '../../controller/hooks';
-import { sizes } from '../../utils';
-import * as Animatable from 'react-native-animatable';
-import { appColor, images } from '../../constants';
-import Header from '../../shared/Feed/Header';
-import React, { useState, useEffect } from 'react';
-import SelectTokenSheet from '../../components/DM/SelectTokenSheet';
-import Aptos2 from '../../../assets/images/svg/Aptos2';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import SignTransactionBottomsheet from '../../shared/SignTransactionBottomsheet';
-import GreyBadge from '../../../assets/images/svg/GreyBadge';
-import { updateSelectUserBottomsheet } from '../../controller/BottomSheetController';
-import InfoIcon from '../../../assets/images/svg/InfoIcon';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Aptos2 from '../../../assets/images/svg/Aptos2';
 import ChatTipIcon from '../../../assets/images/svg/ChatTipIcon';
-import { ProfileSendTokenProps } from '../../navigations/NavigationTypes';
+import GreyBadge from '../../../assets/images/svg/GreyBadge';
 import RemoveIcon from '../../../assets/images/svg/Reward/Send/RemoveIcon';
+import SelectTokenSheet from '../../components/DM/SelectTokenSheet';
+import { appColor, images } from '../../constants';
+import { updateSelectUserBottomsheet } from '../../controller/BottomSheetController';
+import { useAppDispatch } from '../../controller/hooks';
+import { ProfileSendTokenProps } from '../../navigations/NavigationTypes';
+import SignTransactionBottomsheet from '../../shared/SignTransactionBottomsheet';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
   const dispatch = useAppDispatch();

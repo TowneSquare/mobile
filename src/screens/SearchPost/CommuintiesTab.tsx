@@ -1,10 +1,10 @@
-import { Dimensions, StyleSheet, View, ScrollView, Text } from 'react-native';
-import Communities from '../../shared/Feed/Communities';
+import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { appColor } from '../../constants';
+import { useAppSelector } from '../../controller/hooks';
+import Communities from '../../shared/Feed/Communities';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import { useAppSelector } from '../../controller/hooks';
 const CommuintiesTab = () => {
   const searchFocus = useAppSelector(
     (state) => state.SearchPostController.searchFocus

@@ -1,25 +1,25 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  BackHandler,
-  Image,
-  Pressable,
-} from 'react-native';
-import React, { useCallback, useMemo, useRef, useEffect } from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
-import CustomHandler from '../../Feed/CustomHandler';
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import {
+  BackHandler,
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import InfoIcon from '../../../../assets/images/svg/InfoIcon';
 import { appColor, images } from '../../../constants';
-import { sizes } from '../../../utils';
-const { height, width } = Dimensions.get('window');
-import { useNavigation } from '@react-navigation/native';
 import { CommunityDetailsType } from '../../../context/CommunitySettingsContext';
+import { sizes } from '../../../utils';
+import CustomHandler from '../../Feed/CustomHandler';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 type TokenGateSettingsCompleteParams = {
   TokenGateSettingsComplete: {

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ProfileData, CommunitiesData } from './dummyData';
+import { CommunitiesData, ProfileData } from './dummyData';
 interface Data {
   name: string;
   nickname?: string;

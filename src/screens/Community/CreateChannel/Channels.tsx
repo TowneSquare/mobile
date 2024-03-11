@@ -1,15 +1,14 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../../../utils';
-const size = new sizes(height, width);
-import SearchField from '../../../shared/Feed/SearchField';
-import { appColor } from '../../../constants';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ArrowRight from '../../../../assets/images/svg/ArrowRight';
-
-import AntDesign from '@expo/vector-icons/AntDesign';
 import PlusIcon from '../../../../assets/images/svg/PLusIcon';
+import { appColor } from '../../../constants';
 import { ChannelsProps } from '../../../navigations/NavigationTypes';
+import SearchField from '../../../shared/Feed/SearchField';
+import { sizes } from '../../../utils';
+const { height, width } = Dimensions.get('window');
+const size = new sizes(height, width);
 const Channels = ({ navigation }: ChannelsProps) => {
   return (
     <SafeAreaView

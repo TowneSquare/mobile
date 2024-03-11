@@ -1,21 +1,18 @@
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import React from "react";
 import {
-  View,
-  Text,
-  TouchableOpacity,
   Dimensions,
   StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-
+import AboutCommunity from "../../components/Community/JoinCommunity/AboutCommunity";
+import ForCommunityPosts from "../../components/Community/JoinCommunity/UUserpost";
+import { appColor } from "../../constants";
 import { sizes } from "../../utils";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
-import CommunitiesPost from "../../screens/Feed/CommunitiesPost";
-import ForYouPosts from "../../screens/Feed/ForYouPosts";
-import { appColor, fonts } from "../../constants";
-import AboutCommunity from "../../components/Community/JoinCommunity/AboutCommunity";
-import ForCommunityPosts from "../../components/Community/JoinCommunity/UUserpost";
 
 const Tab = createMaterialTopTabNavigator();
 const CommunityTab = () => {

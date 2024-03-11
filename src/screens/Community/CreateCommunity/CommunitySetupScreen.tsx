@@ -1,13 +1,13 @@
-import { View, Text, Dimensions, StyleSheet } from "react-native";
-import { appColor, images } from "../../../constants";
-import { sizes } from "../../../utils";
+import { StackActions } from "@react-navigation/native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import TransitionView from "../../../components/Community/CreateCommunity/TransitionView";
+import { appColor } from "../../../constants";
+import SetUpCommunityContext from "../../../context/SetUpCommunityContext";
+import { CommunitySetupScreenProps } from "../../../navigations/NavigationTypes";
+import { sizes } from "../../../utils";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
-import { StackActions } from "@react-navigation/native";
-import TransitionView from "../../../components/Community/CreateCommunity/TransitionView";
-import { CommunitySetupScreenProps } from "../../../navigations/NavigationTypes";
-import SetUpCommunityContext from "../../../context/SetUpCommunityContext";
 const CommunitySetupScreen = ({ navigation }: CommunitySetupScreenProps) => {
   return (
     <SafeAreaView

@@ -1,21 +1,21 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
 import React, { useState } from 'react';
-import { sizes } from '../../../utils';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../../constants';
-import Header from '../../../shared/Feed/Header';
-import CommunityUsersIcon from '../../../../assets/images/svg/CommunityUsersIcon';
 import AptosIcon from '../../../../assets/images/svg/AptosIcon';
 import CommunityNFT1 from '../../../../assets/images/svg/CommunityNFT1';
 import CommunityNFT2 from '../../../../assets/images/svg/CommunityNFT2';
 import CommunityNFTIcon from '../../../../assets/images/svg/CommunityNFTIcon';
+import CommunityUsersIcon from '../../../../assets/images/svg/CommunityUsersIcon';
 import TetherIcon from '../../../../assets/images/svg/TetherIcon';
 import UsdcIcon from '../../../../assets/images/svg/UsdcIcon';
+import ChooseNFTBottomsheet from '../../../components/Community/CreateCommunity/ChooseNFTBottomsheet';
+import ViewNFT from '../../../components/Community/CreateCommunity/ViewNFT';
+import { appColor } from '../../../constants';
 import { CommunityAssetSettingsProps } from '../../../navigations/NavigationTypes';
 import BackButton from '../../../shared/BackButton';
 import ContinueButton from '../../../shared/ContinueButton';
-import ChooseNFTBottomsheet from '../../../components/Community/CreateCommunity/ChooseNFTBottomsheet';
-import ViewNFT from '../../../components/Community/CreateCommunity/ViewNFT';
+import Header from '../../../shared/Feed/Header';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const CommunityAssetSettings = ({

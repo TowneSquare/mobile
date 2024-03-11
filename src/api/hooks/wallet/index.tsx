@@ -1,11 +1,11 @@
 import axios from "axios";
-import { NFT_SCAN, APTOS_NAME_URL, BACKEND_URL } from "../../../../config/env";
 import { useQuery } from "react-query";
-import { UserNFT } from "../../../controller/UserController/models";
-import { Coin } from "../../../models/wallet";
+import { getProfile } from "../..";
+import { NFT_SCAN } from "../../../../config/env";
 import { aptos } from "../../../../config/wallet";
 import { CMC_PRO_API_KEY } from "../../../../constants";
-import { getProfile } from "../..";
+import { UserNFT } from "../../../controller/UserController/models";
+import { Coin } from "../../../models/wallet";
 
 const baseUrl = "https://pro-api.coinmarketcap.com";
 

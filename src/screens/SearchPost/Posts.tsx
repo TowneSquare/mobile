@@ -1,15 +1,14 @@
-import { View, Text, Dimensions, StyleSheet, ScrollView } from "react-native";
+import { FlashList } from "@shopify/flash-list";
 import React, { useContext } from "react";
-import ForYou from "../../components/Feed/ForYou";
+import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import PostNotFound from "../../../assets/images/svg/PostNotFound";
-import { UserPosts } from "../../components/Feed/DuumyData";
+import ForYou from "../../components/Feed/ForYou";
+import { appColor } from "../../constants";
+import { SearchPostContext } from "../../context/SearchPostContext";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
 import { sizes } from "../../utils";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
-import { appColor } from "../../constants";
-import { useAppSelector, useAppDispatch } from "../../controller/hooks";
-import { FlashList } from "@shopify/flash-list";
-import { SearchPostContext } from "../../context/SearchPostContext";
 const Posts = () => {
   const { isSearchFocuesd, AllPost } = useAppSelector((state) => ({
     isSearchFocuesd: state.SearchPostController.searchFocus,

@@ -1,16 +1,16 @@
-import { View, Text, Image, Pressable, Dimensions } from 'react-native';
 import { useFonts } from 'expo-font';
-import { fonts, appColor } from '../../constants';
-const { height, width } = Dimensions.get('window');
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { Dimensions, Image, Pressable, Text, View } from 'react-native';
+import { useUserNFT } from '../../api/hooks';
+import { appColor, fonts } from '../../constants';
 import {
+  updateNftOpen,
+  updateNftRender,
   updateSelectedCollection,
   updateSelectedRender,
-  updateNftRender,
-  updateNftOpen,
 } from '../../controller/BottomSheetController';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { sizes } from '../../utils';
-import { useUserNFT } from '../../api/hooks';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
 interface Props {

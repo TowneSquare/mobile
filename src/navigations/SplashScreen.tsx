@@ -1,23 +1,20 @@
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import React from 'react';
-import { appColor } from '../constants';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { sizes } from '../utils';
-import { StatusBar } from 'expo-status-bar';
-import { getUserInfo } from '../api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CommonActions, StackActions, useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
+import React, { useEffect } from 'react';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import AppLogo from '../../assets/images/svg/AppLogo';
+import { getUserInfo } from '../api';
+import { appColor } from '../constants';
 import {
-  updateUserData,
   getUserData,
   updateDidToken,
+  updateUserData,
 } from '../controller/UserController';
-import AppLogo from '../../assets/images/svg/AppLogo';
-import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../controller/hooks';
-import { useNavigation } from '@react-navigation/native';
-import { StackActions } from '@react-navigation/native';
-import { CommonActions } from '@react-navigation/native';
 import { storeDeviceTokenToFireStore } from '../services/PushNotification';
+import { sizes } from '../utils';
 const { height, width } = Dimensions.get('window');
 
 const SplashScreen = () => {

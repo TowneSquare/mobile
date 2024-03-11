@@ -1,6 +1,6 @@
+import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
 import { updateReportPostModal } from '../../controller/FeedsController';
-import Toast from 'react-native-toast-message';
 
 const ToastHook = () => {
   const dispatch = useDispatch();

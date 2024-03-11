@@ -1,11 +1,11 @@
-import { View, Pressable, Text, StyleSheet, Dimensions } from 'react-native';
 import React from 'react';
-import { sizes } from '../../../utils';
-import Header from '../../../shared/Feed/Header';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ArrowRight from '../../../../assets/images/svg/ArrowRight';
 import { appColor } from '../../../constants';
 import { CommunitySettingsProps } from '../../../navigations/NavigationTypes';
-import ArrowRight from '../../../../assets/images/svg/ArrowRight';
+import Header from '../../../shared/Feed/Header';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 
 const size = new sizes(height, width);

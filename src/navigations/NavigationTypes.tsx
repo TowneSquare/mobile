@@ -3,10 +3,8 @@ import {
   ParamListBase,
   RouteProp,
 } from "@react-navigation/native";
-import { ImageSourcePropType } from "react-native";
-import { PostData } from "../controller/createPost";
-import { UserData } from "../controller/UserController";
 import { AssetsData } from "../controller/UserController/models";
+import { PostData } from "../controller/createPost";
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}

@@ -1,14 +1,14 @@
-import { View, Text, Dimensions, StyleSheet, Animated, ActivityIndicator } from 'react-native';
-import Toast from 'react-native-toast-message';
-import { LinearProgress } from 'react-native-elements';
-import GreenToastIcon from '../../../assets/images/svg/GreenToastIcon';
-const { height, width } = Dimensions.get('window');
-import { appColor } from '../../constants';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import { sizes } from '../../utils';
 import { useEffect, useState } from 'react';
-import { resetToast } from '../../controller/FeedsController';
+import { Animated, Dimensions, StyleSheet, Text, View } from 'react-native';
+import { LinearProgress } from 'react-native-elements';
+import Toast from 'react-native-toast-message';
+import GreenToastIcon from '../../../assets/images/svg/GreenToastIcon';
 import ToastInfoIcon from '../../../assets/images/svg/ToastInfoIcon';
+import { appColor } from '../../constants';
+import { resetToast } from '../../controller/FeedsController';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
 const CToast = () => {

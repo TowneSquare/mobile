@@ -1,11 +1,10 @@
-import { View, Text, ScrollView, StyleSheet, Dimensions } from 'react-native';
-import { sizes } from '../../utils';
-const { height, width } = Dimensions.get('window');
 import { StatusBar } from 'expo-status-bar';
-import { appColor } from '../../constants';
-import Communities from '../../shared/Feed/Communities';
+import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import SuggestedProfiles from '../../components/Search/SuggestedProfiles';
 import Trending from '../../components/Search/Trending';
+import { appColor } from '../../constants';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
 const ForYouTab = () => {

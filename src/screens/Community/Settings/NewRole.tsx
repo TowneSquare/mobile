@@ -1,23 +1,23 @@
+import AntDesign from '@expo/vector-icons/AntDesign';
+import React, { useState } from 'react';
 import {
-  View,
-  Text,
   Dimensions,
-  StyleSheet,
-  TextInput,
   Pressable,
   ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
-import React, { useState } from 'react';
-import { sizes } from '../../../utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../../constants';
 import ArrowRight from '../../../../assets/images/svg/ArrowRight';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import { NewRoleProps } from '../../../navigations/NavigationTypes';
 import PlusIcon from '../../../../assets/images/svg/PLusIcon';
-import { useAppSelector } from '../../../controller/hooks';
 import Member from '../../../components/Community/Settings/Member';
 import RemoveMemberBottomSheet from '../../../components/Community/Settings/RemoveMemberBottomSheet';
+import { appColor } from '../../../constants';
+import { useAppSelector } from '../../../controller/hooks';
+import { NewRoleProps } from '../../../navigations/NavigationTypes';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const NewRole = ({ navigation }: NewRoleProps) => {

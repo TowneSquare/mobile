@@ -1,28 +1,27 @@
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { useNavigation } from "@react-navigation/native";
+import { useFonts } from "expo-font";
+import { StatusBar } from "expo-status-bar";
+import { useRef, useState } from "react";
 import {
-  View,
-  Text,
   Dimensions,
   ScrollView,
-  TextInput,
   StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
-import { useState, useRef } from "react";
-const { height, width } = Dimensions.get("window");
-import { useFonts } from "expo-font";
-import SinglePostContextProvider from "../../context/SinglePostContext";
-import { appColor, fonts } from "../../constants";
-import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import Comments from "../../components/SinglePostView/Comments";
 import AddCommentTextInput from "../../components/SinglePostView/AddCommentTextInput";
-import { sizes } from "../../utils";
-const size = new sizes(height, width);
-import { useNavigation } from "@react-navigation/native";
-import { SinglePostProps } from "../../navigations/NavigationTypes";
+import Comments from "../../components/SinglePostView/Comments";
 import SinglePostContent from "../../components/SinglePostView/SinglePostContent";
+import { appColor, fonts } from "../../constants";
+import SinglePostContextProvider from "../../context/SinglePostContext";
 import { useAppDispatch } from "../../controller/hooks";
-import { updateCommentReplyData } from "../../controller/createPost";
+import { SinglePostProps } from "../../navigations/NavigationTypes";
+import { sizes } from "../../utils";
+const { height, width } = Dimensions.get("window");
+const size = new sizes(height, width);
 const SinglePost = ({ route }: SinglePostProps) => {
   const props = route.params;
   const scrollViewRef = useRef<ScrollView>(null);

@@ -1,23 +1,23 @@
+import AntDesign from '@expo/vector-icons/AntDesign';
+import React, { useState } from 'react';
 import {
-  View,
-  Text,
   Dimensions,
-  StyleSheet,
   Pressable,
   ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import React, { useState } from 'react';
-import { sizes } from '../../../utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../../constants';
-import SearchField from '../../../shared/Feed/SearchField';
-import ArrowRight from '../../../../assets/images/svg/ArrowRight';
 import ArrowDown from '../../../../assets/images/svg/ArrowDown';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import { AddMemberProps } from '../../../navigations/NavigationTypes';
+import ArrowRight from '../../../../assets/images/svg/ArrowRight';
 import Member from '../../../components/Community/Settings/Member';
+import { appColor } from '../../../constants';
 import { updateMembers } from '../../../controller/CommunityController';
 import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
+import { AddMemberProps } from '../../../navigations/NavigationTypes';
+import SearchField from '../../../shared/Feed/SearchField';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const AddMember = ({ navigation }: AddMemberProps) => {

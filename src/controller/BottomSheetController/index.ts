@@ -1,8 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { images } from "../../constants";
-import { AssetsData } from "../UserController/models";
-import { storeDeviceTokenToFireStore } from "../../services/PushNotification";
 import { RootState } from "../store";
+import { AssetsData } from "../UserController/models";
 interface NftCollection {
   nftImageUrl?: any;
   nftCollection?: string;

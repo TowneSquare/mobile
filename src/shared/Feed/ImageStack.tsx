@@ -1,7 +1,7 @@
-import { View, Dimensions, StyleSheet, Image } from "react-native";
-const { height, width } = Dimensions.get("window");
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import { images } from "../../constants";
 import { sizes } from "../../utils";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 
 const ImageStack = () => {

@@ -1,29 +1,29 @@
-import {
-  Text,
-  StyleSheet,
-  Dimensions,
-  Pressable,
-  BackHandler,
-} from "react-native";
-import React, {
-  useRef,
-  useEffect,
-  useCallback,
-  useContext,
-  useMemo,
-} from "react";
-import { useFonts } from "expo-font";
-import { appColor, fonts, images } from "../../../constants";
-import { sizes } from "../../../utils";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from "@gorhom/bottom-sheet";
+import { useFonts } from "expo-font";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
+import {
+  BackHandler,
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
+} from "react-native";
+import BlockIcon from "../../../../assets/images/svg/BlockIcon";
+import { appColor, fonts } from "../../../constants";
+import { SetCommunityContext } from "../../../context/SetUpCommunityContext";
+import { sizes } from "../../../utils";
 import CustomHandler from "../../Feed/CustomHandler";
 const { height, width } = Dimensions.get("window");
-import { SetCommunityContext } from "../../../context/SetUpCommunityContext";
-import BlockIcon from "../../../../assets/images/svg/BlockIcon";
 const size = new sizes(height, width);
 const RemoveAssetBottomSheet = () => {
   const {

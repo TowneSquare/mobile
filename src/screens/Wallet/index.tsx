@@ -1,23 +1,22 @@
+import { useEffect, useState } from "react";
 import {
-  Text,
-  Dimensions,
-  StyleSheet,
-  SafeAreaView,
-  Image,
-  ScrollView,
   ActivityIndicator,
+  Dimensions,
+  Image,
   RefreshControl,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
 } from "react-native";
-import { appColor } from "../../constants";
-import WalletCard from "../../components/Wallet/WalletCard";
-import { images } from "../../constants";
-import { sizes } from "../../utils";
+import { getUserApt, getUserTokens } from "../../api/hooks/wallet";
 import Token from "../../components/Wallet/Token";
 import Transaction from "../../components/Wallet/Transaction";
-import { useMemo, useEffect, useState } from "react";
-import { TokenDetails } from "../../models/wallet";
+import WalletCard from "../../components/Wallet/WalletCard";
+import { appColor, images } from "../../constants";
 import { useAppDispatch, useAppSelector } from "../../controller/hooks";
-import { getUserApt, getUserTokens } from "../../api/hooks/wallet";
+import { TokenDetails } from "../../models/wallet";
+import { sizes } from "../../utils";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const Wallet = () => {

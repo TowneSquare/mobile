@@ -1,23 +1,23 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  BackHandler,
-  Pressable,
-} from 'react-native';
-import React, { useRef, useEffect, useCallback, useContext } from 'react';
-import AptosIcon from '../../../../assets/images/svg/AptosIcon';
-import UsdcIcon from '../../../../assets/images/svg/UsdcIcon';
-import TetherIcon from '../../../../assets/images/svg/TetherIcon';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
+import React, { useCallback, useContext, useEffect, useRef } from 'react';
+import {
+  BackHandler,
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import AptosIcon from '../../../../assets/images/svg/AptosIcon';
+import TetherIcon from '../../../../assets/images/svg/TetherIcon';
+import UsdcIcon from '../../../../assets/images/svg/UsdcIcon';
 import { appColor } from '../../../constants';
+import { CommunityDetailsType } from '../../../context/SetUpCommunityContext';
 import { sizes } from '../../../utils';
 import CustomHandler from '../../Feed/CustomHandler';
-import { CommunityDetailsType } from '../../../context/SetUpCommunityContext';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 type ContextType<T> = React.Context<T | undefined>;

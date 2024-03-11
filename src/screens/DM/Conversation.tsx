@@ -1,46 +1,46 @@
 import {
-  View,
-  Text,
-  FlatList,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  startAfter,
+  updateDoc,
+} from 'firebase/firestore';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import {
   Dimensions,
-  StyleSheet,
+  FlatList,
   Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
-import LoadingMediaContent from '../../components/DM/LoadingMediaContent';
-import ConversationHeader from '../../components/DM/ConversationHeader';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../constants';
+import { firestoreDB } from '../../../config/firebase.config';
+import BlockUserBottomsheet from '../../components/DM/BlockUserBottomsheet';
 import ChatTextInput, { ComponentRef } from '../../components/DM/ChatTextInput';
+import ConversationHeader from '../../components/DM/ConversationHeader';
+import DeleteChatBottomsheet from '../../components/DM/DeleteChatBottomsheet';
 import DeleteConversationBottomsheet from '../../components/DM/DeleteConversationBottomsheet';
+import LoadingMediaContent from '../../components/DM/LoadingMediaContent';
+import Messages from '../../components/DM/Messages';
+import MoreBottomsheet from '../../components/DM/MoreBottomsheet';
+import UnblockUserBottomsheet from '../../components/DM/UnblockUserBottomsheet';
+import { appColor } from '../../constants';
+import ChatContext from '../../context/ChatContext';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { ConversationProps } from '../../navigations/NavigationTypes';
+import { sizes } from '../../utils';
 import {
   ChatClass,
   blockUserChat,
   deleteChat,
   unblockUserChat,
 } from '../../utils/ChatUtils';
-import Messages from '../../components/DM/Messages';
-import ChatContext from '../../context/ChatContext';
-import { sizes } from '../../utils';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import DeleteChatBottomsheet from '../../components/DM/DeleteChatBottomsheet';
-import MoreBottomsheet from '../../components/DM/MoreBottomsheet';
-import { ConversationProps } from '../../navigations/NavigationTypes';
-import UnblockUserBottomsheet from '../../components/DM/UnblockUserBottomsheet';
-import BlockUserBottomsheet from '../../components/DM/BlockUserBottomsheet';
-import {
-  collection,
-  query,
-  orderBy,
-  onSnapshot,
-  startAfter,
-  limit,
-  getDocs,
-  doc,
-  updateDoc,
-  getDoc,
-} from 'firebase/firestore';
-import { firestoreDB } from '../../../config/firebase.config';
 
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);

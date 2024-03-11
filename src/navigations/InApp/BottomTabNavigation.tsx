@@ -1,37 +1,29 @@
-import { Dimensions, Image, View } from 'react-native';
-import { ReactNode } from 'react';
 import {
-  createBottomTabNavigator,
-  BottomTabNavigationProp,
+  createBottomTabNavigator
 } from '@react-navigation/bottom-tabs';
-import CommunityScreen from '../../screens/Community/Community/CommunityScreen';
+import { RouteProp, getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { ReactNode, useEffect } from 'react';
+import { Dimensions, Image, View } from 'react-native';
+import ChatSvg from '../../../assets/images/svg/ChatSvg';
+import ChatTabFocusedIcon from '../../../assets/images/svg/ChatTabFocusedIcon';
+import CommunityActiveTabIcon from '../../../assets/images/svg/CommunityActiveTabIcon';
 import Home from '../../../assets/images/svg/Home';
-import ProfileSvg from '../../../assets/images/svg/ProfileSvg';
-import RewardTab from '../../screens/Rewards/Reward';
+import HomeBlur from '../../../assets/images/svg/HomeBlur';
 import MultipleSvg from '../../../assets/images/svg/MultipleSvg';
+import RewardFocusedTab from '../../../assets/images/svg/RewardFocusedTab';
+import RewardIcon from '../../../assets/images/svg/RewardIcon';
+import { appColor, images } from '../../constants';
+import { updateCurrentTab } from '../../controller/FeedsController';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import CommingSoon from '../../screens/Community/CommingSoon';
+import CommunityScreen from '../../screens/Community/Community/CommunityScreen';
+import CreateCommunity1 from '../../screens/Community/CreateCommunity/CreateCommunity1';
+import Chats from '../../screens/DM/Chats';
 import Main from '../../screens/Feed/Main';
 import Profile from '../../screens/Profile/Profile';
-import ChatSvg from '../../../assets/images/svg/ChatSvg';
-import HomeBlur from '../../../assets/images/svg/HomeBlur';
-import ProfileFocused from '../../../assets/images/svg/ProfileFocused';
-import { useEffect } from 'react';
-import { images } from '../../constants';
-import { updateCurrentTab } from '../../controller/FeedsController';
-import Chats from '../../screens/DM/Chats';
-import CommingSoon from '../../screens/Community/CommingSoon';
-import RewardFocusedTab from '../../../assets/images/svg/RewardFocusedTab';
+import RewardTab from '../../screens/Rewards/Reward';
 import { sizes } from '../../utils/size';
-import { appColor } from '../../constants';
-import RewardIcon from '../../../assets/images/svg/RewardIcon';
-import CommunityActiveTabIcon from '../../../assets/images/svg/CommunityActiveTabIcon';
-import CommunityDemo from '../../screens/Community/CommunityDemo';
-import CreateCommunity1 from '../../screens/Community/CreateCommunity/CreateCommunity1';
 const { height, width } = Dimensions.get('window');
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import { RouteProp } from '@react-navigation/native';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-import ChatTabFocusedIcon from '../../../assets/images/svg/ChatTabFocusedIcon';
-import ProfileImage from '../../components/Profile/About/ProfileImage';
 
 const Tab = createBottomTabNavigator();
 type RootStackParamList = {

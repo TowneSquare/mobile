@@ -1,13 +1,10 @@
-import { View, Text, Dimensions, StyleSheet } from "react-native";
-import React from "react";
-import { ScrollView } from "react-native-gesture-handler";
-
-import { sizes } from "../../../utils/size";
-import { appColor, fonts } from "../../../constants";
-import RenderDescription from "./Description";
-import { TabRouter } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import PinnedPost from "./JoinModal";
+import React from "react";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import { appColor, fonts } from "../../../constants";
+import { sizes } from "../../../utils/size";
+import RenderDescription from "./Description";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const AboutCommunity = () => {

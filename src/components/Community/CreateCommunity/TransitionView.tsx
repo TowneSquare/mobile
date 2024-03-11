@@ -1,28 +1,28 @@
+import { useNavigation } from '@react-navigation/native';
+import React, { useContext, useRef, useState } from 'react';
 import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  Pressable,
-  FlatList,
   Animated,
+  Dimensions,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import React, { useState, useContext, useRef } from 'react';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { appColor } from '../../../constants';
+import { SetCommunityContext } from '../../../context/SetUpCommunityContext';
+import ChooseNFTPFPBottomSheet from '../../../shared/UpdatePFP/ChooseNFTPFPBottomSheet';
+import SelectedCollectionBottomSheet from '../../../shared/UpdatePFP/SelectedCollectionBottomSheet';
+import UploadImageBottomSheet from '../../../shared/UpdatePFP/UploadImageBottomSheet';
 import { sizes } from '../../../utils';
+import AssetBottomSheet from './AssetBottomSheet';
+import ChooseNFTBottomsheet from './ChooseNFTBottomsheet';
+import RemoveAssetBottomSheet from './RemoveAssetBottomSheet';
+import SelectedAssetBottomsheet from './SelectedAssetBottomsheet';
+import ViewNFT from './ViewNFT';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import SelectedAssetBottomsheet from './SelectedAssetBottomsheet';
-import ChooseNFTBottomsheet from './ChooseNFTBottomsheet';
-import { useNavigation } from '@react-navigation/native';
-import { SetCommunityContext } from '../../../context/SetUpCommunityContext';
-import RemoveAssetBottomSheet from './RemoveAssetBottomSheet';
-import AssetBottomSheet from './AssetBottomSheet';
-import ChooseNFTPFPBottomSheet from '../../../shared/UpdatePFP/ChooseNFTPFPBottomSheet';
-import UploadImageBottomSheet from '../../../shared/UpdatePFP/UploadImageBottomSheet';
-import SelectedCollectionBottomSheet from '../../../shared/UpdatePFP/SelectedCollectionBottomSheet';
-import ViewNFT from './ViewNFT';
 
 let PADDING = size.getWidthSize(26);
 let newWidth = width - 2 * PADDING;

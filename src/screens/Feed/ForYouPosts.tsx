@@ -1,24 +1,21 @@
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Image,
-  Text,
-  Pressable,
-} from 'react-native';
-import { images } from '../../constants';
-import { UserPosts } from '../../components/Feed/DuumyData';
-import { sizes } from '../../utils';
-import ForYou from '../../components/Feed/ForYou';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-import { getAllPost, POSTSTATE } from '../../controller/createPost';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../constants';
-import { useEffect } from 'react';
-import { FlashList } from '@shopify/flash-list';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
-import { getUserData } from '../../controller/UserController';
+import { FlashList } from '@shopify/flash-list';
+import { useEffect } from 'react';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import ForYou from '../../components/Feed/ForYou';
+import { appColor, images } from '../../constants';
+import { getAllPost } from '../../controller/createPost';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const ForYouPosts = () => {

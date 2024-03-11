@@ -1,9 +1,8 @@
-import React from "react";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
-import { appColor, fonts } from "../../../../constants";
-import CommunityPostIcon from "../../../../../assets/images/svg/CommunityPostIcon";
-import CommunityFeedImgPlaceHolder from "../../../../../assets/images/svg/CommunityFeedImgPlaceHolder";
 import { useFonts } from "expo-font";
+import React from "react";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
+import CommunityPostIcon from "../../../../../assets/images/svg/CommunityPostIcon";
+import { appColor, fonts } from "../../../../constants";
 import { sizes } from "../../../../utils";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);

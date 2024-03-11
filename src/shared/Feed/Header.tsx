@@ -1,12 +1,12 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
-import { appColor } from '../../constants';
-import { sizes } from '../../utils';
-import { useNavigation } from '@react-navigation/native';
-const { height, width } = Dimensions.get('window');
 import AntDesign from '@expo/vector-icons/AntDesign';
-const size = new sizes(height, width);
-import { useAppDispatch } from '../../controller/hooks';
+import { useNavigation } from '@react-navigation/native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { appColor } from '../../constants';
 import { resetSelectedSuperStar } from '../../controller/UserController';
+import { useAppDispatch } from '../../controller/hooks';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
+const size = new sizes(height, width);
 interface Props {
   title: string;
   resetSuperStar?:boolean

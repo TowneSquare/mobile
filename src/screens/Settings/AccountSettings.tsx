@@ -1,14 +1,14 @@
-import { StyleSheet, Text, View, Dimensions, Pressable } from 'react-native';
 import React from 'react';
-import { sizes } from '../../utils';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../constants';
-import Header from '../../shared/Feed/Header';
 import ArrowRight from '../../../assets/images/svg/Settings/ArrowRight';
-import { AccountSettingsProps } from '../../navigations/NavigationTypes';
+import NotificationIcon from '../../../assets/images/svg/Settings/NotificationIcon';
 import PersonIcon from '../../../assets/images/svg/Settings/PersonIcon';
 import TowneSquareVerificationIcon from '../../../assets/images/svg/Settings/TowneSquareVerificationIcon';
-import NotificationIcon from '../../../assets/images/svg/Settings/NotificationIcon';
+import { appColor } from '../../constants';
+import { AccountSettingsProps } from '../../navigations/NavigationTypes';
+import Header from '../../shared/Feed/Header';
+import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const AccountSettings = ({ navigation }: AccountSettingsProps) => {

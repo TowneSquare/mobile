@@ -1,11 +1,11 @@
-import { PostData } from './../createPost/index';
-import { images } from './../../constants/images';
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { ImageSourcePropType } from 'react-native';
-import { communities, friends } from './models';
-import { APTOS_NAME_URL, BACKEND_URL, didToken } from '../../../config/env';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { ImageSourcePropType } from 'react-native';
+import { BACKEND_URL } from '../../../config/env';
+import { images } from './../../constants/images';
+import { PostData } from './../createPost/index';
+import { communities, friends } from './models';
 
 export interface collection {
   image: ImageSourcePropType;

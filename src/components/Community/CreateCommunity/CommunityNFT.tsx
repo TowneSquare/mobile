@@ -1,17 +1,16 @@
+import React, { useContext } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
   Dimensions,
   Image,
-  ScrollView,
+  StyleSheet,
+  Text,
+  View
 } from "react-native";
-import React, { useContext } from "react";
-const { height, width } = Dimensions.get("window");
 import CloseIcon from "../../../../assets/images/svg/CloseIcon";
 import { appColor, images } from "../../../constants";
 import { SetCommunityContext } from "../../../context/SetUpCommunityContext";
 import { sizes } from "../../../utils";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const CommunityNFT = () => {
   const { setRemoveAssetBottomSheetVisibility } =

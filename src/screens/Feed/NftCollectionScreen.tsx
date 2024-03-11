@@ -1,12 +1,12 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
-import SearchField from '../../shared/Feed/SearchField';
-const { height, width } = Dimensions.get('window');
-import { appColor } from '../../constants';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { sizes } from '../../utils';
-import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import NftCollections from '../../components/createPost/NftCollections';
+import { appColor } from '../../constants';
+import SearchField from '../../shared/Feed/SearchField';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const NftCollectionScreen = () => {
   const navigation = useNavigation();

@@ -1,6 +1,4 @@
-import { useSelector } from 'react-redux';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { serverTimestamp, Timestamp } from 'firebase/firestore';
 interface Mediamessage {
   id: string;
   createdAt: string;

@@ -1,21 +1,16 @@
-import * as Linking from "expo-linking";
-import { Image } from "react-native";
-import { images } from "../constants";
-import { TextEncoder, TextDecoder } from "text-encoding";
-
 import {
-  APTOS_COIN,
   Aptos,
   AptosConfig,
-  GetAccountCoinsDataResponse,
-  Network,
-  NetworkToNetworkName,
+  Network
 } from "@aptos-labs/ts-sdk";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { decode as atob, encode as btoa } from "base-64";
-import nacl, { BoxKeyPair, randomBytes } from "tweetnacl";
 import axios from "axios";
+import * as Linking from "expo-linking";
+import { Image } from "react-native";
+import { TextEncoder } from "text-encoding";
+import nacl from "tweetnacl";
 import { CMC_PRO_API_KEY } from "../../constants";
+import { images } from "../constants";
 
 // Data type for petra wallet connect
 type ConnectData = {

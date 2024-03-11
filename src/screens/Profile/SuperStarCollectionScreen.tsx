@@ -1,18 +1,16 @@
-import { View, Dimensions, ScrollView, StyleSheet, Text } from "react-native";
-import { appColor } from "../../constants";
-import { sizes } from "../../utils";
-import Header from "../../shared/Feed/Header";
+import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAppSelector } from "../../controller/hooks";
-import { SuperStarCollectionScreenProps } from "../../navigations/NavigationTypes";
 import { useUserNFT } from "../../api/hooks";
-const { height, width } = Dimensions.get("window");
-
-const size = new sizes(height, width);
 import SelectedStars from "../../components/Profile/About/SelectedStars";
 import SuperStarCollection from "../../components/Profile/About/SuperStarCollection";
+import { appColor } from "../../constants";
+import { useAppSelector } from "../../controller/hooks";
+import { SuperStarCollectionScreenProps } from "../../navigations/NavigationTypes";
+import Header from "../../shared/Feed/Header";
 import SearchField from "../../shared/Feed/SearchField";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { sizes } from "../../utils";
+const { height, width } = Dimensions.get("window");
+const size = new sizes(height, width);
 const SuperStarCollectionScreen = ({
   navigation,
 }: SuperStarCollectionScreenProps) => {

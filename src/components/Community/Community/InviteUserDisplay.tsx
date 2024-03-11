@@ -1,13 +1,12 @@
-import React from 'react'
-import { sizes } from '../../../utils';
-import { View, Text, Pressable, Dimensions, StyleSheet } from 'react-native';
-const { height, width } = Dimensions.get('window');
-const size = new sizes(height, width);
+import React from 'react';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import Queen from '../../../../assets/images/svg/Queen';
-import { images } from '../../../constants';
-import { appColor } from '../../../constants';
+import { appColor, images } from '../../../constants';
+import { sizes } from '../../../utils';
 import SelectButton from './SelectButton';
+const { height, width } = Dimensions.get('window');
+const size = new sizes(height, width);
 
 interface Props {
   data: {

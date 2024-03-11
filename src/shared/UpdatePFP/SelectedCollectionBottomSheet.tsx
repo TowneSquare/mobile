@@ -1,37 +1,32 @@
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetScrollView
+} from '@gorhom/bottom-sheet';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import {
-  View,
-  Text,
+  BackHandler,
   Dimensions,
   Pressable,
   StyleSheet,
-  Alert,
-  BackHandler,
+  Text,
+  View
 } from 'react-native';
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useEffect,
-  useState,
-  useContext,
-} from 'react';
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetView,
-  useBottomSheetDynamicSnapPoints,
-  BottomSheetScrollView,
-} from '@gorhom/bottom-sheet';
-import Animated, {
+import * as Animatable from 'react-native-animatable';
+import {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import * as Animatable from 'react-native-animatable';
+import { appColor } from '../../constants';
 import { sizes } from '../../utils';
-import { appColor, fonts } from '../../constants';
 import PFPCollections from './PFPCollections';
-import ProfilePicsCollection from '../../components/SignUp/ProfilePicsCollection';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 

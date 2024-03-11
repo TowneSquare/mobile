@@ -1,11 +1,10 @@
-import { View, Text, StyleSheet, Dimensions, BackHandler } from 'react-native';
-import React, { useRef, useState, useEffect, useCallback } from 'react';
-import * as Animatable from 'react-native-animatable';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
-import NFTCollections from '../../../shared/UpdatePFP/NFTCollections';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { BackHandler, Dimensions, StyleSheet, Text, View } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import {
   Extrapolation,
   interpolate,
@@ -13,6 +12,7 @@ import {
   useSharedValue,
 } from 'react-native-reanimated';
 import { appColor } from '../../../constants';
+import NFTCollections from '../../../shared/UpdatePFP/NFTCollections';
 import { sizes } from '../../../utils';
 import CustomHandler from '../../Feed/CustomHandler';
 const { height, width } = Dimensions.get('window');

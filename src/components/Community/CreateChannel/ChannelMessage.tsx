@@ -1,27 +1,26 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  Pressable,
-  Animated,
-} from 'react-native';
-import { useRef, useReducer } from 'react';
-import UserQueenBadge from '../../../../assets/images/svg/UserQueenBadge';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../../../utils';
-const size = new sizes(height, width);
-import { Avatar } from 'react-native-elements';
-import { appColor, images } from '../../../constants';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { ChatClass } from '../../../utils/ChatUtils';
-dayjs.extend(relativeTime);
+import { useReducer, useRef } from 'react';
+import {
+  Animated,
+  Dimensions,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+import { Avatar } from 'react-native-elements';
 import {
   HandlerStateChangeEvent,
   Swipeable,
 } from 'react-native-gesture-handler';
 import SwipeArrowIcon from '../../../../assets/images/svg/SwipeArrowIcon';
+import UserQueenBadge from '../../../../assets/images/svg/UserQueenBadge';
+import { appColor, images } from '../../../constants';
+import { sizes } from '../../../utils';
+import { ChatClass } from '../../../utils/ChatUtils';
+const { height, width } = Dimensions.get('window');
+const size = new sizes(height, width);
+dayjs.extend(relativeTime);
 
 type ChatText = {
   id: string;

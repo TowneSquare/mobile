@@ -1,18 +1,18 @@
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import {
-  View,
-  Text,
-  TouchableOpacity,
   Dimensions,
   StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { appColor } from '../../constants';
+import CommunitiesTab from '../../screens/Profile/CommunitiesTab';
+import FollowersTab from '../../screens/Profile/FollowersTab';
+import FollowingTab from '../../screens/Profile/FollowingTab';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import { appColor } from '../../constants';
-import FollowersTab from '../../screens/Profile/FollowersTab';
-import FollowingTab from '../../screens/Profile/FollowingTab';
-import CommunitiesTab from '../../screens/Profile/CommunitiesTab';
 const Tab = createMaterialTopTabNavigator();
 const ProfileFollowersTab = () => {
   const renderTabBarLabel = ({ focused, route }) => {

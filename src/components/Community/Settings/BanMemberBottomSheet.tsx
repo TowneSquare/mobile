@@ -1,21 +1,21 @@
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetView,
+  useBottomSheetDynamicSnapPoints,
+} from '@gorhom/bottom-sheet';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
   BackHandler,
+  Dimensions,
   Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import React, { useRef, useEffect, useCallback, useMemo } from 'react';
+import BanIcon from '../../../../assets/images/svg/BanIcon';
 import { appColor } from '../../../constants';
 import { sizes } from '../../../utils';
 import CustomHandler from '../../Feed/CustomHandler';
-import BanIcon from '../../../../assets/images/svg/BanIcon';
-import BottomSheet, {
-  BottomSheetBackdrop,
-  useBottomSheetDynamicSnapPoints,
-  BottomSheetView,
-} from '@gorhom/bottom-sheet';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {

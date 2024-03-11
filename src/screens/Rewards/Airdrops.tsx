@@ -1,17 +1,17 @@
-import { View, Text, Dimensions, StyleSheet, ScrollView } from 'react-native';
 import React from 'react';
-import Header from '../../shared/Feed/Header';
+import { Dimensions, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../constants';
-import { sizes } from '../../utils';
-import DexSwapView from '../../components/Rewards/Airdrop/AirdropViews/DexSwapView';
 import DefiTradingView from '../../components/Rewards/Airdrop/AirdropViews/DefiTradingView';
-import RefferalView from '../../components/Rewards/Airdrop/AirdropViews/RefferalView';
-import NftHoldingsView from '../../components/Rewards/Airdrop/AirdropViews/NftHoldingsView';
+import DexSwapView from '../../components/Rewards/Airdrop/AirdropViews/DexSwapView';
 import NFTTradeView from '../../components/Rewards/Airdrop/AirdropViews/NFTTradeView';
+import NftHoldingsView from '../../components/Rewards/Airdrop/AirdropViews/NftHoldingsView';
+import RefferalView from '../../components/Rewards/Airdrop/AirdropViews/RefferalView';
 import SocialTransactionView from '../../components/Rewards/Airdrop/AirdropViews/SocialTransactionView';
-import { AirdropsProps } from '../../navigations/NavigationTypes';
 import RewardRuleBottomsheet from '../../components/Rewards/Airdrop/RewardRuleBottomsheet';
+import { appColor } from '../../constants';
+import { AirdropsProps } from '../../navigations/NavigationTypes';
+import Header from '../../shared/Feed/Header';
+import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Airdrops = ({ navigation, route }: AirdropsProps) => {

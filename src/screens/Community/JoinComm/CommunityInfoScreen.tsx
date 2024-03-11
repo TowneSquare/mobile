@@ -2,25 +2,23 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   Dimensions,
-  Pressable,
-  StyleSheet,
   Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
   Text,
   View,
-  ScrollView,
 } from "react-native";
-import CommunityAvatar from "../../../../assets/images/svg/CommunityAvatar";
-
-import RenderDescription from "../../../components/Community/JoinCommunity/Description";
-import ImageStack from "../../../shared/Feed/ImageStack";
-import { appColor, images } from "../../../constants";
-import { sizes } from "../../../utils/size";
-import PinnedPost from "../../../components/Community/JoinCommunity/PinnedPost";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Feather from "react-native-vector-icons/Feather";
-import CommunityHeader from "../../../shared/Community/CommunityHeader";
-import ForYou from "../../../components/Feed/ForYou";
+import CommunityAvatar from "../../../../assets/images/svg/CommunityAvatar";
+import RenderDescription from "../../../components/Community/JoinCommunity/Description";
 import CommunityModal from "../../../components/Community/JoinCommunity/JoinModal";
+import PinnedPost from "../../../components/Community/JoinCommunity/PinnedPost";
+import ForYou from "../../../components/Feed/ForYou";
+import { appColor, images } from "../../../constants";
+import CommunityHeader from "../../../shared/Community/CommunityHeader";
+import ImageStack from "../../../shared/Feed/ImageStack";
+import { sizes } from "../../../utils/size";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const data = {

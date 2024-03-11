@@ -1,22 +1,21 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  BackHandler,
-  StyleSheet,
-  Pressable,
-} from 'react-native';
-import React, { useRef, useEffect, useCallback, useMemo } from 'react';
-import CustomHandler from '../../Feed/CustomHandler';
-
-import { appColor, fonts } from '../../../constants';
-import { sizes } from '../../../utils';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import {
+  BackHandler,
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import BanIcon from '../../../../assets/images/svg/BanIcon';
+import { appColor } from '../../../constants';
+import { sizes } from '../../../utils';
+import CustomHandler from '../../Feed/CustomHandler';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 

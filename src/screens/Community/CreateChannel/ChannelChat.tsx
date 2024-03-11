@@ -1,19 +1,18 @@
-import React from 'react';
-import { View, Dimensions, FlatList } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../../constants';
 import { StatusBar } from 'expo-status-bar';
-import { sizes } from '../../../utils';
-import { message } from '../../../utils/messageData';
-import ChannelMessage from '../../../components/Community/CreateChannel/ChannelMessage';
-import ChatInputBox, { ComponentRef } from '../../../shared/ChatInputBox';
+import React, { useRef, useState } from 'react';
+import { Dimensions, FlatList, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import ChannelChatPinnedMessage from '../../../components/Community/CreateChannel/ChannelChatPinnedMessage';
-import CommunityHeader from '../../../shared/Community/CommunityHeader';
+import ChannelMessage from '../../../components/Community/CreateChannel/ChannelMessage';
 import ViewProfileBottomSheet from '../../../components/Community/CreateChannel/ViewProfileBottomSheet';
+import { appColor } from '../../../constants';
+import ChatInputBox, { ComponentRef } from '../../../shared/ChatInputBox';
+import CommunityHeader from '../../../shared/Community/CommunityHeader';
+import { sizes } from '../../../utils';
+import { ChatClass } from '../../../utils/ChatUtils';
+import { message } from '../../../utils/messageData';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import { useState, useRef } from 'react';
-import { ChatClass } from '../../../utils/ChatUtils';
 
 const ChannelChat = () => {
   const [showReplying, setShowReplyVisibility] = useState(false);

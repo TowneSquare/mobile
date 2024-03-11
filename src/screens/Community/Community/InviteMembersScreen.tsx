@@ -1,33 +1,31 @@
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useNavigation } from "@react-navigation/native";
+import { useFonts } from "expo-font";
 import React from "react";
 import {
-  Text,
-  StyleSheet,
+  Alert,
   Dimensions,
-  View,
-  TouchableOpacity,
   Pressable,
   Share,
-  Alert,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { appColor } from "../../../constants";
+import { appColor, fonts } from "../../../constants";
+import {
+  sendInvite
+} from "../../../controller/CommunityController";
+import { updateToast } from "../../../controller/FeedsController";
+import { useAppDispatch, useAppSelector } from "../../../controller/hooks";
 import Header from "../../../shared/Feed/Header";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { sizes } from "../../../utils";
 import FollowingTab from "../../Profile/FollowingTab";
 import FollowersInviteTab from "./FollowersInviteTab";
-import { useAppSelector, useAppDispatch } from "../../../controller/hooks";
-import { useNavigation } from "@react-navigation/native";
 const { height, width } = Dimensions.get("window");
 const Tab = createMaterialTopTabNavigator();
 const size = new sizes(height, width);
-import { fonts } from "../../../constants";
-import { useFonts } from "expo-font";
-import {
-  clearInviteMembers,
-  sendInvite,
-} from "../../../controller/CommunityController";
-import { updateToast } from "../../../controller/FeedsController";
 const InviteMembersScreen = () => {
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,

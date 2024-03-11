@@ -1,14 +1,14 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
 import { useState } from 'react';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { LinearProgress } from 'react-native-elements';
+import Animated from 'react-native-reanimated';
 import GreenToastIcon from '../../../assets/images/svg/GreenToastIcon';
-const { height, width } = Dimensions.get('window');
+import ToastInfoIcon from '../../../assets/images/svg/ToastInfoIcon';
 import { appColor } from '../../constants';
 import { useAppDispatch } from '../../controller/hooks';
 import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import ToastInfoIcon from '../../../assets/images/svg/ToastInfoIcon';
-import Animated from 'react-native-reanimated';
 interface Props {
   text: string;
   functions: (() => void)[];

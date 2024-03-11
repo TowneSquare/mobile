@@ -1,20 +1,20 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  Pressable,
-  TextInput,
-  Image,
-} from "react-native";
 import React, { useContext } from "react";
-const { height, width } = Dimensions.get("window");
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import CameraIcon from "../../../../assets/images/svg/CameraIcon";
-import { appColor } from "../../../constants";
-import { sizes } from "../../../utils";
-const size = new sizes(height, width);
 import CloseIcon from "../../../../assets/images/svg/CloseIcon";
+import { appColor } from "../../../constants";
 import { SetCommunityContext } from "../../../context/SetUpCommunityContext";
+import { sizes } from "../../../utils";
+const { height, width } = Dimensions.get("window");
+const size = new sizes(height, width);
 const SetCommunityInfo = () => {
   const {
     setProfilePictureBottomSheet,

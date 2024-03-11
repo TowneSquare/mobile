@@ -1,12 +1,11 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
-const { height, width } = Dimensions.get("window");
-import { sizes } from "../../utils";
+import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import UserCircle from "../../../assets/images/svg/UserCirlce";
-import { appColor } from "../../constants";
 import SuggestedProfiles from "../../components/Search/SuggestedProfiles";
-const size = new sizes(height, width);
-
+import { appColor } from "../../constants";
 import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import { sizes } from "../../utils";
+const { height, width } = Dimensions.get("window");
+const size = new sizes(height, width);
 
 const PeopleTab = () => {
   const dispatch = useAppDispatch();

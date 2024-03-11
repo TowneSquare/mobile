@@ -1,20 +1,18 @@
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import React from 'react';
 import {
-  View,
-  Text,
-  TouchableOpacity,
   Dimensions,
   StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
+import { appColor } from '../../constants';
+import CommingSoon from '../../screens/Feed/CommingSoon';
+import ForYouPosts from '../../screens/Feed/ForYouPosts';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import CommunitiesPost from '../../screens/Feed/CommunitiesPost';
-import ForYouPosts from '../../screens/Feed/ForYouPosts';
-import CommingSoon from '../../screens/Feed/CommingSoon';
-import { appColor, fonts } from '../../constants';
 const Tab = createMaterialTopTabNavigator();
 const MainTab = () => {
   const renderTabBarLabel = ({ focused, route }) => {

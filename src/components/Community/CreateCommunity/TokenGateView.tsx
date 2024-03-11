@@ -1,15 +1,15 @@
-import { View, Text, StyleSheet, Dimensions, Pressable } from "react-native";
-import React, {  useContext } from "react";
-const { height, width } = Dimensions.get("window");
-import CommunityNFTIcon from "../../../../assets/images/svg/CommunityNFTIcon";
+import React, { useContext } from "react";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import AptosIcon from "../../../../assets/images/svg/AptosIcon";
 import CommunityNFT1 from "../../../../assets/images/svg/CommunityNFT1";
 import CommunityNFT2 from "../../../../assets/images/svg/CommunityNFT2";
-import AptosIcon from "../../../../assets/images/svg/AptosIcon";
-import UsdcIcon from "../../../../assets/images/svg/UsdcIcon";
+import CommunityNFTIcon from "../../../../assets/images/svg/CommunityNFTIcon";
 import TetherIcon from "../../../../assets/images/svg/TetherIcon";
+import UsdcIcon from "../../../../assets/images/svg/UsdcIcon";
 import { appColor } from "../../../constants";
-import { sizes } from "../../../utils";
 import { SetCommunityContext } from "../../../context/SetUpCommunityContext";
+import { sizes } from "../../../utils";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 
 const TokenGateView = () => {

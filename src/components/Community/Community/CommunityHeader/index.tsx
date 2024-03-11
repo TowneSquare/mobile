@@ -1,21 +1,21 @@
-import React from 'react';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { fonts, appColor, images } from '../../../../constants';
-import { useAppDispatch } from '../../../../controller/hooks';
+import React from 'react';
 import {
-  Pressable,
   Dimensions,
-  View,
+  Image,
+  Pressable,
   StyleSheet,
   Text,
-  Image,
+  View,
 } from 'react-native';
 import MoreIcons from '../../../../../assets/images/svg/MoreIcons';
-import AntDesign from '@expo/vector-icons/AntDesign';
+import { appColor, fonts, images } from '../../../../constants';
+import { useAppDispatch } from '../../../../controller/hooks';
+import { sizes } from '../../../../utils';
 
 const { height, width } = Dimensions.get('window');
-import { sizes } from '../../../../utils';
 
 const size = new sizes(height, width);
 

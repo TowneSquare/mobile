@@ -1,24 +1,24 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  TextInput,
-  StyleSheet,
-  Pressable,
-  BackHandler,
-} from 'react-native';
-import { useAppDispatch } from '../../../controller/hooks';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../../../utils';
-import { updateChannelName } from '../../../controller/CommunityController';
-import { appColor } from '../../../constants';
-import { useRef, useEffect, useCallback, useMemo, useState } from 'react';
-import CustomInputField from '../../../shared/CustomInputField';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  BackHandler,
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import { appColor } from '../../../constants';
+import { updateChannelName } from '../../../controller/CommunityController';
+import { useAppDispatch } from '../../../controller/hooks';
+import CustomInputField from '../../../shared/CustomInputField';
+import { sizes } from '../../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {
   dismiss: () => void;

@@ -1,8 +1,8 @@
+import { FlashList } from '@shopify/flash-list';
 import { View } from 'react-native';
 import Community from '../../components/Feed/Community';
 import { CommunityPost } from '../../components/Feed/DuumyData';
 import { appColor } from '../../constants';
-import { FlashList } from '@shopify/flash-list';
 const CommunitiesPost = () => {
   return (
     <View
