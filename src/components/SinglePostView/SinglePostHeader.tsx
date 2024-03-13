@@ -1,15 +1,15 @@
-import { View, Text, Dimensions } from "react-native";
-import { sizes } from "../../utils";
-import { appColor, fonts } from "../../constants";
-import { useFonts } from "expo-font";
-const { height, width } = Dimensions.get("window");
-import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import { View, Text, Dimensions } from 'react-native';
+import { sizes } from '../../utils';
+import { appColor, fonts } from '../../constants';
+import { useFonts } from 'expo-font';
+const { height, width } = Dimensions.get('window');
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import {
   updateReportingModal,
   updateMyPostPanel,
-} from "../../controller/FeedsController";
-import Feather from "@expo/vector-icons/Feather";
-import ProfilePicture from "../Feed/SwipeableProfilePicture";
+} from '../../controller/FeedsController';
+import Feather from '@expo/vector-icons/Feather';
+import ProfilePicture from '../Feed/SwipeableProfilePicture';
 const size = new sizes(height, width);
 interface Props {
   username: string;
@@ -36,9 +36,9 @@ const SinglePostHeader = ({
   const currentUserId = useAppSelector((state) => state.USER.UserData._id);
   const dispatch = useAppDispatch();
   let [isLoaded] = useFonts({
-    "Outfit-Bold": fonts.OUTFIT_BOLD,
-    "Outfit-Medium": fonts.OUTFIT_NORMAL,
-    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
   if (!isLoaded) {
     return null;
@@ -54,11 +54,12 @@ const SinglePostHeader = ({
   return (
     <View
       style={{
-        flexDirection: "row",
-        alignItems: "flex-start",
+        flexDirection: 'row',
+        alignItems: 'flex-start',
       }}
     >
       <ProfilePicture
+        currentScreen="SinglePost"
         profileImageUri={profileImageUri}
         wallet={wallet}
         nickname={nickname}
@@ -81,7 +82,7 @@ const SinglePostHeader = ({
           style={{
             fontSize: size.fontSize(16),
             color: appColor.kTextColor,
-            fontFamily: "Outfit-Medium",
+            fontFamily: 'Outfit-Medium',
             lineHeight: size.getHeightSize(21),
             maxWidth: size.getWidthSize(230),
           }}
@@ -96,7 +97,7 @@ const SinglePostHeader = ({
             color: appColor.grayLight,
             fontSize: size.fontSize(14),
             lineHeight: size.getHeightSize(18),
-            fontFamily: "Outfit-Regular",
+            fontFamily: 'Outfit-Regular',
             maxWidth: size.getWidthSize(230),
           }}
         >
@@ -108,7 +109,7 @@ const SinglePostHeader = ({
           color: appColor.grayLight,
           fontSize: size.fontSize(14),
           lineHeight: size.getHeightSize(18),
-          fontFamily: "Outfit-Regular",
+          fontFamily: 'Outfit-Regular',
           marginRight: size.getWidthSize(8),
           marginTop: size.getHeightSize(3),
         }}

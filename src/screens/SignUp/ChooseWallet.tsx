@@ -1,32 +1,33 @@
-import { MaterialIcons } from '@expo/vector-icons';
-import { StatusBar } from 'expo-status-bar';
-import { useCallback, useEffect, useState } from 'react';
 import {
+  View,
+  Text,
   Dimensions,
   ImageBackground,
-  Pressable,
   StyleSheet,
-  Text,
-  View,
+  Pressable,
 } from 'react-native';
-import Fewcha from '../../../assets/images/svg/Fewcha';
-import Martian from '../../../assets/images/svg/Martian';
+import * as Linking from 'expo-linking';
+import { MaterialIcons } from '@expo/vector-icons';
 import Petra from '../../../assets/images/svg/Petra';
-import Pontem from '../../../assets/images/svg/Pontem';
-import Rise from '../../../assets/images/svg/Rise';
-import BackButton from '../../components/SignUp/BackButton';
-import CompleteSignUpModal from '../../components/SignUp/CompleteSignUpModal';
-import { appColor, images } from '../../constants';
 import { updateBottomSheet } from '../../controller/BottomSheetController';
-import { updateToast } from '../../controller/FeedsController';
+import Pontem from '../../../assets/images/svg/Pontem';
 import { useAppDispatch } from '../../controller/hooks';
-import { ChooseWalletProps } from '../../navigations/NavigationTypes';
+import { updateToast } from '../../controller/FeedsController';
+import Fewcha from '../../../assets/images/svg/Fewcha';
+import Rise from '../../../assets/images/svg/Rise';
+import Martian from '../../../assets/images/svg/Martian';
+import { appColor, images } from '../../constants';
+import { StatusBar } from 'expo-status-bar';
+import CompleteSignUpModal from '../../components/SignUp/CompleteSignUpModal';
 import { sizes } from '../../utils';
 import {
   decodePetraWalletConnectResponse,
   decodePontemWalletConnectResponse,
   handlWalletConnect,
 } from '../../utils/connectWallet';
+import { useState, useEffect, useCallback } from 'react';
+import BackButton from '../../components/SignUp/BackButton';
+import { ChooseWalletProps } from '../../navigations/NavigationTypes';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 type Wallet = 'pontem' | 'rise' | 'petra';
@@ -147,7 +148,6 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
               height: size.getHeightSize(108),
             }}
           />
-          <LetGoButton navigateTo='DrawerNavigation'/>
           <View style={styles.view2}>
             <Pressable
               onPress={() => {

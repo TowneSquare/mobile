@@ -43,6 +43,14 @@ import {
   updateTipBottomSheet,
   updateToast,
 } from '../../controller/FeedsController';
+import { updateTipResponse } from '../../controller/FeedsController';
+import ViewSuperStarsModal from '../../components/Profile/About/ViewSuperStarsModal';
+import ForYou from '../../components/Feed/ForYou';
+import Replies from '../../components/Profile/Replies';
+import { getCreatedTime } from '../../utils/helperFunction';
+import axios from 'axios';
+import { APTOS_NAME_URL } from '../../../config/env';
+import { getUserAptosName } from '../../api';
 import {
   UserData,
   followUser,
@@ -106,9 +114,14 @@ const TheirProfileScreen = ({
 }: TheirProfileScreenProps) => {
   const dispatch = useAppDispatch();
   const [view, setView] = useState<number>(2);
-  const { userId, username, nickname } = route.params;
+
+  // params from feed, and response from signing transaction
+  const { userId, username, nickname, response } = route.params;
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [aptosName, setAptosName] = useState<string>('unavailable');
+  const [aptosName, setAptosName] = useState<string>('.apt');
+
+  // const [token, setToken] = useState('');
   const profile = useAppSelector((state) => state.USER.UserData);
   const { userFollowing, user, token } = useAppSelector((state) => ({
     userFollowing: state.USER.UserData.following,
@@ -153,11 +166,26 @@ const TheirProfileScreen = ({
 
   const [superStarModal, useDispatch] = useReducer(selectedSuperStarsReducer, {
     showSuperStarModal: false,
-    imageUri: "",
-    nftCollection: "",
-    nftTokenId: "",
+    imageUri: '',
   });
 
+  const getUserAptosName = async (address: string) => {
+    try {
+      const res = await axios.get(`${APTOS_NAME_URL}${address}`);
+      const aptosName: string = res?.data;
+      setAptosName(aptosName);
+    } catch (error) {
+      setAptosName('.apt');
+      return 'unavailable';
+    }
+  };
+
+  useEffect(() => {
+    // If response from tip is available, update the tip response
+    if (response) {
+      dispatch(updateTipResponse(response));
+    }
+  }, [response]);
 
   useEffect(() => {
     //getUserAptosName(userInfo.data?.aptosWallet)
@@ -211,9 +239,16 @@ const TheirProfileScreen = ({
     }));
   };
 
-  const Posts = () => {
+  const Posts = useCallback(() => {
     return POST()?.map((userpost) => (
-      <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
+      <ForYou
+        currentScreen={
+          `TheirProfileScreen/${userId}/${username}/${nickname}` as any
+        }
+        key={userpost._id}
+        data={userpost}
+        shouldPFPSwipe={false}
+      />
     ));
   };
 
@@ -234,7 +269,14 @@ const TheirProfileScreen = ({
     return POST()
       .filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0])
       .map((userpost) => (
-        <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
+        <ForYou
+          currentScreen={
+            `TheirProfileScreen/${userId}/${username}/${nickname}` as any
+          }
+          key={userpost._id}
+          data={userpost}
+          shouldPFPSwipe={false}
+        />
       ));
   };
 
@@ -406,6 +448,9 @@ const TheirProfileScreen = ({
                       username: userInfo.data?.username,
                       wallet: userInfo.data?.aptosWallet,
                       nickname: userInfo.data?.nickname,
+                      screen:
+                        `TheirProfileScreen/${userId}/${username}/${nickname}` as any,
+                      userId,
                     })
                   );
                 }}

@@ -9,14 +9,11 @@ import More from '../../../assets/images/svg/More';
 import NotificationBell from '../../components/Feed/NotificationBell';
 import { appColor, fonts } from '../../constants';
 import { updateReceiveModalState } from '../../controller/FeedsController';
-import { useAppDispatch } from '../../controller/hooks';
-import MainTab from '../../navigations/InApp/MainTabNavigation';
-import { sizes } from '../../utils';
-import CommingSoon from './CommingSoon';
-import ForYouPosts from './ForYouPosts';
-const { height, width } = Dimensions.get('window');
-const size = new sizes(height, width);
+import { getWalletBalance } from '../../utils/connectWallet';
+import { useRoute } from '@react-navigation/native';
 const Main = () => {
+  const route = useRoute<any>();
+  const pontemConnectionResponse = route.params;
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   // useBackHandler(() => {
@@ -31,10 +28,9 @@ const Main = () => {
   if (!isLoaded) {
     return null;
   }
-
+  console.log(pontemConnectionResponse);
   const openModal = async () => {
     dispatch(updateReceiveModalState(true));
-    
   };
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());

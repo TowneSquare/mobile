@@ -53,7 +53,7 @@ import {
 import { nanoid } from '@reduxjs/toolkit';
 import {
   getuserDeviceToken,
-  sendPushNotification,
+  sendChatPushNotification,
 } from '../../services/PushNotification';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
@@ -132,7 +132,6 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
     setBorderRadius(newBorderRadius);
   };
 
-
   const dispatch = useAppDispatch();
   const profile = useAppSelector((state) => state.USER.UserData);
 
@@ -148,12 +147,13 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
       myusername: profile.username,
     });
 
-    // get receiver device token 
+    // get receiver device token
     const deviceToken = await getuserDeviceToken(receiverId);
 
+   
     // check if push notification is allowed from the sender to the receiver and send push notification
     (await isPushNotificationAllowed(receiverId, profile._id, chatId)) &&
-      (await sendPushNotification(deviceToken, {
+      (await sendChatPushNotification(deviceToken, {
         userId: profile._id,
         receiverId,
         title: username,
@@ -190,7 +190,7 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
 
     // check if push notification is allowed from the sender to the receiver and send push notification
     (await isPushNotificationAllowed(receiverId, profile._id, chatId)) &&
-      (await sendPushNotification(deviceToken, {
+      (await sendChatPushNotification(deviceToken, {
         userId: profile._id,
         receiverId,
         title: username,
@@ -242,7 +242,7 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
       return;
     }
 
-  // add uploading item to the store    
+    // add uploading item to the store
     dispatch(
       addUploadingItem({
         id,
@@ -285,11 +285,10 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
       myusername: profile.username,
     });
 
-
     // get receiver device token
     const deviceToken = await getuserDeviceToken(receiverId);
     (await isPushNotificationAllowed(receiverId, profile._id, chatId)) &&
-      (await sendPushNotification(deviceToken, {
+      (await sendChatPushNotification(deviceToken, {
         userId: profile._id,
         receiverId,
         title: username,

@@ -33,6 +33,7 @@ import SwipeArrow1 from '../../../assets/images/svg/SlideArrow1';
 import SwipeArrow2 from '../../../assets/images/svg/SwipeArrow2';
 import SwipeArrow3 from '../../../assets/images/svg/SwipeArrow3';
 import { connectStorageEmulator } from 'firebase/storage';
+import { RootStackParamList } from '../../navigations/NavigationTypes';
 
 interface Props {
   PFPsize?: number;
@@ -44,6 +45,7 @@ interface Props {
   profileImageUri: string;
   top?: number;
   left?: number;
+  currentScreen: keyof RootStackParamList;
 }
 const ButtonWidth = size.getWidthSize(284);
 const ButtonHeight = size.getHeightSize(48);
@@ -61,6 +63,7 @@ const ProfilePicture = ({
   profileImageUri,
   top,
   left,
+  currentScreen,
 }: Props) => {
   const [showSwipe, setShowSwipe] = useState(false);
   const X = useSharedValue(0);
@@ -182,6 +185,8 @@ const ProfilePicture = ({
                 username,
                 wallet,
                 nickname,
+                screen: currentScreen,
+                userId,
               })
             );
           }

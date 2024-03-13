@@ -37,6 +37,7 @@ type TheirProfileParams = {
     userId: string;
     username: string;
     nickname: string;
+    response?: 'approved' | 'rejected' | 'dismissed';
   };
 };
 
@@ -114,6 +115,7 @@ export type RootStackParamList = {
     userId: string;
     username: string;
     nickname: string;
+    response?: 'approved' | 'rejected' | 'dismissed';
   };
 
   CreateCommunityScreen: undefined;

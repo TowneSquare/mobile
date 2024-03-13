@@ -31,12 +31,14 @@ import { PostData } from '../../controller/createPost';
 import ParsedText from 'react-native-parsed-text';
 import { Video, ResizeMode } from 'expo-av';
 import { getPostTime } from '../../utils/helperFunction';
+import { RootStackParamList } from '../../navigations/NavigationTypes';
 const size = new sizes(height, width);
 interface Props {
   data: PostData;
   shouldPFPSwipe: boolean;
+  currentScreen: keyof RootStackParamList;
 }
-const Reposted = ({ data, shouldPFPSwipe }: Props) => {
+const Reposted = ({ data, shouldPFPSwipe, currentScreen }: Props) => {
   const video = useRef(null);
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -164,9 +166,11 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              currentScreen={currentScreen}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               wallet={userPost?.customer?.aptosWallet}
+              swipeable={shouldPFPSwipe}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -213,6 +217,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={currentScreen}
               />
             </View>
           </View>
@@ -226,9 +231,11 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              currentScreen={currentScreen}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               wallet={userPost?.customer?.aptosWallet}
+              swipeable={shouldPFPSwipe}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -286,6 +293,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={currentScreen}
               />
             </View>
           </View>
@@ -299,9 +307,11 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              currentScreen={currentScreen}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               wallet={userPost?.customer?.aptosWallet}
+              swipeable={shouldPFPSwipe}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -332,6 +342,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={currentScreen}
               />
             </View>
           </View>
@@ -344,7 +355,9 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
     // content = (
     //   <>
     //     <View style={styles.feedContainer}>
-    //       <ProfilePicture swipeable={shouldPFPSwipe} />
+    //       <ProfilePicture
+    // currentScreen={currentScreen}
+    // swipeable={shouldPFPSwipe} />
     //       <View style={styles.subHeading}>
     //         <PostHeader
     //           username={userPost.username}
@@ -378,9 +391,11 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              currentScreen={currentScreen}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               wallet={userPost?.customer?.aptosWallet}
+              swipeable={shouldPFPSwipe}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -429,6 +444,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={currentScreen}
               />
             </View>
           </View>
@@ -441,9 +457,11 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              currentScreen={currentScreen}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               wallet={userPost?.customer?.aptosWallet}
+              swipeable={shouldPFPSwipe}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -515,6 +533,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={currentScreen}
               />
             </View>
           </View>
@@ -527,7 +546,9 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
     // content = (
     //   <>
     //     <View style={styles.feedContainer}>
-    //       <ProfilePicture swipeable={shouldPFPSwipe} />
+    //       <ProfilePicture
+    // currentScreen={currentScreen}
+    //swipeable={shouldPFPSwipe} />
     //       <View style={styles.subHeading}>
     //         <PostHeader
     //           username={userPost.username}
@@ -587,8 +608,10 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              currentScreen={currentScreen}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
+              swipeable={shouldPFPSwipe}
               wallet={userPost?.customer?.aptosWallet}
             />
             <View style={styles.subHeading}>
@@ -680,6 +703,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={currentScreen}
               />
             </View>
           </View>
@@ -692,9 +716,11 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              currentScreen={currentScreen}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
               wallet={userPost?.customer?.aptosWallet}
+              swipeable={shouldPFPSwipe}
             />
             <View style={styles.subHeading}>
               <PostHeader
@@ -777,6 +803,7 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={currentScreen}
               />
             </View>
           </View>
@@ -788,7 +815,9 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
     //   content = (
     //     <>
     //       <View style={styles.feedContainer}>
-    //         <ProfilePicture swipeable={shouldPFPSwipe} />
+    //         <ProfilePicture
+    // currentScreen={currentScreen}
+    // swipeable={shouldPFPSwipe} />
     //         <View style={styles.subHeading}>
     //           <PostHeader
     //             username={userPost.username}
@@ -840,7 +869,9 @@ const Reposted = ({ data, shouldPFPSwipe }: Props) => {
     //   content = (
     //     <>
     //       <View style={styles.feedContainer}>
-    //         <ProfilePicture swipeable={shouldPFPSwipe} />
+    //         <ProfilePicture
+    // currentScreen={currentScreen}
+    // swipeable={shouldPFPSwipe} />
     //         <View style={styles.subHeading}>
     //           <PostHeader
     //             username={userPost.username}

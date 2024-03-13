@@ -40,11 +40,10 @@ type AuthRootStackParamList = {
     EmailLogin: undefined;
     Congratulations: undefined;
   };
-
 };
 
-global.TextEncoder=TextEncoder
-global.TextDecoder=TextDecoder
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 const linking: LinkingOptions<RootStackParamList> = {
   prefixes: [Linking.createURL('/')],
   config: {
@@ -53,7 +52,30 @@ const linking: LinkingOptions<RootStackParamList> = {
       ChooseWallet: 'ChooseWallet',
       SignUp: 'SignUp',
       EmailLogin: 'EmailLogin',
-      Congratulations: '*',
+      SinglePost: 'SinglePost',
+      ViewImageScreen: 'ViewImageScreen',
+      VideoPlayer: 'VideoPlayer',
+      TheirProfileScreen: 'TheirProfileScreen/:userId/:username/:nickname',
+      DrawerNavigation: {
+        path: 'DrawerNavigation',
+        screens: {
+          BottomNavigation: {
+            path: 'BottomNavigation',
+            screens: {
+              Main: {
+                path: 'Main',
+                screens: {
+                  ForYou: 'ForYou',
+                  // other tabs inside Main
+                },
+              },
+              // other tabs inside BottomNavigation
+            },
+          },
+          // other screens inside DrawerNavigation
+        },
+      },
+      SplashScreen: '*',
     },
   },
 };
