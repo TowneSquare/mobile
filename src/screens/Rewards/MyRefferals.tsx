@@ -1,9 +1,9 @@
 import { Dimensions, FlatList } from 'react-native';
-import { appColor } from '../../constants';
-import { sizes } from '../../utils';
-import Header from '../../shared/Feed/Header';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MyReferrals from '../../components/Rewards/UserDisplay/MyReferrals';
+import { appColor } from '../../constants';
+import Header from '../../shared/Feed/Header';
+import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 

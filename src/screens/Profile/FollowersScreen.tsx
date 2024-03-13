@@ -1,15 +1,14 @@
-import { View, Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor } from '../../constants';
-import { sizes } from '../../utils';
-const { height, width } = Dimensions.get('window');
+import { useAppSelector } from '../../controller/hooks';
+import TopTabNavigator from '../../navigations/InApp/TopTabNavigator';
 import Header from '../../shared/Feed/Header';
+import { sizes } from '../../utils';
 import FollowersTab from './FollowersTab';
 import FollowingTab from './FollowingTab';
-import CommunitiesTab from './CommunitiesTab';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import { SafeAreaView } from 'react-native-safe-area-context';
-import TopTabNavigator from '../../navigations/InApp/TopTabNavigator';
-import { useAppSelector } from '../../controller/hooks';
 const FollowersScreen = () => {
   const title = useAppSelector((state) => state.USER.UserData.username);
   const tabContent = [

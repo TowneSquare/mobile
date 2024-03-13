@@ -1,17 +1,16 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
-import React, { useState } from 'react';
-import { sizes } from '../../../utils';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../../constants';
-import AssetBottomSheet from '../../../components/Community/CreateCommunity/AssetBottomSheet';
-const { height, width } = Dimensions.get('window');
+import React from 'react';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-const size = new sizes(height, width);
-import CommunitySettingsContext from '../../../context/CommunitySettingsContext';
-import { CryptoAssetSettingsProps } from '../../../navigations/NavigationTypes';
-import CryptoAsset from '../../../components/Community/Settings/CryptoAsset';
-import { SetCommunitySettingsContext } from '../../../context/CommunitySettingsContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import AssetBottomSheet from '../../../components/Community/CreateCommunity/AssetBottomSheet';
 import SelectedAssetBottomsheet from '../../../components/Community/CreateCommunity/SelectedAssetBottomsheet';
+import CryptoAsset from '../../../components/Community/Settings/CryptoAsset';
+import { appColor } from '../../../constants';
+import CommunitySettingsContext, { SetCommunitySettingsContext } from '../../../context/CommunitySettingsContext';
+import { CryptoAssetSettingsProps } from '../../../navigations/NavigationTypes';
+import { sizes } from '../../../utils';
+const { height, width } = Dimensions.get('window');
+const size = new sizes(height, width);
 const CryptoAssetSettings = ({ navigation }: CryptoAssetSettingsProps) => {
   return (
     <SafeAreaView

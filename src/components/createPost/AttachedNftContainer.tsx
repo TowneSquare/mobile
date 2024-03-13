@@ -48,7 +48,7 @@ const AttachedNftContainer = () => {
               />
               <Text style={styles.name}>{collectionName}</Text>
             </View>
-            <Text style={styles.id}>{`${collectionName} ${nftTokenId}`}</Text>
+            <Text style={styles.id}>{`${collectionName}`}</Text>
           </View>
         )}
       </View>

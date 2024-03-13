@@ -1,16 +1,16 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
 import React, { useState } from 'react';
-import { sizes } from '../../../utils';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../../constants';
-import Header from '../../../shared/Feed/Header';
-const { height, width } = Dimensions.get('window');
-const size = new sizes(height, width);
 import RadioButton from '../../../../assets/images/png/RadioButton';
 import DefaultButton from '../../../../assets/images/svg/DefaultButton';
+import { appColor } from '../../../constants';
+import { TokenGateSettingsProps } from '../../../navigations/NavigationTypes';
 import BackButton from '../../../shared/BackButton';
 import ContinueButton from '../../../shared/ContinueButton';
-import { TokenGateSettingsProps } from '../../../navigations/NavigationTypes';
+import Header from '../../../shared/Feed/Header';
+import { sizes } from '../../../utils';
+const { height, width } = Dimensions.get('window');
+const size = new sizes(height, width);
 const TokenGateSettings = ({ navigation }: TokenGateSettingsProps) => {
   const [gate, setGate] = useState<'gated' | 'non-gated'>(undefined);
   return (

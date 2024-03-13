@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet, Dimensions, Pressable } from "react-native";
 import React, { useContext } from "react";
-const { height, width } = Dimensions.get("window");
-import TokengatedIcon from "../../../../assets/images/svg/TokengatedIcon";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import NonGatedIcon from "../../../../assets/images/svg/NonGatedIcon";
+import TokengatedIcon from "../../../../assets/images/svg/TokengatedIcon";
 import { appColor } from "../../../constants";
-import { sizes } from "../../../utils";
 import { SetCommunityContext } from "../../../context/SetUpCommunityContext";
+import { sizes } from "../../../utils";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 
 const SelectTokenView = () => {

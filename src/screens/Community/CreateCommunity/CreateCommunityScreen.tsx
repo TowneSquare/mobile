@@ -1,12 +1,12 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from "react-native";
 import React from "react";
-import { appColor } from "../../../constants";
-import { sizes } from "../../../utils";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import IntroView from "../../../components/Community/CreateCommunity/IntroView";
+import { appColor } from "../../../constants";
 import { CreateCommunityScreenProps } from "../../../navigations/NavigationTypes";
+import { sizes } from "../../../utils";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
-import IntroView from "../../../components/Community/CreateCommunity/IntroView";
 const CreateCommunityScreen = ({ navigation }: CreateCommunityScreenProps) => {
   return (
     <SafeAreaView

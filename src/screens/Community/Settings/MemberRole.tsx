@@ -1,21 +1,21 @@
+import AntDesign from '@expo/vector-icons/AntDesign';
+import React from 'react';
 import {
-  View,
-  Text,
   Dimensions,
   StyleSheet,
+  Text,
   TextInput,
+  View,
 } from 'react-native';
-import React, { useState } from 'react';
-import { sizes } from '../../../utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../../constants';
-const { height, width } = Dimensions.get('window');
-import AntDesign from '@expo/vector-icons/AntDesign';
-import Delete from '../../../../assets/images/svg/Delete';
 import ArrowRight from '../../../../assets/images/svg/ArrowRight';
-import { MemberRoleProps } from '../../../navigations/NavigationTypes';
+import Delete from '../../../../assets/images/svg/Delete';
 import PlusIcon from '../../../../assets/images/svg/PLusIcon';
 import Member from '../../../components/Community/Settings/Member';
+import { appColor } from '../../../constants';
+import { MemberRoleProps } from '../../../navigations/NavigationTypes';
+import { sizes } from '../../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const MemberRole = ({ navigation }: MemberRoleProps) => {
   return (

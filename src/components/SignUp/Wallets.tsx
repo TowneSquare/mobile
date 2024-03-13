@@ -8,14 +8,13 @@ import {
 } from 'react-native';
 import React from 'react';
 import { appColor, fonts, images } from '../../constants';
-
 import { useFonts } from 'expo-font';
 import { MaterialIcons } from '@expo/vector-icons';
 import Petra from '../../../assets/images/svg/Petra';
 import { sizes } from '../../utils';
 import {
   updateBottomSheet,
-  updateRenderCount,
+  updateSelectedRender,
 } from '../../controller/BottomSheetController';
 import Pontem from '../../../assets/images/svg/Pontem';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
@@ -30,9 +29,9 @@ const Wallets = () => {
   const isVisible = useAppSelector(
     (state) => state.bottomSheetController.isBottomSheetOpen
   );
-  const renderCount = useAppSelector(
-    (state) => state.bottomSheetController.renderCount
-  );
+  // const renderCount = useAppSelector(
+  //   (state) => state.bottomSheetController.renderCount
+  // );
   let [isLoaded] = useFonts({
     'Outfit-Bold': fonts.OUTFIT_BOLD,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
@@ -52,7 +51,7 @@ const Wallets = () => {
     >
       <Pressable
         onPress={() => {
-          dispatch(updateRenderCount(1));
+          dispatch(updateSelectedRender(1));
           dispatch(updateBottomSheet(true));
         }}
         style={[styles.wallet, { paddingRight: size.getWidthSize(13) }]}
@@ -70,7 +69,7 @@ const Wallets = () => {
       {/* <LetGoButton navigateTo="DrawerNavigation" /> */}
       <Pressable
         onPress={() => {
-          dispatch(updateRenderCount(1));
+          dispatch(updateSelectedRender(1));
           dispatch(updateBottomSheet(true));
         }}
         style={[styles.wallet, { paddingRight: size.getWidthSize(13) }]}

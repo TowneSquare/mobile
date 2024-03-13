@@ -1,53 +1,45 @@
-import { useState, useRef, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
+import { useEffect, useRef, useState } from 'react';
 import {
-  Text,
-  View,
-  StyleSheet,
   Animated,
   Dimensions,
   FlatList,
+  StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
-  SafeAreaView,
-  useSafeAreaInsets,
+  useSafeAreaInsets
 } from 'react-native-safe-area-context';
-import { updateToast } from '../../controller/FeedsController';
-import { useFonts } from 'expo-font';
-import { appColor, fonts } from '../../constants';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { setLoginSession, sizes } from '../../utils';
-import { getTokenBywalletaddress } from '../../api';
-import ReferralView from '../../components/SignUp/Referral/ReferralView';
-import { updateDidToken } from '../../controller/UserController';
-import TranslationForwardButton from '../../components/SignUp/TranslationForwardButton';
-import Verify from '../../components/SignUp/ConnectSocialsAndVerify/Verify';
-import { SignUpProps } from '../../navigations/NavigationTypes';
+import { useDispatch } from 'react-redux';
+import Loader from '../../../assets/svg/Loader';
+import {
+  checkSignup, getTokenBywalletaddress, signup,
+  updateConnectedSocial,
+  uploadProfileImage
+} from '../../api';
+import ChooseNFT from '../../components/SignUp/ChooseProfilePics/ChooseNFT';
+import ChooseProfilePics from '../../components/SignUp/ChooseProfilePics/ChooseProfilePics';
+import SelectedCollection from '../../components/SignUp/ChooseProfilePics/SelectedCollection';
+import UploadImageModal from '../../components/SignUp/ChooseProfilePics/UploadImageModal';
 import ChooseUsernameContent from '../../components/SignUp/ChooseUsername/UsernameContent';
 import ConnectSocials from '../../components/SignUp/ConnectSocials/ConnectSocials';
+import Verify from '../../components/SignUp/ConnectSocialsAndVerify/Verify';
 import FindFriends from '../../components/SignUp/FindFriends/FindFriends';
-import ExploreCommunities from '../../components/SignUp/ExploreCommunities/ExploreCommunities';
-import ChooseProfilePics from '../../components/SignUp/ChooseProfilePics/ChooseProfilePics';
-import UploadImageModal from '../../components/SignUp/ChooseProfilePics/UploadImageModal';
-import ChooseNFT from '../../components/SignUp/ChooseProfilePics/ChooseNFT';
-import SelectedCollection from '../../components/SignUp/ChooseProfilePics/SelectedCollection';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import ReferralView from '../../components/SignUp/Referral/ReferralView';
 import SignupTransitionBackButton from '../../components/SignUp/SignupTransitionBackButton';
+import TranslationForwardButton from '../../components/SignUp/TranslationForwardButton';
+import { appColor, fonts } from '../../constants';
+import { updateToast } from '../../controller/FeedsController';
+import { disableContinueButton, updateDidToken, updateUserId } from '../../controller/UserController';
 import { useAppSelector } from '../../controller/hooks';
-import { disableContinueButton } from '../../controller/UserController';
+import { SignUpProps } from '../../navigations/NavigationTypes';
 import { storeDeviceTokenToFireStore } from '../../services/PushNotification';
-import Loader from '../../../assets/svg/Loader';
-import { SignUpParams } from '../../navigations/NavigationTypes';
-import {
-  checkSignup,
-  signup,
-  updateConnectedSocial,
-  uploadProfileImage,
-} from '../../api';
-import { RouteProp, useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
-import { useRoute } from '@react-navigation/native';
-import { updateUserId } from '../../controller/UserController';
+import { setLoginSession, sizes } from '../../utils';
 const { width, height } = Dimensions.get('window');
 const size = new sizes(height, width);
 let PADDING = size.getWidthSize(26);

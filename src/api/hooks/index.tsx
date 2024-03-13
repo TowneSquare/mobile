@@ -1,22 +1,20 @@
-import axios from 'axios';
-import { NFT_SCAN, APTOS_NAME_URL, BACKEND_URL } from '../../../config/env';
-import { useQuery } from 'react-query';
-import { UserNFT } from '../../controller/UserController/models';
-import { initialData } from './dummyData';
-import { UserData } from '../../controller/UserController';
-import { Image } from 'react-native';
+import axios from "axios";
+import { useQuery } from "react-query";
+import { APTOS_NAME_URL, BACKEND_URL, NFT_SCAN } from "../../../config/env";
+import { UserData } from "../../controller/UserController";
+import { UserNFT } from "../../controller/UserController/models";
 
 export const useUserNFT = ({ userAddress }) => {
-  axios.defaults.headers['X-API-KEY'] = 'OTwwCP3PG9ia9PlgBcCiwqxt';
+  axios.defaults.headers["X-API-KEY"] = "KeWS6RZ93ae5Upi2VR0bYDsH";
   const fetchUserNFT = async (userAddress: string): Promise<UserNFT> => {
     return await axios
       .get(`${NFT_SCAN}${userAddress}`, {})
       .then((response) => response.data);
   };
   return useQuery({
-    queryKey: ['UserNFT', userAddress],
+    queryKey: ["UserNFT", userAddress],
     queryFn: () => fetchUserNFT(userAddress),
-    staleTime: 86400000,
+    staleTime: 86400000
   });
 };
 
@@ -27,9 +25,9 @@ export const useAptosName = ({ userAddress }) => {
       .then((response) => response.data);
   };
   return useQuery({
-    queryKey: ['userAptosName', userAddress],
+    queryKey: ["userAptosName", userAddress],
     queryFn: () => getUserAptosName(userAddress),
-    initialData: 'unavailable',
+    initialData: "unavailable",
   });
 };
 
@@ -48,7 +46,7 @@ export const useUserInfo = ({ userId, token }) => {
   };
 
   return useQuery({
-    queryKey: ['userInfo', userId],
+    queryKey: ["userInfo", userId],
     queryFn: () => getUserInfo(userId, token),
   });
 };

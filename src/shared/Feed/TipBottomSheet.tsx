@@ -1,14 +1,3 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  Pressable,
-  StyleSheet,
-  BackHandler,
-  ActivityIndicator,
-  Animated,
-} from 'react-native';
-import { useCallback, useMemo, useRef, useEffect, useState } from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetTextInput,
@@ -23,9 +12,13 @@ import SuccesGreenIcon from '../../../assets/images/svg/SuccessGreenIcon';
 import InfoIcon from '../../../assets/images/svg/InfoIcon';
 import * as Animatable from 'react-native-animatable';
 import { Avatar } from 'react-native-elements';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import Aptos from '../../../assets/images/svg/Aptos';
+import InfoIcon from '../../../assets/images/svg/InfoIcon';
+import SuccesGreenIcon from '../../../assets/images/svg/SuccessGreenIcon';
 import CustomHandler from '../../components/Feed/CustomHandler';
-import { appColor, images } from '../../constants';
+import { appColor } from '../../constants';
+import { updateTipBottomSheet } from '../../controller/FeedsController';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { sizes } from '../../utils';
 import Aptos from '../../../assets/images/svg/Aptos';
 import {

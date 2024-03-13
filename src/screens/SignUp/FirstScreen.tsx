@@ -1,44 +1,42 @@
-import {
-  View,
-  Text,
-  ImageBackground,
-  Dimensions,
-  StyleSheet,
-  Pressable,
-  TouchableOpacity,
-} from 'react-native';
-import Twitter from '../../../assets/images/svg/Twitter';
-import { useFonts } from 'expo-font';
-import Apple from '../../../assets/images/svg/Apple';
-import { appColor, fonts, images } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import { sizes } from '../../utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-const { height, width } = Dimensions.get('window');
-import { FirstScreenProps } from '../../navigations/NavigationTypes';
+import { useFonts } from 'expo-font';
+import * as Linking from 'expo-linking';
+import { StatusBar } from 'expo-status-bar';
+import { useEffect, useRef } from 'react';
+import {
+  Dimensions,
+  ImageBackground,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import Apple from '../../../assets/images/svg/Apple';
 import Description from '../../../assets/images/svg/Description';
+import Description2 from '../../../assets/images/svg/Description2';
 import Discord from '../../../assets/images/svg/Discord';
 import Google from '../../../assets/images/svg/Google';
-import Mail from '../../../assets/images/svg/Mail';
 import Logo from '../../../assets/images/svg/Logo';
-import { BlurView } from 'expo-blur';
-import Description2 from '../../../assets/images/svg/Description2';
-const size = new sizes(height, width);
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Linking from 'expo-linking';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-
+import Mail from '../../../assets/images/svg/Mail';
+import Twitter from '../../../assets/images/svg/Twitter';
+import Loader from '../../../assets/svg/Loader';
+import { checkSignup } from '../../api';
+import { appColor, fonts, images } from '../../constants';
 import {
   updateAccountInfo,
   updateDidToken,
   updateMetadata,
   updateUserId,
 } from '../../controller/UserController';
-import { checkSignup } from '../../api';
-import Loader from '../../../assets/svg/Loader';
-import { useEffect, useRef } from 'react';
-import { getLoginSession, setLoginSession } from '../../utils/session';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { FirstScreenProps } from '../../navigations/NavigationTypes';
 import { storeDeviceTokenToFireStore } from '../../services/PushNotification';
+import { sizes } from '../../utils';
+import { getLoginSession, setLoginSession } from '../../utils/session';
+const { height, width } = Dimensions.get('window');
+const size = new sizes(height, width);
 
 const FirstScreen = ({ magic }: FirstScreenProps) => {
   const navigation = useNavigation();

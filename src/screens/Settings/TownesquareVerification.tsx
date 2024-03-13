@@ -1,13 +1,13 @@
-import { StyleSheet, Text, View, Dimensions, Pressable } from 'react-native';
 import React, { useState } from 'react';
-import { sizes } from '../../utils';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../constants';
 import CheckedIcon from '../../../assets/images/svg/Settings/CheckedIcon';
-import Header from '../../shared/Feed/Header';
-import XIcon from '../../../assets/images/svg/Settings/XIcon';
-import VerifiedBadge from '../../../assets/images/svg/Settings/VerifiedBadge';
 import DiscordSvg from '../../../assets/images/svg/Settings/DiscordSvg';
+import VerifiedBadge from '../../../assets/images/svg/Settings/VerifiedBadge';
+import XIcon from '../../../assets/images/svg/Settings/XIcon';
+import { appColor } from '../../constants';
+import Header from '../../shared/Feed/Header';
+import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const TownesquareVerification = () => {

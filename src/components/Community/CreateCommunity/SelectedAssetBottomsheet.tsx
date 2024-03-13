@@ -1,32 +1,32 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  BackHandler,
-  Pressable,
-  Image,
-} from 'react-native';
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useEffect,
-  useContext,
-} from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
-import TheterIcon from '../../../../assets/images/svg/ThetherIcon';
-import AptosIcon from '../../../../assets/images/svg/AptosIcon';
-import CustomHandler from '../../Feed/CustomHandler';
-import { CommunityDetailsType } from '../../../context/SetUpCommunityContext';
-import InfoIcon from '../../../../assets/images/svg/InfoIcon';
-import { appColor, images } from '../../../constants';
-import { sizes } from '../../../utils';
 import { useNavigation } from '@react-navigation/native';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react';
+import {
+  BackHandler,
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import AptosIcon from '../../../../assets/images/svg/AptosIcon';
+import InfoIcon from '../../../../assets/images/svg/InfoIcon';
+import TheterIcon from '../../../../assets/images/svg/ThetherIcon';
+import { appColor, images } from '../../../constants';
+import { CommunityDetailsType } from '../../../context/SetUpCommunityContext';
+import { sizes } from '../../../utils';
+import CustomHandler from '../../Feed/CustomHandler';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 

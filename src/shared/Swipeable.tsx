@@ -1,32 +1,30 @@
+import { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
   Dimensions,
-  StyleSheet,
   Image,
   Animated as RNAnimated,
+  StyleSheet,
+  View
 } from 'react-native';
-import { appColor, images } from '../constants';
-import { sizes } from '../utils';
-import CoinIconWhite from '../../assets/images/svg/CoinIconWhite';
-import SwipeArrow1 from '../../assets/images/svg/SlideArrow1';
-import SwipeArrow2 from '../../assets/images/svg/SwipeArrow2';
-import SwipeArrow3 from '../../assets/images/svg/SwipeArrow3';
 import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolate,
-  Extrapolation,
   interpolate,
   runOnJS,
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
+  withSpring
 } from 'react-native-reanimated';
-import { useEffect, useState } from 'react';
+import CoinIconWhite from '../../assets/images/svg/CoinIconWhite';
+import SwipeArrow1 from '../../assets/images/svg/SlideArrow1';
+import SwipeArrow2 from '../../assets/images/svg/SwipeArrow2';
+import SwipeArrow3 from '../../assets/images/svg/SwipeArrow3';
+import { appColor, images } from '../constants';
+import { sizes } from '../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const ButtonWidth = size.getWidthSize(284);

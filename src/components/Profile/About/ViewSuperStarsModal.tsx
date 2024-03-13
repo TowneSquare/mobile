@@ -20,6 +20,7 @@ const { height, width } = Dimensions.get('window');
 import AptosNftIcon from '../../../../assets/images/svg/AptosNftIcon';
 import AptosIconNft from '../../../../assets/images/svg/AptosIconNft';
 import { StatusBar } from 'expo-status-bar';
+import { useUserNFT } from '../../../api/hooks';
 const size = new sizes(height, width);
 interface SuperStarProps {
   uri: string;
@@ -29,12 +30,14 @@ interface Props {
   imageUri: string;
   visibility: boolean;
   close: () => void;
+  nftCollection: string
+  nftTokenId:string
 }
 const AnimatedFlatList = Animated.createAnimatedComponent(
   FlatList<SuperStarProps>
 );
 const viewConfigRef = { viewAreaCoveragePercentThreshold: 95 };
-const ViewSuperStarsModal = ({ imageUri, visibility, close }: Props) => {
+const ViewSuperStarsModal = ({ imageUri, visibility, close, nftCollection, nftTokenId }: Props) => {
   let flatListRef = useRef<FlatList<SuperStarProps> | null>();
   const scrollX = useRef(new Animated.Value(0)).current;
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -43,12 +46,15 @@ const ViewSuperStarsModal = ({ imageUri, visibility, close }: Props) => {
       setCurrentIndex(changed[0].index);
     }
   });
-  const selectedSuperStars = useAppSelector(
-    (state) => state.USER.selectedSuperStars
-  ) as SuperStarProps[];
   const scrollToIndex = (index) => {
     flatListRef.current?.scrollToIndex({ animated: true, index });
   };
+  const userWallet = useAppSelector((state) => state.USER.UserData.aptosWallet )
+  const userNFT = useUserNFT({
+    userAddress: userWallet
+  });
+  const assets = userNFT.data?.data?.find((nft) => nft.collection === nftCollection )
+  const nft = assets?.assets.find((nft) => nft.name === nftTokenId)
   const renderItems = (item: SuperStarProps) => {
     return (
       <View
@@ -154,7 +160,7 @@ const ViewSuperStarsModal = ({ imageUri, visibility, close }: Props) => {
                 fontFamily: 'Outfit-SemiBold',
               }}
             >
-              Aptos Monkey
+              {nftCollection}
             </Text>
           </View>
           <Text
@@ -167,12 +173,12 @@ const ViewSuperStarsModal = ({ imageUri, visibility, close }: Props) => {
               marginTop: size.getHeightSize(8),
             }}
           >
-            Aptos Monkeys #0922
+            {nftTokenId}
           </Text>
           <View style={styles.row}>
             <View style={styles.view}>
               <Text style={styles.label}>Rarity</Text>
-              <Text style={styles.subLabel}>898/212</Text>
+              <Text style={styles.subLabel}>{nft?.attributes ? nft?.attributes : "None"}</Text>
             </View>
             <View style={styles.view}>
               <Text style={styles.label}>Last sale</Text>
@@ -184,12 +190,12 @@ const ViewSuperStarsModal = ({ imageUri, visibility, close }: Props) => {
                   alignSelf: 'center',
                 }}
               >
-                <Text style={styles.subLabel}>1,500 APT</Text>
+                <Text style={styles.subLabel}>{`${nft?.latest_trade_price ? `${nft?.latest_trade_price} APT` : "None"}`}</Text>
                 <AptosIconNft size={size.getHeightSize(24)} />
               </View>
             </View>
           </View>
-          <Text
+          {/* <Text
             style={{
               color: appColor.kTextColor,
               fontSize: size.fontSize(16),
@@ -233,7 +239,7 @@ const ViewSuperStarsModal = ({ imageUri, visibility, close }: Props) => {
               <Text style={styles.propertyText2}>Fur</Text>
               <Text style={styles.propertyText3}>(1.9% have this)</Text>
             </View>
-          </View>
+          </View> */}
         </ScrollView>
       </View>
       {/* <View style={StyleSheet.absoluteFillObject}>

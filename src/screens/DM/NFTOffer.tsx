@@ -1,36 +1,35 @@
+import { StackActions } from '@react-navigation/native';
+import React, { useRef, useState } from 'react';
 import {
-  View,
-  Dimensions,
-  StyleSheet,
-  Pressable,
-  Text,
   ActivityIndicator,
+  Dimensions,
   Image,
+  Pressable,
   ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-const { height, width } = Dimensions.get('window');
 import { Avatar } from 'react-native-elements';
-import { sizes } from '../../utils';
-import SuccessIcon from '../../../assets/images/svg/SuccessIcon';
-import { appColor, images } from '../../constants';
-import Header from '../../shared/Feed/Header';
-import React, { useState, useRef } from 'react';
-import SignTransaction, {
-  TransactionFailed,
-} from '../../shared/TransactionStatus';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import GreyBadge from '../../../assets/images/svg/GreyBadge';
 import InfoIcon from '../../../assets/images/svg/InfoIcon';
+import SuccessIcon from '../../../assets/images/svg/SuccessIcon';
 import CancelOfferBottomsheet from '../../components/DM/CancelOfferBottomsheet';
+import DeclineOfferSheet from '../../components/DM/DeclineOfferSheet';
 import FloorPriceBottomsheet from '../../components/DM/FloorPriceBottomsheet';
+import { appColor, images } from '../../constants';
+import { updateTransactionDetailsBottomsheet } from '../../controller/BottomSheetController';
+import { useAppDispatch } from '../../controller/hooks';
 import { NFTOfferProps } from '../../navigations/NavigationTypes';
 import ActionButton from '../../shared/ActionButton';
 import ActionButton2 from '../../shared/ActionButton2';
-import { StackActions } from '@react-navigation/native';
-import { useAppDispatch } from '../../controller/hooks';
-import { updateTransactionDetailsBottomsheet } from '../../controller/BottomSheetController';
-import Transactiondetails from '../../components/DM/Transactiondetails';
-import DeclineOfferSheet from '../../components/DM/DeclineOfferSheet';
+import Header from '../../shared/Feed/Header';
+import SignTransaction, {
+  TransactionFailed,
+} from '../../shared/TransactionStatus';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
 const NFTOffer = ({ route, navigation }: NFTOfferProps) => {

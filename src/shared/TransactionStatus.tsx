@@ -1,12 +1,12 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
-const { height, width } = Dimensions.get('window');
 import React from 'react';
-import InfoIcon from '../../assets/images/svg/InfoIcon';
-import { sizes } from '../utils';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { appColor } from '../constants';
-import InfoWarningIcon from '../../assets/images/svg/InfoWarningIcon';
 import FailedInfoIcon from '../../assets/images/svg/FailedInfoIcon';
+import InfoIcon from '../../assets/images/svg/InfoIcon';
+import InfoWarningIcon from '../../assets/images/svg/InfoWarningIcon';
+import { appColor } from '../constants';
+import { sizes } from '../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {
   marginVertical: number;

@@ -1,7 +1,7 @@
-import { View, Text, Dimensions, Pressable, StyleSheet } from 'react-native';
 import React from 'react';
-import { sizes } from '../utils';
+import { Dimensions, Pressable, Text } from 'react-native';
 import { appColor } from '../constants';
+import { sizes } from '../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 type fontFamily =

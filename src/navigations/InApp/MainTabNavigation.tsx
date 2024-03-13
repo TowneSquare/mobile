@@ -1,13 +1,15 @@
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import React from 'react';
 import {
-  View,
-  Text,
-  TouchableOpacity,
   Dimensions,
   StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
+import { appColor } from '../../constants';
+import CommingSoon from '../../screens/Feed/CommingSoon';
+import ForYouPosts from '../../screens/Feed/ForYouPosts';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
@@ -40,7 +42,7 @@ const MainTab = () => {
             textAlign: 'center',
           }}
         >
-          Comming soon
+          Coming soon
         </Text>
       </View>
     );

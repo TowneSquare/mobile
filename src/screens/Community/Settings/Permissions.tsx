@@ -1,13 +1,13 @@
-import { View, Text, Dimensions, StyleSheet, ScrollView } from 'react-native';
-import React, { useState } from 'react';
-import { sizes } from '../../../utils';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../../constants';
-const { height, width } = Dimensions.get('window');
 import AntDesign from '@expo/vector-icons/AntDesign';
-import SettingsToggle from '../../../components/Community/Settings/SettingsToggle';
+import React, { useState } from 'react';
+import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import ChangesBottomSheet from '../../../components/Community/Settings/ChangesBottomSheet';
+import SettingsToggle from '../../../components/Community/Settings/SettingsToggle';
+import { appColor } from '../../../constants';
 import { PermissionsProps } from '../../../navigations/NavigationTypes';
+import { sizes } from '../../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Permissions = ({ navigation }: PermissionsProps) => {
   const [showPermissionBottomSheet, setPermissionBottomSheetVisibility] =

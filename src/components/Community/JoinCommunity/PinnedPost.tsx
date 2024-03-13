@@ -1,11 +1,11 @@
-import { Text, Dimensions, StyleSheet, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
+import { Dimensions, Pressable, StyleSheet, Text } from "react-native";
 import { Avatar } from "react-native-elements";
-import { sizes } from "../../../utils";
 import { appColor, images } from "../../../constants";
+import { sizes } from "../../../utils";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
-import { useNavigation } from "@react-navigation/native";
 const PinnedPost = () => {
   const navigation = useNavigation();
   return (

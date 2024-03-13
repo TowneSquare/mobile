@@ -1,14 +1,14 @@
 import {
-  View,
-  Text,
   Dimensions,
   Image,
   StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-const { height, width } = Dimensions.get('window');
-import JoinButton from './JoinButton';
 import { appColor, images } from '../../constants';
 import { sizes } from '../../utils';
+import JoinButton from './JoinButton';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {
   data: {

@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet, Dimensions } from "react-native";
 import React, { useContext } from "react";
-const { height, width } = Dimensions.get("window");
-import CloseIcon from "../../../../assets/images/svg/CloseIcon";
-import { SetCommunityContext } from "../../../context/SetUpCommunityContext";
-import { appColor } from "../../../constants";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import AptosIcon from "../../../../assets/images/svg/AptosIcon";
+import CloseIcon from "../../../../assets/images/svg/CloseIcon";
+import { appColor } from "../../../constants";
+import { SetCommunityContext } from "../../../context/SetUpCommunityContext";
 import { sizes } from "../../../utils";
+const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const SelectedAssetView = () => {
   const { communityDetails, setRemoveAssetBottomSheetVisibility } =

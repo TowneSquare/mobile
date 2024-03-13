@@ -1,22 +1,22 @@
+import { useState } from 'react';
 import {
   Dimensions,
-  ScrollView,
-  View,
-  Text,
-  StyleSheet,
   Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import { appColor } from '../../constants';
-import { sizes } from '../../utils';
-import Header from '../../shared/Feed/Header';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import DexSwapUserDisplay from '../../components/Rewards/UserDisplay/DexUserDisplay';
-import { useState } from 'react';
-import Transaction from '../../components/Rewards/Transactions/Transaction';
-import DEXSwapBottomSheet from '../../components/Rewards/Transactions/DEXSwapBottomSheet';
 import ArrowRight from '../../../assets/images/svg/Reward/ArrowRight';
-import { DexProps } from '../../navigations/NavigationTypes';
 import DEXBalanceBottomsheet from '../../components/Rewards/Transactions/DEXBalanceBottomsheet';
+import DEXSwapBottomSheet from '../../components/Rewards/Transactions/DEXSwapBottomSheet';
+import Transaction from '../../components/Rewards/Transactions/Transaction';
+import DexSwapUserDisplay from '../../components/Rewards/UserDisplay/DexUserDisplay';
+import { appColor } from '../../constants';
+import { DexProps } from '../../navigations/NavigationTypes';
+import Header from '../../shared/Feed/Header';
+import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 

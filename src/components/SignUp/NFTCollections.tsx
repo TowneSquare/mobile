@@ -1,15 +1,18 @@
-import { View, Text, Image, Pressable, Dimensions } from 'react-native';
-import { useFonts } from 'expo-font';
-import { fonts, appColor } from '../../constants';
-const { height, width } = Dimensions.get('window');
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { View, Text, Image, Pressable, Dimensions } from "react-native";
+import { useFonts } from "expo-font";
+import { fonts, appColor } from "../../constants";
+const { height, width } = Dimensions.get("window");
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
 import {
   updateSelectedCollection,
   updateSelectedRender,
   updateNftRender,
   updateNftOpen,
-} from '../../controller/BottomSheetController';
-import { sizes } from '../../utils';
+  updateListOfNFTCollection,
+} from "../../controller/BottomSheetController";
+import { sizes } from "../../utils";
+import { initialData } from "../../api/hooks/dummyData";
+import { useUserNFT } from "../../api/hooks";
 const size = new sizes(height, width);
 
 interface Props {
@@ -17,36 +20,43 @@ interface Props {
 }
 const NFTCollections = ({ callBack }: Props) => {
   const dispatch = useAppDispatch();
-  // const collections = useAppSelector(
-  //   (state) => state.bottomSheetController.listOfNftCollections
-  // );
-  const collections = [];
+  const collections = useAppSelector(
+    (state) => state.bottomSheetController.listOfNftCollections
+  );
+  const userAddress = useAppSelector(
+    (state) => state.USER.UserData.aptosWallet
+  );
+
+  const userNFT = useUserNFT({
+    userAddress,
+  });
+
   let [isLoaded] = useFonts({
-    'Outfit-Regular': fonts.OUTFIT_REGULAR,
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
+    "Outfit-Regular": fonts.OUTFIT_REGULAR,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
   });
   if (!isLoaded) {
     return null;
   }
   return (
     <>
-      {collections.length > 0 ? (
+      {userNFT.data?.data?.length > 0 && (
         <View
           style={{
             flex: 1,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
+            flexDirection: "row",
+            flexWrap: "wrap",
             width: size.getWidthSize(328),
-            justifyContent: 'space-between',
-            alignSelf: 'center',
+            justifyContent: "space-between",
+            alignSelf: "center",
             paddingHorizontal: size.getWidthSize(16),
           }}
         >
-          {collections.map((collection, index) => (
+          {userNFT.data?.data?.map((collection, index) => (
             <Pressable
               style={{
                 marginBottom: size.getHeightSize(16),
-                overflow: 'hidden',
+                overflow: "hidden",
                 width: size.getWidthSize(140),
                 height: size.getHeightSize(140),
                 borderRadius: 20,
@@ -54,18 +64,20 @@ const NFTCollections = ({ callBack }: Props) => {
               onPress={() => {
                 if (callBack) {
                   callBack();
+                  dispatch(updateListOfNFTCollection(collection.assets));
                 } else {
                   dispatch(updateNftRender(0));
                   dispatch(updateNftOpen(false));
                   dispatch(updateSelectedRender(1));
                   dispatch(updateSelectedCollection(true));
+                  dispatch(updateListOfNFTCollection(collection.assets));
                 }
               }}
               key={index}
             >
               {
                 <Image
-                  source={collection.nftImageUrl}
+                  source={{ uri: collection?.logo_url }}
                   resizeMode="cover"
                   style={{
                     width: size.getWidthSize(140),
@@ -76,16 +88,16 @@ const NFTCollections = ({ callBack }: Props) => {
               <View
                 style={{
                   width: size.getWidthSize(124),
-                  position: 'absolute',
-                  backgroundColor: '#121212',
+                  position: "absolute",
+                  backgroundColor: "#121212",
                   bottom: size.getHeightSize(8),
 
                   // right: 0,
-                  justifyContent: 'center',
+                  justifyContent: "center",
                   borderRadius: 8,
                   paddingVertical: size.getHeightSize(8),
                   paddingHorizontal: size.getWidthSize(10),
-                  alignSelf: 'center',
+                  alignSelf: "center",
                   zIndex: 0,
                   opacity: 0.9,
                   marginHorizontal: size.getWidthSize(8),
@@ -95,23 +107,23 @@ const NFTCollections = ({ callBack }: Props) => {
                   style={{
                     color: appColor.kTextColor,
                     fontSize: size.fontSize(14),
-                    fontFamily: 'Outfit-Regular',
-                    textAlign: 'left',
+                    fontFamily: "Outfit-Regular",
+                    textAlign: "left",
                   }}
                 >
-                  {collection.nftCollection}
+                  {collection.collection}
                 </Text>
               </View>
               <View
                 style={{
                   height: size.getHeightSize(25),
                   width: size.getHeightSize(26),
-                  position: 'absolute',
+                  position: "absolute",
                   backgroundColor: appColor.kSecondaryButtonColor,
                   left: size.getWidthSize(103),
                   top: size.getHeightSize(10),
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  justifyContent: "center",
+                  alignItems: "center",
                   borderRadius: 100,
                   bottom: size.getHeightSize(104),
                 }}
@@ -120,17 +132,18 @@ const NFTCollections = ({ callBack }: Props) => {
                   style={{
                     color: appColor.kTextColor,
                     fontSize: size.fontSize(14),
-                    fontFamily: 'Outfit-Regular',
+                    fontFamily: "Outfit-Regular",
                     lineHeight: size.getHeightSize(18),
                   }}
                 >
-                  {collection.nftTokenId}
+                  {collection.owns_total}
                 </Text>
               </View>
             </Pressable>
           ))}
         </View>
-      ) : (
+      )}
+      {userNFT.isFetching && (
         <View
           style={{
             flex: 1,
@@ -139,8 +152,23 @@ const NFTCollections = ({ callBack }: Props) => {
           <Text
             style={{
               color: appColor.kWhiteColor,
-              textAlign: 'center',
-              fontFamily: 'Outfit-Regular',
+              textAlign:"center"
+            }}
+          >
+            Fetching User NFT
+          </Text>
+        </View>
+      )}
+      {!userNFT.isFetching && !userNFT.data?.data?.length  && (
+        <View
+          style={{
+            flex: 1,
+          }}
+        >
+          <Text
+            style={{
+              color: appColor.kWhiteColor,
+              textAlign:"center"
             }}
           >
             You have no NFT

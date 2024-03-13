@@ -1,8 +1,8 @@
-import { View, Text, Dimensions, StyleSheet, Image } from "react-native";
 import React, { ReactNode } from "react";
-import { sizes } from "../../../utils";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import CommunityCheck from "../../../../assets/images/svg/CommunityCheck";
 import { appColor, images } from "../../../constants";
+import { sizes } from "../../../utils";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 interface Props {

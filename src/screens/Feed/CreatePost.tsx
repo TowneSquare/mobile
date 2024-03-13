@@ -1,43 +1,39 @@
+import { StackActions, useNavigation } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
+import { useState } from 'react';
 import {
-  View,
-  Text,
   Dimensions,
-  StyleSheet,
   KeyboardAvoidingView,
   Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import { useState, useEffect } from 'react';
-import { appColor, fonts, images } from '../../constants';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import HashTags from '../../components/createPost/HashTags';
-import { sizes } from '../../utils';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import CreatePostCommunityIcon from '../../../assets/images/svg/CreatePostCommunityIcon';
-import CreatePostAptosIcon from '../../../assets/images/svg/CreatePostAptosIcon';
-import { updateToast } from '../../controller/FeedsController';
-import AtMention from '../../components/createPost/AtMention';
-import FieldInput from '../../components/createPost/FieldInput';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import PostAttachment from '../../components/createPost/PostAttachment';
-import AttachedNftContainer from '../../components/createPost/AttachedNftContainer';
-const size = new sizes(height, width);
-import CommunityPostPrivacyBottomSheet from '../../components/Community/CreatePost/CommunityPostPrivacyBottomSheet';
-import SwapPost from '../../components/createPost/SwapPost';
-import FloorPricePost from '../../components/createPost/FloorPricePost';
-import AptosPanel from '../../components/createPost/AptosPanel';
-import Media from '../../components/createPost/Media';
-import GifBottomSheet from '../../components/createPost/GifBottomSheet';
 import { Avatar } from 'react-native-elements';
-import { useNavigation, StackActions } from '@react-navigation/native';
-import { clearPostData } from '../../controller/createPost';
 import { ScrollView } from 'react-native-gesture-handler';
-import { CreatePostProps } from '../../navigations/NavigationTypes';
-import { message } from '../../utils/messageData';
-import axios from 'axios';
-import { BACKEND_URL } from '../../../config/env';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import CreatePostAptosIcon from '../../../assets/images/svg/CreatePostAptosIcon';
 import { createPost } from '../../api';
+import CommunityPostPrivacyBottomSheet from '../../components/Community/CreatePost/CommunityPostPrivacyBottomSheet';
+import AptosPanel from '../../components/createPost/AptosPanel';
+import AtMention from '../../components/createPost/AtMention';
+import AttachedNftContainer from '../../components/createPost/AttachedNftContainer';
+import FieldInput from '../../components/createPost/FieldInput';
+import FloorPricePost from '../../components/createPost/FloorPricePost';
+import GifBottomSheet from '../../components/createPost/GifBottomSheet';
+import HashTags from '../../components/createPost/HashTags';
+import Media from '../../components/createPost/Media';
+import PostAttachment from '../../components/createPost/PostAttachment';
+import SwapPost from '../../components/createPost/SwapPost';
+import { appColor, fonts, images } from '../../constants';
+import { updateToast } from '../../controller/FeedsController';
+import { clearPostData } from '../../controller/createPost';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { CreatePostProps } from '../../navigations/NavigationTypes';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
+const size = new sizes(height, width);
 // import {
 //   Aptos,
 //   AptosConfig,
@@ -195,6 +191,11 @@ const CreatePost = ({ route }: CreatePostProps) => {
     }
   };
 
+  const cancel = () => {
+    navigation.goBack()
+    dispatch(clearPostData())
+  }
+
   return (
     <SafeAreaView
       style={{
@@ -203,7 +204,7 @@ const CreatePost = ({ route }: CreatePostProps) => {
       }}
     >
       <View style={styles.header}>
-        <Text onPress={navigation.goBack} style={styles.cancel}>
+        <Text onPress={cancel} style={styles.cancel}>
           Cancel
         </Text>
         <Pressable

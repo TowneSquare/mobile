@@ -1,28 +1,28 @@
 import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  FlatList,
-} from 'react-native';
-import { getUserInfo } from '../../api';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor, images } from '../../constants';
-import { ActivityIndicator } from 'react-native';
-import { useEffect, useLayoutEffect, useState } from 'react';
-import { sizes } from '../../utils';
-import HorizontalMoreIcon from '../../../assets/images/svg/HorizontalMoreIcon';
-import Chat from '../../components/DM/Chat';
-import { useAppSelector } from '../../controller/hooks';
-import { ChatsModel, ContactsChatModel } from '../../models/chats';
-import {
   collection,
+  onSnapshot,
   orderBy,
   query,
-  onSnapshot,
   where,
 } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import HorizontalMoreIcon from '../../../assets/images/svg/HorizontalMoreIcon';
 import { firestoreDB } from '../../../config/firebase.config';
+import { getUserInfo } from '../../api';
+import Chat from '../../components/DM/Chat';
+import { appColor } from '../../constants';
+import { useAppSelector } from '../../controller/hooks';
+import { ChatsModel, ContactsChatModel } from '../../models/chats';
+import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 
 const size = new sizes(height, width);

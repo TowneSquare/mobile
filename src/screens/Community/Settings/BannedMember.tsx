@@ -1,20 +1,19 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  ScrollView,
-  TextInput,
-} from 'react-native';
-import React, { useState } from 'react';
 import { Octicons } from '@expo/vector-icons';
-import { sizes } from '../../../utils';
-import BanMemberBottomSheet from '../../../components/Community/Settings/BanMemberBottomSheet';
+import React, { useState } from 'react';
+import {
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  View
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import DelIcon from '../../../../assets/images/svg/DelIcon';
+import BanMemberBottomSheet from '../../../components/Community/Settings/BanMemberBottomSheet';
+import Member from '../../../components/Community/Settings/Member';
 import { appColor } from '../../../constants';
 import Header from '../../../shared/Feed/Header';
-import Member from '../../../components/Community/Settings/Member';
-import DelIcon from '../../../../assets/images/svg/DelIcon';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const BannedMember = () => {

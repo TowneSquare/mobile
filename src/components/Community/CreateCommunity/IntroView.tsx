@@ -1,12 +1,12 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import React from 'react';
-const { height, width } = Dimensions.get('window');
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import CommunityDiscoverIcon from '../../../../assets/images/svg/CommunityDiscoverIcon';
-import CommunityUsersIcon from '../../../../assets/images/svg/CommunityUsersIcon';
-import CommunityUserIcon from '../../../../assets/images/svg/CommunityUserIcon';
 import CoomunityMonetizeIcon from '../../../../assets/images/svg/CommunityMonetizeIcon';
+import CommunityUserIcon from '../../../../assets/images/svg/CommunityUserIcon';
+import CommunityUsersIcon from '../../../../assets/images/svg/CommunityUsersIcon';
 import { appColor } from '../../../constants';
 import { sizes } from '../../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const IntroView = () => {
   return (

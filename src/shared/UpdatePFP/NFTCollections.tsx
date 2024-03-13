@@ -1,15 +1,16 @@
-import { View, Text, Image, Pressable, Dimensions } from 'react-native';
 import { useFonts } from 'expo-font';
-import { fonts, appColor } from '../../constants';
-const { height, width } = Dimensions.get('window');
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { Dimensions, Image, Pressable, Text, View } from 'react-native';
+import { useUserNFT } from '../../api/hooks';
+import { appColor, fonts } from '../../constants';
 import {
+  updateNftOpen,
+  updateNftRender,
   updateSelectedCollection,
   updateSelectedRender,
-  updateNftRender,
-  updateNftOpen,
 } from '../../controller/BottomSheetController';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
 interface Props {
@@ -20,6 +21,12 @@ const NFTCollections = ({ callBack }: Props) => {
   const collections = useAppSelector(
     (state) => state.bottomSheetController.listOfNftCollections
   );
+  const userAddress = useAppSelector(
+    (state) => state.USER.UserData.aptosWallet
+  );
+  const userNFT = useUserNFT({
+    userAddress
+  })
   let [isLoaded] = useFonts({
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-Bold': fonts.OUTFIT_BOLD,
@@ -29,7 +36,7 @@ const NFTCollections = ({ callBack }: Props) => {
   }
   return (
     <>
-      {collections.length > 0 && (
+      {userNFT.data?.data.length > 0 && (
         <View
           style={{
             flex: 1,
@@ -41,7 +48,7 @@ const NFTCollections = ({ callBack }: Props) => {
             paddingHorizontal: size.getWidthSize(16),
           }}
         >
-          {collections.map((collection, index) => (
+          {userNFT.data?.data?.map((collection, index) => (
             <Pressable
               key={index}
               style={{
@@ -65,7 +72,7 @@ const NFTCollections = ({ callBack }: Props) => {
             >
               {
                 <Image
-                  source={collection.nftImageUrl}
+                  source={{uri: collection.logo_url}}
                   resizeMode="cover"
                   style={{
                     width: size.getWidthSize(140),
@@ -99,7 +106,7 @@ const NFTCollections = ({ callBack }: Props) => {
                     textAlign: 'left',
                   }}
                 >
-                  {collection.nftCollection}
+                  {collection.collection}
                 </Text>
               </View>
               <View
@@ -124,7 +131,7 @@ const NFTCollections = ({ callBack }: Props) => {
                     lineHeight: size.getHeightSize(18),
                   }}
                 >
-                  {collection.nftTokenId}
+                  {collection.owns_total}
                 </Text>
               </View>
             </Pressable>

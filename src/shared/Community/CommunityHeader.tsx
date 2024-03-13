@@ -1,13 +1,12 @@
-import { View, Text, StyleSheet, Dimensions, Pressable } from 'react-native';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { appColor, images } from '../../constants';
-import { sizes } from '../../utils';
-const { height, width } = Dimensions.get('window');
+import { Dimensions, Pressable, StyleSheet, Text } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import CommunityHeaderIcon from '../../../assets/images/svg/CommunityHeaderIcon';
+import { appColor } from '../../constants';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import { DrawerActions } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
 
 interface Props {
   title: string;

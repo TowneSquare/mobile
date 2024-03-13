@@ -1,10 +1,9 @@
-import { View, Text, Dimensions, StyleSheet, ScrollView } from 'react-native';
 import React from 'react';
-import Header from '../../shared/Feed/Header';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../constants';
 import AptosMokeyView from '../../components/Rewards/Airdrop/AirdropViews/AptosMokeyView';
-import { sizes } from '../../utils';
+import { appColor } from '../../constants';
+import Header from '../../shared/Feed/Header';
 const AptosMonkey = () => {
   return (
     <SafeAreaView

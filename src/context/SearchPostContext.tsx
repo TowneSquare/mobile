@@ -1,6 +1,5 @@
 import React, { ReactNode, createContext, useState } from "react";
 import { PostData } from "../controller/createPost";
-
 import { useAppSelector } from "../controller/hooks";
 interface SearchPostContextProps {
   children: ReactNode;

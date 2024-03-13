@@ -1,16 +1,15 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  Pressable,
-  Dimensions,
-} from 'react-native';
-import React, { useContext, useState } from 'react';
 import { useFonts } from 'expo-font';
-import { images, fonts, appColor } from '../../constants';
-const { height, width } = Dimensions.get('window');
+import React, { useContext } from 'react';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  Text,
+  View
+} from 'react-native';
+import { appColor, fonts, images } from '../../constants';
 import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface ImageProps {
   uri: string;

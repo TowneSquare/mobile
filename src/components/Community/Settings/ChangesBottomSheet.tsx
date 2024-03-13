@@ -1,29 +1,25 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-  Image,
-  Dimensions,
-  BackHandler,
-  Pressable,
-} from 'react-native';
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  useMemo,
-} from 'react';
-import { appColor, fonts, images } from '../../../constants';
-import CustomHandler from '../../Feed/CustomHandler';
-import { sizes } from '../../../utils';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef
+} from 'react';
+import {
+  BackHandler,
+  Dimensions,
+  Pressable,
+  Text,
+  View
+} from 'react-native';
+import { appColor } from '../../../constants';
+import { sizes } from '../../../utils';
+import CustomHandler from '../../Feed/CustomHandler';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {

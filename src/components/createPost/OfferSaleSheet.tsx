@@ -132,7 +132,7 @@ const OfferSaleSheet = ({ isVisible }: Props) => {
       keyboardBehavior="interactive"
     >
       <BottomSheetView onLayout={handleContentLayout}>
-        <Text style={styles.collectionName}>{`${collectionName} ${nftTokenId}`}</Text>
+        <Text style={styles.collectionName}>{`${collectionName}`}</Text>
         <View style={styles.details}>
           <Text style={styles.floorPrice}>Floor price</Text>
           <Text style={styles.amount}>90 APT</Text>

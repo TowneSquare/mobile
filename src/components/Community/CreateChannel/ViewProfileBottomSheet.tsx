@@ -1,30 +1,28 @@
-import {
-  View,
-  Text,
-  Pressable,
-  Dimensions,
-  BackHandler,
-  StyleSheet,
-} from 'react-native';
-import React, {
-  useRef,
-  useEffect,
-  useCallback,
-  useMemo,
-  useState,
-} from 'react';
-import CustomHandler from '../../Feed/CustomHandler';
-import FollowIcon from '../../../../assets/images/svg/FollowIcon';
-import { appColor, images } from '../../../constants';
-import UserProfileIcon from '../../../../assets/images/svg/UserProfileIcon';
-import BlackMessageIcon from '../../../../assets/images/svg/BlackMessageIcon';
-import { sizes } from '../../../utils';
-import { Avatar } from 'react-native-elements';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef
+} from 'react';
+import {
+  BackHandler,
+  Dimensions,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+import { Avatar } from 'react-native-elements';
+import BlackMessageIcon from '../../../../assets/images/svg/BlackMessageIcon';
+import FollowIcon from '../../../../assets/images/svg/FollowIcon';
+import UserProfileIcon from '../../../../assets/images/svg/UserProfileIcon';
+import { appColor, images } from '../../../constants';
+import { sizes } from '../../../utils';
+import CustomHandler from '../../Feed/CustomHandler';
 const { height, width } = Dimensions.get('window');
 interface Props {
   visibility: boolean;

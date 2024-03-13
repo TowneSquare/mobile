@@ -1,20 +1,16 @@
-import {
-  Text,
-  Dimensions,
-  View,
-  StyleSheet,
-  ActivityIndicator,
-} from 'react-native';
 import React from 'react';
-import { appColor } from '../constants';
-import { sizes } from '../utils';
-import BottomsheetWrapper from '../shared/BottomsheetWrapper';
-import { useAppDispatch } from '../controller/hooks';
-import { updateToast } from '../controller/FeedsController';
-import SignTransaction from '../shared/TransactionStatus';
-import ActionButton2 from '../shared/ActionButton2';
-import ActionButton from './ActionButton';
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
 import SuccessIcon from '../../assets/images/svg/SuccessIcon';
+import { appColor } from '../constants';
+import ActionButton2 from '../shared/ActionButton2';
+import BottomsheetWrapper from '../shared/BottomsheetWrapper';
+import { sizes } from '../utils';
+import ActionButton from './ActionButton';
 
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);

@@ -1,14 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
-import { Platform } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-import Constants from 'expo-constants';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { useEffect, useRef, useState } from 'react';
+import { Platform } from 'react-native';
 import { firestoreDB } from '../../config/firebase.config';
-import { useAppDispatch } from '../controller/hooks';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { updateUserDeviceToken } from '../controller/UserController';
+import { useAppDispatch } from '../controller/hooks';
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,

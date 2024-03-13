@@ -1,26 +1,24 @@
-import {
-  View,
-  Text,
-  ImageBackground,
-  Dimensions,
-  StyleSheet,
-} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { useState } from 'react';
-import { appColor, fonts, images } from '../../constants';
 import { StatusBar } from 'expo-status-bar';
-import { sizes } from '../../utils';
+import { useState } from 'react';
+import {
+  Dimensions,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import Congrats from '../../../assets/images/svg/Congrats';
+import Loader from '../../../assets/svg/Loader';
 import { getUserInfo } from '../../api';
 import LetGoButton from '../../components/SignUp/LetGoButton';
-import { updateUserData, getUserData } from '../../controller/UserController';
+import { appColor, fonts, images } from '../../constants';
+import { getUserData, updateUserData } from '../../controller/UserController';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { storeDeviceTokenToFireStore } from '../../services/PushNotification';
-import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Loader from '../../../assets/svg/Loader';
-import { CommonActions } from '@react-navigation/native';
-import { StackActions } from '@react-navigation/compat';
+import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 
 const size = new sizes(height, width);

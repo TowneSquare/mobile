@@ -1,5 +1,5 @@
-import { Text, Pressable, StyleSheet, Dimensions } from 'react-native';
 import { useState } from 'react';
+import { Dimensions, Pressable, StyleSheet, Text } from 'react-native';
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 

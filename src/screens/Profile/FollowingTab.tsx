@@ -1,12 +1,12 @@
-import { View, Dimensions, ScrollView } from "react-native";
-import { useState, useEffect,useMemo } from "react";
+import { useState } from "react";
+import { Dimensions, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import { FollowingProps, getFollowings } from "../../api";
 import { appColor } from "../../constants";
-import { sizes } from "../../utils";
+import { useAppSelector } from "../../controller/hooks";
 import SearchField from "../../shared/Feed/SearchField";
 import UserDisplay from "../../shared/Feed/UserDisplay";
-import { FollowingProps, getFollowings } from "../../api";
-import { useAppSelector } from "../../controller/hooks";
-import { FlatList } from "react-native-gesture-handler";
+import { sizes } from "../../utils";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 const FollowingTab = () => {

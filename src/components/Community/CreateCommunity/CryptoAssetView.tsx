@@ -1,19 +1,19 @@
+import React, { useContext } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
   Dimensions,
-  TextInput,
   Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
-import React, { useContext, useState } from 'react';
-const { height, width } = Dimensions.get('window');
 import RadioButton from '../../../../assets/images/png/RadioButton';
-import DefaultButton from '../../../../assets/images/svg/DefaultButton';
-import { SetCommunityContext } from '../../../context/SetUpCommunityContext';
-import { appColor } from '../../../constants';
-import { sizes } from '../../../utils';
 import AptosIcon from '../../../../assets/images/svg/AptosIcon';
+import DefaultButton from '../../../../assets/images/svg/DefaultButton';
+import { appColor } from '../../../constants';
+import { SetCommunityContext } from '../../../context/SetUpCommunityContext';
+import { sizes } from '../../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const CryptoAssetView = () => {
   const {

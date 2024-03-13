@@ -1,26 +1,24 @@
+import { useFonts } from 'expo-font';
 import React, { useState } from 'react';
 import {
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  Pressable,
-  LogBox,
   Dimensions,
+  LogBox,
+  Pressable,
+  StyleSheet,
+  Text,
+  View
 } from 'react-native';
-import { VerifyCommunityScreenProps } from '../../../navigations/NavigationTypes';
-import Header from '../../../shared/Feed/Header';
-import { appColor, images, fonts } from '../../../constants';
-import { sizes } from '../../../utils';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useFonts } from 'expo-font';
-import XBg from '../../../../assets/images/svg/XBg';
 import { Avatar } from 'react-native-elements';
-import Info from '../../../../assets/images/svg/Info';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import CommunityVerifyIcon from '../../../../assets/images/svg/CommunityVerifyIcon';
-import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
 import ConnectedIcon from '../../../../assets/images/svg/ConnectedIcon';
+import Info from '../../../../assets/images/svg/Info';
+import XBg from '../../../../assets/images/svg/XBg';
+import { appColor, fonts, images } from '../../../constants';
 import { updateVerificationStatus } from '../../../controller/CommunityController';
+import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
+import Header from '../../../shared/Feed/Header';
+import { sizes } from '../../../utils';
 export enum VerifyCommunityState {
   NOT_APPROVED,
   PENDING,

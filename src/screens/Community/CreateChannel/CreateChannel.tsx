@@ -1,15 +1,15 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../../../utils';
-const size = new sizes(height, width);
-import CustomInputField from '../../../shared/CustomInputField';
-import ChannelPrivacyBottomSheet from '../../../components/Community/CreateChannel/ChannelPrivacyBottomSheet';
-import { appColor } from '../../../constants';
+import { useState } from 'react';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ArrowRight from '../../../../assets/images/svg/ArrowRight';
-import ActionButton from '../../../shared/ActionButton';
-import { useState } from 'react';
+import ChannelPrivacyBottomSheet from '../../../components/Community/CreateChannel/ChannelPrivacyBottomSheet';
+import { appColor } from '../../../constants';
 import { CreateChannelScreenProps } from '../../../navigations/NavigationTypes';
+import ActionButton from '../../../shared/ActionButton';
+import CustomInputField from '../../../shared/CustomInputField';
+import { sizes } from '../../../utils';
+const { height, width } = Dimensions.get('window');
+const size = new sizes(height, width);
 const CreateChannel = ({ navigation }: CreateChannelScreenProps) => {
   const [channelName, setChannelName] = useState('');
   const [isPrivacyBottomSheetVisible, setPrivacyBottomSheetVisibility] =

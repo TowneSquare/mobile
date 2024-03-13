@@ -1,15 +1,13 @@
-import {
-  View,
-  Text,
-  FlatList,
-  Dimensions,
-  StyleSheet,
-  Animated,
-  Pressable,
-} from "react-native";
 import React, { useRef, useState } from "react";
-import CommunityFeed from "../CommunityFeed";
-import CommunityAbout from "../CommunityAbout";
+import {
+  Animated,
+  Dimensions,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { appColor } from "../../../../constants";
 import { sizes } from "../../../../utils";
 const { height, width } = Dimensions.get("window");

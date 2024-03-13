@@ -1,34 +1,27 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  ScrollView,
-  Pressable,
-  StyleSheet,
-} from 'react-native';
-import React from 'react';
-import { sizes } from '../../../utils';
 import { useNavigation } from '@react-navigation/native';
-import NftTrade from '../../../components/Rewards/Airdrop/Transaction';
-import DexSwap from '../../../components/Rewards/Airdrop/DexSwap';
-import MyRefferals from '../../../components/Rewards/Airdrop/MyRefferals';
-import DefiTrades from '../../../components/Rewards/Airdrop/DefiTrades';
-import Balance from '../../../components/Rewards/Airdrop/Balance';
-import NftHoldings from '../../../components/Rewards/Airdrop/NftHoldings';
-import Cards from '../../../components/Rewards/Airdrop/Cards';
-import { appColor } from '../../../constants';
-import InfoIcon from '../../../../assets/images/svg/InfoIcon';
-import Refferal from '../../../../assets/images/svg/Reward/Refferal';
+import React from 'react';
+import {
+  Dimensions,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import Avatar from '../../../../assets/images/svg/Reward/Avatar';
-import SwapIcon from '../../../../assets/images/svg/Reward/SwapIcon';
-import ShareIcon from '../../../../assets/images/svg/Reward/ShareIcon';
+import NFTIcon from '../../../../assets/images/svg/Reward/NFTIcon';
 import PeopleIcon from '../../../../assets/images/svg/Reward/PeopleIcon';
 import PointsIcon from '../../../../assets/images/svg/Reward/PointsIcon';
-import TradeIcon from '../../../../assets/images/svg/Reward/TradeIcon';
-import NFTIcon from '../../../../assets/images/svg/Reward/NFTIcon';
+import Refferal from '../../../../assets/images/svg/Reward/Refferal';
+import ShareIcon from '../../../../assets/images/svg/Reward/ShareIcon';
+import SwapIcon from '../../../../assets/images/svg/Reward/SwapIcon';
 import TipIcon from '../../../../assets/images/svg/Reward/TipIcon';
+import TradeIcon from '../../../../assets/images/svg/Reward/TradeIcon';
+import Cards from '../../../components/Rewards/Airdrop/Cards';
+import { appColor } from '../../../constants';
 import { updateRewardBottomsheetVisibility } from '../../../controller/RewardController';
 import { useAppDispatch } from '../../../controller/hooks';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Airdrop = () => {

@@ -1,20 +1,20 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
-import { useContext } from 'react';
-const { height, width } = Dimensions.get('window');
-import { useFonts } from 'expo-font';
-import AttachNftModal from '../../components/createPost/AttachNftModal';
-import { appColor, fonts } from '../../constants';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { sizes } from '../../utils';
-import SelectedCollection from '../../components/createPost/SelectedCollection';
 import { AntDesign } from '@expo/vector-icons';
-const size = new sizes(height, width);
-import Overlay from '../../components/createPost/Overlay';
 import { useNavigation } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
-import { SelectedCollectionProvider } from '../../context/SelectedCollectionContext';
-import { SelectedCollectionContext } from '../../context/SelectedCollectionContext';
-const SelectedCollectionScreen = () => {
+import { useContext } from 'react';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import AttachNftModal from '../../components/createPost/AttachNftModal';
+import Overlay from '../../components/createPost/Overlay';
+import SelectedCollection from '../../components/createPost/SelectedCollection';
+import { appColor, fonts } from '../../constants';
+import { SelectedCollectionContext, SelectedCollectionProvider } from '../../context/SelectedCollectionContext';
+import { SelectedCollectionScreenProps } from '../../navigations/NavigationTypes';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
+const size = new sizes(height, width);
+const SelectedCollectionScreen = ({route}:SelectedCollectionScreenProps) => {
   const { isModalVisible, handleModalState } = useContext(
     SelectedCollectionContext
   );
@@ -25,6 +25,7 @@ const SelectedCollectionScreen = () => {
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
   });
+  const {title, nfts} = route.params
   if (!isLoaded) {
     return null;
   }
@@ -49,10 +50,10 @@ const SelectedCollectionScreen = () => {
                 size={24}
               />
             </Pressable>
-            <Text style={[styles.text, {}]}>Aptomingos</Text>
+            <Text style={[styles.text, {}]}>{title}</Text>
             <View />
           </View>
-          <SelectedCollection />
+          <SelectedCollection nfts={nfts} />
           <Overlay />
           {<AttachNftModal />}
         </SelectedCollectionProvider>

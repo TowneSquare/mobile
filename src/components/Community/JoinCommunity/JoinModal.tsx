@@ -1,23 +1,22 @@
-import {
-  View,
-  Text,
-  Pressable,
-  Image,
-  Dimensions,
-  BackHandler,
-} from "react-native";
-import React, { useRef, useEffect, useCallback, useMemo } from "react";
-
-import * as Animatable from "react-native-animatable";
-import CustomHandler from "../../Feed/CustomHandler";
-import { useFonts } from "expo-font";
-import { appColor, fonts, images } from "../../../constants";
-import { sizes } from "../../../utils";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from "@gorhom/bottom-sheet";
+import { useFonts } from "expo-font";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import {
+  BackHandler,
+  Dimensions,
+  Image,
+  Pressable,
+  Text,
+  View,
+} from "react-native";
+import * as Animatable from "react-native-animatable";
+import { appColor, fonts, images } from "../../../constants";
+import { sizes } from "../../../utils";
+import CustomHandler from "../../Feed/CustomHandler";
 const { height, width } = Dimensions.get("window");
 interface Props {
   visibility: boolean;

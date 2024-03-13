@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, Pressable, StyleSheet, Dimensions } from "react-native";
-import { sizes } from "../../../utils";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import { appColor } from "../../../constants";
+import { sizes } from "../../../utils";
 
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);

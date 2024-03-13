@@ -9,6 +9,7 @@ export interface friends {
   toUserId: string;
   _id: string;
 }
+
 export interface AssetsData {
   collection: string;
   name: string;
@@ -16,7 +17,7 @@ export interface AssetsData {
   asset_id: string;
   property_version: string;
   latest_trade_price: number;
-  attributes: string;
+  attributes:string
 }
 
 export interface NFTData {

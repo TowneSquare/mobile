@@ -1,26 +1,24 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
-import SearchContent from '../../components/Search/SearchContent';
-import { useEffect } from 'react';
-import SearchPostContextProvider from '../../context/SearchPostContext';
-
-import { sizes } from '../../utils';
-import TopTabNavigator from '../../navigations/InApp/TopTabNavigator';
-const { height, width } = Dimensions.get('window');
-import { appColor, fonts } from '../../constants';
-import SearchPostSearchField from '../../components/Search/SearchPostSearchField';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Octicons } from '@expo/vector-icons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useFonts } from 'expo-font';
-const size = new sizes(height, width);
-import Posts from './Posts';
+import { useEffect } from 'react';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import SearchContent from '../../components/Search/SearchContent';
+import SearchPostSearchField from '../../components/Search/SearchPostSearchField';
+import { appColor, fonts } from '../../constants';
+import SearchPostContextProvider from '../../context/SearchPostContext';
+import { updateSearchFocus } from '../../controller/SearchPost';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import TopTabNavigator from '../../navigations/InApp/TopTabNavigator';
+import { SearchScreenProps } from '../../navigations/NavigationTypes';
+import { sizes } from '../../utils';
 import ForYouTab from './ForYouTab';
 import PeopleTab from './PeopleTab';
-import CommuintiesTab from './CommuintiesTab';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import { SearchScreenProps } from '../../navigations/NavigationTypes';
-import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
-import { updateSearchFocus } from '../../controller/SearchPost';
+import Posts from './Posts';
+const { height, width } = Dimensions.get('window');
+const size = new sizes(height, width);
 const SearchScreen = ({ navigation }: SearchScreenProps) => {
   const dispatch = useAppDispatch();
   const { isSearchFiledFocused, searchWord } = useAppSelector((state) => ({

@@ -2,10 +2,9 @@ import {
   NavigationProp,
   ParamListBase,
   RouteProp,
-} from '@react-navigation/native';
-import { ImageSourcePropType } from 'react-native';
-import { PostData } from '../controller/createPost';
-import { UserData } from '../controller/UserController';
+} from "@react-navigation/native";
+import { AssetsData } from "../controller/UserController/models";
+import { PostData } from "../controller/createPost";
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
@@ -22,11 +21,14 @@ interface PetraWalletResponse {
 type SelectedSuperStarCollectionScreenParameter = {
   [SelectedSuperStarCollectionScreen: string]: {
     title: string;
-    nfts: {
-      nftImageUrl: ImageSourcePropType;
-      nftTokenId: string;
-      nftCollection: string;
-    }[];
+    nfts: Array<AssetsData>
+  };
+};
+
+type SelectedCollectionScreen = {
+  [SelectedCollectionScreen: string]: {
+    title: string;
+    nfts: Array<AssetsData>
   };
 };
 
@@ -91,7 +93,10 @@ export type RootStackParamList = {
     whichPost: 'communityPost' | 'singlePost';
   };
   NftCollectionScreen: undefined;
-  SelectedCollectionScreen: undefined;
+  SelectedCollectionScreen: {
+    title: string;
+    nfts: Array<AssetsData>
+  };
   Collection: undefined;
   Profile: undefined;
   SearchScreen: undefined;
@@ -99,11 +104,7 @@ export type RootStackParamList = {
   SuperStarCollectionScreen: undefined;
   SelectedSuperStarCollectionScreen: {
     title: string;
-    nfts: {
-      nftImageUrl: string;
-      nftTokenId: string;
-      nftCollection: string;
-    }[];
+    nfts: Array<AssetsData>
   };
   EditProfileScreen: undefined;
   ProfileFollowersTab: undefined;
@@ -399,7 +400,7 @@ export type NftCollectionScreenProps = {
 export type SelectedCollectionScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'SelectedCollectionScreen'>;
   magic: any;
-  route: RouteProp<ParamListBase, 'SelectedCollectionScreen'>;
+  route: RouteProp<SelectedCollectionScreen, "SelectedCollectionScreen">;
 };
 export type SearchScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'SearchScreen'>;

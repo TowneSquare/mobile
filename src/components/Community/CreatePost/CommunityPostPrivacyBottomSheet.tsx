@@ -1,33 +1,32 @@
-import {
-  View,
-  Text,
-  Pressable,
-  Dimensions,
-  BackHandler,
-  StyleSheet,
-} from 'react-native';
-import React, {
-  useRef,
-  useEffect,
-  useCallback,
-  useMemo,
-  useState,
-} from 'react';
-import ActionButton from '../../../shared/ActionButton';
-import ActionButton2 from '../../../shared/ActionButton2';
-import * as Animatable from 'react-native-animatable';
-import CustomHandler from '../../Feed/CustomHandler';
-import { updateCommunityPostPrivacy } from '../../../controller/createPost';
-import RadioButton from '../../../../assets/images/png/RadioButton';
-import DefaultButton from '../../../../assets/images/svg/DefaultButton';
-import { appColor } from '../../../constants';
-import { sizes } from '../../../utils';
-import { useAppDispatch } from '../../../controller/hooks';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import {
+  BackHandler,
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import RadioButton from '../../../../assets/images/png/RadioButton';
+import DefaultButton from '../../../../assets/images/svg/DefaultButton';
+import { appColor } from '../../../constants';
+import { updateCommunityPostPrivacy } from '../../../controller/createPost';
+import { useAppDispatch } from '../../../controller/hooks';
+import ActionButton from '../../../shared/ActionButton';
+import ActionButton2 from '../../../shared/ActionButton2';
+import { sizes } from '../../../utils';
+import CustomHandler from '../../Feed/CustomHandler';
 const { height, width } = Dimensions.get('window');
 interface Props {
   visibility: boolean;

@@ -1,31 +1,29 @@
+import * as Clipboard from 'expo-clipboard';
+import * as Sharing from 'expo-sharing';
+import { StatusBar } from 'expo-status-bar';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import {
   Dimensions,
-  ScrollView,
-  Text,
   Pressable,
+  ScrollView,
   StyleSheet,
-  View,
+  Text,
   ToastAndroid,
+  View,
 } from 'react-native';
-import * as Sharing from 'expo-sharing';
-import PosterDownloadView from '../../components/Rewards/PosterDownloadView';
-import { appColor } from '../../constants';
-import { StatusBar } from 'expo-status-bar';
-import DownloadPoster from '../../components/Rewards/DownloadPoster';
-import { sizes, generateReferralCode } from '../../utils';
-import * as Clipboard from 'expo-clipboard';
-import Header from '../../shared/Feed/Header';
-import CopyIcon from '../../../assets/images/svg/Reward/CopyIcon';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import PointsIcon from '../../../assets/images/svg/Reward/PointsIcon';
-import InfoIcon from '../../../assets/images/svg/InfoIcon';
-import { useAppDispatch } from '../../controller/hooks';
 import ViewShot from 'react-native-view-shot';
+import CopyIcon from '../../../assets/images/svg/Reward/CopyIcon';
+import PointsIcon from '../../../assets/images/svg/Reward/PointsIcon';
 import ShareCodeIcon from '../../../assets/images/svg/Reward/ShareCodeIcon';
-import { updateRewardBottomsheetVisibility } from '../../controller/RewardController';
+import DownloadPoster from '../../components/Rewards/DownloadPoster';
 import Poster1 from '../../components/Rewards/Poster1';
 import Poster2 from '../../components/Rewards/Poster2';
-import { useState, useEffect, useReducer, useRef } from 'react';
+import PosterDownloadView from '../../components/Rewards/PosterDownloadView';
+import { appColor } from '../../constants';
+import { useAppDispatch } from '../../controller/hooks';
+import Header from '../../shared/Feed/Header';
+import { generateReferralCode, sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 type PosterState = {

@@ -1,24 +1,24 @@
+import AntDesign from '@expo/vector-icons/AntDesign';
+import React, { useState } from 'react';
 import {
-  View,
-  Text,
   Dimensions,
-  StyleSheet,
   Pressable,
   ScrollView,
+  StyleSheet,
+  Text,
   TextInput,
+  View,
 } from 'react-native';
-import React, { useState } from 'react';
-import { sizes } from '../../../utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../../constants';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import { ViewRolesProps } from '../../../navigations/NavigationTypes';
-import PlusIcon from '../../../../assets/images/svg/PLusIcon';
-import { useAppSelector } from '../../../controller/hooks';
-import Member from '../../../components/Community/Settings/Member';
 import ArrowRight from '../../../../assets/images/svg/ArrowRight';
-import RemoveMemberBottomSheet from '../../../components/Community/Settings/RemoveMemberBottomSheet';
+import PlusIcon from '../../../../assets/images/svg/PLusIcon';
 import DeleteRoleBottomSheet from '../../../components/Community/Settings/DeleteRoleBottomSheet';
+import Member from '../../../components/Community/Settings/Member';
+import RemoveMemberBottomSheet from '../../../components/Community/Settings/RemoveMemberBottomSheet';
+import { appColor } from '../../../constants';
+import { useAppSelector } from '../../../controller/hooks';
+import { ViewRolesProps } from '../../../navigations/NavigationTypes';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const ViewRoles = ({ navigation, route }: ViewRolesProps) => {

@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Header from '../../shared/Feed/Header';
 import {
   Dimensions,
+  Keyboard,
   Pressable,
+  StyleSheet,
   Text,
   View,
-  StyleSheet,
-  Keyboard,
 } from 'react-native';
-import { sizes } from '../../utils/size';
-import { appColor } from '../../constants';
-import SwapBox from '../../components/SinglePostView/SwapBox';
-import ActionButton from '../../shared/ActionButton';
-import { updateTransactionDetailsBottomsheet } from '../../controller/BottomSheetController';
-import { useAppSelector, useAppDispatch } from '../../controller/hooks';
-import TransferSuccessfulBottomsheet from '../../shared/TransferSuccessfulBottomsheet';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import SwapBox from '../../components/SinglePostView/SwapBox';
 import SelectTtoken from '../../components/Swap/SelectToken';
+import { appColor } from '../../constants';
+import { updateTransactionDetailsBottomsheet } from '../../controller/BottomSheetController';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import ActionButton from '../../shared/ActionButton';
+import Header from '../../shared/Feed/Header';
 import SignTransactionBottomsheet from '../../shared/SignTransactionBottomsheet';
+import TransferSuccessfulBottomsheet from '../../shared/TransferSuccessfulBottomsheet';
+import { sizes } from '../../utils/size';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const balance = '24.2477';

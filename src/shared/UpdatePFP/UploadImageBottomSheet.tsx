@@ -1,38 +1,40 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  Pressable,
-  StyleSheet,
-  Alert,
-  BackHandler,
-} from "react-native";
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useEffect,
-  useContext,
-} from "react";
+import { MaterialIcons } from "@expo/vector-icons";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from "@gorhom/bottom-sheet";
 import {
-  launchImageLibraryAsync,
   MediaTypeOptions,
-  launchCameraAsync,
-  useCameraPermissions,
   PermissionStatus,
+  launchCameraAsync,
+  launchImageLibraryAsync,
+  useCameraPermissions,
 } from "expo-image-picker";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
+import {
+  Alert,
+  BackHandler,
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import Camera from "../../../assets/images/svg/Camera";
 import Cat from "../../../assets/images/svg/Cat";
 import Photo from "../../../assets/images/svg/Photo";
-import Camera from "../../../assets/images/svg/Camera";
-import { MaterialIcons } from "@expo/vector-icons";
 import CustomHandler from "../../components/Feed/CustomHandler";
+import { appColor } from "../../constants";
+import { updateProfileImage } from "../../controller/UserController";
+import { useAppDispatch } from "../../controller/hooks";
 import { sizes } from "../../utils";
-import { appColor, fonts } from "../../constants";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 type ContextType<T> = React.Context<T | undefined>;
@@ -50,7 +52,7 @@ const UploadImageBottomSheet = <T,>({ context }: Props<T>) => {
     setCollectionBottomSheet,
     setProfilePictureBottomSheet,
   } = useContext(context) as UploadImageBottomSheetContextType;
-
+  const dispatch = useAppDispatch()
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -133,8 +135,8 @@ const UploadImageBottomSheet = <T,>({ context }: Props<T>) => {
     });
 
     if (result.assets != null) {
-      //   dispatch(updateProfileImage(result?.assets[0].uri));
-      //   setProfilePictureBottomSheet(false);
+         dispatch(updateProfileImage(result?.assets[0].uri));
+        setProfilePictureBottomSheet(false);
     }
   };
   return (
@@ -188,7 +190,7 @@ const UploadImageBottomSheet = <T,>({ context }: Props<T>) => {
               >
                 <View style={styles.innerStyle}>
                   <Cat />
-                  <Text style={styles.Text}>NFT</Text>
+                  <Text style={styles.Text}>NFTs</Text>
                 </View>
                 <MaterialIcons
                   name="keyboard-arrow-right"

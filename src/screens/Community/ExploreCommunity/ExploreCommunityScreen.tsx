@@ -1,28 +1,28 @@
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { LinearGradient } from "expo-linear-gradient";
+import React, { useRef, useState } from "react";
 import {
-  View,
-  Text,
+  Animated,
   Dimensions,
-  Pressable,
-  StyleSheet,
+  FlatList,
   Image,
   ImageBackground,
-  Animated,
-  FlatList,
+  Pressable,
   ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import React, { useRef, useState } from "react";
-import ExploreAvatar from "../../../../assets/images/svg/ExploreAvatar";
-import { appColor, images } from "../../../constants";
-import { sizes } from "../../../utils";
 import { SafeAreaView } from "react-native-safe-area-context";
-const { height, width } = Dimensions.get("window");
-import { LinearGradient } from "expo-linear-gradient";
-const size = new sizes(height, width);
-import AntDesign from "@expo/vector-icons/AntDesign";
-import RecommendedCommunity from "../../../components/Community/Explore Community/RecommendedCommunity";
 import CommunityAvatar2 from "../../../../assets/images/svg/CommunityAvatar2";
-import { ExploreCommunityScreenProps } from "../../../navigations/NavigationTypes";
+import ExploreAvatar from "../../../../assets/images/svg/ExploreAvatar";
+import RecommendedCommunity from "../../../components/Community/Explore Community/RecommendedCommunity";
 import TopCommunity from "../../../components/Community/Explore Community/TopCommunity";
+import { appColor, images } from "../../../constants";
+import { ExploreCommunityScreenProps } from "../../../navigations/NavigationTypes";
+import { sizes } from "../../../utils";
+const { height, width } = Dimensions.get("window");
+const size = new sizes(height, width);
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList<string>);
 const viewConfigRef = { viewAreaCoveragePercentThreshold: 95 };
 const ExploreCommunityScreen = ({

@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import React, { useState } from 'react';
-import { sizes } from '../../utils';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ArrowRight from '../../../assets/images/svg/Settings/ArrowRight';
 import { appColor } from '../../constants';
 import Header from '../../shared/Feed/Header';
-import ArrowRight from '../../../assets/images/svg/Settings/ArrowRight';
 import ToggleButton from '../../shared/ToggleButton';
+import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const AccountNotifications = () => {

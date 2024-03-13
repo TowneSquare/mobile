@@ -1,17 +1,16 @@
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import React from 'react';
 import {
-  View,
-  Text,
-  TouchableOpacity,
   Dimensions,
   StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
+import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-import { appColor, fonts } from '../../constants';
 
 type Component = {
   name: string;

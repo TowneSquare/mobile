@@ -1,29 +1,29 @@
+import React, { useEffect, useState } from 'react';
 import {
-  View,
-  Dimensions,
-  StyleSheet,
-  Pressable,
-  Text,
   ActivityIndicator,
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
   TextInput,
+  View,
 } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-const { height, width } = Dimensions.get('window');
-import { Avatar } from 'react-native-elements';
-import { sizes } from '../../utils';
 import * as Animatable from 'react-native-animatable';
-import { appColor, images } from '../../constants';
-import Header from '../../shared/Feed/Header';
-import React, { useState, useEffect } from 'react';
-import SelectTokenSheet from '../../components/DM/SelectTokenSheet';
-import Aptos2 from '../../../assets/images/svg/Aptos2';
+import { Avatar } from 'react-native-elements';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import GreyBadge from '../../../assets/images/svg/GreyBadge';
-import { SendTokenProps } from '../../navigations/NavigationTypes';
-import InfoIcon from '../../../assets/images/svg/InfoIcon';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Aptos2 from '../../../assets/images/svg/Aptos2';
 import ChatTipIcon from '../../../assets/images/svg/ChatTipIcon';
+import GreyBadge from '../../../assets/images/svg/GreyBadge';
+import InfoIcon from '../../../assets/images/svg/InfoIcon';
 import InfoWarningIcon from '../../../assets/images/svg/InfoWarningIcon';
+import SelectTokenSheet from '../../components/DM/SelectTokenSheet';
+import { appColor, images } from '../../constants';
+import { SendTokenProps } from '../../navigations/NavigationTypes';
+import Header from '../../shared/Feed/Header';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
 const SendToken = ({ navigation }: SendTokenProps) => {

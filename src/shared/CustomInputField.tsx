@@ -1,15 +1,13 @@
+import React, { ForwardRefRenderFunction, forwardRef } from 'react';
 import {
-  View,
-  Text,
-  TextInput,
   Dimensions,
   StyleSheet,
-  TextInputProps,
+  TextInput,
+  TextInputProps
 } from 'react-native';
-import React, { forwardRef, ForwardRefRenderFunction } from 'react';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../utils';
 import { appColor } from '../constants';
+import { sizes } from '../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
 interface Props extends TextInputProps {

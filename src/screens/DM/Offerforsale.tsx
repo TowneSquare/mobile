@@ -1,28 +1,28 @@
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  View,
-  Dimensions,
-  StyleSheet,
-  Pressable,
-  Text,
-  Image,
-  TextInput,
-  ScrollView,
   ActivityIndicator,
+  Dimensions,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-const { height, width } = Dimensions.get('window');
-import DurationBottomsheet from '../../components/DM/DurationBottomsheet';
-import InfoIcon from '../../../assets/images/svg/InfoIcon';
-import { sizes } from '../../utils';
-import { appColor, images } from '../../constants';
-import Header from '../../shared/Feed/Header';
-import React, { useState, useRef, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Aptos2 from '../../../assets/images/svg/Aptos2';
+import InfoIcon from '../../../assets/images/svg/InfoIcon';
+import DurationBottomsheet from '../../components/DM/DurationBottomsheet';
+import { appColor, images } from '../../constants';
+import { OfferforsaleProps } from '../../navigations/NavigationTypes';
+import Header from '../../shared/Feed/Header';
 import SignTransaction, {
   TransactionFailed,
 } from '../../shared/TransactionStatus';
-import { OfferforsaleProps } from '../../navigations/NavigationTypes';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Offerforsale = ({ navigation }: OfferforsaleProps) => {
   const scrollViewRef = useRef<ScrollView>();

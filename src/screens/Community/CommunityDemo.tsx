@@ -1,10 +1,10 @@
-import { View, Text, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
+import { Dimensions, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
-import { useNavigation } from '@react-navigation/native';
 const size = new sizes(height, width);
 const CommunityDemo = () => {
   const navigation = useNavigation();

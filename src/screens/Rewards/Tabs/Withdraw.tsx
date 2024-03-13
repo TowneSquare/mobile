@@ -1,11 +1,11 @@
-import { Dimensions, ScrollView, View, Text, StyleSheet } from 'react-native';
-import { appColor } from '../../../constants';
 import { useState } from 'react';
-import { sizes } from '../../../utils';
-import Header from '../../../shared/Feed/Header';
+import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import WithdrawAssets from '../../../components/Rewards/Transactions/Withdraw';
+import { appColor } from '../../../constants';
+import Header from '../../../shared/Feed/Header';
 import SignTransactionBottomsheet from '../../../shared/SignTransactionBottomsheet';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Withdraw = () => {

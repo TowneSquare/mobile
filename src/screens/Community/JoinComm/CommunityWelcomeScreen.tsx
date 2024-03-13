@@ -1,19 +1,18 @@
+import { useNavigation } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
+import React from 'react';
 import {
-  Button,
   Dimensions,
   Image,
   ImageBackground,
+  Pressable,
   StyleSheet,
   Text,
-  View,
-  Pressable,
+  View
 } from 'react-native';
-import React, { useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { appColor, fonts, images } from '../../../constants';
 import { sizes } from '../../../utils';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useFonts } from 'expo-font';
-import { useNavigation } from '@react-navigation/native';
 
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);

@@ -396,3 +396,34 @@ export const sendPontenTransaction = async (
 
   Linking.openURL(url);
 };
+
+export const sendPontenTransaction = async (
+  to: string,
+  amount: number,
+  screen: keyof RootStackParamList
+) => {
+  const redirect_link = Linking.createURL(`/${screen}`);
+
+  const APT_DECIMAL = 10 ** 8;
+
+  const transaction = {
+    type: 'entry_function_payload',
+    function: '0x1::coin::transfer',
+    type_arguments: ['0x1::aptos_coin::AptosCoin'],
+    arguments: [to, amount * APT_DECIMAL],
+  };
+  const appInfo = {
+    name: 'Townesquare',
+    logoUrl:
+      'https://www.townesquare.xyz/static/media/logo.6e77e4b3cad4fe08bb6e.png',
+    redirectLink: redirect_link,
+  };
+  const base64AppInfo = Buffer.from(JSON.stringify(appInfo)).toString('base64');
+  const base64Payload = Buffer.from(JSON.stringify(transaction)).toString(
+    'base64'
+  );
+
+  const url = `pontem-wallet://mob2mob?payload=${base64Payload}&app_info=${base64AppInfo}`;
+
+  Linking.openURL(url);
+};

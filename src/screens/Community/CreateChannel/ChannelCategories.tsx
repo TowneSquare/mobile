@@ -1,30 +1,30 @@
+import { StackActions } from '@react-navigation/native';
+import { useState } from 'react';
 import {
-  View,
-  Text,
   Dimensions,
-  StyleSheet,
   Pressable,
   ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-const { height, width } = Dimensions.get('window');
-import { sizes } from '../../../utils';
-const size = new sizes(height, width);
-import ManageCategoriesBottomSheet from '../../../components/Community/CreateChannel/ManageCategoriesBottomSheet';
-import ActionButton from '../../../shared/ActionButton';
-import ActionButton2 from '../../../shared/ActionButton2';
-import ChannelNameInputField from '../../../components/Community/CreateChannel/ChannelNameInputField';
-import { appColor } from '../../../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useState } from 'react';
-import { StackActions } from '@react-navigation/native';
-import Header from '../../../shared/Feed/Header';
 import Feather from 'react-native-vector-icons/Feather';
-import PlusIcon from '../../../../assets/images/svg/PLusIcon';
 import RadioButton from '../../../../assets/images/png/RadioButton';
 import DefaultButton from '../../../../assets/images/svg/DefaultButton';
+import PlusIcon from '../../../../assets/images/svg/PLusIcon';
+import ChannelNameInputField from '../../../components/Community/CreateChannel/ChannelNameInputField';
 import DeleteChannelBottomSheet from '../../../components/Community/CreateChannel/DeleteChannelBottomSheet';
+import ManageCategoriesBottomSheet from '../../../components/Community/CreateChannel/ManageCategoriesBottomSheet';
+import { appColor } from '../../../constants';
 import { useAppSelector } from '../../../controller/hooks';
 import { ChannelCategoriesProps } from '../../../navigations/NavigationTypes';
+import ActionButton from '../../../shared/ActionButton';
+import ActionButton2 from '../../../shared/ActionButton2';
+import Header from '../../../shared/Feed/Header';
+import { sizes } from '../../../utils';
+const { height, width } = Dimensions.get('window');
+const size = new sizes(height, width);
 const ChannelCategories = ({ navigation }: ChannelCategoriesProps) => {
   const [showChannelNameInputField, setChannelNameInputVisibility] =
     useState(false);

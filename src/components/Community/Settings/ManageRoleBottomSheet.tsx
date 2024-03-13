@@ -1,28 +1,28 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  BackHandler,
-  Pressable,
-} from 'react-native';
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetView,
+  useBottomSheetDynamicSnapPoints,
+} from '@gorhom/bottom-sheet';
 import React, {
-  useRef,
-  useEffect,
   useCallback,
+  useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
+import {
+  BackHandler,
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import RadioButton from '../../../../assets/images/png/RadioButton';
+import DefaultButton from '../../../../assets/images/svg/DefaultButton';
 import { appColor } from '../../../constants';
 import { sizes } from '../../../utils';
 import CustomHandler from '../../Feed/CustomHandler';
-import DefaultButton from '../../../../assets/images/svg/DefaultButton';
-import RadioButton from '../../../../assets/images/png/RadioButton';
-import BottomSheet, {
-  BottomSheetBackdrop,
-  useBottomSheetDynamicSnapPoints,
-  BottomSheetView,
-} from '@gorhom/bottom-sheet';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 

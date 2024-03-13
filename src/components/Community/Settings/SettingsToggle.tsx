@@ -1,8 +1,8 @@
-import { View, Alert, Text, StyleSheet, Dimensions } from 'react-native';
 import React, { useState } from 'react';
-import { sizes } from '../../../utils';
+import { Alert, Dimensions, StyleSheet, Text, View } from 'react-native';
 import SwitchToggle from 'react-native-switch-toggle';
 import { appColor } from '../../../constants';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface SettingToggleProps {

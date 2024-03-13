@@ -1,28 +1,27 @@
-import React, { useState, useEffect, useCallback } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  Pressable,
-  Image,
-  Dimensions,
-  RefreshControl,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { appColor, fonts, images } from "../../constants";
-import { StatusBar } from "expo-status-bar";
-import CommunityHeader from "../../components/Community/CommunityHeader";
-import Camera from "../../../assets/images/svg/Camera";
+import AntDesign from "@expo/vector-icons/AntDesign";
 import { useFonts } from "expo-font";
-import Bell from "../../../assets/images/svg/Bell";
+import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View
+} from "react-native";
 import { Avatar } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
-import CommunityStepCard from "../../components/Community/CommunityStepCard";
-import { sizes } from "../../utils";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Bell from "../../../assets/images/svg/Bell";
+import Camera from "../../../assets/images/svg/Camera";
 import CommunityAbout from "../../components/Community/CommunityAbout";
 import CommunityFeed from "../../components/Community/CommunityFeed";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import CommunityHeader from "../../components/Community/CommunityHeader";
+import CommunityStepCard from "../../components/Community/CommunityStepCard";
+import { appColor, fonts, images } from "../../constants";
+import { useAppSelector } from "../../controller/hooks";
+import { sizes } from "../../utils";
 const { height, width } = Dimensions.get("window");
 const size = new sizes(height, width);
 

@@ -1,50 +1,48 @@
-import { useState, useRef, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
+import { useRef, useState } from 'react';
 import {
-  Text,
-  View,
-  StyleSheet,
   Animated,
   Dimensions,
-  SafeAreaView,
   FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import { storeDeviceTokenToFireStore } from '../../services/PushNotification';
-import { useFonts } from 'expo-font';
-import { updateToast } from '../../controller/FeedsController';
-import TransitionBackButton from '../../components/SignUp/TransitionBackButton';
-import { appColor, fonts } from '../../constants';
-import { sizes } from '../../utils';
-import { disableContinueButton } from '../../controller/UserController';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import TranslationForwardButton from '../../components/SignUp/TranslationForwardButton';
-import Verify from '../../components/SignUp/ConnectSocialsAndVerify/Verify';
-import { EmailLoginProps } from '../../navigations/NavigationTypes';
-import ChooseUsernameContent from '../../components/SignUp/ChooseUsername/UsernameContent';
-import ConnectSocials from '../../components/SignUp/ConnectSocials/ConnectSocials';
-import FindFriends from '../../components/SignUp/FindFriends/FindFriends';
-import ChooseProfilePics from '../../components/SignUp/ChooseProfilePics/ChooseProfilePics';
-import UploadImageModal from '../../components/SignUp/ChooseProfilePics/UploadImageModal';
-import EmailContent from '../../components/SignUp/EmailSignup/EmailContent';
-import ChooseNFT from '../../components/SignUp/ChooseProfilePics/ChooseNFT';
-import SelectedCollection from '../../components/SignUp/ChooseProfilePics/SelectedCollection';
-import { useNavigation } from '@react-navigation/native';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-
-import {
-  updateAccountInfo,
-  updateDidToken,
-  updateMetadata,
-  updateUserId,
-} from '../../controller/UserController';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Loader from '../../../assets/svg/Loader';
 import {
   checkSignup,
   signup,
   updateConnectedSocial,
   uploadProfileImage,
 } from '../../api';
-import Loader from '../../../assets/svg/Loader';
+import ChooseNFT from '../../components/SignUp/ChooseProfilePics/ChooseNFT';
+import ChooseProfilePics from '../../components/SignUp/ChooseProfilePics/ChooseProfilePics';
+import SelectedCollection from '../../components/SignUp/ChooseProfilePics/SelectedCollection';
+import UploadImageModal from '../../components/SignUp/ChooseProfilePics/UploadImageModal';
+import ChooseUsernameContent from '../../components/SignUp/ChooseUsername/UsernameContent';
+import ConnectSocials from '../../components/SignUp/ConnectSocials/ConnectSocials';
+import Verify from '../../components/SignUp/ConnectSocialsAndVerify/Verify';
+import EmailContent from '../../components/SignUp/EmailSignup/EmailContent';
+import FindFriends from '../../components/SignUp/FindFriends/FindFriends';
+import TransitionBackButton from '../../components/SignUp/TransitionBackButton';
+import TranslationForwardButton from '../../components/SignUp/TranslationForwardButton';
+import { appColor, fonts } from '../../constants';
+import { updateToast } from '../../controller/FeedsController';
+import {
+  disableContinueButton, updateAccountInfo,
+  updateDidToken,
+  updateMetadata,
+  updateUserId
+} from '../../controller/UserController';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { EmailLoginProps } from '../../navigations/NavigationTypes';
+import { storeDeviceTokenToFireStore } from '../../services/PushNotification';
+import { sizes } from '../../utils';
 import { setLoginSession } from '../../utils/session';
 
 const { width, height } = Dimensions.get('window');

@@ -1,22 +1,20 @@
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useState } from 'react';
 import {
-  View,
-  Text,
   Dimensions,
-  StyleSheet,
   FlatList,
   Pressable,
-  TouchableWithoutFeedback,
+  StyleSheet,
+  Text,
+  View
 } from 'react-native';
-import React, { useState } from 'react';
-import { sizes } from '../../../utils';
-import { appColor } from '../../../constants';
-import { useFocusEffect } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Earners from '../../../components/Rewards/UserDisplay/Earners';
-import { ranks } from '../../../utils/Rank.dummy';
-
 import MyEarning from '../../../components/Rewards/UserDisplay/MyRank';
+import { appColor } from '../../../constants';
 import useBackHandler from '../../../hooks/useBackhandler';
+import { sizes } from '../../../utils';
+import { ranks } from '../../../utils/Rank.dummy';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Rankings = () => {

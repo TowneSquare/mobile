@@ -1,15 +1,15 @@
-import { View, Text, Dimensions, Pressable, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
-import { sizes } from '../../../utils';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { appColor } from '../../../constants';
-import Header from '../../../shared/Feed/Header';
-import ContinueButton from '../../../shared/ContinueButton';
-import BackButton from '../../../shared/BackButton';
-import PrivacyBottomSheet from '../../../components/Community/Settings/PrivacyBottomSheet';
-import { CommunityPrivacyProps } from '../../../navigations/NavigationTypes';
-import SetupPrivacyPublicIcon from '../../../../assets/images/svg/SetupPrivacyPublicIcon';
 import SetupPrivacyPrivateIcon from '../../../../assets/images/svg/SetupPrivacyPrivateIcon';
+import SetupPrivacyPublicIcon from '../../../../assets/images/svg/SetupPrivacyPublicIcon';
+import PrivacyBottomSheet from '../../../components/Community/Settings/PrivacyBottomSheet';
+import { appColor } from '../../../constants';
+import { CommunityPrivacyProps } from '../../../navigations/NavigationTypes';
+import BackButton from '../../../shared/BackButton';
+import ContinueButton from '../../../shared/ContinueButton';
+import Header from '../../../shared/Feed/Header';
+import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 
 const size = new sizes(height, width);

@@ -1,4 +1,5 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { useMemo } from 'react';
 import { Dimensions } from 'react-native';
 import { sizes } from '../../utils';
 import { useMemo, useEffect } from 'react';
@@ -6,8 +7,8 @@ import BookMarks from '../../screens/DrawerScreens/BookMarks';
 import Calender from '../../screens/DrawerScreens/Calendar';
 import Settings from '../../screens/DrawerScreens/Settings';
 import Support from '../../screens/DrawerScreens/Support';
-import CommunityInfoScreen from '../../screens/Community/JoinComm/CommunityInfoScreen';
 import TowneSquarePurpleScreen from '../../screens/DrawerScreens/TowneSquarePurpleScreen';
+import { sizes } from '../../utils';
 import BottomTabNavigation from './BottomTabNavigation';
 import FeedDrawerContent from '../../components/DrawerContent/FeedDrawerContent';
 import CommunityDrawerContent from '../../components/DrawerContent/CommunityDrawerContent';
