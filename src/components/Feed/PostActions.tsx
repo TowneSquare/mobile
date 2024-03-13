@@ -572,6 +572,7 @@ const PostActions = ({
                   wallet,
                   nickname,
                   screen: currentScreen,
+                  userId,
                 })
               );
             }

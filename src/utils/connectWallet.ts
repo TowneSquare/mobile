@@ -51,9 +51,9 @@ export const handlWalletConnect = async (walletName: Wallet) => {
     let base64ConnectData: string;
 
     // Get Dapp Public key
-    const { publicKeyString } = await getDappPublicKey();
+    const { publicKeyString, Keys } = await getDappPublicKey();
     connectData.dappEncryptionPublicKey = publicKeyString;
-
+    console.log(Keys);
     // Convert the connect data to base64
     base64ConnectData = Buffer.from(JSON.stringify(connectData)).toString(
       'base64'
@@ -95,6 +95,8 @@ export const decodePetraWalletConnectResponse = async (response: {
     Buffer.from(response.data, 'base64').toString('utf-8')
   );
 
+  console.log(responseDataJson);
+
   // TODO: Add the logic to generate a shared secret to encrypt the payload to be submitted to petra
 
   // const nonce = nacl.randomBytes(nacl.secretbox.nonceLength);
@@ -105,7 +107,11 @@ export const decodePetraWalletConnectResponse = async (response: {
   //   'hex'
   // );
   // const dappEncryptionPublicKey = await getDappPublicKey();
-
+  // Object {
+  //   "address": "0x0c75ecaf74545a882e32e3c1f07c016f759814137aa15398bcb19ee6c7925ca3",
+  //   "petraPublicEncryptedKey": "0xd934cdb38c35f1e8772bee8c88139f6a01406d58a9f1736f30edea399a660244",
+  //   "publicKey": "0x63fe476f4300874a298124b2701018b600f0e16a105f144fd6e4080eafac10dc",
+  // }
   // const sharedKey = nacl.box.before(
   //   petraEncryptedPublicKey,
   //   Buffer.from(dappEncryptionPublicKey, 'hex')
@@ -368,6 +374,7 @@ export const sendPontenTransaction = async (
   const redirect_link = Linking.createURL(`/${screen}`);
 
   const APT_DECIMAL = 10 ** 8;
+
   const transaction = {
     type: 'entry_function_payload',
     function: '0x1::coin::transfer',
@@ -384,6 +391,7 @@ export const sendPontenTransaction = async (
   const base64Payload = Buffer.from(JSON.stringify(transaction)).toString(
     'base64'
   );
+
   const url = `pontem-wallet://mob2mob?payload=${base64Payload}&app_info=${base64AppInfo}`;
 
   Linking.openURL(url);

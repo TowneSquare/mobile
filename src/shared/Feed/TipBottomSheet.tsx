@@ -15,6 +15,10 @@ import BottomSheet, {
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
+import {
+  getuserDeviceToken,
+  sendTipNotification,
+} from '../../services/PushNotification';
 import SuccesGreenIcon from '../../../assets/images/svg/SuccessGreenIcon';
 import InfoIcon from '../../../assets/images/svg/InfoIcon';
 import * as Animatable from 'react-native-animatable';
@@ -48,6 +52,9 @@ const TipBottomSheet = () => {
   const walletAddress = useAppSelector(
     (state) => state.USER.UserData.aptosWallet
   );
+  const currentUserName = useAppSelector(
+    (state) => state.USER.UserData.username
+  );
   const {
     visibility,
     username,
@@ -56,6 +63,7 @@ const TipBottomSheet = () => {
     nickname,
     screen,
     tipResponse,
+    userId,
   } = useAppSelector((state) => ({
     visibility: state.FeedsSliceController.tipBottomSheet.status,
     username: state.FeedsSliceController.tipBottomSheet.username,
@@ -64,6 +72,7 @@ const TipBottomSheet = () => {
     nickname: state.FeedsSliceController.tipBottomSheet.nickname,
     screen: state.FeedsSliceController.tipBottomSheet.screen,
     tipResponse: state.FeedsSliceController.tipResponse,
+    userId: state.FeedsSliceController.tipBottomSheet.userId,
   }));
 
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -95,6 +104,7 @@ const TipBottomSheet = () => {
             username: '',
             wallet: '',
             nickname: '',
+            userId: '',
           })
         );
         return true;
@@ -114,12 +124,28 @@ const TipBottomSheet = () => {
       setTipStatus(STATUS.idle);
     } else if (tipResponse === 'approved') {
       setTipStatus(STATUS.success);
+      (async () => {
+        await getuserDeviceToken(userId)
+          .then(async (token) => {
+            console.log(`Gotten token here: ${token}`);
+            token &&
+              (await sendTipNotification(token, {
+                title: 'TowneSquare',
+                msg: `You have just received ${tip} APT as tip from ${currentUserName}`,
+              }));
+          })
+          .then((res) => {
+            console.log('Tip notification sent');
+          })
+          .catch((err) => console.log(err));
+      })();
     } else if (tipResponse === 'rejected') {
       setTipStatus(STATUS.idle);
     } else {
       setTipStatus(STATUS.idle);
     }
   }, [tipResponse]);
+  console.log(wallet)
   const {
     animatedHandleHeight,
     animatedSnapPoints,
@@ -141,6 +167,7 @@ const TipBottomSheet = () => {
         username: '',
         wallet: '',
         nickname: '',
+        userId: '',
       })
     );
     dispatch(updateTipResponse(undefined));
@@ -311,6 +338,7 @@ const TipBottomSheet = () => {
                           username: '',
                           wallet: '',
                           nickname: '',
+                          userId: '',
                         })
                       )
                     }

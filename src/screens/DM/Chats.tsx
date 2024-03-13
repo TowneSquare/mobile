@@ -63,7 +63,7 @@ const Chats = () => {
 
               // Get the contact details
               const contactDetails = await getUserInfo(contactid, token);
-              console.log(contactDetails);
+             
               const newChatDoc: ContactsChatModel = {
                 ...chat,
                 nickname: contactDetails.nickname,

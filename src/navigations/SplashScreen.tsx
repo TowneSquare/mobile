@@ -38,7 +38,7 @@ const SplashScreen = () => {
 
       // Store device token to firestore
       if (userInfo) {
-        await storeDeviceTokenToFireStore(userId, deviceToken);
+        deviceToken && (await storeDeviceTokenToFireStore(userId, deviceToken));
         await AsyncStorage.setItem('userData', JSON.stringify(userInfo));
         dispatch(updateUserData(userInfo));
         dispatch(getUserData({ userId, token: token }));

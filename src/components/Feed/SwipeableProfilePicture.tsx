@@ -186,6 +186,7 @@ const ProfilePicture = ({
                 wallet,
                 nickname,
                 screen: currentScreen,
+                userId,
               })
             );
           }

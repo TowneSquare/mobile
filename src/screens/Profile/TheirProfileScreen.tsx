@@ -106,7 +106,7 @@ const TheirProfileScreen = ({
 
   // params from feed, and response from signing transaction
   const { userId, username, nickname, response } = route.params;
-  console.log(userId, username, nickname, response);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [aptosName, setAptosName] = useState<string>('.apt');
 
@@ -444,6 +444,7 @@ const TheirProfileScreen = ({
                       nickname: userInfo.data?.nickname,
                       screen:
                         `TheirProfileScreen/${userId}/${username}/${nickname}` as any,
+                      userId,
                     })
                   );
                 }}

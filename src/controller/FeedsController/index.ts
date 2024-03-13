@@ -27,6 +27,7 @@ interface FeedController {
     wallet: string;
     nickname: string;
     screen?: keyof RootStackParamList | undefined;
+    userId: string;
   };
   selectedSwipeablePFPId: string;
   AttachNftType: 'createPost' | 'DM';
@@ -59,6 +60,7 @@ const initialState: FeedController = {
     wallet: '',
     nickname: '',
     screen: undefined,
+    userId: '',
   },
   selectedSwipeablePFPId: '',
   AttachNftType: 'createPost',
@@ -158,6 +160,7 @@ export const FeedsSlice = createSlice({
         wallet: string;
         nickname: string;
         screen?: keyof RootStackParamList | undefined;
+        userId: string;
       }>
     ) => {
       state.tipBottomSheet = action.payload;

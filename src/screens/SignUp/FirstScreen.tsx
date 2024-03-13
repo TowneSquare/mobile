@@ -90,7 +90,8 @@ const FirstScreen = ({ magic }: FirstScreenProps) => {
       if (res.isExist && res.isExist == true) {
         dispatch(updateUserId(res.userId));
         await setLoginSession(res.wallet, res.userId);
-        await storeDeviceTokenToFireStore(res.userId, deviceToken);
+        deviceToken &&
+          (await storeDeviceTokenToFireStore(res.userId, deviceToken));
         await AsyncStorage.setItem('user_id', res.userId);
         navigation.navigate('Congratulations');
       } else {
