@@ -25,7 +25,7 @@ const CreateCommunity1 = () => {
   return (
     <SafeAreaView>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Communities</Text>
+        <Text style={styles.headerText}>Town</Text>
       </View>
       <ImageBackground
         style={{

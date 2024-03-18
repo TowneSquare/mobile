@@ -9,7 +9,7 @@ export function SearchFuntion<T extends Tags>(
   searchWord: string
 ): T[] {
   const newData = tags.filter((item: T) => {
-    const tagDetails = item.name ? item.name.toUpperCase() : "".toUpperCase();
+    const tagDetails = item.name ? item.name.toUpperCase() : ''.toUpperCase();
     const search = searchWord.toUpperCase();
     return tagDetails.includes(search);
   });
@@ -19,7 +19,7 @@ export function ExtractTags(sentence: string): string[] {
   const tags: string[] = [];
   const words = sentence.split(/\s+/);
   words.forEach((word) => {
-    if (word.startsWith("#") || word.startsWith("@") || word.startsWith("$")) {
+    if (word.startsWith('#') || word.startsWith('@') || word.startsWith('$')) {
       tags.push(word);
     }
   });
@@ -32,7 +32,7 @@ export const getPostTime = (time: string): string => {
   const timeElapsed = currentTime - postCreationTime;
   // console.log(timeElapsed);
   if (timeElapsed == 0) {
-    return "Just now";
+    return 'Just now';
   } else if (timeElapsed <= 59) {
     return `${timeElapsed}s`;
   } else if (timeElapsed > 59 && timeElapsed <= 3600) {
@@ -55,18 +55,18 @@ export const getPostTime = (time: string): string => {
 
 const getMonth = (index: number): string => {
   const MONTHS = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
   return MONTHS[index];
 };
@@ -77,9 +77,19 @@ export const getCreatedTime = (time: string) => {
   ).getUTCFullYear()}`;
 };
 
-export function Search<T extends ItemWithName>(items: T[], searchTerm: string): T[] {
+export function Search<T extends ItemWithName>(
+  items: T[],
+  searchTerm: string
+): T[] {
   const lowerCaseSearchTerm = searchTerm.toLowerCase();
   return items.filter((item) =>
     item.name.toLowerCase().includes(lowerCaseSearchTerm)
   );
+}
+export function isUrlEncoded(str: string) {
+  try {
+    return decodeURIComponent(str) !== str;
+  } catch (err) {
+    return false;
+  }
 }

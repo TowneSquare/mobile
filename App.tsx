@@ -7,15 +7,15 @@ import { TextDecoder, TextEncoder } from 'text-encoding';
 import { RootStackParamList } from './src/navigations/NavigationTypes';
 import InitializeSocket from './src/utils/InitializeSocket';
 // import Navigations from './src/navigations/InApp/InAppNavigations';
-import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
+import { AptosWalletAdapterProvider } from '@aptos-labs/wallet-adapter-react';
 import { AptosExtension } from '@magic-ext/aptos';
 import { OAuthExtension } from '@magic-ext/react-native-expo-oauth';
 import { Magic } from '@magic-sdk/react-native-expo';
-import { MartianWallet } from "@martianwallet/aptos-wallet-adapter";
+import { MartianWallet } from '@martianwallet/aptos-wallet-adapter';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinkingOptions } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
-import { PetraWallet } from "petra-plugin-wallet-adapter";
+import { PetraWallet } from 'petra-plugin-wallet-adapter';
 import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
@@ -25,9 +25,7 @@ import { getUserInfo } from './src/api';
 import CreateChannelBottomSheet from './src/components/DrawerContent/CreateChannelBottomSheet';
 import LogoutBottomsheet from './src/components/Feed/LogoutBottomsheet';
 import SelectUsersBottomsheet from './src/components/ProfileSendToken/SelectUsersBottomsheet';
-import {
-  updateUserData
-} from './src/controller/UserController';
+import { updateUserData } from './src/controller/UserController';
 import { store } from './src/controller/store';
 import Navigations from './src/navigations/Navigations';
 import UsePushNotification from './src/services/PushNotification';
@@ -55,6 +53,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       SinglePost: 'SinglePost',
       ViewImageScreen: 'ViewImageScreen',
       VideoPlayer: 'VideoPlayer',
+      SendToken: 'SendToken/:address/:pfp/:receiverId/:username/:nickname',
       TheirProfileScreen: 'TheirProfileScreen/:userId/:username/:nickname',
       DrawerNavigation: {
         path: 'DrawerNavigation',
@@ -85,19 +84,6 @@ export default function App() {
   useEffect(() => {
     // fetchData();
   }, []);
-  async function fetchData() {
-    const token = await AsyncStorage.getItem('user_token');
-    const userId = await AsyncStorage.getItem('user_id');
-    if (userId && token) {
-      const userInfo = await getUserInfo(userId, token);
-      if (userInfo) {
-        await AsyncStorage.setItem('userData', JSON.stringify(userInfo));
-        store.dispatch(updateUserData(userInfo));
-      }
-    } else {
-      return false;
-    }
-  }
 
   // useEffect(() => {
   //   const result = getDataStoredToLocalStorage();
@@ -114,27 +100,27 @@ export default function App() {
     magic,
   };
 
-  const wallets = [new PetraWallet(), new MartianWallet()]
+  const wallets = [new PetraWallet(), new MartianWallet()];
 
   return (
     <GestureHandlerRootView style={styles.gestureHandler}>
       <AptosWalletAdapterProvider plugins={wallets}>
-      <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <magic.Relayer />
-          <NavigationContainer linking={linking}>
-            {/* <SwitchNavigator screenProps={magic} /> */}
-            <Navigations magicProps={magicProps} />
-            <CreateChannelBottomSheet />
-            <SelectUsersBottomsheet />
-            <LogoutBottomsheet />
-            <UsePushNotification />
-          </NavigationContainer>
-          <ToastWrapper />
-          <InitializeSocket />
-          {/* <View style={styles.overlay} /> */}
-        </Provider>
-      </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <Provider store={store}>
+            <magic.Relayer />
+            <NavigationContainer linking={linking}>
+              {/* <SwitchNavigator screenProps={magic} /> */}
+              <Navigations magicProps={magicProps} />
+              <CreateChannelBottomSheet />
+              <SelectUsersBottomsheet />
+              <LogoutBottomsheet />
+              <UsePushNotification />
+            </NavigationContainer>
+            <ToastWrapper />
+            <InitializeSocket />
+            {/* <View style={styles.overlay} /> */}
+          </Provider>
+        </QueryClientProvider>
       </AptosWalletAdapterProvider>
     </GestureHandlerRootView>
   );

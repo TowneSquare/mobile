@@ -47,7 +47,15 @@ const size = new sizes(height, width);
 const Conversation = ({
   navigation,
   route: {
-    params: { chatId, name, nickname, pfp },
+    params: {
+      chatId,
+      name,
+      nickname,
+      pfp,
+      address,
+      receiverNickname,
+      receiverUsername,
+    },
   },
 }: ConversationProps) => {
   const dispatch = useAppDispatch();
@@ -226,22 +234,18 @@ const Conversation = ({
   // Sort the conversation based on consecutive user ids
   const sortedConversation =
     chatUtils.sortMessagesBasedOnConsecutiveUserId(data);
- 
+
   const [showMoreBottomSheet, setMoreBottomsheetVisibility] = useState(false);
   const [
     showDeleteConversationBottomSheet,
     setDeleteConversationBottomSheetVisibility,
   ] = useState(false);
 
-
   const [showUnblocksheet, setUnblockVisibility] = useState(false);
   const [lastVisible, setLastVisible] = useState(null);
   const [showBlockUserBottomsheet, setBlockUserVisibility] = useState(false);
 
-
- 
   const [showDeleteChatBottomsheet, setDeleteChatVisibility] = useState(false);
-
 
   const setVisibilityTrue = () => {
     setShowReplyVisibility(true);
@@ -275,8 +279,6 @@ const Conversation = ({
 
       // Append new messages to the existing ones
       setMessage((prevMessages) => [...prevMessages, ...newMessages]);
-
-     
     }
   };
 
@@ -374,6 +376,7 @@ const Conversation = ({
             </Pressable>
           ) : (
             <ChatTextInput
+              address={address}
               nickname={nickname}
               pfp={pfp}
               ref={chatInputRef}
@@ -382,6 +385,8 @@ const Conversation = ({
               showReplying={showReplying}
               chatId={chatId}
               receiverId={contactId}
+              receiverNickname={receiverNickname}
+              receiverUsername={receiverUsername}
             />
           )
         ) : null}

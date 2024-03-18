@@ -1,10 +1,5 @@
 import { StackActions } from '@react-navigation/native';
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -20,7 +15,7 @@ import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const TokenSuccess = ({ navigation, route }: TokenSuccessProps) => {
-  const { popNo } = route.params;
+  const { popNo, amount, pfp, username, nickname, tokenSymbol } = route.params;
   const dispatch = useAppDispatch();
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -40,7 +35,9 @@ const TokenSuccess = ({ navigation, route }: TokenSuccessProps) => {
           alignSelf: 'center',
         }}
       />
-      <Text style={styles.text}>You've successfully sent 20 USDC to</Text>
+      <Text style={styles.text}>
+        You've successfully sent {amount} {tokenSymbol} to
+      </Text>
       <View
         style={{
           flexDirection: 'row',
@@ -50,11 +47,7 @@ const TokenSuccess = ({ navigation, route }: TokenSuccessProps) => {
           marginTop: size.getHeightSize(32),
         }}
       >
-        <Avatar
-          source={images.siothian}
-          rounded
-          size={size.getHeightSize(64)}
-        />
+        <Avatar source={{ uri: pfp }} rounded size={size.getHeightSize(64)} />
         <View>
           <View
             style={{
@@ -63,10 +56,10 @@ const TokenSuccess = ({ navigation, route }: TokenSuccessProps) => {
               alignItems: 'center',
             }}
           >
-            <Text style={styles.name}>UsernameX</Text>
+            <Text style={styles.name}>{username}</Text>
             <GreyBadge size={size.getHeightSize(24)} />
           </View>
-          <Text style={styles.username}>@jczhang</Text>
+          <Text style={styles.username}>{nickname}</Text>
         </View>
       </View>
 
@@ -95,7 +88,6 @@ const TokenSuccess = ({ navigation, route }: TokenSuccessProps) => {
           }}
         />
       </View>
-    
     </SafeAreaView>
   );
 };

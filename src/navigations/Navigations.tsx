@@ -2,6 +2,7 @@ import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
+import CommunityInfoScreen from '../screens/Community/JoinComm/CommunityInfoScreen';
 import { Animated, Easing } from 'react-native';
 import CreatePost from '../screens/Feed/CreatePost';
 import NftCollectionScreen from '../screens/Feed/NftCollectionScreen';
@@ -77,6 +78,7 @@ import TownesquareVerification from '../screens/Settings/TownesquareVerification
 import ChooseWallet from '../screens/SignUp/ChooseWallet';
 import Congratulations from '../screens/SignUp/Congratulations';
 import SwapMain from '../screens/Swap/SwapMain';
+import ChannelChat from '../screens/Community/CreateChannel/ChannelChat';
 const Navigations = ({ magicProps }: { magicProps: any }) => {
   const Stack = createStackNavigator<RootStackParamList>();
   const config = {
@@ -225,13 +227,13 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
           headerShown: false,
         }}
       />
-      {/* <Stack.Screen
-        name="ProfileFollowersTab"
-        component={ProfileFollowersTab}
+      <Stack.Screen
+        name="ChannelChat"
+        component={ChannelChat}
         options={{
           headerShown: false,
         }}
-      /> */}
+      />
       <Stack.Screen
         name="FollowersScreen"
         component={FollowersScreen}
@@ -297,13 +299,13 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
         }}
       />
       {/* Join Community */}
-      {/* <Stack.Screen
+      <Stack.Screen
         name="CommunityInfoScreen"
         component={CommunityInfoScreen}
         options={{
           headerShown: false,
         }}
-      /> */}
+      />
       <Stack.Screen
         name="CommunityWelcomeScreen"
         component={CommunityWelcomeScreen}

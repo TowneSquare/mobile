@@ -1,3 +1,5 @@
+import ForYouPosts from './ForYouPosts';
+import CommingSoon from './CommingSoon';
 import Feather from '@expo/vector-icons/Feather';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
@@ -6,11 +8,16 @@ import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BarCode from '../../../assets/images/svg/Barcode';
 import More from '../../../assets/images/svg/More';
+import MainTab from '../../navigations/InApp/MainTabNavigation';
+import { sizes } from '../../utils';
 import NotificationBell from '../../components/Feed/NotificationBell';
 import { appColor, fonts } from '../../constants';
 import { updateReceiveModalState } from '../../controller/FeedsController';
-import { getWalletBalance } from '../../utils/connectWallet';
+import { getWalletBalance } from '../../utils/walletFunctions';
 import { useRoute } from '@react-navigation/native';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+const { height, width } = Dimensions.get('window');
+const size = new sizes(height, width);
 const Main = () => {
   const route = useRoute<any>();
   const pontemConnectionResponse = route.params;

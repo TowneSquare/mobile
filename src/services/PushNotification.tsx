@@ -5,6 +5,7 @@ import * as Notifications from 'expo-notifications';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firestoreDB } from '../../config/firebase.config';
 import { updateUserDeviceToken } from '../controller/UserController';
 import { useAppDispatch } from '../controller/hooks';
@@ -27,6 +28,9 @@ export const storeDeviceTokenToFireStore = async (
     console.error('Error storing device token: ', error);
   }
 };
+
+
+
 export const getuserDeviceToken = async (userId: string) => {
   try {
     const userRef = doc(firestoreDB, 'users_device_token', userId);
@@ -189,6 +193,9 @@ export default function usePushNotification() {
             name: data.name,
             nickname: data.nickname,
             pfp: data.pfp,
+            address: '',
+            receiverNickname: '',
+            receiverUsername: '',
           });
         }
       });

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -8,22 +8,24 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-} from "react-native";
-import { getUserApt, getUserTokens } from "../../api/hooks/wallet";
-import Token from "../../components/Wallet/Token";
-import Transaction from "../../components/Wallet/Transaction";
-import WalletCard from "../../components/Wallet/WalletCard";
-import { appColor, images } from "../../constants";
-import { useAppDispatch, useAppSelector } from "../../controller/hooks";
-import { TokenDetails } from "../../models/wallet";
-import { sizes } from "../../utils";
-const { height, width } = Dimensions.get("window");
+} from 'react-native';
+import { getAptMarketData } from '../../utils/walletFunctions';
+import { getUserApt, getUserTokens } from '../../api/hooks/wallet';
+import Token from '../../components/Wallet/Token';
+import Transaction from '../../components/Wallet/Transaction';
+import WalletCard from '../../components/Wallet/WalletCard';
+import { appColor, images } from '../../constants';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
+import { TokenDetails } from '../../models/wallet';
+import { sizes } from '../../utils';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 const Wallet = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [isWalletBalanceLoading, setLoading] = useState(false);
   const [tokenData, setTokenData] = useState<TokenDetails[]>([]);
-  const [accountAptValue, setAccountAptValue] = useState<string>("");
+  const [accountAptValue, setAccountAptValue] = useState<string>('');
+  const [totalAssetInUSD, setTotalAssetInUSD] = useState('0');
   const dispatch = useAppDispatch();
   const { APTOS_DOMAIN_NAME, address, token } = useAppSelector((state) => ({
     APTOS_DOMAIN_NAME: state.USER.aptosName,
@@ -33,25 +35,24 @@ const Wallet = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!token) {
-        return;
-      }
-      const response = await getUserApt(token);
-      console.log("getUserApt data", response);
-      setAccountAptValue(
-        response?.data?.ansName.map((apt) => `${apt}.apt`).join(", ") || ""
-      );
+      const data = await getAptMarketData(address, () => {});
+      setAccountAptValue(data.assetBalance.APT.toString());
+      setTokenData(data.formattedData);
+      setTotalAssetInUSD(data.totalValueInUSD.toFixed(2));
     };
 
     fetchData();
-  }, [token]);
-
-  const { tokens, error, isLoading, refetch, addressBalance } =
-    getUserTokens(address);
+  }, []);
 
   // Handle reload
   const handleReload = async () => {
-    refetch();
+    const fetchData = async () => {
+      const data = await getAptMarketData(address, () => {});
+      setAccountAptValue(data.assetBalance.APT.toString());
+      setTokenData(data.formattedData);
+      setTotalAssetInUSD(data.totalValueInUSD.toFixed(2));
+    };
+    fetchData();
   };
   return (
     <SafeAreaView
@@ -70,11 +71,15 @@ const Wallet = () => {
       >
         <WalletCard
           APTOS_DOMAIN_NAME={
-            APTOS_DOMAIN_NAME ? APTOS_DOMAIN_NAME : "UNAVAILABLE"
+            APTOS_DOMAIN_NAME ? APTOS_DOMAIN_NAME : 'UNAVAILABLE'
           }
           WALLET_ADDRESS={address}
-          addressBalance={addressBalance}
-          aptValue={accountAptValue}
+          addressBalance={totalAssetInUSD}
+          aptValue={
+            isNaN(parseFloat(accountAptValue))
+              ? '...'
+              : parseFloat(accountAptValue).toFixed(3)
+          }
         />
 
         {isWalletBalanceLoading ? (
@@ -88,8 +93,8 @@ const Wallet = () => {
         ) : (
           <>
             <Text style={styles.text}>Token</Text>
-            {tokens &&
-              tokens.map((token, index) => (
+            {tokenData &&
+              tokenData.map((token, index) => (
                 <Token
                   key={index}
                   name={token.assetSymbol}
@@ -146,7 +151,7 @@ const styles = StyleSheet.create({
   text: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(20),
-    fontFamily: "Outfit-SemiBold",
+    fontFamily: 'Outfit-SemiBold',
     lineHeight: size.getHeightSize(24),
     letterSpacing: 0.4,
     marginTop: size.getHeightSize(24),

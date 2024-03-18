@@ -2,9 +2,9 @@ import {
   NavigationProp,
   ParamListBase,
   RouteProp,
-} from "@react-navigation/native";
-import { AssetsData } from "../controller/UserController/models";
-import { PostData } from "../controller/createPost";
+} from '@react-navigation/native';
+import { AssetsData } from '../controller/UserController/models';
+import { PostData } from '../controller/createPost';
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
@@ -21,14 +21,14 @@ interface PetraWalletResponse {
 type SelectedSuperStarCollectionScreenParameter = {
   [SelectedSuperStarCollectionScreen: string]: {
     title: string;
-    nfts: Array<AssetsData>
+    nfts: Array<AssetsData>;
   };
 };
 
 type SelectedCollectionScreen = {
   [SelectedCollectionScreen: string]: {
     title: string;
-    nfts: Array<AssetsData>
+    nfts: Array<AssetsData>;
   };
 };
 
@@ -95,7 +95,7 @@ export type RootStackParamList = {
   NftCollectionScreen: undefined;
   SelectedCollectionScreen: {
     title: string;
-    nfts: Array<AssetsData>
+    nfts: Array<AssetsData>;
   };
   Collection: undefined;
   Profile: undefined;
@@ -104,7 +104,7 @@ export type RootStackParamList = {
   SuperStarCollectionScreen: undefined;
   SelectedSuperStarCollectionScreen: {
     title: string;
-    nfts: Array<AssetsData>
+    nfts: Array<AssetsData>;
   };
   EditProfileScreen: undefined;
   ProfileFollowersTab: undefined;
@@ -132,6 +132,7 @@ export type RootStackParamList = {
   CreateCommunity1: undefined;
   CreateCommunitySuccessScreen: undefined;
   CommunityScreen: undefined;
+  
   ExploreCommunityScreen: undefined;
   CommunitySettings: undefined;
   GeneralSettings: undefined;
@@ -168,10 +169,25 @@ export type RootStackParamList = {
     name: string;
     nickname: string;
     pfp: string;
+    address: string;
+    receiverNickname: string;
+    receiverUsername: string;
   };
-  SendToken: undefined;
+  SendToken: {
+    pfp: string;
+    username: string;
+    nickname: string;
+    address: string;
+    receiverId: string;
+    response?: 'approved' | 'rejected' | 'dismissed';
+  };
   TokenSuccess: {
     popNo: number;
+    amount: string;
+    pfp: string;
+    username: string;
+    nickname: string;
+    tokenSymbol: string;
   };
   Offerforsale: undefined;
   NFTOffer: {
@@ -233,6 +249,11 @@ type TokenGateSettingsCompleteParams = {
 type TokenSuccessParams = {
   [Offerforsale: string]: {
     popNo: number;
+    amount: string;
+    pfp: string;
+    username: string;
+    nickname: string;
+    tokenSymbol: string;
   };
 };
 type ViewRolesParams = {
@@ -295,8 +316,23 @@ type ConversationParameter = {
     name: string;
     nickname: string;
     pfp: string;
+    address: string;
+    receiverNickname: string;
+    receiverUsername: string;
   };
 };
+
+type SendTokenParameter = {
+  [SendToken: string]: {
+    pfp: string;
+    username: string;
+    nickname: string;
+    address: string;
+    receiverId: string;
+    response?: 'approved' | 'rejected' | 'dismissed';
+  };
+};
+
 export type FirstScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'FirstScreen'>;
   magic: any;
@@ -400,7 +436,7 @@ export type NftCollectionScreenProps = {
 export type SelectedCollectionScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'SelectedCollectionScreen'>;
   magic: any;
-  route: RouteProp<SelectedCollectionScreen, "SelectedCollectionScreen">;
+  route: RouteProp<SelectedCollectionScreen, 'SelectedCollectionScreen'>;
 };
 export type SearchScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'SearchScreen'>;
@@ -637,7 +673,7 @@ export type ConversationProps = {
 export type SendTokenProps = {
   navigation: NavigationProp<RootStackParamList, 'SendToken'>;
   magic: any;
-  route: RouteProp<ParamListBase, 'SendToken'>;
+  route: RouteProp<SendTokenParameter, 'SendToken'>;
 };
 export type TokenSuccessProps = {
   navigation: NavigationProp<RootStackParamList, 'TokenSuccess'>;
