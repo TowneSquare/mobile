@@ -28,7 +28,10 @@ import FollowIcon from "../../../../assets/images/svg/FollowIcon";
 import { updateTipBottomSheet } from "../../../controller/FeedsController";
 const Tab = createMaterialTopTabNavigator();
 import ViewSuperStarsModal from "./ViewSuperStarsModal";
-import { getUserData, updateUserData } from "../../../controller/UserController";
+import {
+  getUserData,
+  updateUserData,
+} from "../../../controller/UserController";
 import { getOnlyUserPost } from "../../../controller/createPost";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { firestoreDB } from "../../../../config/firebase.config";
@@ -41,8 +44,11 @@ import { NotifyOnChangeProps } from "@tanstack/query-core";
 import { useFocusEffect } from "@react-navigation/native";
 import { useAptosName } from "../../../api/hooks";
 import Loader from "../../../../assets/svg/Loader";
-import { batch } from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { batch } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Aptos, AptosConfig, MoveOption, MoveString, Network, U8 } from "@aptos-labs/ts-sdk";
+import { Order_By } from "aptos";
+import { pontemCreateUserTransaction } from "../../../utils/connectWallet";
 
 type SuperStarReducerState = {
   showSuperStarModal: boolean;
@@ -114,12 +120,12 @@ const About = ({ route }) => {
   async function getUserDataFromStorage() {
     if (!USERDATA) {
     }
-    const userData = await AsyncStorage.getItem('userData')?.then((data) =>
+    const userData = await AsyncStorage.getItem("userData")?.then((data) =>
       JSON.parse(data)
     );
     console.log(userData);
-    const token = await AsyncStorage.getItem('user_token');
-    console.log(token)
+    const token = await AsyncStorage.getItem("user_token");
+    console.log(token);
     if (userData) {
       batch(() => {
         dispatch(updateUserData(userData));
@@ -164,7 +170,7 @@ const About = ({ route }) => {
   );
 
   const Posts = () => {
-    console.log(onlyUserPost, 'onlyUserPost');
+    console.log(onlyUserPost, "onlyUserPost");
     if (onlyUserPost.length > 0) {
       return onlyUserPost.map((userpost) => (
         <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
@@ -178,8 +184,8 @@ const About = ({ route }) => {
           </Text>
           <Pressable
             onPress={() => {
-              navigate('CreatePost', {
-                whichPost: 'singlePost',
+              navigate("CreatePost", {
+                whichPost: "singlePost",
               });
             }}
             style={styles.buttonView}
@@ -223,8 +229,8 @@ const About = ({ route }) => {
           </Text>
           <Pressable
             onPress={() => {
-              navigate('CreatePost', {
-                whichPost: 'singlePost',
+              navigate("CreatePost", {
+                whichPost: "singlePost",
               });
             }}
             style={styles.buttonView}
@@ -236,7 +242,7 @@ const About = ({ route }) => {
     }
   };
 
- console.log(profilePics, "pics")
+  console.log(profilePics, "pics");
 
   const POST_MEDIA_REPLIES = () => {
     if (view == 2) {
@@ -248,6 +254,23 @@ const About = ({ route }) => {
     if (view == 0) {
       return Media();
     }
+  };
+
+  const config = new AptosConfig({
+    network: Network.TESTNET,
+  });
+  const aptos = new Aptos(config);
+
+  const referrer = new MoveOption<MoveString>(undefined)
+
+  const getNFT = async () => {
+    await pontemCreateUserTransaction(
+      "0xf657dd8a6f5fb6da917d95c70f53244a424461a89b3f1fc7e193874d01cb3457",
+      "1111",
+      referrer,
+      "pelumi",
+      "Congratulations"
+    );
   };
 
   const handleFollow = () => {
@@ -360,12 +383,23 @@ const About = ({ route }) => {
               <Text style={styles.aboutText}>{bio}</Text>
             </View>
           ) : (
-            <Text
-              onPress={() => navigate('EditProfileScreen')}
-              style={styles.addSomething}
-            >
-              Add something about you
-            </Text>
+            <>
+              <Text
+                onPress={() => navigate("EditProfileScreen")}
+                style={styles.addSomething}
+              >
+                Add something about you
+              </Text>
+              <Pressable onPress={getNFT}>
+                <Text
+                  style={{
+                    color: appColor.kWhiteColor,
+                  }}
+                >
+                  get NFT
+                </Text>
+              </Pressable>
+            </>
           )}
         </View>
         <View>
@@ -691,43 +725,43 @@ const styles = StyleSheet.create({
     paddingHorizontal: size.getWidthSize(16),
   },
   emptyPostView: {
-    alignSelf: 'center',
-    justifyContent: 'center',
+    alignSelf: "center",
+    justifyContent: "center",
     marginTop: size.getHeightSize(64),
     marginBottom: size.getHeightSize(64),
   },
   emptyPostText: {
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     color: appColor.kTextColor,
-    textAlign: 'center',
+    textAlign: "center",
   },
   emptyPostText2: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(17.64),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.kGrayscale,
-    textAlign: 'center',
+    textAlign: "center",
   },
   buttonView: {
     paddingVertical: size.getHeightSize(12),
     paddingHorizontal: size.getWidthSize(16),
     borderRadius: 40,
     backgroundColor: appColor.kSecondaryButtonColor,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginTop: size.getHeightSize(23),
   },
   createPostText: {
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     color: appColor.kTextColor,
-    textAlign: 'center',
+    textAlign: "center",
   },
   addSomething: {
     color: appColor.kSecondaryButtonColor,
-    fontFamily: 'Outfit-Medium',
+    fontFamily: "Outfit-Medium",
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(20),
   },

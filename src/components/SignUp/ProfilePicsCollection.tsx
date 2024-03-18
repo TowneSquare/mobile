@@ -106,7 +106,11 @@ const ProfilePicsCollection = () => {
             batch(() => {
               dispatch(updateProfilePics(profile));
               dispatch(
-                updateProfileImage(Image.resolveAssetSource(profile.image).uri)
+                updateProfileImage({
+                  imageUri:Image.resolveAssetSource(profile.image).uri,
+                  collectionName:'',
+                  creatorAddress:''
+                })
               );
             });
           }}

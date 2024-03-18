@@ -18,6 +18,7 @@ export interface AssetsData {
   property_version: string;
   latest_trade_price: number;
   attributes:string
+  creator:string
 }
 
 export interface NFTData {

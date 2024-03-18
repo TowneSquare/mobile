@@ -1,8 +1,4 @@
-import {
-  Aptos,
-  AptosConfig,
-  Network
-} from "@aptos-labs/ts-sdk";
+import { Aptos, AptosConfig, MoveAddressType, MoveOption, MoveOptionType, MoveString, Network } from "@aptos-labs/ts-sdk";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import * as Linking from "expo-linking";
@@ -11,6 +7,8 @@ import { TextEncoder } from "text-encoding";
 import nacl from "tweetnacl";
 import { CMC_PRO_API_KEY } from "../../constants";
 import { images } from "../constants";
+import { TOWNSQUARE_CORE_MODULE_ADDRESS } from "../../config/env";
+import { RootStackParamList } from "../navigations/NavigationTypes";
 
 // Data type for petra wallet connect
 type ConnectData = {
@@ -61,7 +59,7 @@ export const handlWalletConnect = async (walletName: Wallet) => {
   } else if (walletName === "pontem") {
     //TODO: Add pontem wallet connect
     const appInfo = {
-      name: 'Townesquare',
+      name: "Townesquare",
       logoUrl: Image.resolveAssetSource(images.defaultAvatar).uri,
       redirectLink: redirect_link,
     };
@@ -121,14 +119,13 @@ export const decodePetraWalletConnectResponse = async (response: {
   return { token: "", address: responseDataJson.address };
 };
 
-
 // Decode the response from the Pontem Wallet Connect and returns the wallet address
 export const decodePontemWalletConnectResponse = async (account: string) => {
   const responseDataJson = JSON.parse(
-    Buffer.from(account, 'base64').toString('utf-8')
+    Buffer.from(account, "base64").toString("utf-8")
   );
 
-  return { token: '', address: responseDataJson.account.address };
+  return { token: "", address: responseDataJson.account.address };
 };
 
 export const getWalletBalance = async (walletAddress: string) => {
@@ -353,4 +350,35 @@ export const getSupportedTokensMarketData = async (address: string) => {
   );
 
   return formattedData;
+};
+
+export const pontemCreateUserTransaction = async (
+  pfp: string,
+  referral_code: string,
+  referrer: MoveOptionType,
+  username: string,
+  screen: keyof RootStackParamList
+) => {
+  const redirect_link = Linking.createURL(`/${screen}`);
+  const transaction = {
+    type: "entry_function_payload",
+    function: `${TOWNSQUARE_CORE_MODULE_ADDRESS}::core::create_user`,
+    type_arguments: [],
+    arguments: [pfp, referral_code, referrer, username],
+  };
+
+  const appInfo = {
+    name: "Townesquare",
+    logoUrl:
+      "https://www.townesquare.xyz/static/media/logo.6e77e4b3cad4fe08bb6e.png",
+    redirectLink: redirect_link,
+  };
+
+  const base64AppInfo = Buffer.from(JSON.stringify(appInfo)).toString("base64");
+  const base64Payload = Buffer.from(JSON.stringify(transaction)).toString(
+    "base64"
+  );
+  const url = `pontem-wallet://mob2mob?payload=${base64Payload}&app_info=${base64AppInfo}`;
+
+  Linking.openURL(url);
 };

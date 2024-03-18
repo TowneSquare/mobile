@@ -149,7 +149,11 @@ const UploadImageModal = () => {
     });
 
     if (result.assets != null) {
-      dispatch(updateProfileImage(result?.assets[0].uri));
+      dispatch(updateProfileImage({
+        imageUri:result?.assets[0].uri,
+        collectionName:"",
+        creatorAddress:''
+      }));
       dispatch(updateUploadImageModalOpen(false));
     }
   };
@@ -161,7 +165,9 @@ const UploadImageModal = () => {
     });
 
     if (result.assets != null) {
-      dispatch(updateProfileImage(result.assets[0].uri));
+      dispatch(updateProfileImage({
+        imageUri:result.assets[0].uri,
+      }));
       dispatch(updateUploadImageModalOpen(false));
     }
   };
@@ -199,7 +205,7 @@ const UploadImageModal = () => {
           }}
         >
           <Pressable
-            disabled={userNFT?.data.data?.length === 0}
+            disabled={userNFT?.data?.data?.length === 0}
             onPress={() => {
               dispatch(updateUploadModalRenderCount(0));
               dispatch(updateUploadImageModalOpen(false));
@@ -210,7 +216,7 @@ const UploadImageModal = () => {
               styles.container,
               {
                 backgroundColor:
-                  userNFT?.data.data?.length === 0 ? "#66666660" : appColor.kGrayLight3,
+                  userNFT?.data?.data?.length === 0 ? "#66666660" : appColor.kGrayLight3,
               },
             ]}
           >

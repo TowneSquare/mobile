@@ -147,7 +147,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
               height: size.getHeightSize(108),
             }}
           />
-          <LetGoButton navigateTo='DrawerNavigation'/>
+          {/* <LetGoButton navigateTo='DrawerNavigation'/> */}
           <View style={styles.view2}>
             <Pressable
               onPress={() => {

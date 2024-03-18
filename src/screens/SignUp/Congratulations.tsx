@@ -1,25 +1,27 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CommonActions, useNavigation } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CommonActions, useNavigation } from "@react-navigation/native";
+import { useFonts } from "expo-font";
+import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
 import {
   Dimensions,
   ImageBackground,
   StyleSheet,
   Text,
   View,
-} from 'react-native';
-import Congrats from '../../../assets/images/svg/Congrats';
-import Loader from '../../../assets/svg/Loader';
-import { getUserInfo } from '../../api';
-import LetGoButton from '../../components/SignUp/LetGoButton';
-import { appColor, fonts, images } from '../../constants';
-import { getUserData, updateUserData } from '../../controller/UserController';
-import { useAppDispatch, useAppSelector } from '../../controller/hooks';
-import { storeDeviceTokenToFireStore } from '../../services/PushNotification';
-import { sizes } from '../../utils';
-const { height, width } = Dimensions.get('window');
+} from "react-native";
+import Congrats from "../../../assets/images/svg/Congrats";
+import Loader from "../../../assets/svg/Loader";
+import { getUserInfo } from "../../api";
+import LetGoButton from "../../components/SignUp/LetGoButton";
+import { appColor, fonts, images } from "../../constants";
+import { getUserData, updateUserData } from "../../controller/UserController";
+import { useAppDispatch, useAppSelector } from "../../controller/hooks";
+import { storeDeviceTokenToFireStore } from "../../services/PushNotification";
+import { sizes } from "../../utils";
+import { pontemCreateUserTransaction } from "../../utils/connectWallet";
+import { Aptos, AptosConfig, MoveOption, MoveString, Network, U8 } from "@aptos-labs/ts-sdk";
+const { height, width } = Dimensions.get("window");
 
 const size = new sizes(height, width);
 const Congratulations = () => {
@@ -27,31 +29,66 @@ const Congratulations = () => {
   const [isLoading, setLoading] = useState(false);
   const deviceToken = useAppSelector((state) => state.USER.userDeviceToken);
   const dispatch = useAppDispatch();
+  const { profilePics, referralCode, socialInfo, nickname, username } =
+    useAppSelector((state) => ({
+      profilePics: state.USER.signUpData.profileImage.imageUri,
+      referralCode: state.USER.signUpData.referralCode,
+      socialInfo: state.USER.signUpData.socialInfo,
+      username: state.USER.signUpData.username,
+      nickname: state.USER.signUpData.nickname,
+      accountInfo: state.USER.signUpData.accountInfo,
+    }));
+
+  // Create an instance of the aptos sdk
+  const config = new AptosConfig({
+    network: Network.TESTNET,
+  });
+  const aptos = new Aptos(config);
+
+
+  const getTokenStandard = async () => {
+  
+
+    const ans2 = await aptos.getCollectionData({
+      collectionName:"Aptos Goats",
+      creatorAddress:"0xafae05a2722b094ae1d0af9abaa55726fb627b85a8650a5e87c8c24f56ccc54e"
+    })
+    console.log( ans2.token_standard, "hhhh");
+  };
+
+  const referrer = new MoveOption<MoveString>(undefined)
 
   async function getUser() {
+   await pontemCreateUserTransaction(
+      "0xf657dd8a6f5fb6da917d95c70f53244a424461a89b3f1fc7e193874d01cb3457",
+      "1111",
+      referrer,
+      "pelumi",
+      "Congratulations"
+    );
     setLoading(true);
-    const token = await AsyncStorage.getItem('user_token');
-    const userId = await AsyncStorage.getItem('user_id');
+    const token = await AsyncStorage.getItem("user_token");
+    const userId = await AsyncStorage.getItem("user_id");
     const userInfo = await getUserInfo(userId, token);
 
     if (userInfo) {
       console.log(userInfo.username);
       await storeDeviceTokenToFireStore(userId, deviceToken);
-      await AsyncStorage.setItem('userData', JSON.stringify(userInfo));
+      await AsyncStorage.setItem("userData", JSON.stringify(userInfo));
       dispatch(getUserData({ userId, token: token }));
       dispatch(updateUserData(userInfo));
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
-          routes: [{ name: 'DrawerNavigation' }],
+          routes: [{ name: "DrawerNavigation" }],
         })
       );
     }
     setLoading(false);
   }
   let [isLoaded] = useFonts({
-    'Outfit-Bold': fonts.OUTFIT_BOLD,
-    'Outfit-Medium': fonts.OUTFIT_NORMAL,
+    "Outfit-Bold": fonts.OUTFIT_BOLD,
+    "Outfit-Medium": fonts.OUTFIT_NORMAL,
   });
   if (!isLoaded) {
     return null;
@@ -61,19 +98,19 @@ const Congratulations = () => {
       <StatusBar style="light" />
       <ImageBackground
         style={{
-          width: '100%',
-          height: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
+          width: "100%",
+          height: "100%",
+          alignItems: "center",
+          justifyContent: "center",
         }}
         resizeMode="cover"
         source={images.background3}
       >
         <View
           style={{
-            alignSelf: 'center',
-            alignItems: 'center',
-            justifyContent: 'center',
+            alignSelf: "center",
+            alignItems: "center",
+            justifyContent: "center",
             flex: 1,
           }}
         >
@@ -83,16 +120,16 @@ const Congratulations = () => {
               marginTop: size.getHeightSize(20),
               width: size.getWidthSize(180),
               // height: size.getHeightSize(80),
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
             <Text
               style={{
                 color: appColor.kTextColor,
                 fontSize: size.fontSize(32),
-                fontFamily: 'Outfit-Bold',
-                textAlign: 'center',
+                fontFamily: "Outfit-Bold",
+                textAlign: "center",
                 lineHeight: size.getHeightSize(40),
               }}
             >
@@ -102,9 +139,9 @@ const Congratulations = () => {
               style={{
                 color: appColor.kTextColor,
                 fontSize: size.fontSize(32),
-                fontFamily: 'Outfit-Bold',
+                fontFamily: "Outfit-Bold",
                 lineHeight: size.getHeightSize(40),
-                textAlign: 'center',
+                textAlign: "center",
               }}
             >
               You made it!
@@ -114,7 +151,7 @@ const Congratulations = () => {
         </View>
         <View
           style={{
-            display: isLoading ? 'flex' : 'none',
+            display: isLoading ? "flex" : "none",
             ...styles.loader,
           }}
         >
@@ -128,14 +165,14 @@ const Congratulations = () => {
 export default Congratulations;
 const styles = StyleSheet.create({
   loader: {
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: '#000000a0',
+    backgroundColor: "#000000a0",
     zIndex: 999,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
