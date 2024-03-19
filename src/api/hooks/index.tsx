@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { APTOS_NAME_URL, BACKEND_URL, NFT_SCAN } from "../../../config/env";
 import { UserData } from "../../controller/UserController";
 import { UserNFT } from "../../controller/UserController/models";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const useUserNFT = ({ userAddress }) => {
   axios.defaults.headers["X-API-KEY"] = "KeWS6RZ93ae5Upi2VR0bYDsH";
@@ -31,15 +32,13 @@ export const useAptosName = ({ userAddress }) => {
   });
 };
 
-export const useUserInfo = ({ userId, token }) => {
-  const getUserInfo = async (
-    userId: string,
-    token: string
-  ): Promise<UserData> => {
+export const useUserInfo = ({ userId }) => {
+  const getUserInfo = async (userId: string): Promise<UserData> => {
+    const user_token = await AsyncStorage.getItem("user_token");
     return await axios
       .get(`${BACKEND_URL}user/${userId}`, {
         headers: {
-          Authorization: token,
+          Authorization: user_token,
         },
       })
       .then((response) => response.data);
@@ -47,6 +46,6 @@ export const useUserInfo = ({ userId, token }) => {
 
   return useQuery({
     queryKey: ["userInfo", userId],
-    queryFn: () => getUserInfo(userId, token),
+    queryFn: () => getUserInfo(userId),
   });
 };

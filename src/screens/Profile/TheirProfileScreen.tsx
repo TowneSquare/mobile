@@ -25,7 +25,7 @@ import MessageIcon from '../../../assets/images/svg/MessageIcon';
 import ProfileTipIcon from '../../../assets/images/svg/ProfileTipIcon';
 import { BACKEND_URL } from '../../../config/env';
 import { firestoreDB } from '../../../config/firebase.config';
-import { useAptosName } from '../../api/hooks';
+import { useAptosName, useUserInfo } from '../../api/hooks';
 import BlockUserModal from '../../components/Feed/BlockUserModal';
 import ForYou from '../../components/Feed/ForYou';
 import ReportPanel from '../../components/Feed/ReportPanel';
@@ -119,21 +119,7 @@ const TheirProfileScreen = ({
   const title = username;
   const COMMUNITIES = "10";
   
-  const fetchUserInfo = async (): Promise<UserData> => {
-    const user_token = await AsyncStorage.getItem('user_token');
-    return await axios
-      .get(`${BACKEND_URL}user/${userId}`, {
-        headers: {
-          Authorization: user_token,
-        },
-      })
-      .then((response) => response.data);
-  };
-
-  function useUserInfo() {
-    return useQuery({ queryKey: ['userInfo'], queryFn: fetchUserInfo });
-  }
-  const userInfo = useUserInfo();
+  const userInfo = useUserInfo({userId})
   const APTOS_DOMAIN_NAME = useAptosName({ userAddress: userInfo.data.aptosWallet }).data?.name || "";;
   const [following, setFollowing] = useState(
     userFollowing.some((following) => following.toUserId == userInfo.data?._id)

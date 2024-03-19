@@ -42,13 +42,23 @@ import Replies from "../Replies";
 import { getCreatedTime } from "../../../utils/helperFunction";
 import { NotifyOnChangeProps } from "@tanstack/query-core";
 import { useFocusEffect } from "@react-navigation/native";
-import { useAptosName } from "../../../api/hooks";
+import { useAptosName, useUserInfo } from "../../../api/hooks";
 import Loader from "../../../../assets/svg/Loader";
 import { batch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Aptos, AptosConfig, MoveOption, MoveString, Network, U8 } from "@aptos-labs/ts-sdk";
+import {
+  Aptos,
+  AptosConfig,
+  MoveOption,
+  MoveString,
+  Network,
+  U8,
+} from "@aptos-labs/ts-sdk";
 import { Order_By } from "aptos";
-import { pontemCreateUserTransaction } from "../../../utils/connectWallet";
+import {
+  connectWalletPontem,
+  pontemCreateUserTransaction,
+} from "../../../utils/connectWallet";
 
 type SuperStarReducerState = {
   showSuperStarModal: boolean;
@@ -197,19 +207,17 @@ const About = ({ route }) => {
     }
   };
 
+  const userInfo = useUserInfo({ userId });
   const UserReplies = () => {
-    return USERDATA.comments.map((userpost) => (
-      // <Replies
-      //   key={userpost._id}
-      //   data={userpost}
-      //   nickname={USERDATA.nickname}
-      //   username={USERDATA.username}
-      //   myPost
-      //   shouldPFPSwipe={false}
-      // />
-      <View>
-        <Text>Changes in Progress</Text>
-      </View>
+    return userInfo.data?.comments.map((userpost) => (
+      <Replies
+        key={userpost._id}
+        data={userpost}
+        nickname={userInfo.data?.nickname}
+        username={userInfo.data?.username}
+        myPost
+        shouldPFPSwipe={false}
+      />
     ));
   };
 
@@ -254,23 +262,6 @@ const About = ({ route }) => {
     if (view == 0) {
       return Media();
     }
-  };
-
-  const config = new AptosConfig({
-    network: Network.TESTNET,
-  });
-  const aptos = new Aptos(config);
-
-  const referrer = new MoveOption<MoveString>(undefined)
-
-  const getNFT = async () => {
-    await pontemCreateUserTransaction(
-      "0xf657dd8a6f5fb6da917d95c70f53244a424461a89b3f1fc7e193874d01cb3457",
-      "1111",
-      referrer,
-      "pelumi",
-      "Congratulations"
-    );
   };
 
   const handleFollow = () => {
@@ -390,15 +381,6 @@ const About = ({ route }) => {
               >
                 Add something about you
               </Text>
-              <Pressable onPress={getNFT}>
-                <Text
-                  style={{
-                    color: appColor.kWhiteColor,
-                  }}
-                >
-                  get NFT
-                </Text>
-              </Pressable>
             </>
           )}
         </View>

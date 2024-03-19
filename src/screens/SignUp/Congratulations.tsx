@@ -46,25 +46,16 @@ const Congratulations = () => {
   const aptos = new Aptos(config);
 
 
-  const getTokenStandard = async () => {
-  
-
-    const ans2 = await aptos.getCollectionData({
-      collectionName:"Aptos Goats",
-      creatorAddress:"0xafae05a2722b094ae1d0af9abaa55726fb627b85a8650a5e87c8c24f56ccc54e"
-    })
-    console.log( ans2.token_standard, "hhhh");
-  };
 
   const referrer = new MoveOption<MoveString>(undefined)
 
   async function getUser() {
+    //// user sign transaction with pontem wallet
    await pontemCreateUserTransaction(
-      "0xf657dd8a6f5fb6da917d95c70f53244a424461a89b3f1fc7e193874d01cb3457",
-      "1111",
+      referralCode,
       referrer,
-      "pelumi",
-      "Congratulations"
+      username,
+      "DrawerNavigation"
     );
     setLoading(true);
     const token = await AsyncStorage.getItem("user_token");

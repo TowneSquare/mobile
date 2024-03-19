@@ -353,7 +353,6 @@ export const getSupportedTokensMarketData = async (address: string) => {
 };
 
 export const pontemCreateUserTransaction = async (
-  pfp: string,
   referral_code: string,
   referrer: MoveOptionType,
   username: string,
@@ -364,14 +363,14 @@ export const pontemCreateUserTransaction = async (
     type: "entry_function_payload",
     function: `${TOWNSQUARE_CORE_MODULE_ADDRESS}::core::create_user`,
     type_arguments: [],
-    arguments: [pfp, referral_code, referrer, username],
+    arguments: [referral_code, referrer, username],
   };
 
   const appInfo = {
     name: "Townesquare",
     logoUrl:
       "https://www.townesquare.xyz/static/media/logo.6e77e4b3cad4fe08bb6e.png",
-    redirectLink: redirect_link,
+    redirectLink: "",
   };
 
   const base64AppInfo = Buffer.from(JSON.stringify(appInfo)).toString("base64");
@@ -382,3 +381,16 @@ export const pontemCreateUserTransaction = async (
 
   Linking.openURL(url);
 };
+
+export const connectWalletPontem = async () => {
+  const appInfo = {
+    name: "Townesquare",
+    logoUrl:
+      "https://www.townesquare.xyz/static/media/logo.6e77e4b3cad4fe08bb6e.png",
+    redirectLink: "",
+  };
+
+  const base64AppInfo = Buffer.from(JSON.stringify(appInfo)).toString("base64");
+  const url = `pontem-wallet://mob2mob?connect=${appInfo}`
+  Linking.openURL(url);
+}
