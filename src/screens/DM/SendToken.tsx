@@ -19,39 +19,107 @@ import GreyBadge from '../../../assets/images/svg/GreyBadge';
 import InfoIcon from '../../../assets/images/svg/InfoIcon';
 import InfoWarningIcon from '../../../assets/images/svg/InfoWarningIcon';
 import SelectTokenSheet from '../../components/DM/SelectTokenSheet';
+import { sendTokenTransaction } from '../../utils/walletFunctions';
 import { appColor, images } from '../../constants';
 import { SendTokenProps } from '../../navigations/NavigationTypes';
 import Header from '../../shared/Feed/Header';
 import { sizes } from '../../utils';
+import { useAppSelector } from '../../controller/hooks';
+import { getTokenLists } from '../../utils/walletFunctions';
+import {
+  getuserDeviceToken,
+  sendTipNotification,
+} from '../../services/PushNotification';
+import { getAssetBalance } from '../../utils/walletFunctions';
+import { isUrlEncoded } from '../../utils/helperFunction';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
-const SendToken = ({ navigation }: SendTokenProps) => {
+const SendToken = ({ navigation, route: { params } }: SendTokenProps) => {
+  const { address, nickname, pfp, username, receiverId, response } = params;
+  const currentUserName = useAppSelector(
+    (state) => state.USER.UserData.username
+  );
+  const currentUserAddress = useAppSelector(
+    (state) => state.USER.UserData.aptosWallet
+  );
+
   const [showSelectTokenSheet, setSelectTokenSheetVisibility] = useState(false);
+  const [selectedToken, setToken] = useState(getTokenLists()[0]);
 
   const [amount, setAmount] = useState('');
+  const [isFetchingCoinBalance, setFetching] = useState(false);
   const [balance, setBalance] = useState(undefined);
   const [sendStatus, setSendStatus] = useState<
     'idle' | 'successfull' | 'failed' | 'loading'
   >('idle');
   useEffect(() => {
-    setTimeout(() => {
-      setBalance(30);
-    }, 3000);
-  }, []);
+    (async () => {
+      setFetching(true);
+      const balance = await getAssetBalance(
+        currentUserAddress,
+        selectedToken.coinType,
+        Number(selectedToken.decimal)
+      );
+      setBalance(balance);
+      setFetching(false);
+    })();
+    // setTimeout(() => {
+    //   setBalance(30);
+    // }, 3000);
+  }, [response, selectedToken]);
+
+  useEffect(() => {
+    if (response === 'approved') {
+      setSendStatus('successfull');
+      (async () => {
+        await getuserDeviceToken(receiverId).then(async (token) => {
+          console.log(`Gotten token here: ${token}`);
+          token &&
+            (await sendTipNotification(token, {
+              title: 'TowneSquare',
+              msg: `${currentUserName} sent you ${amount} ${selectedToken.symbol}. `,
+            }));
+        });
+      })();
+    } else if (response === 'dismissed') {
+      setSendStatus('idle');
+    } else if (response === 'rejected') {
+      setSendStatus('failed');
+    } else setSendStatus('idle');
+  }, [response]);
   const isSendButtonDisabled =
     amount > balance ||
     balance === undefined ||
     !amount ||
     sendStatus === 'loading';
-  const handleSend = () => {
+  const handleSend = async () => {
     setSendStatus('loading');
+
     setTimeout(() => {
-      setSendStatus('successfull');
-    }, 4000);
+      sendTokenTransaction(
+        address,
+        Number(amount),
+        `SendToken/${address}/${encodeURIComponent(
+          pfp
+        )}/${receiverId}/${username}/${nickname}` as any,
+        selectedToken.decimal,
+        selectedToken.coinType
+      );
+    }, 700);
   };
   if (sendStatus === 'successfull') {
-    navigation.navigate('TokenSuccess', { popNo: 2 }), setSendStatus('idle');
+    navigation.navigate('TokenSuccess', {
+      popNo: 2,
+      amount,
+      nickname,
+      pfp: isUrlEncoded(pfp)
+        ? decodeURIComponent(decodeURIComponent(pfp))
+        : pfp,
+      username,
+      tokenSymbol: selectedToken.symbol,
+    }),
+      setSendStatus('idle');
   }
 
   return (
@@ -81,7 +149,11 @@ const SendToken = ({ navigation }: SendTokenProps) => {
               }}
             >
               <Avatar
-                source={images.siothian}
+                source={{
+                  uri: isUrlEncoded(pfp)
+                    ? decodeURIComponent(decodeURIComponent(pfp))
+                    : pfp,
+                }}
                 rounded
                 size={size.getHeightSize(84)}
               />
@@ -94,13 +166,13 @@ const SendToken = ({ navigation }: SendTokenProps) => {
               <View
                 style={{
                   flexDirection: 'row',
-                  gap: size.getWidthSize(8),
+                  gap: size.getWidthSize(1),
                 }}
               >
-                <Text style={styles.name}>UsernameX</Text>
+                <Text style={styles.name}>{username}</Text>
                 <GreyBadge size={size.getHeightSize(18)} />
               </View>
-              <Text style={styles.username}>@jczhang</Text>
+              <Text style={styles.username}>{nickname}</Text>
             </View>
             <View
               style={{
@@ -131,8 +203,12 @@ const SendToken = ({ navigation }: SendTokenProps) => {
                 onPress={() => setSelectTokenSheetVisibility(true)}
                 style={styles.dropDown}
               >
-                <Aptos2 size={size.getHeightSize(24)} />
-                <Text style={styles.APT}>APT</Text>
+                <Avatar
+                  size={size.getHeightSize(24)}
+                  rounded
+                  source={{ uri: selectedToken.logo }}
+                />
+                <Text style={styles.APT}>{selectedToken.symbol}</Text>
                 <MaterialIcons
                   name="arrow-drop-down"
                   size={size.getHeightSize(24)}
@@ -154,7 +230,7 @@ const SendToken = ({ navigation }: SendTokenProps) => {
               >
                 Available balance:
               </Text>
-              {balance === undefined ? (
+              {isFetchingCoinBalance ? (
                 <ActivityIndicator
                   size={size.getHeightSize(16)}
                   color={appColor.primaryLight}
@@ -171,7 +247,7 @@ const SendToken = ({ navigation }: SendTokenProps) => {
                     },
                   ]}
                 >
-                  30 APT
+                  {balance} {selectedToken.symbol}
                 </Text>
               )}
             </View>
@@ -195,7 +271,7 @@ const SendToken = ({ navigation }: SendTokenProps) => {
                     <Text
                       style={[styles.rowText, { color: appColor.kTextColor }]}
                     >
-                      {amount ? `${amount} USDC` : '-'}
+                      {amount ? `${amount} ${selectedToken.symbol}` : '-'}
                     </Text>
                   </View>
                   <View style={styles.row}>
@@ -223,9 +299,9 @@ const SendToken = ({ navigation }: SendTokenProps) => {
                     ]}
                   >
                     {amount
-                      ? `${
-                          parseFloat(amount) + 0.0015 * parseFloat(amount)
-                        } USDC`
+                      ? `${parseFloat(amount) + 0.0015 * parseFloat(amount)} ${
+                          selectedToken.symbol
+                        }`
                       : '-'}
                   </Text>
                 </View>
@@ -274,7 +350,9 @@ const SendToken = ({ navigation }: SendTokenProps) => {
                       }}
                     >
                       <ChatTipIcon size={size.getHeightSize(24)} />
-                      <Text style={styles.sendText}>Send {amount} USDC</Text>
+                      <Text style={styles.sendText}>
+                        Send {amount} {selectedToken.symbol}
+                      </Text>
                     </View>
                   )}
                 </Pressable>
@@ -290,7 +368,8 @@ const SendToken = ({ navigation }: SendTokenProps) => {
         </KeyboardAwareScrollView>
       </View>
       <SelectTokenSheet
-        callBack={() => {
+        callBack={(token) => {
+          setToken(token);
           setSelectTokenSheetVisibility(false);
         }}
         visibility={showSelectTokenSheet}
@@ -414,6 +493,7 @@ const styles = StyleSheet.create({
     backgroundColor: appColor.feedBackground,
     fontFamily: 'Outfit-Regular',
     lineHeight: size.getHeightSize(24),
+    flex: 1,
   },
   infoView: {
     flexDirection: 'row',

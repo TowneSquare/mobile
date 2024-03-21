@@ -7,7 +7,7 @@ import {
   setDoc,
   updateDoc,
 } from 'firebase/firestore';
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useReducer, useState, useCallback } from 'react';
 import {
   Dimensions,
   Image,
@@ -37,18 +37,14 @@ import TheirProfileBottomSheet from '../../components/Profile/About/TheirProfile
 import ViewSuperStarsModal from '../../components/Profile/About/ViewSuperStarsModal';
 import Header from '../../components/Profile/Header';
 import Replies from '../../components/Profile/Replies';
-import { appColor } from '../../constants';
+import { appColor, images } from '../../constants';
 import { updateSuperStarBottomSheet } from '../../controller/BottomSheetController';
 import {
   updateTipBottomSheet,
   updateToast,
 } from '../../controller/FeedsController';
 import { updateTipResponse } from '../../controller/FeedsController';
-import ViewSuperStarsModal from '../../components/Profile/About/ViewSuperStarsModal';
-import ForYou from '../../components/Feed/ForYou';
-import Replies from '../../components/Profile/Replies';
-import { getCreatedTime } from '../../utils/helperFunction';
-import axios from 'axios';
+
 import { APTOS_NAME_URL } from '../../../config/env';
 import { getUserAptosName } from '../../api';
 import {
@@ -99,9 +95,9 @@ const selectedSuperStarsReducer = (
     case 'CLOSE':
       return {
         showSuperStarModal: false,
-        imageUri: "",
-        nftCollection: "",
-        nftTokenId: "",
+        imageUri: '',
+        nftCollection: '',
+        nftTokenId: '',
       };
 
     default:
@@ -130,15 +126,30 @@ const TheirProfileScreen = ({
   }));
 
   const title = username;
-  const COMMUNITIES = "10";
-  
-  const userInfo = useUserInfo({userId})
-  const APTOS_DOMAIN_NAME = useAptosName({ userAddress: userInfo.data?.aptosWallet }).data?.name || "";;
+  const COMMUNITIES = '10';
+
+  const fetchUserInfo = async (): Promise<UserData> => {
+    const user_token = await AsyncStorage.getItem('user_token');
+    return await axios
+      .get(`${BACKEND_URL}user/${userId}`, {
+        headers: {
+          Authorization: user_token,
+        },
+      })
+      .then((response) => response.data);
+  };
+
+  function useUserInfo() {
+    return useQuery({ queryKey: ['userInfo'], queryFn: fetchUserInfo });
+  }
+  const userInfo = useUserInfo();
+  const APTOS_DOMAIN_NAME =
+    useAptosName({ userAddress: userInfo.data?.aptosWallet }).data?.name || '';
   const [following, setFollowing] = useState(
     userFollowing.some((following) => following.toUserId == userInfo.data?._id)
   );
 
-   const handleFollow = () => {
+  const handleFollow = () => {
     setFollowing(true);
     dispatch(followUser({ toUserIds: [userId], token }));
     dispatch(getUserData({ userId: user, token }));
@@ -153,6 +164,8 @@ const TheirProfileScreen = ({
   const [superStarModal, useDispatch] = useReducer(selectedSuperStarsReducer, {
     showSuperStarModal: false,
     imageUri: '',
+    nftCollection: '',
+    nftTokenId: '',
   });
 
   const getUserAptosName = async (address: string) => {
@@ -236,7 +249,7 @@ const TheirProfileScreen = ({
         shouldPFPSwipe={false}
       />
     ));
-  };
+  }, [POST]);
 
   const UserReplies = () => {
     return userInfo.data?.comments.map((userpost) => (
@@ -331,7 +344,12 @@ const TheirProfileScreen = ({
             chatId: docSnapshot.id,
             name: username,
             nickname: nickname,
-            pfp: userInfo.data?.profileImage,
+            pfp:
+              userInfo.data?.profileImage ||
+              Image.resolveAssetSource(images.defaultAvatar).uri,
+            address: userInfo.data?.aptosWallet,
+            receiverNickname: userInfo.data?.nickname,
+            receiverUsername: userInfo.data?.username,
           });
         } else {
           setDoc(chatRef, _doc)
@@ -341,7 +359,12 @@ const TheirProfileScreen = ({
                 chatId: id,
                 name: username,
                 nickname: nickname,
-                pfp: userInfo.data?.profileImage,
+                pfp:
+                  userInfo.data?.profileImage ||
+                  Image.resolveAssetSource(images.defaultAvatar).uri,
+                address: userInfo.data?.aptosWallet,
+                receiverNickname: userInfo.data?.nickname,
+                receiverUsername: userInfo.data?.username,
               });
             })
             .catch((err) => {

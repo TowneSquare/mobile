@@ -11,20 +11,12 @@ import {
   getDoc,
   serverTimestamp,
   setDoc,
-  updateDoc
+  updateDoc,
 } from 'firebase/firestore';
-import {
-  getDownloadURL,
-  ref,
-  uploadBytesResumable
-} from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import moment from 'moment';
 import { firestoreDB, storage } from '../../config/firebase.config';
-import {
-  ChatDate,
-  ChatText,
-  Data
-} from '../models/conversationModel';
+import { ChatDate, ChatText, Data } from '../models/conversationModel';
 
 import { nanoid } from '@reduxjs/toolkit';
 import { ChatsModel } from '../models/chats';
@@ -42,9 +34,11 @@ export class ChatClass {
    */
   private groupedDays() {
     return this.message.reduce((acc, el, i) => {
-      const messageDay = moment(el.createdAt?.toDate().toISOString()).format(
-        'YYYY-MM-DD'
-      );
+      const created =
+        typeof el.createdAt === 'string'
+          ? el.createdAt
+          : el.createdAt?.toDate().toISOString();
+      const messageDay = moment(created).format('YYYY-MM-DD');
       if (acc[messageDay]) {
         return { ...acc, [messageDay]: acc[messageDay].concat([el]) };
       }

@@ -63,11 +63,14 @@ const Chats = () => {
 
               // Get the contact details
               const contactDetails = await getUserInfo(contactid, token);
-             
+
               const newChatDoc: ContactsChatModel = {
                 ...chat,
                 nickname: contactDetails.nickname,
                 pfp: contactDetails.profileImage,
+                address: contactDetails.aptosWallet,
+                receiverNickname: contactDetails.nickname,
+                receiverUsername: contactDetails.username,
               };
 
               // Query the 'messages' subcollection where 'read' is false

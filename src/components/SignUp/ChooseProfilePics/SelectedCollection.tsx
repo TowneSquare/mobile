@@ -51,7 +51,7 @@ const SelectedCollection = () => {
       if (isVisible === true && renderCount > 0) {
         dispatch(updateSelectedRender(0));
         dispatch(updateSelectedCollection(false));
-        dispatch(updateListOfNFTCollection([]))
+        // dispatch(updateListOfNFTCollection([]));
         setSnap('67%');
         return true;
       } else {
@@ -95,7 +95,7 @@ const SelectedCollection = () => {
       onClose={() => {
         dispatch(updateSelectedRender(0));
         dispatch(updateSelectedCollection(false));
-        dispatch(updateListOfNFTCollection([]))
+        // dispatch(updateListOfNFTCollection([]));
         setSnap('67%');
       }}
       ref={bottomSheetRef}
@@ -152,7 +152,6 @@ const SelectedCollection = () => {
           onPress={() => {
             dispatch(updateSelectedRender(0));
             dispatch(updateSelectedCollection(false));
-            dispatch(updateListOfNFTCollection([]))
             setSnap('67%');
           }}
           disabled={typeof profilePics === 'undefined' ? true : false}
@@ -197,7 +196,7 @@ const SelectedCollection = () => {
             onPress={() => {
               dispatch(updateSelectedRender(0));
               dispatch(updateSelectedCollection(false));
-              dispatch(updateListOfNFTCollection([]))
+
               dispatch(updateNftRender(1));
               dispatch(updateNftOpen(true));
               setSnap('67%');

@@ -1,9 +1,17 @@
-import React, { ReactNode } from "react";
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
-import CommunityCheck from "../../../../assets/images/svg/CommunityCheck";
-import { appColor, images } from "../../../constants";
-import { sizes } from "../../../utils";
-const { height, width } = Dimensions.get("window");
+import React, { ReactNode } from 'react';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import CommunityCheck from '../../../../assets/images/svg/CommunityCheck';
+import { appColor, images } from '../../../constants';
+import { sizes } from '../../../utils';
+import { useNavigation } from '@react-navigation/native';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 interface Props {
   pfp: ReactNode;
@@ -11,11 +19,13 @@ interface Props {
   description: string;
 }
 const TopCommunity = ({ description, name, pfp }: Props) => {
+  const { navigate } = useNavigation();
   return (
-    <View
+    <Pressable
+      onPress={() => navigate('CommunityInfoScreen')}
       style={{
-        flexDirection: "row",
-        alignItems: "flex-start",
+        flexDirection: 'row',
+        alignItems: 'flex-start',
         gap: size.getWidthSize(8),
       }}
     >
@@ -27,8 +37,8 @@ const TopCommunity = ({ description, name, pfp }: Props) => {
       >
         <View
           style={{
-            flexDirection: "row",
-            alignItems: "center",
+            flexDirection: 'row',
+            alignItems: 'center',
             gap: size.getWidthSize(8),
           }}
         >
@@ -41,7 +51,7 @@ const TopCommunity = ({ description, name, pfp }: Props) => {
         <View style={styles.view3}>
           <View
             style={{
-              flexDirection: "row",
+              flexDirection: 'row',
             }}
           >
             <Image style={styles.imageStyle} source={images.profileImage} />
@@ -51,7 +61,7 @@ const TopCommunity = ({ description, name, pfp }: Props) => {
           <Text style={styles.memberNo}>13k members</Text>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
@@ -62,14 +72,14 @@ const styles = StyleSheet.create({
     width: size.getHeightSize(18),
   },
   image2: {
-    position: "absolute",
+    position: 'absolute',
     height: size.getHeightSize(18),
     width: size.getHeightSize(18),
     left: size.getWidthSize(7),
     borderRadius: 100,
   },
   image3: {
-    position: "absolute",
+    position: 'absolute',
     height: size.getHeightSize(18),
     width: size.getHeightSize(18),
     left: size.getWidthSize(15),
@@ -79,18 +89,18 @@ const styles = StyleSheet.create({
     color: appColor.kGrayscale,
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(18),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     marginTop: size.getHeightSize(8),
   },
   name: {
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: "Outfit-SemiBold",
+    fontFamily: 'Outfit-SemiBold',
   },
   view3: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
 
     gap: size.getWidthSize(8),
     marginTop: size.getHeightSize(12),
@@ -99,7 +109,7 @@ const styles = StyleSheet.create({
     color: appColor.kTextColor,
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     marginLeft: size.getWidthSize(14),
   },
 });

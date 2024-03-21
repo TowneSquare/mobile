@@ -67,6 +67,9 @@ interface Props extends TextInputProps {
   receiverId: string;
   nickname: string;
   pfp: string;
+  address: string;
+  receiverNickname: string;
+  receiverUsername: string;
 }
 
 export type ComponentRef = {
@@ -81,6 +84,9 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
     username,
     nickname,
     pfp,
+    address,
+    receiverNickname,
+    receiverUsername,
   },
   ref
 ) => {
@@ -150,7 +156,6 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
     // get receiver device token
     const deviceToken = await getuserDeviceToken(receiverId);
 
-   
     // check if push notification is allowed from the sender to the receiver and send push notification
     (await isPushNotificationAllowed(receiverId, profile._id, chatId)) &&
       (await sendChatPushNotification(deviceToken, {
@@ -410,7 +415,15 @@ const ChatTextInput: ForwardRefRenderFunction<ComponentRef, Props> = (
                 marginVertical: size.getHeightSize(10),
               }}
               size={size.getHeightSize(24)}
-              onPress={() => navigation.navigate('SendToken')}
+              onPress={() =>
+                navigation.navigate('SendToken', {
+                  pfp,
+                  address,
+                  nickname: receiverNickname,
+                  username: receiverUsername,
+                  receiverId,
+                })
+              }
             />
           </>
         )}
