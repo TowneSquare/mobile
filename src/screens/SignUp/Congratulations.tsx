@@ -20,7 +20,14 @@ import { useAppDispatch, useAppSelector } from "../../controller/hooks";
 import { storeDeviceTokenToFireStore } from "../../services/PushNotification";
 import { sizes } from "../../utils";
 import { pontemCreateUserTransaction } from "../../utils/connectWallet";
-import { Aptos, AptosConfig, MoveOption, MoveString, Network, U8 } from "@aptos-labs/ts-sdk";
+import {
+  Aptos,
+  AptosConfig,
+  MoveOption,
+  MoveString,
+  Network,
+  U8,
+} from "@aptos-labs/ts-sdk";
 const { height, width } = Dimensions.get("window");
 
 const size = new sizes(height, width);
@@ -45,19 +52,12 @@ const Congratulations = () => {
   });
   const aptos = new Aptos(config);
 
-
-
-  const referrer = new MoveOption<MoveString>(undefined)
+  const referrer = new MoveOption<MoveString>(undefined);
 
   async function getUser() {
-    //// user sign transaction with pontem wallet
-   await pontemCreateUserTransaction(
-      referralCode,
-      referrer,
-      username,
-      "DrawerNavigation"
-    );
     setLoading(true);
+   
+
     const token = await AsyncStorage.getItem("user_token");
     const userId = await AsyncStorage.getItem("user_id");
     const userInfo = await getUserInfo(userId, token);
@@ -69,13 +69,22 @@ const Congratulations = () => {
       dispatch(getUserData({ userId, token: token }));
       dispatch(updateUserData(userInfo));
       navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "DrawerNavigation" }],
+        CommonActions.navigate({
+          name:"DrawerNavigation"
         })
       );
     }
     setLoading(false);
+  }
+
+ //// user sign transaction with pontem wallet
+  const createUser = async () => {
+    await pontemCreateUserTransaction(
+      referralCode,
+      undefined,
+      username,
+      "DrawerNavigation"
+    );
   }
   let [isLoaded] = useFonts({
     "Outfit-Bold": fonts.OUTFIT_BOLD,
@@ -138,7 +147,10 @@ const Congratulations = () => {
               You made it!
             </Text>
           </View>
-          <LetGoButton onPress={getUser} />
+          <LetGoButton onPress={() => {
+            createUser()
+            getUser()
+          }} />
         </View>
         <View
           style={{

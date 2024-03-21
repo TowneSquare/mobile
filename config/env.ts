@@ -4,4 +4,4 @@ export const didToken = undefined;
 export const NFT_SCAN = "https://aptosapi.nftscan.com/api/apt/account/own/all/"
 export const APTOS_NAME_URL =
   'https://www.aptosnames.com/api/mainnet/v1/primary-name/';
-export const TOWNSQUARE_CORE_MODULE_ADDRESS = "0xd9dfc03b5a835891c26a514104444c66f562ac07885e703cd412da656e41efd0"
+export const TOWNSQUARE_CORE_MODULE_ADDRESS = "0xc2d6a2f68f1749d9ab689b3e81c9e94dbea13cb34ced94bf7e07de5479fc4ad9"

@@ -356,9 +356,10 @@ export const pontemCreateUserTransaction = async (
   referral_code: string,
   referrer: MoveOptionType,
   username: string,
-  screen: keyof RootStackParamList
+  screen?: keyof RootStackParamList
 ) => {
   const redirect_link = Linking.createURL(`/${screen}`);
+  console.log(screen, "screen")
   const transaction = {
     type: "entry_function_payload",
     function: `${TOWNSQUARE_CORE_MODULE_ADDRESS}::core::create_user`,
@@ -370,7 +371,7 @@ export const pontemCreateUserTransaction = async (
     name: "Townesquare",
     logoUrl:
       "https://www.townesquare.xyz/static/media/logo.6e77e4b3cad4fe08bb6e.png",
-    redirectLink: "",
+    redirectLink: redirect_link,
   };
 
   const base64AppInfo = Buffer.from(JSON.stringify(appInfo)).toString("base64");
@@ -394,3 +395,86 @@ export const connectWalletPontem = async () => {
   const url = `pontem-wallet://mob2mob?connect=${appInfo}`
   Linking.openURL(url);
 }
+
+export const submitCreateUserTransactionToPetra = async (
+  referralCode: string,
+  referrer: MoveOptionType,
+  username: string
+  // currentScreen: string
+) => {
+  const petraEncryptedapublicKey =
+    "0x92476d423dfad6fbdfaa214fc5c177799e96985465f23fb6b5611a9532d15248";
+  const petraPublicKeyUint8Array = new Uint8Array(
+    petraEncryptedapublicKey
+      .slice(2)
+      .match(/.{1,2}/g)
+      .map((byte) => parseInt(byte, 16))
+  );
+  const { Keys } = await getDappPublicKey();
+  const sharedDappSecretKey = nacl.box.before(
+    petraPublicKeyUint8Array,
+    Keys.secretKey
+  );
+  // console.log('==========Shared Secret================');
+  // console.log(sharedDappSecretKey);
+  const redirect_link = Linking.createURL(`/${"DrawerNavigation"}`);
+  const payload = {
+    arguments: [
+      referralCode,
+      referrer,
+      username
+    ],
+    function: `${TOWNSQUARE_CORE_MODULE_ADDRESS}::core::create_user`,
+    type: "entry_function_payload",
+    type_arguments: [],
+  };
+  // const uint8Array = textEncoder.encode('Your string here');
+  const payloadUint8Array = new TextEncoder().encode(JSON.stringify(payload));
+
+  const nonce = nacl.randomBytes(nacl.secretbox.nonceLength);
+  console.log("===============nonce====================");
+  console.log(nonce);
+  const encryptedPayload = nacl.secretbox(
+    payloadUint8Array,
+    nonce,
+    sharedDappSecretKey
+  );
+  const hexString = Array.from(encryptedPayload)
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+  // const TRANSACTION_PAYLOAD = {
+  //   type: 'entry_function_payload',
+  //   function: '0x1::aptos_account::transfer_coins',
+  //   type_arguments: [APTOS_COIN],
+  //   arguments: [
+  //     '0x19e17197b6469d692c67a27f2e8634b96b6ae1e5c085dfc24350f08aba4d1a5',
+  //     '0.1',
+  //   ],
+  // };
+  // const config = new AptosConfig({
+  //   network: Network.MAINNET,
+  // });
+  // const aptos = new Aptos(config);
+  // const transaction = await aptos.transferCoinTransaction({
+  //   sender: '0x19e17197b6469d692c67a27f2e8634b96b6ae1e5c085dfc24350f08aba4d1a5',
+  //   recipient:
+  //     '0x19e17197b6469d692c67a27f2e8634b96b6ae1e5c085dfc24350f08aba4d1a5',
+  //   amount: 4,
+  // });
+  // console.log(transaction);
+
+  let data: ConnectData = {
+    appInfo: {
+      domain: "com.townesquare.townesquare",
+    },
+    redirectLink: redirect_link,
+    payload: hexString,
+  };
+  const { publicKeyString } = await getDappPublicKey();
+  data.dappEncryptionPublicKey = publicKeyString;
+  const submitDataBase64 = Buffer.from(JSON.stringify(data)).toString("base64");
+  // console.log(base64ConnectData);
+  const url = `https://petra.app/api/v1/signAndSubmit?data=${submitDataBase64}`;
+  // console.log(url);
+  Linking.openURL(url);
+};

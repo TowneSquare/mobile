@@ -57,6 +57,7 @@ import {
 import { Order_By } from "aptos";
 import {
   connectWalletPontem,
+  handlWalletConnect,
   pontemCreateUserTransaction,
 } from "../../../utils/connectWallet";
 
@@ -262,6 +263,17 @@ const About = ({ route }) => {
     if (view == 0) {
       return Media();
     }
+  };
+
+  const referrer = new MoveOption<MoveString>(undefined);
+
+  const sign = async () => {
+    await pontemCreateUserTransaction(
+      "1111",
+      undefined,
+      "TS UserName2",
+      "DrawerNavigation"
+    );
   };
 
   const handleFollow = () => {

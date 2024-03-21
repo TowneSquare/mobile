@@ -120,7 +120,7 @@ const TheirProfileScreen = ({
   const COMMUNITIES = "10";
   
   const userInfo = useUserInfo({userId})
-  const APTOS_DOMAIN_NAME = useAptosName({ userAddress: userInfo.data.aptosWallet }).data?.name || "";;
+  const APTOS_DOMAIN_NAME = useAptosName({ userAddress: userInfo.data?.aptosWallet }).data?.name || "";;
   const [following, setFollowing] = useState(
     userFollowing.some((following) => following.toUserId == userInfo.data?._id)
   );
