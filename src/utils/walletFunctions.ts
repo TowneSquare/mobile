@@ -3,18 +3,13 @@ import { Image } from 'react-native';
 import { images } from '../constants';
 import { TextEncoder, TextDecoder } from 'text-encoding';
 
-import {
-  APTOS_COIN,
-  Aptos,
-  AptosConfig,
-  Network,
-  NetworkToNetworkName,
-} from '@aptos-labs/ts-sdk';
+import { Aptos, AptosConfig, Network } from '@aptos-labs/ts-sdk';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { decode as atob, encode as btoa } from 'base-64';
 import nacl, { BoxKeyPair, randomBytes } from 'tweetnacl';
 import axios from 'axios';
-import { CMC_PRO_API_KEY } from '../../constants';
+import { CMC_PRO_API_KEY, coinType } from '../../constants';
 import { RootStackParamList } from '../navigations/NavigationTypes';
 
 // Data type for petra wallet connect
@@ -35,6 +30,15 @@ const config = new AptosConfig({
   network: Network.MAINNET,
 });
 const aptos = new Aptos(config);
+
+const assetImages = {
+  USDC: 'https://cryptologos.cc/logos/usd-coin-usdc-logo.png?v=029',
+  APT: Image.resolveAssetSource(images.aptToken).uri,
+  GUI: 'https://assets.coingecko.com/coins/images/33924/large/gui_inu_tg_tiny.png?1703408231',
+  THL: 'https://assets.coingecko.com/coins/images/29697/large/thalalogo.jpg?1696528630',
+  DOODOO:
+    'https://assets.coingecko.com/coins/images/35033/large/doodoo.png?1707189618',
+};
 
 export const handlWalletConnect = async (walletName: Wallet) => {
   // redirect link for the wallet connect
@@ -142,45 +146,104 @@ export const decodePontemWalletConnectResponse = async (account: string) => {
   return { token: '', address: responseDataJson.account.address };
 };
 
-export const getWalletBalance = async (walletAddress: string) => {
-  //Get the account apt amount and the current price of apt
+export const getWalletBalance = async (
+  walletAddress: string,
+  onError: () => void
+) => {
+  const [APTamount, DOODOOamount, THLamount, GUIamount, USDCamount] =
+    await Promise.all([
+      aptos.getAccountAPTAmount({
+        accountAddress: walletAddress,
+      }),
+      await aptos.getAccountCoinAmount({
+        accountAddress: walletAddress,
+        coinType: coinType.DOODOO,
+      }),
+      await aptos.getAccountCoinAmount({
+        accountAddress: walletAddress,
+        coinType: coinType.THL,
+      }),
+      await aptos.getAccountCoinAmount({
+        accountAddress: walletAddress,
+        coinType: coinType.GUI,
+      }),
+      await aptos.getAccountCoinAmount({
+        accountAddress: walletAddress,
+        coinType: coinType.USDC,
+      }),
+    ])
+      .then((res) => res)
+      .catch((err) => {
+        if (axios.isAxiosError(err)) {
+          onError();
+        }
+        return [0, 0, 0, 0, 0];
+      });
 
-  const [aptAmount, currentPrice] = await Promise.all([
-    aptos.getAccountAPTAmount({
-      accountAddress: walletAddress,
-    }),
-    getAptMarketData(),
-  ])
-    .then((res) => res)
-    .catch((err) => {
-      if (axios.isAxiosError(err)) {
-        return [0, null];
-      }
-
-      return [0, null];
-    });
-
-  //Convert the apt amount to apt and return the apt amount and the current price
-  const aptDecimal = 10 ** 8;
-  const aptAmt = aptAmount / aptDecimal;
-  return { aptAmt, currentPrice };
+  return { APTamount, DOODOOamount, THLamount, GUIamount, USDCamount };
 };
 
-const getAptMarketData = async () => {
+export const getAptMarketData = async (
+  currentUserAddress: string,
+  onError: () => void
+) => {
+  console.log('======here1======')
   const baseUrl =
     'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest';
-
   const response = await axios.get(baseUrl, {
     params: {
-      symbol: 'APT',
+      symbol: 'USDC,APT,GUI,THL,DOODOO',
       convert: 'USD',
     },
     headers: {
-      'X-CMC_PRO_API_KEY': CMC_PRO_API_KEY,
+      'X-CMC_PRO_API_KEY': CMC_PRO_API_KEY, // Make sure to define CMC_PRO_API_KEY
     },
   });
+console.log('=====here2======')
+  let marketdata: any;
+  if (response.data.data.APT.quote.USD.price) {
+    await AsyncStorage.setItem(
+      'marketData',
+      JSON.stringify(response.data.data.APT.quote.USD.price)
+    );
+    marketdata = response.data.data.APT.quote.USD.price;
+  } else {
+    const storedMarketData = await AsyncStorage.getItem('marketData');
+    if (storedMarketData) marketdata = JSON.parse(storedMarketData);
+    else marketdata = null;
+  }
+  const assetDataBalance = await getWalletBalance(currentUserAddress, onError);
+  const assetBalance = {
+    USDC: assetDataBalance.USDCamount / 10 ** 7,
+    APT: assetDataBalance.APTamount / 10 ** 8,
+    GUI: assetDataBalance.GUIamount / 10 ** 7,
+    THL: assetDataBalance.THLamount / 10 ** 7,
+    DOODOO: assetDataBalance.DOODOOamount / 10 ** 7,
+  };
 
-  return response.data.data.APT.quote.USD.price;
+  let totalValueInUSD = 0;
+  let formattedData = Object.entries(response.data.data).map(
+    ([key, value]: any) => {
+      const assetBalanceValue = assetBalance[value.symbol] || 0;
+      const assetMarketPrice = value.quote.USD.price;
+      const assetValueInUSD = assetBalanceValue * assetMarketPrice;
+
+      totalValueInUSD += assetValueInUSD;
+      return {
+        assetValueInUSD: assetValueInUSD.toFixed(2),
+        assetImage: assetImages[value.symbol],
+        assetName: value.name,
+        assetSymbol: value.symbol,
+        assetBalance: assetBalance[value.symbol].toFixed(3), // Placeholder for balance
+        assetMarketPrice: `${value.quote.USD.price.toFixed(2)}`,
+        assetPercentChange24h: `${value.quote.USD.percent_change_24h.toFixed(
+          2
+        )}`,
+      };
+    }
+  );
+
+  return { formattedData, assetBalance, totalValueInUSD };
 };
 
 // TODO: Add the logic to submit a transaction to petra
@@ -229,26 +292,6 @@ export const submitTransactionToPetra = async (
   const hexString = Array.from(encryptedPayload)
     .map((byte) => byte.toString(16).padStart(2, '0'))
     .join('');
-  // const TRANSACTION_PAYLOAD = {
-  //   type: 'entry_function_payload',
-  //   function: '0x1::aptos_account::transfer_coins',
-  //   type_arguments: [APTOS_COIN],
-  //   arguments: [
-  //     '0x19e17197b6469d692c67a27f2e8634b96b6ae1e5c085dfc24350f08aba4d1a5',
-  //     '0.1',
-  //   ],
-  // };
-  // const config = new AptosConfig({
-  //   network: Network.MAINNET,
-  // });
-  // const aptos = new Aptos(config);
-  // const transaction = await aptos.transferCoinTransaction({
-  //   sender: '0x19e17197b6469d692c67a27f2e8634b96b6ae1e5c085dfc24350f08aba4d1a5',
-  //   recipient:
-  //     '0x19e17197b6469d692c67a27f2e8634b96b6ae1e5c085dfc24350f08aba4d1a5',
-  //   amount: 4,
-  // });
-  // console.log(transaction);
 
   let data: ConnectData = {
     appInfo: {
@@ -310,120 +353,130 @@ const getDappPublicKey = async () => {
   }
 };
 
-/**
- * Retrieves the supported tokens market data.
- * @returns An array of objects containing the formatted market data for each supported token.
- */
-export const getSupportedTokensMarketData = async (address: string) => {
-  const aptBalance = await aptos.getAccountAPTAmount({
+export const sendPontenTransaction = async (
+  to: string,
+  amount: number,
+  screen: keyof RootStackParamList
+) => {
+  const redirect_link = Linking.createURL(`/${screen}`);
+
+  const APT_DECIMAL = 10 ** 8;
+  const transaction = {
+    type: 'entry_function_payload',
+    function: '0x1::coin::transfer',
+    type_arguments: ['0x1::aptos_coin::AptosCoin'],
+    arguments: [to, amount * APT_DECIMAL],
+  };
+  const appInfo = {
+    name: 'Townesquare',
+    logoUrl:
+      'https://www.townesquare.xyz/static/media/logo.6e77e4b3cad4fe08bb6e.png',
+    redirectLink: redirect_link,
+  };
+  const base64AppInfo = Buffer.from(JSON.stringify(appInfo)).toString('base64');
+  const base64Payload = Buffer.from(JSON.stringify(transaction)).toString(
+    'base64'
+  );
+
+  const url = `pontem-wallet://mob2mob?payload=${base64Payload}&app_info=${base64AppInfo}`;
+
+  Linking.openURL(url);
+};
+
+export const getTokenLists = () => {
+  const assetNames = {
+    APT: 'Aptos coin',
+    USDC: 'USD coin',
+    GUI: 'Gui Inu',
+    THL: 'Thala Token',
+    DOODOO: 'Doodoo',
+  };
+
+  const assets = [
+    {
+      name: 'Aptos coin',
+      logo: assetImages.APT,
+      symbol: 'APT',
+      decimal: '8',
+      coinType: coinType.APT,
+    },
+    {
+      name: 'USD Coin (LayerZero)',
+      logo: assetImages.USDC,
+      symbol: 'zUSDC',
+      decimal: '7',
+      coinType: coinType.USDC,
+    },
+    {
+      name: 'GUI Inu',
+      logo: assetImages.GUI,
+      symbol: 'GUI',
+      decimal: '7',
+      coinType: coinType.GUI,
+    },
+    {
+      name: 'Thala Token',
+      logo: assetImages.THL,
+      symbol: 'THL',
+      decimal: '7',
+      coinType: coinType.THL,
+    },
+    {
+      name: 'Doodo',
+      logo: assetImages.DOODOO,
+      symbol: 'DOODOO',
+      decimal: '7',
+      coinType: coinType.DOODOO,
+    },
+  ];
+  return assets;
+};
+
+export const sendTokenTransaction = (
+  to: string,
+  amount: number,
+  screen: keyof RootStackParamList,
+  decimal: string,
+  coinType: `${string}::${string}::${string}`
+) => {
+  const redirect_link = Linking.createURL(`/${screen}`);
+
+  const APT_DECIMAL = 10 ** Number(decimal);
+
+  const transaction = {
+    type: 'entry_function_payload',
+    function: '0x1::coin::transfer',
+    type_arguments: [coinType],
+    arguments: [to, amount * APT_DECIMAL],
+  };
+
+  const appInfo = {
+    name: 'Townesquare',
+    logoUrl:
+      'https://www.townesquare.xyz/static/media/logo.6e77e4b3cad4fe08bb6e.png',
+    redirectLink: redirect_link,
+  };
+  const base64AppInfo = Buffer.from(JSON.stringify(appInfo)).toString('base64');
+  const base64Payload = Buffer.from(JSON.stringify(transaction)).toString(
+    'base64'
+  );
+  console.log(redirect_link);
+
+  const url = `pontem-wallet://mob2mob?payload=${base64Payload}&app_info=${base64AppInfo}`;
+
+  Linking.openURL(url);
+};
+
+export const getAssetBalance = async (
+  address: string,
+  coinType: `${string}::${string}::${string}`,
+  decimal: number
+) => {
+  const coinAmount = await aptos.getAccountCoinAmount({
     accountAddress: address,
+    coinType: coinType as any,
   });
-
-  const aptDecimal = 10 ** 8;
-  const aptAmt = aptBalance / aptDecimal;
-  const assetImages = {
-    USDC: 'https://cryptologos.cc/logos/usd-coin-usdc-logo.png?v=029',
-    APT: Image.resolveAssetSource(images.aptToken).uri,
-    GUI: 'https://assets.coingecko.com/coins/images/33924/large/gui_inu_tg_tiny.png?1703408231',
-    THL: 'https://assets.coingecko.com/coins/images/29697/large/thalalogo.jpg?1696528630',
-    DOODOO:
-      'https://assets.coingecko.com/coins/images/35033/large/doodoo.png?1707189618',
-  };
-  const assetBalance = {
-    USDC: '0',
-    APT: aptAmt.toFixed(3).toString(),
-    GUI: '0',
-    THL: '0',
-    DOODOO: '0',
-  };
-  const baseUrl =
-    'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest';
-  const response = await axios.get(baseUrl, {
-    params: {
-      symbol: 'USDC,APT,GUI,THL,DOODOO',
-      convert: 'USD',
-    },
-    headers: {
-      'X-CMC_PRO_API_KEY': CMC_PRO_API_KEY, // Make sure to define CMC_PRO_API_KEY
-    },
-  });
-
-  let formattedData = Object.entries(response.data.data).map(
-    ([key, value]: any) => {
-      return {
-        assetImage: assetImages[value.symbol],
-        assetName: value.name,
-        assetSymbol: value.symbol,
-        assetBalance: assetBalance[value.symbol], // Placeholder for balance
-        assetMarketPrice: `${value.quote.USD.price.toFixed(2)}`,
-        assetPercentChange24h: `${value.quote.USD.percent_change_24h.toFixed(
-          2
-        )}`,
-      };
-    }
-  );
-
-  return formattedData;
-};
-
-export const sendPontenTransaction = async (
-  to: string,
-  amount: number,
-  screen: keyof RootStackParamList
-) => {
-  const redirect_link = Linking.createURL(`/${screen}`);
-
-  const APT_DECIMAL = 10 ** 8;
-
-  const transaction = {
-    type: 'entry_function_payload',
-    function: '0x1::coin::transfer',
-    type_arguments: ['0x1::aptos_coin::AptosCoin'],
-    arguments: [to, amount * APT_DECIMAL],
-  };
-  const appInfo = {
-    name: 'Townesquare',
-    logoUrl:
-      'https://www.townesquare.xyz/static/media/logo.6e77e4b3cad4fe08bb6e.png',
-    redirectLink: redirect_link,
-  };
-  const base64AppInfo = Buffer.from(JSON.stringify(appInfo)).toString('base64');
-  const base64Payload = Buffer.from(JSON.stringify(transaction)).toString(
-    'base64'
-  );
-
-  const url = `pontem-wallet://mob2mob?payload=${base64Payload}&app_info=${base64AppInfo}`;
-
-  Linking.openURL(url);
-};
-
-export const sendPontenTransaction = async (
-  to: string,
-  amount: number,
-  screen: keyof RootStackParamList
-) => {
-  const redirect_link = Linking.createURL(`/${screen}`);
-
-  const APT_DECIMAL = 10 ** 8;
-
-  const transaction = {
-    type: 'entry_function_payload',
-    function: '0x1::coin::transfer',
-    type_arguments: ['0x1::aptos_coin::AptosCoin'],
-    arguments: [to, amount * APT_DECIMAL],
-  };
-  const appInfo = {
-    name: 'Townesquare',
-    logoUrl:
-      'https://www.townesquare.xyz/static/media/logo.6e77e4b3cad4fe08bb6e.png',
-    redirectLink: redirect_link,
-  };
-  const base64AppInfo = Buffer.from(JSON.stringify(appInfo)).toString('base64');
-  const base64Payload = Buffer.from(JSON.stringify(transaction)).toString(
-    'base64'
-  );
-
-  const url = `pontem-wallet://mob2mob?payload=${base64Payload}&app_info=${base64AppInfo}`;
-
-  Linking.openURL(url);
+  const coinDecimal = 10 ** decimal;
+  const aptAmt = coinAmount / coinDecimal;
+  return aptAmt;
 };

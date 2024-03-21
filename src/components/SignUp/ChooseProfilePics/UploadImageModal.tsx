@@ -37,10 +37,10 @@ import {
   launchCameraAsync,
   useCameraPermissions,
   PermissionStatus,
-} from "expo-image-picker";
-import { updateProfileImage } from "../../../controller/UserController";
-import { useUserNFT } from "../../../api/hooks";
-const { height, width } = Dimensions.get("window");
+} from 'expo-image-picker';
+import { updateProfileImage } from '../../../controller/UserController';
+import { useUserNFT } from '../../../api/hooks';
+const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
 const UploadImageModal = () => {
@@ -49,14 +49,12 @@ const UploadImageModal = () => {
     useCameraPermissions();
   const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const { isVisible, renderCount, userAddress } = useAppSelector(
-    (state) => ({
-      isVisible: state.bottomSheetController.uploadImageModalOpen,
-      renderCount: state.bottomSheetController.uploadModalRenderCount,
-      collectionLength: state.bottomSheetController.listOfNftCollections.length,
-      userAddress: state.USER.UserData.aptosWallet
-    })
-  );
+  const { isVisible, renderCount, userAddress } = useAppSelector((state) => ({
+    isVisible: state.bottomSheetController.uploadImageModalOpen,
+    renderCount: state.bottomSheetController.uploadModalRenderCount,
+    collectionLength: state.bottomSheetController.listOfNftCollections.length,
+    userAddress: state.USER.UserData.aptosWallet,
+  }));
   useEffect(() => {
     dispatch(updateUploadModalRenderCount(0));
   }, []);
@@ -93,7 +91,7 @@ const UploadImageModal = () => {
   //         [0, 0.08],
   //         [40, 0],
   //         Extrapolation.CLAM(P
-  //       ) 
+  //       )
   //     },
   //   ],
   //   opacity: interpolate(
@@ -105,8 +103,8 @@ const UploadImageModal = () => {
   // }));
 
   const userNFT = useUserNFT({
-    userAddress
-  })
+    userAddress,
+  });
 
   let [isLoaded] = useFonts({
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
@@ -165,7 +163,7 @@ const UploadImageModal = () => {
       dispatch(updateUploadImageModalOpen(false));
     }
   };
-  console.log('==================');
+
 
   return (
     <BottomSheet
@@ -199,7 +197,7 @@ const UploadImageModal = () => {
           }}
         >
           <Pressable
-            disabled={userNFT?.data.data?.length === 0}
+            disabled={userNFT?.data?.data?.length === 0}
             onPress={() => {
               dispatch(updateUploadModalRenderCount(0));
               dispatch(updateUploadImageModalOpen(false));
@@ -210,7 +208,9 @@ const UploadImageModal = () => {
               styles.container,
               {
                 backgroundColor:
-                  userNFT?.data.data?.length === 0 ? "#66666660" : appColor.kGrayLight3,
+                  userNFT?.data?.data?.length === 0
+                    ? '#66666660'
+                    : appColor.kGrayLight3,
               },
             ]}
           >

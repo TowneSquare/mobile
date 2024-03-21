@@ -7,9 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { appColor } from '../../constants';
-import CommingSoon from '../../screens/Feed/CommingSoon';
-import ForYouPosts from '../../screens/Feed/ForYouPosts';
+
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);

@@ -1,5 +1,6 @@
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import React from 'react';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { Dimensions, Pressable, StyleSheet, Text } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import CommunityHeaderIcon from '../../../assets/images/svg/CommunityHeaderIcon';
@@ -18,7 +19,13 @@ const CommunityHeader = ({ title }: Props) => {
   };
   return (
     <Pressable style={styles.header}>
-      <CommunityHeaderIcon onPress={openDrawer} size={size.getHeightSize(44)} />
+      {/* <CommunityHeaderIcon onPress={openDrawer} size={size.getHeightSize(44)} /> */}
+      <AntDesign
+        name="arrowleft"
+        color={appColor.kWhiteColor}
+        size={size.fontSize(24)}
+        onPress={navigation.goBack}
+      />
       <Text style={styles.headerText}>{title}</Text>
       <Feather
         name="more-horizontal"

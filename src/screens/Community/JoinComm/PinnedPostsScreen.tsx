@@ -27,8 +27,8 @@ const PinnedPostsScreen = () => {
     >
       <Header title="Pinned Posts" />
 
-      <ForYou data={data} />
-      <ForYou data={data} />
+      {/* <ForYou data={data} />
+      <ForYou data={data} /> */}
     </SafeAreaView>
   );
 };

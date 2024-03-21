@@ -1,17 +1,21 @@
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
-  createBottomTabNavigator
-} from '@react-navigation/bottom-tabs';
-import { RouteProp, getFocusedRouteNameFromRoute } from '@react-navigation/native';
+  RouteProp,
+  getFocusedRouteNameFromRoute,
+} from '@react-navigation/native';
 import { ReactNode, useEffect } from 'react';
+import CommunityInfoScreen from '../../screens/Community/JoinComm/CommunityInfoScreen';
 import { Dimensions, Image, View } from 'react-native';
 import ChatSvg from '../../../assets/images/svg/ChatSvg';
 import ChatTabFocusedIcon from '../../../assets/images/svg/ChatTabFocusedIcon';
 import CommunityActiveTabIcon from '../../../assets/images/svg/CommunityActiveTabIcon';
 import Home from '../../../assets/images/svg/Home';
+import CommunityDemo from '../../screens/Community/CommunityDemo';
 import HomeBlur from '../../../assets/images/svg/HomeBlur';
 import MultipleSvg from '../../../assets/images/svg/MultipleSvg';
 import RewardFocusedTab from '../../../assets/images/svg/RewardFocusedTab';
 import RewardIcon from '../../../assets/images/svg/RewardIcon';
+import CreateCommunityScreen from '../../screens/Community/CreateCommunity/CreateCommunityScreen';
 import { appColor, images } from '../../constants';
 import { updateCurrentTab } from '../../controller/FeedsController';
 import { useAppDispatch, useAppSelector } from '../../controller/hooks';
@@ -213,7 +217,7 @@ const BottomTabNavigation: React.FC<{
       />
       <Tab.Screen
         name={community}
-        component={CommingSoon}
+        component={CreateCommunity1}
         options={{ headerShown: false }}
       />
 

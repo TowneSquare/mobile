@@ -1,4 +1,4 @@
-import { Timestamp } from "firebase/firestore";
+import { Timestamp } from 'firebase/firestore';
 export interface ChatsModel {
   _id: string;
   members: [
@@ -11,7 +11,7 @@ export interface ChatsModel {
       name: string;
     }
   ];
-  activeMembers:string[];
+  activeMembers: string[];
   memberIds: string[];
   chatName: string;
   lastMessage: {
@@ -52,4 +52,7 @@ export interface ContactsChatModel {
   unreadMessagesCount: number;
   pfp: string;
   nickname: string;
+  address: string;
+  receiverNickname: string;
+  receiverUsername: string;
 }

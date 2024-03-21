@@ -120,7 +120,7 @@ const CommunityInfoScreen = () => {
           >
             Community posts
           </Text>
-          <ForYou data={data} />
+          {/* <ForYou data={data} /> */}
         </ScrollView>
       </View>
       <View

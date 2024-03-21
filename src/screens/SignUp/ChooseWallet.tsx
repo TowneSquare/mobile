@@ -24,7 +24,7 @@ import {
   decodePetraWalletConnectResponse,
   decodePontemWalletConnectResponse,
   handlWalletConnect,
-} from '../../utils/connectWallet';
+} from '../../utils/walletFunctions';
 import { useState, useEffect, useCallback } from 'react';
 import BackButton from '../../components/SignUp/BackButton';
 import { ChooseWalletProps } from '../../navigations/NavigationTypes';

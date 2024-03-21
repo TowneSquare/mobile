@@ -145,7 +145,7 @@ const CommunityWelcomeScreen = () => {
             </View>
             <Pressable
               onPress={() => {
-                navigation.navigate('CommunityMainScreen');
+                navigation.navigate('ChannelChat');
               }}
               style={{
                 backgroundColor: appColor.kWhiteColor,

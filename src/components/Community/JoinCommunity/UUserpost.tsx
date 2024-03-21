@@ -35,11 +35,11 @@ const ForCommunityPosts = () => {
       <Text style={[styles.textTitle, { marginTop: size.getHeightSize(16) }]}>
         Community posts
       </Text>
+      {/* <ForYou data={data} />
       <ForYou data={data} />
       <ForYou data={data} />
       <ForYou data={data} />
-      <ForYou data={data} />
-      <ForYou data={data} />
+      <ForYou data={data} /> */}
     </View>
   );
 };

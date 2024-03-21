@@ -12,15 +12,15 @@ import {
   View,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import {
-  useSafeAreaInsets
-} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import Loader from '../../../assets/svg/Loader';
 import {
-  checkSignup, getTokenBywalletaddress, signup,
+  checkSignup,
+  getTokenBywalletaddress,
+  signup,
   updateConnectedSocial,
-  uploadProfileImage
+  uploadProfileImage,
 } from '../../api';
 import ChooseNFT from '../../components/SignUp/ChooseProfilePics/ChooseNFT';
 import ChooseProfilePics from '../../components/SignUp/ChooseProfilePics/ChooseProfilePics';
@@ -35,7 +35,11 @@ import SignupTransitionBackButton from '../../components/SignUp/SignupTransition
 import TranslationForwardButton from '../../components/SignUp/TranslationForwardButton';
 import { appColor, fonts } from '../../constants';
 import { updateToast } from '../../controller/FeedsController';
-import { disableContinueButton, updateDidToken, updateUserId } from '../../controller/UserController';
+import {
+  disableContinueButton,
+  updateDidToken,
+  updateUserId,
+} from '../../controller/UserController';
 import { useAppSelector } from '../../controller/hooks';
 import { SignUpProps } from '../../navigations/NavigationTypes';
 import { storeDeviceTokenToFireStore } from '../../services/PushNotification';
