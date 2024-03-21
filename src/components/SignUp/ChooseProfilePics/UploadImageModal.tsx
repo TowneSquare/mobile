@@ -147,7 +147,11 @@ const UploadImageModal = () => {
     });
 
     if (result.assets != null) {
-      dispatch(updateProfileImage(result?.assets[0].uri));
+      dispatch(updateProfileImage({
+        imageUri:result?.assets[0].uri,
+        collectionName:"",
+        creatorAddress:''
+      }));
       dispatch(updateUploadImageModalOpen(false));
     }
   };
@@ -159,7 +163,9 @@ const UploadImageModal = () => {
     });
 
     if (result.assets != null) {
-      dispatch(updateProfileImage(result.assets[0].uri));
+      dispatch(updateProfileImage({
+        imageUri:result.assets[0].uri,
+      }));
       dispatch(updateUploadImageModalOpen(false));
     }
   };

@@ -1,11 +1,12 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { ImageSourcePropType } from 'react-native';
-import { BACKEND_URL } from '../../../config/env';
-import { images } from './../../constants/images';
-import { PostData } from './../createPost/index';
-import { communities, friends } from './models';
+import { collection } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { ImageSourcePropType } from "react-native";
+import { BACKEND_URL } from "../../../config/env";
+import { images } from "./../../constants/images";
+import { PostData } from "./../createPost/index";
+import { communities, friends } from "./models";
 
 export interface collection {
   image: ImageSourcePropType;
@@ -72,7 +73,13 @@ export interface SignupData {
     emailError: boolean;
     usernameErrorMessage: string;
   };
-  profileImage: string;
+  // `creatorAddress and Collection to know if pfp is an NFT and 
+  // the token standard of the NFT to create the onChain Profile`
+  profileImage: {
+    imageUri: string;
+    creatorAddress?: string;
+    collectionName?: string;
+  };
   nickname: string;
   username: string;
   email: string;
@@ -147,35 +154,39 @@ interface followRequest {
   token: string;
 }
 const initialState: UserState = {
-  userDeviceToken: '',
+  userDeviceToken: "",
   signUpData: {
     errors: {
       nicknameError: false,
       usernameError: false,
       emailError: false,
-      usernameErrorMessage: '',
+      usernameErrorMessage: "",
     },
-    email: '',
-    nickname: '',
-    profileImage: '',
-    username: '',
+    email: "",
+    nickname: "",
+    profileImage: {
+      imageUri: "",
+      collectionName: "",
+      creatorAddress: "",
+    },
+    username: "",
     socialInfo: null,
-    referralCode: '',
+    referralCode: "",
     accountInfo: null,
     metadata: null,
-    userAddress: '',
+    userAddress: "",
   },
   UserData: {
-    aptosWallet: '',
+    aptosWallet: "",
   },
-  aptosName: '',
+  aptosName: "",
   errors: {
     nicknameError: false,
     usernameError: false,
     emailError: false,
-    usernameErrorMessage: '',
+    usernameErrorMessage: "",
   },
-  didToken: '',
+  didToken: "",
   editProfile: false,
   NFTCollections: [
     {
@@ -232,7 +243,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: 'Aptomingos',
+      Name: "Aptomingos",
       id: 1,
     },
     {
@@ -264,7 +275,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: 'Aptos Monkey',
+      Name: "Aptos Monkey",
       id: 2,
     },
     {
@@ -311,7 +322,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: 'Aptomingos',
+      Name: "Aptomingos",
       id: 3,
     },
     {
@@ -353,7 +364,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: 'Aptos Monkey',
+      Name: "Aptos Monkey",
       id: 5,
     },
     {
@@ -395,7 +406,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: 'Aptomingos',
+      Name: "Aptomingos",
       id: 6,
     },
     {
@@ -417,7 +428,7 @@ const initialState: UserState = {
           isSelected: false,
         },
       ],
-      Name: 'Aptos Monkey lorem Ipsumdalr',
+      Name: "Aptos Monkey lorem Ipsumdalr",
       id: 7,
     },
   ],
@@ -429,98 +440,98 @@ const initialState: UserState = {
   isSignUpContinueButtonDisable: false,
   BookMarks: [
     {
-      _id: '6543112773263dcd8d741ba0',
-      title: '',
-      userId: '65372778b8da0e521b8a3587',
-      description: 'Test post ',
-      imageUrls: [''],
-      videoUrls: ['https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'],
-      createdAt: '2023-11-02T03:01:59.721Z',
-      sellNFTPrice: '',
-      nftImageUrl: '',
-      nftCollection: '',
-      nftTokenId: '',
+      _id: "6543112773263dcd8d741ba0",
+      title: "",
+      userId: "65372778b8da0e521b8a3587",
+      description: "Test post ",
+      imageUrls: [""],
+      videoUrls: ["https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"],
+      createdAt: "2023-11-02T03:01:59.721Z",
+      sellNFTPrice: "",
+      nftImageUrl: "",
+      nftCollection: "",
+      nftTokenId: "",
       likes: [
         {
-          _id: '6560962a233ac36e73bc42ce',
-          userId: '655ab007ce8937ff6d512887',
-          postId: '655df7a347784b1665992617',
-          createdAt: '2023-11-24T12:25:14.173Z',
+          _id: "6560962a233ac36e73bc42ce",
+          userId: "655ab007ce8937ff6d512887",
+          postId: "655df7a347784b1665992617",
+          createdAt: "2023-11-24T12:25:14.173Z",
         },
         {
-          _id: '6560962a233ac36e73bc42ce',
-          userId: '655ab007ce8937ff6d512887',
-          postId: '655df7a347784b1665992617',
-          createdAt: '2023-11-24T12:25:14.173Z',
+          _id: "6560962a233ac36e73bc42ce",
+          userId: "655ab007ce8937ff6d512887",
+          postId: "655df7a347784b1665992617",
+          createdAt: "2023-11-24T12:25:14.173Z",
         },
       ],
       comments: [
         {
-          username: 'pelumi_main',
-          nickname: 'chokey',
-          _id: '653878c2a000149cd06b9845',
-          content: 'POST comment TEstTest',
-          userId: '65372778b8da0e521b8a3587',
-          postId: '653728bd6171091d6b469bec',
-          createdAt: '2023-10-25T02:09:06.310Z',
+          username: "pelumi_main",
+          nickname: "chokey",
+          _id: "653878c2a000149cd06b9845",
+          content: "POST comment TEstTest",
+          userId: "65372778b8da0e521b8a3587",
+          postId: "653728bd6171091d6b469bec",
+          createdAt: "2023-10-25T02:09:06.310Z",
         },
         {
-          username: 'pelumi_second',
-          nickname: 'chokey',
-          _id: '653878c2a000149cd06b9845',
-          content: 'POST comment TEstTest',
-          userId: '65372778b8da0e521b8a3587',
-          postId: '653728bd6171091d6b469bec',
-          createdAt: '2023-10-25T02:09:06.310Z',
+          username: "pelumi_second",
+          nickname: "chokey",
+          _id: "653878c2a000149cd06b9845",
+          content: "POST comment TEstTest",
+          userId: "65372778b8da0e521b8a3587",
+          postId: "653728bd6171091d6b469bec",
+          createdAt: "2023-10-25T02:09:06.310Z",
         },
       ],
       customer: {
-        _id: '655ab007ce8937ff6d512885',
-        issuer: 'did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991',
-        aptosWallet: '0xcfe8dfc248cef257524ec05374fa6157114e8991',
-        nickname: 'test nickname',
-        username: 'test12',
-        email: 'test@email.com',
-        referralCode: '98N39',
-        profileImage: '',
-        createdAt: '',
+        _id: "655ab007ce8937ff6d512885",
+        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        nickname: "test nickname",
+        username: "test12",
+        email: "test@email.com",
+        referralCode: "98N39",
+        profileImage: "",
+        createdAt: "",
       },
       reposts: [
         {
-          _id: '6570a9166460587de2c1a9c9',
-          postId: '6570a9166460587de2c1a9c8',
-          customerId: '655ab007ce8937ff6d512885',
-          originalPostId: '65649c452b47b41b4f22ffd0',
-          createdAt: '2023-12-06T17:02:14.813Z',
+          _id: "6570a9166460587de2c1a9c9",
+          postId: "6570a9166460587de2c1a9c8",
+          customerId: "655ab007ce8937ff6d512885",
+          originalPostId: "65649c452b47b41b4f22ffd0",
+          createdAt: "2023-12-06T17:02:14.813Z",
         },
         {
-          _id: '6570a9166460587de2c1a9c9',
-          postId: '6570a9166460587de2c1a9c8',
-          customerId: '655ab007ce8937ff6d512886',
-          originalPostId: '65649c452b47b41b4f22ffd0',
-          createdAt: '2023-12-06T17:02:14.813Z',
+          _id: "6570a9166460587de2c1a9c9",
+          postId: "6570a9166460587de2c1a9c8",
+          customerId: "655ab007ce8937ff6d512886",
+          originalPostId: "65649c452b47b41b4f22ffd0",
+          createdAt: "2023-12-06T17:02:14.813Z",
         },
       ],
       originalCustomer: {
-        _id: '65372778b8da0e521b8a3587',
-        issuer: 'did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991',
-        aptosWallet: '0xcfe8dfc248cef257524ec05374fa6157114e8991',
-        nickname: 'test nickname',
-        username: 'test12',
-        email: 'test@email.com',
-        referralCode: '98N39',
-        profileImage: '',
-        createdAt: '',
+        _id: "65372778b8da0e521b8a3587",
+        issuer: "did:ethr:0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        aptosWallet: "0xcfe8dfc248cef257524ec05374fa6157114e8991",
+        nickname: "test nickname",
+        username: "test12",
+        email: "test@email.com",
+        referralCode: "98N39",
+        profileImage: "",
+        createdAt: "",
       },
       repost: false,
-      originalPostId: '65430c7f372dd89672e9214d',
-      originalCustomerId: '65372778b8da0e521b8a3587',
+      originalPostId: "65430c7f372dd89672e9214d",
+      originalCustomerId: "65372778b8da0e521b8a3587",
     },
   ],
 };
 
 export const signUp = createAsyncThunk(
-  'User/signUp',
+  "User/signUp",
   async (signupRequest: signUpRequest, thunkAPI) => {
     const { aptosWallet, nickname, username, email } = signupRequest;
     try {
@@ -538,7 +549,7 @@ export const signUp = createAsyncThunk(
 );
 
 export const followUser = createAsyncThunk(
-  'User/follow',
+  "User/follow",
   async (followRequest: followRequest, thunkAPI) => {
     const { toUserIds, token } = followRequest;
     try {
@@ -549,8 +560,8 @@ export const followUser = createAsyncThunk(
         },
         {
           headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
+            Accept: "application/json",
+            "Content-Type": "application/json",
             Authorization: token,
           },
         }
@@ -562,7 +573,7 @@ export const followUser = createAsyncThunk(
 );
 
 export const unFollowUser = createAsyncThunk(
-  'User/Unfollow',
+  "User/Unfollow",
   async ({ token, followId }: any) => {
     try {
       await axios.post(
@@ -572,7 +583,7 @@ export const unFollowUser = createAsyncThunk(
         },
         {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
             Authorization: token,
           },
         }
@@ -582,13 +593,13 @@ export const unFollowUser = createAsyncThunk(
 );
 
 export const getUserData = createAsyncThunk(
-  'User/getUserData',
+  "User/getUserData",
   async ({ userId, token }: any): Promise<UserData> => {
     try {
       const res = await axios.get(`${BACKEND_URL}user/${userId}`, {
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
+          Accept: "application/json",
+          "Content-Type": "application/json",
           Authorization: token,
         },
       });
@@ -596,47 +607,47 @@ export const getUserData = createAsyncThunk(
       const userdata = {
         _id: userData._id,
         issuer: userData.issuer,
-        profileImage: userData.profileImage || '',
-        bio: userData.bio || '',
-        aptosWallet: userData.aptosWallet || '',
-        nickname: userData.nickname || '',
-        username: userData.username || '',
-        email: userData.email || '',
+        profileImage: userData.profileImage || "",
+        bio: userData.bio || "",
+        aptosWallet: userData.aptosWallet || "",
+        nickname: userData.nickname || "",
+        username: userData.username || "",
+        email: userData.email || "",
         badge: userData.badge || [],
-        referralCode: userData.referralCode || '',
+        referralCode: userData.referralCode || "",
         followers: userData.followers || [],
         following: userData.following || [],
         posts: userData.posts || [],
         groups: userData.groups || [],
         comments: userData.comments || [],
-        createdAt: userData.createdAt || '',
+        createdAt: userData.createdAt || "",
         superstars: userData.superstars,
       };
-      await AsyncStorage.setItem('userData', JSON.stringify(userdata));
+      await AsyncStorage.setItem("userData", JSON.stringify(userdata));
       return userdata;
     } catch (error) {
       return {
-        _id: '',
-        issuer: '',
-        profileImage: '',
-        bio: '',
-        aptosWallet: '',
-        nickname: '',
-        username: '',
-        email: '',
+        _id: "",
+        issuer: "",
+        profileImage: "",
+        bio: "",
+        aptosWallet: "",
+        nickname: "",
+        username: "",
+        email: "",
         badge: [],
-        referralCode: '',
+        referralCode: "",
         followers: [],
         following: [],
         posts: [],
         groups: [],
         comments: [],
-        createdAt: '',
+        createdAt: "",
         superstars: {
-          _id: '',
+          _id: "",
           nftInfoArray: [],
-          customerId: '',
-          createdAt: '',
+          customerId: "",
+          createdAt: "",
         },
       };
     }
@@ -644,7 +655,7 @@ export const getUserData = createAsyncThunk(
 );
 
 export const setSuperStarsNFT = createAsyncThunk(
-  'User/setSuperStarsNFT',
+  "User/setSuperStarsNFT",
   async ({ token, nftInfoArray }: any) => {
     try {
       await axios.post(
@@ -654,8 +665,8 @@ export const setSuperStarsNFT = createAsyncThunk(
         },
         {
           headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
+            Accept: "application/json",
+            "Content-Type": "application/json",
             Authorization: token,
           },
         }
@@ -665,7 +676,7 @@ export const setSuperStarsNFT = createAsyncThunk(
 );
 
 export const editProfile = createAsyncThunk(
-  'User/EditProfile',
+  "User/EditProfile",
   async ({ bio, nickname, username, token }: EditProfileProps) => {
     try {
       await axios.put(
@@ -677,7 +688,7 @@ export const editProfile = createAsyncThunk(
         },
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
             Authorization: token,
           },
         }
@@ -687,7 +698,7 @@ export const editProfile = createAsyncThunk(
 );
 
 export const deletePost = createAsyncThunk(
-  'user/deletePost',
+  "user/deletePost",
   async ({ postId, token }: any) => {
     try {
       await axios.delete(`${BACKEND_URL}posts/${postId}`, {
@@ -700,7 +711,7 @@ export const deletePost = createAsyncThunk(
 );
 
 export const getUserBookmark = createAsyncThunk(
-  'user/getUserBookmark',
+  "user/getUserBookmark",
   async ({ token }: any) => {
     try {
       const response = await axios.get(
@@ -718,7 +729,7 @@ export const getUserBookmark = createAsyncThunk(
 );
 
 export const bookMarkPost = createAsyncThunk(
-  'user/bookmarkPost',
+  "user/bookmarkPost",
   async ({ token, postId }: any) => {
     try {
       await axios.get(`${BACKEND_URL}posts/bookmark/${postId}`, {
@@ -730,7 +741,7 @@ export const bookMarkPost = createAsyncThunk(
   }
 );
 export const USER = createSlice({
-  name: 'User',
+  name: "User",
   initialState,
   reducers: {
     updateTypeOfWallet: (state, action: PayloadAction<string>) => {
@@ -766,17 +777,17 @@ export const USER = createSlice({
         state.signUpData.errors.usernameError = true;
         state.signUpData.username = action.payload;
         state.signUpData.errors.usernameErrorMessage =
-          'Use only alphanumeric characters and letters';
+          "Use only alphanumeric characters and letters";
       } else if (action.payload.length < 4) {
         state.signUpData.errors.usernameError = true;
         state.signUpData.username = action.payload;
         state.signUpData.errors.usernameErrorMessage =
-          'Username must be longer than 4 characters';
+          "Username must be longer than 4 characters";
       } else if (state.signUpData.username.length >= 15) {
         state.signUpData.errors.usernameError = true;
         state.signUpData.username = action.payload;
         state.signUpData.errors.usernameErrorMessage =
-          'Username can be max. 15 characters long';
+          "Username can be max. 15 characters long";
       } else {
         state.signUpData.username = action.payload;
         state.signUpData.errors.usernameError = false;
@@ -800,7 +811,14 @@ export const USER = createSlice({
     updateUsernameError: (state, action) => {
       state.errors.usernameError = action.payload;
     },
-    updateProfileImage: (state, action: PayloadAction<string>) => {
+    updateProfileImage: (
+      state,
+      action: PayloadAction<{
+        imageUri: string;
+        collectionName?: string;
+        creatorAddress?: string;
+      }>
+    ) => {
       state.signUpData.profileImage = action.payload;
     },
     updateUserId: (state, action: PayloadAction<string>) => {
@@ -853,7 +871,7 @@ export const USER = createSlice({
     },
     deleteSelectedSuperStar: (state, action: PayloadAction<string>) => {
       state.selectedSuperStars = state.selectedSuperStars.filter(
-        (obj) => obj['nftTokenId'] !== action.payload
+        (obj) => obj["nftTokenId"] !== action.payload
       );
     },
     resetSelectedSuperStar: (state) => {
@@ -883,27 +901,27 @@ export const USER = createSlice({
     builder.addCase(getUserData.pending, (state, action) => {});
     builder.addCase(getUserData.rejected, (state, action) => {
       state.UserData = {
-        _id: '',
-        issuer: '',
-        profileImage: '',
-        bio: '',
-        aptosWallet: '',
-        nickname: '',
-        username: '',
-        email: '',
+        _id: "",
+        issuer: "",
+        profileImage: "",
+        bio: "",
+        aptosWallet: "",
+        nickname: "",
+        username: "",
+        email: "",
         badge: [],
-        referralCode: '',
+        referralCode: "",
         followers: [],
         following: [],
         posts: [],
         groups: [],
         comments: [],
-        createdAt: '',
+        createdAt: "",
         superstars: {
-          _id: '',
+          _id: "",
           nftInfoArray: [],
-          customerId: '',
-          createdAt: '',
+          customerId: "",
+          createdAt: "",
         },
       };
     });

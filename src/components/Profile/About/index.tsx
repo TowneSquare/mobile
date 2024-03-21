@@ -28,7 +28,10 @@ import FollowIcon from "../../../../assets/images/svg/FollowIcon";
 import { updateTipBottomSheet } from "../../../controller/FeedsController";
 const Tab = createMaterialTopTabNavigator();
 import ViewSuperStarsModal from "./ViewSuperStarsModal";
-import { getUserData, updateUserData } from "../../../controller/UserController";
+import {
+  getUserData,
+  updateUserData,
+} from "../../../controller/UserController";
 import { getOnlyUserPost } from "../../../controller/createPost";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { firestoreDB } from "../../../../config/firebase.config";
@@ -39,10 +42,24 @@ import Replies from "../Replies";
 import { getCreatedTime } from "../../../utils/helperFunction";
 import { NotifyOnChangeProps } from "@tanstack/query-core";
 import { useFocusEffect } from "@react-navigation/native";
-import { useAptosName } from "../../../api/hooks";
+import { useAptosName, useUserInfo } from "../../../api/hooks";
 import Loader from "../../../../assets/svg/Loader";
-import { batch } from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { batch } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  Aptos,
+  AptosConfig,
+  MoveOption,
+  MoveString,
+  Network,
+  U8,
+} from "@aptos-labs/ts-sdk";
+import { Order_By } from "aptos";
+import {
+  connectWalletPontem,
+  handlWalletConnect,
+  pontemCreateUserTransaction,
+} from "../../../utils/connectWallet";
 
 type SuperStarReducerState = {
   showSuperStarModal: boolean;
@@ -114,12 +131,12 @@ const About = ({ route }) => {
   async function getUserDataFromStorage() {
     if (!USERDATA) {
     }
-    const userData = await AsyncStorage.getItem('userData')?.then((data) =>
+    const userData = await AsyncStorage.getItem("userData")?.then((data) =>
       JSON.parse(data)
     );
     console.log(userData);
-    const token = await AsyncStorage.getItem('user_token');
-    console.log(token)
+    const token = await AsyncStorage.getItem("user_token");
+    console.log(token);
     if (userData) {
       batch(() => {
         dispatch(updateUserData(userData));
@@ -164,7 +181,7 @@ const About = ({ route }) => {
   );
 
   const Posts = () => {
-    console.log(onlyUserPost, 'onlyUserPost');
+    console.log(onlyUserPost, "onlyUserPost");
     if (onlyUserPost.length > 0) {
       return onlyUserPost.map((userpost) => (
         <ForYou
@@ -183,8 +200,8 @@ const About = ({ route }) => {
           </Text>
           <Pressable
             onPress={() => {
-              navigate('CreatePost', {
-                whichPost: 'singlePost',
+              navigate("CreatePost", {
+                whichPost: "singlePost",
               });
             }}
             style={styles.buttonView}
@@ -196,19 +213,17 @@ const About = ({ route }) => {
     }
   };
 
+  const userInfo = useUserInfo({ userId });
   const UserReplies = () => {
-    return USERDATA.comments.map((userpost) => (
-      // <Replies
-      //   key={userpost._id}
-      //   data={userpost}
-      //   nickname={USERDATA.nickname}
-      //   username={USERDATA.username}
-      //   myPost
-      //   shouldPFPSwipe={false}
-      // />
-      <View>
-        <Text>Changes in Progress</Text>
-      </View>
+    return userInfo.data?.comments.map((userpost) => (
+      <Replies
+        key={userpost._id}
+        data={userpost}
+        nickname={userInfo.data?.nickname}
+        username={userInfo.data?.username}
+        myPost
+        shouldPFPSwipe={false}
+      />
     ));
   };
 
@@ -233,8 +248,8 @@ const About = ({ route }) => {
           </Text>
           <Pressable
             onPress={() => {
-              navigate('CreatePost', {
-                whichPost: 'singlePost',
+              navigate("CreatePost", {
+                whichPost: "singlePost",
               });
             }}
             style={styles.buttonView}
@@ -246,7 +261,7 @@ const About = ({ route }) => {
     }
   };
 
- console.log(profilePics, "pics")
+  console.log(profilePics, "pics");
 
   const POST_MEDIA_REPLIES = () => {
     if (view == 2) {
@@ -258,6 +273,17 @@ const About = ({ route }) => {
     if (view == 0) {
       return Media();
     }
+  };
+
+  const referrer = new MoveOption<MoveString>(undefined);
+
+  const sign = async () => {
+    await pontemCreateUserTransaction(
+      "1111",
+      undefined,
+      "TS UserName2",
+      "DrawerNavigation"
+    );
   };
 
   const handleFollow = () => {
@@ -370,12 +396,14 @@ const About = ({ route }) => {
               <Text style={styles.aboutText}>{bio}</Text>
             </View>
           ) : (
-            <Text
-              onPress={() => navigate('EditProfileScreen')}
-              style={styles.addSomething}
-            >
-              Add something about you
-            </Text>
+            <>
+              <Text
+                onPress={() => navigate("EditProfileScreen")}
+                style={styles.addSomething}
+              >
+                Add something about you
+              </Text>
+            </>
           )}
         </View>
         <View>
@@ -701,43 +729,43 @@ const styles = StyleSheet.create({
     paddingHorizontal: size.getWidthSize(16),
   },
   emptyPostView: {
-    alignSelf: 'center',
-    justifyContent: 'center',
+    alignSelf: "center",
+    justifyContent: "center",
     marginTop: size.getHeightSize(64),
     marginBottom: size.getHeightSize(64),
   },
   emptyPostText: {
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     color: appColor.kTextColor,
-    textAlign: 'center',
+    textAlign: "center",
   },
   emptyPostText2: {
     fontSize: size.fontSize(14),
     lineHeight: size.getHeightSize(17.64),
-    fontFamily: 'Outfit-Regular',
+    fontFamily: "Outfit-Regular",
     color: appColor.kGrayscale,
-    textAlign: 'center',
+    textAlign: "center",
   },
   buttonView: {
     paddingVertical: size.getHeightSize(12),
     paddingHorizontal: size.getWidthSize(16),
     borderRadius: 40,
     backgroundColor: appColor.kSecondaryButtonColor,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginTop: size.getHeightSize(23),
   },
   createPostText: {
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(21),
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: "Outfit-SemiBold",
     color: appColor.kTextColor,
-    textAlign: 'center',
+    textAlign: "center",
   },
   addSomething: {
     color: appColor.kSecondaryButtonColor,
-    fontFamily: 'Outfit-Medium',
+    fontFamily: "Outfit-Medium",
     fontSize: size.fontSize(16),
     lineHeight: size.getHeightSize(20),
   },

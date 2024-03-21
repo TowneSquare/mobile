@@ -135,7 +135,9 @@ const UploadImageBottomSheet = <T,>({ context }: Props<T>) => {
     });
 
     if (result.assets != null) {
-         dispatch(updateProfileImage(result?.assets[0].uri));
+         dispatch(updateProfileImage({
+          imageUri:result?.assets[0].uri
+         }));
         setProfilePictureBottomSheet(false);
     }
   };

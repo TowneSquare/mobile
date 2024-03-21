@@ -101,6 +101,7 @@ const ProfilePicsCollection = () => {
                   image: profile.image_uri,
                   name: profile.name,
                   id: profile.asset_id,
+                  creator: profile.creator
                 })
               );
             });

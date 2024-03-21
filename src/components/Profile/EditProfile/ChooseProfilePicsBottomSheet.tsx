@@ -108,7 +108,11 @@ const ChooseProfilePicsBottomSheet = () => {
     });
 
     if (result.assets != null) {
-      dispatch(updateProfileImage(result.assets[0].uri));
+      dispatch(dispatch(updateProfileImage({
+        imageUrl:result?.assets[0].uri,
+        collectionName:'',
+        creatorAddress:''
+      })));
       setProfilePictureBottomSheet(false);
     }
   };
@@ -126,7 +130,11 @@ const ChooseProfilePicsBottomSheet = () => {
     });
 
     if (result.assets != null) {
-      dispatch(updateProfileImage(result?.assets[0].uri));
+      dispatch(updateProfileImage({
+        imageUrl:result?.assets[0].uri,
+        collectionName:'',
+        creatorAddress:''
+      }));
       setProfilePictureBottomSheet(false);
     }
   };

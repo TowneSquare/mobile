@@ -114,7 +114,7 @@ const NftBottomSheet = () => {
           <Text style={styles.title}>NFT</Text>
 
           <Text style={styles.text}>
-            Select the NFT you want to use as your PFP
+            Select the NFT you want to use as your PFP22
           </Text>
 
           <BottomSheetScrollView

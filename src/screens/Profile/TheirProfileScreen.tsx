@@ -25,7 +25,7 @@ import MessageIcon from '../../../assets/images/svg/MessageIcon';
 import ProfileTipIcon from '../../../assets/images/svg/ProfileTipIcon';
 import { BACKEND_URL } from '../../../config/env';
 import { firestoreDB } from '../../../config/firebase.config';
-import { useAptosName } from '../../api/hooks';
+import { useAptosName, useUserInfo } from '../../api/hooks';
 import BlockUserModal from '../../components/Feed/BlockUserModal';
 import ForYou from '../../components/Feed/ForYou';
 import ReportPanel from '../../components/Feed/ReportPanel';

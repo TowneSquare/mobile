@@ -73,7 +73,9 @@ const EditProfileScreen = () => {
             onPress={() => {
               dispatch(
                 updateProfileImage(
-                  Image.resolveAssetSource(images.defaultAvatar).uri
+                 {
+                  imageUri: Image.resolveAssetSource(images.defaultAvatar).uri
+                 }
                 )
               );
             }}
