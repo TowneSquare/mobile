@@ -41,6 +41,7 @@ import { Video, ResizeMode } from 'expo-av';
 import { UserCommentData } from '../../controller/UserController';
 import { useAppSelector } from '../../controller/hooks';
 import { getPostTime } from '../../utils/helperFunction';
+import { RootStackParamList } from '../../navigations/NavigationTypes';
 // interface NavigationParameter {
 //   username: string;
 //   nickname: string;
@@ -48,8 +49,9 @@ import { getPostTime } from '../../utils/helperFunction';
 interface Props {
   data: PostData;
   shouldPFPSwipe: boolean;
+  currentScreen: keyof RootStackParamList;
 }
-const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
+const ForYou = memo(({ currentScreen, data, shouldPFPSwipe }: Props) => {
   const navigation = useNavigation();
   const videoRef = useRef(null);
   const userId = useAppSelector((state) => state.USER.UserData?._id);
@@ -107,11 +109,12 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              currentScreen={currentScreen}
               wallet={userPost?.customer?.aptosWallet}
               key={userPost?.customer._id}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
-              swipeable
+              swipeable={shouldPFPSwipe}
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
             />
@@ -158,6 +161,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={currentScreen}
               />
               {/* <ShowThread /> */}
             </View>
@@ -170,11 +174,12 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              currentScreen={currentScreen}
               wallet={userPost?.customer?.aptosWallet}
               key={userPost?.customer._id}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
-              swipeable
+              swipeable={shouldPFPSwipe}
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
             />
@@ -231,6 +236,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={currentScreen}
               />
             </View>
           </View>
@@ -243,11 +249,12 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              currentScreen={currentScreen}
               wallet={userPost?.customer?.aptosWallet}
               key={userPost?.customer._id}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
-              swipeable
+              swipeable={shouldPFPSwipe}
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
             />
@@ -319,6 +326,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={currentScreen}
               />
 
               {/* <PostActions
@@ -337,7 +345,8 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     // content = (
     //   <>
     //     <View style={styles.feedContainer}>
-    //       <ProfilePicture swipeable={shouldPFPSwipe} />
+    //       <ProfilePicture
+    // currentScreen={currentScreen} swipeable={shouldPFPSwipe} />
     //       <View style={styles.subHeading}>
     //         <PostHeader
     //           onPress={handleNavigation}
@@ -381,11 +390,12 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              currentScreen={currentScreen}
               wallet={userPost?.customer?.aptosWallet}
               key={userPost?.customer._id}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
-              swipeable
+              swipeable={shouldPFPSwipe}
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
             />
@@ -456,6 +466,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={currentScreen}
               />
             </View>
           </View>
@@ -468,11 +479,12 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              currentScreen={currentScreen}
               wallet={userPost?.customer?.aptosWallet}
               key={userPost?.customer._id}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
-              swipeable
+              swipeable={shouldPFPSwipe}
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
             />
@@ -527,6 +539,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={currentScreen}
               />
               {/* <PostActions
                 noOfComments={userPost.comments}
@@ -544,7 +557,8 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     // content = (
     //   <>
     //     <View style={styles.feedContainer}>
-    //       <ProfilePicture swipeable={shouldPFPSwipe} />
+    //       <ProfilePicture
+    //        currentScreen={currentScreen} swipeable={shouldPFPSwipe} />
     //       <View style={styles.subHeading}>
     //         {/* <PostHeader
     //           username={userPost.customer.username}
@@ -608,10 +622,11 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              currentScreen={currentScreen}
               key={userPost?.customer._id}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
-              swipeable
+              swipeable={shouldPFPSwipe}
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
               wallet={userPost?.customer?.aptosWallet}
@@ -715,6 +730,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={currentScreen}
               />
             </View>
           </View>
@@ -727,9 +743,10 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
         <>
           <View style={styles.feedContainer}>
             <ProfilePicture
+              currentScreen={currentScreen}
               profileImageUri={userPost?.customer?.profileImage}
               userId={userPost?.customer._id}
-              swipeable
+              swipeable={shouldPFPSwipe}
               username={userPost?.customer?.username}
               nickname={userPost?.customer?.nickname}
               wallet={userPost?.customer?.aptosWallet}
@@ -819,6 +836,7 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={currentScreen}
               />
               {/* <ShowThread /> */}
             </View>
@@ -932,7 +950,13 @@ const ForYou = memo(({ data, shouldPFPSwipe }: Props) => {
     //   );
     //   break;
     case FeedContent.REPOST:
-      content = <Reposted data={data} shouldPFPSwipe={shouldPFPSwipe} />;
+      content = (
+        <Reposted
+          currentScreen={currentScreen}
+          data={data}
+          shouldPFPSwipe={shouldPFPSwipe}
+        />
+      );
       break;
   }
   return <>{content}</>;

@@ -184,7 +184,12 @@ const About = ({ route }) => {
     console.log(onlyUserPost, "onlyUserPost");
     if (onlyUserPost.length > 0) {
       return onlyUserPost.map((userpost) => (
-        <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
+        <ForYou
+          currentScreen={'' as null}
+          key={userpost._id}
+          data={userpost}
+          shouldPFPSwipe={false}
+        />
       ));
     } else {
       return (
@@ -227,7 +232,12 @@ const About = ({ route }) => {
       return onlyUserPost
         .filter((userpost) => userpost.imageUrls[0] || userpost.videoUrls[0])
         .map((userpost) => (
-          <ForYou key={userpost._id} data={userpost} shouldPFPSwipe={false} />
+          <ForYou
+            currentScreen={'' as null}
+            key={userpost._id}
+            data={userpost}
+            shouldPFPSwipe={false}
+          />
         ));
     } else {
       return (

@@ -115,6 +115,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={'SinglePost'}
               />
             </View>
           </View>
@@ -194,6 +195,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={'SinglePost'}
               />
             </View>
           </View>
@@ -311,6 +313,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={'SinglePost'}
               />
             </View>
           </View>
@@ -365,6 +368,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={'SinglePost'}
               />
             </View>
           </View>
@@ -415,6 +419,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={'SinglePost'}
               />
             </View>
           </View>
@@ -483,6 +488,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={'SinglePost'}
               />
             </View>
           </View>
@@ -551,6 +557,7 @@ const SinglePostContent = ({ data }: { data: PostData }) => {
                 pfp={userPost.customer.profileImage}
                 username={userPost.customer.username}
                 wallet={userPost.customer.aptosWallet}
+                currentScreen={'SinglePost'}
               />
             </View>
           </View>

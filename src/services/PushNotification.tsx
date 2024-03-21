@@ -29,8 +29,6 @@ export const storeDeviceTokenToFireStore = async (
 };
 export const getuserDeviceToken = async (userId: string) => {
   try {
-    console.log('======id======');
-    console.log(userId);
     const userRef = doc(firestoreDB, 'users_device_token', userId);
     const userSnap = await getDoc(userRef);
 
@@ -48,7 +46,33 @@ export const getuserDeviceToken = async (userId: string) => {
     console.error('Error getting document: ', error);
   }
 };
-export async function sendPushNotification(
+
+export async function sendTipNotification(
+  expoPushToken: string,
+  { title = '', msg = '' }
+) {
+  const message = {
+    to: expoPushToken,
+    sound: 'default',
+    title: title,
+    body: msg,
+  };
+  await fetch('https://exp.host/--/api/v2/push/send', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Accept-encoding': 'gzip, deflate',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(message),
+  })
+    .then(async (res) => {
+      const data = await res.json();
+      console.log(data);
+    })
+    .catch((err) => console.log(err));
+}
+export async function sendChatPushNotification(
   expoPushToken: string,
   {
     userId = '',
@@ -140,9 +164,9 @@ export default function usePushNotification() {
   >();
   const [expoPushToken, setExpoPushToken] = useState<string>();
   async function storeDeveiceToken(token: string) {
+    const userId = await AsyncStorage.getItem('user_id');
     dispatch(updateUserDeviceToken(token));
-
-    // userId && (await storeDeviceTokenToFireStore(userId, token));
+    userId && (await storeDeviceTokenToFireStore(userId, token));
   }
   // console.log(expoPushToken);
   useEffect(() => {

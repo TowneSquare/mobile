@@ -179,7 +179,8 @@ const SignUp = ({ magic }: SignUpProps) => {
         // if user is already signed up, set login session and navigate to congratulations screen
         if (res.isExist && res.isExist == true) {
           await setLoginSession(res.wallet, res.userId);
-          await storeDeviceTokenToFireStore(res.userId, deviceToken);
+          deviceToken &&
+            (await storeDeviceTokenToFireStore(res.userId, deviceToken));
 
           await AsyncStorage.setItem('user_id', res.userId);
           dispatch(updateUserId(res.userId));
@@ -220,7 +221,8 @@ const SignUp = ({ magic }: SignUpProps) => {
           await setLoginSession(res.wallet, res.userId);
           setUserId(res.userId);
           await AsyncStorage.setItem('user_id', res.userId);
-          await storeDeviceTokenToFireStore(res.userId, deviceToken);
+          deviceToken &&
+            (await storeDeviceTokenToFireStore(res.userId, deviceToken));
           // setToken(user.didToken);
         }
         // if error occurs, show error toast
@@ -279,7 +281,6 @@ const SignUp = ({ magic }: SignUpProps) => {
       navigation.goBack();
     }
   };
-
 
   // Animation for the progress bar
   const stagePosition = Animated.divide(scrollX, width);
