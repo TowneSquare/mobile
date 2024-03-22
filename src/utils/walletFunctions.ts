@@ -11,6 +11,8 @@ import nacl, { BoxKeyPair, randomBytes } from 'tweetnacl';
 import axios from 'axios';
 import { CMC_PRO_API_KEY, coinType } from '../../constants';
 import { RootStackParamList } from '../navigations/NavigationTypes';
+import { TOWNSQUARE_CORE_MODULE_ADDRESS } from '../../config/env';
+import { MoveOptionType } from '@aptos-labs/ts-sdk';
 
 // Data type for petra wallet connect
 type ConnectData = {
@@ -479,4 +481,34 @@ export const getAssetBalance = async (
   const coinDecimal = 10 ** decimal;
   const aptAmt = coinAmount / coinDecimal;
   return aptAmt;
+};
+
+export const pontemCreateUserTransaction = async (
+  referral_code: string,
+  referrer: MoveOptionType,
+  username: string,
+  screen: keyof RootStackParamList
+) => {
+  const redirect_link = Linking.createURL(`/${screen}`);
+  const transaction = {
+    type: "entry_function_payload",
+    function: `${TOWNSQUARE_CORE_MODULE_ADDRESS}::core::create_user`,
+    type_arguments: [],
+    arguments: [referral_code, referrer, username],
+  };
+
+  const appInfo = {
+    name: "Townesquare",
+    logoUrl:
+      "https://www.townesquare.xyz/static/media/logo.6e77e4b3cad4fe08bb6e.png",
+    redirectLink: redirect_link,
+  };
+
+  const base64AppInfo = Buffer.from(JSON.stringify(appInfo)).toString("base64");
+  const base64Payload = Buffer.from(JSON.stringify(transaction)).toString(
+    "base64"
+  );
+  const url = `pontem-wallet://mob2mob?payload=${base64Payload}&app_info=${base64AppInfo}`;
+
+  Linking.openURL(url);
 };
