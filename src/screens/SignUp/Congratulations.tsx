@@ -19,7 +19,7 @@ import { getUserData, updateUserData } from "../../controller/UserController";
 import { useAppDispatch, useAppSelector } from "../../controller/hooks";
 import { storeDeviceTokenToFireStore } from "../../services/PushNotification";
 import { sizes } from "../../utils";
-import { pontemCreateUserTransaction } from "../../utils/connectWallet";
+import { pontemCreateUserTransaction } from "../../utils/walletFunctions";
 import {
   Aptos,
   AptosConfig,
@@ -46,13 +46,6 @@ const Congratulations = () => {
       accountInfo: state.USER.signUpData.accountInfo,
     }));
 
-  // Create an instance of the aptos sdk
-  const config = new AptosConfig({
-    network: Network.TESTNET,
-  });
-  const aptos = new Aptos(config);
-
-  const referrer = new MoveOption<MoveString>(undefined);
 
   async function getUser() {
     setLoading(true);
@@ -83,7 +76,7 @@ const Congratulations = () => {
       referralCode,
       undefined,
       username,
-      "DrawerNavigation"
+      "Congratulations"
     );
   }
   let [isLoaded] = useFonts({

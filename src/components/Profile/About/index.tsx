@@ -56,10 +56,8 @@ import {
 } from "@aptos-labs/ts-sdk";
 import { Order_By } from "aptos";
 import {
-  connectWalletPontem,
-  handlWalletConnect,
   pontemCreateUserTransaction,
-} from "../../../utils/connectWallet";
+} from "../../../utils/walletFunctions";
 
 type SuperStarReducerState = {
   showSuperStarModal: boolean;
@@ -277,14 +275,7 @@ const About = ({ route }) => {
 
   const referrer = new MoveOption<MoveString>(undefined);
 
-  const sign = async () => {
-    await pontemCreateUserTransaction(
-      "1111",
-      undefined,
-      "TS UserName2",
-      "DrawerNavigation"
-    );
-  };
+  
 
   const handleFollow = () => {
     following && navigate("FollowersScreen", { screen: "Following" });
