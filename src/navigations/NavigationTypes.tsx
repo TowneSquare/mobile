@@ -132,7 +132,7 @@ export type RootStackParamList = {
   CreateCommunity1: undefined;
   CreateCommunitySuccessScreen: undefined;
   CommunityScreen: undefined;
-  
+
   ExploreCommunityScreen: undefined;
   CommunitySettings: undefined;
   GeneralSettings: undefined;
@@ -210,15 +210,32 @@ export type RootStackParamList = {
   AptosMonkey: undefined;
   ShareReferralCode: undefined;
   SwapMain: undefined;
-  ProfileSendToken: undefined;
+  ProfileSendToken: {
+    name: string;
+    username: string;
+    profilePicsUri: string;
+    receiverId: string;
+    address: string;
+    response?: 'approved' | 'rejected' | 'dismissed';
+  };
   Support: undefined;
   AccountInfo: undefined;
   AccountNotifications: undefined;
   AccountSettings: undefined;
   Bookmarks: undefined;
   TownesquareVerification: undefined;
+  TownChatScreen: undefined;
 };
-
+type ProfileSendTokenParams = {
+  [ProfileSendToken: string]: {
+    name: string;
+    username: string;
+    profilePicsUri: string;
+    receiverId: string;
+    address: string;
+    response?: 'approved' | 'rejected' | 'dismissed';
+  };
+};
 type ViewImageScreenParams = {
   [ViewImageScreen: string]: {
     postData?: PostData;
@@ -728,7 +745,7 @@ export type SwapMainProps = {
 export type ProfileSendTokenProps = {
   navigation: NavigationProp<RootStackParamList, 'ProfileSendToken'>;
   magic: any;
-  route: RouteProp<ParamListBase, 'ProfileSendToken'>;
+  route: RouteProp<ProfileSendTokenParams, 'ProfileSendToken'>;
 };
 export type SupportProps = {
   navigation: NavigationProp<RootStackParamList, 'Support'>;

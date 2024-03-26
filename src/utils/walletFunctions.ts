@@ -187,7 +187,7 @@ export const getAptMarketData = async (
   currentUserAddress: string,
   onError: () => void
 ) => {
-  console.log('======here1======')
+  console.log('======here1======');
   const baseUrl =
     'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest';
   const response = await axios.get(baseUrl, {
@@ -199,7 +199,7 @@ export const getAptMarketData = async (
       'X-CMC_PRO_API_KEY': CMC_PRO_API_KEY, // Make sure to define CMC_PRO_API_KEY
     },
   });
-console.log('=====here2======')
+  console.log('=====here2======');
   let marketdata: any;
   if (response.data.data.APT.quote.USD.price) {
     await AsyncStorage.setItem(
@@ -439,7 +439,7 @@ export const sendTokenTransaction = (
   decimal: string,
   coinType: `${string}::${string}::${string}`
 ) => {
-  const redirect_link = Linking.createURL(`/${screen}`);
+  const redirect_link = Linking.createURL(`/${screen}`, );
 
   const APT_DECIMAL = 10 ** Number(decimal);
 
@@ -460,6 +460,7 @@ export const sendTokenTransaction = (
   const base64Payload = Buffer.from(JSON.stringify(transaction)).toString(
     'base64'
   );
+  console.log('=======redirect link========');
   console.log(redirect_link);
 
   const url = `pontem-wallet://mob2mob?payload=${base64Payload}&app_info=${base64AppInfo}`;

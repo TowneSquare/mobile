@@ -3,33 +3,25 @@ import BottomSheet, {
   BottomSheetView,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef
-} from 'react';
-import {
-  BackHandler,
-  Dimensions,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import { BackHandler, Dimensions, StyleSheet, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import BlackMessageIcon from '../../../../assets/images/svg/BlackMessageIcon';
 import FollowIcon from '../../../../assets/images/svg/FollowIcon';
 import UserProfileIcon from '../../../../assets/images/svg/UserProfileIcon';
 import { appColor, images } from '../../../constants';
 import { sizes } from '../../../utils';
+import { useAppDispatch, useAppSelector } from '../../../controller/hooks';
+import { updateViewProfileBottomsheetVisibility } from '../../../controller/BottomSheetController';
 import CustomHandler from '../../Feed/CustomHandler';
 const { height, width } = Dimensions.get('window');
-interface Props {
-  visibility: boolean;
-  onClose: () => void;
-}
+
 const size = new sizes(height, width);
-const ViewProfileBottomSheet = ({ onClose, visibility }: Props) => {
+const ViewProfileBottomSheet = () => {
+  const dispatch = useAppDispatch();
+  const visibility = useAppSelector(
+    (state) => state.bottomSheetController.viewProfileBottomsheetVisibility
+  );
   const bottomSheetRef = useRef<BottomSheet>(null);
   const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], []);
   visibility === false
@@ -38,7 +30,7 @@ const ViewProfileBottomSheet = ({ onClose, visibility }: Props) => {
   useEffect(() => {
     const handleBackButton = () => {
       if (visibility === true) {
-        onClose();
+        dispatch(updateViewProfileBottomsheetVisibility(false));
         return true;
       } else {
         return false;
@@ -74,7 +66,7 @@ const ViewProfileBottomSheet = ({ onClose, visibility }: Props) => {
       ) : (
         <BottomSheet
           onClose={() => {
-            onClose();
+            dispatch(updateViewProfileBottomsheetVisibility(false));
           }}
           ref={bottomSheetRef}
           snapPoints={animatedSnapPoints}
@@ -85,7 +77,7 @@ const ViewProfileBottomSheet = ({ onClose, visibility }: Props) => {
           backgroundStyle={{
             backgroundColor: appColor.kgrayDark2,
           }}
-          handleComponent={()=><CustomHandler width={115}/>}
+          handleComponent={() => <CustomHandler width={115} />}
           backdropComponent={renderBackdrop}
         >
           <BottomSheetView onLayout={handleContentLayout}>

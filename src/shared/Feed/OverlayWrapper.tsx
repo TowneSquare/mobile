@@ -8,6 +8,7 @@ import PointsonholdBottomsheet from '../../components/Rewards/Airdrop/Pointsonho
 import ReferralBottomsheet from '../../components/Rewards/Airdrop/ReferralBottomsheet';
 import { useAppSelector } from '../../controller/hooks';
 import CToast from './CToast';
+import ViewProfileBottomSheet from '../../components/Community/CreateChannel/ViewProfileBottomSheet';
 import DeleteMyPostPanel from './DeleteMyPostPanel';
 import MyPostPanel from './MyPostPanel';
 import TipBottomSheet from './TipBottomSheet';
@@ -30,6 +31,9 @@ const OverlayWrapper = () => {
       <PointsonholdBottomsheet />
       <Transactiondetails />
       <ReceiveTokenModal  />
+      <ViewProfileBottomSheet
+
+      />
     </>
   );
 };

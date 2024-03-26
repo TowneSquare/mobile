@@ -181,7 +181,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
                 size={size.fontSize(25)}
               />
             </Pressable>
-            <Pressable
+            {/* <Pressable
               onPress={() => {
                 // handleWalletConnect('rise');
               }}
@@ -192,9 +192,9 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
                 <Text style={styles.leadingText}>Rise</Text>
               </View>
               <Text style={styles.text}>Coming soon</Text>
-            </Pressable>
+            </Pressable> */}
 
-            <View
+            {/* <View
               style={[styles.wallet, { backgroundColor: appColor.kgrayDark2 }]}
             >
               <View style={styles.rows}>
@@ -211,7 +211,7 @@ const ChooseWallet = ({ navigation, route }: ChooseWalletProps) => {
                 <Text style={styles.leadingText}>Martian</Text>
               </View>
               <Text style={styles.text}>Coming soon</Text>
-            </View>
+            </View> */}
           </View>
           <View style={{ flex: 1 }} />
           <View
@@ -317,8 +317,10 @@ const styles = StyleSheet.create({
   },
   view2: {
     height: size.getHeightSize(312),
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     width: size.getWidthSize(359),
     alignItems: 'center',
+    gap:size.getHeightSize(24),
+    
   },
 });

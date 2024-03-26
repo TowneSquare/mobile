@@ -1,14 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Dimensions,
+  Image,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
+import {
+  getTokenLists,
+  getAssetBalance,
+  sendTokenTransaction,
+} from '../../utils/walletFunctions';
+import {
+  getuserDeviceToken,
+  sendTipNotification,
+} from '../../services/PushNotification';
 import { Avatar } from 'react-native-elements';
+import { isUrlEncoded, isBase64 } from '../../utils/helperFunction';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -19,24 +30,114 @@ import RemoveIcon from '../../../assets/images/svg/Reward/Send/RemoveIcon';
 import SelectTokenSheet from '../../components/DM/SelectTokenSheet';
 import { appColor, images } from '../../constants';
 import { updateSelectUserBottomsheet } from '../../controller/BottomSheetController';
-import { useAppDispatch } from '../../controller/hooks';
+import { useAppDispatch, useAppSelector } from '../../controller/hooks';
 import { ProfileSendTokenProps } from '../../navigations/NavigationTypes';
 import SignTransactionBottomsheet from '../../shared/SignTransactionBottomsheet';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
+const ProfileSendToken = ({
+  navigation,
+  route: { params },
+}: ProfileSendTokenProps) => {
+  const { response, address, name, profilePicsUri, receiverId, username } =
+    params;
+
   const dispatch = useAppDispatch();
+  const currentUserAddress = useAppSelector(
+    (state) => state.USER.UserData.aptosWallet
+  );
+  const selectedUser = useAppSelector(
+    (state) => state.bottomSheetController.selectUserBottomsheet.selectedUser
+  );
+  console.log(response);
+  const [sendParams, setParams] = useState<{
+    name: string;
+    username: string;
+    profilePicsUri: string;
+    receiverId: string;
+    address: string;
+    response?: 'approved' | 'rejected' | 'dismissed';
+  }>({
+    address: params.address,
+    name: params.name,
+    profilePicsUri: params.profilePicsUri,
+    receiverId: params.receiverId,
+    username: params.username,
+    response: response ? response : undefined,
+  });
+
+  console.log('======== params ========');
+  console.log(sendParams);
+
+  const [selectedToken, setToken] = useState(getTokenLists()[0]);
+  const [isFetchingCoinBalance, setFetching] = useState(false);
+  const [showSignTransactionBottomsheet, setSignTransactionVisibility] =
+    useState(false);
   const [showSelectTokenSheet, setSelectTokenSheetVisibility] = useState(false);
   const [transactionStatus, setTransactionStatus] = useState<
     'loading' | 'failed' | 'success' | 'idle'
   >('idle');
   const [amount, setAmount] = useState('');
   const [balance, setBalance] = useState(undefined);
+  const receiver = useAppSelector(
+    (state) => state.bottomSheetController.selectUserBottomsheet.selectedUser
+  );
+  const currentUserName = useAppSelector(
+    (state) => state.USER.UserData.username
+  );
   useEffect(() => {
-    setTimeout(() => {
-      setBalance(30);
-    }, 3000);
+    setParams({
+      address: selectedUser.address,
+      name: selectedUser.name,
+      profilePicsUri: selectedUser.profilePicsUri,
+      receiverId: selectedUser.receiverId,
+      username: selectedUser.username,
+      response: undefined,
+    });
+  }, [selectedUser]);
+
+  useEffect(() => {
+    (async () => {
+      setFetching(true);
+      const balance = await getAssetBalance(
+        currentUserAddress,
+        selectedToken.coinType,
+        Number(selectedToken.decimal)
+      );
+      setBalance(balance);
+      setFetching(false);
+    })();
+  }, [response, selectedToken]);
+  useEffect(() => {
+    setParams({
+      address,
+      name,
+      profilePicsUri,
+      receiverId,
+      username,
+      response,
+    });
+    if (response === 'approved') {
+      setTransactionStatus('success');
+      (async () => {
+        await getuserDeviceToken(receiverId).then(async (token) => {
+          console.log(`Gotten token here: ${token}`);
+          token &&
+            (await sendTipNotification(token, {
+              title: 'TowneSquare',
+              msg: `${currentUserName} sent you ${amount} ${selectedToken.symbol}. `,
+            }));
+        });
+      })();
+    } else if (response === 'dismissed') {
+      setTransactionStatus('failed');
+    } else if (response === 'rejected') {
+      console.log('Faileddddd');
+      setTransactionStatus('failed');
+    } else setTransactionStatus('idle');
+  }, [params, response]);
+  useEffect(() => {
     return () => {
       dispatch(
         updateSelectUserBottomsheet({
@@ -45,6 +146,8 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
             name: '',
             username: '',
             profilePicsUri: '',
+            address: '',
+            receiverId: '',
           },
         })
       );
@@ -57,14 +160,51 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
     transactionStatus === 'loading';
   const handleSend = () => {
     setTransactionStatus('loading');
+    setSignTransactionVisibility(true);
+    const encodedPfp = isBase64(sendParams.profilePicsUri)
+      ? sendParams.profilePicsUri
+      : Buffer.from(sendParams.profilePicsUri).toString('base64');
+
     setTimeout(() => {
-      setTransactionStatus('success');
-    }, 4000);
+      sendTokenTransaction(
+        sendParams.address,
+        Number(amount),
+        `ProfileSendToken/${sendParams.address}/${encodedPfp}/${sendParams.receiverId}/${sendParams.username}/${sendParams.name}` as any,
+        selectedToken.decimal,
+        selectedToken.coinType
+      );
+    }, 700);
+    // setTimeout(() => {
+    //   setTransactionStatus('success');
+    // }, 4000);
   };
+
   if (transactionStatus === 'success') {
-    navigation.navigate('TokenSuccess', { popNo: 2 }),
+    dispatch(
+      updateSelectUserBottomsheet({
+        visibility: false,
+        selectedUser: {
+          name: '',
+          username: '',
+          profilePicsUri: '',
+          address: '',
+          receiverId: '',
+        },
+      })
+    );
+    navigation.navigate('TokenSuccess', {
+      popNo: 2,
+      amount,
+      nickname: name,
+      pfp: isBase64(profilePicsUri)
+        ? Buffer.from(profilePicsUri, 'base64').toString()
+        : profilePicsUri,
+      username: username,
+      tokenSymbol: selectedToken.symbol,
+    }),
       setTransactionStatus('idle');
   }
+
   return (
     <SafeAreaView
       style={{
@@ -123,7 +263,14 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
                 size={size.getHeightSize(24)}
               />
               <Avatar
-                source={images.siothian}
+                source={{
+                  uri: isBase64(sendParams.profilePicsUri)
+                    ? Buffer.from(
+                        sendParams.profilePicsUri,
+                        'base64'
+                      ).toString()
+                    : sendParams.profilePicsUri,
+                }}
                 rounded
                 size={size.getHeightSize(84)}
               />
@@ -139,10 +286,10 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
                   gap: size.getWidthSize(8),
                 }}
               >
-                <Text style={styles.name}>UsernameX</Text>
+                <Text style={styles.name}>{sendParams.username}</Text>
                 <GreyBadge size={size.getHeightSize(18)} />
               </View>
-              <Text style={styles.username}>@jczhang</Text>
+              <Text style={styles.username}>{sendParams.name}</Text>
             </View>
             <View
               style={{
@@ -175,8 +322,12 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
                 onPress={() => setSelectTokenSheetVisibility(true)}
                 style={styles.dropDown}
               >
-                <Aptos2 size={size.getHeightSize(24)} />
-                <Text style={styles.APT}>APT</Text>
+                <Avatar
+                  size={size.getHeightSize(24)}
+                  rounded
+                  source={{ uri: selectedToken.logo }}
+                />
+                <Text style={styles.APT}>{selectedToken.symbol}</Text>
                 <MaterialIcons
                   name="arrow-drop-down"
                   size={size.getHeightSize(24)}
@@ -203,7 +354,7 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
                 >
                   Available balance:
                 </Text>
-                {balance === undefined ? (
+                {isFetchingCoinBalance ? (
                   <ActivityIndicator
                     size={size.getHeightSize(16)}
                     color={appColor.primaryLight}
@@ -220,7 +371,7 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
                       },
                     ]}
                   >
-                    30 APT
+                    {balance} {selectedToken.symbol}
                   </Text>
                 )}
               </View>
@@ -230,17 +381,17 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
                   <Text
                     style={[styles.rowText, { color: appColor.kTextColor }]}
                   >
-                    {amount ? `${amount} USDC` : '-'}
+                    {amount ? `${amount} ${selectedToken.symbol}` : '-'}
                   </Text>
                 </View>
-                <View style={styles.row}>
+                {/* <View style={styles.row}>
                   <Text style={styles.rowText}>Service fee</Text>
                   <Text
                     style={[styles.rowText, { color: appColor.kTextColor }]}
                   >
                     0.15%
                   </Text>
-                </View>
+                </View> */}
               </View>
               <View style={styles.row2}>
                 <Text
@@ -258,7 +409,7 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
                   ]}
                 >
                   {amount
-                    ? `${parseFloat(amount) + 0.0015 * parseFloat(amount)} USDC`
+                    ? `${parseFloat(amount)} ${selectedToken.symbol}`
                     : '-'}
                 </Text>
               </View>
@@ -299,7 +450,9 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
                       }}
                     >
                       <ChatTipIcon size={size.getHeightSize(24)} />
-                      <Text style={styles.sendText}>Send {amount} USDC</Text>
+                      <Text style={styles.sendText}>
+                        Send {amount} {selectedToken.symbol}
+                      </Text>
                     </View>
                   )}
                 </Pressable>
@@ -315,18 +468,17 @@ const ProfileSendToken = ({ navigation }: ProfileSendTokenProps) => {
         </KeyboardAwareScrollView>
       </View>
       <SelectTokenSheet
-        callBack={() => {
+        callBack={(token) => {
+          setToken(token);
           setSelectTokenSheetVisibility(false);
         }}
         visibility={showSelectTokenSheet}
         onClose={() => setSelectTokenSheetVisibility(false)}
       />
       <SignTransactionBottomsheet
-        visibility={
-          transactionStatus === 'loading' || transactionStatus === 'failed'
-        }
+        visibility={showSignTransactionBottomsheet}
         status={transactionStatus}
-        onClose={() => setTransactionStatus('idle')}
+        onClose={() => setSignTransactionVisibility(false)}
         title="Sign Transaction"
       />
     </SafeAreaView>

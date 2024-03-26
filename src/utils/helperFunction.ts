@@ -93,3 +93,21 @@ export function isUrlEncoded(str: string) {
     return false;
   }
 }
+
+export function encodeUri(str: string) {
+  if (isUrlEncoded(str)) {
+    return str;
+  } else return encodeURIComponent(str);
+}
+export function isBase64(str: string) {
+  const base64Regex =
+    /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
+  return base64Regex.test(str);
+}
+
+export function search<T>(items: T[], searchTerm: string, field: keyof T): T[] {
+  // Filter the items based on the search term
+  return items.filter((item) =>
+    String(item[field]).toLowerCase().includes(searchTerm.toLowerCase())
+  );
+}

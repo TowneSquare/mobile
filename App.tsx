@@ -54,6 +54,8 @@ const linking: LinkingOptions<RootStackParamList> = {
       ViewImageScreen: 'ViewImageScreen',
       VideoPlayer: 'VideoPlayer',
       SendToken: 'SendToken/:address/:pfp/:receiverId/:username/:nickname',
+      ProfileSendToken:
+        'ProfileSendToken/:address/:profilePicsUri/:receiverId/:username/:name',
       TheirProfileScreen: 'TheirProfileScreen/:userId/:username/:nickname',
       DrawerNavigation: {
         path: 'DrawerNavigation',

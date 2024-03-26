@@ -9,6 +9,7 @@ interface Props {
   data: {
     name: string;
     username: string;
+    pfp: string;
   };
   onPress?: () => void;
 }
@@ -23,7 +24,7 @@ const UserDisplayWithoutFollowButton = ({ data, onPress }: Props) => {
       <Avatar
         rounded
         size={size.getHeightSize(40)}
-        source={images.profileImage}
+        source={data.pfp ? { uri: data.pfp } : images.defaultAvatar}
       />
       <View style={styles.nameConatiner}>
         <View style={styles.container}>

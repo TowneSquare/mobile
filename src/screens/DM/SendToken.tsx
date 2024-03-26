@@ -31,7 +31,7 @@ import {
   sendTipNotification,
 } from '../../services/PushNotification';
 import { getAssetBalance } from '../../utils/walletFunctions';
-import { isUrlEncoded } from '../../utils/helperFunction';
+import { isUrlEncoded, encodeUri, isBase64 } from '../../utils/helperFunction';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
@@ -87,7 +87,7 @@ const SendToken = ({ navigation, route: { params } }: SendTokenProps) => {
     } else if (response === 'rejected') {
       setSendStatus('failed');
     } else setSendStatus('idle');
-  }, [response]);
+  }, [params, response]);
   const isSendButtonDisabled =
     amount > balance ||
     balance === undefined ||
@@ -95,14 +95,15 @@ const SendToken = ({ navigation, route: { params } }: SendTokenProps) => {
     sendStatus === 'loading';
   const handleSend = async () => {
     setSendStatus('loading');
+    const encodedPfp = isBase64(pfp)
+      ? pfp
+      : Buffer.from(pfp).toString('base64');
 
     setTimeout(() => {
       sendTokenTransaction(
         address,
         Number(amount),
-        `SendToken/${address}/${encodeURIComponent(
-          pfp
-        )}/${receiverId}/${username}/${nickname}` as any,
+        `SendToken/${address}/${encodedPfp}/${receiverId}/${username}/${nickname}` as any,
         selectedToken.decimal,
         selectedToken.coinType
       );
@@ -113,15 +114,16 @@ const SendToken = ({ navigation, route: { params } }: SendTokenProps) => {
       popNo: 2,
       amount,
       nickname,
-      pfp: isUrlEncoded(pfp)
-        ? decodeURIComponent(decodeURIComponent(pfp))
-        : pfp,
+      pfp: isBase64(pfp) ? Buffer.from(pfp, 'base64').toString() : pfp,
       username,
       tokenSymbol: selectedToken.symbol,
     }),
       setSendStatus('idle');
   }
-
+  console.log('================');
+  console.log('pfp', pfp);
+  console.log('isUrlEncoded(pfp)', isUrlEncoded(pfp));
+  console.log('decodeURIComponent(pfp)', decodeURIComponent(pfp));
   return (
     <SafeAreaView
       style={{
@@ -150,8 +152,8 @@ const SendToken = ({ navigation, route: { params } }: SendTokenProps) => {
             >
               <Avatar
                 source={{
-                  uri: isUrlEncoded(pfp)
-                    ? decodeURIComponent(decodeURIComponent(pfp))
+                  uri: isBase64(pfp)
+                    ? Buffer.from(pfp, 'base64').toString()
                     : pfp,
                 }}
                 rounded
@@ -274,14 +276,14 @@ const SendToken = ({ navigation, route: { params } }: SendTokenProps) => {
                       {amount ? `${amount} ${selectedToken.symbol}` : '-'}
                     </Text>
                   </View>
-                  <View style={styles.row}>
+                  {/* <View style={styles.row}>
                     <Text style={styles.rowText}>Service fee</Text>
                     <Text
                       style={[styles.rowText, { color: appColor.kTextColor }]}
                     >
                       0.15%
                     </Text>
-                  </View>
+                  </View> */}
                 </View>
                 <View style={styles.row2}>
                   <Text

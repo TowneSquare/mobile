@@ -1,13 +1,7 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useReducer, useRef } from 'react';
-import {
-  Animated,
-  Dimensions,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { Animated, Dimensions, StyleSheet, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import {
   HandlerStateChangeEvent,
@@ -174,10 +168,10 @@ const ChannelMessage = ({
                 paddingHorizontal: size.getWidthSize(16),
               }}
             >
-              <Text style={styles.timeStamp}>Friday 18:40pm</Text>
               <View style={styles.container}>
                 <Text style={styles.message}>{text}</Text>
               </View>
+              <Text style={styles.timeStamp}>Friday 18:40pm</Text>
             </View>
           </Swipeable>
         </View>
@@ -251,13 +245,13 @@ const ChannelMessage = ({
                   <Text numberOfLines={1} style={styles.username}>
                     @username
                   </Text>
-                  <Text numberOfLines={1} style={styles.timeStamp}>
-                    Friday 18:40pm
-                  </Text>
                 </View>
                 <View style={styles.messageContainer}>
                   <Text style={styles.message}>{text}</Text>
                 </View>
+                <Text numberOfLines={1} style={styles.timeStamp2}>
+                  Friday 18:40pm
+                </Text>
               </View>
             </View>
           </Swipeable>
@@ -364,5 +358,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Outfit-Regular',
     lineHeight: size.getHeightSize(20),
     backgroundColor: appColor.feedBackground,
+  },
+  timeStamp2: {
+    color: appColor.grayLight,
+    fontSize: size.fontSize(14),
+    fontFamily: 'Outfit-Regular',
+    lineHeight: size.getHeightSize(18),
+    textAlign: 'left',
   },
 });

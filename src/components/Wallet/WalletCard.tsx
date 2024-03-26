@@ -44,8 +44,7 @@ const WalletCard = ({
     'Outfit-SemiBold': fonts.OUTFIT_SEMIBOLD,
     'Outfit-Regular': fonts.OUTFIT_REGULAR,
   });
-  console.log('===domain=====');
-  console.log(APTOS_DOMAIN_NAME);
+
   return (
     <View style={[styles.view1]}>
       <View style={{}}>

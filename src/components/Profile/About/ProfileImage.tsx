@@ -1,10 +1,4 @@
-import {
-  Text,
-  Image,
-  Pressable,
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
+import { Text, Image, Pressable, StyleSheet, Dimensions } from 'react-native';
 import { useContext } from 'react';
 import { images, appColor } from '../../../constants';
 import { useAppSelector } from '../../../controller/hooks';
@@ -12,10 +6,12 @@ import { sizes } from '../../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 import { EditProfilePictureContext } from '../../../context/EditProfileBottomSheetContext';
-const ProfileImage = () => {
-  const profilePics = useAppSelector(
-    (state) => state.USER.UserData.profileImage
-  );
+
+interface Props {
+  pfp: string;
+}
+const ProfileImage = ({ pfp }: Props) => {
+
   const { setProfilePictureBottomSheet } = useContext(
     EditProfilePictureContext
   );
@@ -27,9 +23,7 @@ const ProfileImage = () => {
       <Image
         style={styles.imageStyle}
         source={{
-          uri: profilePics
-            ? profilePics
-            : Image.resolveAssetSource(images.profilepicture).uri,
+          uri: pfp,
         }}
         resizeMode="cover"
       />

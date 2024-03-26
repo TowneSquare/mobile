@@ -1,10 +1,16 @@
 import { Octicons } from '@expo/vector-icons';
-import { Dimensions, StyleSheet, TextInput, View } from 'react-native';
+import {
+  Dimensions,
+  StyleSheet,
+  TextInput,
+  View,
+  TextInputProps,
+} from 'react-native';
 import { appColor } from '../../constants';
 import { sizes } from '../../utils';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
-interface Props {
+interface Props extends TextInputProps {
   placeholder: string;
   marginTop?: number;
   width?: string | number;
@@ -17,6 +23,7 @@ const SearchField = ({
   width,
   borderColor,
   onChangeText,
+  ...otherprops
 }: Props) => {
   return (
     <View
@@ -47,6 +54,7 @@ const SearchField = ({
             borderColor: borderColor ? borderColor : appColor.kWhiteColor,
           },
         ]}
+        {...otherprops}
       />
     </View>
   );

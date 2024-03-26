@@ -79,6 +79,7 @@ import ChooseWallet from '../screens/SignUp/ChooseWallet';
 import Congratulations from '../screens/SignUp/Congratulations';
 import SwapMain from '../screens/Swap/SwapMain';
 import ChannelChat from '../screens/Community/CreateChannel/ChannelChat';
+import TownChatScreen from '../screens/Community/Town/TownChatScreen';
 const Navigations = ({ magicProps }: { magicProps: any }) => {
   const Stack = createStackNavigator<RootStackParamList>();
   const config = {
@@ -617,6 +618,13 @@ const Navigations = ({ magicProps }: { magicProps: any }) => {
       <Stack.Screen
         name="TownesquareVerification"
         component={TownesquareVerification}
+        options={{
+          headerShown: false,
+        }}
+      />
+       <Stack.Screen
+        name="TownChatScreen"
+        component={TownChatScreen}
         options={{
           headerShown: false,
         }}

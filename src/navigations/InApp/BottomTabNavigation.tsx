@@ -4,6 +4,7 @@ import {
   getFocusedRouteNameFromRoute,
 } from '@react-navigation/native';
 import { ReactNode, useEffect } from 'react';
+import ChatsList from '../../screens/Community/Town/ChatsList';
 import CommunityInfoScreen from '../../screens/Community/JoinComm/CommunityInfoScreen';
 import { Dimensions, Image, View } from 'react-native';
 import ChatSvg from '../../../assets/images/svg/ChatSvg';
@@ -217,7 +218,7 @@ const BottomTabNavigation: React.FC<{
       />
       <Tab.Screen
         name={community}
-        component={CreateCommunity1}
+        component={ChatsList}
         options={{ headerShown: false }}
       />
 

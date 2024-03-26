@@ -1,6 +1,6 @@
-import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import { AssetsData } from "../UserController/models";
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../store';
+import { AssetsData } from '../UserController/models';
 interface NftCollection {
   nftImageUrl?: any;
   nftCollection?: string;
@@ -29,7 +29,7 @@ interface initialStateProps {
       name: string;
       dexImage: string;
     };
-    type: "token_swap" | "token_transfer" | undefined;
+    type: 'token_swap' | 'token_transfer' | undefined;
   };
   selectUserBottomsheet: {
     visibility: boolean;
@@ -37,9 +37,12 @@ interface initialStateProps {
       name: string;
       username: string;
       profilePicsUri: string;
+      address: string;
+      receiverId: string;
     };
   };
   islogoutBottomsheetVisibile: boolean;
+  viewProfileBottomsheetVisibility: boolean;
 }
 const initialState: initialStateProps = {
   isBottomSheetOpen: false,
@@ -51,8 +54,8 @@ const initialState: initialStateProps = {
   selectedRender: 0,
   profilePics: {
     image: undefined,
-    name: "",
-    id: "",
+    name: '',
+    id: '',
   },
   listOfNftCollections: [],
   superStarBottomSheet: false,
@@ -60,24 +63,27 @@ const initialState: initialStateProps = {
   handleTransactiondetailBottomsheet: {
     visibility: false,
     dex: {
-      name: "",
-      dexImage: "",
+      name: '',
+      dexImage: '',
     },
     type: undefined,
   },
   selectUserBottomsheet: {
     visibility: false,
     selectedUser: {
-      name: "",
-      username: "",
-      profilePicsUri: "",
+      name: '',
+      username: '',
+      profilePicsUri: '',
+      address: '',
+      receiverId: '',
     },
   },
   islogoutBottomsheetVisibile: false,
+  viewProfileBottomsheetVisibility: false,
 };
 
 export const bottomSheetSlice = createSlice({
-  name: "BottomSheet",
+  name: 'BottomSheet',
   initialState,
   reducers: {
     updateBottomSheet: (state, action: PayloadAction<boolean>) => {
@@ -125,7 +131,7 @@ export const bottomSheetSlice = createSlice({
           name: string;
           dexImage: string;
         };
-        type: "token_swap" | "token_transfer" | undefined;
+        type: 'token_swap' | 'token_transfer' | undefined;
       }>
     ) => {
       state.handleTransactiondetailBottomsheet = action.payload;
@@ -138,6 +144,8 @@ export const bottomSheetSlice = createSlice({
           name: string;
           username: string;
           profilePicsUri: string;
+          address: string;
+          receiverId: string;
         };
       }>
     ) => {
@@ -151,6 +159,12 @@ export const bottomSheetSlice = createSlice({
       action: PayloadAction<boolean>
     ) => {
       state.islogoutBottomsheetVisibile = action.payload;
+    },
+    updateViewProfileBottomsheetVisibility: (
+      state,
+      action: PayloadAction<boolean>
+    ) => {
+      state.viewProfileBottomsheetVisibility = action.payload;
     },
   },
 });
@@ -169,6 +183,7 @@ export const {
   updateSelectUserBottomsheet,
   updateLogoutBottomSheetVisibility,
   updateListOfNFTCollection,
+  updateViewProfileBottomsheetVisibility
 } = bottomSheetSlice.actions;
 
 export default bottomSheetSlice.reducer;

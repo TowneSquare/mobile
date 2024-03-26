@@ -46,18 +46,18 @@ const SignTransactionBottomsheet = ({
       handlerWidth={115}
       onMount={() => {
         // status === 'success' &&
-        setTimeout(() => {
-          onClose();
-          callBack?.();
-          showToast &&
-            dispatch(
-              updateToast({
-                displayToast: true,
-                toastMessage: 'APT has been transferred to you wallet!',
-                toastType: 'success',
-              })
-            );
-        }, 4000);
+        // setTimeout(() => {
+        //   onClose();
+        //   callBack?.();
+        //   showToast &&
+        //     dispatch(
+        //       updateToast({
+        //         displayToast: true,
+        //         toastMessage: 'APT has been transferred to you wallet!',
+        //         toastType: 'success',
+        //       })
+        //     );
+        // }, 4000);
       }}
     >
       <Text style={styles.title}>{title}</Text>

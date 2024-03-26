@@ -1,22 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useRef, useState } from 'react';
-import { useAppDispatch } from '../../../controller/hooks';
-import { updateViewProfileBottomsheetVisibility } from '../../../controller/BottomSheetController';
-import { Dimensions, FlatList, View } from 'react-native';
+import { Dimensions, FlatList, View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ChannelChatPinnedMessage from '../../../components/Community/CreateChannel/ChannelChatPinnedMessage';
-import ChannelMessage from '../../../components/Community/CreateChannel/ChannelMessage';
-import ViewProfileBottomSheet from '../../../components/Community/CreateChannel/ViewProfileBottomSheet';
+import ChannelMessage from '../CreateChannel/ChannelMessage';
+import ViewProfileBottomSheet from '../CreateChannel/ViewProfileBottomSheet';
+import { updateViewProfileBottomsheetVisibility } from '../../../controller/BottomSheetController';
 import { appColor } from '../../../constants';
 import ChatInputBox, { ComponentRef } from '../../../shared/ChatInputBox';
-import CommunityHeader from '../../../shared/Community/CommunityHeader';
 import { sizes } from '../../../utils';
 import { ChatClass } from '../../../utils/ChatUtils';
+import { useAppDispatch } from '../../../controller/hooks';
 import { message } from '../../../utils/messageData';
 const { height, width } = Dimensions.get('window');
 const size = new sizes(height, width);
 
-const ChannelChat = () => {
+const ChatTab = () => {
   const dispatch = useAppDispatch();
   const [showReplying, setShowReplyVisibility] = useState(false);
 
@@ -33,18 +31,12 @@ const ChannelChat = () => {
     setShowReplyVisibility(false);
   };
   return (
-    <SafeAreaView
+    <View
       style={{
         flex: 1,
         backgroundColor: appColor.feedBackground,
       }}
     >
-      <StatusBar style="light" backgroundColor={appColor.signUpBackground} />
-      <CommunityHeader title="#general" />
-      <ChannelChatPinnedMessage
-        noOfPinnedChat="3"
-        pinnedMessage="Hey man, just wanted to say I love your pfp"
-      />
       <View
         style={{
           flex: 1,
@@ -75,8 +67,10 @@ const ChannelChat = () => {
         showReplying={showReplying}
         username=""
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
-export default ChannelChat;
+export default ChatTab;
+
+const styles = StyleSheet.create({});
